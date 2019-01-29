@@ -1,0 +1,195 @@
+Fidelity ,FB,MC,NB,WB, SUM,,Top 20 Faithful Species per Community >33%,,,,,,,,,Acr_sp,Acrochaetium sp.,Red
+HIL_ALL,28%,14%,32%,26%,605,,FB,,MC,,NB,,WB,,,Acr_arc ,Acrosiphonia arcta,Green 
+rock,27%,13%,31%,30%,579,,Spo_tum,Coralline ,Neo_acu,Red,Hil_occ,Red,Fuc_dis,Brown,,Acr_coa,Acrosiphonia coalita,Green 
+COR_ALL,34%,5%,33%,28%,492,,End_mur,Red,Ulv_pro,Green,Petro,Red,Spo_tum,Coralline,,Acro,Acrosiphonia sp.,Green 
+Fuc_dis,24%,12%,28%,36%,458,,Cor_van,Coralline ,Lom_hak,Red,Cor_van,Coralline,End_mur,Red,,Aga_fim,Agarum fimbriatum,Kelp 
+Hil_occ,32%,14%,33%,21%,449,,Ala_mar,Kelp,Col_per,Brown,Hil_rub,Red,Mas_aga,Red,,Ahn_fas,Ahnfeltia fastigiata,Red
+Petro,29%,5%,36%,30%,377,,Pyr_per,Red,Sar_mut,Brown,Ala_mar,Kelp,Mas_ala,Red,,Ala_mar,Alaria marginata,Kelp 
+Ulv_lac,32%,23%,22%,23%,370,,Maz_ore,Red,Bli_min,Green,Pyr_per,Red,Bos_frondes,Coralline,,Ana_jap,Analipus japonicus,Brown 
+Hal_gla,30%,19%,26%,25%,333,,Plo_vio,Red,Cla_ser,Green,Bos_frondif,Coralline,Cry_woo,Red,,Ant_def,Antithamnion defectum,Red
+Spo_tum,39%,0%,28%,33%,318,,Bos_frondif,Coralline ,Punct,Brown,Cor_crust,Coralline,Mas_lat,Red,,Ant_pac,Antithamnionella pacifica,Red
+End_mur,41%,1%,24%,35%,317,,Cry_woo,Red,Sac_lat,Kelp,Glo_fur,Red,Glo_fur,Red,,Bangia,Bangia sp.,Red
+Cor_van,37%,0%,42%,21%,304,,Cal_pik,Red,Mon_gre,Green,Pyr_abb,Red,Pol_lat,Red,,Bli_daw,Blidingia dawsonii,Green 
+Hil_rub,21%,17%,34%,28%,266,,Mic_bor,Red,Sph_rig,Brown,Odo_flo,Red,Ela_fuc,Brown,,Bli_min,Blidingia minima,Green 
+Ala_mar,39%,0%,37%,24%,232,,Pyr_abb,Red,Ery_car,Red,Hym_Cryp,Red,Neo_lar,Red,,Bli_sp,Blidingia sp. ,Green 
+Pyr_per,40%,0%,43%,16%,230,,Pol_lat,Red,Hol_sub,Red,Wil_nor,Red,Odo_flo,Red,,Bos_cal,Bossiella californica,Coralline
+Maz_ore,52%,1%,21%,26%,219,,Maz_spl,Red,Ral_pac,Brown,Sac_ses,Kelp,Acr_coa,Green,,Bos_dic,Bossiella dichotoma,Coralline
+Plo_vio,56%,0%,23%,22%,200,,Neo_lar,Red,Con_sub,Red,Lit_phy,Coralline,Cer_pac,Red,,Bos_frondes,Bossiella frondescens,Coralline
+Mas_aga,27%,8%,21%,43%,196,,Acr_arc,Green ,Mac_pyr,Kelp,Neo_rec,Red,Pri_ste,Red,,Bos_frondif,Bossiella frondifera,Coralline
+Mas_ala,32%,8%,23%,37%,190,,Cla_col,Green ,Phi_tor,Green,Cor_sp1,Coralline,Egr_men,Kelp,,Bos_hak,Bossiella hakaiensis,Coralline
+Lea_mar,30%,32%,21%,17%,185,,Pte_bip,Red,Pol_pan,Red,Bos_chi5,Coralline,Neo_sub,Red,,Bos_man,Bossiella manzae,Coralline
+Bos_frondif,34%,1%,42%,23%,172,,Hym_Cryp,Red,Wil_cun,Red,Hym_set,Red,Pal_hec,Red,,Bos_pul,Bossiella plumosa,Coralline
+Bos_frondes,29%,7%,31%,34%,170,,Wil_nor,Red,Dic_sin,Brown,Sch_pac,Red,Pti_fine,Red,,Bos_pse,Bossiella pseudodichotoma,Coralline
+Cry_woo,39%,16%,8%,38%,170,,,,,,,,,,,Bos_rep,Bossiella reptans,Coralline
+Cor_crust,25%,8%,36%,31%,161,,,,,,,,,,,Bos_sp,Bossiella sp.,Coralline
+Mas_lat,26%,18%,15%,41%,158,,Coralline,3,Red,7,Red,12,Red ,14,,Bos_chi5,Bossiella sp.5 chiloensis [flexuosa],Coralline
+Cal_pik,63%,0%,30%,7%,153,,Red,14,Green,5,Kelp,2,Green,1,,Cal_tub,Calliarthron tuberculosum,Coralline
+Mic_bor,61%,0%,31%,8%,153,,Green,2,Brown,5,Coralline,6,Kelp ,1,,Cal_par,Callilithophytum parcum,Coralline
+Glo_fur,13%,11%,35%,41%,142,,Kelp,1,Kelp,2,,,Brown,2,,Cal_pik,Callithamnion pikeanum,Red
+Pyr_abb,52%,0%,44%,4%,134,,,,,,,,Coralline,2,,Cal_sp,Callophyllis sp.,Red
+Pol_lat,35%,0%,11%,54%,112,,,,,,,,,,,Cer_pac,Ceramium pacificum,Red
+Ela_fuc,21%,1%,19%,59%,108,,,,,,,,,,,Cha_can,Chaetomorpha cannabina,Green 
+Maz_spl,48%,0%,32%,19%,108,,,,,,,,,,,Chi_bod,Chiharaea bodegensis,Coralline
+Neo_lar,44%,0%,0%,56%,105,,,,,,,,,,,Chi_rho,Chiharaea rhododactyla,Coralline
+Odo_flo,18%,3%,33%,46%,102,,,,,,,,,,,Chi_sil,Chiharaea silvae,Coralline
+Acr_arc,44%,13%,29%,14%,93,,,,,,,,,,,Cla_col,Cladophora columbiana,Green 
+Cla_col,53%,11%,32%,4%,93,,,,,,,,,,,Cla_ser,Cladophora sericea,Green 
+Pte_bip,44%,14%,32%,10%,93,,,,,,,,,,,Cod_fra,Codium fragile,Green 
+Hym_Cryp,40%,0%,43%,17%,89,,,,,,,,,,,Cod_set,Codium setchellii,Green 
+Neo_acu,0%,97%,0%,3%,86,,,,,,,,,,,Col_bul,Colpomenia bullosa,Brown 
+Wil_nor,38%,0%,62%,0%,86,,,,,,,,,,,Col_per,Colpomenia peregrina,Brown 
+Acr_coa,31%,0%,31%,38%,84,,,,,,,,,,,Con_sub,Constantinea subulifera,Red
+Ulv_lin,46%,5%,25%,24%,80,,,,,,,,,,,Cor_arb,Corallina arbuscula,Coralline
+Cer_pac,21%,31%,6%,42%,78,,,,,,,,,,,Cor_off,Corallina officinalis,Coralline
+Phy_sco,50%,0%,20%,30%,74,,,,,,,,,,,Cor_sp,Corallina sp.,Coralline
+Sac_ses,26%,0%,74%,0%,74,,,,,,,,,,,Cor_sp1,Corallina sp.1 frondescens,Coralline
+Ral_sp,16%,30%,26%,28%,69,,,,,,,,,,,Cor_sp2,Corallina sp.2 frondescens,Coralline
+Lit_phy,17%,2%,58%,23%,65,,,,,,,,,,,Cor_van,Corallina vancouveriensis,Coralline
+Pti_ser,57%,0%,12%,31%,58,,,,,,,,,,,Cor_crust,"Coralline crust, unknown",Coralline
+Pyr_fuc,46%,0%,24%,30%,54,,,,,,,,,,,Cos_cos,Costaria costata,Kelp 
+Pri_ste,21%,4%,26%,49%,53,,,,,,,,,,,Cru_mur,Crusticorallina muricata,Coralline
+Egr_men,4%,0%,10%,86%,51,,,,,,,,,,,Cry_woo,Cryptosiphonia woodii,Red
+Neo_sub,6%,0%,6%,88%,51,,,,,,,,,,,Cum_dec,Cumathamnion decipiens,Red
+Neo_rec,22%,0%,69%,10%,51,,,,,,,,,,,Des_acu,Desmarestia aculeata,Brown 
+Maz_parv,60%,8%,8%,24%,50,,,,,,,,,,,Des_lig,Desmarestia ligulata,Brown 
+Far_mol,61%,2%,12%,24%,49,,,,,,,,,,,Diatom,"Diatoms, colonial",n/a
+Pal_hec,6%,0%,0%,94%,48,,,,,,,,,,,Dic_sin,Dictyosiphon sinicola,Brown 
+Mas_rig,47%,0%,31%,22%,45,,,,,,,,,,,Dil_cal,Dilsea californica,Red
+Pti_fine,20%,0%,11%,69%,45,,,,,,,,,,,Ect_com,Ectocarpus commensalis (on Saccharina),Brown 
+Dil_cal,80%,2%,0%,18%,44,,,,,,,,,,,Egr_men,Egregia menziesii,Kelp 
+Ulv_pro,0%,100%,0%,0%,42,,,,,,,,,,,Ela_fuc,Elachista fucicola,Brown 
+Hil_sp,15%,0%,28%,58%,40,,,,,,,,,,,End_mur,Endocladia muricata,Red
+Nem_hel,79%,0%,18%,3%,38,,,,,,,,,,,Ery_car,Erythrotrichia carnea,Red
+Cor_sp1,25%,0%,69%,6%,36,,,,,,,,,,,Far_mol,Farlowia mollis,Red
+Ana_jap,63%,0%,20%,17%,35,,,,,,,,,,,Fre_sp,Frederikia sp.,Red
+Cod_fra,11%,0%,29%,60%,35,,,,,,,,,,,Fuc_dis,Fucus distichus,Brown 
+Mas_int,29%,9%,18%,44%,34,,,,,,,,,,,Gel_sp,Gelidium sp.,Red
+Bos_chi5,25%,0%,69%,6%,32,,,,,,,,,,,Glo_lac,Gloiocladia laciniata,Red
+Pal_mol,19%,32%,0%,48%,31,,,,,,,,,,,Glo_fur,Gloiopeltis furcata (including base only),Red
+Lom_hak,14%,55%,0%,31%,29,,,,,,,,,,,Gra_pac,Gracilaria pacifica,Red
+Hym_set,54%,0%,39%,7%,28,,,,,,,,,,,Hal_gla,Halosaccion glandiforme,Red
+Col_per,0%,89%,0%,11%,27,,,,,,,,,,,Her_plu,Herposiphonia plumula,Red
+Osm_spe,15%,0%,4%,81%,27,,,,,,,,,,,Hil_occ,Hildenbrandia occidentalis (thick),Red
+Sch_pac,26%,0%,52%,22%,27,,,,,,,,,,,Hil_rub,Hildenbrandia rubra (thin),Red
+Sar_mut,0%,100%,0%,0%,26,,,,,,,,,,,Hil_sp,Hildenbrandia sp.,Red
+Bli_min,12%,48%,4%,36%,25,,,,,,,,,,,Hol_sub,Hollenbergia subulata,Red
+Cos_cos,12%,0%,52%,36%,25,,,,,,,,,,,Hym_Cryp,Hymenena / Cryptopleura sp.,Red
+Phy_ser,20%,0%,16%,64%,25,,,,,,,,,,,Hym_set,Hymenena setchellii,Red
+scuz,0%,100%,0%,0%,25,,,,,,,,,,,Joh_mac,Johansenia macmillanii,Red
+Cod_set,8%,0%,92%,0%,24,,,,,,,,,,,Kor_lep,Kornmannia leptoderma,Green 
+Ral_fun,8%,8%,33%,50%,24,,,,,,,,,,,Lam_set,Laminaria setchellii,Kelp 
+Cla_ser,17%,78%,4%,0%,23,,,,,,,,,,,Lam_yez,Laminaria yezoensis,Kelp 
+Pse_whi,26%,22%,39%,13%,23,,,,,,,,,,,Lea_mar,Leathesia marina,Brown 
+sand,82%,14%,0%,5%,22,,,,,,,,,,,Lepto,Leptofauchea sp.,Red
+Sac_gro,0%,10%,19%,71%,21,,,,,,,,,,,Lit_imp,Lithophyllum impressum,Coralline
+Bos_sp,0%,0%,60%,40%,20,,,,,,,,,,,Lit_sp,Lithophyllum sp.,Coralline
+Scy_dot,45%,30%,25%,0%,20,,,,,,,,,,,Lit_sp1,Lithophyllum sp.1,Coralline
+Tok_bul,70%,0%,5%,25%,20,,,,,,,,,,,Lit_sp2,Lithophyllum sp.2,Coralline
+Bos_pse,42%,0%,58%,0%,19,,,,,,,,,,,Lit_sp8,Lithophyllum sp.8,Coralline
+Cal_tub,32%,0%,68%,0%,19,,,,,,,,,,,Lit_phy,Lithothamnion phymatodeum,Crustose
+Pol_hen_hen,53%,0%,42%,5%,19,,,,,,,,,,,Lom_hak,Lomentaria hakodatensis,Red
+Bos_rep,17%,0%,67%,17%,18,,,,,,,,,,,Mac_pyr,Macrocystis pyrifera,Kelp 
+Pol_hen_gar,39%,0%,50%,11%,18,,,,,,,,,,,Mas_aga,Mastocarpus agardhii,Red
+Punct,0%,100%,0%,0%,18,,,,,,,,,,,Mas_ala,Mastocarpus alaskensis,Red
+Lit_sp1,47%,0%,47%,6%,17,,,,,,,,,,,Mas_int,Mastocarpus intermedius,Red
+Scy_lom,47%,6%,24%,24%,17,,,,,,,,,,,Mas_lat,Mastocarpus latissimus,Red
+Lit_sp2,13%,19%,69%,0%,16,,,,,,,,,,,Mas_rig,Mastocarpus rigidus,Red
+Pti_ten,25%,0%,13%,63%,16,,,,,,,,,,,Mas_sp,Mastocarpus sp.,Red
+Sac_lat,0%,63%,0%,38%,16,,,,,,,,,,,Maz_ore,Mazzaella oregona,Red
+Cor_sp,13%,0%,60%,27%,15,,,,,,,,,,,Maz_park,Mazzaella parksii,Red
+Cru_mur,33%,0%,53%,13%,15,,,,,,,,,,,Maz_parv,Mazzaella parvula,Red
+Sal_fir,33%,0%,67%,0%,15,,,,,,,,,,,Maz_spl,Mazzaella splendens,Red
+Bos_hak,29%,0%,57%,14%,14,,,,,,,,,,,Mel_int,Melanosiphon intestinalis,Brown 
+Cor_off,36%,0%,57%,7%,14,,,,,,,,,,,Mel_med,Melobesia mediocris,Coralline
+Mon_gre,0%,79%,0%,21%,14,,,,,,,,,,,Mes_van,Mesophyllum vancouveriense,Red
+Peyss,14%,0%,86%,0%,14,,,,,,,,,,,Mic_bor,Microcladia borealis,Red
+Pyr_fal,21%,7%,64%,7%,14,,,,,,,,,,,Mon_gre,Monostroma grevillei,Green 
+Acro,39%,28%,22%,11%,13,,,,,,,,,,,Nem_hel,Nemalion helminthoides,Red
+Col_bul,31%,0%,31%,38%,13,,,,,,,,,,,Neo_bor,Neodilsea borealis,Red
+Sph_rig,0%,69%,0%,31%,13,,,,,,,,,,,Neo_sub,Neogastroclonium subarticulatum,Red
+Ect_com,0%,0%,100%,0%,12,,,,,,,,,,,Neo_rec,Neopolyporolithon reclinatum,Red
+Pyl_lit,42%,17%,33%,8%,12,,,,,,,,,,,Neo_acu,Neorhodomela aculeata,Red
+Lam_yez,9%,0%,55%,36%,11,,,,,,,,,,,Neo_lar,Neorhodomela larix,Red
+Ahn_fas,40%,0%,10%,50%,10,,,,,,,,,,,Neo_ore,Neorhodomela oregona,Red
+Ant_pac,30%,0%,30%,40%,10,,,,,,,,,,,Ner_lue,Nereocystis luetkeana,Kelp 
+Chi_rho,0%,0%,100%,0%,10,,,,,,,,,,,Nit_dot,Nitophyllum dotyi,Red
+Chi_sil,10%,0%,80%,10%,10,,,,,,,,,,,Odo_flo,Odonthalia floccosa,Red
+Des_lig,20%,10%,50%,20%,10,,,,,,,,,,,Odo_flo_com,Odonthalia floccosa f. comosa,Red
+Maz_park,80%,0%,20%,0%,10,,,,,,,,,,,Opu_cal,Opuntiella californica,Red
+Pet_fas,80%,10%,10%,0%,10,,,,,,,,,,,Osm_spe,Osmundea spectabilis,Red
+Pol_sp,60%,0%,10%,30%,10,,,,,,,,,,,Pal_hec,Palmaria hecatensis,Red
+Bos_pul,56%,0%,44%,0%,9,,,,,,,,,,,Pal_mol,Palmaria mollis,Red
+Cum_dec,44%,0%,0%,56%,9,,,,,,,,,,,Pet_fas,Petalonia fascia,Brown 
+Lam_set,33%,0%,56%,11%,9,,,,,,,,,,,Petro,Petrocelis,Red
+Ant_def,75%,0%,13%,13%,8,,,,,,,,,,,Peyss,Peyssonnelia sp.,Red
+Bos_cal,13%,0%,88%,0%,8,,,,,,,,,,,Phy_fim,Phycodrys fimbriata,Red
+Lit_sp,25%,0%,63%,13%,8,,,,,,,,,,,Phy_sco,Phyllospadix scouleri,Plant
+Pyr_sp,0%,0%,50%,50%,8,,,,,,,,,,,Phy_ser,Phyllospadix serrulatus,Plant
+red_crust,0%,0%,25%,75%,8,,,,,,,,,,,Ple_van,Pleonosporium vancouverianum,Red
+Ery_car,0%,57%,29%,14%,7,,,,,,,,,,,Plo_pac,Plocamium pacificum,Red
+Hol_sub,0%,100%,0%,0%,7,,,,,,,,,,,Plo_vio,Plocamium violaceum,Red
+Mas_sp,57%,0%,43%,0%,7,,,,,,,,,,,Pol_lat,Polyneura latissima,Red
+Neo_ore,29%,0%,0%,71%,7,,,,,,,,,,,Pol_hen_gar,Polysiphonia hendryi var. garderi,Red
+Ral_pac,0%,86%,0%,14%,7,,,,,,,,,,,Pol_hen_hen,Polysiphonia hendryi var. hendryi,Red
+Rho_pur,0%,0%,14%,86%,7,,,,,,,,,,,Pol_hen_lux,Polysiphonia hendryi var. luxuriens,Red
+Bos_man,17%,0%,67%,17%,6,,,,,,,,,,,Pol_pac,Polysiphonia pacifica ,Red
+Con_sub,0%,100%,0%,0%,6,,,,,,,,,,,Pol_pac_del,Polysiphonia pacifica var delicatula,Red
+Diatom,67%,17%,17%,0%,6,,,,,,,,,,,Pol_pan,Polysiphonia paniculata,Red
+Glo_lac,0%,0%,100%,0%,6,,,,,,,,,,,Pol_sp,Polysiphonia sp.,Red
+Joh_mac,17%,0%,83%,0%,6,,,,,,,,,,,Pol_str_sen,Polysiphonia stricta / senticulosa,Red
+Mac_pyr,0%,100%,0%,0%,6,,,,,,,,,,,Pri_ste,Prionitis sternbergii,Red
+Nit_dot,33%,0%,67%,0%,6,,,,,,,,,,,Pse_whi,Pseudolithophyllum whidbeyense,Coralline
+Pol_pac,17%,0%,33%,50%,6,,,,,,,,,,,Pte_cal_1,Pterocladiella caloglossoides,Red
+Rhi_tor,33%,33%,33%,0%,6,,,,,,,,,,,Pte_bip,Pterosiphonia bipinnata,Red
+Smi_nai,0%,0%,33%,67%,6,,,,,,,,,,,Pte_den,Pterosiphonia dendroidea,Red
+Ulv_int,0%,0%,0%,100%,6,,,,,,,,,,,Pte_gra,Pterosiphonia gracilis,Red
+Cor_sp2,20%,0%,80%,0%,5,,,,,,,,,,,Pte_cal,Pterygophora californica,Kelp 
+Mel_int,80%,0%,20%,0%,5,,,,,,,,,,,Pti_ser,Ptilota serrata (coarse),Red
+Mel_med,40%,0%,0%,60%,5,,,,,,,,,,,Pti_fine,Ptilota sp. (fine),Red
+Opu_cal,20%,0%,80%,0%,5,,,,,,,,,,,Pti_ten,Ptilota tenuis,Red
+Pol_pan,20%,60%,20%,0%,5,,,,,,,,,,,Punct,Punctaria sp.,Brown 
+Pte_cal,0%,0%,60%,40%,5,,,,,,,,,,,Pyl_lit,Pylaiella littoralis,Red
+Sor_ulv,0%,20%,40%,40%,5,,,,,,,,,,,Pyr_abb,Pyropia abbottiae,Red
+Wil_cun,0%,100%,0%,0%,5,,,,,,,,,,,Pyr_fal,Pyropia fallax,Red
+Bli_daw,0%,0%,75%,25%,4,,,,,,,,,,,Pyr_fuc,Pyropia fucicola,Red
+Cor_arb,0%,0%,25%,75%,4,,,,,,,,,,,Pyr_gar,Pyropia gardneri,Red
+Des_acu,75%,0%,0%,25%,4,,,,,,,,,,,Pyr_per,Pyropia perforata,Red
+Dic_sin,0%,100%,0%,0%,4,,,,,,,,,,,Pyr_pul,Pyropia pulchra,Red
+Lit_imp,25%,0%,0%,75%,4,,,,,,,,,,,Pyr_sp,Pyropia sp.,Red
+Lit_sp8,0%,0%,0%,100%,4,,,,,,,,,,,Ral_fun,Ralfsia fungiformis,Brown 
+Ner_lue,0%,0%,50%,50%,4,,,,,,,,,,,Ral_pac,Ralfsia pacifica,Brown 
+Ple_van,0%,0%,25%,75%,4,,,,,,,,,,,Ral_sp,Ralfsia sp.,Brown 
+Pol_hen_lux,0%,25%,50%,25%,4,,,,,,,,,,,Rhi_tor,Rhizoclonium tortuosum,Green 
+Bangia,0%,0%,33%,67%,3,,,,,,,,,,,Rho_pur,Rhodocorton purpureum,Red
+Cal_sp,0%,0%,0%,100%,3,,,,,,,,,,,Rho_sp,Rhodymenia sp.,Red
+Her_plu,0%,0%,0%,100%,3,,,,,,,,,,,Sac_gro,Saccharina groenlandica,Kelp 
+Neo_bor,0%,100%,0%,0%,3,,,,,,,,,,,Sac_lat,Saccharina latissima,Kelp 
+Plo_pac,33%,0%,67%,0%,3,,,,,,,,,,,Sac_ses,Saccharina sessilis,Kelp 
+Pol_str_sen,33%,0%,33%,33%,3,,,,,,,,,,,Sal_fir,Salishia firma,Red
+Pyr_gar,0%,0%,100%,0%,3,,,,,,,,,,,Sar_mut,Sargassum muticum,Brown 
+brown_crust,0%,0%,100%,0%,3,,,,,,,,,,,Sch_pac,Schizymenia pacifica,Red
+Acr_sp,0%,0%,100%,0%,2,,,,,,,,,,,Scy_dot,Scytosiphon dotyi,Brown 
+Bli_sp,100%,0%,0%,0%,2,,,,,,,,,,,Scy_lom,Scytosiphon lomentaria,Brown 
+Cha_can,100%,0%,0%,0%,2,,,,,,,,,,,Smi_nai,Smithora naiadum,Red
+Gel_sp,0%,100%,0%,0%,2,,,,,,,,,,,Sor_ulv,Soranthera ulvoidea,Brown 
+Gra_pac,0%,100%,0%,0%,2,,,,,,,,,,,Spa_per,Sparlingia pertusa,Red
+Pte_den,0%,0%,0%,100%,2,,,,,,,,,,,Sph_rig,Sphacelaria rigidula,Brown 
+Pte_cal__1,50%,0%,50%,0%,2,,,,,,,,,,,Spo_tum,Spongites tumidum,Coralline
+Aga_fim,0%,100%,0%,0%,1,,,,,,,,,,,Tif_sny,Tiffaniella snyderae,Red
+Bos_dic,0%,0%,100%,0%,1,,,,,,,,,,,Tok_bul,Tokidadendron bullatum,Red
+Chi_bod,0%,0%,100%,0%,1,,,,,,,,,,,Ulo_Uro,Ulothrix/Urospora,Green 
+Fre_sp,0%,100%,0%,0%,1,,,,,,,,,,,Ulv_int,Ulva intestinalis,Green 
+Kor_lep,0%,0%,0%,100%,1,,,,,,,,,,,Ulv_lac,Ulva lactuca,Green 
+Lepto,0%,100%,0%,0%,1,,,,,,,,,,,Ulv_lin,Ulva linza,Green 
+Mes_van,100%,0%,0%,0%,1,,,,,,,,,,,Ulv_pro,Ulva prolifera,Green 
+Odo_flo_com,100%,0%,0%,0%,1,,,,,,,,,,,Ulv_sp,Ulva sp.,Green 
+Phy_fim,100%,0%,0%,0%,1,,,,,,,,,,,scuz,"Unidentified turf (scuz, etc.)",
+Pol_pac_del,100%,0%,0%,0%,1,,,,,,,,,,,black_crust,Unknown black crust,
+Pte_gra,0%,100%,0%,0%,1,,,,,,,,,,,brown_crust,Unknown brown crust,
+Pyr_pul,100%,0%,0%,0%,1,,,,,,,,,,,red_crust,Unknown red crust,Red
+Rho_sp,0%,0%,100%,0%,1,,,,,,,,,,,Wil_cun,Wildmania cuneiformis,Red
+Spa_per,0%,100%,0%,0%,1,,,,,,,,,,,Wil_nor,Wildmania norrisii,
+Tif_sny,100%,0%,0%,0%,1,,,,,,,,,,,rock ,BARE ROCK / SUBSTRATE (%),
+Ulo_Uro,0%,0%,0%,100%,1,,,,,,,,,,,sand,Bare Sand,
+Ulv_sp,0%,0%,100%,0%,1,,,,,,,,,,,,,
+black_crust,100%,0%,0%,0%,1,,,,,,,,,,,,,

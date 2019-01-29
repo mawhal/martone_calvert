@@ -1,0 +1,47 @@
+#download and start readxl 
+install.packages('readxl')
+library("readxl")
+
+#Summon and view all of the sheets within the 2013_Hakai_R document 
+
+
+WBlow2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="WB_low_R")
+WBlow2015
+
+WBmid2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet= "WB_mid_R")
+WBmid2015
+
+WBhigh2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet= "WB_high_R")
+WBhigh2015
+
+NBlow2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet= "NB_low_R")
+NBlow2015
+
+NBmid2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="NB_mid_R")
+NBmid2015
+
+NBhigh2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="NB_high_R")
+NBhigh2015
+
+FBlow2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="FB_low_R")
+FBlow2015
+
+FBmid2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="FB_mid_R")
+FBmid2015
+
+FBhigh2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="FB_high_R")
+FBhigh2015
+
+MClow2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="MC_low_R")
+MClow2015
+
+MCmid2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="MC_mid_R")
+MCmid2015
+
+MChigh2015 <- read_excel("~/Documents/University/2016-2017/Martone Data/JJ HAKAI/2015/2015_Hakai_R.xlsx", sheet="MC_high_R")
+MChigh2015
+
+#Combine and stack all of the data according to column names 
+
+data2015 <-rbind(WBlow2015, WBmid2015, WBhigh2015, NBlow2015, NBmid2015, NBhigh2015, FBlow2015, FBmid2015, FBhigh2015, MClow2015, MCmid2015, MChigh2015)
+View(data2015)

@@ -18,27 +18,28 @@ options(stringsAsFactors = FALSE)
 # load libraries
 library(tidyverse)
 library(mobr)
-data(inv_comm) # Community matrix
-data(inv_plot_attr) # Plot attributes data.frame
-inv_mob_in <- make_mob_in(inv_comm, inv_plot_attr)
-inv_mob_in
+# data(inv_comm) # Community matrix
+# data(inv_plot_attr) # Plot attributes data.frame
+# inv_mob_in <- make_mob_in(inv_comm, inv_plot_attr)
+# inv_mob_in
 
 ## read data files
 # all data
 ad <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_data.csv")
 # all metadata
 am <- read.csv("../Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
-# add a column for quadrat + SiteHEightYear
-am <- am %>%
-  mutate( quadSiteHeightYear = paste(Quadrat.No.,SiteHeightYear),
-          x=0, y=0 )
+
+## Data cleaning for Anlaysis -- consider moving part of this to another script
+# remove 2011 data
+am <- am[ am$Year != "2011", ]
+# remove Meay Channel
+am <- am[ am$Site != "Meay Channel", ]
+
+# remove taxa that are not seaweeds
 
 
-# start by filtering out taxa that are not seaweeds
-
-
-# for now, remove bare space, because we want to look for differences in numbers of individuals
-ad <- ad[ ad$Taxon != "bare rock",]  # need to make sure using clean names here
+# remove bare space, because we want to look for differences in numbers of individuals
+# ad <- ad[ ad$Taxon != "bare rock",]  # need to make sure using clean names here
 
 
 
@@ -48,14 +49,18 @@ ad[ duplicated(ad), ] # generalize this to look at particular columns
 # spread out all of the community data so sample (site,height,year,quadrat) are rows and species are columns
 # add together taxa that are not unique to each quadrat
 ad.simple <- ad %>%
-  mutate( quadSiteHeightYear = paste(Quadrat,SiteHeightYear)) %>%
-  select( quadSiteHeightYear, Taxon, Abundance ) %>%
-  group_by( quadSiteHeightYear, Taxon ) %>%
+  group_by( UID, Taxon ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T))
 
+# spread Taxon column out into many columns filled with abundance/cover data
 ad.comm <- ad.simple %>%
   spread( Taxon, Abundance, fill=0 )
 
+
+am$UID[ !(am$UID %in% ad.comm$UID) ]
+ad[ ad$UID %in% am$UID[ !(am$UID %in% ad.comm$UID) ], ]
+# restrict to rows selected in metadata
+ad.comm <- ad.comm[ ad.comm$UID %in% am$UID, ]
 ad.comm <- as.matrix(ad.comm[,-1])
 
 

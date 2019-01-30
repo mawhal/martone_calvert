@@ -1,7 +1,7 @@
 # Martone Hakai Rocky Shore Seaweed Surveys
 # 
 # by Matt Whalen
-# updated 10 January 2019
+# updated 29 January 2019
 
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
 taxon <- "Fucus"
@@ -43,17 +43,30 @@ sort(unique(ad$Abundance))
 # taxa to remove...for now
 ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 
-# merge data and metadata
-# get all instances of a particular taxon
-# to include all quadrats us full_join, or use left_join for quads with the taxon
-d <- full_join( ad, am, by=c("SiteHeightYear","Quadrat"="Quadrat.No.") )
-d$Abundance[ is.na( d$Abundance) ] <- 0
-
 
 
 ## Customizations to carry through to figures
 
+# Choose a taxon 
+sort( unique( d$Taxon ))
+# use general exp to pull several groups if needed
+sort(unique( d$Taxon[ grep( paste0(taxon,"*"), d$Taxon ) ]  ))
+dtax   <- ad[ grep( paste0(taxon,"*"), ad$Taxon ), ]
+#dtax  <-  dtax[ -grep( "Ectocarpus*",dtax$Taxon), ]
+
+
+# merge data and metadata
+# get all instances of a particular taxon
+# to include all quadrats us full_join, or use left_join for quads with the taxon
+d <- full_join( dtax, am )
+d$Abundance[ is.na( d$Abundance) ] <- 0
+
+
+
+
+
 # *** to add *** include full names for each unique instance of Sampler
+
 
 # # chose an observer/recorder
 # sort(unique( am$Sampler ))
@@ -64,24 +77,8 @@ d$Abundance[ is.na( d$Abundance) ] <- 0
 # # select the plots we want from the metadata
 # dperson <- d %>%
 #   filter( Sampler %in% sandra | Recorder %in% sandra )
-# # d       <- dperson
-# # expand to include all quadrats measured by a sampler, then fill with zero
-# d <-  dperson %>%
-#   select( Taxon, Quadrat, Meter.point, Sampler, Abundance, SiteHeightYear, 
-#           Site,Zone,Year, Date, Shore_height_cm ) %>%
-#   complete( nesting(Date,SiteHeightYear,Site,Zone,Year, Sampler,
-#                     Quadrat,Meter.point,Shore_height_cm), Taxon, fill=list(Abundance=0) )
+# d<- dperson
 
-# Choose a taxon 
-sort( unique( d$Taxon ))
-# use general exp to pull several groups if needed
-sort(unique( d$Taxon[ grep( paste0(taxon,"*"), d$Taxon ) ]  ))
-dtax   <- d[ grep( paste0(taxon,"*"), d$Taxon ), ]
-#dtax  <-  dtax[ -grep( "Ectocarpus*",dtax$Taxon), ]
-
-# 
-
-d <- dtax
 
 # make abundances numeric
 sort(unique(d$Abundance))

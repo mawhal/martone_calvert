@@ -1,4 +1,4 @@
-"Date","Quadrat No.","Meter point","Sampler","Recorder","Bedrock","Boulder","Cobble","Sand/Gravel/Pebble","Water","SiteHeightYear","SUBSTRATE-ROCK","SUBSTRATE-SAND","WATER","Pebble","SAND SCOUR","SUBSTRATE-Clam shell","Site","Zone","Year","Shore_height_cm"
-2012-07-05,"10",28,"LA","JJ",NA,NA,NA,NA,NA,"Fifth Beach MID 2012",NA,NA,NA,NA,NA,NA,"Fifth Beach","MID","2012",NA
-2014-06-12,"9",36,"SMS","KRH",NA,"88","0",NA,NA,"West Beach LOW 2014","100","0","0","12",NA,NA,"West Beach","LOW","2014",NA
-2017-05-25,"1",0,"KJ","LL","100",NA,NA,NA,NA,"North Beach LOW 2017",NA,NA,"23",NA,NA,NA,"North Beach","LOW","2017",NA
+"Date","Quadrat","Meter.point","Sampler","Recorder","Bedrock","Boulder","Cobble","Sand/Gravel/Pebble","Water","SiteHeightYear","SUBSTRATE-ROCK","SUBSTRATE-SAND","WATER","Pebble","SAND SCOUR","SUBSTRATE-Clam shell","Site","Zone","Year","UID","Shore_height_cm"
+2012-07-05,"10",28,"LA","JJ",NA,NA,NA,NA,NA,"Fifth Beach MID 2012",NA,NA,NA,NA,NA,NA,"Fifth Beach","MID","2012","Fifth Beach MID 2012 10",NA
+2014-06-12,"9",36,"SMS","KRH",NA,"88","0",NA,NA,"West Beach LOW 2014","100","0","0","12",NA,NA,"West Beach","LOW","2014","West Beach LOW 2014 9",NA
+2017-05-25,"1",0,"KJ","LL","100",NA,NA,NA,NA,"North Beach LOW 2017",NA,NA,"23",NA,NA,NA,"North Beach","LOW","2017","North Beach LOW 2017 1",NA

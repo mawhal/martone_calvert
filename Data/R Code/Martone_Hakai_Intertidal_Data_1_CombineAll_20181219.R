@@ -14,7 +14,7 @@
 ###################################################
 ###
 ### code created by Matt Whalen, 3 April 2018
-### updated 19 December 2018
+### updated 29 January 2019
 
 
 # load libraries
@@ -46,26 +46,27 @@ read_excel_all <- function( data ){
   return( sheets )
 }
 
+
 ptm2012 <- read_excel_all( "2012 Hakai_edited_MAW.xlsx" )
 ptm2018 <- read_excel_all( "2018_Hakai_edited_MAW.xlsx" )
 
 
 
 #### ISOLATE DATA AND METADATA (e.g. location info)
-test <- ptm2018
+test <- ptm2012
 # we now have a list, each element of which is a sheet from the xlsx file
 # str(ptm2012)
 names(test)
 # Goal: create a single data.frame with rows being data from individual plots
 # all sheets have same number of columns, but different number of rows
-lapply( ptm2018, dim )
+lapply( ptm2012, dim )
 
 #
 ## METADATA
 # metadata is sheet name and first X rows of data.frame
-# number of rows by year: 2011 (5), 2012 (5), 2013 (8), 2014 (12), 2015 (12), 2016 (12), 2017 (12)
+# number of rows by year: 2011 (5), 2012 (10), 2013 (8), 2014 (12), 2015 (12), 2016 (12), 2017 (12)
 
-extractYEAR <- function( data, sheetnames, header=13 ){
+extractYEAR <- function( data, sheetnames, header=10 ){
   metarows <- t( data[1:header,] )                #transpose to flip columns to rows
     meta <- as_tibble( metarows[-1,],    # generate data.frame without column headings
                            stringsAsFactors = FALSE, row.names = NULL ) 
@@ -174,16 +175,24 @@ splits <- strsplit( all.meta$SiteHeightYear, split=" " )
 all.meta$Site   <- unlist( lapply( splits, function(z) paste( z[1], z[2], sep=" " ) ) )
 all.meta$Zone <- unlist( lapply( splits, function(z) z[3] ) )
 all.meta$Year   <- unlist( lapply( splits, function(z) z[4] ) )
+# combine SiteHeightYear with Quadrat 
+all.meta <- all.meta %>% 
+  rename( Quadrat='Quadrat No.', Meter.point='Meter point' ) %>%
+  mutate( UID = paste(SiteHeightYear,Quadrat)) # UID = Unique IDentifier
+
 # currently meter point has lots of different values
 sort(unique( all.meta$`Meter point` ))
 # get rid of spaces and comments
-all.meta$`Meter point`[ all.meta$`Meter point` == "   30" ] <- 30
-all.meta$`Meter point`[ all.meta$`Meter point` == "   45" ] <- 45
-all.meta$`Meter point`[ all.meta$`Meter point` == "11 (instead of 12)" ] <- 11
-all.meta$`Meter point`[ all.meta$`Meter point` == "16 (instead of 15)" ] <- 16
+all.meta$Meter.point[ all.meta$Meter.point == "   30" ] <- 30
+all.meta$Meter.point[ all.meta$Meter.point == "   45" ] <- 45
+all.meta$Meter.point[ all.meta$Meter.point == "11 (instead of 12)" ] <- 11
+all.meta$Meter.point[ all.meta$Meter.point == "16 (instead of 15)" ] <- 16
 # make Meter point numeric and round it
-all.meta$`Meter point` <- round( as.numeric( all.meta$`Meter point`) )
+all.meta$Meter.point <- round( as.numeric( all.meta$Meter.point) )
 
+# simplify data to contain only the UID, taxon, and abundance
+all.data <- left_join( all.data, all.meta[,c('Quadrat','SiteHeightYear','UID')])
+all.data <- all.data %>% select( UID, Taxon, Abundance )
 
 
 ######################
@@ -204,7 +213,7 @@ elev$Site <- plyr::revalue( elev$Site, c("North"="North Beach", "Fifth"="Fifth B
 elev <- plyr::mutate( elev, Zone=toupper(Zone) )
 # select and rename columns
 elev <- elev %>%
-  select( Site, Zone, 'Meter point'=Transect_num, Shore_height_cm )
+  select( Site, Zone, Meter.point=Transect_num, Shore_height_cm )
 
 all.meta <- left_join( all.meta, elev )
 

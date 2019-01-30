@@ -29,3 +29,4 @@ node_modules
 
 # pdf figures saved to local
 .pdf
+.Rproj.user

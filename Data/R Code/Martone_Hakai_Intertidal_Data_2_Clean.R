@@ -4,7 +4,7 @@
 ###################################################
 # 
 # by Matt Whalen
-# updated 20 December 2018
+# updated 29 January 2019
 
 # This script cleans up the data and deals with mistakes and taxonomic synonymy
 
@@ -72,6 +72,8 @@ ad$Taxon <- gsub( "with.*", "", ad$Taxon)
 # for the sake of reducing unique entries, capitalize first letter of all Taxon names
 ad$Taxon <- paste0( toupper(substr(ad$Taxon, 1, 1)), substr(ad$Taxon, 2, nchar(ad$Taxon)) )
 
+
+
 # taxa specific things, e.g. fixing mispellings
 ad$Taxon <- gsub( "Acroch.*", "Acrochaetium sp.", ad$Taxon )
 ad$Taxon <- gsub( "Amphipod.*", "Amphipoda", ad$Taxon )
@@ -110,21 +112,33 @@ ad$Taxon <- gsub( "sp([0-9]+)", "sp.\\1", ad$Taxon )
 # trim all the white space
 ad$Taxon  <- trimws( ad$Taxon )
 
-sort(unique(ad$Taxon))
-
-# question marks
-ad[ ad$Taxon=="panicea", ]
-ad[ ad$Taxon=="Lophopan", ]
-ad[ ad$Taxon=="Holiclona", ]
 
 
 # "taxa" to remove
 ad <- ad[ !ad$Taxon %in% c( "Animal notes", "Animals" ), ]
 ad <- ad[ ad$Taxon != c( "Habitat notes" ), ]
 
-# consider using tidyverse filter to make some of this code a little prettier
+# consider using tidyverse filter to make some of the above code a little prettier
 
 
+## Use corrected species names to replace taxon names
+corrected_taxa <- read.csv( "../taxa/CorrectedTaxonList.csv" )
+ad.corrected <- left_join( ad, corrected_taxa, by=c("Taxon"="taxon") )
+
+# fix the ones that weren't covered
+unique(ad.corrected$Taxon[ is.na(ad.corrected$taxon_corrected) ])
+ad.corrected$taxon_corrected[ ad.corrected$Taxon == "Lophopanopeus bellus" ] <- "Lophopanopeus bellus"
+ad.corrected$taxon_corrected[ ad.corrected$Taxon == "bare rock" ] <- "bare rock"
+unique(ad.corrected$Taxon[ is.na(ad.corrected$taxon_corrected) ])
+
+sort(unique(ad$Taxon))
+sort(unique(ad.corrected$taxon_corrected))
+
+# recreat ad with corrected names, then sum across corrected taxa
+ad <- ad.corrected %>%
+  select( UID, Taxon=taxon_corrected, Abundance ) %>%
+  group_by( UID, Taxon ) %>%
+  summarise( Abundance=sum(Abundance) )
 
 # Cobble. need to move this to metadata!
 ad[ad$Taxon=="Cobble",]

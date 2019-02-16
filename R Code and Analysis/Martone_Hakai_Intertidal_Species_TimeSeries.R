@@ -16,9 +16,9 @@ library(viridis)
 
 ## read data files
 # all data
-ad <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_data.csv")
+ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data.csv")
 # all metadata
-am <- read.csv("../Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv("Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
 
 
 ## Deal with trace cover and other oddities

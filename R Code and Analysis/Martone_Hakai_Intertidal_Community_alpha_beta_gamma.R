@@ -25,11 +25,11 @@ library(mobr)
 
 ## read data files
 # all data
-ad <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_data.csv")
+ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data.csv")
 # all metadata
-am <- read.csv("../Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv("Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
 
-## Data cleaning for Anlaysis -- consider moving part of this to another script
+## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
 am <- am[ am$Year != "2011", ]
 # remove Meay Channel
@@ -60,7 +60,7 @@ ad.comm <- ad.simple %>%
 am$UID[ !(am$UID %in% ad.comm$UID) ]
 ad[ ad$UID %in% am$UID[ !(am$UID %in% ad.comm$UID) ], ]
 # restrict to rows selected in metadata
-ad.comm <- ad.comm[ ad.comm$UID %in% am$UID, ]
+ad.comm <- ad.comm[ ad.comm$UID %in% am$UID, ] 
 ad.comm <- as.matrix(ad.comm[,-1])
 
 
@@ -70,6 +70,13 @@ ad.comm <- as.matrix(ad.comm[,-1])
 
 # prepare the data
 sea_mob_in <- make_mob_in( ad.comm , am )
+
+#####NOTE FROM SAM:
+#I currently get the following error:
+#Error in -spat_cols : invalid argument to unary operator
+#In addition: Warning message:
+  #In make_mob_in(ad.comm, am) :
+  #Some species have zero occurrences and will be dropped from the community table
 
 # exploratory analysis - samples added with increasing spatial proximity
 windows()

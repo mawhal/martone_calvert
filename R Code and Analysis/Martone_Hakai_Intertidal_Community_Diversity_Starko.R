@@ -496,6 +496,7 @@ pyropia.comm<-lump.comm[,"Pyropia"]
 masto.comm<-lump.comm[,"Mastocarpus"]
 Ulvales<-c("Ulva", "Blidingia")
 ulv.comm<-lump.comm[,Ulvales]
+barn.comm<-lump.comm[,"Barnacles"]
 head(kelp.comm)
 total.kelp <- vector()
 for (i in 1:length(kelp.comm[,1])) {
@@ -523,6 +524,7 @@ bare.rock.cover<-cbind(bare.comm, total.kelp)
 pyropia.cover<-cbind(pyropia.comm, total.kelp)
 masto.cover<-cbind(masto.comm, total.kelp)
 ulvales.cover<-cbind(total.ulvales, total.kelp)
+barnacle.cover<-cbind(barn.comm, total.kelp)
 kelp.summary<-summarySE(total.kelp, measurevar = "total.kelp", groupvars=c("Year", "Zone", "Site"))
 alaria.summary<-summarySE(total.kelp, measurevar = "Alaria marginata", groupvars=c("Year", "Zone", "Site"))
 egregia.summary<-summarySE(total.kelp, measurevar = "Egregia menziesii", groupvars=c("Year", "Zone", "Site"))
@@ -537,6 +539,7 @@ rock.summary<-summarySE(bare.rock.cover, measurevar="bare.comm", groupvars=c("Ye
 pyropia.summary<-summarySE(pyropia.cover, measurevar="pyropia.comm", groupvars=c("Year", "Zone", "Site"))
 masto.summary<-summarySE(masto.cover, measurevar="masto.comm", groupvars=c("Year", "Zone", "Site"))
 ulvales.summary<-summarySE(ulvales.cover, measurevar="total.ulvales", groupvars=c("Year", "Zone", "Site"))
+barn.summary<-summarySE(barnacle.cover, measurevar="barn.comm", groupvars=c("Year", "Zone", "Site"))
 
 par(mfrow=c(2,1), mar=c(5,5,2,2))
 #plot(total.kelp~Year,data=kelp.summary[kelp.summary$Site=="West Beach"&kelp.summary$Zone=="HIGH",], pch=19, ylim=c(0,50), las=1)
@@ -714,7 +717,7 @@ lines(`fucus.comm`~Year,data=fucus.summary[fucus.summary$Site=="North Beach"&fuc
 points(`fucus.comm`~Year,data=fucus.summary[fucus.summary$Site=="Fifth Beach"&fucus.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
 lines(`fucus.comm`~Year,data=fucus.summary[fucus.summary$Site=="Fifth Beach"&fucus.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 
-plot(`fucus.comm`~Year,data=fucus.summary[fucus.summary$Site=="West Beach"&fucus.summary$Zone=="LOW",], pch=19, ylim=c(0,30), las=1, col="blue", cex=2)
+plot(`fucus.comm`~Year,data=fucus.summary[fucus.summary$Site=="West Beach"&fucus.summary$Zone=="LOW",], pch=19, ylim=c(0,80), las=1, col="blue", cex=2)
 lines(`fucus.comm`~Year,data=fucus.summary[fucus.summary$Site=="West Beach"&fucus.summary$Zone=="LOW",], pch=19,las=1, col="blue", lwd=3)
 points(`fucus.comm`~Year,data=fucus.summary[fucus.summary$Site=="North Beach"&fucus.summary$Zone=="LOW",], pch=19, las=1, col="blue", cex=2)
 lines(`fucus.comm`~Year,data=fucus.summary[fucus.summary$Site=="North Beach"&fucus.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)
@@ -769,7 +772,7 @@ lines(`pyropia.comm`~Year,data=pyropia.summary[pyropia.summary$Site=="Fifth Beac
 
 
 ##Mastocarpus
-plot(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="HIGH",], pch=19, ylim=c(0,30), las=1, col="blue", cex=2)
+plot(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="HIGH",], pch=19, ylim=c(0,25), las=1, col="blue", cex=2)
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
 points(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="North Beach"&masto.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", cex=2)
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="North Beach"&masto.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
@@ -777,14 +780,14 @@ points(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="Fifth Beach"&ma
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="Fifth Beach"&masto.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
 
 
-plot(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="MID",], pch=19, ylim=c(0,80), las=1, col="blue", cex=2)
+plot(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="MID",], pch=19, ylim=c(0,25), las=1, col="blue", cex=2)
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 points(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="North Beach"&masto.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="North Beach"&masto.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 points(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="Fifth Beach"&masto.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="Fifth Beach"&masto.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 
-plot(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="LOW",], pch=19, ylim=c(0,30), las=1, col="blue", cex=2)
+plot(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="LOW",], pch=19, ylim=c(0,25), las=1, col="blue", cex=2)
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="West Beach"&masto.summary$Zone=="LOW",], pch=19,las=1, col="blue", lwd=3)
 points(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="North Beach"&masto.summary$Zone=="LOW",], pch=19, las=1, col="blue", cex=2)
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="North Beach"&masto.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)
@@ -792,7 +795,7 @@ points(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="Fifth Beach"&ma
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="Fifth Beach"&masto.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)
 
 ##Ulvales
-plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="HIGH",], pch=19, ylim=c(0,30), las=1, col="blue", cex=2)
+plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="HIGH",], pch=19, ylim=c(0,10), las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
@@ -800,18 +803,41 @@ points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Be
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Beach"&ulvales.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
 
 
-plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="MID",], pch=19, ylim=c(0,80), las=1, col="blue", cex=2)
+plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="MID",], pch=19, ylim=c(0,10), las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 
-plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="LOW",], pch=19, ylim=c(0,30), las=1, col="blue", cex=2)
+plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="LOW",], pch=19, ylim=c(0,10), las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="LOW",], pch=19,las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="LOW",], pch=19, las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Beach"&ulvales.summary$Zone=="LOW",], pch=19,  las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Beach"&ulvales.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)
+
+##Barnacles
+plot(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="West Beach"&barn.summary$Zone=="HIGH",], pch=19, ylim=c(0,100), las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="West Beach"&barn.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
+points(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="North Beach"&barn.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="North Beach"&barn.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
+points(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="Fifth Beach"&barn.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="Fifth Beach"&barn.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
+
+
+plot(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="West Beach"&barn.summary$Zone=="MID",], pch=19, ylim=c(0,100), las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="West Beach"&barn.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
+points(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="North Beach"&barn.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="North Beach"&barn.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
+points(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="Fifth Beach"&barn.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="Fifth Beach"&barn.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
+
+plot(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="West Beach"&barn.summary$Zone=="LOW",], pch=19, ylim=c(0,100), las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="West Beach"&barn.summary$Zone=="LOW",], pch=19,las=1, col="blue", lwd=3)
+points(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="North Beach"&barn.summary$Zone=="LOW",], pch=19, las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="North Beach"&barn.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)
+points(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="Fifth Beach"&barn.summary$Zone=="LOW",], pch=19,  las=1, col="blue", cex=2)
+lines(`barn.comm`~Year,data=barn.summary[barn.summary$Site=="Fifth Beach"&barn.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)
 
 

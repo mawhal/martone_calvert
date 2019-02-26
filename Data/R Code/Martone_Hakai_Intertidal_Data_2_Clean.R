@@ -4,7 +4,7 @@
 ###################################################
 # 
 # by Matt Whalen
-# updated 29 January 2019
+# updated 25 February 2019
 
 # This script cleans up the data and deals with mistakes and taxonomic synonymy
 
@@ -17,9 +17,9 @@ library(tidyverse)
 
 ## read data files
 # all data
-ad <- read.csv( "Output from R/Martone_Hakai_data.csv" )
+ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_raw.csv" )
 # all metadata
-am <- read.csv("Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
 
 
 ## Deal with trace cover and other oddities
@@ -122,17 +122,23 @@ ad <- ad[ ad$Taxon != c( "Habitat notes" ), ]
 
 
 ## Use corrected species names to replace taxon names
-corrected_taxa <- read.csv( "../taxa/CorrectedTaxonList.csv" )
+corrected_taxa <- read.csv( "Data/taxa/CorrectedTaxonList.csv" )
 ad.corrected <- left_join( ad, corrected_taxa, by=c("Taxon"="taxon") )
+dim(ad)
+dim(ad.corrected)
 
 # fix the ones that weren't covered
 unique(ad.corrected$Taxon[ is.na(ad.corrected$taxon_corrected) ])
 ad.corrected$taxon_corrected[ ad.corrected$Taxon == "Lophopanopeus bellus" ] <- "Lophopanopeus bellus"
 ad.corrected$taxon_corrected[ ad.corrected$Taxon == "bare rock" ] <- "bare rock"
+ad.corrected$taxon_corrected[ ad.corrected$Taxon == "Bryozoan with Acrochaetium sp." ] <- "Bryozoan"
 unique(ad.corrected$Taxon[ is.na(ad.corrected$taxon_corrected) ])
 
 sort(unique(ad$Taxon))
-sort(unique(ad.corrected$taxon_corrected))
+sort(unique(ad.corrected$taxon_corrected))[1:50]
+# get rid of category "CORALLINE", which is close to the sum of all coralline species in each quadrat
+ad.corrected$Taxon[ad.corrected$taxon_corrected==""]
+ad.corrected <- ad.corrected[ ad.corrected$Taxon != "CORALLINE",]
 
 # recreat ad with corrected names, then sum across corrected taxa
 ad <- ad.corrected %>%
@@ -143,7 +149,7 @@ ad <- ad.corrected %>%
 # Cobble. need to move this to metadata!
 ad[ad$Taxon=="Cobble",]
 ad[ad$Taxon=="BARE ROCK / SUBSTRATE (%)",]
-
+ad[ad$Taxon=="CORALLINE",]
 
 # save the data to disk, overwriting the previous datafile
-write.csv( ad, "Output from R/Martone_Hakai_data.csv", row.names = FALSE )
+write.csv( ad, "Data/R code/Output from R/Martone_Hakai_data.csv", row.names = FALSE )

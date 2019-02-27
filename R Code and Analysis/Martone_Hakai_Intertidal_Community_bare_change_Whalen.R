@@ -56,57 +56,29 @@ d.simple <- d %>%
 
 # merge meta data so we can chop things up and summarize across sites, zones, etc.
 # first, remove rows from data that are not in the restricted metadata
-# Start with West Beach
-mwest <- am[am$Site=="West Beach" & am$Zone=="LOW",]
-mhigh <- am[ am$Zone!="HIGH",]
-muse  <- mhigh
+muse  <- am
 drestrict <- d.simple[ d.simple$UID %in% muse$UID , ] 
 dm <- left_join( drestrict, am )
 
 
 
-# look at kelp cover across sites and zones
-kelp <- dm %>%
-  group_by( UID, Date, Quadrat, Meter.point, Site, Zone, Year, Shore_height_cm ) %>%
-  filter( Kelp.Fucoid.Turf == "Kelp" ) %>%
-  summarize( Abundance=sum(Abundance,na.rm=T) )
-# get back abundances for other UIDs in west and fill with zero
-kelp.full <- right_join( kelp, muse )
-kelp.full$Abundance[ is.na(kelp.full$Abundance) ] <- 0
-
-ggplot( kelp.full, aes(x=Year, y=Abundance)) +  facet_grid(Site~Zone) +
-  geom_point() + geom_smooth() + ggtitle("Total Kelp % Cover")s
-
-
-
-# look at individual species trajectories 
-kelp.species <- dm %>%
+# look at bar rock cover, barnacles, mussels across sites and zones
+sub <- dm %>%
   group_by( UID, Date, Quadrat, Meter.point, Site, Zone, Year, Shore_height_cm, taxon_lumped ) %>%
-  filter( Kelp.Fucoid.Turf == "Kelp" ) %>%
+  filter( taxon_lumped %in% c('Bare rock','Barnacles','Mytilus sp.')) %>%
   summarize( Abundance=sum(Abundance,na.rm=T) )
 # get back abundances for other UIDs in west and fill with zero
-# do this with
-all.spp  <- kelp.species %>% ungroup() %>% tidyr::expand( UID, taxon_lumped )
-all.sp.m <- left_join( all.spp, muse )
-kelp.sp.full <- right_join( kelp.species, all.sp.m )
-kelp.sp.full$Abundance[ is.na(kelp.sp.full$Abundance) ] <- 0
+all.sub  <- sub %>% ungroup() %>% tidyr::expand( UID, taxon_lumped )
+all.sub.m <- left_join( all.sub, muse )
+sub.full <- right_join( sub, all.sub.m )
+sub.full$Abundance[ is.na(sub.full$Abundance) ] <- 0
+sub.full$Zone <- factor( sub.full$Zone, levels=c('HIGH','MID','LOW'))
 
-# remove rare taxa 
-kelp.sp.full <- kelp.sp.full[ !(kelp.sp.full$taxon_lumped %in% c("Costaria costata","Nereocystis luetkeana",
-                                                               "Pterygophora californica", "Saccharina nigripes")), ]
+ggplot( sub.full, aes(x=Year, y=Abundance, col=Zone)) +  facet_grid(Site~taxon_lumped) +
+  geom_point() + geom_smooth() + ggtitle("Non-algal % Cover") +  theme(axis.text.x=element_text(angle=45, hjust=1))
 
-ggplot( kelp.sp.full, aes(x=Year, y=Abundance, col=Zone)) +  facet_grid(Site~taxon_lumped) +
-  geom_point() + geom_smooth() + ggtitle("% cover individual kelp species")
-
-
-# merge total kelp in with individual species
-kelp.full$taxon_lumped <- "TOTAL KELP"
-kelp.comb <- full_join( kelp.full, kelp.sp.full )
-
-ggplot( kelp.comb, aes(x=Year, y=Abundance, col=Zone)) +  facet_grid(Site~taxon_lumped) +
-  geom_point() + geom_smooth() + ggtitle("Kelp trajectories by Species and Zone") +  theme(axis.text.x=element_text(angle=45, hjust=1))
-
-kelp.low <- kelp.comb[ kelp.comb$Zone == "LOW", ]
-ggplot( kelp.low, aes(x=Year, y=Abundance, col=Shore_height_cm)) +  facet_grid(Site~taxon_lumped) +
-  geom_point() + geom_smooth() + ggtitle("Kelp Trajectories in LOW Zone") +  theme(axis.text.x=element_text(angle=45, hjust=1)) +
+ggplot( sub.full, aes(x=Year, y=Abundance, col=Shore_height_cm, group=Zone)) +  facet_grid(Site~taxon_lumped) +
+  geom_point() + geom_smooth() + ggtitle("Non-algal % Cover") +  theme(axis.text.x=element_text(angle=45, hjust=1)) +
   scale_color_viridis()
+
+

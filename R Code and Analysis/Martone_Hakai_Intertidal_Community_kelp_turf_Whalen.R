@@ -59,7 +59,7 @@ d.simple <- d %>%
 # Start with West Beach
 mwest <- am[am$Site=="West Beach" & am$Zone=="LOW",]
 mhigh <- am[ am$Zone!="HIGH",]
-muse  <- mhigh
+muse  <- am
 drestrict <- d.simple[ d.simple$UID %in% muse$UID , ] 
 dm <- left_join( drestrict, am )
 
@@ -75,38 +75,39 @@ kelp.full <- right_join( kelp, muse )
 kelp.full$Abundance[ is.na(kelp.full$Abundance) ] <- 0
 
 ggplot( kelp.full, aes(x=Year, y=Abundance)) +  facet_grid(Site~Zone) +
-  geom_point() + geom_smooth() + ggtitle("Total Kelp % Cover")s
+  geom_point() + geom_smooth() + ggtitle("Total Kelp % Cover")
 
 
 
-# look at individual species trajectories 
-kelp.species <- dm %>%
-  group_by( UID, Date, Quadrat, Meter.point, Site, Zone, Year, Shore_height_cm, taxon_lumped ) %>%
-  filter( Kelp.Fucoid.Turf == "Kelp" ) %>%
+# turfs
+turf <- dm %>%
+  group_by( UID, Date, Quadrat, Meter.point, Site, Zone, Year, Shore_height_cm ) %>%
+  filter( Kelp.Fucoid.Turf %in% c('red turf','brown turf','filament_turf','green turf') ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T) )
 # get back abundances for other UIDs in west and fill with zero
-# do this with
-all.spp  <- kelp.species %>% ungroup() %>% tidyr::expand( UID, taxon_lumped )
-all.sp.m <- left_join( all.spp, muse )
-kelp.sp.full <- right_join( kelp.species, all.sp.m )
-kelp.sp.full$Abundance[ is.na(kelp.sp.full$Abundance) ] <- 0
+turf.full <- right_join( turf, muse )
+turf.full$Abundance[ is.na(turf.full$Abundance) ] <- 0
 
-# remove rare taxa 
-kelp.sp.full <- kelp.sp.full[ !(kelp.sp.full$taxon_lumped %in% c("Costaria costata","Nereocystis luetkeana",
-                                                               "Pterygophora californica", "Saccharina nigripes")), ]
+ggplot( turf.full, aes(x=Year, y=Abundance)) +  facet_grid(Site~Zone) +
+  geom_point() + geom_smooth() + ggtitle("Total Turf % Cover")
 
-ggplot( kelp.sp.full, aes(x=Year, y=Abundance, col=Zone)) +  facet_grid(Site~taxon_lumped) +
-  geom_point() + geom_smooth() + ggtitle("% cover individual kelp species")
+# merge total kelp with total turf
+kelp.full$taxon_lumped <- "TOTAL.KELP"
+turf.full$taxon_lumped <- "TOTAL.TURF"
+kelp.comb <- full_join( kelp.full, turf.full )
+kelp.comb$Zone <- factor( kelp.comb$Zone, levels=c('HIGH','MID','LOW' ))
 
+ggplot( kelp.comb, aes(x=Year, y=Abundance, col=taxon_lumped)) +  facet_grid(Site~Zone) +
+  geom_point() + geom_smooth() + ggtitle("Kelp + turf trajectories by Site and Zone") +  theme(axis.text.x=element_text(angle=45, hjust=1))
 
-# merge total kelp in with individual species
-kelp.full$taxon_lumped <- "TOTAL KELP"
-kelp.comb <- full_join( kelp.full, kelp.sp.full )
+# spread out the data so we can plot kelp against turf
+kt.spread <- kelp.comb %>% spread( taxon_lumped, Abundance )
 
-ggplot( kelp.comb, aes(x=Year, y=Abundance, col=Zone)) +  facet_grid(Site~taxon_lumped) +
-  geom_point() + geom_smooth() + ggtitle("Kelp trajectories by Species and Zone") +  theme(axis.text.x=element_text(angle=45, hjust=1))
+ggplot( kt.spread, aes(x=TOTAL.KELP, y=TOTAL.TURF)) +  facet_grid(Site~Zone, scales="free") +
+  geom_point() + geom_smooth(method='lm') + ggtitle("Turf vs Kelp by Site and Zone") 
 
-kelp.low <- kelp.comb[ kelp.comb$Zone == "LOW", ]
-ggplot( kelp.low, aes(x=Year, y=Abundance, col=Shore_height_cm)) +  facet_grid(Site~taxon_lumped) +
-  geom_point() + geom_smooth() + ggtitle("Kelp Trajectories in LOW Zone") +  theme(axis.text.x=element_text(angle=45, hjust=1)) +
-  scale_color_viridis()
+# remove high plots
+kts.high <- kt.spread[ kt.spread$Zone != "HIGH",]
+ggplot( kts.high, aes(x=TOTAL.KELP, y=TOTAL.TURF)) +  #facet_grid(Site~Zone, scales="free") +
+  geom_point() + geom_smooth(se=F) + geom_smooth(method=lm)+ ggtitle("Turf vs Kelp in MID and LOW") 
+

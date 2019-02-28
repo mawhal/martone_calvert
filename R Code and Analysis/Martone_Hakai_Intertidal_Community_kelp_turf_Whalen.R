@@ -109,5 +109,8 @@ ggplot( kt.spread, aes(x=TOTAL.KELP, y=TOTAL.TURF)) +  facet_grid(Site~Zone, sca
 # remove high plots
 kts.high <- kt.spread[ kt.spread$Zone != "HIGH",]
 ggplot( kts.high, aes(x=TOTAL.KELP, y=TOTAL.TURF)) +  #facet_grid(Site~Zone, scales="free") +
-  geom_point() + geom_smooth(se=F) + geom_smooth(method=lm)+ ggtitle("Turf vs Kelp in MID and LOW") 
+  geom_point(alpha=0.5) + geom_smooth(se=F) + geom_smooth(method=lm)+ ggtitle("Turf vs Kelp in MID and LOW") 
 
+kts.low <- kt.spread[ kt.spread$Zone == "LOW",]
+ggplot( kts.low, aes(x=TOTAL.KELP, y=TOTAL.TURF)) +  #facet_grid(Site~Zone, scales="free") +
+  geom_point(alpha=0.5) + geom_smooth(se=F,col="black",lty=1) + geom_smooth(method=lm)+ ggtitle("Turf vs Kelp in LOW") 

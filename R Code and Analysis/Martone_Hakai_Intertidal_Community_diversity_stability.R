@@ -11,7 +11,7 @@ options(stringsAsFactors = FALSE)
 library(tidyverse)
 library(vegan)
 library(psych)
-
+library(plotrix)
 
 
 ## read data files
@@ -92,7 +92,56 @@ pa <- ifelse( comm>0, 1, 0)
 mclean$richness <- rowSums( pa )
 
 # splom for all quadrat summaries
-pairs.panels( mclean %>% select(total.algae,richness,shannon,simpson,enspie) )
-
+pairs.panels( mclean %>% select(total.algae,richness,shannon,simpson,enspie), scale=T, ellipses = FALSE )
 # for each quadrat, calculate total cover of algae -- then use this to calculate Coefficient of Variation
 
+
+# look at patterns over time
+ggplot( mclean, aes(y=richness,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
+ggplot( mclean, aes(y=shannon,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
+ggplot( mclean, aes(y=simpson,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
+ggplot( mclean, aes(y=enspie,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
+
+
+
+
+# consider the range of variation in estimates over time
+divvar <- mclean %>%
+  group_by( Year, Site, Zone ) %>%
+  summarise( meana=mean(total.algae), ea=sd(total.algae),
+             meanr=mean(richness), er=sd(richness),
+             meand=mean(shannon), ed=sd(shannon),
+             means=mean(simpson), es=sd(simpson),
+             meane=mean(enspie), ee=sd(enspie)    ) %>%
+  mutate( cva = ea/meana, cvr = er/meanr, cvd = ed/meand, cvs = es/means, cve = ee/meane )
+
+pairs.panels( divvar %>% ungroup() %>% select(cva,cvr,cvd,cvs,cve), scale=T, ellipses = FALSE )
+pairs.panels( divvar %>% ungroup() %>% select(meanr,meand,means,meane,cva), scale=T, ellipses = FALSE )
+
+ggplot( divvar, aes(x=meanr,y=cva) ) + geom_point() +
+  ylab( "CV( total algal % cover )") + xlab("Mean transect species richness")
+
+# summarize over time
+divvar2 <- mclean %>%
+  group_by( Site, Zone ) %>%
+  summarise( meana=mean(total.algae), ea=sd(total.algae),
+             meanr=mean(richness), er=sd(richness),
+             meand=mean(shannon), ed=sd(shannon),
+             means=mean(simpson), es=sd(simpson),
+             meane=mean(enspie), ee=sd(enspie)    ) %>%
+  mutate( cva = ea/meana, cvr = er/meanr, cvd = ed/meand, cvs = es/means, cve = ee/meane )
+
+pairs.panels( divvar2 %>% ungroup() %>% select(meanr,meand,means,meane,cva), scale=T, ellipses = FALSE )
+
+a <- ggplot( divvar2, aes(x=meanr,y=cva) ) + geom_point() +
+  ylab( "CV( total algal % cover )") + xlab("Mean species richness") + geom_smooth() + ylim(c(-0.1,1.2))
+b <- ggplot( divvar2, aes(x=meand,y=cva) ) + geom_point() +
+  ylab( "CV( total algal % cover )") + xlab("Mean Shannon diversity") + geom_smooth() + ylim(c(-0.1,1.2))
+c <- ggplot( divvar2, aes(x=means,y=cva) ) + geom_point() +
+  ylab( "CV( total algal % cover )") + xlab("Mean Simpson diversity") + geom_smooth() + ylim(c(-0.1,1.2))
+d <- ggplot( divvar2, aes(x=meane,y=cva) ) + geom_point() +
+  ylab( "CV( total algal % cover )") + xlab("Mean effective # species") + geom_smooth() + ylim(c(-0.1,1.2))
+
+
+library( cowplot )
+plot_grid( a,b,c,d, ncol=4 )

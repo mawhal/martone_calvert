@@ -4,7 +4,7 @@
 # updated 29 January 2019
 
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Fucus"
+taxon <- "Alaria"
 # sampler <- "Sandra" --- figure out how to add a switch here that we can add to filenames
 
 # set options
@@ -92,14 +92,16 @@ d$Year <- factor( d$Year, ordered= TRUE )
 
 # all sites
 # time trends in different tidal zones
-windows(5,7)
+windows(5,6)
 (ggzone <- ggplot( d, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
     facet_grid(Site~Zone, scales="free_y") + 
-    geom_point(alpha=0.2) + ggtitle( taxon ) + 
-    geom_smooth( se=TRUE ) +
+    # geom_smooth( se=TRUE, col='black' ) +
+    stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
+    stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
+    geom_point( alpha=0.4,col='slateblue' ) + ggtitle( taxon ) + 
     xlab("Year") )
 
-ggsave( paste0("Figs/",taxon,"_zone.pdf"), ggzone, "pdf" )
+ggsave( paste0("R Code and Analysis/Figs/",taxon,"_zone.pdf"), ggzone, "pdf" )
 
 # subset of sites where elevation has been measured
 delev <- d[ d$Site != "Meay Channel", ]
@@ -107,10 +109,10 @@ windows(10,4)
 (ggheight <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance)) + 
     facet_grid(Site~Year, scales = "free_y") + 
     geom_point(alpha=0.2) +  ggtitle( taxon ) + 
-    geom_smooth(method="glm", method.args=list(family="poisson"), 
+    geom_smooth(method="glm", method.args=list(family="quasipoisson"), 
                 formula = ceiling(y) ~ poly(x,2), 
                 se=FALSE, lwd=0.5) )
-ggsave( paste0("Figs/",taxon,"_elevation_wide.pdf"), ggheight, "pdf" )
+ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation_wide.pdf"), ggheight, "pdf" )
 
 windows(4,6)
 (ggheight2 <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance,group=Year,col=Year )) + 
@@ -123,4 +125,4 @@ windows(4,6)
     scale_x_continuous(trans='log10') ) +
   scale_color_viridis_d( direction=-1 )
 
-ggsave( paste0("Figs/",taxon,"_elevation.pdf"), ggheight2, "pdf" )
+ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation.pdf"), ggheight2, "pdf" )

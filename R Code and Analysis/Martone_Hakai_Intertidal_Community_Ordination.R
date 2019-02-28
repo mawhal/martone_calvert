@@ -77,7 +77,7 @@ comm <- as.matrix(d.comm.order[,-1])
 
 
 ## ordinate everything separately, and use metadata to label things
-metaMDS( comm, distance = "bray", k = 3 )
+# metaMDS( comm, distance = "bray", k = 3 )
 
 
 ## ordinate average cover per transect
@@ -130,7 +130,6 @@ meta$Site2 <- factor( meta$Site )
 ordispider( mds2,meta$Site2, col=c('red','blue','black') )
 # ordihull( mds2,meta$Zone, col=c('#33a02c','#a6cee3','#1f78b4') )
 ordiellipse( mds2,meta$Site2, col=c('red','blue','black') )
-
 points(mds2,pch=21,bg="white")
 
 ordisurf( mds2, meta$Year,  
@@ -145,6 +144,7 @@ zone.col <- c('#33a02c','#a6cee3','#1f78b4')
 zone.pch <- c(21,22,25)
 site.col <- c('red','blue','black')
 year.bg  <- c(NA,NA,NA,NA,NA,NA,'slateblue')
+year.bg  <- c(rep('white', 6), 'slateblue')
 ordisegments( mds2, meta$SiteZone, col=site.col[meta$Site2] )
 points( mds2, pch=zone.pch[meta$Zone2], col=site.col[meta$Site2], bg=year.bg[meta$Year2] )
 

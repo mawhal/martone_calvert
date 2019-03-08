@@ -137,9 +137,7 @@ Lithophyllum impressum,crustose coralline,crustose
 Lithophyllum sp.,crustose coralline,crustose
 Lithophyllum sp. 1,crustose coralline,crustose
 Lithophyllum sp. 2,crustose coralline,crustose
-Lithophyllum sp.1,crustose coralline,crustose
-Lithophyllum sp.2,crustose coralline,crustose
-Lithophyllum sp.8,crustose coralline,crustose
+Lithophyllum sp. 8,crustose coralline,crustose
 Lithothamnion glaciale,crustose coralline,crustose
 Lithothamnion phymatodeon,crustose coralline,crustose
 Lithothamnion phymatodeum,crustose coralline,crustose
@@ -171,6 +169,7 @@ Microcladia borealis,red turf,filament
 Monostroma grevillei,blade,sheet
 Nemalion,red turf,NA
 Nemalion helminthoides,red turf,NA
+Neoagarum fimbriatum,Kelp,thick leathery
 Neodilsea borealis,blade,thick leathery
 Neodilsia borealis,blade,thick leathery
 Neogastroclonium subarticulatum,red turf,finely branching
@@ -198,6 +197,7 @@ Peyssonnelia,crust,crustose
 Peyssonnelia sp.,crust,crustose
 Phycodrys fimbriata ?,red turf,finely branching
 Phycodrys?,red turf,finely branching
+Phycodrys sp.,red turf,finely branching
 Phyllospadix,seagrass,seagrass
 Phyllospadix scouleri,seagrass,seagrass
 Phyllospadix serrulatus,seagrass,seagrass
@@ -227,6 +227,7 @@ Porphyra schizophylla,blade,sheet
 Prionitis sternbergii,red turf,finely branching
 Prionitis sternbergii lanceolata,red turf,finely branching
 Prionitis?,red turf,finely branching
+Prionitis sp.,red turf,finely branching
 Pseudlolithophyllum muricatum,crustose coralline,crustose
 Pseudolithophyllum muricatum,crustose coralline,crustose
 Pseudolithophyllum neofarlowii,crustose coralline,crustose
@@ -263,6 +264,7 @@ Ralfsia pacifica,crust,crustose
 Ralfsia sp,crust,crustose
 Ralfsia sp [brown crust],crust,crustose
 Ralfsia sp.,crust,crustose
+Ralfsioid,crust,crustose
 Red Crust,crust,crustose
 Rhizoclonium tortuosum,filament_turf,filament
 Rhodochorton purpureum,filament_turf,filament
@@ -273,6 +275,7 @@ Saccharina latissima,Kelp,thick leathery
 Saccharina latissimus,Kelp,thick leathery
 Saccharina sessile,Kelp,thick leathery
 Saccharina sessilis,Kelp,thick leathery
+Saccharina nigripes,Kelp,thick leathery
 Salishia firma,blade,thick leathery
 Sargassum muticum,Fucoid,thick leathery
 Scagelia occidentale,filament,filament
@@ -284,22 +287,25 @@ Smithora naiadum,red turf,sheet
 Soranthera ulvoidea,brown turf,sheet
 Sparlingia pertusa,blade,thick leathery
 Sphacelaria rigidula,filament,filament
+Spongites tumidum,crust,crustose
 Sytosiphon dotyi,brown turf,sheet
 Tiffaniella snyderae,filament,filament
 Tokidadendron bullatum,red turf,sheet
-Ulothrix/Urospora,filament,filament
+Ulothrix-Urospora,filament,filament
 Ulva intestinalis,green turf,sheet
 Ulva lactuca,blade,sheet
 Ulva linza,green turf,sheet
 Ulva lobata,blade,sheet
 Ulva prolifera,green turf,sheet
 Ulva sp.,blade,sheet
-Unidentified turf,filament,filament
+Unknown turf,filament,filament
 Unknown black crust,crust,crustose
 Unknown brown crust,crust,crustose
 Unknown coralline crust,crust,crustose
+Unknown crust,crust,crustose
 Unknown red crust,crust,crustose
-Wildemania norrisii,blade,sheet
+Wildmania amplissima,blade,sheet
 Wildmania cuneformis,blade,sheet
 Wildmania cuneiformis,blade,sheet
 Wildmania norrisii,blade,sheet
+Wildmania schizophylla,blade,sheet

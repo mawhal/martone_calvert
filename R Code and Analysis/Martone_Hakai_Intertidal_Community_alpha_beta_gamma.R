@@ -24,10 +24,10 @@ library(mobr)
 # inv_mob_in
 
 ## read data files
-# all data
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data.csv")
+# all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
+ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv" )
 # all metadata
-am <- read.csv("Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
@@ -35,33 +35,38 @@ am <- am[ am$Year != "2011", ]
 # remove Meay Channel
 am <- am[ am$Site != "Meay Channel", ]
 
-# remove taxa that are not seaweeds
+# remove taxa that are not coutned towards subtratum cover (i.e. mobile invertebrates)
+# make it easier by replacing NA values for substratum
+ds <- ad
+ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
+ds <- ds[ ds$motile_sessile!="motile", ]
 
 
 # remove bare space, because we want to look for differences in numbers of individuals
 # ad <- ad[ ad$Taxon != "bare rock",]  # need to make sure using clean names here
 
+d <- ds
 
 
 # add up all taxa that appear more than once in a single quadrat (e.g. barnacles or Hildenbrandia) -- go back to datasheets on some of these?
-ad[ duplicated(ad), ] # generalize this to look at particular columns
+d[ duplicated(d), ] # generalize this to look at particular columns
 
 # spread out all of the community data so sample (site,height,year,quadrat) are rows and species are columns
 # add together taxa that are not unique to each quadrat
-ad.simple <- ad %>%
+d.simple <- d %>%
   group_by( UID, Taxon ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T))
 
 # spread Taxon column out into many columns filled with abundance/cover data
-ad.comm <- ad.simple %>%
+d.comm <- d.simple %>%
   spread( Taxon, Abundance, fill=0 )
 
 
-am$UID[ !(am$UID %in% ad.comm$UID) ]
-ad[ ad$UID %in% am$UID[ !(am$UID %in% ad.comm$UID) ], ]
+am$UID[ !(am$UID %in% d.comm$UID) ] 
+d[ d$UID %in% am$UID[ !(am$UID %in% d.comm$UID) ], ]
 # restrict to rows selected in metadata
-ad.comm <- ad.comm[ ad.comm$UID %in% am$UID, ] 
-ad.comm <- as.matrix(ad.comm[,-1])
+d.comm <- d.comm[ d.comm$UID %in% am$UID, ] 
+d.comm <- as.matrix(d.comm[,-1])
 
 
 
@@ -69,7 +74,7 @@ ad.comm <- as.matrix(ad.comm[,-1])
 ### Try to use mobr to show some diversity patterns
 
 # prepare the data
-sea_mob_in <- make_mob_in( ad.comm , am )
+sea_mob_in <- make_mob_in( d.comm , am )
 
 #####NOTE FROM SAM:
 #I currently get the following error:

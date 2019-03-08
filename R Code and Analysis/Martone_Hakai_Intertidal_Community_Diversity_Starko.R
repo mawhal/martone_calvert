@@ -17,7 +17,7 @@ library(bayou)
 
 #run summarize functions below before loading Rmisc. 
 #calling Rmisc seems to block summarize from doing its job.
-library(Rmisc)
+# library(Rmisc)
 
 
 
@@ -795,7 +795,11 @@ points(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="Fifth Beach"&ma
 lines(`masto.comm`~Year,data=masto.summary[masto.summary$Site=="Fifth Beach"&masto.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)
 
 ##Ulvales
+<<<<<<< HEAD
+plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="HIGH",], pch=19, ylim=c(0,15), las=1, col="blue", cex=2)
+=======
 plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="HIGH",], pch=19, ylim=c(0,10), las=1, col="blue", cex=2)
+>>>>>>> master
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
@@ -803,14 +807,22 @@ points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Be
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Beach"&ulvales.summary$Zone=="HIGH",], pch=19,  las=1, col="blue", lwd=3)
 
 
+<<<<<<< HEAD
+plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="MID",], pch=19, ylim=c(0,20), las=1, col="blue", cex=2)
+=======
 plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="MID",], pch=19, ylim=c(0,10), las=1, col="blue", cex=2)
+>>>>>>> master
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="Fifth Beach"&ulvales.summary$Zone=="MID",], pch=19,  las=1, col="blue", lwd=3)
 
+<<<<<<< HEAD
+plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="LOW",], pch=19, ylim=c(0,20), las=1, col="blue", cex=2)
+=======
 plot(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="LOW",], pch=19, ylim=c(0,10), las=1, col="blue", cex=2)
+>>>>>>> master
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="West Beach"&ulvales.summary$Zone=="LOW",], pch=19,las=1, col="blue", lwd=3)
 points(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="LOW",], pch=19, las=1, col="blue", cex=2)
 lines(`total.ulvales`~Year,data=ulvales.summary[ulvales.summary$Site=="North Beach"&ulvales.summary$Zone=="LOW",], pch=19, las=1, col="blue", lwd=3)

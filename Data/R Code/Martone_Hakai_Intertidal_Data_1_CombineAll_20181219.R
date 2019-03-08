@@ -20,7 +20,6 @@
 # load libraries
 library(tidyverse)
 library(readxl) 
-library(reshape2)
 
 
 
@@ -38,7 +37,7 @@ library(reshape2)
 
 ## function to read in data using readxl 
 read_excel_all <- function( data ){
-  path <- paste0("../Excel Files/All years/edited/",data)
+  path <- paste0("Data/excel files/All years/edited/",data)
   sheets <- path %>% 
     excel_sheets() %>% 
     set_names() %>% 
@@ -80,8 +79,7 @@ extractYEAR <- function( data, sheetnames, header=10 ){
   draw <- data[header+1:nrow(data),]
     colnames(draw) <- c("Taxon",1:10)
     # melt the dataframe
-    dmelt <- melt( draw, id.vars = 1, 
-                   variable.name = "Quadrat", value.name = "Abundance") 
+    dmelt <- draw %>% gather( key='Quadrat', value = "Abundance", -Taxon )
     # NOTE Abundance can mean percent cover or count or presence
     # get rid of NA's and 0's
     d <- na.exclude(dmelt)
@@ -118,7 +116,7 @@ list( meta=meta, data=d )
 
 # lapply over all years of data
 # list files
-allyears <- list.files( pattern=".xlsx", path="../Excel Files/All years/edited/" )
+allyears <- list.files( pattern=".xlsx", path="Data/excel files/All years/edited/" )
 
 # single function to take each file and run the extractYEAR function on every sheet,
 # given a number of header rows
@@ -181,7 +179,7 @@ all.meta <- all.meta %>%
   mutate( UID = paste(SiteHeightYear,Quadrat)) # UID = Unique IDentifier
 
 # currently meter point has lots of different values
-sort(unique( all.meta$`Meter point` ))
+sort(unique( all.meta$Meter.point ))
 # get rid of spaces and comments
 all.meta$Meter.point[ all.meta$Meter.point == "   30" ] <- 30
 all.meta$Meter.point[ all.meta$Meter.point == "   45" ] <- 45
@@ -206,7 +204,7 @@ all.data <- all.data %>% select( UID, Taxon, Abundance )
 
 
 # read elevation data
-elev <- read_xlsx( "../Shore Heights Elevation/Elevation_transects2014_2.xlsx" )
+elev <- read_xlsx( "Data/Shore Heights Elevation/Elevation_transects2014_2.xlsx" )
 # rename entries in Site and Zone
 elev$Site <- plyr::revalue( elev$Site, c("North"="North Beach", "Fifth"="Fifth Beach", "West"="West Beach") )
 # make zone designations all upper case
@@ -219,7 +217,7 @@ all.meta <- left_join( all.meta, elev )
 
 # write missing data to file
 write.csv( all.meta[ is.na(all.meta$Shore_height_cm) & all.meta$Site!="Meay Channel", ], 
-           "Output from R/Martone_Hakai_missingElevation.csv", row.names=F  )
+           "Data/R code/Output from R/Martone_Hakai_missingElevation.csv", row.names=F  )
 all.meta[ is.na(all.meta$Shore_height_cm) & all.meta$Site!="Meay Channel", ]
 # missing ones (n=3) are either at zero meters along the transect (n=1) 
     # or at distances along the transect that are greater than have been surveyed for elevation (n=2)
@@ -237,5 +235,5 @@ all.meta[ is.na(all.meta$Shore_height_cm) & all.meta$Site!="Meay Channel", ]
 dim( all.data )
 dim( all.meta )
 
-write.csv( all.data, "Output from R/Martone_Hakai_data.csv", row.names=F )
-write.csv( all.meta, "Output from R/Martone_Hakai_metadata.csv", row.names=F )
+write.csv( all.data, "Data/R code/Output from R/Martone_Hakai_data_raw.csv", row.names=F )
+write.csv( all.meta, "Data/R code/Output from R/Martone_Hakai_metadata.csv", row.names=F )

@@ -319,7 +319,6 @@ barplot(temp.pine.RockyTime$Anomaly[temp.pine.RockyTime$Year>2009], col=temp.pin
 axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
 lines(movavg(temp.pine.RockyTime$Anomaly[temp.pine.RockyTime$Year>2009], 12, type="s"),lwd=2,lty=1)
 
-
 #Air Temp
 barplot(ad.anon$Anomaly[ad.anon$Year>2008], col=ad.anon$An.col[ad.anon$Year>2008], ylim=c(-2.5,2.5), space=0, border=FALSE, las=1, width=1)
 lines(movavg(ad.anon$Anomaly[ad.anon$Year>2008], 12, type="s"),lwd=2,lty=1)

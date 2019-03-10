@@ -67,12 +67,13 @@ nut.avg3<-nut.avg2 %>%
   group_by(Month) %>%
   summarize(baseline.N = mean(avg.N, na.rm=TRUE))
 
-###Combine using left_join
+###Combine using left_join and calculate anomalies
 n.anom<-left_join(nut.avg2, nut.avg3, by="Month")
 n.anom$Anomaly<-n.anom$avg.N-n.anom$baseline.N
 n.anom$Date<-as.yearmon(paste(n.anom$Year, n.anom$Month), "%Y %m")
 n.anom$Date<-as.Date(n.anom$Date)
 
+#Plot nitrogen anomalies
 plot(Anomaly~Date, data=n.anom[order(n.anom$Date),], pch=19, cex=0.8, col="Blue", ylab="Nitrogen Anomaly", las=1)
 lines(n.anom$Anomaly[order(n.anom$Date)]~n.anom$Date[order(n.anom$Date)], lwd=3)
 

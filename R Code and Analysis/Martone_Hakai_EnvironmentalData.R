@@ -106,7 +106,7 @@ temp.pine.byMonth
 temp.pine.comb<-left_join(temp.pine.sum, temp.pine.byMonth, by="Month")
 temp.pine.comb$Anomaly <- temp.pine.comb$Temperature - temp.pine.comb$avgTemperature
 temp.pine.comb<-temp.pine.comb[complete.cases(temp.pine.comb$Anomaly),]
-temp.pine.RockyTime<-temp.pine.comb[temp.pine.comb$Year>2009,]
+temp.pine.RockyTime<-temp.pine.comb[temp.pine.comb$Year>2008,]
 
 #Add in months that have no data
 temp.pine.RockyTime<-InsertRow(temp.pine.RockyTime, NewRow=c(2013,4,NA,8.50, NA), RowNum=28)
@@ -313,14 +313,14 @@ for (i in 1:length(ad.anon$Anomaly)) {
 
 #Plot data
 ##Plot SST through time
-par(mar=c(4,4,2,1))
+par(mar=c(4,3,0,1))
 par(mfrow=c(2,1))
-barplot(temp.pine.RockyTime$Anomaly[temp.pine.RockyTime$Year>2009], col=temp.pine.RockyTime$An.col[temp.pine.RockyTime$Year>2009], ylim=c(-2.5,2.5), space=0, border=FALSE, las=1, width=1)
+barplot(temp.pine.RockyTime$Anomaly[temp.pine.RockyTime$Year>2008][1:115], col=temp.pine.RockyTime$An.col[temp.pine.RockyTime$Year>2008][1:115], ylim=c(-2.5,2.5), space=0, border=FALSE, las=1, width=1)
 axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
-lines(movavg(temp.pine.RockyTime$Anomaly[temp.pine.RockyTime$Year>2009], 12, type="s"),lwd=2,lty=1)
+lines(movavg(temp.pine.RockyTime$Anomaly[temp.pine.RockyTime$Year>2008][1:115], 12, type="s"),lwd=2,lty=1)
 
 #Air Temp
-barplot(ad.anon$Anomaly[ad.anon$Year>2008], col=ad.anon$An.col[ad.anon$Year>2008], ylim=c(-2.5,2.5), space=0, border=FALSE, las=1, width=1)
-lines(movavg(ad.anon$Anomaly[ad.anon$Year>2008], 12, type="s"),lwd=2,lty=1)
+barplot(ad.anon$Anomaly[ad.anon$Year>2008][1:115], col=ad.anon$An.col[ad.anon$Year>2008][1:115], ylim=c(-3.5,3.5), space=0, border=FALSE, las=1, width=1)
+lines(movavg(ad.anon$Anomaly[ad.anon$Year>2008][1:115], 12, type="s"),lwd=2,lty=1)
 axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
 

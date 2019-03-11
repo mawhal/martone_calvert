@@ -1,10 +1,10 @@
 # Martone Hakai Rocky Shore Seaweed Surveys
 # 
 # by Matt Whalen
-# updated 29 January 2019
+# updated February 2019
 
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Alaria"
+taxon <- "Saccharina"
 # sampler <- "Sandra" --- figure out how to add a switch here that we can add to filenames
 
 # set options
@@ -16,29 +16,12 @@ library(viridis)
 
 ## read data files
 # all data
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data.csv")
+ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv")
 # all metadata
 am <- read.csv("Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
 
 
-## Deal with trace cover and other oddities
-# # replace all commas with periods for Abundance
-# ad$Abundance <- as.numeric( gsub( ",", "[.]", ad$Abundance ) )
-# change "present" to 0,5
-ad$Abundance <- gsub( "present", "0.5", ad$Abundance )
-# change 1 of Fucus to "trace"
-ad$Abundance <- gsub( "1 on Fucus", "trace", ad$Abundance ) 
-# change trace to 0.5% cover
-ad$Abundance <- gsub( "t.*", "0.5", ad$Abundance, ignore.case = TRUE ) 
 
-# accept only the first thing if separated by certain characters
-# asplit <- strsplit( ad$Abundance, split =c("/|;"))
-# ad$Abundance <- unlist( lapply( asplit, function(z) z[1] ))
-sort(unique(ad$Abundance))
-# things to fix
-
-# spaces
-# periods after numbers -- e.g. "0.5."
 
 # taxa to remove...for now
 ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
@@ -48,10 +31,10 @@ ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 ## Customizations to carry through to figures
 
 # Choose a taxon 
-sort( unique( d$Taxon ))
+sort( unique( ad$taxon_lumped ))
 # use general exp to pull several groups if needed
-sort(unique( d$Taxon[ grep( paste0(taxon,"*"), d$Taxon ) ]  ))
-dtax   <- ad[ grep( paste0(taxon,"*"), ad$Taxon ), ]
+sort(unique( ad$taxon_lumped[ grep( paste0(taxon,"*"), ad$taxon_lumped ) ]  ))
+dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_lumped ), ]
 #dtax  <-  dtax[ -grep( "Ectocarpus*",dtax$Taxon), ]
 
 

@@ -202,7 +202,6 @@ all.data <- all.data %>% select( UID, Taxon, Abundance )
 # west low 2014, quad 9 is 35
 # north low 2017, quad 1 is 1
 
-
 # read elevation data
 elev <- read_xlsx( "Data/Shore Heights Elevation/Elevation_transects2014_2.xlsx" )
 # rename entries in Site and Zone
@@ -221,7 +220,48 @@ write.csv( all.meta[ is.na(all.meta$Shore_height_cm) & all.meta$Site!="Meay Chan
 all.meta[ is.na(all.meta$Shore_height_cm) & all.meta$Site!="Meay Channel", ]
 # missing ones (n=3) are either at zero meters along the transect (n=1) 
     # or at distances along the transect that are greater than have been surveyed for elevation (n=2)
+############################
 
+########################
+### Combine Geolocation Data with metadata
+
+# read geolocation data (compliments of Will McInnis and Hakai Geospatial Team)
+geo <- read.csv( "Data/geolocation/MartoneTransectSteps.csv", stringsAsFactors = FALSE )
+# get site names
+# replace spaces with underscores
+geo$ID <- gsub( " ","_",geo$ID )
+# remove word "martone"
+geo$ID <- gsub( "martone_","",geo$ID )
+# get the first part of each character
+geo$Site <- unlist( lapply( strsplit( geo$ID, split = "_", fixed=T ), function(z) z[1] ) )
+# manually rename sites
+geo$Site[ geo$Site=="nb" ] <- "North Beach"
+geo$Site[ geo$Site=="5th" ] <- "Fifth Beach"
+geo$Site[ geo$Site=="Meay" ] <- "Meay Channel"
+geo$Site[ geo$Site=="Foggy" ] <- "West Beach"
+# define zones
+geo$Zone <- unlist( lapply( strsplit( geo$ID, split = "_", fixed=T ), function(z) z[2] ) )
+# manualy rename zones
+geo$Zone[ grep("high*", geo$Zone, ignore.case=TRUE )] <- "HIGH"
+geo$Zone[ grep("mid*", geo$Zone, ignore.case=TRUE )]  <- "MID"
+geo$Zone[ grep("low*", geo$Zone, ignore.case=TRUE )]  <- "LOW"
+# define quadrat meter points
+geo$Meter.point <- geo$StartEnd
+geo$Meter.point[ geo$Meter.point=="Start" ] <- 0
+geo$Meter.point[ which( geo$Meter.point=="End" ) ] <- as.numeric(geo$Meter.point[ which( geo$Meter.point=="End" )-1 ]) + 1
+geo$Meter.point <- as.numeric(geo$Meter.point)
+
+# select columns and merge with meta data
+geo <- geo %>%
+  select( Site, Zone, Meter.point, Lat, Long )
+
+all.meta <- left_join( all.meta, geo )
+
+# missing ones
+all.meta %>%
+  filter( is.na(Lat) ) %>%
+  select( Meter.point, Site, Zone ) %>%
+  distinct()
 
 # Data are now essentially combined. There are two tables (tibbles) that contain 1) quadrat information and 2) data
 # Note, data still needs cleaning before analysis

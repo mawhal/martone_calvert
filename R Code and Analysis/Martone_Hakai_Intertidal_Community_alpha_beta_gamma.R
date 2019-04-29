@@ -13,11 +13,14 @@
 
 
 # set options
-options(stringsAsFactors = FALSE)
+# lapply(paste('package:',names(sessionInfo()$otherPkgs),sep=""),detach,character.only=TRUE,unload=TRUE)
+# options(stringsAsFactors = FALSE)
 
 # load libraries
-library(tidyverse)
 library(mobr)
+# library(dplyr)
+# library(tidyverse)
+
 # data(inv_comm) # Community matrix
 # data(inv_plot_attr) # Plot attributes data.frame
 # inv_mob_in <- make_mob_in(inv_comm, inv_plot_attr)
@@ -25,94 +28,86 @@ library(mobr)
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv" )
+comm <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_community.csv",stringsAsFactors = FALSE )
 # all metadata
-am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
 am <- am[ am$Year != "2011", ]
 # remove Meay Channel
 am <- am[ am$Site != "Meay Channel", ]
+# currently, we do not have geolocation info for North Beach, so remove this one too
+am <- am[ am$Site != "North Beach", ]
+# try only low zone for now
+am <- am[ am$Zone == "LOW", ]
 
-# remove taxa that are not coutned towards subtratum cover (i.e. mobile invertebrates)
-# make it easier by replacing NA values for substratum
-ds <- ad
-ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
-ds <- ds[ ds$motile_sessile!="motile", ]
-
-
-# remove bare space, because we want to look for differences in numbers of individuals
-# ad <- ad[ ad$Taxon != "bare rock",]  # need to make sure using clean names here
-
-d <- ds
-
-
-# add up all taxa that appear more than once in a single quadrat (e.g. barnacles or Hildenbrandia) -- go back to datasheets on some of these?
-d[ duplicated(d), ] # generalize this to look at particular columns
-
-# spread out all of the community data so sample (site,height,year,quadrat) are rows and species are columns
-# add together taxa that are not unique to each quadrat
-d.simple <- d %>%
-  group_by( UID, Taxon ) %>%
-  summarize( Abundance=sum(Abundance,na.rm=T))
-
-# spread Taxon column out into many columns filled with abundance/cover data
-d.comm <- d.simple %>%
-  spread( Taxon, Abundance, fill=0 )
-
-
-am$UID[ !(am$UID %in% d.comm$UID) ] 
-d[ d$UID %in% am$UID[ !(am$UID %in% d.comm$UID) ], ]
-# restrict to rows selected in metadata
-d.comm <- d.comm[ d.comm$UID %in% am$UID, ] 
-d.comm <- as.matrix(d.comm[,-1])
+am <- droplevels(am)
 
 
 
 
-### Try to use mobr to show some diversity patterns
+### Try to use mobr to show  diversity patterns
+
 
 # prepare the data
-sea_mob_in <- make_mob_in( d.comm , am )
+row.names(comm)
+row.names(am) <- 1:nrow(am)
+sea_mob_in <- make_mob_in( comm , am, c("Long","Lat"), latlong=TRUE )
 
-#####NOTE FROM SAM:
-#I currently get the following error:
-#Error in -spat_cols : invalid argument to unary operator
-#In addition: Warning message:
-  #In make_mob_in(ad.comm, am) :
-  #Some species have zero occurrences and will be dropped from the community table
+
 
 # exploratory analysis - samples added with increasing spatial proximity
 windows()
-plot_rarefaction( sea_mob_in, "Site", "spat", lwd=4 ) 
-# North Beach and Meay Channel have highest richness
-# followed by West Beach then Fifth Beach, although West Beach accumulates quickly
+cols=c( "slateblue",   "darkorange" )  #"black",
+plot_rarefaction( sea_mob_in, "Site", "spat", lwd=4, col=scales::alpha(cols,0.8) ) 
+# West beachtends to have higher richness at all scales, but especially coarser scales
 
+windows(7,5)
 par(mfrow=c(1,2))
 plot_rarefaction( sea_mob_in, 'Site', 'indiv', pooled=F, lwd=2,
-                 leg_loc='topright')
-# Meay Channel has an outrageous number of individuals
+                 leg_loc='topright', col=scales::alpha(cols,0.1) )
+
 plot_rarefaction( sea_mob_in, 'Site', 'indiv', pooled=T, lwd=4,
-                 leg_loc=NA)
-# North Beach again with highest richness, 
-# but Meay Channel has much lower richness at given number of individuals
-# suggests Meay has lower evenness
+                 leg_loc=NA, col=scales::alpha(cols,0.8) )
+
 
 # Species Abundance Distribution
 par(mfrow=c(1,2))
-plot_abu( sea_mob_in, 'Site', type='rad', pooled=F, log='x')
-plot_abu( sea_mob_in, 'Site', type='rad', pooled=T, log='x')
-# very low evenness at Meay Channel, but this could be due to fewer samples overal
+plot_abu( sea_mob_in, 'Site', type='rad', pooled=F, log='x', col=scales::alpha(cols,0.1) )
+plot_abu( sea_mob_in, 'Site', type='sad', pooled=F, log='x', col=scales::alpha(cols,0.1) )
+plot_abu( sea_mob_in, 'Site', type='rad', pooled=T, log='x', col=scales::alpha(cols,0.8))
+# Slightyly higher evenness at West Beach than Fifth Beach
 
-# multiple scales
-sea_stats <- get_mob_stats(sea_mob_in, group_var = "Site",
-                           n_perm = 200)
+sea_stats <- get_mob_stats( sea_mob_in, group_var = "Site",
+                            n_perm = 200 )
+windows(9,3.25)
+plot(sea_stats, 'S', col=scales::alpha(cols,0.6) )
+windows(9,3.25)
+plot(sea_stats, 'N', col=scales::alpha(cols,0.6) )
+windows(9,3.25)
+plot(sea_stats, 'S_n', col=scales::alpha(cols,0.6) )
+windows(9,3.25)
+plot(sea_stats, 'S_PIE', col=scales::alpha(cols,0.6) )
 
-sea_stats <- inv_stats
+# West Beach more diverse than Fifth Beach at every scale
+#  driven by both richness and abundance
+#  although richness difference not significant
+#  only significant differences are for abundance, beta of ENSPIE
 
-plot(sea_stats, 'S')
-plot(sea_stats, 'N')
-plot(sea_stats, 'S_n')
-plot(sea_stats, 'S_n')
-  
+
+
+### Multiscale analysis
+sea_deltaS = get_delta_stats( sea_mob_in, 'Site', ref_group='Fifth Beach',
+                              type='discrete', log_scale=FALSE, n_perm = 20)
+windows( 7,4 )
+plot( sea_deltaS, 'West Beach', 'Fifth Beach', display='rarefaction')
+plot( sea_deltaS, 'West Beach', 'Fifth Beach', display='delta S')
+
+windows( 7,4 )
+plot( sea_deltaS, 'West Beach', 'Fifth Beach', display='ddelta S')
+
+windows( 7,4 )
+par(mfrow=c(1,2))
+overlap_effects(sea_deltaS, 'West Beach', display='raw', leg_loc = 'bottomright')
+overlap_effects(sea_deltaS, 'West Beach', display='stacked', prop=T, leg_loc = NA)

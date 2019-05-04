@@ -1,9 +1,9 @@
 # Martone Hakai Rocky Shore Seaweed Surveys
 # 
 # by Matt Whalen
-# updated 28 January 2019
 
-# This script runs diversity analyses on the Rocky Shore Data using package 
+
+# This script prepares community data for analysis
 
 
 # TO DO FOR DATA COMBINE AND CLEAN SCRIPTS
@@ -34,15 +34,17 @@ am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv", stringsA
 am <- am[ am$Year != "2011", ]
 # remove Meay Channel
 am <- am[ am$Site != "Meay Channel", ]
-# currently, we do not have geolocation info for North Beach, so remove this one too
-am <- am[ am$Site != "North Beach", ]
 am <- droplevels(am)
 
-# remove taxa that are not coutned towards subtratum cover (i.e. mobile invertebrates)
+# remove taxa that are not counted towards subtratum cover (i.e. mobile invertebrates)
 # make it easier by replacing NA values for substratum
 ds <- ad
 ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
-ds <- ds[ ds$motile_sessile!="motile", ]
+# ds <- ds[ ds$motile_sessile!="motile", ]
+
+# for now, restrict community analysis to algae only
+ds <- ds %>% 
+  filter( non.alga.flag =="Algae" )
 
 
 # remove bare space, because we want to look for differences in numbers of individuals
@@ -57,12 +59,12 @@ d[ duplicated(d), ] # generalize this to look at particular columns
 # spread out all of the community data so sample (site,height,year,quadrat) are rows and species are columns
 # add together taxa that are not unique to each quadrat
 d.simple <- d %>%
-  group_by( UID, Taxon ) %>%
+  group_by( UID, taxon_lumped2 ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T))
 
 # spread Taxon column out into many columns filled with abundance/cover data
 d.comm <- d.simple %>%
-  tidyr::spread( Taxon, Abundance, fill=0 )
+  tidyr::spread( taxon_lumped2, Abundance, fill=0 )
 
 
 am$UID[ !(am$UID %in% d.comm$UID) ] 

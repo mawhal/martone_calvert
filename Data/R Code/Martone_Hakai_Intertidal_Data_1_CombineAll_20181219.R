@@ -226,7 +226,8 @@ all.meta[ is.na(all.meta$Shore_height_cm) & all.meta$Site!="Meay Channel", ]
 ### Combine Geolocation Data with metadata
 
 # read geolocation data (compliments of Will McInnis and Hakai Geospatial Team)
-geo <- read.csv( "Data/geolocation/MartoneTransectSteps.csv", stringsAsFactors = FALSE )
+geo <- read.csv( "Data/geolocation/MartoneTransectStepsV2.csv", stringsAsFactors = FALSE )
+names(geo)[1] <- "ID"
 # get site names
 # replace spaces with underscores
 geo$ID <- gsub( " ","_",geo$ID )
@@ -250,6 +251,14 @@ geo$Meter.point <- geo$StartEnd
 geo$Meter.point[ geo$Meter.point=="Start" ] <- 0
 geo$Meter.point[ which( geo$Meter.point=="End" ) ] <- as.numeric(geo$Meter.point[ which( geo$Meter.point=="End" )-1 ]) + 1
 geo$Meter.point <- as.numeric(geo$Meter.point)
+# convert UTM to lat long
+library(rgdal)
+xy <- geo %>%
+  select( UTMe, UTMn )
+sputm <- SpatialPoints(xy, proj4string=CRS("+proj=utm +zone=9 +datum=NAD83")  )
+spgeo <- spTransform(sputm, CRS("+proj=longlat +datum=WGS84"))
+xy <- as.data.frame(spgeo); names(xy) <- c("Long", "Lat")
+geo <- cbind( geo, xy )
 
 # select columns and merge with meta data
 geo <- geo %>%

@@ -68,19 +68,53 @@ d.comm <- dmean %>%
 # order by site and zone
 d.comm <- d.comm %>%
   arrange( Site, factor(Zone,levels=c("LOW","MID","HIGH")) )
+d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 
 
 # isolate the community, site, and sample data
 comm <- d.comm[,-c(1:3)]
-site <- apply( d.comm[,c(2,3)],1,paste, collapse="." )
-year <- unlist(d.comm[,1])
+site <- d.comm$Site
+tran <- apply( d.comm[,c(2,3)],1,paste, collapse="." )
+year <- d.comm$Year
+year2 <- as.character(year)
+year2[year2!=2016] <- ""
+yearmod <- factor(year,ordered=T)
+zone <- d.comm$Zone
 
+# what is the distribution of values like?
+k <- sample(nrow(comm),1)
+cs <- ceiling(comm[k,])
+(x<- fisherfit( cs ))
+(x<- prestonfit( unlist(cs) ))
+plot(x)
+histogram(unlist(cs))
+x<-radfit(cs)
+plot(x)
 
+# which species are exceedingly rare?
+sort(colSums(comm))
+hist(colSums(comm),breaks = seq(0,1200,2))
+
+# quick beta diversity by group
+z <- betadiver(comm,"z")
+mod <- betadisper(z, site)
+plot(mod)
+plot(mod, axes=c(3,1) )
+boxplot(mod)
+anova(mod)
+(mod3B <- betadisper(z, site, type = "median", bias.adjust=TRUE))
+anova(mod3B)
+permutest(mod3B, permutations = 99)
+plot(mod3B)
+boxplot(mod3B)
+
+adonis2( comm~site*zone*year, by='margin'  )
 
 # Trajectory analysis
 # calculate a distance 
 D_man <- vegdist( comm, method="manhattan", transform = function(x){log(x+1)})
-
+D_bray <- vegdist( comm, method="bray" )
+D_use <- D_man
 
 # custom color scheme (three shades of three colors)
 lighten <- function(color, factor=1.5){
@@ -89,28 +123,42 @@ lighten <- function(color, factor=1.5){
   col <- rgb(t(as.matrix(apply(col, 1, function(x) if (x > 255) 255 else x))), maxColorValue=255)
   col
 }
-darken <- function(color, factor=1.5){
+darken <- function(color, factor=2){
   col <- col2rgb(color)
-  col <- col/factor
+  col <- col*factor
   col <- rgb(t(as.matrix(apply(col, 1, function(x) if (x > 255) 255 else x))), maxColorValue=255)
   col
 }
 base <- c('#1b9e77', '#7570b3', '#d95f02')
-cols = as.vector(matrix( c(sapply( base, lighten ), base, sapply( base, darken )), ncol=3, byrow = TRUE ))
+cols = as.vector(matrix( c(sapply( base, darken ), sapply( base, lighten ), base), ncol=3, byrow = TRUE ))
 
 # display trjectories in PCoA
-par(mar=c(4,4,1,1))
-trajectoryPCoA( D_man,  as.numeric(factor(site)), year,
+par(mar=c(5,4,1,1)+0.1)
+x <- trajectoryPCoA( D_use,  as.numeric(factor(site)), year,
+                     traj.colors = cols, 
+                     axes=c(1,2), length=0.1, lwd=2 )
+text( x$points[,1:2],labels = year2, pos = 1, col=rep(cols,each=length(unique(year))) )
+legend("bottomleft", bty="n", legend = unique(site), col = cols, lwd=3 )
+
+# centered trajectories
+x<-trajectoryPCoA( centerTrajectories(D_use, as.numeric(factor(site)) ),  as.numeric(factor(site)), year,
                 traj.colors = cols, 
                 axes=c(1,2), length=0.1, lwd=2 )
+text( x$points[,1:2],labels = year2, pos = 1, col=rep(cols,each=length(unique(year))) )
 legend("topright", bty="n", legend = unique(site), col = cols, lwd=2)
 
 # can also use MDS to represent trajectories
-mMDS = mds( D_man )
+# stress plot
+
+mMDS  <- mds( D_use, ndim=8 )
 mMDS
-trajectoryPlot( mMDS$conf,  as.numeric(factor(site)), year,
+mMDS2 <- mds( centerTrajectories(D_man, as.numeric(factor(site)) ) ) 
+mMDS2
+use <- mMDS$conf
+trajectoryPlot( use,  as.numeric(factor(site)), year,
                 traj.colors = cols, 
                 axes=c(1,2), length=0.1, lwd=2 )
+text( use,labels = year2, pos = 1, col=rep(cols,each=length(unique(year))) )
 legend("topright", bty="n", legend = unique(site), col = cols, lwd=2)
 
 

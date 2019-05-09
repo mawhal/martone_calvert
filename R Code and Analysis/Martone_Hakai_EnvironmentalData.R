@@ -18,7 +18,7 @@ library(zoo)
 ################################################
 
 #Summarize data by date and calculate average nitrogen for sites that have data, remove data that does not equal 5 m depth
-nut<-read.csv("./Data/Environmental Data/CTD_nutrients_Hakai.csv")
+nut<-read.csv("Data/Environmental Data/CTD_nutrients_Hakai.csv")
 nut.avg<-nut[nut$NO2.NO3..uM.!="NA"&nut$Line.Out.Depth==5,] %>% 
   group_by(Date, Line.Out.Depth) %>%
   summarize(avg.N = mean(NO2.NO3..uM.))
@@ -44,7 +44,7 @@ plot(avg.N~Year, data=nut.avg2[nut.avg2$Month==9,])
 ################################################
 
 #Summarize data by date and calculate average nitrogen for sites that have data, remove data that does not equal 5 m depth
-nut<-read.csv("./Data/Environmental Data/PRUTHCTD_2012-2018_HakaiData_nutrients.csv")
+nut<-read.csv("Data/Environmental Data/PRUTHCTD_2012-2018_HakaiData_nutrients.csv")
 nut.avg<-nut[nut$NO2.NO3..uM.!="NA"&nut$Line.Out.Depth==5,] %>% 
   group_by(Date, Line.Out.Depth) %>%
   summarize(avg.N = mean(NO2.NO3..uM.))
@@ -85,7 +85,7 @@ lines(n.anom$Anomaly[order(n.anom$Date)]~n.anom$Date[order(n.anom$Date)], lwd=3)
 #CTD data is too sparse to say anything meaningful about water temperature
 
 #######SST data from Pine Island############
-temp.pine<-read.csv("./Data/Environmental Data/PineIsland_SST.csv")
+temp.pine<-read.csv("Data/Environmental Data/PineIsland_SST.csv")
 #remove data from before 1985
 temp.pine2<-temp.pine[temp.pine$Year>1984,]
 #view temperature data
@@ -137,10 +137,14 @@ axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
 lines(movavg(temp.pine.RockyTime$Anomaly, 12, type="s"),lwd=2,lty=1)
 
 
+# write data to disk
+write.csv( temp.pine.RockyTime, "Data/Environmental Data/PineIsland_anomaly.csv", row.names=FALSE )
+
+
 #######SST data from McInnes Island############
 
 ####Note that data from this station is very patchy and several months worth of data are missing
-temp.mc<-read.csv("./Data/Environmental Data/McInnesIsland_SST.csv")
+temp.mc<-read.csv("Data/Environmental Data/McInnesIsland_SST.csv")
 #remove data from before 1985
 temp.mc2<-temp.mc[temp.mc$Year>1984,]
 #view temperature data
@@ -193,7 +197,7 @@ axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
 
 
 ##Average anomalies from both light stations 
-temp.compare$Average<-(temp.compare$Temperature+temp.compare$Temperature.mc, na.rm = TRUE)
+temp.compare$Average <- (temp.compare$Temperature+temp.compare$Temperature.mc, na.rm = TRUE)
 
 
 ####################################
@@ -201,40 +205,40 @@ temp.compare$Average<-(temp.compare$Temperature+temp.compare$Temperature.mc, na.
 ######################################
 
 #Import Data (Each year is in a separate .csv file)
-ad.1985<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1985.csv", skip=24, stringsAsFactors = FALSE)
-ad.1986<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1986.csv", skip=24, stringsAsFactors = FALSE)
-ad.1987<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1987.csv", skip=24, stringsAsFactors = FALSE)
-ad.1988<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1988.csv", skip=24, stringsAsFactors = FALSE)
-ad.1989<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1989.csv", skip=24, stringsAsFactors = FALSE)
-ad.1990<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1990.csv", skip=24, stringsAsFactors = FALSE)
-ad.1991<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1991.csv", skip=24, stringsAsFactors = FALSE)
-ad.1992<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1992.csv", skip=24, stringsAsFactors = FALSE)
-ad.1993<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1993.csv", skip=24, stringsAsFactors = FALSE)
-ad.1994<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1994.csv", skip=24, stringsAsFactors = FALSE)
-ad.1995<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1995.csv", skip=24, stringsAsFactors = FALSE)
-ad.1996<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1996.csv", skip=24, stringsAsFactors = FALSE)
-ad.1997<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1997.csv", skip=24, stringsAsFactors = FALSE)
-ad.1998<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1998.csv", skip=24, stringsAsFactors = FALSE)
-ad.1999<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/1999.csv", skip=24, stringsAsFactors = FALSE)
-ad.2000<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2000.csv", skip=24, stringsAsFactors = FALSE)
-ad.2001<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2001.csv", skip=24, stringsAsFactors = FALSE)
-ad.2002<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2002.csv", skip=24, stringsAsFactors = FALSE)
-ad.2003<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2003.csv", skip=24, stringsAsFactors = FALSE)
-ad.2004<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2004.csv", skip=24, stringsAsFactors = FALSE)
-ad.2005<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2005.csv", skip=24, stringsAsFactors = FALSE)
-ad.2006<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2006.csv", skip=24, stringsAsFactors = FALSE)
-ad.2007<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2007.csv", skip=24, stringsAsFactors = FALSE)
-ad.2008<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2008.csv", skip=24, stringsAsFactors = FALSE)
-ad.2009<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2009.csv", skip=24, stringsAsFactors = FALSE)
-ad.2010<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2010.csv", skip=24, stringsAsFactors = FALSE)
-ad.2011<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2011.csv", skip=24, stringsAsFactors = FALSE)
-ad.2012<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2012.csv", skip=24, stringsAsFactors = FALSE)
-ad.2013<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2013.csv", skip=24, stringsAsFactors = FALSE)
-ad.2014<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2014.csv", skip=24, stringsAsFactors = FALSE)
-ad.2015<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2015.csv", skip=24, stringsAsFactors = FALSE)
-ad.2016<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2016.csv", skip=24, stringsAsFactors = FALSE)
-ad.2017<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2017.csv", skip=24, stringsAsFactors = FALSE)
-ad.2018<-read.csv("./Data/Environmental Data/Addenbroke Air Temperature/2018.csv", skip=24, stringsAsFactors = FALSE)
+ad.1985<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1985.csv", skip=24, stringsAsFactors = FALSE)
+ad.1986<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1986.csv", skip=24, stringsAsFactors = FALSE)
+ad.1987<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1987.csv", skip=24, stringsAsFactors = FALSE)
+ad.1988<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1988.csv", skip=24, stringsAsFactors = FALSE)
+ad.1989<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1989.csv", skip=24, stringsAsFactors = FALSE)
+ad.1990<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1990.csv", skip=24, stringsAsFactors = FALSE)
+ad.1991<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1991.csv", skip=24, stringsAsFactors = FALSE)
+ad.1992<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1992.csv", skip=24, stringsAsFactors = FALSE)
+ad.1993<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1993.csv", skip=24, stringsAsFactors = FALSE)
+ad.1994<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1994.csv", skip=24, stringsAsFactors = FALSE)
+ad.1995<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1995.csv", skip=24, stringsAsFactors = FALSE)
+ad.1996<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1996.csv", skip=24, stringsAsFactors = FALSE)
+ad.1997<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1997.csv", skip=24, stringsAsFactors = FALSE)
+ad.1998<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1998.csv", skip=24, stringsAsFactors = FALSE)
+ad.1999<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1999.csv", skip=24, stringsAsFactors = FALSE)
+ad.2000<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2000.csv", skip=24, stringsAsFactors = FALSE)
+ad.2001<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2001.csv", skip=24, stringsAsFactors = FALSE)
+ad.2002<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2002.csv", skip=24, stringsAsFactors = FALSE)
+ad.2003<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2003.csv", skip=24, stringsAsFactors = FALSE)
+ad.2004<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2004.csv", skip=24, stringsAsFactors = FALSE)
+ad.2005<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2005.csv", skip=24, stringsAsFactors = FALSE)
+ad.2006<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2006.csv", skip=24, stringsAsFactors = FALSE)
+ad.2007<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2007.csv", skip=24, stringsAsFactors = FALSE)
+ad.2008<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2008.csv", skip=24, stringsAsFactors = FALSE)
+ad.2009<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2009.csv", skip=24, stringsAsFactors = FALSE)
+ad.2010<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2010.csv", skip=24, stringsAsFactors = FALSE)
+ad.2011<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2011.csv", skip=24, stringsAsFactors = FALSE)
+ad.2012<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2012.csv", skip=24, stringsAsFactors = FALSE)
+ad.2013<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2013.csv", skip=24, stringsAsFactors = FALSE)
+ad.2014<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2014.csv", skip=24, stringsAsFactors = FALSE)
+ad.2015<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2015.csv", skip=24, stringsAsFactors = FALSE)
+ad.2016<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2016.csv", skip=24, stringsAsFactors = FALSE)
+ad.2017<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2017.csv", skip=24, stringsAsFactors = FALSE)
+ad.2018<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2018.csv", skip=24, stringsAsFactors = FALSE)
 
 #take only the first 10 rows, which contain temperature and date info
 ad.1985<-ad.1985[,1:10]

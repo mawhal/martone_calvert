@@ -12,9 +12,9 @@ library( tidyverse )
 library( lubridate )
 
 ## read data 
-pine <- read_csv( "Data/Environmental Data/PineIsland_anomaly.csv" )
+pine <- read_csv( "../Data/Environmental Data/Lighthouse Data/through May 2019_Peter Chandler/output from R/PineIsland_monthly_SST_anomaly.csv" )
 # also read the meta data for the project so we can identify sampling dates
-am <- read_csv( "Data/R code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read_csv( "../Data/R code/Output from R/Martone_Hakai_metadata.csv" )
 
 
 ## get relevant dates from the survey metadata
@@ -27,11 +27,17 @@ Dates <- am %>%
 Dates$month <- format(Dates$Date,format="%m")
 Dates$start <- Dates$Date-335
 day(Dates$start) <- 1
+#
+# add 2019 samples
+m19 <- data.frame( Year=2019, Date=ymd("2019-06-02"), Date.month="2019-06",month="06",start=ymd("2018-06-01") )
+Dates <- full_join( Dates, m19 )
 
 # define the preceding 12 months of data prior to each sampling event, including the month of the sample
 date.ranges <-  data.frame( sapply( Dates$start, function(z) seq( z,length=12,by="months" ), simplify = FALSE )  )
 names(date.ranges) <- Dates$Date
 date.ranges
+
+
 
 # consider adding multiple windows for temperature anomalies (6 months, 12, 18, 24) to see which provides the best statistical fit to the data
 
@@ -42,6 +48,9 @@ date.ranges
 # get single month temperature and anomalies
 instant <- Dates$Date
 day(instant) <- 1
+# for 2019 only, before data fully available
+instant[9] <- "2019-05-01"
+pine <- pine %>% mutate( Date= ymd(paste(year,month,1)) )
 inst.measure <- pine[ pine$Date %in% instant, ]
 inst.measure$measurement <- "month"
 inst.measure$sample.date <- as.character(Dates$Date)
@@ -54,10 +63,10 @@ data.range  <- apply( date.ranges, 2, function(z) {
 # combine list elements and keep the list name as an identifying column
 dr.bind <- bind_rows( data.range,.id = "name")
 
-# summarize the data to get average Temp, average average temp, and average anomaly
+# summarize the data to get average Temp, and average anomaly
 yearly <- dr.bind %>%
   group_by(name) %>%
-  summarise( Temp.year=mean(Temperature,na.rm=T), avgTemp.year=mean(avgTemperature), Anomaly.year=mean(Anomaly) ) %>%
+  summarise( Temp.year=mean(temp,na.rm=T), Anomaly.year=mean(temp.anom) ) %>%
   mutate( sample.date=as.character(name) )
 
 # join the monthly temperature data with the yearly average
@@ -65,8 +74,8 @@ combined <- full_join( inst.measure, yearly, but="sample.date" )
 
 
 # quick plot to look at how temperature and anomolies are related
-psych::pairs.panels( combined[,c(1,3,5,10,12)] )
+psych::pairs.panels( combined[,c(1,3,16,17)] )
 
 
 ## write the environmental data to disk
-write_csv( combined, "Data/Environmental Data/PineIsland_summary.csv" )
+write_csv( combined, "output from r/PineIsland_summary.csv" )

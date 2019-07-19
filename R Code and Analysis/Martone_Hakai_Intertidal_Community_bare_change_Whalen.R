@@ -23,13 +23,13 @@ library(viridis)
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv" )
+ad <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv" )
 # all metadata
-am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
-am <- am[ am$Year != "2011", ]
+# am <- am[ am$Year != "2011", ]
 # remove Meay Channel
 am <- am[ am$Site != "Meay Channel", ]
 
@@ -82,3 +82,35 @@ ggplot( sub.full, aes(x=Year, y=Abundance, col=Shore_height_cm, group=Zone)) +  
   scale_color_viridis()
 
 
+# look at total algal cover
+algae <- dm %>%
+  group_by( UID, Date, Quadrat, Meter.point, Site, Zone, Year, Shore_height_cm ) %>%
+  filter( non.alga.flag == "Algae" ) %>%
+  summarize( Abundance=sum(Abundance,na.rm=T) )
+ 
+#
+d <- algae
+# make abundances numeric
+sort(unique(d$Abundance))
+d$Abundance <- as.numeric( d$Abundance )
+# define leveles for zones
+d$Zone <- factor( d$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
+# define Site order
+d$Site <- factor( d$Site, levels = c("Fifth Beach", "West Beach", "North Beach", "Meay Channel"))
+# define Year factor
+d$Year <- factor( d$Year, ordered= TRUE )
+
+
+## Add 2019 predictions
+pred19 <- read_csv( "output from r/cover+diversity.csv" )
+
+# all sites
+# time trends in different tidal zones
+windows(5,6)
+(ggzone <- ggplot( d, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
+    facet_grid(Site~Zone, scales="free_y") + 
+    # geom_smooth( se=TRUE, col='black' ) +
+    stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
+    stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
+    geom_point( alpha=0.4,col='slateblue' ) + ggtitle( taxon ) + 
+    xlab("Year") )

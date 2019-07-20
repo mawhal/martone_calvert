@@ -23,9 +23,9 @@ library(viridis)
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv" )
+ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv" )
 # all metadata
-am <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
@@ -102,7 +102,13 @@ d$Year <- factor( d$Year, ordered= TRUE )
 
 
 ## Add 2019 predictions
-pred19 <- read_csv( "output from r/cover+diversity.csv" )
+pred19 <- read_csv( "R Code and Analysis/output from r/cover+diversity.csv" )
+pred19$Year <- 2019
+pred19$Abundance <- pred19$cover
+d$Year <- as.numeric(as.character(d$Year))
+pred19$Zone <- factor( pred19$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
+# d2 <- full_join( d,pred19 )
+
 
 # all sites
 # time trends in different tidal zones
@@ -112,5 +118,9 @@ windows(5,6)
     # geom_smooth( se=TRUE, col='black' ) +
     stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
     stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
-    geom_point( alpha=0.4,col='slateblue' ) + ggtitle( taxon ) + 
-    xlab("Year") )
+    geom_point( alpha=0.4,col='slateblue' ) + #ggtitle( taxon ) + 
+    geom_point( data=pred19, aes(x=Year,y=Abundance), size=3, col="salmon3", alpha=0.5 ) +
+    xlab("Year") + ylab("Total % cover seaweed") +
+    scale_x_continuous(breaks = seq(2010,2018,2) ) )
+
+  

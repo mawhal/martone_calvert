@@ -17,9 +17,9 @@ library(tidyverse)
 
 ## read data files
 # all data
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_raw.csv" )
+ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_raw.csv" )
 # all metadata
-am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 
 ## Deal with trace cover and other oddities
@@ -123,6 +123,8 @@ ad <- ad[ ad$Taxon != c( "Habitat notes" ), ]
 
 ## Use corrected species names to replace taxon names
 corrected_taxa <- read.csv( "Data/taxa/CorrectedTaxonList.csv" )
+# corrected_taxa2 <- read.csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )
+# ct <- full_join( corrected_taxa, corrected_taxa2 )
 ad.corrected <- left_join( ad, corrected_taxa, by=c("Taxon"="taxon") )
 dim(ad)
 dim(ad.corrected)
@@ -152,4 +154,4 @@ ad[ad$Taxon=="BARE ROCK / SUBSTRATE (%)",]
 ad[ad$Taxon=="CORALLINE",]
 
 # save the data to disk, overwriting the previous datafile
-write.csv( ad, "Data/R code/Output from R/Martone_Hakai_data.csv", row.names = FALSE )
+write.csv( ad, "Data/R code for Data Prep/Output from R/Martone_Hakai_data.csv", row.names = FALSE )

@@ -120,8 +120,9 @@ allyears <- list.files( pattern=".xlsx", path="Data/excel files/All years/edited
 
 # single function to take each file and run the extractYEAR function on every sheet,
 # given a number of header rows
-# number of rows by year: 2011 (10), 2012 (10), 2013 (8), 2014 (12), 2015 (12), 2016 (12), 2017 (12), 2018 (13)
-header <- c( 10,8,12,12,12,12,13 )
+# number of rows by year: 2011 (10), 2012 (10), 2013 (8), 2014 (12), 2015 (12), 
+# 2016 (12), 2017 (12), 2018 (13), 2019 (13)
+header <- c( 10,8,12,12,12,12,13,13 )
 extractALL <- function( files, header=header ){
   # read all of the files
   data = lapply( allyears, read_excel_all )
@@ -216,7 +217,7 @@ all.meta <- left_join( all.meta, elev )
 
 # write missing data to file
 write.csv( all.meta[ is.na(all.meta$Shore_height_cm) & all.meta$Site!="Meay Channel", ], 
-           "Data/R code/Output from R/Martone_Hakai_missingElevation.csv", row.names=F  )
+           "Data/R code for Data Prep/Output from R/Martone_Hakai_missingElevation.csv", row.names=F  )
 all.meta[ is.na(all.meta$Shore_height_cm) & all.meta$Site!="Meay Channel", ]
 # missing ones (n=3) are either at zero meters along the transect (n=1) 
     # or at distances along the transect that are greater than have been surveyed for elevation (n=2)
@@ -284,5 +285,5 @@ all.meta %>%
 dim( all.data )
 dim( all.meta )
 
-write.csv( all.data, "Data/R code/Output from R/Martone_Hakai_data_raw.csv", row.names=F )
-write.csv( all.meta, "Data/R code/Output from R/Martone_Hakai_metadata.csv", row.names=F )
+write.csv( all.data, "Data/R code for Data Prep/Output from R/Martone_Hakai_data_raw.csv", row.names=F )
+write.csv( all.meta, "Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.csv", row.names=F )

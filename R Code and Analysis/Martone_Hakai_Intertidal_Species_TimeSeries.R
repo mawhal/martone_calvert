@@ -1,10 +1,9 @@
 # Martone Hakai Rocky Shore Seaweed Surveys
 # 
 # by Matt Whalen
-# updated February 2019
 
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Saccharina"
+taxon <- "Alaria"
 # sampler <- "Sandra" --- figure out how to add a switch here that we can add to filenames
 
 # set options
@@ -16,9 +15,9 @@ library(viridis)
 
 ## read data files
 # all data
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv")
+ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv")
 # all metadata
-am <- read.csv("Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv("Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 
 

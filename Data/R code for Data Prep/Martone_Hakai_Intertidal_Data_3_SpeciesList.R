@@ -25,19 +25,19 @@ library( tidyverse )
 ## read files
 
 # Data
-data <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data.csv", stringsAsFactors = FALSE )
+data <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data.csv", stringsAsFactors = FALSE )
 
 #metadata
-meta<-read.csv("Data/R Code/Output from R/Martone_Hakai_metadata.csv")
+meta<-read.csv("Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv")
 
 # Unique species from the Data
 sort( unique( data$Taxon ) )
 # write this list of unique names to file
 write.csv( data.frame(taxon=sort(unique( data$Taxon ))), 
-           "Data/R Code/Output from R/Martone_Hakai_uniqueTaxa.csv", row.names=F )
+           "Data/R Code for Data Prep/Output from R/Martone_Hakai_uniqueTaxa.csv", row.names=F )
 
 # Load lumping data -- some species are indistinguishable in the field, or were not at the time of the start of the project
-lump <- read.csv("Data/taxa/CorrectedTaxonList_lumped_unique.csv")
+lump <- read.csv("Data/taxa/TaxonList_corrected_lumped_unique.csv")
 
 # functional group data
 functional <- read.csv("Data/taxa/Algae_functional_groups.csv")
@@ -61,4 +61,4 @@ data.funct  <- left_join( lumped.data, functional, by = c("taxon_lumped"="Specie
 
 
 # write to disk
-write.csv( data.funct, "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv", row.names = FALSE )
+write.csv( data.funct, "Data/R code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv", row.names = FALSE )

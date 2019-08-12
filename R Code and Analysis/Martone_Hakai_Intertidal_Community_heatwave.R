@@ -12,11 +12,11 @@ library( vegan )
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
+ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
 # all metadata
-am <- read.csv( "../Data/R Code/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
+am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
 # temperature data
-sst <- read_csv( "output from r/PineIsland_summary.csv" )
+sst <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )
 
 
 

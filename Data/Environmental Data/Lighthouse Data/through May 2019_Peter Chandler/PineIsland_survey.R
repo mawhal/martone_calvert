@@ -11,6 +11,7 @@ library(tidyverse)
 library(lubridate)
 library(fpp)
 library(zoo)
+library(imputeTS)
 
 # read data
 draw <- read_table( file = "PineDailySalTemp.txt", skip=3 )

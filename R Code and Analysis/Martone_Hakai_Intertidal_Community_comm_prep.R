@@ -25,9 +25,9 @@ library(tidyverse)
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
+ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
 # all metadata
-am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
+am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
@@ -48,7 +48,7 @@ ds <- ds %>%
 
 
 # remove bare space, because we want to look for differences in numbers of individuals
-ds <- ds[ ds$Taxon != "bare rock",]  # need to make sure using clean names here
+ds <- ds[ ds$Taxon != "Bare rock",]  # need to make sure using clean names here
 
 d <- ds
 
@@ -75,7 +75,7 @@ d.comm <- as.matrix(d.comm[,-1])
 
 
 # write the community data to disk
-write.csv( d.comm, "Data/R Code/Output from R/Martone_Hakai_data_community.csv", row.names = FALSE )
+write.csv( d.comm, "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_community.csv", row.names = FALSE )
 
 
 

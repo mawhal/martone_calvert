@@ -21,9 +21,9 @@ library( RColorBrewer )
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
+ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
 # all metadata
-am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
+am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
 
 
 
@@ -36,6 +36,9 @@ muse <- am[ am$Year != "2011", ]
 ## NOTE THAT THIS ANALYSIS DOES NOT REQUIRE EQUAL SAMPLING OVER TIME OR SPACE
 ## a mjor exception to this is for convergence analysis, see trajectoryConvergence()
 muse <- muse[ muse$Site != "Meay Channel", ]
+# Only use Mid-shore transects for now
+muse <- muse[ muse$Zone == "MID", ]
+# muse <- muse[ muse$Site == "North Beach", ]
 muse <- droplevels(muse)
 
 
@@ -46,7 +49,8 @@ dm <- left_join( duse, muse )
 
 # for now, restrict community analysis to algae only
 d <- dm %>% 
-  filter( non.alga.flag =="Algae" )
+  filter( motile_sessile != "motile" )
+  # filter( non.alga.flag =="Algae" )
 
 
 # add together taxa that are not unique to each quadrat
@@ -58,6 +62,8 @@ d.simple <- d %>%
 
 # average cover per transect
 dmean <- d.simple %>% 
+  spread( taxon_lumped2, Abundance, fill=0 ) %>%
+  gather( taxon_lumped2, Abundance, -UID, -Year, -Site, -Zone ) %>%
   group_by( Year, Site, Zone, taxon_lumped2 ) %>%
   summarise( Abundance=mean(Abundance) )
 
@@ -73,7 +79,7 @@ d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 
 # isolate the community, site, and sample data
 comm <- d.comm[,-c(1:3)]
-site <- d.comm$Site
+site <- paste( d.comm$Site, d.comm$Zone, sep="." )
 tran <- apply( d.comm[,c(2,3)],1,paste, collapse="." )
 year <- d.comm$Year
 year2 <- as.character(year)
@@ -94,6 +100,9 @@ plot(x)
 # which species are exceedingly rare?
 sort(colSums(comm))
 hist(colSums(comm),breaks = seq(0,1200,2))
+# which species are most abundant through the time series?
+dominance <- apply( comm, 1, function(z) names(z)[order(z,decreasing = T)]  )
+dominance[1:3,]
 
 # quick beta diversity by group
 z <- betadiver(comm,"z")
@@ -108,13 +117,13 @@ permutest(mod3B, permutations = 99)
 plot(mod3B)
 boxplot(mod3B)
 
-adonis2( comm~site*zone*year, by='margin'  )
+adonis2( comm~site*year, by='margin'  )
 
 # Trajectory analysis
 # calculate a distance 
 D_man <- vegdist( comm, method="manhattan", transform = function(x){log(x+1)})
 D_bray <- vegdist( comm, method="bray" )
-D_use <- D_man
+D_use <- D_bray
 
 # custom color scheme (three shades of three colors)
 lighten <- function(color, factor=1.5){
@@ -138,7 +147,7 @@ x <- trajectoryPCoA( D_use,  as.numeric(factor(site)), year,
                      traj.colors = cols, 
                      axes=c(1,2), length=0.1, lwd=2 )
 text( x$points[,1:2],labels = year2, pos = 1, col=rep(cols,each=length(unique(year))) )
-legend("bottomleft", bty="n", legend = unique(site), col = cols, lwd=3 )
+legend("topleft", bty="n", legend = unique(site), col = cols, lwd=3 )
 
 # centered trajectories
 x<-trajectoryPCoA( centerTrajectories(D_use, as.numeric(factor(site)) ),  as.numeric(factor(site)), year,

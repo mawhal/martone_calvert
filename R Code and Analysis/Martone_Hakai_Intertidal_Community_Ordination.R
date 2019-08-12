@@ -17,9 +17,9 @@ library(psych)
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R Code/Output from R/Martone_Hakai_data_lump_function.csv" )
+ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv" )
 # all metadata
-am <- read.csv( "Data/R Code/Output from R/Martone_Hakai_metadata.csv" )
+am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
@@ -143,8 +143,8 @@ plot(mds2,"sites",type="n")
 zone.col <- c('#33a02c','#a6cee3','#1f78b4')
 zone.pch <- c(21,22,25)
 site.col <- c('red','blue','black')
-year.bg  <- c(NA,NA,NA,NA,NA,NA,'slateblue')
-year.bg  <- c(rep('white', 6), 'slateblue')
+year.bg  <- c(NA,NA,NA,NA,NA,NA,NA,'slateblue')
+year.bg  <- c(rep('white', 7), 'slateblue')
 ordisegments( mds2, meta$SiteZone, col=site.col[meta$Site2] )
 points( mds2, pch=zone.pch[meta$Zone2], col=site.col[meta$Site2], bg=year.bg[meta$Year2] )
 

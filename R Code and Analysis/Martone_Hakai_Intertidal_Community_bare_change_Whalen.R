@@ -31,7 +31,7 @@ am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.
 # remove 2011 data
 # am <- am[ am$Year != "2011", ]
 # remove Meay Channel
-am <- am[ am$Site != "Meay Channel", ]
+# am <- am[ am$Site != "Meay Channel", ]
 
 # remove taxa that are not coutned towards subtratum cover (i.e. mobile invertebrates)
 # make it easier by replacing NA values for substratum
@@ -87,9 +87,14 @@ algae <- dm %>%
   group_by( UID, Date, Quadrat, Meter.point, Site, Zone, Year, Shore_height_cm ) %>%
   filter( non.alga.flag == "Algae" ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T) )
+
+# just look at bare rock
+bare <- dm %>% filter( taxon_lumped=="Bare rock" )
+bare.all <- left_join( am, bare )
+bare.all$Abundance[is.na(bare.all$Abundance)] <- 0
  
 #
-d <- algae
+d <- bare.all
 # make abundances numeric
 sort(unique(d$Abundance))
 d$Abundance <- as.numeric( d$Abundance )
@@ -105,22 +110,40 @@ d$Year <- factor( d$Year, ordered= TRUE )
 pred19 <- read_csv( "R Code and Analysis/output from r/cover+diversity.csv" )
 pred19$Year <- 2019
 pred19$Abundance <- pred19$cover
-d$Year <- as.numeric(as.character(d$Year))
 pred19$Zone <- factor( pred19$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
 # d2 <- full_join( d,pred19 )
+
+# graphics customize
+d$Year <- as.numeric(as.character(d$Year))
+d$Site <- factor( d$Site, ordered=T )
 
 
 # all sites
 # time trends in different tidal zones
 windows(5,6)
-(ggzone <- ggplot( d, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
+(ggzone <- ggplot( d, aes(x=Year,y=Abundance)) + 
     facet_grid(Site~Zone, scales="free_y") + 
     # geom_smooth( se=TRUE, col='black' ) +
     stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
     stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
     geom_point( alpha=0.4,col='slateblue' ) + #ggtitle( taxon ) + 
-    geom_point( data=pred19, aes(x=Year,y=Abundance), size=3, col="salmon3", alpha=0.5 ) +
+    # geom_point( data=pred19, aes(x=Year,y=Abundance), size=3, col="salmon3", alpha=0.5 ) +
     xlab("Year") + ylab("Total % cover seaweed") +
     scale_x_continuous(breaks = seq(2010,2018,2) ) )
 
+# overlay trends within zones at different sites
+d3 <- d[ d$Site != "Meay Channel", ]
+# pick some new colors for the sites
+cols <- c("slateblue","orange","firebrick")
+cols <- c('#1b9e77','#d95f02','#7570b3')
+(ggzone2 <- ggplot( d3, aes(x=Year,y=Abundance,group=Site,col=Site)) + 
+    facet_grid(~Zone, scales="free_y") + 
+    # geom_smooth( se=TRUE, col='black' ) +
+    stat_summary( fun.data = "mean_cl_boot", size = 0.5 ) +
+    stat_summary( fun.y = "mean", geom="line", size = 0.5 ) +
+    geom_point( alpha=0.4 ) + #ggtitle( taxon ) + 
+    geom_point( data=pred19, aes(x=Year,y=Abundance), size=3, col="red", alpha=0.5 ) +
+    xlab("Year") + ylab("Total % cover seaweed") +
+    scale_x_continuous(breaks = seq(2010,2018,2) ) +
+    scale_color_manual(values=cols) )
   

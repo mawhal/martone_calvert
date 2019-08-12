@@ -3,7 +3,7 @@
 # by Matt Whalen
 
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Alaria"
+taxon <- "Pyropia"
 # sampler <- "Sandra" --- figure out how to add a switch here that we can add to filenames
 
 # set options
@@ -81,7 +81,8 @@ windows(5,6)
     stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
     stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
     geom_point( alpha=0.4,col='slateblue' ) + ggtitle( taxon ) + 
-    xlab("Year") )
+    xlab("Year") +
+    scale_x_continuous(breaks = seq(2010,2018,2) ) )
 
 ggsave( paste0("R Code and Analysis/Figs/",taxon,"_zone.pdf"), ggzone, "pdf" )
 
@@ -108,3 +109,4 @@ windows(4,6)
   scale_color_viridis_d( direction=-1 )
 
 ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation.pdf"), ggheight2, "pdf" )
+

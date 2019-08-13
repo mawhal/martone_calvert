@@ -7,8 +7,8 @@
 #load relavent packages
 library(tidyverse)
 library(lubridate)
-# library(pracma)
-# library(DataCombine)
+library(pracma)
+library(DataCombine)
 library(imputeTS)
 library(fpp)
 library(zoo)
@@ -47,7 +47,7 @@ library(zoo)
 ### cross-correlate with sparser intertidal temperature loggers and CTD casts
 
 # read data
-draw <- read_table( file = "../Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt", skip=3 )
+draw <- read_table( file = "./Data/Environmental Data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt", skip=3 )
 
 # renames columns, make date columns, replace 999.9 with NA
 d <- draw %>%
@@ -78,30 +78,36 @@ decompose_temp = decompose(dts.na, "additive")
 
 
 ###Average by month
-temp.pine.sum<-temp.pine2[temp.pine2$Temperature!="NA",] %>%
-  group_by(Year, Month) %>%
-  summarize(Temperature = mean(Temperature))
+temp.pine.sum<-d[d$temp!="NA",] %>%
+  group_by(year, month) %>%
+  summarize(temp = mean(temp))
 
 temp.pine.byMonth <- temp.pine.sum %>%
-  group_by(Month) %>%
-  summarize(avgTemperature = mean(Temperature))
+  group_by(month) %>%
+  summarize(avgTemp = mean(temp))
 
 temp.pine.byMonth<-temp.pine.byMonth[1:12,]
 temp.pine.byMonth
 
 ##Calculate Anomalies
-temp.pine.comb<-left_join(temp.pine.sum, temp.pine.byMonth, by="Month")
-temp.pine.comb$Anomaly <- temp.pine.comb$Temperature - temp.pine.comb$avgTemperature
+temp.pine.comb<-left_join(temp.pine.sum, temp.pine.byMonth, by="month")
+temp.pine.comb$Anomaly <- temp.pine.comb$temp - temp.pine.comb$avgTemp
+temp.pine.comb$summer.anomaly<-ifelse(temp.pine.comb$month==6|temp.pine.comb$month==7|temp.pine.comb$month==8, (temp.pine.comb$temp - temp.pine.comb$avgTemp),"NA")
+temp.pine.comb$winter.anomaly<-ifelse(temp.pine.comb$month==1|temp.pine.comb$month==2|temp.pine.comb$month==3, (temp.pine.comb$temp - temp.pine.comb$avgTemp),"NA")
+
 temp.pine.comb<-temp.pine.comb[complete.cases(temp.pine.comb$Anomaly),]
-temp.pine.RockyTime<-temp.pine.comb[temp.pine.comb$Year>2008,]
+temp.pine.RockyTime<-temp.pine.comb[temp.pine.comb$year>2008,]
+
+
+
 
 #Add in months that have no data
-temp.pine.RockyTime<-InsertRow(temp.pine.RockyTime, NewRow=c(2013,4,NA,8.50, NA), RowNum=28)
-temp.pine.RockyTime<-InsertRow(temp.pine.RockyTime, NewRow=c(2015,1,NA,7.87, NA), RowNum=49)
+temp.pine.RockyTime<-InsertRow(temp.pine.RockyTime, NewRow=c(2013,4,NA,8.50, NA, NA, NA), RowNum=28)
+temp.pine.RockyTime<-InsertRow(temp.pine.RockyTime, NewRow=c(2015,1,NA,7.87, NA, NA, NA), RowNum=49)
 
 #Interpolate those months
 
-temp.pine.RockyTime$Anomaly<-na.ma(temp.pine.RockyTime$Anomaly,k=12, weighting = "exponential")
+temp.pine.RockyTime$Anomaly<-na_ma(temp.pine.RockyTime$Anomaly,k=12, weighting = "exponential")
 
 #Assign colour to temperature anomaly direction
 for (i in 1:length(temp.pine.RockyTime$Anomaly)) {
@@ -112,7 +118,7 @@ if (temp.pine.RockyTime$Anomaly[i] > 0) {
 }
 }
 
-temp.pine.RockyTime$Date<-as.yearmon(paste(temp.pine.RockyTime$Year, temp.pine.RockyTime$Month), "%Y %m")
+temp.pine.RockyTime$Date<-as.yearmon(paste(temp.pine.RockyTime$year, temp.pine.RockyTime$month), "%Y %m")
 temp.pine.RockyTime$Date<-as.Date(temp.pine.RockyTime$Date)
 
 ##Plot SST through time
@@ -126,6 +132,12 @@ lines(movavg(temp.pine.RockyTime$Anomaly, 12, type="s"),lwd=2,lty=1)
 # write data to disk
 write.csv( temp.pine.RockyTime, "Data/Environmental Data/PineIsland_anomaly.csv", row.names=FALSE )
 
+#Summarize annually
+temp.pine.annual<-temp.pine.RockyTime %>%
+  group_by(year) %>%
+  summarize(Anomaly=mean(as.numeric(Anomaly), na.rm=TRUE), summer.anomaly=mean(as.numeric(summer.anomaly), na.rm=TRUE), winter.anomaly=mean(as.numeric(winter.anomaly), na.rm=TRUE))
+
+write.csv(temp.pine.annual, "Data/Environmental Data/PineIsland_anomaly_summary.csv", row.names=FALSE )
 
 #######SST data from McInnes Island############
 

@@ -136,7 +136,7 @@ dm[is.na(dm$temp),]
 dm[is.na(dm$sal),]
 
 
-# calculate anomalies at deviations from expected (average) monthly mean tempearture
+# calculate anomalies as deviations from expected (average) monthly mean tempearture
 dm <- dm %>%
   group_by(month) %>%
   mutate( month.mean.temp = mean(temp,na.rm=T), month.mean.sal = mean(sal,na.rm=T) ) %>%

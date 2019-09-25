@@ -104,7 +104,7 @@ Endocladia muricata,Endocladia muricata,Endocladia muricata,Endocladia muricata,
 Erythrotrichia carnea,Erythrotrichia carnea,Erythrotrichia carnea,Erythrotrichia carnea,Algae,sessile,
 Farlowia mollis,Farlowia mollis,Farlowia mollis,Farlowia mollis,Algae,sessile,
 Fauchea sp.,Fauchea sp.,Fauchea sp.,Fauchea sp.,Algae,sessile,
-Feather duster worm,Feather duster worm,Feather duster worm,Feather duster worm,Animal,sessile,
+Feather duster worm,Feather duster worm,Feather duster worm,Tube worms,Animal,sessile,
 Feldmannia irregularis,Feldmannia irregularis,Feldmannia irregularis,Feldmannia irregularis,Algae,sessile,
 Fish,Fish,Fish,Fish,Animal,motile,
 Flustralidra,Flustralidra,Flustralidra,Flustralidra,Animal,sessile,
@@ -227,7 +227,7 @@ Polysiphonia pacifica,Polysiphonia pacifica,Polysiphonia,Polysiphonia,Algae,sess
 Polysiphonia pacifica var delicatula,Polysiphonia pacifica var delicatula,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
 Polysiphonia paniculata,Polysiphonia paniculata,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
 Polysiphonia sp.,Polysiphonia sp.,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
-Porifera,Porifera,Porifera,Porifera,Animal,sessile,
+Porifera,Porifera,Porifera,Tunicata/Porifera,Animal,sessile,
 Prionitis sp.,Prionitis sp.,Prionitis,Prionitis,Algae,sessile,
 Prionitis sternbergii,Prionitis sternbergii,Prionitis,Prionitis,Algae,sessile,specific epithet changed in 2019
 Pseudolithophyllum muricatum,Pseudolithophyllum muricatum,Pseudolithophyllum muricatum,Pseudolithophyllum muricatum,Algae,sessile,
@@ -275,8 +275,8 @@ Snail,Snail,Snail,Snail,Animal,motile,
 Soranthera ulvoidea,Soranthera ulvoidea,Soranthera ulvoidea,Soranthera ulvoidea,Algae,sessile,
 Sparlingia pertusa,Sparlingia pertusa,Sparlingia pertusa,Sparlingia pertusa,Algae,sessile,
 Sphacelaria rigidula,Sphacelaria rigidula,Sphacelaria rigidula,Sphacelaria rigidula,Algae,sessile,
-Spirorbidae,Spirorbidae,Spirorbidae,Spirorbidae,Animal,sessile,
-Spirorbis,Spirorbis,Spirorbis,Spirorbis,Animal,sessile,
+Spirorbidae,Spirorbidae,Spirorbidae,Tube worms,Animal,sessile,
+Spirorbis,Spirorbis,Spirorbis,Tube worms,Animal,sessile,
 Spongites tumidum,Chamberlainium tumidum,Chamberlainium tumidum,Chamberlainium tumidum,Algae,sessile,changed to Chamberlainium in 2019
 Strongylocentrotus droebachiensis,Strongylocentrotus droebachiensis,Strongylocentrotus droebachiensis,Strongylocentrotus droebachiensis,Animal,motile,
 Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Animal,motile,
@@ -287,7 +287,7 @@ Tokidadendron bullatum,Tokidadendron bullatum,Tokidadendron bullatum,Tokidadendr
 Tonicella lineata,Tonicella lineata,Tonicella lineata,Tonicella lineata,Animal,motile,
 Tonicella sp.,Tonicella sp.,Tonicella sp.,Tonicella sp.,Animal,motile,
 Tube worms,Tube worms,Tube worms,Tube worms,Animal,sessile,
-Tunicata,Tunicata,Tunicata,Tunicata,Animal,sessile,
+Tunicata,Tunicata,Tunicata,Tunicata/Porifera,Animal,sessile,
 Tunicata/Porifera,Tunicata/Porifera,Tunicata/Porifera,Tunicata/Porifera,Animal,sessile,
 Ulothrix-Urospora sp.,Ulothrix-Urospora sp.,Ulothrix-Urospora sp.,Ulothrix-Urospora sp.,Algae,sessile,
 Ulva intestinalis,Ulva intestinalis,Ulva intestinalis,Ulva,Algae,sessile,

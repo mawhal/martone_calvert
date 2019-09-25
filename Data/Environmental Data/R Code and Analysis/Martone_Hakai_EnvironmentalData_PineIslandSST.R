@@ -345,7 +345,7 @@ temp.ad.annual<-ad.anon %>%
   summarize(Anomaly=mean(as.numeric(Anomaly), na.rm=TRUE), summer.anomaly=mean(as.numeric(summer.anomaly), na.rm=TRUE), winter.anomaly=mean(as.numeric(winter.anomaly), na.rm=TRUE))
 
 #Write anomalies summary to file
-write.csv(temp.pine.annual, "Data/Environmental Data/AddenbrokeAirTemp_anomaly_summary.csv", row.names=FALSE )
+write.csv(temp.ad.annual, "Data/Environmental Data/AddenbrokeAirTemp_anomaly_summary.csv", row.names=FALSE )
 
 
 

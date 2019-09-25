@@ -1709,7 +1709,7 @@
 "Fifth Beach LOW 2012 3","Neorhodomela larix",4,"Neorhodomela larix","Neorhodomela larix","Neorhodomela larix","Algae","sessile","","red turf","finely branching"
 "Fifth Beach LOW 2012 3","Phyllospadix scouleri",35,"Phyllospadix scouleri","Phyllospadix sp.","Phyllospadix sp.","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2012 3","Plocamium violaceum",1,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
-"Fifth Beach LOW 2012 3","Porifera",0.5,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2012 3","Porifera",0.5,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2012 3","Ptilota filicina",70,"Ptilota filicina","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2012 3","Saccharina sessilis",12,"Hedophyllum sessile","Hedophyllum sessile","Hedophyllum sessile","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
 "Fifth Beach LOW 2012 3","Tokidadendron bullatum",0.5,"Tokidadendron bullatum","Tokidadendron bullatum","Tokidadendron bullatum","Algae","sessile","","red turf","sheet"
@@ -1783,7 +1783,7 @@
 "Fifth Beach LOW 2012 7","Plocamium violaceum",10,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
 "Fifth Beach LOW 2012 7","Polyneura latissima",12,"Polyneura latissima","Polyneura latissima","Polyneura latissima","Algae","sessile","","red turf","sheet"
 "Fifth Beach LOW 2012 7","Ptilota filicina",5,"Ptilota filicina","Ptilota","Ptilota","Algae","sessile","",NA,NA
-"Fifth Beach LOW 2012 7","Tunicata",6,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2012 7","Tunicata",6,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2012 8","Alaria marginata",93,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "Fifth Beach LOW 2012 8","Anthopleura xanthogrammica",4,"Anthopleura xanthogrammica","Anthopleura sp.","Anemone","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2012 8","Balanus glandula",3,"Balanus glandula","Barnacles","Barnacles","Animal","sessile","",NA,NA
@@ -1802,10 +1802,10 @@
 "Fifth Beach LOW 2012 8","Mazzaella splendens",18,"Mazzaella splendens","Mazzaella splendens","Mazzaella splendens","Algae","sessile","","blade","thick leathery"
 "Fifth Beach LOW 2012 8","Odonthalia floccosa",6,"Odonthalia floccosa","Odonthalia floccosa","Odonthalia floccosa","Algae","sessile","These are distinct","red turf","finely branching"
 "Fifth Beach LOW 2012 8","Polyneura latissima",4,"Polyneura latissima","Polyneura latissima","Polyneura latissima","Algae","sessile","","red turf","sheet"
-"Fifth Beach LOW 2012 8","Porifera",3,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2012 8","Porifera",3,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2012 8","Salishia firma",2,"Salishia firma","Salishia firma","Salishia firma","Algae","sessile","","blade","thick leathery"
 "Fifth Beach LOW 2012 8","Tonicella sp.",2,"Tonicella sp.","Tonicella sp.","Tonicella sp.","Animal","motile","",NA,NA
-"Fifth Beach LOW 2012 8","Tunicata",4,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2012 8","Tunicata",4,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2012 9","Alaria marginata",80,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "Fifth Beach LOW 2012 9","Anthopleura xanthogrammica",3,"Anthopleura xanthogrammica","Anthopleura sp.","Anemone","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2012 9","Bossiella frondifera",10,"Bossiella frondifera","Bossiella_articulate","Bossiella_articulate","Algae","sessile","",NA,NA
@@ -1977,7 +1977,7 @@
 "Fifth Beach LOW 2013 7","Ptilota tenuis",0.5,"Ptilota tenuis","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2013 7","Pyropia fucicola",10,"Pyropia fucicola","Pyropia fucicola","Pyropia","Algae","sessile","","blade","sheet"
 "Fifth Beach LOW 2013 7","Styela sp.",1,"Styela sp.","Styela sp.","Styela sp.","Animal","sessile","",NA,NA
-"Fifth Beach LOW 2013 7","Tunicata",50,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2013 7","Tunicata",50,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2013 8","Acrosiphonia coalita",0.5,"Acrosiphonia coalita","Acrosiphonia","Acrosiphonia","Algae","sessile","","filament_turf","filament"
 "Fifth Beach LOW 2013 8","Alaria marginata",12,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "Fifth Beach LOW 2013 8","bare rock",9,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
@@ -2095,7 +2095,7 @@
 "Fifth Beach LOW 2014 3","Ptilota sp.",17,"Ptilota sp.","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2014 3","Pyropia abbottiae",0.5,"Pyropia abbottiae","Pyropia abbottiae","Pyropia","Algae","sessile","","blade","sheet"
 "Fifth Beach LOW 2014 3","Tokidadendron bullatum",0.5,"Tokidadendron bullatum","Tokidadendron bullatum","Tokidadendron bullatum","Algae","sessile","","red turf","sheet"
-"Fifth Beach LOW 2014 3","Tunicata",1,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2014 3","Tunicata",1,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2014 4","Alaria marginata",20,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "Fifth Beach LOW 2014 4","Anemone",0.5,"Anemone","Anemone","Anemone","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2014 4","bare rock",3,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
@@ -2127,7 +2127,7 @@
 "Fifth Beach LOW 2014 4","Ptilota sp.",12,"Ptilota sp.","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2014 4","Spongites tumidum",3,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "Fifth Beach LOW 2014 4","Tokidadendron bullatum",0.5,"Tokidadendron bullatum","Tokidadendron bullatum","Tokidadendron bullatum","Algae","sessile","","red turf","sheet"
-"Fifth Beach LOW 2014 4","Tunicata",1,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2014 4","Tunicata",1,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2014 5","Acrosiphonia arcta",0.5,"Acrosiphonia arcta","Acrosiphonia","Acrosiphonia","Algae","sessile","","filament_turf","filament"
 "Fifth Beach LOW 2014 5","Alaria marginata",29,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "Fifth Beach LOW 2014 5","Analipus japonicus",0.5,"Analipus japonicus","Analipus japonicus","Analipus japonicus","Algae","sessile","","brown turf","finely branching"
@@ -2448,7 +2448,7 @@
 "Fifth Beach LOW 2016 1","Phyllospadix scouleri",15,"Phyllospadix scouleri","Phyllospadix sp.","Phyllospadix sp.","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2016 1","Plocamium violaceum",0.5,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
 "Fifth Beach LOW 2016 1","Ptilota tenuis",45,"Ptilota tenuis","Ptilota","Ptilota","Algae","sessile","",NA,NA
-"Fifth Beach LOW 2016 1","Spirorbis",0.5,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2016 1","Spirorbis",0.5,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2016 1","Spongites tumidum",2,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "Fifth Beach LOW 2016 10","Alaria marginata",3,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "Fifth Beach LOW 2016 10","Antithamnion defectum",0.5,"Antithamnion defectum","Antithamnion defectum","Antithamnion defectum","Algae","sessile","","filament","filament"
@@ -2946,7 +2946,7 @@
 "Fifth Beach LOW 2018 3","Odonthalia floccosa",3,"Odonthalia floccosa","Odonthalia floccosa","Odonthalia floccosa","Algae","sessile","These are distinct","red turf","finely branching"
 "Fifth Beach LOW 2018 3","Phyllospadix scouleri",1,"Phyllospadix scouleri","Phyllospadix sp.","Phyllospadix sp.","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2018 3","Polyneura latissima",2,"Polyneura latissima","Polyneura latissima","Polyneura latissima","Algae","sessile","","red turf","sheet"
-"Fifth Beach LOW 2018 3","Porifera",1,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2018 3","Porifera",1,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2018 3","Ptilota filicina",14,"Ptilota filicina","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2018 3","Ralfsioid",5,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
 "Fifth Beach LOW 2018 3","Tokidadendron bullatum",4,"Tokidadendron bullatum","Tokidadendron bullatum","Tokidadendron bullatum","Algae","sessile","","red turf","sheet"
@@ -2974,7 +2974,7 @@
 "Fifth Beach LOW 2018 4","Polyneura latissima",2,"Polyneura latissima","Polyneura latissima","Polyneura latissima","Algae","sessile","","red turf","sheet"
 "Fifth Beach LOW 2018 4","Ptilota filicina",14,"Ptilota filicina","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "Fifth Beach LOW 2018 4","Snail",1,"Snail","Snail","Snail","Animal","motile","",NA,NA
-"Fifth Beach LOW 2018 4","Spirorbis",0.5,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2018 4","Spirorbis",0.5,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2018 4","Tokidadendron bullatum",0.5,"Tokidadendron bullatum","Tokidadendron bullatum","Tokidadendron bullatum","Algae","sessile","","red turf","sheet"
 "Fifth Beach LOW 2018 4","Tube worms",2,"Tube worms","Tube worms","Tube worms","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2018 5","Amphipoda",20,"Amphipoda","Amphipoda","Amphipoda","Animal","motile","",NA,NA
@@ -3075,7 +3075,7 @@
 "Fifth Beach LOW 2018 8","Pisaster ochraceus",1,"Pisaster ochraceus","Pisaster ochraceus","Pisaster ochraceus","Animal","motile","",NA,NA
 "Fifth Beach LOW 2018 8","Plocamium violaceum",33,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
 "Fifth Beach LOW 2018 8","Polyneura latissima",2,"Polyneura latissima","Polyneura latissima","Polyneura latissima","Algae","sessile","","red turf","sheet"
-"Fifth Beach LOW 2018 8","Porifera",0.5,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2018 8","Porifera",0.5,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2018 8","Scytosiphon lomentaria",0.5,"Scytosiphon lomentaria","Scytosiphon lomentaria","Scytosiphon lomentaria","Algae","sessile","","brown turf","sheet"
 "Fifth Beach LOW 2018 8","Spongites tumidum",2,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "Fifth Beach LOW 2018 8","Tonicella sp.",1,"Tonicella sp.","Tonicella sp.","Tonicella sp.","Animal","motile","",NA,NA
@@ -3340,7 +3340,7 @@
 "Fifth Beach LOW 2019 9","Odonthalia floccosa",0.5,"Odonthalia floccosa","Odonthalia floccosa","Odonthalia floccosa","Algae","sessile","These are distinct","red turf","finely branching"
 "Fifth Beach LOW 2019 9","Pisaster ochraceus",3,"Pisaster ochraceus","Pisaster ochraceus","Pisaster ochraceus","Animal","motile","",NA,NA
 "Fifth Beach LOW 2019 9","Plocamium violaceum",5,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
-"Fifth Beach LOW 2019 9","Porifera",1,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"Fifth Beach LOW 2019 9","Porifera",1,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach LOW 2019 9","Pyropia perforata",40,"Pyropia perforata","Pyropia perforata","Pyropia","Algae","sessile","","blade","sheet"
 "Fifth Beach LOW 2019 9","Spongites tumidum",10,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "Fifth Beach LOW 2019 9","Strongylocentrotus purpuratus",2,"Strongylocentrotus purpuratus","Strongylocentrotus purpuratus","Strongylocentrotus purpuratus","Animal","motile","",NA,NA
@@ -3906,7 +3906,7 @@
 "Fifth Beach MID 2013 7","Palmaria mollis",2,"Palmaria mollis","Palmaria mollis","Palmaria mollis","Algae","sessile","","red turf","thick leathery"
 "Fifth Beach MID 2013 7","Phyllospadix serrulatus",15,"Phyllospadix serrulatus","Phyllospadix sp.","Phyllospadix sp.","Algae","sessile","",NA,NA
 "Fifth Beach MID 2013 7","Pisaster ochraceus",1,"Pisaster ochraceus","Pisaster ochraceus","Pisaster ochraceus","Animal","motile","",NA,NA
-"Fifth Beach MID 2013 7","Porifera",1,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"Fifth Beach MID 2013 7","Porifera",1,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach MID 2013 7","Prionitis sternbergii",20,"Prionitis sternbergii","Prionitis","Prionitis","Algae","sessile","specific epithet changed in 2019",NA,NA
 "Fifth Beach MID 2013 7","Pylaiella littoralis",4,"Pylaiella littoralis","Pylaiella littoralis","Pylaiella littoralis","Algae","sessile","","filament","filament"
 "Fifth Beach MID 2013 7","Pyropia fucicola",2,"Pyropia fucicola","Pyropia fucicola","Pyropia","Algae","sessile","","blade","sheet"
@@ -3932,7 +3932,7 @@
 "Fifth Beach MID 2013 8","Palmaria mollis",2,"Palmaria mollis","Palmaria mollis","Palmaria mollis","Algae","sessile","","red turf","thick leathery"
 "Fifth Beach MID 2013 8","Phyllospadix serrulatus",20,"Phyllospadix serrulatus","Phyllospadix sp.","Phyllospadix sp.","Algae","sessile","",NA,NA
 "Fifth Beach MID 2013 8","Pisaster ochraceus",2,"Pisaster ochraceus","Pisaster ochraceus","Pisaster ochraceus","Animal","motile","",NA,NA
-"Fifth Beach MID 2013 8","Porifera",1,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"Fifth Beach MID 2013 8","Porifera",1,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach MID 2013 8","Prionitis sternbergii",18,"Prionitis sternbergii","Prionitis","Prionitis","Algae","sessile","specific epithet changed in 2019",NA,NA
 "Fifth Beach MID 2013 8","Pylaiella littoralis",9,"Pylaiella littoralis","Pylaiella littoralis","Pylaiella littoralis","Algae","sessile","","filament","filament"
 "Fifth Beach MID 2013 8","Pyropia abbottiae",1,"Pyropia abbottiae","Pyropia abbottiae","Pyropia","Algae","sessile","","blade","sheet"
@@ -4837,7 +4837,7 @@
 "Fifth Beach MID 2018 10","Nemalion helminthoides",0.5,"Nemalion helminthoides","Nemalion helminthoides","Nemalion helminthoides","Algae","sessile","","red turf",NA
 "Fifth Beach MID 2018 10","Pisaster ochraceus",5,"Pisaster ochraceus","Pisaster ochraceus","Pisaster ochraceus","Animal","motile","",NA,NA
 "Fifth Beach MID 2018 10","Plocamium violaceum",20,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
-"Fifth Beach MID 2018 10","Porifera",0.5,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"Fifth Beach MID 2018 10","Porifera",0.5,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "Fifth Beach MID 2018 10","Pyropia abbottiae",18,"Pyropia abbottiae","Pyropia abbottiae","Pyropia","Algae","sessile","","blade","sheet"
 "Fifth Beach MID 2018 10","Schizymenia pacifica",2,"Schizymenia pacifica","Schizymenia pacifica","Schizymenia pacifica","Algae","sessile","","blade","thick leathery"
 "Fifth Beach MID 2018 10","Spongites tumidum",14,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
@@ -5785,7 +5785,7 @@
 "Meay Channel HIGH 2019 2","Polysiphonia pacifica",0.5,"Polysiphonia pacifica","Polysiphonia","Polysiphonia","Algae","sessile","Likely need to lump these","filament_turf","filament"
 "Meay Channel HIGH 2019 2","Ralfsioid",0.5,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
 "Meay Channel HIGH 2019 2","Snail",3,"Snail","Snail","Snail","Animal","motile","",NA,NA
-"Meay Channel HIGH 2019 2","Spirorbis",1,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"Meay Channel HIGH 2019 2","Spirorbis",1,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "Meay Channel HIGH 2019 3",NA,18,NA,NA,NA,NA,NA,NA,NA,NA
 "Meay Channel HIGH 2019 3","bare rock",1,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
 "Meay Channel HIGH 2019 3","Barnacle",3,"Barnacle","Barnacles","Barnacles","Animal","sessile","",NA,NA
@@ -6738,7 +6738,7 @@
 "Meay Channel MID 2015 1","Neorhodomela aculeata",17,"Neorhodomela aculeata","Neorhodomela aculeata","Neorhodomela aculeata","Algae","sessile","","red turf","finely branching"
 "Meay Channel MID 2015 1","Pagarus sp.",1,"Pagarus sp.","Pagarus sp.","Pagarus sp.","Animal","motile","",NA,NA
 "Meay Channel MID 2015 1","Ralfsioid",0.5,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
-"Meay Channel MID 2015 1","Spirorbidae",1,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"Meay Channel MID 2015 1","Spirorbidae",1,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "Meay Channel MID 2015 1","Ulva lactuca",28,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "Meay Channel MID 2015 1","Ulva prolifera",20,"Ulva prolifera","Ulva prolifera","Ulva","Algae","sessile","","green turf","sheet"
 "Meay Channel MID 2015 1","Wood",3,"Wood","Wood","Wood","Substratum",NA,"",NA,NA
@@ -8742,10 +8742,10 @@
 "North Beach LOW 2012 3","Limpet",3,"Limpet","Limpet","Limpet","Animal","motile","",NA,NA
 "North Beach LOW 2012 3","Lithothamnion phymatodeum",5,"Lithothamnion phymatodeum","Lithothamnion phymatodeum","Lithothamnion phymatodeum","Algae","sessile","","crustose coralline","crustose"
 "North Beach LOW 2012 3","Pisaster ochraceus",1,"Pisaster ochraceus","Pisaster ochraceus","Pisaster ochraceus","Animal","motile","",NA,NA
-"North Beach LOW 2012 3","Porifera",2,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"North Beach LOW 2012 3","Porifera",2,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "North Beach LOW 2012 3","Saccharina sessilis",25,"Hedophyllum sessile","Hedophyllum sessile","Hedophyllum sessile","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
 "North Beach LOW 2012 3","Spongites tumidum",4,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
-"North Beach LOW 2012 3","Tunicata",4,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"North Beach LOW 2012 3","Tunicata",4,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "North Beach LOW 2012 4","Alaria marginata",95,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "North Beach LOW 2012 4","bare rock",10,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
 "North Beach LOW 2012 4","Bossiella frondifera",15,"Bossiella frondifera","Bossiella_articulate","Bossiella_articulate","Algae","sessile","",NA,NA
@@ -8755,7 +8755,7 @@
 "North Beach LOW 2012 4","Corallina officinalis",5,"Corallina officinalis","Corallina","Corallina","Algae","sessile","","articulated coralline","jointed calcareous"
 "North Beach LOW 2012 4","Corallina vancouveriensis",25,"Corallina vancouveriensis","Corallina","Corallina","Algae","sessile","","articulated coralline","jointed calcareous"
 "North Beach LOW 2012 4","Coralline crust",12,"Coralline crust","Unknown CCA","Unknown CCA","Algae","sessile","",NA,NA
-"North Beach LOW 2012 4","Feather duster worm",1,"Feather duster worm","Feather duster worm","Feather duster worm","Animal","sessile","",NA,NA
+"North Beach LOW 2012 4","Feather duster worm",1,"Feather duster worm","Feather duster worm","Tube worms","Animal","sessile","",NA,NA
 "North Beach LOW 2012 4","Flustralidra",20,"Flustralidra","Flustralidra","Flustralidra","Animal","sessile","",NA,NA
 "North Beach LOW 2012 4","Hildenbrandia occidentalis",12,"Hildenbrandia occidentalis","Hildenbrandia","Hildenbrandia","Algae","sessile","","crust","crustose"
 "North Beach LOW 2012 4","Hymenena sp.",0.5,"Hymenena sp.","Hymenena","Hymenena","Algae","sessile","",NA,NA
@@ -8763,7 +8763,7 @@
 "North Beach LOW 2012 4","Mazzaella splendens",2,"Mazzaella splendens","Mazzaella splendens","Mazzaella splendens","Algae","sessile","","blade","thick leathery"
 "North Beach LOW 2012 4","Prionitis sternbergii",4,"Prionitis sternbergii","Prionitis","Prionitis","Algae","sessile","specific epithet changed in 2019",NA,NA
 "North Beach LOW 2012 4","Pycnopodia helianthoides",1,"Pycnopodia helianthoides","Pycnopodia helianthoides","Pycnopodia helianthoides","Animal","motile","",NA,NA
-"North Beach LOW 2012 4","Tunicata",2,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"North Beach LOW 2012 4","Tunicata",2,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "North Beach LOW 2012 5","Alaria marginata",100,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "North Beach LOW 2012 5","Amphiporus",1,"Amphiporus","Amphiporus","Amphiporus","Animal","motile","",NA,NA
 "North Beach LOW 2012 5","bare rock",5,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
@@ -8781,7 +8781,7 @@
 "North Beach LOW 2012 5","Nudipleura",1,"Nudipleura","Nudipleura","Nudipleura","Animal","motile","",NA,NA
 "North Beach LOW 2012 5","Odonthalia floccosa",5,"Odonthalia floccosa","Odonthalia floccosa","Odonthalia floccosa","Algae","sessile","These are distinct","red turf","finely branching"
 "North Beach LOW 2012 5","Pagarus sp.",1,"Pagarus sp.","Pagarus sp.","Pagarus sp.","Animal","motile","",NA,NA
-"North Beach LOW 2012 5","Porifera",0.5,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"North Beach LOW 2012 5","Porifera",0.5,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "North Beach LOW 2012 5","Saccharina nigripes",5,"Hedophyllum nigripes","Hedophyllum nigripes","Hedophyllum nigripes","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
 "North Beach LOW 2012 5","Saccharina sessilis",50,"Hedophyllum sessile","Hedophyllum sessile","Hedophyllum sessile","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
 "North Beach LOW 2012 6","Alaria marginata",80,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
@@ -8794,15 +8794,15 @@
 "North Beach LOW 2012 6","Corallina vancouveriensis",6,"Corallina vancouveriensis","Corallina","Corallina","Algae","sessile","","articulated coralline","jointed calcareous"
 "North Beach LOW 2012 6","Coralline crust",8,"Coralline crust","Unknown CCA","Unknown CCA","Algae","sessile","",NA,NA
 "North Beach LOW 2012 6","Egregia menziesii",2,"Egregia menziesii","Egregia menziesii","Egregia menziesii","Algae","sessile","","Kelp","thick leathery"
-"North Beach LOW 2012 6","Feather duster worm",1,"Feather duster worm","Feather duster worm","Feather duster worm","Animal","sessile","",NA,NA
+"North Beach LOW 2012 6","Feather duster worm",1,"Feather duster worm","Feather duster worm","Tube worms","Animal","sessile","",NA,NA
 "North Beach LOW 2012 6","Flustralidra",15,"Flustralidra","Flustralidra","Flustralidra","Animal","sessile","",NA,NA
 "North Beach LOW 2012 6","Hildenbrandia rubra",6,"Hildenbrandia rubra","Hildenbrandia","Hildenbrandia","Algae","sessile","","crust","crustose"
 "North Beach LOW 2012 6","Hymenena sp.",1,"Hymenena sp.","Hymenena","Hymenena","Algae","sessile","",NA,NA
 "North Beach LOW 2012 6","Katharina tunicata",1,"Katharina tunicata","Katharina tunicata","Katharina tunicata","Animal","motile","",NA,NA
 "North Beach LOW 2012 6","Mazzaella splendens",15,"Mazzaella splendens","Mazzaella splendens","Mazzaella splendens","Algae","sessile","","blade","thick leathery"
 "North Beach LOW 2012 6","Neopolyporolithon reclinatum",0.5,"Neopolyporolithon reclinatum","Neopolyporolithon reclinatum","Neopolyporolithon reclinatum","Algae","sessile","","crustose coralline","crustose"
-"North Beach LOW 2012 6","Porifera",8,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
-"North Beach LOW 2012 6","Tunicata",1,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"North Beach LOW 2012 6","Porifera",8,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
+"North Beach LOW 2012 6","Tunicata",1,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "North Beach LOW 2012 7","Alaria marginata",20,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "North Beach LOW 2012 7","bare rock",4,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
 "North Beach LOW 2012 7","Bossiella frondifera",20,"Bossiella frondifera","Bossiella_articulate","Bossiella_articulate","Algae","sessile","",NA,NA
@@ -8843,7 +8843,7 @@
 "North Beach LOW 2012 8","Odonthalia floccosa",2,"Odonthalia floccosa","Odonthalia floccosa","Odonthalia floccosa","Algae","sessile","These are distinct","red turf","finely branching"
 "North Beach LOW 2012 8","Petrocelis",1,"Petrocelis","Petrocelis","Petrocelis","Algae","sessile","","crust","crustose"
 "North Beach LOW 2012 8","Plocamium violaceum",1,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
-"North Beach LOW 2012 8","Porifera",2,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"North Beach LOW 2012 8","Porifera",2,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "North Beach LOW 2012 8","Pyropia perforata",0.5,"Pyropia perforata","Pyropia perforata","Pyropia","Algae","sessile","","blade","sheet"
 "North Beach LOW 2012 8","Saccharina sessilis",35,"Hedophyllum sessile","Hedophyllum sessile","Hedophyllum sessile","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
 "North Beach LOW 2012 8","Spongites tumidum",7,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
@@ -8857,7 +8857,7 @@
 "North Beach LOW 2012 9","Codium fragile",0.5,"Codium fragile","Codium fragile","Codium fragile","Algae","sessile","","other","finely branching"
 "North Beach LOW 2012 9","Corallina vancouveriensis",4,"Corallina vancouveriensis","Corallina","Corallina","Algae","sessile","","articulated coralline","jointed calcareous"
 "North Beach LOW 2012 9","Coralline crust",5,"Coralline crust","Unknown CCA","Unknown CCA","Algae","sessile","",NA,NA
-"North Beach LOW 2012 9","Feather duster worm",2,"Feather duster worm","Feather duster worm","Feather duster worm","Animal","sessile","",NA,NA
+"North Beach LOW 2012 9","Feather duster worm",2,"Feather duster worm","Feather duster worm","Tube worms","Animal","sessile","",NA,NA
 "North Beach LOW 2012 9","Flustralidra",3,"Flustralidra","Flustralidra","Flustralidra","Animal","sessile","",NA,NA
 "North Beach LOW 2012 9","Fucus distichus",4,"Fucus distichus","Fucus distichus","Fucus distichus","Algae","sessile","","Fucoid","thick leathery"
 "North Beach LOW 2012 9","Gammaridae",1,"Gammaridae","Gammaridae","Gammaridae","Animal","motile","",NA,NA
@@ -9424,7 +9424,7 @@
 "North Beach LOW 2015 5","Ralfsioid",0.5,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
 "North Beach LOW 2015 5","Saccharina sessilis",99,"Hedophyllum sessile","Hedophyllum sessile","Hedophyllum sessile","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
 "North Beach LOW 2015 5","Salishia firma",0.5,"Salishia firma","Salishia firma","Salishia firma","Algae","sessile","","blade","thick leathery"
-"North Beach LOW 2015 5","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"North Beach LOW 2015 5","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "North Beach LOW 2015 6","Alaria marginata",18,"Alaria marginata","Alaria marginata","Alaria marginata","Algae","sessile","","Kelp","thick leathery"
 "North Beach LOW 2015 6","bare rock",5,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
 "North Beach LOW 2015 6","Bossiella frondifera",23,"Bossiella frondifera","Bossiella_articulate","Bossiella_articulate","Algae","sessile","",NA,NA
@@ -9469,7 +9469,7 @@
 "North Beach LOW 2015 7","Plocamium violaceum",21,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
 "North Beach LOW 2015 7","Ralfsioid",1,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
 "North Beach LOW 2015 7","Saccharina sessilis",16,"Hedophyllum sessile","Hedophyllum sessile","Hedophyllum sessile","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
-"North Beach LOW 2015 7","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"North Beach LOW 2015 7","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "North Beach LOW 2015 7","Spongites tumidum",6,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "North Beach LOW 2015 7","Ulva lactuca",1,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "North Beach LOW 2015 8","Acrochaetium sp.",1,"Acrochaetium sp.","Acrochaetium sp.","Acrochaetium sp.","Algae","sessile","","filament","filament"
@@ -10296,7 +10296,7 @@
 "North Beach LOW 2019 3","Ralfsioid",0.5,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
 "North Beach LOW 2019 3","Saccharina sessilis",100,"Hedophyllum sessile","Hedophyllum sessile","Hedophyllum sessile","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
 "North Beach LOW 2019 3","Schizymenia pacifica",0.5,"Schizymenia pacifica","Schizymenia pacifica","Schizymenia pacifica","Algae","sessile","","blade","thick leathery"
-"North Beach LOW 2019 3","Spirorbis",1,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"North Beach LOW 2019 3","Spirorbis",1,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "North Beach LOW 2019 3","Strongylocentrotus purpuratus",2,"Strongylocentrotus purpuratus","Strongylocentrotus purpuratus","Strongylocentrotus purpuratus","Animal","motile","",NA,NA
 "North Beach LOW 2019 3","Tonicella sp.",2,"Tonicella sp.","Tonicella sp.","Tonicella sp.","Animal","motile","",NA,NA
 "North Beach LOW 2019 4",NA,8,NA,NA,NA,NA,NA,NA,NA,NA
@@ -10345,7 +10345,7 @@
 "North Beach LOW 2019 5","Saccharina sessilis",94,"Hedophyllum sessile","Hedophyllum sessile","Hedophyllum sessile","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
 "North Beach LOW 2019 5","Smithora naiadum",13,"Smithora naiadum","Smithora naiadum","Smithora naiadum","Algae","sessile","","red turf","sheet"
 "North Beach LOW 2019 5","Snail",17,"Snail","Snail","Snail","Animal","motile","",NA,NA
-"North Beach LOW 2019 5","Spirorbis",2,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"North Beach LOW 2019 5","Spirorbis",2,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "North Beach LOW 2019 5","Strongylocentrotus purpuratus",2,"Strongylocentrotus purpuratus","Strongylocentrotus purpuratus","Strongylocentrotus purpuratus","Animal","motile","",NA,NA
 "North Beach LOW 2019 5","Ulva lactuca",0.5,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "North Beach LOW 2019 5","Unknown crust",2,"Unknown crust","Unknown crust","Unknown crust","Algae","sessile","","crust","crustose"
@@ -10682,7 +10682,7 @@
 "North Beach MID 2012 2","Pagarus sp.",1,"Pagarus sp.","Pagarus sp.","Pagarus sp.","Animal","motile","",NA,NA
 "North Beach MID 2012 2","Pentidotea sp.",1,"Pentidotea sp.","Pentidotea sp.","Pentidotea sp.","Animal","motile","",NA,NA
 "North Beach MID 2012 2","Petrocelis",6,"Petrocelis","Petrocelis","Petrocelis","Algae","sessile","","crust","crustose"
-"North Beach MID 2012 2","Porifera",1,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"North Beach MID 2012 2","Porifera",1,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "North Beach MID 2012 2","Spongites tumidum",7,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "North Beach MID 2012 2","Ulva lactuca",1,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "North Beach MID 2012 2","Worm",1,"Worm","Worm","Worm","Animal","motile","",NA,NA
@@ -13160,7 +13160,7 @@
 "West Beach LOW 2012 4","Prionitis sternbergii",6,"Prionitis sternbergii","Prionitis","Prionitis","Algae","sessile","specific epithet changed in 2019",NA,NA
 "West Beach LOW 2012 4","Ptilota sp.",4,"Ptilota sp.","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "West Beach LOW 2012 4","Saccharina nigripes",10,"Hedophyllum nigripes","Hedophyllum nigripes","Hedophyllum nigripes","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
-"West Beach LOW 2012 4","Spirorbidae",1,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"West Beach LOW 2012 4","Spirorbidae",1,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2012 4","Ulva lactuca",2,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach LOW 2012 4","Unknown crust",2,"Unknown crust","Unknown crust","Unknown crust","Algae","sessile","","crust","crustose"
 "West Beach LOW 2012 4","Worm",1,"Worm","Worm","Worm","Animal","motile","",NA,NA
@@ -13190,7 +13190,7 @@
 "West Beach LOW 2012 5","Ptilota sp.",1,"Ptilota sp.","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "West Beach LOW 2012 5","Pyropia sp.",1,"Pyropia sp.","Pyropia sp.","Pyropia","Algae","sessile","TRY TO FIGURE OUT FROM LOCATION","blade","sheet"
 "West Beach LOW 2012 5","Snail",1,"Snail","Snail","Snail","Animal","motile","",NA,NA
-"West Beach LOW 2012 5","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"West Beach LOW 2012 5","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2012 5","Ulva lactuca",1,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach LOW 2012 5","Unknown crust",5,"Unknown crust","Unknown crust","Unknown crust","Algae","sessile","","crust","crustose"
 "West Beach LOW 2012 5","Worm",1,"Worm","Worm","Worm","Animal","motile","",NA,NA
@@ -13286,11 +13286,11 @@
 "West Beach LOW 2012 9","Phyllospadix serrulatus",0.5,"Phyllospadix serrulatus","Phyllospadix sp.","Phyllospadix sp.","Algae","sessile","",NA,NA
 "West Beach LOW 2012 9","Plocamium violaceum",3,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
 "West Beach LOW 2012 9","Polyneura latissima",3,"Polyneura latissima","Polyneura latissima","Polyneura latissima","Algae","sessile","","red turf","sheet"
-"West Beach LOW 2012 9","Porifera",1,"Porifera","Porifera","Porifera","Animal","sessile","",NA,NA
+"West Beach LOW 2012 9","Porifera",1,"Porifera","Porifera","Tunicata/Porifera","Animal","sessile","",NA,NA
 "West Beach LOW 2012 9","Ptilota sp.",1,"Ptilota sp.","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "West Beach LOW 2012 9","Rhodochorton purpureum",3,"Rhodochorton purpureum","Rhodochorton purpureum","Rhodochorton purpureum","Algae","sessile","","filament_turf","filament"
 "West Beach LOW 2012 9","Saccharina nigripes",0.5,"Hedophyllum nigripes","Hedophyllum nigripes","Hedophyllum nigripes","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
-"West Beach LOW 2012 9","Spirorbidae",1,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"West Beach LOW 2012 9","Spirorbidae",1,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2012 9","Tonicella lineata",1,"Tonicella lineata","Tonicella lineata","Tonicella lineata","Animal","motile","",NA,NA
 "West Beach LOW 2012 9","Ulva lactuca",5,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach LOW 2012 9","Unknown crust",5,"Unknown crust","Unknown crust","Unknown crust","Algae","sessile","","crust","crustose"
@@ -13464,7 +13464,7 @@
 "West Beach LOW 2013 7","Palmaria hecatensis",24,"Palmaria hecatensis","Palmaria hecatensis","Palmaria hecatensis","Algae","sessile","","red turf","thick leathery"
 "West Beach LOW 2013 7","Palmaria mollis",3,"Palmaria mollis","Palmaria mollis","Palmaria mollis","Algae","sessile","","red turf","thick leathery"
 "West Beach LOW 2013 7","Petrocelis",0.5,"Petrocelis","Petrocelis","Petrocelis","Algae","sessile","","crust","crustose"
-"West Beach LOW 2013 7","Spirorbidae",1,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"West Beach LOW 2013 7","Spirorbidae",1,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2013 7","Tegula sp.",1,"Tegula sp.","Tegula sp.","Tegula sp.","Animal","motile","",NA,NA
 "West Beach LOW 2013 7","Tonicella sp.",1,"Tonicella sp.","Tonicella sp.","Tonicella sp.","Animal","motile","",NA,NA
 "West Beach LOW 2013 7","Ulothrix-Urospora sp.",3,"Ulothrix-Urospora sp.","Ulothrix-Urospora sp.","Ulothrix-Urospora sp.","Algae","sessile","",NA,NA
@@ -13727,7 +13727,7 @@
 "West Beach LOW 2014 8","Ptilota sp.",2,"Ptilota sp.","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "West Beach LOW 2014 8","Pyropia fucicola",2,"Pyropia fucicola","Pyropia fucicola","Pyropia","Algae","sessile","","blade","sheet"
 "West Beach LOW 2014 8","Spongites tumidum",3,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
-"West Beach LOW 2014 8","Tunicata",2,"Tunicata","Tunicata","Tunicata","Animal","sessile","",NA,NA
+"West Beach LOW 2014 8","Tunicata",2,"Tunicata","Tunicata","Tunicata/Porifera","Animal","sessile","",NA,NA
 "West Beach LOW 2014 8","Ulva lactuca",7,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach LOW 2014 9","Acrosiphonia arcta",6,"Acrosiphonia arcta","Acrosiphonia","Acrosiphonia","Algae","sessile","","filament_turf","filament"
 "West Beach LOW 2014 9","Acrosiphonia coalita",5,"Acrosiphonia coalita","Acrosiphonia","Acrosiphonia","Algae","sessile","","filament_turf","filament"
@@ -14002,7 +14002,7 @@
 "West Beach LOW 2016 10","Ptilota tenuis",7,"Ptilota tenuis","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "West Beach LOW 2016 10","Ralfsioid",0.5,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
 "West Beach LOW 2016 10","Schizymenia pacifica",0.5,"Schizymenia pacifica","Schizymenia pacifica","Schizymenia pacifica","Algae","sessile","","blade","thick leathery"
-"West Beach LOW 2016 10","Spirorbis",1,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"West Beach LOW 2016 10","Spirorbis",1,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2016 10","Spongites tumidum",0.5,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "West Beach LOW 2016 10","Ulva lactuca",1,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach LOW 2016 2","Bossiella frondescens",2,"Bossiella frondescens","Bossiella_articulate","Bossiella_articulate","Algae","sessile","",NA,NA
@@ -14079,7 +14079,7 @@
 "West Beach LOW 2016 4","Pterosiphonia dendroidea",2,"Pterosiphonia dendroidea","Pterosiphonia dendroidea","Pterosiphonia dendroidea","Algae","sessile","","filament_turf","filament"
 "West Beach LOW 2016 4","Ptilota tenuis",13,"Ptilota tenuis","Ptilota","Ptilota","Algae","sessile","",NA,NA
 "West Beach LOW 2016 4","Saccharina nigripes",4,"Hedophyllum nigripes","Hedophyllum nigripes","Hedophyllum nigripes","Algae","sessile","changed to Hedophyllum in 2019",NA,NA
-"West Beach LOW 2016 4","Spirorbis",0.5,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"West Beach LOW 2016 4","Spirorbis",0.5,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2016 4","Ulva lactuca",2,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach LOW 2016 5","bare rock",9,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
 "West Beach LOW 2016 5","Bossiella frondescens",1,"Bossiella frondescens","Bossiella_articulate","Bossiella_articulate","Algae","sessile","",NA,NA
@@ -14210,7 +14210,7 @@
 "West Beach LOW 2016 9","Plocamium violaceum",4,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
 "West Beach LOW 2016 9","Polyneura latissima",48,"Polyneura latissima","Polyneura latissima","Polyneura latissima","Algae","sessile","","red turf","sheet"
 "West Beach LOW 2016 9","Ptilota tenuis",14,"Ptilota tenuis","Ptilota","Ptilota","Algae","sessile","",NA,NA
-"West Beach LOW 2016 9","Spirorbis",0.5,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"West Beach LOW 2016 9","Spirorbis",0.5,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2016 9","Spongites tumidum",1,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "West Beach LOW 2017 1","bare rock",1,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
 "West Beach LOW 2017 1","Bossiella frondescens",2,"Bossiella frondescens","Bossiella_articulate","Bossiella_articulate","Algae","sessile","",NA,NA
@@ -14651,7 +14651,7 @@
 "West Beach LOW 2018 5","Ralfsioid",1,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
 "West Beach LOW 2018 5","Scytosiphon lomentaria",0.5,"Scytosiphon lomentaria","Scytosiphon lomentaria","Scytosiphon lomentaria","Algae","sessile","","brown turf","sheet"
 "West Beach LOW 2018 5","Snail",100,"Snail","Snail","Snail","Animal","motile","",NA,NA
-"West Beach LOW 2018 5","Spirorbis",3,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"West Beach LOW 2018 5","Spirorbis",3,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2018 5","Spongites tumidum",4,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "West Beach LOW 2018 5","Ulva lactuca",24,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach LOW 2018 6","Acrosiphonia coalita",21,"Acrosiphonia coalita","Acrosiphonia","Acrosiphonia","Algae","sessile","","filament_turf","filament"
@@ -14739,7 +14739,7 @@
 "West Beach LOW 2018 8","Scytosiphon lomentaria",0.5,"Scytosiphon lomentaria","Scytosiphon lomentaria","Scytosiphon lomentaria","Algae","sessile","","brown turf","sheet"
 "West Beach LOW 2018 8","Snail",1,"Snail","Snail","Snail","Animal","motile","",NA,NA
 "West Beach LOW 2018 8","Sphacelaria rigidula",0.5,"Sphacelaria rigidula","Sphacelaria rigidula","Sphacelaria rigidula","Algae","sessile","","filament","filament"
-"West Beach LOW 2018 8","Spirorbis",1,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"West Beach LOW 2018 8","Spirorbis",1,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2018 8","Spongites tumidum",13,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "West Beach LOW 2018 8","Ulva lactuca",2,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach LOW 2018 9","Acrosiphonia coalita",2,"Acrosiphonia coalita","Acrosiphonia","Acrosiphonia","Algae","sessile","","filament_turf","filament"
@@ -14949,7 +14949,7 @@
 "West Beach LOW 2019 7","Pyropia fucicola",1,"Pyropia fucicola","Pyropia fucicola","Pyropia","Algae","sessile","","blade","sheet"
 "West Beach LOW 2019 7","Scytosiphon lomentaria",0.5,"Scytosiphon lomentaria","Scytosiphon lomentaria","Scytosiphon lomentaria","Algae","sessile","","brown turf","sheet"
 "West Beach LOW 2019 7","Snail",1,"Snail","Snail","Snail","Animal","motile","",NA,NA
-"West Beach LOW 2019 7","Spirorbis",3,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"West Beach LOW 2019 7","Spirorbis",3,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "West Beach LOW 2019 7","Ulva linza",2,"Ulva linza","Ulva linza","Ulva","Algae","sessile","","green turf","sheet"
 "West Beach LOW 2019 8",NA,2,NA,NA,NA,NA,NA,NA,NA,NA
 "West Beach LOW 2019 8","Acrosiphonia coalita",27,"Acrosiphonia coalita","Acrosiphonia","Acrosiphonia","Algae","sessile","","filament_turf","filament"
@@ -15162,7 +15162,7 @@
 "West Beach MID 2012 2","Neorhodomela larix",2,"Neorhodomela larix","Neorhodomela larix","Neorhodomela larix","Algae","sessile","","red turf","finely branching"
 "West Beach MID 2012 2","Odonthalia floccosa",3,"Odonthalia floccosa","Odonthalia floccosa","Odonthalia floccosa","Algae","sessile","These are distinct","red turf","finely branching"
 "West Beach MID 2012 2","Pagarus sp.",3,"Pagarus sp.","Pagarus sp.","Pagarus sp.","Animal","motile","",NA,NA
-"West Beach MID 2012 2","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"West Beach MID 2012 2","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "West Beach MID 2012 2","Ulva lactuca",0.5,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach MID 2012 3","bare rock",25,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA
 "West Beach MID 2012 3","Elachista fucicola",3,"Elachista fucicola","Elachista fucicola","Elachista fucicola","Algae","sessile","","filament","filament"
@@ -15211,7 +15211,7 @@
 "West Beach MID 2012 5","Plocamium violaceum",2,"Plocamium violaceum","Plocamium violaceum","Plocamium violaceum","Algae","sessile","","red turf","finely branching"
 "West Beach MID 2012 5","Pugettia producta",1,"Pugettia producta","Pugettia","Pugettia","Animal","motile","",NA,NA
 "West Beach MID 2012 5","Ralfsioid",0.5,"Ralfsioid","Ralfsioid","Ralfsioid","Algae","sessile","","crust","crustose"
-"West Beach MID 2012 5","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Spirorbidae","Animal","sessile","",NA,NA
+"West Beach MID 2012 5","Spirorbidae",0.5,"Spirorbidae","Spirorbidae","Tube worms","Animal","sessile","",NA,NA
 "West Beach MID 2012 5","Ulva lactuca",1,"Ulva fenestrata","Ulva fenestrata","Ulva","Algae","sessile","changed in 2019",NA,NA
 "West Beach MID 2012 6","Anthopleura sp.",1,"Anthopleura sp.","Anthopleura sp.","Anemone","Animal","sessile","",NA,NA
 "West Beach MID 2012 6","Barnacle",2,"Barnacle","Barnacles","Barnacles","Animal","sessile","",NA,NA
@@ -15992,7 +15992,7 @@
 "West Beach MID 2018 1","Mazzaella oregona",0.5,"Mazzaella oregona","Mazzaella oregona","Mazzaella oregona","Algae","sessile","","blade","thick leathery"
 "West Beach MID 2018 1","Polyneura latissima",1,"Polyneura latissima","Polyneura latissima","Polyneura latissima","Algae","sessile","","red turf","sheet"
 "West Beach MID 2018 1","Pyropia fucicola",2,"Pyropia fucicola","Pyropia fucicola","Pyropia","Algae","sessile","","blade","sheet"
-"West Beach MID 2018 1","Spirorbis",1,"Spirorbis","Spirorbis","Spirorbis","Animal","sessile","",NA,NA
+"West Beach MID 2018 1","Spirorbis",1,"Spirorbis","Spirorbis","Tube worms","Animal","sessile","",NA,NA
 "West Beach MID 2018 1","Spongites tumidum",24,"Chamberlainium tumidum","Chamberlainium tumidum","Chamberlainium tumidum","Algae","sessile","changed to Chamberlainium in 2019",NA,NA
 "West Beach MID 2018 1","Ulva linza",0.5,"Ulva linza","Ulva linza","Ulva","Algae","sessile","","green turf","sheet"
 "West Beach MID 2018 10","bare rock",52,"bare rock","Bare rock","Bare rock","Substratum",NA,"",NA,NA

@@ -39,3 +39,20 @@ lines(NB.high1$Value~FB.high$`Date/Time`,cex=0.4, col="red")
 points(WB.high3$Value~FB.high$`Date/Time`,cex=0.4, col="lightgreen")
 plot(FB.high$Value~WB.high3$Value)
 abline(0,1)
+
+##For high zone use FB.high, NB.high1, WB.high1 (all 6 am start)
+##For low zone, use FB.low2 (4am), NB.low1 (6am), WB.low (6am), 
+
+plot(Value~`Date/Time`,data=FB.high)
+FB.high.summ<-FB.high %>%
+  group_by(month=floor_date(`Date/Time`, "month")) %>%
+  summarize(above_20=sum(Value>19.9&Value<24.9), above_25=sum(Value>24.9&Value<29.9), above_30=sum(Value>29.9))
+
+NB.high1.summ<-NB.high1 %>%
+  group_by(month=floor_date(`Date/Time`, "month")) %>%
+  summarize(above_20=sum(Value>19.9&Value<24.9), above_25=sum(Value>24.9&Value<29.9), above_30=sum(Value>29.9))
+
+WB.high1.summ<-WB.high1 %>%
+  group_by(month=floor_date(`Date/Time`, "month")) %>%
+  summarize(above_20=sum(Value>19.9&Value<24.9), above_25=sum(Value>24.9&Value<29.9), above_30=sum(Value>29.9))
+

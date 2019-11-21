@@ -4,19 +4,21 @@
 
 # This script uses HMSC to model communities change over time and space
 
-# useful references for this code
-citation( Hmsc )
-
-# directories
-localDir = "."
-# dataDir = file.path(localDir, "data")
-ModelDir = file.path( localDir, "R Code and Analysis/models" )
-MixingDir = file.path(localDir, "R Code and Analysis/mixing")
 
 # load libraries
 library( tidyverse )
 library( Hmsc )
 library( corrplot )
+library( here )
+library( tictoc )
+
+# useful references for this code
+citation( 'Hmsc' )
+
+
+# dataDir = file.path(localDir, "data")
+ModelDir = paste0( here::here(), "/R Code and Analysis/models" )
+MixingDir = paste0( here::here(), "/R Code and Analysis/mixing")
 
 
 
@@ -67,7 +69,8 @@ d <- dm %>%
 # restrict this to seaweeds and sessile invertebrates
 d.simple <- d %>%
   group_by( UID, Year, Site, Zone, taxon_lumped2 ) %>%
-  summarize( Abundance=sum(Abundance,na.rm=T))
+  summarize( Abundance=sum(Abundance,na.rm=T)) %>%
+  mutate( taxon_lumped2 = gsub(" ",".",taxon_lumped2) )
 
 # # average cover per transect
 # dmean <- d.simple %>%
@@ -88,25 +91,28 @@ d.comm <- d.comm %>%
 d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 
 
+
 # isolate the community, site, and sample data
 comm.all <- d.comm[,-c(1:4)]
-colSums(comm.all)
-summary(colSums(comm.all))
-hist(colSums(comm.all))
-sort(colSums(comm.all))
-sort(colSums(comm.all),decreasing = TRUE)[1:10]
-boxplot( colSums(comm.all))
-boxplot( log(colSums(comm.all)) )
-boxplot( colSums(comm.all)[ colSums(comm.all)> 10] ) 
-hist( colSums(comm.all)[ colSums(comm.all)> 10] )
-sort(colSums(comm.all)[ which( colSums(comm.all) <=10 )  ])
-length(colSums(comm.all)[ which( colSums(comm.all) <=10 )  ])
+# colSums(comm.all)
+# summary(colSums(comm.all))
+# hist(colSums(comm.all))
+# sort(colSums(comm.all))
+# sort(colSums(comm.all),decreasing = TRUE)[1:10]
+# boxplot( colSums(comm.all))
+# boxplot( log(colSums(comm.all)) )
+# boxplot( colSums(comm.all)[ colSums(comm.all)> 10] ) 
+# hist( colSums(comm.all)[ colSums(comm.all)> 10] )
+# sort(colSums(comm.all)[ which( colSums(comm.all) <=10 )  ])
+# length(colSums(comm.all)[ which( colSums(comm.all) <=10 )  ])
 
 # reduce the dataset by removing the rarest taxa 
 # those that have less than a total percent cover 
 # acheived across all of the selected quadrats 
 # and across all selected years
-comm <- comm.all[ ,-which( colSums(comm.all) <=10 )  ]
+which( colSums(comm.all) <=10 )
+occurrence <- apply(comm.all, 2, function(z) length(z[z>0])) 
+comm <- comm.all[ ,-which( occurrence <=10 )  ]
 # comm <- comm.all
 commpa <- comm
 commpa[commpa>0] <- 1
@@ -114,12 +120,12 @@ sort(colSums(commpa))[1:20]
 # reorder community matrix based on the most abundant to least (across all quadrats)
 Y <- as.matrix( comm[, order(colSums(comm),decreasing = T) ] )
 
+
 # define the variables to test from metadata and data
 # merge community data with metadata
 metacomm <- left_join( d.comm, muse )
-shore.height
-lat.long
-temp.anom
+write_csv( metacomm, "R Code and Analysis/output from r/community.csv")
+
 # read temperature data
 pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )
 
@@ -140,7 +146,9 @@ M$transect <- unlist(lapply( strsplit( M$UID, " " ), function(z) paste( z[1],z[2
 
 ## Fixed Effects
 XData <- M %>%
-  select( site = Site, shore.height = Shore_height_cm, anom.pine.sum.1, anom.pine.win )
+  ungroup() %>%
+  select( year=Year, shore.height = Shore_height_cm, anom.pine.sum.1, anom.pine.win ) #%>% 
+  # mutate( year=factor(year, ordered=TRUE ) )
 XData <- as.data.frame( XData )
 
 
@@ -151,25 +159,32 @@ studyDesign <- data.frame( year = factor(M$Year),
                            observation = factor(M$UID),
                            transect = factor(M$transect),
                            site = factor(M$Site) )
-# studyDesign$Year <- factor( studyDesign[,1],ordered=T )
+# transect year
+studyDesign$ty <- factor(with(studyDesign, paste( transect, year, sep = "_" )))
 
 
 # Random effects for unit
-rL <- HmscRandomLevel( unit = studyDesign$observation )
+# rL_obs <- HmscRandomLevel( unit = studyDesign$observation )
 rL <- HmscRandomLevel( unit = unique(studyDesign$transect) )
 # Random Structure for Year (temporal data)
 td <- data.frame(year=unique(M$Year))
 row.names(td) <- unique(M$Year)
 rL_year = HmscRandomLevel( sData = td )
 # Random structure for sites
-rL_site = HmscRandomLevel( unit = unique(studyDesign$site) )
+rL_site <-  HmscRandomLevel( unit = unique(studyDesign$site) )
+# transect year
+rL_ty <- HmscRandomLevel( unit = unique(studyDesign$ty) )
 
 
 
 
 
 ## formula for fixed effects
-XFormula = ~ poly(shore.height, degree = 2, raw = TRUE) + anom.pine.sum.1 + anom.pine.win
+XFormula = ~ poly(shore.height, degree = 2, raw = TRUE)*year
+  # poly(shore.height, degree = 2, raw = TRUE):year
+  # anom.pine.sum.1 + anom.pine.win
+  
+  
 
 ## Traits -- will include the kelp.fucoid.turf type of functional grouping 
 #            from the file "Algae_functional_groups.csv", but restricted to algae only
@@ -180,22 +195,25 @@ XFormula = ~ poly(shore.height, degree = 2, raw = TRUE) + anom.pine.sum.1 + anom
 m <- Hmsc( Y = Y, 
            XData = XData, XFormula = XFormula,
            distr = "poisson",
-           studyDesign = studyDesign, ranLevels = list(transect=rL, year=rL_year, site=rL_site) )  
+           studyDesign = studyDesign, 
+           ranLevels = list(site=rL_site, transect=rL ) )#,
+                            # year=rL_year, 
+                             # ty=rL_ty ) )  
 
 
 ## Run MCMC and save the model
-thin = 1
+thin = 100
 samples = 1000
-nChains = 2
+nChains = 4
 set.seed(1)
-ptm = proc.time()
+ptm = tic("model run")
 m = sampleMcmc(m, samples = samples, thin = thin,
                adaptNf = rep(ceiling(0.4*samples*thin),m$nr),
                transient = ceiling(0.5*samples*thin),
                nChains = nChains, nParallel = nChains,
                initPar = "fixed effects")
-computational.time = proc.time() - ptm
-model = 2
+computational.time <- toc()
+model = 5
 
 filename = file.path(ModelDir, paste("model_",as.character(model),
                                      "_chains_",as.character(nChains),

@@ -11,7 +11,7 @@ library( adespatial ) # dynamic-based beta diversity, local contributions to bet
 library( smacof )     # stress minimization using majorization (smacof) -- new approaches for MDS
 library( vegan )
 library( RColorBrewer )
-
+library( BiodiversityR )
 #
 # custom color scheme (three shades of three colors) for plotting
 lighten <- function(color, factor=1.5){
@@ -80,10 +80,11 @@ meta <- d.comm.mean[ ,1:3 ]
 comm <- as.matrix(d.comm.mean[,-c(1:3)])
 
 # define site as the particular trasect
-Zone <- factor( meta$Zone, levels=c("LOW","MID","HIGH"), labels=c("L","M","H") )
+Zone <- factor( meta$Zone, levels=c("LOW","MID","HIGH"), labels=c("Low","Mid","High") )
 Site <- factor( meta$Site, labels=c("5","N","W") )
 site <- paste( Site, Zone, sep="." )
-site <- factor( site, levels= c("5.L","5.M","5.H","N.L","N.M","N.H","W.L","W.M","W.H"))
+site <- factor( site, levels= c("5.Low","5.Mid","5.High","N.Low","N.Mid","N.High","W.Low","W.Mid","W.High"),
+                labels= c("5.L","5.M","5.H","N.L","N.M","N.H","W.L","W.M","W.H"))
 
 # define year
 year <- meta$Year
@@ -118,13 +119,15 @@ adonis2( comm~site*year, by='margin'  )
 
 # Trajectory analysis
 # calculate a distance 
-D_man <- vegdist( comm, method="manhattan", transform = function(x){log(x+1)}) # uses log abundances, so will downplay importance of rarest taxa
+D_man <- vegdist( comm, method="manhattan", transform = function(x) log(x+1) ) # uses log abundances, so will downplay importance of rarest taxa
 D_bray <- vegdist( comm, method="bray" )
-D_use <- D_bray
+D_bray_root <- vegdist( comm^0.5, method="bray" )
+D_bray_root2 <- vegdist( comm^0.25, method="bray" )
+D_use <- D_bray_root
 
 
 # display trjectories in PCoA - uses cmdscale (MDS/PCoA)
-windows(5,5)
+# windows(5,5)
 par(mar=c(5,4,1,1)+0.1,lty=1)
 # new scheme for colors and tide heights
 cols2 <- c("goldenrod","#646FB6","black")
@@ -140,45 +143,85 @@ siteIDs = unique(sites)
 nsite = length(siteIDs)
 selection = 1:nsite
 selIDs = siteIDs[selection]
-D2 = as.dist(as.matrix(D_use)[sites %in% selIDs, sites %in% selIDs])
+D2 = as.dist(as.matrix(D_use))#[sites %in% selIDs, sites %in% selIDs])
 cmd_D2 <- cmdscale(D2, eig = TRUE, add = TRUE, k = nrow(as.matrix(D2)) - 
                      1)
+cmd_D2 <- add.spec.scores(cmd_D2, comm^0.25, 
+                          method='pcoa.scores', Rscale=T, scaling=1, multi=0.1)
 axes=c(1,2)
 x <- cmd_D2$points[, axes[1]]
 y <- cmd_D2$points[, axes[2]]
-plot(x, y, type = "n", asp = 1, xlab = paste0("PCoA ", axes[1], 
-                                              " (", round(100 * cmd_D2$eig[axes[1]]/sum(cmd_D2$eig)), 
-                                              "%)"), ylab = paste0("PCoA ", axes[2], " (", round(100 * 
-                                                                                                   cmd_D2$eig[axes[2]]/sum(cmd_D2$eig)), "%)"))
-sitesred = sites[sites %in% selIDs]
-surveysred = surveys[sites %in% selIDs]
+spec1 <- cmd_D2$cproj[, axes[1]]
+spec2 <- cmd_D2$cproj[, axes[2]]
 
-for (i in 1:length(selIDs)) {
-  ind_surv = which(sitesred == selIDs[i])
-  # define zone and site for each instance
-  li = ltys[unique(as.numeric(Zone[ind_surv]))]
-  ci = cols2[unique(as.numeric(Site[ind_surv]))]
-    ind_surv = ind_surv[order(surveysred[sitesred == 
-                                           selIDs[i]])]
-  for (t in 1:(length(ind_surv) - 1)) {
-    niini = ind_surv[t]
-    nifin = ind_surv[t + 1]
-      arrows(x[niini], y[niini], x[nifin], y[nifin], 
-             col = ci, lty=li, lwd=2, length=0 )
+# reduce number of taxa in species scores
+sel1 <- names(spec1[abs(spec1)>3*sd(spec1, na.rm=T)])
+sel2 <- names(spec2[abs(spec2)>3*sd(spec2, na.rm=T)])
 
-  }
-}
-points( x,y, pch=16, bg='white', col=cols2[as.numeric(Site)],cex=0.8 )
-points( x[1:9],y[1:9], pch=21, bg=fills[as.numeric(Site)], cex=1.5 )
-# points( x[which(surveys==2016)],y[which(surveys==2016)], pch=25, bg=fills[as.numeric(Site)], cex=1.5 )
-points( x[(length(x)-8):length(x)],y[(length(x)-8):length(x)], pch=22, bg=fills[as.numeric(Site)], cex=1.5 )
-# text( x,y,labels = year-2012, adj =c(0.4,0.4), col='black', cex=0.6 )
-legend("topleft",    bty="o", legend = c("Fifth","North","West"), title = "Shore",
-       col = cols2, lwd=2 )
-legend("bottomleft", bty="o", legend = c("High","Mid","Low"), title="Zone",
-       col = 'black', lty=c(1,2,3),lwd=2 )
-legend("topright",   bty="o", legend = c("2012","other","2019"), title="Year",
-       pch=c(21,16,22),  col = 'black', bg='white', lty=0 )
+spec.sel <- unique(c(sel1,sel2))
+spec1.sel <- spec1[names(spec1)%in%spec.sel]
+spec2.sel <- spec2[names(spec2)%in%spec.sel]
+specs <- data.frame( x=spec1.sel, y=spec2.sel )
+# plot(x, y, type = "n", asp = 1, 
+#      xlab = paste0("PCoA ", axes[1], 
+#                    " (", round(100 * cmd_D2$eig[axes[1]]/sum(cmd_D2$eig)),
+#                    "%)"), ylab = paste0("PCoA ", axes[2], " (", round(100 * cmd_D2$eig[axes[2]]/sum(cmd_D2$eig)), "%)"))
+# sitesred = sites[sites %in% selIDs]
+# surveysred = surveys[sites %in% selIDs]
+# 
+# for (i in 1:length(selIDs)) {
+#   ind_surv = which(sitesred == selIDs[i])
+#   # define zone and site for each instance
+#   li = ltys[unique(as.numeric(Zone[ind_surv]))]
+#   ci = cols2[unique(as.numeric(Site[ind_surv]))]
+#     ind_surv = ind_surv[order(surveysred[sitesred == 
+#                                            selIDs[i]])]
+#   for (t in 1:(length(ind_surv) - 1)) {
+#     niini = ind_surv[t]
+#     nifin = ind_surv[t + 1]
+#       arrows(x[niini], y[niini], x[nifin], y[nifin], 
+#              col = ci, lty=li, lwd=2, length=0 )
+# 
+#   }
+# }
+# points( x,y, pch=16, bg='white', col=cols2[as.numeric(Site)],cex=0.8 )
+# points( x[1:9],y[1:9], pch=21, bg=fills[as.numeric(Site)], cex=1.5 )
+# # points( x[which(surveys==2016)],y[which(surveys==2016)], pch=25, bg=fills[as.numeric(Site)], cex=1.5 )
+# points( x[(length(x)-8):length(x)],y[(length(x)-8):length(x)], pch=22, bg=fills[as.numeric(Site)], cex=1.5 )
+# # text( x,y,labels = year-2012, adj =c(0.4,0.4), col='black', cex=0.6 )
+# legend("topleft",    bty="o", legend = c("Fifth","North","West"), title = "Shore",
+#        col = cols2, lwd=2 )
+# legend("bottomleft", bty="o", legend = c("High","Mid","Low"), title="Zone",
+#        col = 'black', lty=c(1,2,3),lwd=2 )
+# legend("topright",   bty="o", legend = c("2012","other","2019"), title="Year",
+#        pch=c(21,16,22),  col = 'black', bg='white', lty=0 )
+
+
+
+## wrap into a single data.frame
+trajdf <- data.frame( x, y, transect=site, site=Site, zone=Zone,  year )
+trajdf$site <- as.character( trajdf$site )
+trajdf$site[ trajdf$site=="5" ] <- "Fifth Beach"
+trajdf$site[ trajdf$site=="N" ] <- "North Beach"
+trajdf$site[ trajdf$site=="W" ] <- "West Beach"
+trajdf$site <- factor( trajdf$site )
+trajdf$site <- relevel(trajdf$site, ref="West Beach")
+
+windows(4,6)
+ggplot( trajdf, aes(x=x,y=y,col=zone, group=transect)) + facet_wrap(~site,ncol=1) +
+  geom_point(size=1) + geom_path() +
+  geom_point( data=filter(trajdf,year==2012), aes(x=x,y=y,fill=zone), size=3, pch=21, col='black' ) +
+  geom_point( data=filter(trajdf,year==2019), aes(x=x,y=y,fill=zone), size=3, pch=22, col='black' ) +
+  geom_point( data=specs, aes(x,y, group=1), col="black",size=3) +
+  xlab( paste0("PCoA ", axes[1], " (", round(100 * cmd_D2$eig[axes[1]]/sum(cmd_D2$eig)),"%)")) +
+  ylab( paste0("PCoA ", axes[2], " (", round(100 * cmd_D2$eig[axes[2]]/sum(cmd_D2$eig)),"%)"))+
+  scale_color_manual(values=c("black","grey50","grey75")) + 
+  scale_fill_manual(values=c("black","grey50","grey75")) + 
+  theme_minimal()  
+
+ggsave( 'R Code and Analysis/Figs/PCoA_4root_ggplot.pdf', width=4, height=6 )
+
+
 
 
 # centered trajectories

@@ -1,10 +1,11 @@
 # Martone Hakai Rocky Shore Seaweed Surveys
 # 
 # by Matt Whalen
-
+# library(profvis)
+# profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Barnacles"
-# sampler <- "Sandra" --- figure out how to add a switch here that we can add to filenames
+taxon <- "Palmaria hecatensis"
+# sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
 
 # set options
 options(stringsAsFactors = FALSE)
@@ -109,4 +110,4 @@ windows(4,6)
   scale_color_viridis_d( direction=-1 )
 
 # ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation.pdf"), ggheight2, "pdf" )
-
+# })

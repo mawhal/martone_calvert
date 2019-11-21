@@ -1286,7 +1286,6 @@
 "Fifth Beach HIGH 2019 1","Pyropia abbottiae",0.5
 "Fifth Beach HIGH 2019 1","Pyropia fucicola",0.5
 "Fifth Beach HIGH 2019 1","Wildmania norrisii",0.5
-"Fifth Beach HIGH 2019 10",NA,3
 "Fifth Beach HIGH 2019 10","Anemone",0.5
 "Fifth Beach HIGH 2019 10","bare rock",4
 "Fifth Beach HIGH 2019 10","Barnacle",14
@@ -1304,7 +1303,7 @@
 "Fifth Beach HIGH 2019 10","Tube worms",0.5
 "Fifth Beach HIGH 2019 10","Tunicata/Porifera",0.5
 "Fifth Beach HIGH 2019 10","Wildmania norrisii",1
-"Fifth Beach HIGH 2019 2",NA,12
+"Fifth Beach HIGH 2019 10",NA,3
 "Fifth Beach HIGH 2019 2","Acrosiphonia arcta",2
 "Fifth Beach HIGH 2019 2","bare rock",4
 "Fifth Beach HIGH 2019 2","Barnacle",3
@@ -1322,7 +1321,7 @@
 "Fifth Beach HIGH 2019 2","Polysiphonia brodiei",1
 "Fifth Beach HIGH 2019 2","Pyropia fucicola",10
 "Fifth Beach HIGH 2019 2","Ulva lactuca",1
-"Fifth Beach HIGH 2019 3",NA,1
+"Fifth Beach HIGH 2019 2",NA,12
 "Fifth Beach HIGH 2019 3","Acrosiphonia arcta",1
 "Fifth Beach HIGH 2019 3","bare rock",3
 "Fifth Beach HIGH 2019 3","Barnacle",6
@@ -1338,6 +1337,7 @@
 "Fifth Beach HIGH 2019 3","Pyropia abbottiae",7
 "Fifth Beach HIGH 2019 3","Pyropia perforata",4
 "Fifth Beach HIGH 2019 3","Ulva lactuca",1
+"Fifth Beach HIGH 2019 3",NA,1
 "Fifth Beach HIGH 2019 4","Anemone",1
 "Fifth Beach HIGH 2019 4","bare rock",35
 "Fifth Beach HIGH 2019 4","Barnacle",40
@@ -1377,7 +1377,6 @@
 "Fifth Beach HIGH 2019 5","Pyropia perforata",1
 "Fifth Beach HIGH 2019 5","Ulva lactuca",0.5
 "Fifth Beach HIGH 2019 5","Wildmania norrisii",0.5
-"Fifth Beach HIGH 2019 6",NA,9
 "Fifth Beach HIGH 2019 6","Acrosiphonia arcta",3
 "Fifth Beach HIGH 2019 6","Anemone",0.5
 "Fifth Beach HIGH 2019 6","bare rock",1
@@ -1395,7 +1394,7 @@
 "Fifth Beach HIGH 2019 6","Pyropia perforata",2
 "Fifth Beach HIGH 2019 6","Ulva lactuca",1
 "Fifth Beach HIGH 2019 6","Ulva linza",1
-"Fifth Beach HIGH 2019 7",NA,2
+"Fifth Beach HIGH 2019 6",NA,9
 "Fifth Beach HIGH 2019 7","Acrosiphonia arcta",0.5
 "Fifth Beach HIGH 2019 7","bare rock",4
 "Fifth Beach HIGH 2019 7","Barnacle",36
@@ -1413,6 +1412,7 @@
 "Fifth Beach HIGH 2019 7","Pyropia abbottiae",27
 "Fifth Beach HIGH 2019 7","Pyropia perforata",3
 "Fifth Beach HIGH 2019 7","Ulva lactuca",0.5
+"Fifth Beach HIGH 2019 7",NA,2
 "Fifth Beach HIGH 2019 8","Acrosiphonia arcta",1
 "Fifth Beach HIGH 2019 8","bare rock",6
 "Fifth Beach HIGH 2019 8","Barnacle",33
@@ -1429,7 +1429,6 @@
 "Fifth Beach HIGH 2019 8","Polysiphonia hendryi var. hendryi",3
 "Fifth Beach HIGH 2019 8","Pyropia fucicola",0.5
 "Fifth Beach HIGH 2019 8","Wildmania norrisii",4
-"Fifth Beach HIGH 2019 9",NA,1
 "Fifth Beach HIGH 2019 9","Acrosiphonia arcta",0.5
 "Fifth Beach HIGH 2019 9","bare rock",4
 "Fifth Beach HIGH 2019 9","Barnacle",69
@@ -1446,6 +1445,7 @@
 "Fifth Beach HIGH 2019 9","Pollicipes polymerus",2
 "Fifth Beach HIGH 2019 9","Pyropia perforata",3
 "Fifth Beach HIGH 2019 9","Scytosiphon dotyi",0.5
+"Fifth Beach HIGH 2019 9",NA,1
 "Fifth Beach LOW 2011 1","Alaria marginata",15
 "Fifth Beach LOW 2011 1","bare rock",15
 "Fifth Beach LOW 2011 1","Corallina frondescens",1
@@ -3104,7 +3104,6 @@
 "Fifth Beach LOW 2018 9","Scytosiphon dotyi",1
 "Fifth Beach LOW 2018 9","Spongites tumidum",12
 "Fifth Beach LOW 2018 9","Tunicata/Porifera",1
-"Fifth Beach LOW 2019 1",NA,30
 "Fifth Beach LOW 2019 1","Ahnfeltia fastigiata",6
 "Fifth Beach LOW 2019 1","bare rock",2
 "Fifth Beach LOW 2019 1","Bossiella frondifera",0.5
@@ -3125,6 +3124,7 @@
 "Fifth Beach LOW 2019 1","Ralfsioid",0.5
 "Fifth Beach LOW 2019 1","Spongites tumidum",0.5
 "Fifth Beach LOW 2019 1","Ulva sp.",0.5
+"Fifth Beach LOW 2019 1",NA,30
 "Fifth Beach LOW 2019 10","Alaria marginata",30
 "Fifth Beach LOW 2019 10","bare rock",6
 "Fifth Beach LOW 2019 10","Bossiella frondifera",4
@@ -3144,7 +3144,6 @@
 "Fifth Beach LOW 2019 10","Polysiphonia hendryi var. hendryi",3
 "Fifth Beach LOW 2019 10","Pyropia perforata",25
 "Fifth Beach LOW 2019 10","Spongites tumidum",5
-"Fifth Beach LOW 2019 2",NA,10
 "Fifth Beach LOW 2019 2","bare rock",8
 "Fifth Beach LOW 2019 2","Barnacle",0.5
 "Fifth Beach LOW 2019 2","Bossiella frondescens",1
@@ -3174,7 +3173,7 @@
 "Fifth Beach LOW 2019 2","Polysiphonia hendryi var. hendryi",0.5
 "Fifth Beach LOW 2019 2","Spongites tumidum",1
 "Fifth Beach LOW 2019 2","Ulva lactuca",1
-"Fifth Beach LOW 2019 3",NA,34
+"Fifth Beach LOW 2019 2",NA,10
 "Fifth Beach LOW 2019 3","Anemone",1
 "Fifth Beach LOW 2019 3","bare rock",6
 "Fifth Beach LOW 2019 3","Bossiella frondescens",2
@@ -3203,7 +3202,7 @@
 "Fifth Beach LOW 2019 3","Tube worms",0.5
 "Fifth Beach LOW 2019 3","Tunicata/Porifera",5.5
 "Fifth Beach LOW 2019 3","Unknown crust",0.5
-"Fifth Beach LOW 2019 4",NA,1
+"Fifth Beach LOW 2019 3",NA,34
 "Fifth Beach LOW 2019 4","Acrosiphonia arcta",0.5
 "Fifth Beach LOW 2019 4","Anemone",0.5
 "Fifth Beach LOW 2019 4","bare rock",5
@@ -3233,6 +3232,7 @@
 "Fifth Beach LOW 2019 4","Tokidadendron bullatum",2
 "Fifth Beach LOW 2019 4","Tonicella sp.",1
 "Fifth Beach LOW 2019 4","Ulva lactuca",0.5
+"Fifth Beach LOW 2019 4",NA,1
 "Fifth Beach LOW 2019 5","Alaria marginata",47
 "Fifth Beach LOW 2019 5","Anemone",2
 "Fifth Beach LOW 2019 5","bare rock",28
@@ -3287,7 +3287,6 @@
 "Fifth Beach LOW 2019 6","Spongites tumidum",6
 "Fifth Beach LOW 2019 6","Tonicella sp.",3
 "Fifth Beach LOW 2019 6","Unknown crust",0.5
-"Fifth Beach LOW 2019 7",NA,7
 "Fifth Beach LOW 2019 7","Alaria marginata",52
 "Fifth Beach LOW 2019 7","Anemone",1
 "Fifth Beach LOW 2019 7","bare rock",7
@@ -3308,6 +3307,7 @@
 "Fifth Beach LOW 2019 7","Spongites tumidum",14
 "Fifth Beach LOW 2019 7","Ulva linza",0.5
 "Fifth Beach LOW 2019 7","Wildmania norrisii",1
+"Fifth Beach LOW 2019 7",NA,7
 "Fifth Beach LOW 2019 8","Alaria marginata",0.5
 "Fifth Beach LOW 2019 8","Anemone",3
 "Fifth Beach LOW 2019 8","bare rock",5
@@ -5083,7 +5083,6 @@
 "Fifth Beach MID 2018 9","Spongites tumidum",2
 "Fifth Beach MID 2018 9","Tunicata/Porifera",1
 "Fifth Beach MID 2018 9","Wildmania norrisii",18
-"Fifth Beach MID 2019 1",NA,3
 "Fifth Beach MID 2019 1","Acrosiphonia arcta",0.5
 "Fifth Beach MID 2019 1","Anemone",2
 "Fifth Beach MID 2019 1","bare rock",8
@@ -5105,7 +5104,7 @@
 "Fifth Beach MID 2019 1","Snail",2
 "Fifth Beach MID 2019 1","Spongites tumidum",5
 "Fifth Beach MID 2019 1","Unknown crust",0.5
-"Fifth Beach MID 2019 10",NA,1
+"Fifth Beach MID 2019 1",NA,3
 "Fifth Beach MID 2019 10","Anemone",6
 "Fifth Beach MID 2019 10","Barnacle",0.5
 "Fifth Beach MID 2019 10","Bossiella dichotoma",1
@@ -5126,7 +5125,7 @@
 "Fifth Beach MID 2019 10","Polysiphonia sp.",1
 "Fifth Beach MID 2019 10","Pyropia abbottiae",11
 "Fifth Beach MID 2019 10","Pyropia perforata",1
-"Fifth Beach MID 2019 2",NA,4
+"Fifth Beach MID 2019 10",NA,1
 "Fifth Beach MID 2019 2","Acrosiphonia arcta",0.5
 "Fifth Beach MID 2019 2","Acrosiphonia coalita",1
 "Fifth Beach MID 2019 2","Alaria marginata",15
@@ -5149,7 +5148,7 @@
 "Fifth Beach MID 2019 2","Pyropia abbottiae",18
 "Fifth Beach MID 2019 2","Pyropia perforata",3
 "Fifth Beach MID 2019 2","Spongites tumidum",0.5
-"Fifth Beach MID 2019 3",NA,5.5
+"Fifth Beach MID 2019 2",NA,4
 "Fifth Beach MID 2019 3","Acrosiphonia arcta",1
 "Fifth Beach MID 2019 3","Anemone",3
 "Fifth Beach MID 2019 3","bare rock",35
@@ -5172,7 +5171,7 @@
 "Fifth Beach MID 2019 3","Pyropia abbottiae",57
 "Fifth Beach MID 2019 3","Spongites tumidum",1
 "Fifth Beach MID 2019 3","Wildmania norrisii",1
-"Fifth Beach MID 2019 4",NA,1
+"Fifth Beach MID 2019 3",NA,5.5
 "Fifth Beach MID 2019 4","Acrosiphonia coalita",3
 "Fifth Beach MID 2019 4","Anemone",4
 "Fifth Beach MID 2019 4","bare rock",4
@@ -5201,7 +5200,7 @@
 "Fifth Beach MID 2019 4","Prionitis sternbergii",2
 "Fifth Beach MID 2019 4","Pyropia abbottiae",45
 "Fifth Beach MID 2019 4","Spongites tumidum",0.5
-"Fifth Beach MID 2019 5",NA,2
+"Fifth Beach MID 2019 4",NA,1
 "Fifth Beach MID 2019 5","Acrosiphonia coalita",1
 "Fifth Beach MID 2019 5","Alaria marginata",5
 "Fifth Beach MID 2019 5","Anemone",4
@@ -5222,6 +5221,7 @@
 "Fifth Beach MID 2019 5","Pyropia perforata",1
 "Fifth Beach MID 2019 5","Spongites tumidum",2
 "Fifth Beach MID 2019 5","Ulva linza",0.5
+"Fifth Beach MID 2019 5",NA,2
 "Fifth Beach MID 2019 6","Anemone",4
 "Fifth Beach MID 2019 6","bare rock",35
 "Fifth Beach MID 2019 6","Barnacle",0.5
@@ -5240,7 +5240,6 @@
 "Fifth Beach MID 2019 6","Pyropia abbottiae",42
 "Fifth Beach MID 2019 6","Spongites tumidum",4
 "Fifth Beach MID 2019 6","Wildmania norrisii",3
-"Fifth Beach MID 2019 7",NA,6
 "Fifth Beach MID 2019 7","Acrosiphonia coalita",18
 "Fifth Beach MID 2019 7","Alaria marginata",18
 "Fifth Beach MID 2019 7","Anemone",6
@@ -5265,7 +5264,7 @@
 "Fifth Beach MID 2019 7","Polysiphonia pacifica",7
 "Fifth Beach MID 2019 7","Pyropia abbottiae",39
 "Fifth Beach MID 2019 7","Spongites tumidum",16
-"Fifth Beach MID 2019 8",NA,1.5
+"Fifth Beach MID 2019 7",NA,6
 "Fifth Beach MID 2019 8","Acrosiphonia arcta",2
 "Fifth Beach MID 2019 8","Alaria marginata",3
 "Fifth Beach MID 2019 8","Anemone",3
@@ -5286,7 +5285,7 @@
 "Fifth Beach MID 2019 8","Scytosiphon dotyi",0.5
 "Fifth Beach MID 2019 8","Spongites tumidum",12
 "Fifth Beach MID 2019 8","Ulva linza",0.5
-"Fifth Beach MID 2019 9",NA,4
+"Fifth Beach MID 2019 8",NA,1.5
 "Fifth Beach MID 2019 9","Acrosiphonia arcta",1
 "Fifth Beach MID 2019 9","Alaria marginata",1
 "Fifth Beach MID 2019 9","Anemone",5
@@ -5309,6 +5308,7 @@
 "Fifth Beach MID 2019 9","Plocamium violaceum",1
 "Fifth Beach MID 2019 9","Pyropia perforata",20
 "Fifth Beach MID 2019 9","Spongites tumidum",2
+"Fifth Beach MID 2019 9",NA,4
 "Meay Channel HIGH 2015 1","bare rock",5
 "Meay Channel HIGH 2015 1","Barnacle",7
 "Meay Channel HIGH 2015 1","Clam hole",1
@@ -5761,17 +5761,16 @@
 "Meay Channel HIGH 2018 9","Soranthera ulvoidea",0.5
 "Meay Channel HIGH 2018 9","Ulva lobata",3
 "Meay Channel HIGH 2018 9","Ulva sp.",2
-"Meay Channel HIGH 2019 1",NA,6
 "Meay Channel HIGH 2019 1","Acrosiphonia sp.",1
 "Meay Channel HIGH 2019 1","Barnacle",1
 "Meay Channel HIGH 2019 1","Lomentaria hakodatensis",2
 "Meay Channel HIGH 2019 1","Polysiphonia hendryi var. garderi",0.5
 "Meay Channel HIGH 2019 1","Polysiphonia paniculata",0.5
 "Meay Channel HIGH 2019 1","Punctaria sp.",1
-"Meay Channel HIGH 2019 10",NA,1
+"Meay Channel HIGH 2019 1",NA,6
 "Meay Channel HIGH 2019 10","Barnacle",3
 "Meay Channel HIGH 2019 10","Punctaria sp.",1
-"Meay Channel HIGH 2019 2",NA,39.5
+"Meay Channel HIGH 2019 10",NA,1
 "Meay Channel HIGH 2019 2","Acrosiphonia sp.",2
 "Meay Channel HIGH 2019 2","Barnacle",2
 "Meay Channel HIGH 2019 2","Cryptosiphonia woodii",2
@@ -5786,7 +5785,7 @@
 "Meay Channel HIGH 2019 2","Ralfsioid",0.5
 "Meay Channel HIGH 2019 2","Snail",3
 "Meay Channel HIGH 2019 2","Spirorbis",1
-"Meay Channel HIGH 2019 3",NA,18
+"Meay Channel HIGH 2019 2",NA,39.5
 "Meay Channel HIGH 2019 3","bare rock",1
 "Meay Channel HIGH 2019 3","Barnacle",3
 "Meay Channel HIGH 2019 3","Cryptosiphonia woodii",8
@@ -5794,7 +5793,7 @@
 "Meay Channel HIGH 2019 3","Hildenbrandia occidentalis",0.5
 "Meay Channel HIGH 2019 3","Limpet",2
 "Meay Channel HIGH 2019 3","Polysiphonia hendryi var. hendryi",4
-"Meay Channel HIGH 2019 4",NA,5
+"Meay Channel HIGH 2019 3",NA,18
 "Meay Channel HIGH 2019 4","Acrosiphonia arcta",0.5
 "Meay Channel HIGH 2019 4","bare rock",3
 "Meay Channel HIGH 2019 4","Barnacle",3
@@ -5802,7 +5801,7 @@
 "Meay Channel HIGH 2019 4","Hildenbrandia rubra",0.5
 "Meay Channel HIGH 2019 4","Limpet",2
 "Meay Channel HIGH 2019 4","Polysiphonia hendryi var. luxuriens",27
-"Meay Channel HIGH 2019 5",NA,4
+"Meay Channel HIGH 2019 4",NA,5
 "Meay Channel HIGH 2019 5","bare rock",2
 "Meay Channel HIGH 2019 5","Barnacle",10
 "Meay Channel HIGH 2019 5","Colpomenia peregrina",0.5
@@ -5814,7 +5813,7 @@
 "Meay Channel HIGH 2019 5","Mastocarpus alaskensis",1
 "Meay Channel HIGH 2019 5","Melanosiphon intestinalis",0.5
 "Meay Channel HIGH 2019 5","Polysiphonia hendryi var. hendryi",9
-"Meay Channel HIGH 2019 6",NA,4
+"Meay Channel HIGH 2019 5",NA,4
 "Meay Channel HIGH 2019 6","Barnacle",26
 "Meay Channel HIGH 2019 6","Colpomenia peregrina",0.5
 "Meay Channel HIGH 2019 6","Fucus distichus",15
@@ -5827,7 +5826,7 @@
 "Meay Channel HIGH 2019 6","Ralfsioid",0.5
 "Meay Channel HIGH 2019 6","Unknown turf",2
 "Meay Channel HIGH 2019 6","Wood",5
-"Meay Channel HIGH 2019 7",NA,2
+"Meay Channel HIGH 2019 6",NA,4
 "Meay Channel HIGH 2019 7","bare rock",1
 "Meay Channel HIGH 2019 7","Barnacle",45
 "Meay Channel HIGH 2019 7","Cladophora sericea",1
@@ -5841,7 +5840,7 @@
 "Meay Channel HIGH 2019 7","Melanosiphon intestinalis",0.5
 "Meay Channel HIGH 2019 7","Neorhodomela aculeata",1
 "Meay Channel HIGH 2019 7","Polysiphonia hendryi var. hendryi",1
-"Meay Channel HIGH 2019 8",NA,26
+"Meay Channel HIGH 2019 7",NA,2
 "Meay Channel HIGH 2019 8","bare rock",1
 "Meay Channel HIGH 2019 8","Barnacle",2
 "Meay Channel HIGH 2019 8","Colpomenia peregrina",0.5
@@ -5854,7 +5853,7 @@
 "Meay Channel HIGH 2019 8","Ralfsioid",0.5
 "Meay Channel HIGH 2019 8","Ulva linza",0.5
 "Meay Channel HIGH 2019 8","Unknown crust",0.5
-"Meay Channel HIGH 2019 9",NA,13.5
+"Meay Channel HIGH 2019 8",NA,26
 "Meay Channel HIGH 2019 9","Acrosiphonia sp.",0.5
 "Meay Channel HIGH 2019 9","bare rock",12
 "Meay Channel HIGH 2019 9","Barnacle",4
@@ -5867,6 +5866,7 @@
 "Meay Channel HIGH 2019 9","Petalonia fascia",0.5
 "Meay Channel HIGH 2019 9","Ralfsioid",0.5
 "Meay Channel HIGH 2019 9","Scytosiphon lomentaria",0.5
+"Meay Channel HIGH 2019 9",NA,13.5
 "Meay Channel LOW 2015 1","Ceramium pacificum",5
 "Meay Channel LOW 2015 1","Clam shell",2
 "Meay Channel LOW 2015 1","Colpomenia peregrina",5
@@ -6589,7 +6589,6 @@
 "Meay Channel LOW 2018 9","Tonicella sp.",2
 "Meay Channel LOW 2018 9","Ulva lobata",9
 "Meay Channel LOW 2018 9","Ulva prolifera",2
-"Meay Channel LOW 2019 1",NA,67
 "Meay Channel LOW 2019 1","Acrosiphonia sp.",2
 "Meay Channel LOW 2019 1","Ceramium pacificum",6
 "Meay Channel LOW 2019 1","Halosaccion glandiforme",3
@@ -6599,7 +6598,7 @@
 "Meay Channel LOW 2019 1","Rhizoclonium tortuosum",20
 "Meay Channel LOW 2019 1","Sargassum muticum",50
 "Meay Channel LOW 2019 1","Tube worms",0.5
-"Meay Channel LOW 2019 10",NA,25.5
+"Meay Channel LOW 2019 1",NA,67
 "Meay Channel LOW 2019 10","Acrosiphonia arcta",12
 "Meay Channel LOW 2019 10","bare rock",8
 "Meay Channel LOW 2019 10","Barnacle",1
@@ -6612,7 +6611,7 @@
 "Meay Channel LOW 2019 10","Rhizoclonium tortuosum",42.5
 "Meay Channel LOW 2019 10","Sargassum muticum",91
 "Meay Channel LOW 2019 10","Ulothrix-Urospora sp.",13
-"Meay Channel LOW 2019 2",NA,40.5
+"Meay Channel LOW 2019 10",NA,25.5
 "Meay Channel LOW 2019 2","Acrosiphonia sp.",3
 "Meay Channel LOW 2019 2","bare rock",12
 "Meay Channel LOW 2019 2","Barnacle",0.5
@@ -6626,7 +6625,7 @@
 "Meay Channel LOW 2019 2","Rhizoclonium tortuosum",0.5
 "Meay Channel LOW 2019 2","Sargassum muticum",15
 "Meay Channel LOW 2019 2","Ulva prolifera",2
-"Meay Channel LOW 2019 3",NA,66
+"Meay Channel LOW 2019 2",NA,40.5
 "Meay Channel LOW 2019 3","bare rock",3
 "Meay Channel LOW 2019 3","Ceramium pacificum",2
 "Meay Channel LOW 2019 3","Cladophora sericea",7
@@ -6642,7 +6641,7 @@
 "Meay Channel LOW 2019 3","Punctaria sp.",5
 "Meay Channel LOW 2019 3","Sargassum muticum",54
 "Meay Channel LOW 2019 3","Ulva prolifera",5
-"Meay Channel LOW 2019 4",NA,83
+"Meay Channel LOW 2019 3",NA,66
 "Meay Channel LOW 2019 4","bare rock",1
 "Meay Channel LOW 2019 4","Barnacle",1
 "Meay Channel LOW 2019 4","Ceramium pacificum",2
@@ -6660,7 +6659,7 @@
 "Meay Channel LOW 2019 4","Rhizoclonium tortuosum",0.5
 "Meay Channel LOW 2019 4","Saccharina latissima",17
 "Meay Channel LOW 2019 4","Sargassum muticum",94
-"Meay Channel LOW 2019 5",NA,47.5
+"Meay Channel LOW 2019 4",NA,83
 "Meay Channel LOW 2019 5","bare rock",8
 "Meay Channel LOW 2019 5","Barnacle",6
 "Meay Channel LOW 2019 5","Halosaccion glandiforme",1
@@ -6674,7 +6673,7 @@
 "Meay Channel LOW 2019 5","Rhizoclonium tortuosum",0.8
 "Meay Channel LOW 2019 5","Sargassum muticum",99
 "Meay Channel LOW 2019 5","Ulothrix-Urospora sp.",2.4
-"Meay Channel LOW 2019 6",NA,83
+"Meay Channel LOW 2019 5",NA,47.5
 "Meay Channel LOW 2019 6","bare rock",4
 "Meay Channel LOW 2019 6","Barnacle",4
 "Meay Channel LOW 2019 6","Cladophora sericea",4
@@ -6687,7 +6686,7 @@
 "Meay Channel LOW 2019 6","Punctaria sp.",10
 "Meay Channel LOW 2019 6","Sargassum muticum",87
 "Meay Channel LOW 2019 6","Tunicata/Porifera",4
-"Meay Channel LOW 2019 7",NA,40
+"Meay Channel LOW 2019 6",NA,83
 "Meay Channel LOW 2019 7","Barnacle",3
 "Meay Channel LOW 2019 7","Ceramium pacificum",4
 "Meay Channel LOW 2019 7","colonial Diatoms",30
@@ -6703,7 +6702,7 @@
 "Meay Channel LOW 2019 7","Punctaria sp.",0.5
 "Meay Channel LOW 2019 7","Sargassum muticum",88
 "Meay Channel LOW 2019 7","Tonicella sp.",1
-"Meay Channel LOW 2019 8",NA,34
+"Meay Channel LOW 2019 7",NA,40
 "Meay Channel LOW 2019 8","bare rock",5
 "Meay Channel LOW 2019 8","Ceramium pacificum",4
 "Meay Channel LOW 2019 8","colonial Diatoms",14
@@ -6712,7 +6711,7 @@
 "Meay Channel LOW 2019 8","Lomentaria hakodatensis",6
 "Meay Channel LOW 2019 8","Mastocarpus intermedius",4
 "Meay Channel LOW 2019 8","Sargassum muticum",84
-"Meay Channel LOW 2019 9",NA,69
+"Meay Channel LOW 2019 8",NA,34
 "Meay Channel LOW 2019 9","bare rock",7
 "Meay Channel LOW 2019 9","Barnacle",3
 "Meay Channel LOW 2019 9","Ceramium pacificum",6
@@ -6725,6 +6724,7 @@
 "Meay Channel LOW 2019 9","Neorhodomela aculeata",4
 "Meay Channel LOW 2019 9","Pisaster ochraceus",1
 "Meay Channel LOW 2019 9","Sargassum muticum",47
+"Meay Channel LOW 2019 9",NA,69
 "Meay Channel MID 2015 1","bare rock",4
 "Meay Channel MID 2015 1","Cladophora sericea",1
 "Meay Channel MID 2015 1","Clam shell",6
@@ -7314,7 +7314,6 @@
 "Meay Channel MID 2018 9","Palmaria mollis",0.5
 "Meay Channel MID 2018 9","Scytosiphon lomentaria",0.5
 "Meay Channel MID 2018 9","Ulva lobata",2
-"Meay Channel MID 2019 1",NA,7
 "Meay Channel MID 2019 1","Acrosiphonia sp.",10
 "Meay Channel MID 2019 1","Barnacle",1
 "Meay Channel MID 2019 1","Hildenbrandia occidentalis",1
@@ -7323,7 +7322,7 @@
 "Meay Channel MID 2019 1","Polysiphonia hendryi var. luxuriens",6
 "Meay Channel MID 2019 1","Rhizoclonium tortuosum",1
 "Meay Channel MID 2019 1","Ulva prolifera",2
-"Meay Channel MID 2019 10",NA,33.5
+"Meay Channel MID 2019 1",NA,7
 "Meay Channel MID 2019 10","Acrosiphonia sp.",18
 "Meay Channel MID 2019 10","bare rock",9
 "Meay Channel MID 2019 10","Barnacle",0.5
@@ -7337,7 +7336,7 @@
 "Meay Channel MID 2019 10","Neorhodomela aculeata",8
 "Meay Channel MID 2019 10","Polysiphonia hendryi var. hendryi",3
 "Meay Channel MID 2019 10","Punctaria sp.",1
-"Meay Channel MID 2019 2",NA,4
+"Meay Channel MID 2019 10",NA,33.5
 "Meay Channel MID 2019 2","Acrosiphonia sp.",5.3
 "Meay Channel MID 2019 2","Barnacle",1
 "Meay Channel MID 2019 2","Colpomenia peregrina",1
@@ -7347,7 +7346,7 @@
 "Meay Channel MID 2019 2","Punctaria sp.",6
 "Meay Channel MID 2019 2","Rhizoclonium tortuosum",0.3
 "Meay Channel MID 2019 2","Ulva intestinalis",3
-"Meay Channel MID 2019 3",NA,21
+"Meay Channel MID 2019 2",NA,4
 "Meay Channel MID 2019 3","Acrosiphonia sp.",12
 "Meay Channel MID 2019 3","bare rock",2
 "Meay Channel MID 2019 3","Barnacle",4
@@ -7364,7 +7363,7 @@
 "Meay Channel MID 2019 3","Ulva intestinalis",1
 "Meay Channel MID 2019 3","Ulva prolifera",2
 "Meay Channel MID 2019 3","Wildmania amplissima",0.5
-"Meay Channel MID 2019 4",NA,32
+"Meay Channel MID 2019 3",NA,21
 "Meay Channel MID 2019 4","Barnacle",2
 "Meay Channel MID 2019 4","colonial Diatoms",3
 "Meay Channel MID 2019 4","Cryptosiphonia woodii",7
@@ -7379,7 +7378,7 @@
 "Meay Channel MID 2019 4","Ulva intestinalis",19
 "Meay Channel MID 2019 4","Ulva prolifera",7
 "Meay Channel MID 2019 4","Wildmania amplissima",1
-"Meay Channel MID 2019 5",NA,5
+"Meay Channel MID 2019 4",NA,32
 "Meay Channel MID 2019 5","Acrosiphonia sp.",14
 "Meay Channel MID 2019 5","bare rock",12
 "Meay Channel MID 2019 5","Barnacle",3
@@ -7397,7 +7396,7 @@
 "Meay Channel MID 2019 5","Ulva linza",1
 "Meay Channel MID 2019 5","Ulva prolifera",2
 "Meay Channel MID 2019 5","Unknown crust",2
-"Meay Channel MID 2019 6",NA,29
+"Meay Channel MID 2019 5",NA,5
 "Meay Channel MID 2019 6","Acrosiphonia sp.",10
 "Meay Channel MID 2019 6","bare rock",10
 "Meay Channel MID 2019 6","Barnacle",1
@@ -7415,14 +7414,14 @@
 "Meay Channel MID 2019 6","Ulva prolifera",0.5
 "Meay Channel MID 2019 6","Unknown crust",1
 "Meay Channel MID 2019 6","Wildmania amplissima",1
-"Meay Channel MID 2019 7",NA,33
+"Meay Channel MID 2019 6",NA,29
 "Meay Channel MID 2019 7","Acrosiphonia sp.",4
 "Meay Channel MID 2019 7","Fucus distichus",15
 "Meay Channel MID 2019 7","Halosaccion glandiforme",1
 "Meay Channel MID 2019 7","Hildenbrandia rubra",3
 "Meay Channel MID 2019 7","Neorhodomela aculeata",12
 "Meay Channel MID 2019 7","Punctaria sp.",27
-"Meay Channel MID 2019 8",NA,40
+"Meay Channel MID 2019 7",NA,33
 "Meay Channel MID 2019 8","Acrosiphonia sp.",7
 "Meay Channel MID 2019 8","Barnacle",2
 "Meay Channel MID 2019 8","Colpomenia peregrina",1
@@ -7434,7 +7433,7 @@
 "Meay Channel MID 2019 8","Punctaria sp.",7
 "Meay Channel MID 2019 8","Scytosiphon lomentaria",3
 "Meay Channel MID 2019 8","Ulva intestinalis",2
-"Meay Channel MID 2019 9",NA,13
+"Meay Channel MID 2019 8",NA,40
 "Meay Channel MID 2019 9","Acrosiphonia sp.",10
 "Meay Channel MID 2019 9","bare rock",3
 "Meay Channel MID 2019 9","Barnacle",0.5
@@ -7448,6 +7447,7 @@
 "Meay Channel MID 2019 9","Punctaria sp.",4
 "Meay Channel MID 2019 9","Scytosiphon dotyi",1
 "Meay Channel MID 2019 9","Ulva prolifera",0.5
+"Meay Channel MID 2019 9",NA,13
 "North Beach HIGH 2011 1","bare rock",35
 "North Beach HIGH 2011 1","Cladophora columbiana",1
 "North Beach HIGH 2011 1","Endocladia muricata",2
@@ -8488,7 +8488,6 @@
 "North Beach HIGH 2019 3","Limpet",36
 "North Beach HIGH 2019 3","Littorina sp.",182
 "North Beach HIGH 2019 3","Petrocelis",0.5
-"North Beach HIGH 2019 4",NA,1
 "North Beach HIGH 2019 4","Acrosiphonia coalita",0.5
 "North Beach HIGH 2019 4","Barnacle",50
 "North Beach HIGH 2019 4","Endocladia muricata",1
@@ -8501,6 +8500,7 @@
 "North Beach HIGH 2019 4","Nucella sp.",4
 "North Beach HIGH 2019 4","Pyropia abbottiae",1
 "North Beach HIGH 2019 4","Pyropia fucicola",1
+"North Beach HIGH 2019 4",NA,1
 "North Beach HIGH 2019 5","Anemone",0.5
 "North Beach HIGH 2019 5","bare rock",12
 "North Beach HIGH 2019 5","Barnacle",65
@@ -8531,7 +8531,6 @@
 "North Beach HIGH 2019 6","Mytilus sp.",5
 "North Beach HIGH 2019 6","Nucella sp.",1
 "North Beach HIGH 2019 6","Petrocelis",1
-"North Beach HIGH 2019 7",NA,1
 "North Beach HIGH 2019 7","Acrosiphonia arcta",5
 "North Beach HIGH 2019 7","Anemone",3
 "North Beach HIGH 2019 7","Barnacle",5
@@ -8547,6 +8546,7 @@
 "North Beach HIGH 2019 7","Spongites tumidum",7
 "North Beach HIGH 2019 7","Ulva lactuca",9
 "North Beach HIGH 2019 7","Wildmania norrisii",8
+"North Beach HIGH 2019 7",NA,1
 "North Beach HIGH 2019 8","bare rock",14
 "North Beach HIGH 2019 8","Barnacle",65
 "North Beach HIGH 2019 8","Fucus distichus",3
@@ -10198,7 +10198,6 @@
 "North Beach LOW 2018 9","Odonthalia floccosa",79
 "North Beach LOW 2018 9","Saccharina sessilis",26
 "North Beach LOW 2018 9","Ulva lactuca",0.5
-"North Beach LOW 2019 1",NA,2.5
 "North Beach LOW 2019 1","Alaria marginata",0.5
 "North Beach LOW 2019 1","bare rock",10
 "North Beach LOW 2019 1","Bossiella exarticulata",7
@@ -10228,6 +10227,7 @@
 "North Beach LOW 2019 1","Tonicella sp.",4
 "North Beach LOW 2019 1","Tube worms",0.5
 "North Beach LOW 2019 1","Unknown crust",1
+"North Beach LOW 2019 1",NA,2.5
 "North Beach LOW 2019 10","Alaria marginata",100
 "North Beach LOW 2019 10","Bossiella frondifera",6
 "North Beach LOW 2019 10","Bossiella hakaiensis",1
@@ -10244,7 +10244,6 @@
 "North Beach LOW 2019 10","Peyssonnelia sp.",1
 "North Beach LOW 2019 10","Polyneura latissima",0.5
 "North Beach LOW 2019 10","Saccharina nigripes",25
-"North Beach LOW 2019 2",NA,0.5
 "North Beach LOW 2019 2","Bossiella frondescens",2
 "North Beach LOW 2019 2","Bossiella frondifera",6
 "North Beach LOW 2019 2","Bossiella mayae",4
@@ -10270,7 +10269,7 @@
 "North Beach LOW 2019 2","Saccharina sessilis",100
 "North Beach LOW 2019 2","Snail",10
 "North Beach LOW 2019 2","Strongylocentrotus purpuratus",12
-"North Beach LOW 2019 3",NA,2.5
+"North Beach LOW 2019 2",NA,0.5
 "North Beach LOW 2019 3","Alaria marginata",2
 "North Beach LOW 2019 3","bare rock",1
 "North Beach LOW 2019 3","Bossiella frondescens",8
@@ -10299,7 +10298,7 @@
 "North Beach LOW 2019 3","Spirorbis",1
 "North Beach LOW 2019 3","Strongylocentrotus purpuratus",2
 "North Beach LOW 2019 3","Tonicella sp.",2
-"North Beach LOW 2019 4",NA,8
+"North Beach LOW 2019 3",NA,2.5
 "North Beach LOW 2019 4","Alaria marginata",0.5
 "North Beach LOW 2019 4","bare rock",1
 "North Beach LOW 2019 4","Bossiella exarticulata",6
@@ -10327,6 +10326,7 @@
 "North Beach LOW 2019 4","Schizymenia pacifica",1
 "North Beach LOW 2019 4","Strongylocentrotus purpuratus",4
 "North Beach LOW 2019 4","Tube worms",1
+"North Beach LOW 2019 4",NA,8
 "North Beach LOW 2019 5","bare rock",7
 "North Beach LOW 2019 5","Bossiella exarticulata",2
 "North Beach LOW 2019 5","Bossiella frondifera",18
@@ -10349,7 +10349,6 @@
 "North Beach LOW 2019 5","Strongylocentrotus purpuratus",2
 "North Beach LOW 2019 5","Ulva lactuca",0.5
 "North Beach LOW 2019 5","Unknown crust",2
-"North Beach LOW 2019 6",NA,3
 "North Beach LOW 2019 6","Alaria marginata",100
 "North Beach LOW 2019 6","bare rock",3
 "North Beach LOW 2019 6","Bossiella exarticulata",5
@@ -10371,6 +10370,7 @@
 "North Beach LOW 2019 6","Neopolyporolithon reclinatum",0.5
 "North Beach LOW 2019 6","Odonthalia floccosa",0.5
 "North Beach LOW 2019 6","Saccharina sessilis",100
+"North Beach LOW 2019 6",NA,3
 "North Beach LOW 2019 7","Alaria marginata",97
 "North Beach LOW 2019 7","bare rock",4
 "North Beach LOW 2019 7","Bossiella frondescens",4
@@ -10394,7 +10394,6 @@
 "North Beach LOW 2019 7","Saccharina sessilis",56
 "North Beach LOW 2019 7","Snail",6
 "North Beach LOW 2019 7","Tonicella sp.",2
-"North Beach LOW 2019 8",NA,4
 "North Beach LOW 2019 8","Alaria marginata",100
 "North Beach LOW 2019 8","Bossiella frondescens",2
 "North Beach LOW 2019 8","Bossiella frondifera",8
@@ -10407,7 +10406,7 @@
 "North Beach LOW 2019 8","Peyssonnelia sp.",1
 "North Beach LOW 2019 8","Plocamium violaceum",0.5
 "North Beach LOW 2019 8","Saccharina nigripes",30
-"North Beach LOW 2019 9",NA,5
+"North Beach LOW 2019 8",NA,4
 "North Beach LOW 2019 9","Acrosiphonia arcta",0.5
 "North Beach LOW 2019 9","Alaria marginata",58
 "North Beach LOW 2019 9","bare rock",6
@@ -10438,6 +10437,7 @@
 "North Beach LOW 2019 9","Scytosiphon dotyi",0.5
 "North Beach LOW 2019 9","Snail",3
 "North Beach LOW 2019 9","Ulva lactuca",0.5
+"North Beach LOW 2019 9",NA,5
 "North Beach MID 2011 1","Acrosiphonia sp.",1
 "North Beach MID 2011 1","Alaria marginata",25
 "North Beach MID 2011 1","bare rock",10
@@ -11938,7 +11938,6 @@
 "North Beach MID 2019 1","Spongites tumidum",3
 "North Beach MID 2019 1","Ulva lactuca",0.5
 "North Beach MID 2019 1","Wildmania norrisii",3
-"North Beach MID 2019 10",NA,1
 "North Beach MID 2019 10","Acrosiphonia coalita",6
 "North Beach MID 2019 10","Alaria marginata",2
 "North Beach MID 2019 10","Anemone",3
@@ -11955,6 +11954,7 @@
 "North Beach MID 2019 10","Pyropia fucicola",1
 "North Beach MID 2019 10","Spongites tumidum",10
 "North Beach MID 2019 10","Ulva lactuca",0.5
+"North Beach MID 2019 10",NA,1
 "North Beach MID 2019 2","Acrosiphonia coalita",2
 "North Beach MID 2019 2","Alaria marginata",3
 "North Beach MID 2019 2","Analipus japonicus",0.5
@@ -11975,7 +11975,6 @@
 "North Beach MID 2019 2","Scytosiphon lomentaria",2
 "North Beach MID 2019 2","Ulva lactuca",0.5
 "North Beach MID 2019 2","Wildmania norrisii",2
-"North Beach MID 2019 3",NA,2
 "North Beach MID 2019 3","Acrosiphonia coalita",2
 "North Beach MID 2019 3","Anemone",4
 "North Beach MID 2019 3","bare rock",12
@@ -11990,7 +11989,7 @@
 "North Beach MID 2019 3","Pyropia abbottiae",14
 "North Beach MID 2019 3","Ulva lactuca",2
 "North Beach MID 2019 3","Wildmania norrisii",8
-"North Beach MID 2019 4",NA,15
+"North Beach MID 2019 3",NA,2
 "North Beach MID 2019 4","Alaria marginata",0.5
 "North Beach MID 2019 4","Anemone",12
 "North Beach MID 2019 4","bare rock",40
@@ -12012,6 +12011,7 @@
 "North Beach MID 2019 4","Pyropia fallax",12
 "North Beach MID 2019 4","Ulva lactuca",1
 "North Beach MID 2019 4","Wildmania norrisii",3
+"North Beach MID 2019 4",NA,15
 "North Beach MID 2019 5","Anemone",7
 "North Beach MID 2019 5","bare rock",47
 "North Beach MID 2019 5","Barnacle",6
@@ -12062,7 +12062,6 @@
 "North Beach MID 2019 7","Prionitis sternbergii",2
 "North Beach MID 2019 7","Pyropia fucicola",0.5
 "North Beach MID 2019 7","Wildmania norrisii",0.5
-"North Beach MID 2019 8",NA,1
 "North Beach MID 2019 8","Anemone",2
 "North Beach MID 2019 8","bare rock",30
 "North Beach MID 2019 8","Barnacle",21
@@ -12074,6 +12073,7 @@
 "North Beach MID 2019 8","Pisaster ochraceus",8
 "North Beach MID 2019 8","Pyropia fucicola",5
 "North Beach MID 2019 8","Wildmania norrisii",3
+"North Beach MID 2019 8",NA,1
 "North Beach MID 2019 9","Anemone",7
 "North Beach MID 2019 9","bare rock",30
 "North Beach MID 2019 9","Barnacle",17
@@ -12763,7 +12763,6 @@
 "West Beach HIGH 2019 10","Mastocarpus latissimus",1
 "West Beach HIGH 2019 10","Pyropia fallax",1
 "West Beach HIGH 2019 10","Tegula sp.",30
-"West Beach HIGH 2019 2",NA,0.5
 "West Beach HIGH 2019 2","Ahnfeltia fastigiata",8
 "West Beach HIGH 2019 2","bare rock",60
 "West Beach HIGH 2019 2","Barnacle",16
@@ -12779,6 +12778,7 @@
 "West Beach HIGH 2019 2","Phyllospadix scouleri",0.5
 "West Beach HIGH 2019 2","Pyropia fucicola",0.5
 "West Beach HIGH 2019 2","Tegula sp.",140
+"West Beach HIGH 2019 2",NA,0.5
 "West Beach HIGH 2019 3","bare rock",42
 "West Beach HIGH 2019 3","Barnacle",2
 "West Beach HIGH 2019 3","Endocladia muricata",10
@@ -12812,7 +12812,6 @@
 "West Beach HIGH 2019 5","Littorina sp.",20
 "West Beach HIGH 2019 5","Petrocelis",0.5
 "West Beach HIGH 2019 5","Tegula sp.",13
-"West Beach HIGH 2019 6",NA,1
 "West Beach HIGH 2019 6","Anemone",0.5
 "West Beach HIGH 2019 6","bare rock",86
 "West Beach HIGH 2019 6","Barnacle",2
@@ -12823,7 +12822,7 @@
 "West Beach HIGH 2019 6","Mastocarpus alaskensis",1
 "West Beach HIGH 2019 6","Petrocelis",4
 "West Beach HIGH 2019 6","Tegula sp.",60
-"West Beach HIGH 2019 7",NA,0.5
+"West Beach HIGH 2019 6",NA,1
 "West Beach HIGH 2019 7","Anemone",3
 "West Beach HIGH 2019 7","bare rock",86
 "West Beach HIGH 2019 7","Barnacle",10
@@ -12836,6 +12835,7 @@
 "West Beach HIGH 2019 7","Mastocarpus alaskensis",4
 "West Beach HIGH 2019 7","Nucella sp.",1
 "West Beach HIGH 2019 7","Pyropia fucicola",1
+"West Beach HIGH 2019 7",NA,0.5
 "West Beach HIGH 2019 8","Barnacle",3
 "West Beach HIGH 2019 8","Chlorostoma sp.",14
 "West Beach HIGH 2019 8","Endocladia muricata",7
@@ -14768,7 +14768,6 @@
 "West Beach LOW 2018 9","Spongites tumidum",11
 "West Beach LOW 2018 9","Tonicella sp.",4
 "West Beach LOW 2018 9","Ulva lactuca",1
-"West Beach LOW 2019 1",NA,16
 "West Beach LOW 2019 1","Acrosiphonia coalita",10
 "West Beach LOW 2019 1","Alaria marginata",1
 "West Beach LOW 2019 1","bare rock",25
@@ -14795,7 +14794,7 @@
 "West Beach LOW 2019 1","Schizymenia pacifica",1
 "West Beach LOW 2019 1","Scytosiphon lomentaria",0.5
 "West Beach LOW 2019 1","Snail",3
-"West Beach LOW 2019 10",NA,14.5
+"West Beach LOW 2019 1",NA,16
 "West Beach LOW 2019 10","Acrosiphonia coalita",0.5
 "West Beach LOW 2019 10","Alaria marginata",30
 "West Beach LOW 2019 10","Anemone",1
@@ -14824,7 +14823,7 @@
 "West Beach LOW 2019 10","Pyropia fucicola",0.5
 "West Beach LOW 2019 10","Snail",5
 "West Beach LOW 2019 10","Ulva linza",0.5
-"West Beach LOW 2019 2",NA,16
+"West Beach LOW 2019 10",NA,14.5
 "West Beach LOW 2019 2","Acrosiphonia coalita",0.5
 "West Beach LOW 2019 2","Alaria marginata",10
 "West Beach LOW 2019 2","Analipus japonicus",3
@@ -14846,7 +14845,7 @@
 "West Beach LOW 2019 2","Neorhodomela larix",1
 "West Beach LOW 2019 2","Odonthalia floccosa",14
 "West Beach LOW 2019 2","Polysiphonia pacifica var delicatula",2
-"West Beach LOW 2019 3",NA,8.5
+"West Beach LOW 2019 2",NA,16
 "West Beach LOW 2019 3","Acrosiphonia arcta",2
 "West Beach LOW 2019 3","bare rock",2
 "West Beach LOW 2019 3","Bossiella frondescens",1
@@ -14867,7 +14866,7 @@
 "West Beach LOW 2019 3","Polyneura latissima",3
 "West Beach LOW 2019 3","Pyropia abbottiae",1
 "West Beach LOW 2019 3","Pyropia fucicola",4
-"West Beach LOW 2019 4",NA,2
+"West Beach LOW 2019 3",NA,8.5
 "West Beach LOW 2019 4","Acrosiphonia coalita",12
 "West Beach LOW 2019 4","Alaria marginata",41
 "West Beach LOW 2019 4","bare rock",9
@@ -14887,7 +14886,7 @@
 "West Beach LOW 2019 4","Petrocelis",1
 "West Beach LOW 2019 4","Phyllospadix scouleri",0.5
 "West Beach LOW 2019 4","Pyropia perforata",16
-"West Beach LOW 2019 5",NA,25
+"West Beach LOW 2019 4",NA,2
 "West Beach LOW 2019 5","Acrosiphonia coalita",15
 "West Beach LOW 2019 5","Alaria marginata",68
 "West Beach LOW 2019 5","bare rock",10
@@ -14910,7 +14909,7 @@
 "West Beach LOW 2019 5","Pyropia perforata",1
 "West Beach LOW 2019 5","Ralfsioid",1
 "West Beach LOW 2019 5","Schizymenia pacifica",1
-"West Beach LOW 2019 6",NA,2
+"West Beach LOW 2019 5",NA,25
 "West Beach LOW 2019 6","Acrosiphonia coalita",6
 "West Beach LOW 2019 6","Alaria marginata",69
 "West Beach LOW 2019 6","bare rock",3
@@ -14928,7 +14927,7 @@
 "West Beach LOW 2019 6","Phyllospadix scouleri",0.5
 "West Beach LOW 2019 6","Polyneura latissima",1
 "West Beach LOW 2019 6","Pyropia perforata",12
-"West Beach LOW 2019 7",NA,0.5
+"West Beach LOW 2019 6",NA,2
 "West Beach LOW 2019 7","Acrosiphonia coalita",24
 "West Beach LOW 2019 7","Alaria marginata",100
 "West Beach LOW 2019 7","bare rock",17
@@ -14951,7 +14950,7 @@
 "West Beach LOW 2019 7","Snail",1
 "West Beach LOW 2019 7","Spirorbis",3
 "West Beach LOW 2019 7","Ulva linza",2
-"West Beach LOW 2019 8",NA,2
+"West Beach LOW 2019 7",NA,0.5
 "West Beach LOW 2019 8","Acrosiphonia coalita",27
 "West Beach LOW 2019 8","Alaria marginata",57
 "West Beach LOW 2019 8","bare rock",42
@@ -14966,7 +14965,7 @@
 "West Beach LOW 2019 8","Petrocelis",4
 "West Beach LOW 2019 8","Pyropia abbottiae",0.5
 "West Beach LOW 2019 8","Pyropia perforata",15
-"West Beach LOW 2019 9",NA,10
+"West Beach LOW 2019 8",NA,2
 "West Beach LOW 2019 9","Acrosiphonia coalita",6
 "West Beach LOW 2019 9","Alaria marginata",83
 "West Beach LOW 2019 9","bare rock",1
@@ -14988,6 +14987,7 @@
 "West Beach LOW 2019 9","Ptilota sp.",0.5
 "West Beach LOW 2019 9","Pyropia perforata",12
 "West Beach LOW 2019 9","Tonicella sp.",2
+"West Beach LOW 2019 9",NA,10
 "West Beach MID 2011 1","Cryptosiphonia woodii",3
 "West Beach MID 2011 1","Elachista fucicola",1
 "West Beach MID 2011 1","Endocladia muricata",4
@@ -16126,7 +16126,6 @@
 "West Beach MID 2018 9","Mastocarpus alaskensis",1
 "West Beach MID 2018 9","Mastocarpus intermedius",2
 "West Beach MID 2018 9","Tube worms",1
-"West Beach MID 2019 1",NA,17
 "West Beach MID 2019 1","bare rock",70
 "West Beach MID 2019 1","Barnacle",13
 "West Beach MID 2019 1","Endocladia muricata",3
@@ -16135,6 +16134,7 @@
 "West Beach MID 2019 1","Hildenbrandia rubra",7
 "West Beach MID 2019 1","Limpet",7
 "West Beach MID 2019 1","Tegula sp.",5
+"West Beach MID 2019 1",NA,17
 "West Beach MID 2019 10","bare rock",72
 "West Beach MID 2019 10","Barnacle",4
 "West Beach MID 2019 10","Endocladia muricata",14
@@ -16143,7 +16143,6 @@
 "West Beach MID 2019 10","Limpet",5
 "West Beach MID 2019 10","Mastocarpus alaskensis",3
 "West Beach MID 2019 10","Tegula sp.",3
-"West Beach MID 2019 2",NA,5.25
 "West Beach MID 2019 2","Anemone",0.5
 "West Beach MID 2019 2","bare rock",46
 "West Beach MID 2019 2","Barnacle",3
@@ -16152,7 +16151,7 @@
 "West Beach MID 2019 2","Limpet",18
 "West Beach MID 2019 2","Odonthalia floccosa f. comosa",1
 "West Beach MID 2019 2","Pagarus sp.",6
-"West Beach MID 2019 3",NA,1
+"West Beach MID 2019 2",NA,5.25
 "West Beach MID 2019 3","Acrosiphonia arcta",0.5
 "West Beach MID 2019 3","bare rock",76
 "West Beach MID 2019 3","Barnacle",10
@@ -16163,7 +16162,7 @@
 "West Beach MID 2019 3","Neorhodomela larix",0.5
 "West Beach MID 2019 3","Pagarus sp.",1
 "West Beach MID 2019 3","Tegula sp.",2
-"West Beach MID 2019 4",NA,3
+"West Beach MID 2019 3",NA,1
 "West Beach MID 2019 4","bare rock",68
 "West Beach MID 2019 4","Barnacle",1
 "West Beach MID 2019 4","Chlorostoma sp.",4
@@ -16181,7 +16180,7 @@
 "West Beach MID 2019 4","Odonthalia floccosa",0.5
 "West Beach MID 2019 4","Phyllospadix serrulatus",2
 "West Beach MID 2019 4","Polysiphonia pacifica",0.5
-"West Beach MID 2019 5",NA,0.5
+"West Beach MID 2019 4",NA,3
 "West Beach MID 2019 5","Anemone",0.5
 "West Beach MID 2019 5","bare rock",80
 "West Beach MID 2019 5","Barnacle",17
@@ -16195,7 +16194,7 @@
 "West Beach MID 2019 5","Neorhodomela larix",0.5
 "West Beach MID 2019 5","Petrocelis",1
 "West Beach MID 2019 5","Pyropia fucicola",0.5
-"West Beach MID 2019 6",NA,2
+"West Beach MID 2019 5",NA,0.5
 "West Beach MID 2019 6","Anemone",0.5
 "West Beach MID 2019 6","bare rock",50
 "West Beach MID 2019 6","Barnacle",3
@@ -16209,6 +16208,7 @@
 "West Beach MID 2019 6","Mastocarpus latissimus",1
 "West Beach MID 2019 6","Pisaster ochraceus",1
 "West Beach MID 2019 6","Pyropia abbottiae",0.5
+"West Beach MID 2019 6",NA,2
 "West Beach MID 2019 7","bare rock",78
 "West Beach MID 2019 7","Barnacle",7
 "West Beach MID 2019 7","Blidingia sp.",0.5

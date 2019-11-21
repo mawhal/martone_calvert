@@ -23,7 +23,7 @@ MixingDir = paste0( here::here(), "/R Code and Analysis/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = 7
+model = 3
 mload <- load( paste(ModelDir,list.files( ModelDir ), sep="/")[model] )
 
 # load the data
@@ -77,12 +77,12 @@ pos.neg <- data.frame(pos = c(postBeta$support), neg = c(postBeta$supportNeg))
 pos.neg[pos.neg< 0.95] <- 0
 pos.neg$neg <- -pos.neg$neg
 pos.neg$value <- pos.neg$pos + pos.neg$neg
-pos.neg$parameter <- factor(c("intercept", "shore.elevation", "shore.elev.sq", "year",
-                              "shore.year", "shore2.year" ),
-                            levels = c("intercept", "shore.elevation", "shore.elev.sq",  
-                                       "year", "shore.year", "shore2.year" ), 
+pos.neg$parameter <- factor(c("intercept", "shore.elevation", "shore.elev.sq", "anom.pine.sum.1",
+                              "anom.pine.win" ),
+                            levels = c("intercept", "shore.elevation", "shore.elev.sq", "anom.pine.sum.1",
+                                       "anom.pine.win" ), 
                             ordered = TRUE)
-pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 6), 
+pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 5), 
                           levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)],
                           ordered = TRUE)
 
@@ -99,27 +99,80 @@ taxa.pos.anom <- as.character(pos.neg[ pos.neg$parameter=='temp.anom' & pos.neg$
 
 # calculate mean and variance of parameter esimates
 pbdf <- data.frame( t(postBeta$mean), taxon=colnames(postBeta$mean) )
-names(pbdf) <- c("intercept","elev","elev2","year",
-                 "elev:year","elev2:year","taxon")
+names(pbdf) <- c("intercept","elev","elev2","summer.anom","winter.anom","taxon")
 ## Add some basic trait information
 pbdf$alga <- "alga"
 pbdf$alga[c(3,15,20,56,57,62,68,82)] <- "invert"
 # More specific groups
 
 
-coef_plot <- pbdf %>% 
-  select( -taxon ) %>%
-  group_by( alga ) %>%
-  gather( coefficient, value, -alga )
+## add trait information
+taxa  <- read_csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )
+trait <- read_csv( "Data/taxa/Algae_functional_groups.csv" )
 
-ggplot( coef_plot, aes(y=value, x=factor(1), col=alga)) +
-  facet_wrap(~coefficient, scales="free_y") +
+tt <- left_join( taxa, trait, by = c("taxon_revised"="Species") )
+anti_join( trait, taxa, by = c("Species"="taxon_revised") )
+tt$`Kelp-Fucoid-Turf`[ tt$`non-alga flag` == "Animal" ]  <- "Animal"
+tt$`Littler-defined`[ tt$`non-alga flag` == "Animal" ]  <- "Animal"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_lumped2=="Unknown CCA"] <- "crust"
+tt$`Littler-defined`[tt$taxon_lumped2=="Unknown CCA"] <- "crustose"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
+tt$`Littler-defined`[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Melobesia sp."] <- "crustose coralline"
+tt$`Littler-defined`[tt$taxon_revised=="Melobesia sp."] <- "coralline"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Savoiea robusta"] <- "filament_turf"
+tt$`Littler-defined`[tt$taxon_revised=="Savoiea robusta"] <- "filament"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament_turf"
+tt$`Littler-defined`[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Hedophyllum nigripes"] <- "Kelp"
+tt$`Littler-defined`[tt$taxon_revised=="Hedophyllum nigripes"] <- "thick leathery"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Hedophyllum sessile"] <- "Kelp"
+tt$`Littler-defined`[tt$taxon_revised=="Hedophyllum sessile"] <- "thick leathery"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Chamberlainium tumidum"] <- "crustose coralline"
+tt$`Littler-defined`[tt$taxon_revised=="Chamberlainium tumidum"] <- "coralline"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Ulothrix-Urospora sp."] <- "green turf"
+tt$`Littler-defined`[tt$taxon_revised=="Ulothrix-Urospora sp."] <- "filament"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Prionitis lanceoloata"] <- "red turf"
+tt$`Littler-defined`[tt$taxon_revised=="Prionitis lanceoloata"] <- "finely branching"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Derbesia marina"] <- "green turf"
+tt$`Littler-defined`[tt$taxon_revised=="Derbesia marina"] <- "filament"
+tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Acrosiphonia spp."] <- "filament turf"
+tt$`Littler-defined`[tt$taxon_revised=="Acrosiphonia spp."] <- "filament"
+
+
+
+tt <- tt[ !is.na(tt$`Kelp-Fucoid-Turf`),]
+tt$taxon <- gsub( " ",".",tt$taxon_lumped2 )
+tt <- tt %>% 
+  select( taxon, funct=`Kelp-Fucoid-Turf`, littler=`Littler-defined` ) %>% 
+  distinct()
+tt$funct[ tt$funct=="kelp"] <- "Kelp"
+tt$funct[ tt$funct=="green turf"] <- "filament_turf"
+
+tt <- tt[-c(4,21,213),]
+
+pbdf_trait <- left_join( pbdf, tt)
+
+pbdf_trait$funct[pbdf_trait$taxon=="Tunicata.Porifera"] <- "Animal"
+
+
+
+
+coef_plot <- pbdf_trait %>% 
+  select( -taxon, -littler ) %>%
+  group_by( funct ) %>%
+  gather( coefficient, value, -alga, -funct ) %>% 
+  filter( coefficient %in% c("summer.anom","winter.anom"))
+
+windows(6,4)
+ggplot( coef_plot, aes(y=value, x=factor(1), col=funct)) +
+  facet_wrap(~coefficient, scales="free_y", ncol=1) +
   geom_hline(yintercept=0) +
   stat_summary( fun.data=mean_cl_boot, geom='errorbar',
                 size=1, width=0.1, position=position_dodge(width=0.9) )  +
   stat_summary( fun.y=mean, geom='point',
                 size=3, position=position_dodge(width=0.9) )  +
-  ylab('coefficient') + xlab('') +
+  ylab('coefficient') + xlab('Functoinal group') +
   theme(axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
@@ -293,57 +346,6 @@ commtab_wide <-commtabdf %>%
 # commtab <- commtab[ order(rowSums(commtab),decreasing = T), ]
 write.table( commtab, "R Code and Analysis/output from r/occurrence_table.txt")
 
-
-## add trait information
-taxa  <- read_csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )
-trait <- read_csv( "Data/taxa/Algae_functional_groups.csv" )
-
-tt <- left_join( taxa, trait, by = c("taxon_revised"="Species") )
-anti_join( trait, taxa, by = c("Species"="taxon_revised") )
-tt$`Kelp-Fucoid-Turf`[ tt$`non-alga flag` == "Animal" ]  <- "Animal"
-tt$`Littler-defined`[ tt$`non-alga flag` == "Animal" ]  <- "Animal"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_lumped2=="Unknown CCA"] <- "crust"
-tt$`Littler-defined`[tt$taxon_lumped2=="Unknown CCA"] <- "crustose"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
-tt$`Littler-defined`[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Melobesia sp."] <- "crustose coralline"
-tt$`Littler-defined`[tt$taxon_revised=="Melobesia sp."] <- "coralline"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Savoiea robusta"] <- "filament_turf"
-tt$`Littler-defined`[tt$taxon_revised=="Savoiea robusta"] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament_turf"
-tt$`Littler-defined`[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Hedophyllum nigripes"] <- "Kelp"
-tt$`Littler-defined`[tt$taxon_revised=="Hedophyllum nigripes"] <- "thick leathery"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Hedophyllum sessile"] <- "Kelp"
-tt$`Littler-defined`[tt$taxon_revised=="Hedophyllum sessile"] <- "thick leathery"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Chamberlainium tumidum"] <- "crustose coralline"
-tt$`Littler-defined`[tt$taxon_revised=="Chamberlainium tumidum"] <- "coralline"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Ulothrix-Urospora sp."] <- "green turf"
-tt$`Littler-defined`[tt$taxon_revised=="Ulothrix-Urospora sp."] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Prionitis lanceoloata"] <- "red turf"
-tt$`Littler-defined`[tt$taxon_revised=="Prionitis lanceoloata"] <- "finely branching"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Derbesia marina"] <- "green turf"
-tt$`Littler-defined`[tt$taxon_revised=="Derbesia marina"] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Acrosiphonia spp."] <- "filament turf"
-tt$`Littler-defined`[tt$taxon_revised=="Acrosiphonia spp."] <- "filament"
-
-
-
-tt <- tt[ !is.na(tt$`Kelp-Fucoid-Turf`),]
-tt$taxon <- gsub( " ",".",tt$taxon_lumped2 )
-tt <- tt %>% 
-  select( taxon, funct=`Kelp-Fucoid-Turf`, `Littler-defined` ) %>% 
-  distinct()
-tt$funct[ tt$funct=="kelp"] <- "Kelp"
-tt$funct[ tt$funct=="green turf"] <- "filament_turf"
-
-
-
-tt <- tt[-c(4,21,213),]
-
-predictions_abund_trait <- left_join( predictions_abund, tt)
-
-predictions_abund_trait$funct[predictions_abund_trait$taxon=="Tunicata.Porifera"] <- "Animal"
 
 
 

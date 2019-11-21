@@ -90,6 +90,22 @@ ad$Taxon <- gsub( "Anthopleura x.*","Anthopleura xanthogrammica", ad$Taxon )
 ad$Taxon <- gsub( "Anthopleura z.*","Anthopleura xanthogrammica", ad$Taxon )
 ad$Taxon <- gsub( "bare.*","bare rock", ad$Taxon, ignore.case = TRUE )
 ad$Taxon <- gsub( "Barnacles, goose-necked","Pollicipes", ad$Taxon )
+ad$Taxon <- gsub( "Chamberlainum","Chamberlainium", ad$Taxon )
+ad$Taxon <- gsub( "Chiton, sp.","Chiton", ad$Taxon )
+ad$Taxon <- gsub( "Juvenile chitons","Chiton", ad$Taxon )
+ad$Taxon <- gsub( "Crab, hermit crab","Pagurus", ad$Taxon )
+ad$Taxon <- gsub( "Crab, kelp crab","Pugettia", ad$Taxon )
+ad$Taxon <- gsub( "Crab, Pugetia","Pugettia", ad$Taxon )
+ad$Taxon <- gsub( "Pugetia crab","Pugettia", ad$Taxon )
+ad$Taxon <- gsub( "Orange sponge/soft coral","Porifera", ad$Taxon )
+ad$Taxon <- gsub( "Sponge, orange","Porifera", ad$Taxon )
+ad$Taxon <- gsub( "Pterosiphonia, Sp.","Pterosiphonia", ad$Taxon )
+ad$Taxon <- gsub( "Tegula snails","Tegula", ad$Taxon )
+ad$Taxon <- gsub( "Unknown upright coralline","articulated coralline", ad$Taxon )
+ad$Taxon <- gsub( "Unknown fleshy red upright","Unknown red blade", ad$Taxon )
+ad$Taxon <- gsub( "Snail eggs","Nucella eggs", ad$Taxon )
+ad$Taxon <- gsub( "Snail, Sp.","Snail", ad$Taxon )
+
 # genus "M." appears to be Mazaella
 ad$Taxon <- gsub( "M[.]", "Mazzaella ", ad$Taxon )
 # Species "M.lat is probably Mazzaella latissimus
@@ -141,7 +157,9 @@ sort(unique(ad.corrected$taxon_corrected))[1:50]
 # get rid of category "CORALLINE", which is close to the sum of all coralline species in each quadrat
 ad.corrected$Taxon[ad.corrected$taxon_corrected==""]
 ad.corrected <- ad.corrected[ ad.corrected$Taxon != "CORALLINE",]
-
+ad.na <- ad.corrected %>% filter( is.na(taxon_corrected) ) 
+sort(unique(ad.na$Taxon))
+ad %>% filter( Taxon %in% sort(unique(ad.na$Taxon)) )
 # recreat ad with corrected names, then sum across corrected taxa
 ad <- ad.corrected %>%
   select( UID, Taxon=taxon_corrected, Abundance ) %>%

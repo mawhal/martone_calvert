@@ -30,3 +30,10 @@ node_modules
 # pdf figures saved to local
 *.pdf
 .Rproj.user
+
+# Rdata files
+<<<<<<< HEAD
+*.Rdata
+=======
+*Rdata
+>>>>>>> master

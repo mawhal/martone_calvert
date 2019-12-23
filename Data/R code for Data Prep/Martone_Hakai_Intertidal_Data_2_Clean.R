@@ -8,8 +8,6 @@
 
 # This script cleans up the data and deals with mistakes and taxonomic synonymy
 
-# set options
-options( stringsAsFactors = FALSE )
 
 # load libraries
 library(tidyverse)
@@ -17,9 +15,9 @@ library(tidyverse)
 
 ## read data files
 # all data
-ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_raw.csv" )
+ad <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_raw.csv" )
 # all metadata
-am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
+am <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 
 ## Deal with trace cover and other oddities
@@ -99,7 +97,7 @@ ad$Taxon <- gsub( "Crab, Pugetia","Pugettia", ad$Taxon )
 ad$Taxon <- gsub( "Pugetia crab","Pugettia", ad$Taxon )
 ad$Taxon <- gsub( "Orange sponge/soft coral","Porifera", ad$Taxon )
 ad$Taxon <- gsub( "Sponge, orange","Porifera", ad$Taxon )
-ad$Taxon <- gsub( "Pterosiphonia, Sp.","Pterosiphonia", ad$Taxon )
+ad$Taxon <- gsub( "Pterosiphonia, Sp.","Savoiea robusta", ad$Taxon )
 ad$Taxon <- gsub( "Tegula snails","Tegula", ad$Taxon )
 ad$Taxon <- gsub( "Unknown upright coralline","articulated coralline", ad$Taxon )
 ad$Taxon <- gsub( "Unknown fleshy red upright","Unknown red blade", ad$Taxon )
@@ -122,6 +120,19 @@ ad$Taxon <- gsub( "Kelp Crab", "Kelp crab", ad$Taxon )
 ad$Taxon <- gsub( "Isopods", "Isopoda", ad$Taxon )
 ad$Taxon <- gsub( "Hydroids", "Hydroid", ad$Taxon )
 
+# other name changes
+ad$Taxon <- gsub( "Pugetia firma", "Salishia firma", ad$Taxon )
+ad$Taxon <- gsub( "Phycodrys sp.", "Polyneura latissima", ad$Taxon )
+ad$Taxon <- gsub( "Pterosiphonia dendroidea", "Symphyocladiella dendroidea", ad$Taxon )
+
+# New taxon names in 2019
+ad$Taxon <- gsub( "Cryptopleura multiloba", "Hymenena", ad$Taxon )
+ad$Taxon <- gsub( "Devaleraea mollis", "Palmaria mollis", ad$Taxon ) 
+ad$Taxon <- gsub( "Dictyosiphon foeniculaceus", "Dictyosiphon sinicola", ad$Taxon ) 
+ad$Taxon <- gsub( "Hedophyllum recruits", "Hedophyllum sessile", ad$Taxon ) 
+ad$Taxon <- gsub( "Polyostea robusta", "Savoiea robusta", ad$Taxon ) 
+
+
 # for numbered species, make a rule about how it should look
 ad$Taxon <- gsub( "sp([0-9]+)", "sp.\\1", ad$Taxon )
 
@@ -139,6 +150,8 @@ ad <- ad[ ad$Taxon != c( "Habitat notes" ), ]
 
 ## Use corrected species names to replace taxon names
 corrected_taxa <- read.csv( "Data/taxa/CorrectedTaxonList.csv" )
+# trim all the white space
+ad$Taxon  <- trimws( ad$Taxon )
 # corrected_taxa2 <- read.csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )
 # ct <- full_join( corrected_taxa, corrected_taxa2 )
 ad.corrected <- left_join( ad, corrected_taxa, by=c("Taxon"="taxon") )
@@ -147,13 +160,10 @@ dim(ad.corrected)
 
 # fix the ones that weren't covered
 unique(ad.corrected$Taxon[ is.na(ad.corrected$taxon_corrected) ])
-ad.corrected$taxon_corrected[ ad.corrected$Taxon == "Lophopanopeus bellus" ] <- "Lophopanopeus bellus"
-ad.corrected$taxon_corrected[ ad.corrected$Taxon == "bare rock" ] <- "bare rock"
-ad.corrected$taxon_corrected[ ad.corrected$Taxon == "Bryozoan with Acrochaetium sp." ] <- "Bryozoan"
-unique(ad.corrected$Taxon[ is.na(ad.corrected$taxon_corrected) ])
 
 sort(unique(ad$Taxon))
 sort(unique(ad.corrected$taxon_corrected))[1:50]
+
 # get rid of category "CORALLINE", which is close to the sum of all coralline species in each quadrat
 ad.corrected$Taxon[ad.corrected$taxon_corrected==""]
 ad.corrected <- ad.corrected[ ad.corrected$Taxon != "CORALLINE",]
@@ -172,4 +182,4 @@ ad[ad$Taxon=="BARE ROCK / SUBSTRATE (%)",]
 ad[ad$Taxon=="CORALLINE",]
 
 # save the data to disk, overwriting the previous datafile
-write.csv( ad, "Data/R code for Data Prep/Output from R/Martone_Hakai_data.csv", row.names = FALSE )
+write_csv( ad, "Data/R code for Data Prep/Output from R/Martone_Hakai_data.csv" )

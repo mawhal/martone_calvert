@@ -25,22 +25,22 @@ library( tidyverse )
 ## read files
 
 # Data
-data <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data.csv", stringsAsFactors = FALSE )
+data <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data.csv" )
 
 #metadata
-meta<-read.csv("Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv")
+meta<-read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 # Unique species from the Data
 sort( unique( data$Taxon ) )
 # write this list of unique names to file
-write.csv( data.frame(taxon=sort(unique( data$Taxon ))), 
-           "Data/R Code for Data Prep/Output from R/Martone_Hakai_uniqueTaxa.csv", row.names=F )
+write_csv( data.frame(taxon=sort(unique( data$Taxon ))), 
+           "Data/R Code for Data Prep/Output from R/Martone_Hakai_uniqueTaxa.csv" )
 
 # Load lumping data -- some species are indistinguishable in the field, or were not at the time of the start of the project
-lump <- read.csv("Data/taxa/TaxonList_corrected_lumped_unique.csv")
+lump <- read_csv("Data/taxa/TaxonList_corrected_lumped_unique.csv")
 
 # functional group data
-functional <- read.csv("Data/taxa/Algae_functional_groups.csv")
+functional <- read_csv("Data/taxa/Algae_functional_groups.csv")
 
 
 
@@ -52,7 +52,7 @@ lumped.data <- left_join( data, lump, by = c("Taxon"="taxon_corrected") )
 
 
 ## merge functional traits with lumped species
-data.funct  <- left_join( lumped.data, functional, by = c("taxon_lumped"="Species"))
+data.funct  <- left_join( lumped.data, functional, by = c("taxon_lumped"="taxon"))
 # # which lines are messed up?
 # extras <- data.funct[ duplicated( data.funct[,c(1:7)] ), ]
 # sort( unique(extras$Taxon) )
@@ -61,4 +61,4 @@ data.funct  <- left_join( lumped.data, functional, by = c("taxon_lumped"="Specie
 
 
 # write to disk
-write.csv( data.funct, "Data/R code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv", row.names = FALSE )
+write_csv( data.funct, "Data/R code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv" )

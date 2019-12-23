@@ -5,7 +5,6 @@
 
 # This script prepares community data for analysis
 
-
 # TO DO FOR DATA COMBINE AND CLEAN SCRIPTS
 # add together taxa that are not unique to each quadrat
 # Change column name for Quadrat.No to Quadrat in the metadata
@@ -25,9 +24,9 @@ library(tidyverse)
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
+ad <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv" )
 # all metadata
-am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
+am <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
@@ -43,9 +42,9 @@ ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
 # ds <- ds[ ds$motile_sessile!="motile", ]
 
 # for now, restrict community analysis to algae only
-ds <- ds %>% 
-  filter( non.alga.flag =="Algae" )
-
+# ds <- ds %>% 
+#   filter( non.alga.flag =="Algae" )
+View( ds[ ds$non.alga.flag=="Animal?",] )
 
 # remove bare space, because we want to look for differences in numbers of individuals
 ds <- ds[ ds$Taxon != "Bare rock",]  # need to make sure using clean names here
@@ -71,11 +70,12 @@ am$UID[ !(am$UID %in% d.comm$UID) ]
 d[ d$UID %in% am$UID[ !(am$UID %in% d.comm$UID) ], ]
 # restrict to rows selected in metadata
 d.comm <- d.comm[ d.comm$UID %in% am$UID, ] 
-d.comm <- as.matrix(d.comm[,-1])
+# d.comm <- d.comm[,-1]
 
+View(d.comm[,c("UID","Savoiea robusta")])
 
 # write the community data to disk
-write.csv( d.comm, "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_community.csv", row.names = FALSE )
+write_csv( d.comm, "R Code and Analysis/output from r/community.csv" )
 
 
 

@@ -28,6 +28,7 @@ Balanus glandula,Balanus glandula,Animal,sessile
 Balanus,Balanus sp.,Animal,sessile
 Bangia,Bangia sp.,Algae,sessile
 Bangia sp.,Bangia sp.,Algae,sessile
+bare rock,bare rock,Substratum,NA
 Bare rock,bare rock,Substratum,NA
 Bare Rock,bare rock,Substratum,NA
 BARE ROCK,bare rock,Substratum,NA
@@ -118,12 +119,13 @@ Corallina sp.2,Corallina sp.,Algae,sessile
 Corallina sp.1 frondescens,Corallina sp.1 frondescens,Algae,sessile
 Corallina sp.2 frondescens,Corallina sp.2 frondescens,Algae,sessile
 Corallina vancouveriensis,Corallina vancouveriensis,Algae,sessile
-"Corallina crust, unknown",Coralline crust,Algae,sessile
-"Coralline crust, unknown",Coralline crust,Algae,sessile
+"Corallina crust, unknown",coralline crust,Algae,sessile
+"Coralline crust, unknown",coralline crust,Algae,sessile
 Encrusting coralline,coralline crust,Algae,sessile
 Encrusting corallines,coralline crust,Algae,sessile
 Encrusting Corraline,coralline crust,Algae,sessile
 Unknown coralline crust,coralline crust,Algae,sessile
+"Hot pink, thin crustose coraline",coralline crust,Algae,sessile
 Costaria costata,Costaria costata,Algae,sessile
 Sculpin,Cottoidea,Animal,motile
 Tidepool sculpin,Cottoidea,Animal,motile
@@ -140,6 +142,7 @@ Desmarestia aculeata,Desmarestia aculeata,Algae,sessile
 Desmarestia ligulata,Desmarestia ligulata,Algae,sessile
 Dictyosiphon,Dictyosiphon foeniculaceus,Algae,sessile
 Dictyosiphon foeniculaceus,Dictyosiphon foeniculaceus,Algae,sessile
+Dictyosiphon sinicola,Dictyosiphon sinicola,Algae,sessile
 Dilsea,Dilsea californica,Algae,sessile
 Dilsea californica,Dilsea californica,Algae,sessile
 Ectocarpus commensalis,Ectocarpus commensalis,Algae,sessile
@@ -149,6 +152,7 @@ Egregia menziesii,Egregia menziesii,Algae,sessile
 Elachista fucicola,Elachista fucicola,Algae,sessile
 Endocladia muricata,Endocladia muricata,Algae,sessile
 Erythrotrichia carnea,Erythrotrichia carnea,Algae,sessile
+Eugomontia sacculata,Eugomontia sacculata,Algae,sessile
 Farlowia mollis,Farlowia mollis,Algae,sessile
 Fauchea sp.,Fauchea sp.,Algae,sessile
 Feather duster worm,Feather duster worm,Animal,sessile
@@ -188,6 +192,7 @@ Hollenbergia subulata,Hollenbergia subulata,Algae,sessile
 Erect hydroid,Hydroid,Animal,sessile
 Hydroid,Hydroid,Animal,sessile
 Hymenena setchellii,Hymenena setchellii,Algae,sessile
+Hymenena,Hymenena sp.,Algae,sessile
 Cryptopleura,Hymenena sp.,Algae,sessile
 Hymenena / Cryptopleura sp.,Hymenena sp.,Algae,sessile
 Hymenena sp.,Hymenena sp.,Algae,sessile
@@ -228,12 +233,14 @@ Littorine snails,Littorina sp.,Animal,motile
 Littornia,Littorina sp.,Animal,motile
 Lomentaria hakodatensis,Lomentaria hakodatensis,Algae,sessile
 Lophopanopeus bellusopeus bellusopeus bellusopeus bellus,Lophopanopeus bellus,Animal,motile
+Lophopanopeus bellus,Lophopanopeus bellus,Animal,motile
 Lottia,Lottia sp.,Animal,motile
 Lottia spp,Lottia sp.,Animal,motile
 Macrocystis pyrifera,Macrocystis pyrifera,Algae,sessile
 Mastocarpus agardhii,Mastocarpus agardhii,Algae,sessile
 Mastocarpus alaskensis,Mastocarpus alaskensis,Algae,sessile
 Mastocarpus intermedius,Mastocarpus intermedius,Algae,sessile
+Mastocarpus jardinii,Mastocarpus jardinii,Algae,sessile
 Mastocarpus latissimus,Mastocarpus latissimus,Algae,sessile
 Mazzaella latissimus,Mastocarpus latissimus,Algae,sessile
 Mastocarpus pachenicus,Mastocarpus pachenicus,Algae,sessile
@@ -346,6 +353,8 @@ Sponge,Porifera,Animal,sessile
 Tan Sponge,Porifera,Animal,sessile
 Unknown orange sponge,Porifera,Animal,sessile
 Prionitis sternbergii lanceolata,Prionitis sp.,Algae,sessile
+Prionitis lanceolata,Prionitis sp.,Algae,sessile
+Prionitis lanceoloata,Prionitis sp.,Algae,sessile
 Prionitis?,Prionitis sp.,Algae,sessile
 Prionitis sternbergii,Prionitis sternbergii,Algae,sessile
 Pseudlolithophyllum muricatum,Pseudolithophyllum muricatum,Algae,sessile
@@ -358,6 +367,7 @@ Pterosiphonia gracilis,Pterosiphonia gracilis,Algae,sessile
 Pterygophora californica,Pterygophora californica,Algae,sessile
 Ptilota serrata,Ptilota filicina,Algae,sessile
 Ptilota serrata filicina,Ptilota filicina,Algae,sessile
+Ptilota filicina,Ptilota filicina,Algae,sessile
 Ptilota sp.,Ptilota sp.,Algae,sessile
 Ptilota spp.,Ptilota sp.,Algae,sessile
 Ptilota tenuis,Ptilota tenuis,Algae,sessile

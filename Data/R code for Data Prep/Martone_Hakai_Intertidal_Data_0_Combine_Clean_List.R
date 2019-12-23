@@ -9,7 +9,7 @@
 # This script runs the combine script, cleaning script, and generates a species list 
 
 ## COMBINE
-source( "Data/R code for Data Prep/Martone_Hakai_Intertidal_Data_1_CombineAll_20181219.R" )
+source( "Data/R code for Data Prep/Martone_Hakai_Intertidal_Data_1_CombineAll.R" )
 
 ## CLEAN
 source( "Data/R code for Data Prep/Martone_Hakai_Intertidal_Data_2_Clean.R" )

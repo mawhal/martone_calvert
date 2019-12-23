@@ -28,8 +28,10 @@ node_modules
 
 # pdf figures saved to local
 *.pdf
-.Rproj.user
+.Rproj.user/
 
 # Rdata files
 *.Rdata
 
+# propriety Mac files
+*.DS_Store

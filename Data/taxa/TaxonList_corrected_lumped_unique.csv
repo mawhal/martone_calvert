@@ -1,4 +1,4 @@
-taxon_corrected,taxon_revised,taxon_lumped,taxon_lumped2,non-alga flag,motile_sessile,Notes
+taxon_corrected,taxon_revised,taxon_lumped,taxon_lumped2,non.alga.flag,motile_sessile,Notes
 Acmaea mitra,Acmaea mitra,Acmaea mitra,Acmaea mitra,Animal,motile,
 Acrochaetium sp.,Acrochaetium sp.,Acrochaetium sp.,Acrochaetium sp.,Algae,sessile,
 Acrosiphonia arcta,Acrosiphonia arcta,Acrosiphonia,Acrosiphonia,Algae,sessile,
@@ -309,7 +309,7 @@ Hedophyllum nigripes,Hedophyllum nigripes,Hedophyllum nigripes,Hedophyllum nigri
 Hedophyllum sessile,Hedophyllum sessile,Hedophyllum sessile,Hedophyllum sessile,Algae,sessile,added in 2019
 Chamberlainium tumidum,Chamberlainium tumidum,Chamberlainium tumidum,Chamberlainium tumidum,Algae,sessile,changed to Chamberlainium in 2019
 Ulva expansa,Ulva expansa,Ulva expansa,Ulva,Algae,sessile,added in 2019
-Prionitis lanceoloata,Prionitis lanceoloata,Prionitis,Prionitis,Algae,sessile,added in 2019
+Prionitis lanceoloata,Prionitis lanceoloata,Prionitis,Prionitis,Algae,sessile,"added in 2019, only now beginning to distinguish from P. sternbergii, so lump for now"
 Symphyocladia plumosa,Symphyocladia plumosa,Symphyocladia plumosa,Symphyocladia plumosa,Algae,sessile,added in 2019
 Savoiea robusta,Savoiea robusta,Savoiea robusta,Savoiea robusta,Algae,sessile,added in 2019
 Polyostea robusta,Savoiea robusta,Savoiea robusta,Savoiea robusta,Algae,sessile,added in 2019

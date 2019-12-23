@@ -290,8 +290,8 @@ commtab <- with(comm_select, table(taxon, year))
 commtabdf <- as.data.frame( commtab )
 commtab_wide <-commtabdf %>% 
   spread( taxon, Freq )
-# commtab <- commtab[ order(rowSums(commtab),decreasing = T), ]
-write.table( commtab, "R Code and Analysis/output from r/occurrence_table.txt")
+# # commtab <- commtab[ order(rowSums(commtab),decreasing = T), ]
+# write.table( commtab, "R Code and Analysis/output from r/occurrence_table.txt")
 
 
 ## add trait information

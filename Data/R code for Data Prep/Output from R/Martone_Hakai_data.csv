@@ -1734,11 +1734,11 @@ Fifth Beach LOW 2012 4,Phyllospadix scouleri,87
 Fifth Beach LOW 2012 4,Ptilota filicina,30
 Fifth Beach LOW 2012 4,Ulva lactuca,0.5
 Fifth Beach LOW 2012 5,Alaria marginata,6
+Fifth Beach LOW 2012 5,Bryozoan,4
 Fifth Beach LOW 2012 5,Callithamnion pikeanum,3
 Fifth Beach LOW 2012 5,Chamberlainium tumidum,1
 Fifth Beach LOW 2012 5,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2012 5,Cryptosiphonia woodii,4
-Fifth Beach LOW 2012 5,Flustralidra,4
 Fifth Beach LOW 2012 5,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2012 5,Hymenena sp.,4
 Fifth Beach LOW 2012 5,Mastocarpus agardhii,8
@@ -1789,10 +1789,10 @@ Fifth Beach LOW 2012 8,Anthopleura xanthogrammica,4
 Fifth Beach LOW 2012 8,Balanus glandula,3
 Fifth Beach LOW 2012 8,bare rock,1
 Fifth Beach LOW 2012 8,Bossiella frondifera,10
+Fifth Beach LOW 2012 8,Bryozoan,8
 Fifth Beach LOW 2012 8,Callithamnion pikeanum,0.25
 Fifth Beach LOW 2012 8,Chiton,7
 Fifth Beach LOW 2012 8,coralline crust,11
-Fifth Beach LOW 2012 8,Flustralidra,8
 Fifth Beach LOW 2012 8,Hildenbrandia occidentalis,10
 Fifth Beach LOW 2012 8,Hildenbrandia rubra,4
 Fifth Beach LOW 2012 8,Hymenena sp.,14
@@ -3305,7 +3305,7 @@ Fifth Beach LOW 2019 7,Katharina tunicata,8
 Fifth Beach LOW 2019 7,Limpet,7
 Fifth Beach LOW 2019 7,Mastocarpus latissimus,0.5
 Fifth Beach LOW 2019 7,Plocamium violaceum,11
-Fifth Beach LOW 2019 7,Polysiphonia hendryi var. garderi,1
+Fifth Beach LOW 2019 7,Polysiphonia hendryi var. gardneri,1
 Fifth Beach LOW 2019 7,Pyropia abbottiae,17
 Fifth Beach LOW 2019 7,Pyropia perforata,2
 Fifth Beach LOW 2019 7,Ulva linza,0.5
@@ -4634,7 +4634,7 @@ Fifth Beach MID 2017 2,Mastocarpus intermedius,0.5
 Fifth Beach MID 2017 2,Neorhodomela larix,16
 Fifth Beach MID 2017 2,Odonthalia floccosa,0.5
 Fifth Beach MID 2017 2,Plocamium violaceum,3
-Fifth Beach MID 2017 2,Polysiphonia hendryi var. garderi,2
+Fifth Beach MID 2017 2,Polysiphonia hendryi var. gardneri,2
 Fifth Beach MID 2017 2,Ptilota filicina,1
 Fifth Beach MID 2017 2,Pyropia abbottiae,0.5
 Fifth Beach MID 2017 2,Tunicata/Porifera,0.5
@@ -4748,7 +4748,7 @@ Fifth Beach MID 2017 7,Leathesia marina,1
 Fifth Beach MID 2017 7,Microcladia borealis,2
 Fifth Beach MID 2017 7,Nemalion helminthoides,0.5
 Fifth Beach MID 2017 7,Plocamium violaceum,16
-Fifth Beach MID 2017 7,Polysiphonia hendryi var. garderi,11
+Fifth Beach MID 2017 7,Polysiphonia hendryi var. gardneri,11
 Fifth Beach MID 2017 7,Pyropia abbottiae,10
 Fifth Beach MID 2017 7,Pyropia perforata,1
 Fifth Beach MID 2017 7,Scytosiphon dotyi,0.5
@@ -4773,7 +4773,7 @@ Fifth Beach MID 2017 8,Mesophyllum vancouveriense,0.5
 Fifth Beach MID 2017 8,Microcladia borealis,0.5
 Fifth Beach MID 2017 8,Phyllospadix scouleri,95
 Fifth Beach MID 2017 8,Pisaster ochraceus,1
-Fifth Beach MID 2017 8,Polysiphonia hendryi var. garderi,0.5
+Fifth Beach MID 2017 8,Polysiphonia hendryi var. gardneri,0.5
 Fifth Beach MID 2017 8,Polysiphonia paniculata,1
 Fifth Beach MID 2017 8,Pyropia abbottiae,2
 Fifth Beach MID 2017 8,Tunicata/Porifera,1
@@ -5080,7 +5080,7 @@ Fifth Beach MID 2018 9,Microcladia borealis,2
 Fifth Beach MID 2018 9,Nemalion helminthoides,0.5
 Fifth Beach MID 2018 9,Petrocelis,0.5
 Fifth Beach MID 2018 9,Plocamium violaceum,8
-Fifth Beach MID 2018 9,Polysiphonia hendryi var. garderi,2
+Fifth Beach MID 2018 9,Polysiphonia hendryi var. gardneri,2
 Fifth Beach MID 2018 9,Pyropia abbottiae,1
 Fifth Beach MID 2018 9,Savoiea robusta,3
 Fifth Beach MID 2018 9,Tunicata/Porifera,1
@@ -5101,7 +5101,7 @@ Fifth Beach MID 2019 1,Leathesia marina,0.5
 Fifth Beach MID 2019 1,Limpet,2
 Fifth Beach MID 2019 1,Mastocarpus intermedius,0.5
 Fifth Beach MID 2019 1,Neorhodomela larix,10
-Fifth Beach MID 2019 1,Polysiphonia hendryi var. garderi,2
+Fifth Beach MID 2019 1,Polysiphonia hendryi var. gardneri,2
 Fifth Beach MID 2019 1,Polysiphonia sp.,0.5
 Fifth Beach MID 2019 1,Pyropia abbottiae,8
 Fifth Beach MID 2019 1,Savoiea robusta,1
@@ -5172,7 +5172,7 @@ Fifth Beach MID 2019 3,Mazzaella parvula,0.5
 Fifth Beach MID 2019 3,Microcladia borealis,0.5
 Fifth Beach MID 2019 3,Palmaria hecatensis,1
 Fifth Beach MID 2019 3,Plocamium violaceum,1
-Fifth Beach MID 2019 3,Polysiphonia hendryi var. garderi,0.5
+Fifth Beach MID 2019 3,Polysiphonia hendryi var. gardneri,0.5
 Fifth Beach MID 2019 3,Pyropia abbottiae,57
 Fifth Beach MID 2019 3,Savoiea robusta,0.5
 Fifth Beach MID 2019 3,Ulva fenestrata,5
@@ -5771,7 +5771,7 @@ Meay Channel HIGH 2018 9,Ulva sp.,2
 Meay Channel HIGH 2019 1,Acrosiphonia sp.,1
 Meay Channel HIGH 2019 1,Barnacle,1
 Meay Channel HIGH 2019 1,Lomentaria hakodatensis,2
-Meay Channel HIGH 2019 1,Polysiphonia hendryi var. garderi,0.5
+Meay Channel HIGH 2019 1,Polysiphonia hendryi var. gardneri,0.5
 Meay Channel HIGH 2019 1,Polysiphonia paniculata,0.5
 Meay Channel HIGH 2019 1,Punctaria sp.,1
 Meay Channel HIGH 2019 1,Ulva fenestrata,6
@@ -5788,7 +5788,7 @@ Meay Channel HIGH 2019 2,Limpet,11
 Meay Channel HIGH 2019 2,Littorina sp.,2
 Meay Channel HIGH 2019 2,Monostroma grevillei,2
 Meay Channel HIGH 2019 2,Neorhodomela oregona,33
-Meay Channel HIGH 2019 2,Polysiphonia hendryi var. garderi,2
+Meay Channel HIGH 2019 2,Polysiphonia hendryi var. gardneri,2
 Meay Channel HIGH 2019 2,Polysiphonia pacifica,0.5
 Meay Channel HIGH 2019 2,Ralfsioid,0.5
 Meay Channel HIGH 2019 2,Savoiea robusta,0.5
@@ -5859,7 +5859,7 @@ Meay Channel HIGH 2019 8,Hildenbrandia occidentalis,0.5
 Meay Channel HIGH 2019 8,Limpet,11
 Meay Channel HIGH 2019 8,Neorhodomela oregona,0.5
 Meay Channel HIGH 2019 8,Pagarus sp.,1
-Meay Channel HIGH 2019 8,Polysiphonia hendryi var. garderi,0.5
+Meay Channel HIGH 2019 8,Polysiphonia hendryi var. gardneri,0.5
 Meay Channel HIGH 2019 8,Ralfsioid,0.5
 Meay Channel HIGH 2019 8,Ulva expansa,25
 Meay Channel HIGH 2019 8,Ulva linza,0.5
@@ -8725,11 +8725,11 @@ North Beach LOW 2011 9,Prionitis sp.,2
 North Beach LOW 2012 1,Alaria marginata,10
 North Beach LOW 2012 1,bare rock,8
 North Beach LOW 2012 1,Bossiella frondifera,12
+North Beach LOW 2012 1,Bryozoan,1
 North Beach LOW 2012 1,Callithamnion pikeanum,4
 North Beach LOW 2012 1,Chamberlainium tumidum,4
 North Beach LOW 2012 1,Corallina officinalis,12
 North Beach LOW 2012 1,Corallina vancouveriensis,15
-North Beach LOW 2012 1,Flustralidra,1
 North Beach LOW 2012 1,Haliclona,0.5
 North Beach LOW 2012 1,Hedophyllum sessile,50
 North Beach LOW 2012 1,Hildenbrandia occidentalis,20
@@ -8743,11 +8743,11 @@ North Beach LOW 2012 1,Ralfsioid,0.5
 North Beach LOW 2012 10,Alaria marginata,80
 North Beach LOW 2012 10,bare rock,5
 North Beach LOW 2012 10,Bossiella frondifera,6
+North Beach LOW 2012 10,Bryozoan,10
 North Beach LOW 2012 10,Chamberlainium tumidum,4
 North Beach LOW 2012 10,Corallina frondescens,8
 North Beach LOW 2012 10,Corallina vancouveriensis,2
 North Beach LOW 2012 10,coralline crust,2
-North Beach LOW 2012 10,Flustralidra,10
 North Beach LOW 2012 10,Hedophyllum sessile,20
 North Beach LOW 2012 10,Hildenbrandia rubra,1
 North Beach LOW 2012 10,Hymenena sp.,45
@@ -8759,13 +8759,12 @@ North Beach LOW 2012 2,Alaria marginata,25
 North Beach LOW 2012 2,bare rock,6
 North Beach LOW 2012 2,Bossiella frondifera,20
 North Beach LOW 2012 2,Bossiella plumosa,12
-North Beach LOW 2012 2,Bryozoan,4
+North Beach LOW 2012 2,Bryozoan,19
 North Beach LOW 2012 2,Chamberlainium tumidum,6
 North Beach LOW 2012 2,Codium setchellii,7
 North Beach LOW 2012 2,Corallina frondescens,3
 North Beach LOW 2012 2,Corallina vancouveriensis,7
 North Beach LOW 2012 2,coralline crust,5
-North Beach LOW 2012 2,Flustralidra,15
 North Beach LOW 2012 2,Hedophyllum sessile,75
 North Beach LOW 2012 2,Hildenbrandia rubra,8
 North Beach LOW 2012 2,Katharina tunicata,1
@@ -8774,13 +8773,13 @@ North Beach LOW 2012 2,Petrocelis,3
 North Beach LOW 2012 3,Alaria marginata,60
 North Beach LOW 2012 3,bare rock,4
 North Beach LOW 2012 3,Bossiella frondifera,20
+North Beach LOW 2012 3,Bryozoan,30
 North Beach LOW 2012 3,Chamberlainium tumidum,4
 North Beach LOW 2012 3,Chiton,3
 North Beach LOW 2012 3,Corallina frondescens,8
 North Beach LOW 2012 3,Corallina officinalis,5
 North Beach LOW 2012 3,Corallina vancouveriensis,20
 North Beach LOW 2012 3,coralline crust,5
-North Beach LOW 2012 3,Flustralidra,30
 North Beach LOW 2012 3,Hedophyllum sessile,25
 North Beach LOW 2012 3,Hildenbrandia rubra,10
 North Beach LOW 2012 3,Limpet,3
@@ -8791,6 +8790,7 @@ North Beach LOW 2012 3,Tunicata,4
 North Beach LOW 2012 4,Alaria marginata,95
 North Beach LOW 2012 4,bare rock,10
 North Beach LOW 2012 4,Bossiella frondifera,15
+North Beach LOW 2012 4,Bryozoan,20
 North Beach LOW 2012 4,Chiton,2
 North Beach LOW 2012 4,Codium setchellii,9
 North Beach LOW 2012 4,Corallina frondescens,0.5
@@ -8798,7 +8798,6 @@ North Beach LOW 2012 4,Corallina officinalis,5
 North Beach LOW 2012 4,Corallina vancouveriensis,25
 North Beach LOW 2012 4,coralline crust,12
 North Beach LOW 2012 4,Feather duster worm,1
-North Beach LOW 2012 4,Flustralidra,20
 North Beach LOW 2012 4,Hildenbrandia occidentalis,12
 North Beach LOW 2012 4,Hymenena sp.,0.5
 North Beach LOW 2012 4,Limpet,2
@@ -8810,12 +8809,12 @@ North Beach LOW 2012 5,Alaria marginata,100
 North Beach LOW 2012 5,Amphiporus,1
 North Beach LOW 2012 5,bare rock,5
 North Beach LOW 2012 5,Bossiella frondifera,32
+North Beach LOW 2012 5,Bryozoan,30
 North Beach LOW 2012 5,Chiton,2
 North Beach LOW 2012 5,Corallina frondescens,3
 North Beach LOW 2012 5,Corallina officinalis,5
 North Beach LOW 2012 5,Corallina vancouveriensis,5
 North Beach LOW 2012 5,coralline crust,1
-North Beach LOW 2012 5,Flustralidra,30
 North Beach LOW 2012 5,Hedophyllum nigripes,5
 North Beach LOW 2012 5,Hedophyllum sessile,50
 North Beach LOW 2012 5,Hemigrapsis sp.,1
@@ -8829,7 +8828,7 @@ North Beach LOW 2012 5,Porifera,0.5
 North Beach LOW 2012 6,Alaria marginata,80
 North Beach LOW 2012 6,bare rock,5
 North Beach LOW 2012 6,Bossiella frondifera,18
-North Beach LOW 2012 6,Bryozoan,18
+North Beach LOW 2012 6,Bryozoan,33
 North Beach LOW 2012 6,Codium setchellii,3
 North Beach LOW 2012 6,Corallina frondescens,18
 North Beach LOW 2012 6,Corallina officinalis,6
@@ -8837,7 +8836,6 @@ North Beach LOW 2012 6,Corallina vancouveriensis,6
 North Beach LOW 2012 6,coralline crust,8
 North Beach LOW 2012 6,Egregia menziesii,2
 North Beach LOW 2012 6,Feather duster worm,1
-North Beach LOW 2012 6,Flustralidra,15
 North Beach LOW 2012 6,Hildenbrandia rubra,6
 North Beach LOW 2012 6,Hymenena sp.,1
 North Beach LOW 2012 6,Katharina tunicata,1
@@ -8866,13 +8864,13 @@ North Beach LOW 2012 8,Amphiporus,2
 North Beach LOW 2012 8,Balanus glandula,0.5
 North Beach LOW 2012 8,bare rock,3
 North Beach LOW 2012 8,Bossiella frondifera,5
+North Beach LOW 2012 8,Bryozoan,1
 North Beach LOW 2012 8,Callithamnion pikeanum,1
 North Beach LOW 2012 8,Chamberlainium tumidum,7
 North Beach LOW 2012 8,Chiton,1
 North Beach LOW 2012 8,Corallina frondescens,2
 North Beach LOW 2012 8,Corallina vancouveriensis,5
 North Beach LOW 2012 8,coralline crust,5
-North Beach LOW 2012 8,Flustralidra,1
 North Beach LOW 2012 8,Gammaridae,1
 North Beach LOW 2012 8,Halosaccion glandiforme,0.5
 North Beach LOW 2012 8,Haplogaster sp.,1
@@ -8893,6 +8891,7 @@ North Beach LOW 2012 9,Acrosiphonia sp.,0.5
 North Beach LOW 2012 9,Alaria marginata,40
 North Beach LOW 2012 9,bare rock,40
 North Beach LOW 2012 9,Bossiella frondifera,10
+North Beach LOW 2012 9,Bryozoan,3
 North Beach LOW 2012 9,Callithamnion pikeanum,1
 North Beach LOW 2012 9,Chamberlainium tumidum,1
 North Beach LOW 2012 9,Chiton,2
@@ -8901,7 +8900,6 @@ North Beach LOW 2012 9,Codium fragile,0.5
 North Beach LOW 2012 9,Corallina vancouveriensis,4
 North Beach LOW 2012 9,coralline crust,5
 North Beach LOW 2012 9,Feather duster worm,2
-North Beach LOW 2012 9,Flustralidra,3
 North Beach LOW 2012 9,Fucus distichus,4
 North Beach LOW 2012 9,Gammaridae,1
 North Beach LOW 2012 9,Halosaccion glandiforme,1
@@ -11624,7 +11622,7 @@ North Beach MID 2017 1,Neopolyporolithon reclinatum,0.5
 North Beach MID 2017 1,Petrocelis,1
 North Beach MID 2017 1,Phyllospadix scouleri,16
 North Beach MID 2017 1,Plocamium violaceum,5
-North Beach MID 2017 1,Polysiphonia hendryi var. garderi,12
+North Beach MID 2017 1,Polysiphonia hendryi var. gardneri,12
 North Beach MID 2017 1,Pyropia abbottiae,5
 North Beach MID 2017 10,Acrosiphonia arcta,1
 North Beach MID 2017 10,Anemone,19
@@ -11725,7 +11723,7 @@ North Beach MID 2017 5,Mazzaella oregona,0.5
 North Beach MID 2017 5,Microcladia borealis,3
 North Beach MID 2017 5,Petrocelis,4
 North Beach MID 2017 5,Plocamium violaceum,19
-North Beach MID 2017 5,Polysiphonia hendryi var. garderi,3
+North Beach MID 2017 5,Polysiphonia hendryi var. gardneri,3
 North Beach MID 2017 5,Polysiphonia hendryi var. hendryi,0.5
 North Beach MID 2017 5,Pyropia abbottiae,42
 North Beach MID 2017 5,Pyropia perforata,0.5
@@ -11760,7 +11758,7 @@ North Beach MID 2017 7,Hildenbrandia occidentalis,14
 North Beach MID 2017 7,Leathesia marina,0.5
 North Beach MID 2017 7,Mytilus sp.,45
 North Beach MID 2017 7,Petrocelis,3
-North Beach MID 2017 7,Polysiphonia hendryi var. garderi,11
+North Beach MID 2017 7,Polysiphonia hendryi var. gardneri,11
 North Beach MID 2017 7,Pyropia abbottiae,3.5
 North Beach MID 2017 8,Anemone,4
 North Beach MID 2017 8,bare rock,13
@@ -11812,7 +11810,7 @@ North Beach MID 2018 1,Nemertea,1
 North Beach MID 2018 1,Petrocelis,0.5
 North Beach MID 2018 1,Pisaster ochraceus,8
 North Beach MID 2018 1,Plocamium violaceum,4
-North Beach MID 2018 1,Polysiphonia hendryi var. garderi,0.5
+North Beach MID 2018 1,Polysiphonia hendryi var. gardneri,0.5
 North Beach MID 2018 1,Pyropia abbottiae,2
 North Beach MID 2018 1,Pyropia fallax,2
 North Beach MID 2018 1,Savoiea robusta,3
@@ -11846,7 +11844,7 @@ North Beach MID 2018 2,Katharina tunicata,3
 North Beach MID 2018 2,Mastocarpus agardhii,1
 North Beach MID 2018 2,Nemalion helminthoides,0.5
 North Beach MID 2018 2,Pisaster ochraceus,13
-North Beach MID 2018 2,Polysiphonia hendryi var. garderi,0.5
+North Beach MID 2018 2,Polysiphonia hendryi var. gardneri,0.5
 North Beach MID 2018 2,Pyropia fucicola,2
 North Beach MID 2018 2,Pyropia perforata,2
 North Beach MID 2018 2,Savoiea robusta,0.5
@@ -11859,7 +11857,7 @@ North Beach MID 2018 3,Hildenbrandia rubra,1
 North Beach MID 2018 3,Limpet,200
 North Beach MID 2018 3,Littorina sp.,200
 North Beach MID 2018 3,Mytilus sp.,6
-North Beach MID 2018 3,Polysiphonia hendryi var. garderi,2
+North Beach MID 2018 3,Polysiphonia hendryi var. gardneri,2
 North Beach MID 2018 4,Acrosiphonia arcta,0.5
 North Beach MID 2018 4,Alaria marginata,0.5
 North Beach MID 2018 4,Anemone,4
@@ -11878,7 +11876,7 @@ North Beach MID 2018 4,Limpet,200
 North Beach MID 2018 4,Littorina sp.,200
 North Beach MID 2018 4,Microcladia borealis,0.5
 North Beach MID 2018 4,Mytilus sp.,10
-North Beach MID 2018 4,Polysiphonia hendryi var. garderi,13
+North Beach MID 2018 4,Polysiphonia hendryi var. gardneri,13
 North Beach MID 2018 4,Pyropia perforata,0.5
 North Beach MID 2018 4,Savoiea robusta,3
 North Beach MID 2018 5,Anemone,9
@@ -11892,7 +11890,7 @@ North Beach MID 2018 5,Hildenbrandia rubra,9
 North Beach MID 2018 5,Mastocarpus intermedius,0.5
 North Beach MID 2018 5,Mytilus sp.,13
 North Beach MID 2018 5,Nucella sp.,1
-North Beach MID 2018 5,Polysiphonia hendryi var. garderi,7
+North Beach MID 2018 5,Polysiphonia hendryi var. gardneri,7
 North Beach MID 2018 5,Pyropia abbottiae,1
 North Beach MID 2018 5,Pyropia perforata,1
 North Beach MID 2018 5,Ulva lactuca,0.5
@@ -11911,7 +11909,7 @@ North Beach MID 2018 6,Hildenbrandia rubra,50
 North Beach MID 2018 6,Katharina tunicata,1
 North Beach MID 2018 6,Leathesia marina,0.5
 North Beach MID 2018 6,Limpet,9
-North Beach MID 2018 6,Polysiphonia hendryi var. garderi,10
+North Beach MID 2018 6,Polysiphonia hendryi var. gardneri,10
 North Beach MID 2018 6,Pyropia fucicola,0.5
 North Beach MID 2018 6,Ralfsioid,3
 North Beach MID 2018 6,Savoiea robusta,10
@@ -11928,7 +11926,7 @@ North Beach MID 2018 7,Hildenbrandia rubra,1
 North Beach MID 2018 7,Limpet,200
 North Beach MID 2018 7,Littorina sp.,200
 North Beach MID 2018 7,Mytilus sp.,14
-North Beach MID 2018 7,Polysiphonia hendryi var. garderi,3
+North Beach MID 2018 7,Polysiphonia hendryi var. gardneri,3
 North Beach MID 2018 8,Anemone,8
 North Beach MID 2018 8,bare rock,15
 North Beach MID 2018 8,Barnacle,40
@@ -12027,7 +12025,7 @@ North Beach MID 2019 3,Halosaccion glandiforme,2
 North Beach MID 2019 3,Hildenbrandia occidentalis,25
 North Beach MID 2019 3,Hildenbrandia rubra,4
 North Beach MID 2019 3,Nucella sp.,2
-North Beach MID 2019 3,Polysiphonia hendryi var. garderi,9
+North Beach MID 2019 3,Polysiphonia hendryi var. gardneri,9
 North Beach MID 2019 3,Pyropia abbottiae,14
 North Beach MID 2019 3,Ulva lactuca,2
 North Beach MID 2019 3,Wildmania norrisii,8
@@ -12063,7 +12061,7 @@ North Beach MID 2019 5,Hildenbrandia rubra,2
 North Beach MID 2019 5,Hildenbrandia sp.,15
 North Beach MID 2019 5,Nucella sp.,1
 North Beach MID 2019 5,Pisaster ochraceus,6
-North Beach MID 2019 5,Polysiphonia hendryi var. garderi,3
+North Beach MID 2019 5,Polysiphonia hendryi var. gardneri,3
 North Beach MID 2019 5,Pyropia abbottiae,5
 North Beach MID 2019 5,Wildmania norrisii,1
 North Beach MID 2019 6,Anemone,6
@@ -12079,7 +12077,7 @@ North Beach MID 2019 6,Hildenbrandia rubra,15
 North Beach MID 2019 6,Katharina tunicata,1.5
 North Beach MID 2019 6,Limpet,50
 North Beach MID 2019 6,Littorina sp.,40
-North Beach MID 2019 6,Polysiphonia hendryi var. garderi,5
+North Beach MID 2019 6,Polysiphonia hendryi var. gardneri,5
 North Beach MID 2019 6,Pyropia abbottiae,7
 North Beach MID 2019 6,Ulva linza,0.5
 North Beach MID 2019 6,Wildmania norrisii,2
@@ -14113,8 +14111,8 @@ West Beach LOW 2016 4,Prionitis sternbergii,11
 West Beach LOW 2016 4,Pterocladiella caloglossoides,0.5
 West Beach LOW 2016 4,Ptilota tenuis,13
 West Beach LOW 2016 4,Spirorbis,0.5
+West Beach LOW 2016 4,Symphyocladiella dendroidea,2
 West Beach LOW 2016 4,Ulva lactuca,2
-West Beach LOW 2016 4,NA,2
 West Beach LOW 2016 5,bare rock,9
 West Beach LOW 2016 5,Bossiella frondescens,1
 West Beach LOW 2016 5,Bossiella frondifera,1
@@ -14217,8 +14215,8 @@ West Beach LOW 2016 8,Palmaria mollis,0.5
 West Beach LOW 2016 8,Plocamium violaceum,12
 West Beach LOW 2016 8,Polyneura latissima,2
 West Beach LOW 2016 8,Ptilota tenuis,1.5
+West Beach LOW 2016 8,Symphyocladiella dendroidea,0.5
 West Beach LOW 2016 8,Ulva lactuca,4
-West Beach LOW 2016 8,NA,0.5
 West Beach LOW 2016 9,bare rock,8
 West Beach LOW 2016 9,Barnacle,0.5
 West Beach LOW 2016 9,Bossiella frondescens,2

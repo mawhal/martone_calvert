@@ -15,9 +15,9 @@ library(tidyverse)
 
 ## read data files
 # all data
-ad <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_raw.csv" )
+ad <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_data_raw.csv" )
 # all metadata
-am <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
+am <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 
 ## Deal with trace cover and other oddities
@@ -132,6 +132,9 @@ ad$Taxon <- gsub( "Dictyosiphon foeniculaceus", "Dictyosiphon sinicola", ad$Taxo
 ad$Taxon <- gsub( "Hedophyllum recruits", "Hedophyllum sessile", ad$Taxon ) 
 ad$Taxon <- gsub( "Polyostea robusta", "Savoiea robusta", ad$Taxon ) 
 
+# lump Flustralidra with other bryozoans
+ad$Taxon <- gsub( "Flustralidra", "Bryozoan", ad$Taxon )
+
 
 # for numbered species, make a rule about how it should look
 ad$Taxon <- gsub( "sp([0-9]+)", "sp.\\1", ad$Taxon )
@@ -149,7 +152,7 @@ ad <- ad[ ad$Taxon != c( "Habitat notes" ), ]
 
 
 ## Use corrected species names to replace taxon names
-corrected_taxa <- read.csv( "Data/taxa/CorrectedTaxonList.csv" )
+corrected_taxa <- read.csv( "data/taxa/CorrectedTaxonList.csv" )
 # trim all the white space
 ad$Taxon  <- trimws( ad$Taxon )
 # corrected_taxa2 <- read.csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )
@@ -178,8 +181,9 @@ ad <- ad.corrected %>%
 
 # Cobble. need to move this to metadata!
 ad[ad$Taxon=="Cobble",]
+ad[is.na(ad$Taxon),]
 ad[ad$Taxon=="BARE ROCK / SUBSTRATE (%)",]
 ad[ad$Taxon=="CORALLINE",]
 
 # save the data to disk, overwriting the previous datafile
-write_csv( ad, "Data/R code for Data Prep/Output from R/Martone_Hakai_data.csv" )
+write_csv( ad, "data/R code for Data Prep/Output from R/Martone_Hakai_data.csv" )

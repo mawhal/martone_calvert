@@ -23,7 +23,7 @@ MixingDir = paste0( here::here(), "/R Code and Analysis/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = 7
+model = 4
 mload <- load( paste(ModelDir,list.files( ModelDir ), sep="/")[model] )
 
 # load the data
@@ -233,6 +233,8 @@ predictions_high <- bind_cols(data.frame(qpred), newXData)
 
 ggplot(predictions, aes(x = shore.height, y = Fucus.distichus, col=year))+
   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
+ggplot(predictions, aes(x = shore.height, y = Analipus.japonicus, col=year))+
+  geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
 ggplot(predictions, aes(x = shore.height, y = Barnacles, col=year))+
   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
 ggplot(predictions, aes(x = shore.height, y = Pyropia, col=year))+
@@ -243,11 +245,11 @@ ggplot(predictions, aes(x = shore.height, y = Blidingia, col=year))+
   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
 
 predictions_abund <- predictions %>% 
-  gather(key = taxon, value = N, Fucus.distichus:Colpomenia.peregrina)
+  gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
 predictions_abund_low <- predictions_low %>% 
-  gather(key = taxon, value = N_low, Fucus.distichus:Colpomenia.peregrina)
+  gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
 predictions_abund_high <- predictions_high %>% 
-  gather(key = taxon, value = N_high, Fucus.distichus:Colpomenia.peregrina)
+  gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
 
 predictions_abund <- left_join(left_join(predictions_abund, predictions_abund_low), predictions_abund_high)
 
@@ -298,52 +300,57 @@ commtab_wide <-commtabdf %>%
 taxa  <- read_csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )
 trait <- read_csv( "Data/taxa/Algae_functional_groups.csv" )
 
-tt <- left_join( taxa, trait, by = c("taxon_revised"="Species") )
-anti_join( trait, taxa, by = c("Species"="taxon_revised") )
-tt$`Kelp-Fucoid-Turf`[ tt$`non-alga flag` == "Animal" ]  <- "Animal"
-tt$`Littler-defined`[ tt$`non-alga flag` == "Animal" ]  <- "Animal"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_lumped2=="Unknown CCA"] <- "crust"
-tt$`Littler-defined`[tt$taxon_lumped2=="Unknown CCA"] <- "crustose"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
-tt$`Littler-defined`[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Melobesia sp."] <- "crustose coralline"
-tt$`Littler-defined`[tt$taxon_revised=="Melobesia sp."] <- "coralline"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Savoiea robusta"] <- "filament_turf"
-tt$`Littler-defined`[tt$taxon_revised=="Savoiea robusta"] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament_turf"
-tt$`Littler-defined`[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Hedophyllum nigripes"] <- "Kelp"
-tt$`Littler-defined`[tt$taxon_revised=="Hedophyllum nigripes"] <- "thick leathery"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Hedophyllum sessile"] <- "Kelp"
-tt$`Littler-defined`[tt$taxon_revised=="Hedophyllum sessile"] <- "thick leathery"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Chamberlainium tumidum"] <- "crustose coralline"
-tt$`Littler-defined`[tt$taxon_revised=="Chamberlainium tumidum"] <- "coralline"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Ulothrix-Urospora sp."] <- "green turf"
-tt$`Littler-defined`[tt$taxon_revised=="Ulothrix-Urospora sp."] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Prionitis lanceoloata"] <- "red turf"
-tt$`Littler-defined`[tt$taxon_revised=="Prionitis lanceoloata"] <- "finely branching"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Derbesia marina"] <- "green turf"
-tt$`Littler-defined`[tt$taxon_revised=="Derbesia marina"] <- "filament"
-tt$`Kelp-Fucoid-Turf`[tt$taxon_revised=="Acrosiphonia spp."] <- "filament turf"
-tt$`Littler-defined`[tt$taxon_revised=="Acrosiphonia spp."] <- "filament"
+tt <- left_join( taxa, trait, by = c("taxon_revised"="taxon") )
+anti_join( trait, taxa, by = c("taxon"="taxon_revised") )
+tt$kelp_fucoid_turf[ tt$non.alga.flag == "Animal" ]  <- "Animal"
+tt$littler_groups[ tt$non.alga.flag == "Animal" ]  <- "Animal"
+tt$kelp_fucoid_turf[tt$taxon_lumped2=="Unknown CCA"] <- "crust"
+tt$littler_groups[tt$taxon_lumped2=="Unknown CCA"] <- "crustose"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
+tt$littler_groups[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Melobesia sp."] <- "crustose coralline"
+tt$littler_groups[tt$taxon_revised=="Melobesia sp."] <- "coralline"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Savoiea robusta"] <- "filament_turf"
+tt$littler_groups[tt$taxon_revised=="Savoiea robusta"] <- "filament"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament_turf"
+tt$littler_groups[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Hedophyllum nigripes"] <- "Kelp"
+tt$littler_groups[tt$taxon_revised=="Hedophyllum nigripes"] <- "thick leathery"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Hedophyllum sessile"] <- "Kelp"
+tt$littler_groups[tt$taxon_revised=="Hedophyllum sessile"] <- "thick leathery"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Chamberlainium tumidum"] <- "crustose coralline"
+tt$littler_groups[tt$taxon_revised=="Chamberlainium tumidum"] <- "coralline"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Ulothrix-Urospora sp."] <- "green turf"
+tt$littler_groups[tt$taxon_revised=="Ulothrix-Urospora sp."] <- "filament"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Prionitis lanceoloata"] <- "red turf"
+tt$littler_groups[tt$taxon_revised=="Prionitis lanceoloata"] <- "finely branching"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Derbesia marina"] <- "green turf"
+tt$littler_groups[tt$taxon_revised=="Derbesia marina"] <- "filament"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Acrosiphonia spp."] <- "filament turf"
+tt$littler_groups[tt$taxon_revised=="Acrosiphonia spp."] <- "filament"
 
 
 
-tt <- tt[ !is.na(tt$`Kelp-Fucoid-Turf`),]
+tt <- tt[ !is.na(tt$kelp_fucoid_turf),]
 tt$taxon <- gsub( " ",".",tt$taxon_lumped2 )
 tt <- tt %>% 
-  select( taxon, funct=`Kelp-Fucoid-Turf`, `Littler-defined` ) %>% 
+  select( taxon, funct=kelp_fucoid_turf, littler_groups ) %>% 
   distinct()
 tt$funct[ tt$funct=="kelp"] <- "Kelp"
 tt$funct[ tt$funct=="green turf"] <- "filament_turf"
 
 
+ttuse <- tt
+# tt <- tt[-c(4,21,213),]
+ttuse$fill <- "whitesmoke"
+ttuse$fill[ttuse$funct=="Animal"] <- "deepskyblue"
 
-tt <- tt[-c(4,21,213),]
-
-predictions_abund_trait <- left_join( predictions_abund, tt)
+predictions_abund_trait <- left_join( predictions_abund, ttuse)
 
 predictions_abund_trait$funct[predictions_abund_trait$taxon=="Tunicata.Porifera"] <- "Animal"
+predictions_abund_trait$funct[predictions_abund_trait$taxon=="coralline.crust"] <- "crustose coralline"
+predictions_abund_trait$fill[predictions_abund_trait$taxon=="coralline.crust"] <- "whitesmoke"
+
 
 
 
@@ -356,7 +363,7 @@ top6 <- colnames(Y)[c(1:6,15,14,29)]
 bot10 <- colnames(Y)[(length(colnames(Y))-9):length(colnames(Y))]
 
 windows(6,4)
-ggplot( filter(predictions_abund,taxon %in% top6), aes(x = shore.height, y = N,
+ggplot( filter(predictions_abund,taxon %in% top6 & year %in% c(2012,2019)), aes(x = shore.height, y = N,
                                                         fill=factor(year) ))+
   geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
   geom_line(size = 0.5)+
@@ -374,14 +381,14 @@ ggsave("R Code and Analysis/Figs/hmsc_response_curves.pdf", width = 6, height = 
 
 # Find the peak for each instance
 peaks <- predictions_abund_trait %>% 
-  group_by( year, taxon, funct ) %>% 
+  group_by( year, taxon, funct, fill ) %>% 
   summarize( peak = shore.height[which(N==max(N))] )
 ggplot( filter(peaks, taxon %in% top6), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
   geom_point()
 
 # get difference between peaks for 2012 and 2019
 peak_shift <- peaks %>% 
-  group_by( taxon, funct ) %>% 
+  group_by( taxon, funct, fill ) %>% 
   filter( year %in% c(2012,2019) ) %>% 
   summarize( shift = diff(peak))
 
@@ -392,49 +399,139 @@ ggplot( peak_shift, aes(x=funct, y=shift) ) +
   geom_boxplot(fill="whitesmoke")  + geom_point() +
   xlab("Functional group") + ylab("Peak shift (cm)") +
   theme_classic() +
-  theme( axis.text.x = element_text(angle=45) )
+  theme( axis.text.x = element_text(angle=45,hjust=1) )
+ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100,
+                        fill=fill) ) + 
+  geom_hline (yintercept=0, lty=2 ) +
+  geom_boxplot()  + geom_point() +
+  xlab("Functional group") + ylab("Peak shift (meters)") +
+  scale_fill_manual(values=rev(unique(peak_shift$fill))) +
+  theme_classic() +
+  theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
+  theme(legend.position = "none")
 
-peak_shift %>% arrange(-shift) 
+peak_shift %>% arrange(-shift)
+peak_shift %>% arrange(shift)
+shift_increase <- peak_shift %>% arrange(-shift)
+choose <- shift_increase$taxon[1:6]
+ggplot( filter(peaks, taxon %in% choose), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
+
+ggplot( filter(predictions_abund,taxon %in% "Alaria.marginata" ), aes(x = shore.height, y = N,
+                                                                                 fill=factor(year), col=factor(year) ))+
+  # geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray50")+
+  geom_line(size = 1)+
+  facet_wrap(~taxon, scales = "free_y")+
+  theme_classic() +#+
+  # scale_fill_viridis_d() +
+  # scale_color_manual(values=c("black","black"))+
+  # scale_fill_manual(values=c("whitesmoke", "mediumslateblue"))+
+  geom_point( data = filter( comm_final, taxon %in% "Alaria.marginata"), pch=21 ) +
+  scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)") +
+  labs( fill="Year" )
+
+lm_shift <- lm( shift~1, peak_shift)
+summary(lm_shift)
+
+
+# merge 2012 peaks with peak shift to compare shift relative to starting point
+peak_initial <- peaks %>% filter( year==2012 )
+peak_compare <- left_join( peak_shift, peak_initial )
+# need to add lines showing the realm of possible shifts
+xs <- range( peak_compare$peak )
+y1 <- c(0,diff(xs))
+y2 <- c(-diff(xs),0)
+df.bound <- data.frame( x1=xs[1],x2=xs[2],y1,y2 )
+df.poly = data.frame( x=rep(xs,each=2), y=c(0,diff(xs),0,-diff(xs)) )
+peak_compare$peak
+
+(a <- ggplot( peak_compare, aes(x=peak,y=shift)) + 
+    # geom_segment( data=df.bound, aes(x=x1,y=y1,xend=x2,yend=y2)) +
+    geom_polygon( data=df.poly, aes(x,y), lty=3, col='slategray',fill='whitesmoke' ) +
+    geom_hline( yintercept = 0, lty=2 ) +
+    geom_smooth(method='lm', se=T, col='black', geom="ribbon") +
+    geom_point( size=3, col='slateblue',pch=1, lwd=2) +
+  ylab("peak elevation shift (cm)") + xlab("initial peak elevation (cm)") +
+  theme_classic() )
+
   
 # find the integral of the function for each year
 integ <- predictions_abund_trait %>% 
-  group_by( year, taxon, funct ) %>% 
+  group_by( year, taxon, funct, fill ) %>% 
   summarize( integral = sum(N) )
 ggplot( filter(integ, taxon %in% top6), aes(x=year,y=integral) ) + facet_wrap(~taxon) +
   geom_point()
 # get difference between integrand for 2012 and 2019
 int_shift <- integ %>% 
-  group_by( taxon, funct ) %>% 
+  group_by( taxon, funct, fill ) %>% 
   filter( year %in% c(2012,2019) ) %>% 
-  summarize( shift = diff(integral) )
+  summarize( shift = integral[2]/integral[1] )
 
 # plot by functional group
-ggplot( int_shift, aes(x=funct, y=shift) ) + 
-  geom_hline (yintercept=0, lty=2 ) +
-  geom_boxplot(fill="whitesmoke")  + geom_point() +
-  xlab("Functional group") + ylab("Abundance shift") +
-  theme_classic() +
-  theme( axis.text.x = element_text(angle=45) )
-
 int_shift %>% arrange(-shift) 
 
+ggplot( int_shift, aes(x=reorder(funct, shift, FUN = median), 
+                                        y=log(shift,base=2), fill=fill ) ) + 
+  geom_hline (yintercept=0, lty=2 ) +
+  geom_boxplot()  + geom_point() +
+  xlab("Functional group") + ylab("Abundance shift") +
+  theme_classic() +
+  scale_y_continuous( breaks=c(4,2,0,-2,-4), 
+                      labels=c('16x','4x','0','1/4x','1/16x')) +
+  scale_fill_manual(values=rev(unique(peak_shift$fill))) +
+  theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
+  theme(legend.position = "none")
+
+summary( lm(shift~1,int_shift) )
+mod <- lm(log(shift,base=2)~1, int_shift )
+summary(mod) 
+
+# by short height
+abund_compare <- left_join( int_shift, peak_initial )
+(b <- ggplot( abund_compare, aes(x=peak,y=log(shift,base=2))) + 
+  geom_hline( yintercept=0, lty=2 ) +
+  # geom_smooth(method='lm') +
+  geom_point( size=3, col='slateblue', pch=1,lwd=2 ) + 
+  ylab("abundance shift") + xlab("initial peak elevation (cm)") +
+  scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
+                      labels=c('10x','2x','0','1/2x','1/10x')) +
+  theme_classic() )
 
 
-## How to solve the peak and integral problem a little more elegantly?
-p <- postBeta$mean[, "Alaria.marginata"]
-elev <- 200
-y1 <- 2012
-p[1] + y1*p[5]*p[2]*elev + y1*p[6]+p[3]*I(elev^2) + y1*p[4] 
+# windows(3,6)
+cowplot::plot_grid( a, b, ncol=1, align = 'hv' )
+ggsave( "R Code and Analysis/Figs/hmsc_shift~initial.jpg", width=3,height=5.75 )
 
 
 
+# combine shifts
+shifts <- left_join( peak_shift, int_shift, by=c("taxon","funct","fill") )
+# add initial cover
+cover_initial <- integ %>% filter( year==2012 )
+shift_initial <- left_join(shifts, cover_initial )
 
 
+(c <- ggplot( data=shift_initial, aes( integral, shift.x) ) +
+    geom_hline( yintercept=0, lty=2 ) +
+    # geom_smooth(method='lm') +
+    geom_point( size=3, col='slateblue', pch=1,lwd=2 ) + 
+    ylab("peak elevation shift (cm)") + xlab("initial total cover") +
+    scale_x_log10() +
+    theme_classic() )
+(d <- ggplot( data=shift_initial, aes( integral, log(shift.y,base=2)) ) +
+    geom_hline( yintercept=0, lty=2 ) +
+    geom_smooth(method='lm',col='black') +
+    geom_point( size=3, col='slateblue', pch=1,lwd=2 ) + 
+    ylab("abundance shift") + xlab("initial total cover") +
+    scale_x_log10() +
+    scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
+                        labels=c('10x','2x','0','1/2x','1/10x')) +
+    theme_classic() )
 
 
-
-
-
+cowplot::plot_grid( a,c,b,d, ncol=2, labels="AUTO" )
+ggsave( "R Code and Analysis/Figs/hmsc_shift~initial.jpg", width=5.75,height=5.75 )
+#
 
 
 

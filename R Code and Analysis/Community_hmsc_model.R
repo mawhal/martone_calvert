@@ -24,9 +24,9 @@ MixingDir = paste0( here::here(), "/R Code and Analysis/mixing")
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
+ad <- read.csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
 # all metadata
-am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
+am <- read.csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
 
 
 
@@ -111,8 +111,13 @@ comm.all <- d.comm[,-c(1:4)]
 # acheived across all of the selected quadrats 
 # and across all selected years
 which( colSums(comm.all) <=10 )
+# filter by occurence
 occurrence <- apply(comm.all, 2, function(z) length(z[z>0])) 
-comm <- comm.all[ ,-which( occurrence <=10 )  ]
+comm <- comm.all[ ,-which( occurrence <=50 )  ]
+# filter by abundance
+abundance <- colSums(comm)d
+which( colSums(comm) <=10 )
+# comm <- comm[ ,-which( abundance <=10 )  ]
 # comm <- comm.all
 commpa <- comm
 commpa[commpa>0] <- 1
@@ -202,9 +207,12 @@ m <- Hmsc( Y = Y,
 
 
 ## Run MCMC and save the model
-thin = 100
-samples = 1000
-nChains = 4
+# thin = 100
+# samples = 1000
+# nChains = 4
+thin = 1
+samples = 100
+nChains = 1
 set.seed(1)
 ptm = tic("model run")
 m = sampleMcmc(m, samples = samples, thin = thin,

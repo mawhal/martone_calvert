@@ -4,9 +4,6 @@
 # created 26 Feb 2019
 
 
-# set options
-options(stringsAsFactors = FALSE)
-
 # load libraries
 library(tidyverse)
 library(vegan)
@@ -16,9 +13,9 @@ library(plotrix)
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R code for Data Prep//Output from R/Martone_Hakai_data_lump_function.csv" )
+ad <- read_csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv" )
 # all metadata
-am <- read.csv( "Data/R code for Data Prep//Output from R/Martone_Hakai_metadata.csv" )
+am <- read_csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
@@ -30,7 +27,8 @@ am <- am[ am$Site != "Meay Channel", ]
 # make it easier by replacing NA values for substratum
 ds <- ad
 ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
-ds <- ds[ ds$motile_sessile!="motile", ]
+ds <- ds[ ds$motile_sessile=="sessile", ]
+ds <- ds[ ds$non.alga.flag=="Algae", ]
 
 
 # remove bare space? Not yet
@@ -45,16 +43,16 @@ d$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
 # this uses lumped taxon names, which wil reduce the size of the dataset a bit
 # restrict this to sessile taxa
 d.simple <- d %>%
-  filter( motile_sessile=="sessile" ) %>%
+  # filter( motile_sessile=="sessile" ) %>%
   group_by( UID, transect, taxon_lumped ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T))
-# calculate average abundance by transect
-d.trans <- d.simple %>%
-  group_by( transect,taxon_lumped ) %>%
-  summarize( Abundance=mean(Abundance, na.rm=T))
+# # calculate average abundance by transect
+# d.trans <- d.simple %>%
+#   group_by( transect,taxon_lumped ) %>%
+#   summarize( Abundance=mean(Abundance, na.rm=T))
 
 # spread Taxon column out into many columns filled with abundance/cover data
-d.comm <- d.trans %>%
+d.comm <- d.simple %>%
   spread( taxon_lumped, Abundance, fill=0 )
 
 
@@ -85,54 +83,54 @@ mtrans <- mclean %>%
   summarize( Shore_height_cm=mean(Shore_height_cm,na.rm=T) )
 
 ##Sort metadata and community matrix to be the same order
-d.comm.order <- d.comm[ order(match(d.comm$transect, mtrans$transect)),]
-cbind( d.comm.order$transect, mtrans$transect )
+# d.comm.order <- d.comm[ order(match(d.comm$transect, mtrans$transect)),]
+# cbind( d.comm.order$transect, mtrans$transect )
 
 # remove UID column from community data
-comm <- as.matrix(d.comm.order[,-1])
+comm <- as.matrix(d.comm[,-c(1,2)])
 
 ## Steps
 # for each quadrat, calculate richness, Shannon diversity, Simpson Diversity, and ENSPIE
 ## Total abundance - also used for ENSPIE below
-mtrans$total.cover <- rowSums( comm )
+mclean$total.cover <- rowSums( comm )
 ## shannon
-mtrans$shannon <- diversity( comm, "shannon" )
+mclean$shannon <- diversity( comm, "shannon" )
 ## simpson
-mtrans$simpson <- diversity( comm, "simpson" )
+mclean$simpson <- diversity( comm, "simpson" )
 ## ENSPIE
 # the function
 ENSPIE <- function(prop){
   ifelse( sum(prop,na.rm=T)>0, 1 / sum(prop^2, na.rm=T), NA ) 
 } 
-prop <- comm/mtrans$total.cover
-mtrans$enspie <- apply( prop, 1, ENSPIE )
+prop <- comm/mclean$total.cover
+mclean$enspie <- apply( prop, 1, ENSPIE )
 # richness
 pa <- ifelse( comm>0, 1, 0)
-mtrans$richness <- rowSums( pa )
+mclean$richness <- rowSums( pa )
 
 # splom for all quadrat summaries
-pairs.panels( mtrans %>% ungroup() %>% select(total.cover,richness,shannon,simpson,enspie), 
+pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shannon,simpson,enspie), 
               scale=F, ellipses = FALSE )
 # for each quadrat, calculate total cover of algae -- then use this to calculate Coefficient of Variation
 
 
-# look at patterns over time
-ggplot( mtrans, aes(y=richness,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
-ggplot( mtrans, aes(y=shannon,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
-ggplot( mtrans, aes(y=simpson,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
-ggplot( mtrans, aes(y=enspie,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
+# # look at patterns over time
+# ggplot( mclean, aes(y=richness,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
+# ggplot( mclean, aes(y=shannon,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
+# ggplot( mclean, aes(y=simpson,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
+# ggplot( mclean, aes(y=enspie,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
 
 
-ggplot( mtrans, aes(y=enspie,x=Year)) + facet_grid(Site~Zone) + 
+ggplot( mclean, aes(y=enspie,x=Year)) + facet_grid(Site~Zone) + 
   geom_line() + geom_point() + #geom_smooth(se=F) + 
   ylab("Effective number of species")
-ggplot( mtrans, aes(y=richness,x=Year)) + facet_grid(Site~Zone) + 
+ggplot( mclean, aes(y=richness,x=Year)) + facet_grid(Site~Zone) + 
   geom_line() + geom_point() +
   ylab("Species richness")
 
 
-# make mtrans longer and include both richness and ENSPIE in the same figure
-mlong <- mtrans %>%
+# make mclean longer and include both richness and ENSPIE in the same figure
+mlong <- mclean %>%
   select( transect, Site, Zone, Year, Shore_height_cm, enspie, richness ) %>%
   group_by( transect, Site, Zone, Year, Shore_height_cm ) %>%
   gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm )
@@ -148,13 +146,14 @@ ggplot( mlong, aes(y=species,x=Year, col=Measure)) + facet_grid(Site~Zone) +
   theme_bw() 
 
 # consider the range of variation in estimates over time
-divvar <- mtrans %>%
-  group_by( Year, Site, Zone ) %>%
+divvar <- mclean %>%
+  group_by( Site, Zone ) %>%
   summarise( meana=mean(total.cover), ea=sd(total.cover),
              meanr=mean(richness), er=sd(richness),
              meand=mean(shannon), ed=sd(shannon),
              means=mean(simpson), es=sd(simpson),
-             meane=mean(enspie), ee=sd(enspie)    ) %>%
+             meane=mean(enspie), ee=sd(enspie),
+             elev = mean(Shore_height_cm,na.rm=T) ) %>%
   mutate( cva = ea/meana, cvr = er/meanr, cvd = ed/meand, cvs = es/means, cve = ee/meane )
 
 pairs.panels( divvar %>% ungroup() %>% select(cva,cvr,cvd,cvs,cve), scale=T, ellipses = FALSE )
@@ -162,9 +161,14 @@ pairs.panels( divvar %>% ungroup() %>% select(meanr,meand,means,meane,cva), scal
 
 ggplot( divvar, aes(x=meanr,y=cva) ) + geom_point() +
   ylab( "CV( total algal % cover )") + xlab("Mean transect species richness")
+ggplot( divvar, aes(x=elev,y=cva,size=meanr,col=Site) ) + geom_point() +
+  ylab( "CV( total algal % cover )") + xlab("Mean transect elevation (cm)")
+
+
+
 
 # summarize over time
-divvar2 <- mtrans %>%
+divvar2 <- mclean %>%
   group_by( Site, Zone ) %>%
   summarise( meana=mean(total.cover), ea=sd(total.cover),
              meanr=mean(richness), er=sd(richness),

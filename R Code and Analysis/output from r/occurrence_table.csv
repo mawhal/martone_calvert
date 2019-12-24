@@ -1,5 +1,5 @@
 taxon,X2012,X2013,X2014,X2015,X2016,X2017,X2018,X2019
-<NA>,29,19,13,32,13,16,29,11
+<NA>,0,0,0,0,0,0,0,2
 Acmaea.mitra,1,0,0,0,0,0,0,0
 Acrochaetium.sp.,0,1,0,1,0,0,0,0
 Acrosiphonia,29,41,42,21,13,30,30,36
@@ -12,20 +12,21 @@ Analipus.japonicus,5,5,10,5,4,1,7,2
 Anemone,37,9,32,20,31,32,36,41
 Antithamnion.defectum,1,2,0,1,2,2,0,0
 Antithamnionella.pacifica,2,2,3,0,0,2,0,0
+articulated.coralline,0,0,0,0,0,0,0,1
 Bangia.sp.,1,0,0,1,0,0,3,0
-Bare.rock,65,66,61,77,88,87,80,78
 Barnacles,54,27,45,35,49,43,63,57
 Bittium,1,0,0,0,0,0,0,0
 Blidingia,1,0,7,4,3,2,1,5
 Bossiella_articulate,26,35,30,41,42,43,43,35
 Bossiella_crust,0,0,5,0,8,6,4,12
-Bryozoan,7,6,1,5,1,0,1,4
+Bryozoan,16,6,1,5,1,0,1,4
 Calliarthron.tuberculosum,0,9,0,4,1,3,1,3
 Calliostoma,1,0,0,0,0,0,0,0
 Callithamnion.pikeanum,25,22,13,21,25,27,24,19
 Callophyllis.sp.,0,0,0,0,1,2,0,0
 Ceramium.codicola,2,0,0,0,0,0,0,0
 Ceramium.pacificum,5,8,5,9,15,6,16,5
+Ceratostoma,0,0,0,0,0,0,0,1
 Chaetomorpha.cannabina,0,0,0,0,2,0,1,0
 Chamberlainium.tumidum,44,42,49,39,39,46,47,43
 Chiharaea.bodegensis,0,0,0,1,0,0,0,0
@@ -43,6 +44,7 @@ Colonial.Diatoms,0,0,0,2,3,2,0,2
 Colpomenia.bullosa,0,0,0,2,0,11,4,4
 Colpomenia.peregrina,0,0,0,3,0,0,4,4
 Corallina,46,51,47,45,50,45,42,45
+coralline.crust,29,19,13,31,13,16,29,6
 Costaria.costata,1,7,8,4,1,4,0,1
 Cottoidea,5,0,0,0,0,0,1,2
 Crab,0,0,0,1,3,1,15,1
@@ -51,8 +53,10 @@ Cryptochiton,0,0,0,1,0,1,0,3
 Cryptosiphonia.woodii,20,14,31,21,14,22,28,21
 Cucumaria.miniata,0,1,0,0,0,0,0,0
 Cumathamnion.decipiens,1,4,0,1,0,3,2,1
+Dactylosiphon.bullosus,0,0,0,0,0,0,0,1
 Dermasterias,0,2,1,0,1,1,2,0
 Desmarestia.aculeata,1,3,0,0,0,0,0,0
+Desmarestia.herbacea,0,0,0,0,0,0,0,1
 Desmarestia.ligulata,0,0,2,2,3,2,1,1
 Dilsea.californica,6,3,7,7,4,11,9,7
 Ectocarpus.commensalis,0,0,0,6,2,2,7,9
@@ -65,7 +69,7 @@ Erythrotrichia.carnea,0,0,0,2,0,4,1,0
 Farlowia.mollis,1,16,3,5,10,10,10,3
 Fauchea.sp.,0,0,0,0,1,0,0,0
 Fish,0,0,0,0,0,0,1,1
-Flustralidra,12,0,0,0,0,0,0,2
+Flustralidra,1,0,0,0,0,0,0,2
 Fucus.distichus,65,53,68,57,52,45,63,54
 Gammaridae,7,0,0,0,0,0,1,0
 Gloiopeltis.furcata,21,26,22,19,26,11,20,19
@@ -148,7 +152,7 @@ Pododesmus.sp.,0,0,0,0,1,0,0,0
 Pollicipes.polymerus,2,0,1,1,0,1,3,4
 Polychaete,0,0,0,0,1,0,0,0
 Polyneura.latissima,15,21,13,14,21,14,12,11
-Polysiphonia,9,13,6,7,6,10,18,21
+Polysiphonia,9,13,6,8,6,10,18,21
 Prionitis,9,11,3,4,10,10,7,5
 Pseudolithophyllum.muricatum,0,0,9,1,0,0,0,0
 Pterocladiella.caloglossoides,0,0,1,0,1,0,1,0
@@ -178,6 +182,7 @@ Sphacelaria.rigidula,0,2,0,1,0,0,1,0
 Strongylocentrotus.droebachiensis,0,0,0,0,0,0,1,1
 Strongylocentrotus.purpuratus,0,1,0,1,0,0,5,5
 Styela.sp.,0,1,0,2,0,0,0,0
+Symphyocladiella.dendroidea,0,0,0,0,2,0,0,0
 Tegula.sp.,1,3,0,0,0,0,0,11
 Tiffaniella.snyderae,0,0,0,0,1,0,0,0
 Tokidadendron.bullatum,3,0,3,2,1,7,3,1
@@ -188,4 +193,5 @@ Tunicata/Porifera,10,3,3,1,0,5,5,6
 Ulothrix-Urospora.sp.,0,1,0,0,0,0,0,0
 Ulva,48,47,52,53,36,32,39,39
 Unknown.crust,4,2,0,0,2,4,0,5
+Unknown.red.blade,0,0,0,0,0,0,0,1
 Worm,11,0,0,0,0,0,0,0

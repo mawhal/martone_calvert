@@ -220,7 +220,7 @@ Polychaete,Polychaete,Polychaete,Polychaete,Animal,motile,
 Polyneura latissima,Polyneura latissima,Polyneura latissima,Polyneura latissima,Algae,sessile,
 Polysiphonia brodiei,Polysiphonia brodiei,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
 Polysiphonia hendryi,Polysiphonia hendryi,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
-Polysiphonia hendryi var. garderi,Polysiphonia hendryi var. garderi,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
+Polysiphonia hendryi var. gardneri,Polysiphonia hendryi var. gardneri,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
 Polysiphonia hendryi var. hendryi,Polysiphonia hendryi var. hendryi,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
 Polysiphonia hendryi var. luxuriens,Polysiphonia hendryi var. luxuriens,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
 Polysiphonia pacifica,Polysiphonia pacifica,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these
@@ -233,7 +233,7 @@ Prionitis sternbergii,Prionitis sternbergii,Prionitis,Prionitis,Algae,sessile,sp
 Pseudolithophyllum muricatum,Pseudolithophyllum muricatum,Pseudolithophyllum muricatum,Pseudolithophyllum muricatum,Algae,sessile,
 Pterocladiella caloglossoides,Pterocladiella caloglossoides,Pterocladiella caloglossoides,Pterocladiella caloglossoides,Algae,sessile,
 Pterosiphonia bipinnata,Savoiea robusta,Savoiea robusta,Savoiea robusta,Algae,sessile,
-Pterosiphonia dendroidea,Pterosiphonia dendroidea,Pterosiphonia dendroidea,Pterosiphonia dendroidea,Algae,sessile,
+Pterosiphonia dendroidea,Symphyocladiella dendroidea,Symphyocladiella dendroidea,Symphyocladiella dendroidea,Algae,sessile,
 Pterosiphonia gracilis,Symphyocladia plumosa,Symphyocladia plumosa,Symphyocladia plumosa,Algae,sessile,changed in 2019
 Pterygophora californica,Pterygophora californica,Pterygophora californica,Pterygophora californica,Algae,sessile,
 Ptilota filicina,Ptilota filicina,Ptilota,Ptilota,Algae,sessile,
@@ -241,7 +241,7 @@ Ptilota sp.,Ptilota sp.,Ptilota,Ptilota,Algae,sessile,
 Ptilota tenuis,Ptilota tenuis,Ptilota,Ptilota,Algae,sessile,
 Pugetia firma,Pugetia firma,Pugetia firma,Pugetia firma,Algae,sessile,
 Pugettia producta,Pugettia producta,Pugettia,Pugettia,Animal,motile,
-Pugettia sp.,Pugettia sp.,Pugettia,Pugettia,Animal?,motile,
+Pugettia sp.,Pugettia sp.,Pugettia,Pugettia,Animal,motile,
 Punctaria sp.,Punctaria sp.,Punctaria sp.,Punctaria sp.,Algae,sessile,
 Pycnopodia helianthoides,Pycnopodia helianthoides,Pycnopodia helianthoides,Pycnopodia helianthoides,Animal,motile,
 Pylaiella littoralis,Pylaiella littoralis,Pylaiella littoralis,Pylaiella littoralis,Algae,sessile,
@@ -316,3 +316,17 @@ Polyostea robusta,Savoiea robusta,Savoiea robusta,Savoiea robusta,Algae,sessile,
 Bossiella mayae/exarticulata,Bossiella mayae/exarticulata,Bosiella,Bosiella,Algae,sessile,
 Ulva fenestrata,Ulva fenestrata,Ulva fenestrata,Ulva,Algae,sessile,resurrected in 2019
 Derbesia marina,Derbesia marina,Derbesia marina,Derbesia marina,Algae,sessile,added in 2019
+Symphyocladiella dendroidea,Symphyocladiella dendroidea,Symphyocladiella dendroidea,Symphyocladiella dendroidea,Algae,sessile,name changed in 2019
+Phyllospadix torreyi,Phyllospadix torreyi,Phyllospadix sp.,Phyllospadix sp.,Algae,sessile,
+Eugomontia sacculata,Eugomontia sacculata,Eugomontia sacculata,Eugomontia sacculata,Algae,sessile,
+Dictyosiphon sinicola ,Dictyosiphon sinicola ,Dictyosiphon sinicola ,Dictyosiphon sinicola ,Algae,sessile,
+Callithamnion biseriatum,Callithamnion biseriatum,Callithamnion biseriatum,Callithamnion biseriatum,Algae,sessile,
+Mastocarpus jardinii,Mastocarpus jardinii,Mastocarpus jardinii,Mastocarpus jardinii,Algae,sessile,
+Ulothrix palusalsa,Ulothrix palusalsa,Ulothrix palusalsa,Ulothrix palusalsa,Algae,sessile,
+Shrimp,Shrimp,Shrimp,Shrimp,Animal,motile,
+Ceratostoma,Ceratostoma,Ceratostoma,Ceratostoma,Animal,motile,
+Unknown red blade,Unknown red blade,Unknown red blade,Unknown red blade,Algae,sessile,
+Dactylosiphon bullosus,Dactylosiphon bullosus,Dactylosiphon bullosus,Dactylosiphon bullosus,Algae,sessile,
+Desmarestia herbacea,Desmarestia herbacea,Desmarestia herbacea,Desmarestia herbacea,Algae,sessile,
+articulated coralline,articulated coralline,articulated coralline,articulated coralline,Algae,sessile,
+coralline crust,coralline crust,coralline crust,coralline crust,Algae,sessile,

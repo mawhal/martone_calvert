@@ -24,9 +24,9 @@ library(tidyverse)
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv" )
+ad <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv" )
 # all metadata
-am <- read_csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
+am <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
@@ -36,21 +36,19 @@ am <- am[ am$Site != "Meay Channel", ]
 am <- droplevels(am)
 
 # remove taxa that are not counted towards subtratum cover (i.e. mobile invertebrates)
-# make it easier by replacing NA values for substratum
 ds <- ad
-ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
 # ds <- ds[ ds$motile_sessile!="motile", ]
 
 # for now, restrict community analysis to algae only
 # ds <- ds %>% 
 #   filter( non.alga.flag =="Algae" )
-View( ds[ ds$non.alga.flag=="Animal?",] )
 
 # remove bare space, because we want to look for differences in numbers of individuals
-ds <- ds[ ds$Taxon != "Bare rock",]  # need to make sure using clean names here
+ds <- ds[ ds$Taxon != "bare rock",]  # need to make sure using clean names here
 
 d <- ds
 
+d %>% filter( is.na(taxon_lumped2) ) %>% select(Taxon) %>% unique()
 
 # add up all taxa that appear more than once in a single quadrat (e.g. barnacles or Hildenbrandia) -- go back to datasheets on some of these?
 d[ duplicated(d), ] # generalize this to look at particular columns

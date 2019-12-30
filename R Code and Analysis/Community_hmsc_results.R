@@ -438,20 +438,18 @@ summary(lm_shift)
 peak_initial <- peaks %>% filter( year==2012 )
 peak_compare <- left_join( peak_shift, peak_initial )
 # need to add lines showing the realm of possible shifts
-xs <- range( peak_compare$peak )
+xs <- range( m$XData$shore.height )
 y1 <- c(0,diff(xs))
 y2 <- c(-diff(xs),0)
 df.bound <- data.frame( x1=xs[1],x2=xs[2],y1,y2 )
-df.poly = data.frame( x=rep(xs,each=2), y=c(0,diff(xs),0,-diff(xs)) )
-peak_compare$peak
 
-(a <- ggplot( peak_compare, aes(x=peak,y=shift)) + 
-    # geom_segment( data=df.bound, aes(x=x1,y=y1,xend=x2,yend=y2)) +
-    geom_polygon( data=df.poly, aes(x,y), lty=3, col='slategray',fill='whitesmoke' ) +
+df.poly <- data.frame( x=rep(xs,each=2), y=c(0,diff(xs),0,-diff(xs)) )
+(a <- ggplot( peak_compare, aes(x=peak,y=shift)) +
+    geom_polygon( data=df.poly, aes(x=x,y=y), fill='whitesmoke', col='slategray', lty=2) +
     geom_hline( yintercept = 0, lty=2 ) +
-    geom_smooth(method='lm', se=T, col='black', geom="ribbon") +
-    geom_point( size=3, col='slateblue',pch=1, lwd=2) +
-  ylab("peak elevation shift (cm)") + xlab("initial peak elevation (cm)") +
+     geom_smooth(method='lm', se=F, col='black') +
+    geom_point( size=3, pch=1, col='slateblue' ) +
+  ylab("elevation peak shift (cm)") + xlab("initial peak elevation (cm)") +
   theme_classic() )
 
   
@@ -490,48 +488,31 @@ summary(mod)
 abund_compare <- left_join( int_shift, peak_initial )
 (b <- ggplot( abund_compare, aes(x=peak,y=log(shift,base=2))) + 
   geom_hline( yintercept=0, lty=2 ) +
-  # geom_smooth(method='lm') +
-  geom_point( size=3, col='slateblue', pch=1,lwd=2 ) + 
-  ylab("abundance shift") + xlab("initial peak elevation (cm)") +
+  # geom_smooth(method='lm') + 
+  geom_point() + 
+  ylab("Abundance shift") + xlab("initial peak elevation (cm)") +
   scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
                       labels=c('10x','2x','0','1/2x','1/10x')) +
   theme_classic() )
-
-
-# windows(3,6)
+window()
 cowplot::plot_grid( a, b, ncol=1, align = 'hv' )
-ggsave( "R Code and Analysis/Figs/hmsc_shift~initial.jpg", width=3,height=5.75 )
+
+
+## How to solve the peak and integral problem a little more elegantly?
+p <- postBeta$mean[, "Alaria.marginata"]
+elev <- 200
+y1 <- 2012
+p[1] + y1*p[5]*p[2]*elev + y1*p[6]+p[3]*I(elev^2) + y1*p[4] 
 
 
 
-# combine shifts
-shifts <- left_join( peak_shift, int_shift, by=c("taxon","funct","fill") )
-# add initial cover
-cover_initial <- integ %>% filter( year==2012 )
-shift_initial <- left_join(shifts, cover_initial )
 
 
-(c <- ggplot( data=shift_initial, aes( integral, shift.x) ) +
-    geom_hline( yintercept=0, lty=2 ) +
-    # geom_smooth(method='lm') +
-    geom_point( size=3, col='slateblue', pch=1,lwd=2 ) + 
-    ylab("peak elevation shift (cm)") + xlab("initial total cover") +
-    scale_x_log10() +
-    theme_classic() )
-(d <- ggplot( data=shift_initial, aes( integral, log(shift.y,base=2)) ) +
-    geom_hline( yintercept=0, lty=2 ) +
-    geom_smooth(method='lm',col='black') +
-    geom_point( size=3, col='slateblue', pch=1,lwd=2 ) + 
-    ylab("abundance shift") + xlab("initial total cover") +
-    scale_x_log10() +
-    scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
-                        labels=c('10x','2x','0','1/2x','1/10x')) +
-    theme_classic() )
 
 
-cowplot::plot_grid( a,c,b,d, ncol=2, labels="AUTO" )
-ggsave( "R Code and Analysis/Figs/hmsc_shift~initial.jpg", width=5.75,height=5.75 )
-#
+
+
+
 
 
 

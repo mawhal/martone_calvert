@@ -39,9 +39,9 @@ cols = as.vector(matrix( c(sapply( base, darken ), sapply( base, lighten ), base
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
-ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv", stringsAsFactors = FALSE )
+ad <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv" )
 # all metadata
-am <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
+am <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
@@ -63,8 +63,8 @@ dm <- left_join( duse, muse )
 
 # for now, restrict community analysis to algae only
 d <- dm %>% 
-  filter( non.alga.flag =="Algae" )
-  # filter( motile_sessile =="sessile" )
+  # filter( non.alga.flag %in% c("Algae"  )
+  filter( motile_sessile == "sessile" )
 
 # calculate mean abundance per transect in each year
 dmean <- d %>% 
@@ -146,8 +146,8 @@ selIDs = siteIDs[selection]
 D2 = as.dist(as.matrix(D_use))#[sites %in% selIDs, sites %in% selIDs])
 cmd_D2 <- cmdscale(D2, eig = TRUE, add = TRUE, k = nrow(as.matrix(D2)) - 
                      1)
-cmd_D2 <- add.spec.scores(cmd_D2, comm^0.25, 
-                          method='pcoa.scores', Rscale=T, scaling=1, multi=0.1)
+cmd_D2 <- add.spec.scores(cmd_D2, comm^0.5, 
+                          method='pcoa.scores', Rscale=T, scaling=3, multi=0.1)
 axes=c(1,2)
 x <- cmd_D2$points[, axes[1]]
 y <- cmd_D2$points[, axes[2]]
@@ -155,17 +155,25 @@ spec1 <- cmd_D2$cproj[, axes[1]]
 spec2 <- cmd_D2$cproj[, axes[2]]
 
 # reduce number of taxa in species scores
-sel1 <- names(spec1[abs(spec1)>3*sd(spec1, na.rm=T)])
-sel2 <- names(spec2[abs(spec2)>3*sd(spec2, na.rm=T)])
+sel1 <- names(spec1[abs(spec1)>2.5*sd(spec1, na.rm=T)])
+sel2 <- names(spec2[abs(spec2)>2.5*sd(spec2, na.rm=T)])
 
 spec.sel <- unique(c(sel1,sel2))
 spec1.sel <- spec1[names(spec1)%in%spec.sel]
 spec2.sel <- spec2[names(spec2)%in%spec.sel]
-specs <- data.frame( x=spec1.sel, y=spec2.sel )
-# plot(x, y, type = "n", asp = 1, 
-#      xlab = paste0("PCoA ", axes[1], 
-#                    " (", round(100 * cmd_D2$eig[axes[1]]/sum(cmd_D2$eig)),
-#                    "%)"), ylab = paste0("PCoA ", axes[2], " (", round(100 * cmd_D2$eig[axes[2]]/sum(cmd_D2$eig)), "%)"))
+specs <- data.frame( x=spec1.sel, y=spec2.sel, taxon=names(spec1.sel) )
+specs$taxon <- vegan::make.cepnames(specs$taxon)
+windows(4,4)
+par(mar=c(5,4,2,2)+0.1,xpd=T)
+plot( y~x, data=specs, type = "p", asp = 1,
+     xlab = paste0("PCoA ", axes[1],
+                   " (", round(100 * cmd_D2$eig[axes[1]]/sum(cmd_D2$eig)),
+                   "%)"), 
+     ylab = paste0("PCoA ", axes[2], 
+                   " (", round(100 * cmd_D2$eig[axes[2]]/sum(cmd_D2$eig)), "%)"),
+     xlim=c(-0.3,0.3), ylim=c(-0.2, 0.25))
+text( y~x, data=specs, labels=specs$taxon,  cex=0.8,
+      pos=c(1,1,3,2,3,1,2,1,4,4,3,2,2,1,4))
 # sitesred = sites[sites %in% selIDs]
 # surveysred = surveys[sites %in% selIDs]
 # 
@@ -174,12 +182,12 @@ specs <- data.frame( x=spec1.sel, y=spec2.sel )
 #   # define zone and site for each instance
 #   li = ltys[unique(as.numeric(Zone[ind_surv]))]
 #   ci = cols2[unique(as.numeric(Site[ind_surv]))]
-#     ind_surv = ind_surv[order(surveysred[sitesred == 
+#     ind_surv = ind_surv[order(surveysred[sitesred ==
 #                                            selIDs[i]])]
 #   for (t in 1:(length(ind_surv) - 1)) {
 #     niini = ind_surv[t]
 #     nifin = ind_surv[t + 1]
-#       arrows(x[niini], y[niini], x[nifin], y[nifin], 
+#       arrows(x[niini], y[niini], x[nifin], y[nifin],
 #              col = ci, lty=li, lwd=2, length=0 )
 # 
 #   }
@@ -212,7 +220,7 @@ ggplot( trajdf, aes(x=x,y=y,col=zone, group=transect)) + facet_wrap(~site,ncol=1
   geom_point(size=1) + geom_path() +
   geom_point( data=filter(trajdf,year==2012), aes(x=x,y=y,fill=zone), size=3, pch=21, col='black' ) +
   geom_point( data=filter(trajdf,year==2019), aes(x=x,y=y,fill=zone), size=3, pch=22, col='black' ) +
-  geom_point( data=specs, aes(x,y, group=1), col="black",size=3) +
+  # geom_point( data=specs, aes(x,y, group=1), col="black",size=3) +
   xlab( paste0("PCoA ", axes[1], " (", round(100 * cmd_D2$eig[axes[1]]/sum(cmd_D2$eig)),"%)")) +
   ylab( paste0("PCoA ", axes[2], " (", round(100 * cmd_D2$eig[axes[2]]/sum(cmd_D2$eig)),"%)"))+
   scale_color_manual(values=c("black","grey50","grey75")) + 

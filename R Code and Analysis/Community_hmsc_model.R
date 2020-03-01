@@ -113,7 +113,8 @@ comm.all <- d.comm[,-c(1:4)]
 which( colSums(comm.all) <=10 )
 # filter by occurence
 occurrence <- apply(comm.all, 2, function(z) length(z[z>0])) 
-comm <- comm.all[ ,-which( occurrence <=50 )  ]
+comm <- comm.all %>% 
+  select( names(occurrence)[ which(occurrence >= length(unique(d.comm$Year))*6) ] )
 # filter by abundance
 abundance <- colSums(comm)d
 which( colSums(comm) <=10 )
@@ -124,6 +125,25 @@ commpa[commpa>0] <- 1
 sort(colSums(commpa))[1:20]
 # reorder community matrix based on the most abundant to least (across all quadrats)
 Y <- as.matrix( comm[, order(colSums(comm),decreasing = T) ] )
+
+# compare Y and ad
+ncol(Y)
+ad %>% filter(motile_sessile == "sessile") %>% 
+  select(taxon_lumped2,motile_sessile,kelp_fucoid_turf,new_cat_simple3) %>%
+  arrange( taxon_lumped2 ) %>% 
+  distinct()
+
+ad %>% filter(motile_sessile == "sessile") %>% 
+  select(taxon_lumped2) %>%
+  arrange( taxon_lumped2 ) %>% 
+  distinct() #%>% 
+ad.rich <- ad %>% filter(motile_sessile == "sessile") %>% 
+  select(taxon_lumped2) %>%
+  arrange( taxon_lumped2 ) %>% 
+  distinct() %>% 
+  summarize(length(unique(taxon_lumped2)))
+
+ncol(Y)/ad.rich
 
 
 # define the variables to test from metadata and data

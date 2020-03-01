@@ -28,7 +28,7 @@ am <- am[ am$Site != "Meay Channel", ]
 ds <- ad
 ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
 ds <- ds[ ds$motile_sessile=="sessile", ]
-ds <- ds[ ds$non.alga.flag=="Algae", ]
+# ds <- ds[ ds$non.alga.flag=="Algae", ]
 
 
 # remove bare space? Not yet
@@ -45,7 +45,8 @@ d$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
 d.simple <- d %>%
   # filter( motile_sessile=="sessile" ) %>%
   group_by( UID, transect, taxon_lumped ) %>%
-  summarize( Abundance=sum(Abundance,na.rm=T))
+  summarize( Abundance=sum(Abundance,na.rm=T)) %>% 
+  arrange(UID)
 # # calculate average abundance by transect
 # d.trans <- d.simple %>%
 #   group_by( transect,taxon_lumped ) %>%
@@ -61,6 +62,7 @@ d.comm <- d.simple %>%
 muse  <- am
 splits <- strsplit( as.character(muse$UID), " " )
 muse$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
+muse <- arrange(muse,UID)
 
 # restrict to rows selected in metadata
 d.comm <- d.comm[ d.comm$transect %in% muse$transect, ] 
@@ -89,6 +91,8 @@ mtrans <- mclean %>%
 # remove UID column from community data
 comm <- as.matrix(d.comm[,-c(1,2)])
 
+anti_join(d.comm[,1:2], mclean[,c("UID", "transect")] )
+anti_join(mclean[,c("UID", "transect")] , d.comm[,1:2]  )
 ## Steps
 # for each quadrat, calculate richness, Shannon diversity, Simpson Diversity, and ENSPIE
 ## Total abundance - also used for ENSPIE below
@@ -109,7 +113,7 @@ pa <- ifelse( comm>0, 1, 0)
 mclean$richness <- rowSums( pa )
 
 # splom for all quadrat summaries
-pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shannon,simpson,enspie), 
+psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shannon,simpson,enspie), 
               scale=F, ellipses = FALSE )
 # for each quadrat, calculate total cover of algae -- then use this to calculate Coefficient of Variation
 
@@ -156,36 +160,71 @@ divvar <- mclean %>%
              elev = mean(Shore_height_cm,na.rm=T) ) %>%
   mutate( cva = ea/meana, cvr = er/meanr, cvd = ed/meand, cvs = es/means, cve = ee/meane )
 
-pairs.panels( divvar %>% ungroup() %>% select(cva,cvr,cvd,cvs,cve), scale=T, ellipses = FALSE )
-pairs.panels( divvar %>% ungroup() %>% select(meanr,meand,means,meane,cva), scale=T, ellipses = FALSE )
-
 ggplot( divvar, aes(x=meanr,y=cva) ) + geom_point() +
   ylab( "CV( total algal % cover )") + xlab("Mean transect species richness")
 ggplot( divvar, aes(x=elev,y=cva,size=meanr,col=Site) ) + geom_point() +
   ylab( "CV( total algal % cover )") + xlab("Mean transect elevation (cm)")
 
+# collapse and plot all together
+divplot <- divvar %>% 
+  group_by(Site, Zone, cva) %>% 
+  gather(key="estimate",value="mean", meanr, meand, means, meane )
+
+ggplot( data=divplot, aes(x=mean, y=cva)) + facet_wrap(~estimate, scales="free") + 
+  geom_smooth(method='lm',se=F) +
+  geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
+  geom_point(aes(col=Site,size=Zone))
 
 
+
+## above calculations include variation across and within times, exclude this variation within time?
+yearly <- mclean %>% 
+  group_by( Site, Zone, Year ) %>% 
+  summarize( meana=mean(total.cover), 
+             meanr=mean(richness),
+             meand=mean(shannon),
+             means=mean(simpson),
+             meane=mean(enspie) )
 
 # summarize over time
-divvar2 <- mclean %>%
+divvar2 <- yearly %>%
   group_by( Site, Zone ) %>%
-  summarise( meana=mean(total.cover), ea=sd(total.cover),
-             meanr=mean(richness), er=sd(richness),
-             meand=mean(shannon), ed=sd(shannon),
-             means=mean(simpson), es=sd(simpson),
-             meane=mean(enspie), ee=sd(enspie)    ) %>%
-  mutate( cva = ea/meana, cvr = er/meanr, cvd = ed/meand, cvs = es/means, cve = ee/meane )
+  summarise( gmeana=mean(meana), ea=sd(meana),
+             gmeanr=mean(meanr), er=sd(meanr),
+             gmeand=mean(meand), ed=sd(meand),
+             gmeans=mean(means), es=sd(means),
+             gmeane=mean(meane), ee=sd(meane)    ) %>%
+  mutate( cva = ea/gmeana, cvr = er/gmeanr, cvd = ed/gmeand, cvs = es/gmeans, cve = ee/gmeane )
 
-pairs.panels( divvar2 %>% ungroup() %>% select(meanr,meand,means,meane,cva), scale=T, ellipses = FALSE )
+# collapse and plot all together
+divplot2 <- divvar2 %>% 
+  group_by(Site, Zone, cva) %>% 
+  gather(key="estimate",value="mean", gmeanr, gmeand, gmeans, gmeane )
 
-a <- ggplot( divvar2, aes(x=meanr,y=cva) ) + geom_point() +
+ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="free") + 
+  geom_smooth(method='lm',se=T) +
+  geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
+  geom_point(aes(col=Site,size=Zone))
+
+summary(lm(mean~cva, data=filter(divplot2,estimate=="gmeanr")))
+ggplot( data=filter(divplot2,estimate=="gmeanr"), aes(x=mean, y=1/cva)) + 
+  geom_smooth(method='lm',se=T) +
+  geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
+  geom_point(aes(fill=Site,size=Zone),pch=21) +
+  ylab( expression(paste("Cover stability (",mu,"/",sigma,")")) ) + xlab("Mean species richness") +
+  viridis::scale_fill_viridis(discrete=T) +
+  theme_classic()
+
+
+
+
+a <- ggplot( divvar2, aes(x=gmeanr,y=cva) ) + geom_point() +
   ylab( "CV( total algal % cover )") + xlab("Mean species richness") + geom_smooth() + ylim(c(-0.1,1.2))
-b <- ggplot( divvar2, aes(x=meand,y=cva) ) + geom_point() +
+b <- ggplot( divvar2, aes(x=gmeand,y=cva) ) + geom_point() +
   ylab( "CV( total algal % cover )") + xlab("Mean Shannon diversity") + geom_smooth() + ylim(c(-0.1,1.2))
-c <- ggplot( divvar2, aes(x=means,y=cva) ) + geom_point() +
+c <- ggplot( divvar2, aes(x=gmeans,y=cva) ) + geom_point() +
   ylab( "CV( total algal % cover )") + xlab("Mean Simpson diversity") + geom_smooth() + ylim(c(-0.1,1.2))
-d <- ggplot( divvar2, aes(x=meane,y=cva) ) + geom_point() +
+d <- ggplot( divvar2, aes(x=gmeane,y=cva) ) + geom_point() +
   ylab( "CV( total algal % cover )") + xlab("Mean effective # species") + geom_smooth() + ylim(c(-0.1,1.2))
 
 

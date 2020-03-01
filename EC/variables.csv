@@ -1,0 +1,6 @@
+variables
+variable, standard_name, cell_method, unit
+Tx_Climatology, air_temperature, t: maximum within days t: mean within months t: mean over years, celsius
+Tn_Climatology, air_temperature, t: minimum within days t: mean within months t: mean over years, celsius
+T_mean_Climatology, air_temperature, t: mean within days t: mean within months t: mean over years, celsius
+Precip_Climatology, lwe_thickness_of_precipitation_amount, t: sum within months t: mean over years, mm

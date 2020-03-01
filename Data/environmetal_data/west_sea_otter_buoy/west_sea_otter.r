@@ -57,14 +57,28 @@ ts <- ts2clm( dsimple, y=y, climatologyPeriod = date(range(dsimple$t)) )
 
 mhw <- detect_event(ts, y=y )
 
+# biggest
+mhw$event %>% arrange(-intensity_mean,-duration) %>% 
+  select( date_start,date_end,duration,
+          intensity_mean,intensity_max )
+
+# during the heatwave
+mhw$event %>% filter(date_start>ymd("2014-01-01")) %>% 
+  select( date_start,date_end,duration,
+          intensity_mean,intensity_max, )
+
 mhw$event %>% 
   dplyr::ungroup() %>%
   dplyr::select(event_no, duration, date_start, date_peak, intensity_max, intensity_cumulative) %>% 
   dplyr::arrange(-intensity_max) %>% 
   head(6)
 
+event_line(mhw, y=y, metric = "intensity_mean")
+event_line(mhw, y=y, metric = "intensity_max")
 event_line(mhw, y=y, metric = "intensity_max", #ylab="wave hieght (m)",
            start_date = "2011-01-01", end_date = "2019-12-01")
+event_line(mhw, y=y, metric = "intensity_max", #ylab="wave hieght (m)",
+           start_date = "2014-01-01", end_date = "2016-12-01")
 
 
 lolli_plot(mhw,  metric = "intensity_mean")
@@ -73,5 +87,9 @@ lolli_plot(mhw,  metric = "intensity_mean")
 mhw_clim <- mhw$climatology %>% 
   filter( t >= "2011-05-01")
 
-ggplot(mhw_clim, aes(x = t, y = y, y2 = thresh)) + geom_line() +
-  geom_flame(n=0,n_gap = 0) 
+windows(12,3)
+ggplot(mhw_clim, aes(x = t, y = y, y2 = thresh)) + geom_line( alpha=0.2) +
+  geom_line( aes(y=zoo::rollmean(y, 30, na.pad=TRUE)), alpha=0.5, col='red' ) +
+  geom_flame(n=0,n_gap = 0,col='black') + 
+  ylab("Characteristic significant\nwave height (m)") + xlab("") +
+  theme_minimal()

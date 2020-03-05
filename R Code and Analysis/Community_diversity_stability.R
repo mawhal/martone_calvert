@@ -206,27 +206,99 @@ ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="fre
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(col=Site,size=Zone))
 
-summary(lm(mean~cva, data=filter(divplot2,estimate=="gmeanr")))
+
+summary(lm(mean~ 1/cva, data=filter(divplot2,estimate=="gmeanr")))
+with(filter(divplot2,estimate=="gmeanr"), cor.test(mean, 1/cva, data=))
 ggplot( data=filter(divplot2,estimate=="gmeanr"), aes(x=mean, y=1/cva)) + 
-  geom_smooth(method='lm',se=T) +
+  geom_smooth(method='lm',se=F) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(fill=Site,size=Zone),pch=21) +
-  ylab( expression(paste("Cover stability (",mu,"/",sigma,")")) ) + xlab("Mean species richness") +
-  viridis::scale_fill_viridis(discrete=T) +
+  ylab( expression(paste("Cover stability (",mu,"/",sigma,")")) ) + 
+  xlab("Mean species richness") +
+  # viridis::scale_fill_viridis(discrete=T) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
   theme_classic()
 
 
 
 
-a <- ggplot( divvar2, aes(x=gmeanr,y=cva) ) + geom_point() +
-  ylab( "CV( total algal % cover )") + xlab("Mean species richness") + geom_smooth() + ylim(c(-0.1,1.2))
-b <- ggplot( divvar2, aes(x=gmeand,y=cva) ) + geom_point() +
-  ylab( "CV( total algal % cover )") + xlab("Mean Shannon diversity") + geom_smooth() + ylim(c(-0.1,1.2))
-c <- ggplot( divvar2, aes(x=gmeans,y=cva) ) + geom_point() +
-  ylab( "CV( total algal % cover )") + xlab("Mean Simpson diversity") + geom_smooth() + ylim(c(-0.1,1.2))
-d <- ggplot( divvar2, aes(x=gmeane,y=cva) ) + geom_point() +
-  ylab( "CV( total algal % cover )") + xlab("Mean effective # species") + geom_smooth() + ylim(c(-0.1,1.2))
+a <- ggplot( divvar2, aes(x=gmeanr,y=1/cva) ) + geom_point() +
+  ylab( "stability") + xlab("Mean species richness") + geom_smooth(method='lm') 
+b <- ggplot( divvar2, aes(x=gmeand,y=1/cva) ) + geom_point() +
+  ylab( "stability") + xlab("Mean Shannon diversity") + geom_smooth(method='lm')
+c <- ggplot( divvar2, aes(x=gmeans,y=1/cva) ) + geom_point() +
+  ylab( "stability") + xlab("Mean Simpson diversity") + geom_smooth(method='lm')
+d <- ggplot( divvar2, aes(x=gmeane,y=1/cva) ) + geom_point() +
+  ylab( "stability") + xlab("Mean effective # species") + geom_smooth(method='lm') 
 
 
 library( cowplot )
 plot_grid( a,b,c,d, ncol=4 )
+
+
+
+## resistance versus resilience
+## compare good years and bad years
+initial <- 2012:2013
+maybe_normal <- 2018
+heatwave <- 2014:2017
+maybe_hot <- 2019
+
+yearly$event <- "heatwave"
+yearly$event[yearly$Year %in% c(initial,maybe_normal)] <- "normal"
+yearly$event[yearly$Year %in% maybe_hot] <- "heatwave2"
+
+  
+# function to calculate resistance and resilience
+omega <- function( z, window=1 ){
+  Yn  = mean(z$meana[z$event=="normal"])
+  Ye  = mean(z$meana[z$event=="heatwave"][1:window])
+  omega = Yn / abs(Ye-Yn) 
+  return(omega)
+}
+
+delta <- function( z ){
+  Yn  = mean(z$meana[z$Year %in% initial ])
+  Ye  = mean(z$meana[z$event=="heatwave"])
+  Ye1 = z$meana[z$Year==2018]
+  delta = abs( (Ye-Yn) / (Ye1-Yn) )
+  return( delta )
+}
+
+
+resistance1 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=1 )
+resistance2 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=2  )
+resistance3 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=3  )
+resistance4 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=4  )
+
+resilience <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), delta )
+
+ress <- bind_cols( yearly %>% select(Site,Zone) %>% distinct(),
+           data.frame( O1=c(resistance1), O2=c(resistance2), 
+            O3=c(resistance3), O4=c(resistance4),
+            D=c(resilience) ) )
+
+
+ggplot( data=ress, aes(x=Zone,y=log(O1),col=Site)) + geom_point(size=2)
+ggplot( data=ress, aes(x=Zone,y=log(O2),col=Site)) + geom_point(size=2)
+ggplot( data=ress, aes(x=Zone,y=log(O3),col=Site)) + geom_point(size=2)
+ggplot( data=ress, aes(x=Zone,y=log(O4),col=Site)) + geom_point(size=2)
+ggplot( data=ress, aes(x=Zone,y=log(D),col=Site)) + geom_point(size=2)
+
+
+ress_long <- ress %>%
+  gather( "measure","value", -Site, -Zone )
+
+ggplot( ress_long, aes(x=Zone,y=log(value),fill=Site)) +
+  facet_wrap(~measure) + geom_point(size=3, alpha=0.5, pch=21) +
+  scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
+  theme_bw()
+
+ress_long2 <- ress %>%
+  gather( "resistance","value", -Site, -Zone, -D )
+
+
+ggplot( ress_long2, aes(x=log(value),y=log(D),fill=Site)) +
+  facet_wrap(~resistance) + geom_point(size=3, alpha=0.5, pch=21) +
+  scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
+  theme_bw()

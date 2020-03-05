@@ -269,7 +269,7 @@ save( predictions_abund, file = paste("R Code and Analysis/output from r/hmsc_pr
 # use actual data
 comm_select <- metacomm %>% 
   gather(key = taxon, value = N, Acrochaetium.sp.:Unknown.crust) %>%
-  select( UID, shore.height=Shore_height_cm, taxon, N ) %>%
+  select( UID, shore.height=Shore_height_cm, taxon, N )# %>%
   filter( N>0 )
 comm_select <- comm_select %>% 
   separate( UID,c("beach","b","zone","year","quad") ) %>% 
@@ -284,7 +284,7 @@ comm_final <- comm_select %>%
   filter( !(taxon %in% comm_rare$taxon) )
 
 # reorder levels of taxon
-comm_final$taxon <- factor(comm_final$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = TRUE)
+comm_final$taxon <- factor(comm_final$taxon, levels = colnames(m$Y)[order(colSums(m$Y),decreasing = T)], ordered = TRUE)
 
 inverts <- c("Barnacles","Mytilus.sp.","Anemone","Bryozoan","Tunicata/Porifera","Pollicipes.polymerus","Tube.worms","Hydroid" )
 comm_final$alga <- "alga"
@@ -364,36 +364,36 @@ predictions_abund_trait$fill[predictions_abund_trait$taxon=="coralline.crust"] <
 
 
 # only pull the 10 most common taxa
-top6 <- colnames(Y)[c(1:6,15,14,29)]
+top6 <- colnames(m$Y)[c(1:6,9,14,15)]
 # 10 rarest taxa
-bot10 <- colnames(Y)[(length(colnames(Y))-9):length(colnames(Y))]
+bot10 <- colnames(m$Y)[(length(colnames(m$Y))-8):length(colnames(m$Y))]
+
+taxa2plot <- top6
 
 windows(6,4)
-ggplot( filter(predictions_abund,taxon %in% top6 & year %in% c(2012,2019)), aes(x = shore.height, y = N,
+ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2016)), aes(x = shore.height, y = N,
                                                         fill=factor(year) ))+
   geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
-  geom_line(size = 0.5)+
   facet_wrap(~taxon, scales = "free_y")+
   theme_classic() +#+
   # scale_fill_viridis_d() +
   # scale_color_manual(values=c("black","black"))+
   scale_fill_manual(values=c("whitesmoke", "mediumslateblue"))+
-  geom_point( data = filter( comm_final, taxon %in% top6, year %in% c(2012,2019)), pch=21 ) +
+  geom_point( data = filter( comm_final, taxon %in% taxa2plot, year %in% c(2012,2016)), pch=21 ) +
+  geom_line(size = 0.5)+
   scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)")
 ggsave("R Code and Analysis/Figs/hmsc_response_curves.pdf", width = 6, height = 4)
 
 # just show Fucus
 fuc <- "Fucus.distichus"
 windows(5,3)
-ggplot( filter(predictions_abund,taxon %in% fuc & year %in% c(2012,2019)), 
-        aes(x = shore.height, y = N,fill=factor(year) ))+
-  geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
+ggplot( filter(predictions_abund,taxon %in% fuc ), 
+        aes(x = shore.height, y = N ))+
+  facet_wrap(~year)+
+  geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, fill="gray75")+
   geom_line(size = 0.5)+
-  theme_classic() +#+
-  # scale_fill_viridis_d() +
-  # scale_color_manual(values=c("black","black"))+
-  scale_fill_manual(values=c("whitesmoke", "mediumslateblue"))+
-  geom_point( data = filter( comm_final, taxon %in% fuc, year %in% c(2012,2019)), pch=21 ) +
+  theme_classic() +
+  geom_point( data = filter( comm_final, taxon %in% fuc), pch=21 ) +
   scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)")
 
 
@@ -531,42 +531,44 @@ cowplot::plot_grid( a, b, ncol=1, align = 'hv' )
 # combined figure of mean elevation shift and abundance shift
 compare_all <- left_join( peak_compare, abund_compare, by=c("taxon","funct","fill","year","peak") )
 
+
 # basically no relationship between peak and abundance shift
-ggplot( compare_all, aes(x=log(shift.y,base=2),y=shift.x) ) + 
+ggplot( compare_all[compare_all$shift.y>0.00000001,], aes(x=log(shift.y,base=2),y=shift.x) ) + 
   geom_point() + geom_smooth( method='lm' )
 
-with( compare_all, cor.test( shift.x,shift.y) )
+with( compare_all[compare_all$shift.y>0.00000001,], cor.test( shift.x,shift.y) )
 
 
 # boxplots
-ylimits1 <- c(-max(abs(range(compare_all$shift.x))),260)
-# ylimits2 <- c(1/20,20) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^max(abs(log(range(compare_all$shift.y),base=2))))
-(bpa <- ggplot( compare_all, aes(y=shift.x,x=1) ) +
+ylimits1 <- c(-max(abs(range(compare_all$shift.x))),max(abs(range(compare_all$shift.x))))
+ylimits2 <- c(-8,8) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^max(abs(log(range(compare_all$shift.y),base=2))))
+(bpa <- ggplot( compare_all[compare_all$shift.y>0.00000001,], aes(y=shift.x,x=1) ) +
     # geom_boxplot(notch = T,outlier.color = NA) + 
-    geom_violin(outlier.color = NA) +
-    geom_hline(yintercept=0)+
+    geom_violin(outlier.color = NA, draw_quantiles = 0.5, trim=FALSE ) +
+    geom_hline(yintercept=0,lty=2)+
     geom_point(alpha=0.5) +
     ylab( "Peak elevation shift (cm)" )   +
-    ylim(ylimits1) +
+    scale_y_continuous(limits=ylimits,breaks=c(log(50,base=2),log(10,base=2),log(2,base=2),0,log(0.5,base=2),log(1/10,base=2),log(1/50,base=2)),
+                       labels=c('50x','10x','2x','0','1/2x','1/10x','1/50x'),
+                       position="right") +
     theme_classic() +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) )
-(bpb <- ggplot( compare_all, aes(y=log(shift.y,base=2),x=1) ) +
+(bpb <- ggplot( compare_all[compare_all$shift.y>0.00000001,], aes(y=log(shift.y,base=2),x=1) ) +
     # geom_boxplot(notch=TRUE) + 
-    geom_violin(outlier.color = NA) +
-    geom_hline(yintercept=0)+
+    geom_violin(outlier.color = NA, draw_quantiles = 0.5, trim=FALSE ) +
+    geom_hline(yintercept=0,lty=2)+
     geom_point(alpha=0.5) +
     ylab( "Abundance shift" ) +
-    scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
-                      labels=c('10x','2x','0','1/2x','1/10x'),
-                      position="right")+
-                      # limits=sqrt(ylimits2))   +
+    scale_y_continuous(limits=ylimits2,breaks=c(log(50,base=2),log(10,base=2),log(2,base=2),0,log(0.5,base=2),log(1/10,base=2),log(1/50,base=2)),
+                      labels=c('50x','10x','2x','0','1/2x','1/10x','1/50x'),
+                      position="right") +
     theme_classic() +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) )
-windows(3,2.5)
+# windows(3,2.5)
 cowplot::plot_grid(bpa,bpb, align = "h", axis='tblr', labels = "AUTO")
 #
 

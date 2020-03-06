@@ -194,7 +194,8 @@ divvar2 <- yearly %>%
              gmeand=mean(meand), ed=sd(meand),
              gmeans=mean(means), es=sd(means),
              gmeane=mean(meane), ee=sd(meane)    ) %>%
-  mutate( cva = ea/gmeana, cvr = er/gmeanr, cvd = ed/gmeand, cvs = es/gmeans, cve = ee/gmeane )
+  mutate( cva = ea/gmeana, cvr = er/gmeanr, cvd = ed/gmeand, cvs = es/gmeans, cve = ee/gmeane,
+          stability=gmeana/ea )
 
 # collapse and plot all together
 divplot2 <- divvar2 %>% 
@@ -207,19 +208,32 @@ ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="fre
   geom_point(aes(col=Site,size=Zone))
 
 
-summary(lm(mean~ 1/cva, data=filter(divplot2,estimate=="gmeanr")))
-with(filter(divplot2,estimate=="gmeanr"), cor.test(mean, 1/cva, data=))
-ggplot( data=filter(divplot2,estimate=="gmeanr"), aes(x=mean, y=1/cva)) + 
+windows(5,4)
+with( divvar2, cor.test(gmeanr, stability) )
+ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + 
   geom_smooth(method='lm',se=F) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
-  geom_point(aes(fill=Site,size=Zone),pch=21) +
+  geom_point(aes(fill=Site,shape=Zone),size=3) +
   ylab( expression(paste("Cover stability (",mu,"/",sigma,")")) ) + 
   xlab("Mean species richness") +
-  # viridis::scale_fill_viridis(discrete=T) +
+  scale_shape_manual( values=21:23) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
   theme_classic()
 
 
+# model stability by zone
+library(lme4)
+library(lmerTest)
+divvar2$Zone2 <- relevel( factor(divvar2$Zone, ordered=F), ref="MID" )
+contrasts(divvar2$Zone2) <- matrix( c(1,-0.5,-0.5,1,0,-1),ncol=2)
+me1 <- lmer( stability ~ Zone2 + (1|Site), data=divvar2 )
+summary(me1)
+anova(me1)
+me2 <- lmer( stability ~ gmeanr + (1|Site), data=divvar2 )
+summary(me2)
+anova(lm( stability ~ Zone2, data=divvar2 ))
+summary(lm( stability ~ Zone2, data=divvar2 ))
+summary(lm(stability ~ gmeanr, data=divvar2))
 
 
 a <- ggplot( divvar2, aes(x=gmeanr,y=1/cva) ) + geom_point() +
@@ -286,19 +300,49 @@ ggplot( data=ress, aes(x=Zone,y=log(O4),col=Site)) + geom_point(size=2)
 ggplot( data=ress, aes(x=Zone,y=log(D),col=Site)) + geom_point(size=2)
 
 
+psych::pairs.panels( ress[,-c(1:2)])
+psych::pairs.panels( log(ress[,-c(1:2)]) )
+
+
+
 ress_long <- ress %>%
   gather( "measure","value", -Site, -Zone )
+
+ress_long <- left_join(ress_long,divvar2)
 
 ggplot( ress_long, aes(x=Zone,y=log(value),fill=Site)) +
   facet_wrap(~measure) + geom_point(size=3, alpha=0.5, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   theme_bw()
+ggplot( ress_long, aes(x=gmeanr,y=log(value),fill=Site)) +
+  facet_wrap(~measure) + geom_point(size=3, alpha=0.5, pch=21) +
+  scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
+  geom_smooth(aes(group=1), method='lm') +
+  theme_bw()
+
+library(purrr)
+library(broom)
+ress_long %>%
+  nest(-measure) %>% 
+  mutate(
+    fit = map(data, ~ lm( log(value) ~ gmeanr, data = .x)),
+    tidied = map(fit, tidy)
+  ) %>% 
+  unnest(tidied)
 
 ress_long2 <- ress %>%
   gather( "resistance","value", -Site, -Zone, -D )
 
+ress_long2 %>%
+  nest(-resistance) %>% 
+  mutate(
+    fit = map(data, ~ cor.test( (.x$value), (.x$D) )),
+    tidied = map(fit, tidy)
+  ) %>% 
+  unnest(tidied, .drop=TRUE )
 
 ggplot( ress_long2, aes(x=log(value),y=log(D),fill=Site)) +
-  facet_wrap(~resistance) + geom_point(size=3, alpha=0.5, pch=21) +
+  facet_wrap(~resistance, scales="free") + geom_point(size=3, alpha=0.5, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
+  geom_smooth(aes(group=1),method='lm') +
   theme_bw()

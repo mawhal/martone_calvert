@@ -23,7 +23,7 @@ MixingDir = paste0( here::here(), "/R Code and Analysis/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = 3
+model = 9
 mload <- load( paste(ModelDir,list.files( ModelDir ), sep="/")[model] )
 
 # load the data
@@ -34,6 +34,7 @@ metacomm <- read_csv("R Code and Analysis/output from r/community.csv" )
 
 # We evaluate MCMC convergence in terms of four kinds of parameters that we are especially interested in: the species niches `Beta`, the influence of traits on species niches `Gamma`, residual species associations `Omega`, and the strength of phylogenetic signal `rho`. As there are `r ns` species, the matrix `Omega` is a `r ns` x `r ns` matrix with `r ns*ns` elements. To avoid excessive computational times, we evaluate MCMC convergence for `Omega` only for a subsample of 100 randomly selected species pairs.
 mpost = convertToCodaObject(m)
+# plot(mpost$Beta)
 ess.beta = effectiveSize(mpost$Beta)
 psrf.beta = gelman.diag(mpost$Beta, multivariate=FALSE)$psrf
 hist(ess.beta)
@@ -59,11 +60,10 @@ hist(psrf.omega)
 ## Assess model fit
 preds = computePredictedValues(m)
 MF <- evaluateModelFit(hM = m, predY = preds)
-str(MF)
+# windows(5,5)
 lapply( MF, summary)
 par( mfrow=c(3,3), mar=c(3,3,1,1)+0.1 )
 lapply( MF, boxplot )
-dev.off()
 
 
 
@@ -77,12 +77,12 @@ pos.neg <- data.frame(pos = c(postBeta$support), neg = c(postBeta$supportNeg))
 pos.neg[pos.neg< 0.95] <- 0
 pos.neg$neg <- -pos.neg$neg
 pos.neg$value <- pos.neg$pos + pos.neg$neg
-pos.neg$parameter <- factor(c("intercept", "shore.elevation", "shore.elev.sq", "anom.pine.sum.1",
-                              "anom.pine.win" ),
-                            levels = c("intercept", "shore.elevation", "shore.elev.sq", "anom.pine.sum.1",
-                                       "anom.pine.win" ), 
+pos.neg$parameter <- factor(c("intercept", "shore.elevation","elev2", "temp.anom", "slope",
+                              "aspect", "elev*anom", "elev2*anom" ),
+                            levels = c("intercept", "shore.elevation","elev2", "temp.anom", "slope",
+                                       "aspect", "elev*anom", "elev2*anom" ), 
                             ordered = TRUE)
-pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 5), 
+pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 8), 
                           levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)],
                           ordered = TRUE)
 
@@ -99,10 +99,10 @@ taxa.pos.anom <- as.character(pos.neg[ pos.neg$parameter=='temp.anom' & pos.neg$
 
 # calculate mean and variance of parameter esimates
 pbdf <- data.frame( t(postBeta$mean), taxon=colnames(postBeta$mean) )
-names(pbdf) <- c("intercept","elev","elev2","summer.anom","winter.anom","taxon")
+names(pbdf) <- c("intercept","elev","elev2","sst.anom","slope","aspect","elev*anom","elev2*anom","taxon")
 ## Add some basic trait information
 pbdf$alga <- "alga"
-pbdf$alga[c(3,15,20,56,57,62,68,82)] <- "invert"
+pbdf$alga[c(3,15,20)] <- "invert"
 # More specific groups
 
 
@@ -158,21 +158,21 @@ pbdf_trait$funct[pbdf_trait$taxon=="Tunicata.Porifera"] <- "Animal"
 
 
 
-coef_plot <- pbdf_trait %>% 
-  select( -taxon, -littler ) %>%
-  group_by( funct ) %>%
-  gather( coefficient, value, -alga, -funct ) %>% 
-  filter( coefficient %in% c("summer.anom","winter.anom"))
+
+coef_plot <- pbdf %>% 
+  select( -taxon ) %>%
+  group_by( alga ) %>%
+  gather( coefficient, value, -alga )
 
 windows(6,4)
-ggplot( coef_plot, aes(y=value, x=factor(1), col=funct)) +
-  facet_wrap(~coefficient, scales="free_y", ncol=1) +
+ggplot( coef_plot, aes(y=value, x=factor(1), col=alga)) +
+  facet_wrap(~coefficient, scales="free_y") +
   geom_hline(yintercept=0) +
   stat_summary( fun.data=mean_cl_boot, geom='errorbar',
                 size=1, width=0.1, position=position_dodge(width=0.9) )  +
   stat_summary( fun.y=mean, geom='point',
                 size=3, position=position_dodge(width=0.9) )  +
-  ylab('coefficient') + xlab('Functoinal group') +
+  ylab('coefficient') + xlab('') +
   theme(axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
@@ -180,15 +180,15 @@ ggplot( coef_plot, aes(y=value, x=factor(1), col=funct)) +
 
 ## variance partitioning
 VP = computeVariancePartitioning(m) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
-plotVariancePartitioning(m, VP = VP)
+# plotVariancePartitioning(m, VP = VP)
 
 VP.df <- as.data.frame(VP$vals) %>% 
-  mutate(effect = factor(c("elevation","elev.square","year",
-                           "elev:year","elev2:year",
-                           "site","transect"), 
-                         levels = rev(c("elevation","elev.square","year",
-                                        "elev:year","elev2:year",
-                                        "site","transect")), 
+  mutate(effect = factor(c("elevation","elev2","sst.anom","slope",
+                           "aspect","elev*anom","elev2*anom",
+                           "site","transect","year"), 
+                         levels = rev(c("elevation","elev2","sst.anom","slope",
+                                        "aspect","elev*anom","elev2*anom",
+                                        "site","transect","year")), 
                          ordered = TRUE)) %>% 
   # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
   #                          "elev:year","elev2:year",
@@ -202,10 +202,10 @@ VP.df <- as.data.frame(VP$vals) %>%
   #                        ordered = TRUE)) %>% 
   gather(key = species, value = variance, -effect) %>% 
   group_by(species) %>% 
-  mutate(tempR2 = variance[effect == "year"])
+  mutate(tempR2 = variance[effect == "elev*anom"])
   mutate(tempR2 = variance[effect == "temp.anom.sum"])
 
-hold <- VP.df %>% filter(effect == "temp.anomaly") %>% arrange(desc(tempR2))
+hold <- VP.df %>% filter(effect == "elev*anom") %>% arrange(desc(tempR2))
 
 VP.df$species <- factor(VP.df$species, 
                         levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)], 
@@ -218,7 +218,7 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
   geom_bar(stat = "identity", color = 1)+
   theme_classic()+
   theme(axis.text.x = element_text(angle = 90))+
-  scale_fill_manual(values = c("darkred", "maroon", viridis(7)), name = "")+
+  scale_fill_manual(values = c("darkred", "maroon", viridis(9)), name = "")+
   geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
   geom_point(data = R2.df, aes(y = -0.06, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
@@ -232,7 +232,7 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
 OmegaCor = computeAssociations(m)
 supportLevel = 0.95
 # choose the random variable to plot
-rlevel = 3
+rlevel = 2
 toPlot = ((OmegaCor[[rlevel]]$support>supportLevel) 
           + (OmegaCor[[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[rlevel]]$mean
 # reorder species matrix
@@ -243,8 +243,8 @@ library(lessR)
 mynewcor <- corReorder( toPlot, order="hclust", nclusters=4 )
 # windows(12,12)
 corrplot( mynewcor, method = "color", 
-         col = colorRampPalette(c("blue","white","red"))(200),
-           title = paste("random effect level:", m$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
+          col = colorRampPalette(c("blue","white","red"))(200),
+          title = paste("random effect level:", m$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
 
 
 
@@ -272,7 +272,9 @@ newDesign  <- newDF[,3:4]
   
 predY <- predict(m, XData = newXData,
                  studyDesign= newDesign,
-                 ranLevels = list(site=rL_site,transect=rL), expected = TRUE) #, transect=rL, year=rL_year
+                 ranLevels = list(site=m$ranLevels$site,
+                                  transect=m$ranLevels$transect,
+                                  year=m$ranLevels$year), expected = TRUE) #, transect=rL, year=rL_year
 
 tmp = abind::abind(predY, along = 3)
 qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)

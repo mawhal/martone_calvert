@@ -10,11 +10,21 @@ library( betapart )
 library( vegan )
 library( adespatial )
 library( ggrepel )
+library( RColorBrewer )
 #
 
 
-
-
+## define color scheme for temperature anomalies
+# from the plot of seasonal anomalies the range of SST anomalies is -2 to 2
+anom.range <- c(-2,2)
+n=9
+cols <- brewer.pal(n,"RdBu")
+data.frame(
+  cols,
+  anom=seq(anom.range[1],anom.range[2],leng=n) )
+# the range of anomalies is more like -0.5 to 1.5
+pal <- colorRampPalette(rev(cols)[4:8])
+pal2 <- colorRampPalette(rev(cols))
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
@@ -82,8 +92,28 @@ comm <- as.matrix(d.comm.mean[,-c(1:3)])
 # year2 <- as.character(year)
 # year2[year2!=2016] <- ""
 # 
-# # x<-radfit(cs)
-# # plot(x)
+
+## temperature anomaly data from Pine Island
+anoms <-  read_csv("Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/output from R/PineIsland_monthly_SST_anomaly.csv")
+
+# calculate winter and summer temperature anomalies
+library(zoo)
+yq <- as.yearqtr( as.yearmon( paste(anoms$month,anoms$year,sep="/"), "%m/%Y") + 1/12)
+anoms$season <- factor(format(yq, "%q"), levels = 1:4, 
+                       labels = c("winter", "spring", "summer", "fall"))
+anoms.season <- anoms %>% 
+  group_by( year, season ) %>% 
+  summarize( temp.anom=mean(temp.anom) )
+ggplot(anoms.season, aes(x=year,y=temp.anom,col=season)) + geom_point()
+ggplot(anoms.season, aes(x=year,y=temp.anom,col=season)) + facet_wrap(~season) + geom_path() + geom_point()
+ggplot(filter(anoms.season, year>=2010), aes(x=year,y=temp.anom,col=season)) + facet_wrap(~season) + geom_path() + geom_point()
+# figure out how to make an anomly plot with vertical lines from zero
+
+# extract data for 2011 to 2019
+as.survey <- anoms.season %>% 
+  filter( year>=2010 ) %>% 
+  spread( key = season, value=temp.anom )
+
 
 # which species are exceedingly rare?
 sort(colSums(comm))
@@ -204,66 +234,67 @@ ordi.na <- data.frame(na.omit(ordi)) #gets rid of the nas
 ordi.na #looks ready for plotting!
 
 
+### compare centroids to temperature anomaly data
+centroids
+as.survey$summer1 <- c(NA, as.survey$summer[1:length(as.survey$summer)-1])
+surv.cent <- left_join( as.survey, centroids )
+centroid2 <- centroids
+centroid2$year <- centroid2$year-1
+names(centroid2) <- c("shift1","shift2","year")
+surv.cent <- left_join( surv.cent, centroid2  )
+surv.cent$year2 <- paste0("'",substr(surv.cent$year+1,start=3,stop=4))
+
 ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
-  stat_contour(data = ordi.na, aes(x = x, y = y, z = z, colour = rev(..level..)),
-               binwidth = 20)+ #can change the binwidth depending on how many contours you want
+  # stat_contour(data = ordi.na, aes(x = x, y = y, z = z, colour = rev(..level..)),
+  #              binwidth = 20)+ #can change the binwidth depending on how many contours you want
   geom_point( data=sites, aes(shape=zone), size=1 ) +
-  geom_path( data=centroids, aes(col=year) ) +
-  geom_point( data=centroids, aes(col=year), size=2 ) + 
-  geom_text_repel( data=centroids, label=centroids$year, 
+  geom_path( data=surv.cent, aes(col=summer1) ) +
+  geom_point( data=surv.cent, aes(col=summer1), size=2 ) + 
+  geom_text_repel( data=surv.cent, label=surv.cent$year, 
                    fontface="bold",
                    point.padding = 0.3, box.padding = 0.1 ) +
   scale_shape_discrete(solid=F) +
   xlab(paste0(names(sites)[1],' (',round(R2[1],3)*100, '%)')) +
   ylab(paste0(names(sites)[2],' (',round(R2[2],3)*100, '%)')) +
+  scale_color_gradientn(colours=pal(100)) +
   theme_bw() + theme( panel.grid.major = element_blank(), 
                       panel.grid.minor = element_blank(),
                       legend.position = "none")
 
 
 
-### compare centroids to temperature anomaly data
-centroids
-anoms <-  read_csv("Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/output from R/PineIsland_monthly_SST_anomaly.csv")
-
-# calculate winter and summer temperature anomalies
-library(zoo)
-yq <- as.yearqtr( as.yearmon( paste(anoms$month,anoms$year,sep="/"), "%m/%Y") + 1/12)
-anoms$season <- factor(format(yq, "%q"), levels = 1:4, 
-                    labels = c("winter", "spring", "summer", "fall"))
-anoms.season <- anoms %>% 
-  group_by( year, season ) %>% 
-  summarize( temp.anom=mean(temp.anom) )
-ggplot(anoms.season, aes(x=year,y=temp.anom,col=season)) + geom_point()
-
-# extract data for 2011 to 2019
-as.survey <- anoms.season %>% 
-  filter( year>=2011 ) %>% 
-  spread( key = season, value=temp.anom )
-
-surv.cent <- left_join( as.survey, centroids )
-centroid2 <- centroids
-centroid2$year <- centroid2$year-1
-names(centroid2) <- c("shift1","shift2","year")
-surv.cent <- left_join( surv.cent, centroid2  )
 
 
-windows(4,4)
+
+windows(2,2)
 ggplot( surv.cent, aes(y=dbRDA2,x=winter) ) + geom_point()
 ggplot( surv.cent, aes(y=shift2,x=winter) ) + geom_point()
 ggplot( surv.cent, aes(y=shift2,x=summer) ) + 
-  geom_smooth(method="lm",se=F) + geom_point(size=2) + 
-  geom_text_repel(label=surv.cent$year+1, 
-                  point.padding = 0.3,box.padding = 0.3,
+  # geom_smooth(method="lm",se=F) + 
+  geom_path() +
+  geom_point(size=2) + 
+  geom_text_repel(label=surv.cent$year2, 
+                  point.padding = 0.1,box.padding = 0.3,
                   direction="both",
                   nudge_y = c(-0.02, 0.08, -0.02, 0.01,
                               -0.01, 0.01, -0.01, 0.01)) +
-  geom_path() +
-  ylab("Yearly community\ncentroids | elevation") +
-  xlab("Previous summer\ntemperature anomaly") +
+  ylab("centroids | elevation") +
+  xlab(expression(paste(degree,"C (summer-1)"))) +
   theme_classic()
+ggsave( "R Code and Analysis/Figs/rda_summer_centroid.svg", width=2, height=2 )
 ggplot( surv.cent, aes(y=dbRDA2,x=winter) ) + 
   geom_smooth(method="lm") + geom_point() + 
   geom_text_repel(label=surv.cent$year) 
+
+
+# show summer versus winter temperature anomaly
 ggplot( surv.cent, aes(y=summer,x=winter) ) + 
-  geom_smooth() + geom_point() + geom_text_repel(label=surv.cent$year) 
+  geom_hline(yintercept=0) +
+  geom_vline(xintercept=0) +
+  geom_smooth(se=F,size=0.5) +
+  geom_point(size=2) +  geom_path(size=1) +
+  geom_text_repel(label=surv.cent$year, box.padding = 0.5) +
+  ylab(expression(paste("Summer SST anomaly (",degree,"C)"))) +
+  xlab(expression(paste("Winter SST anomaly (",degree,"C)"))) +
+  theme_bw()
+ggsave( "R Code and Analysis/Figs/winter_summer_SST.svg", width=3, height=3 )

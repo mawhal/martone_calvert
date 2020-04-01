@@ -10,6 +10,8 @@ library( here )
 library( Hmsc )
 library( corrplot )
 library( viridis )
+library( cowplot )
+library( ggrepel )
 
 ## useful references for this code
 citation( "Hmsc" )
@@ -23,7 +25,7 @@ MixingDir = paste0( here::here(), "/R Code and Analysis/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = 7
+model = 10
 mload <- load( paste(ModelDir,list.files( ModelDir ), sep="/")[model] )
 
 # load the data
@@ -34,7 +36,19 @@ metacomm <- read_csv("R Code and Analysis/output from r/community.csv" )
 
 # We evaluate MCMC convergence in terms of four kinds of parameters that we are especially interested in: the species niches `Beta`, the influence of traits on species niches `Gamma`, residual species associations `Omega`, and the strength of phylogenetic signal `rho`. As there are `r ns` species, the matrix `Omega` is a `r ns` x `r ns` matrix with `r ns*ns` elements. To avoid excessive computational times, we evaluate MCMC convergence for `Omega` only for a subsample of 100 randomly selected species pairs.
 mpost = convertToCodaObject(m)
-plot(mpost$Beta)
+# plot traces for particular species 
+taxa <- rep(colnames(m$Y), each=6)
+toplot <- which(taxa %in% "Hedophyllum.sessile")
+toplot <- which(taxa %in% "Fucus.distichus")
+betaplot <- lapply(mpost$Beta,function(z) z[,toplot])
+# betaplot <- lapply( betaplot, function(z) {
+#   colnames(z) <- c('int','elev','elev2','year','elev:year','elev2:year')
+# })
+params <- c('int','elev','elev2','year','elev:year','elev2:year')
+betaplot <- as.mcmc.list(betaplot)
+par( mfrow=c(6,2),mar=c(2,2,0,0)+0.1)
+plot(betaplot, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
+# plot(mpost$Beta)
 ess.beta = effectiveSize(mpost$Beta)
 psrf.beta = gelman.diag(mpost$Beta, multivariate=FALSE)$psrf
 hist(ess.beta)
@@ -60,8 +74,7 @@ hist(psrf.omega)
 ## Assess model fit
 preds = computePredictedValues(m)
 MF <- evaluateModelFit(hM = m, predY = preds)
-windows(5,5)
-str(MF)
+# windows(5,5)
 lapply( MF, summary)
 par( mfrow=c(3,3), mar=c(3,3,1,1)+0.1 )
 lapply( MF, boxplot )
@@ -207,64 +220,64 @@ corrplot( mynewcor, method = "color",
 #                        anom.pine.win = 0.8530 )
 # 
 # newDesign <- data.frame( site="new unit", year=c("2018","2019"), ty=rep("new unit")) 
-newDF <- expand.grid( shore.height = seq(60,380,by = 1), 
-             # anom.pine.sum.1 = 1.1706,
-             # anom.pine.win = 0.8530,
-             year=c(2012:2019),
-             site="new unit", 
-             transect="new unit" )
-newXData   <- newDF[,1:2]
-newDesign  <- newDF[,3:4]
-
-# newDesign <- data.frame( site="new unit", year="2020", ty=rep("new unit", 321)) 
-# newDesign <- data.frame( site="West Beach", 
-#                          transect=rep("new unit", 321),
-#                          year=2019) 
-# newDesign <- purrr::map_df( newDesign,as.factor)
-  
-predY <- predict(m, XData = newXData,
-                 studyDesign= newDesign,
-                 ranLevels = list(site=rL_site,transect=rL), expected = TRUE) #, transect=rL, year=rL_year
-
-tmp = abind::abind(predY, along = 3)
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
-predictions <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
-predictions_low <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
-predictions_high <- bind_cols(data.frame(qpred), newXData)
-
-ggplot(predictions, aes(x = shore.height, y = Fucus.distichus, col=year))+
-  geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
-# ggplot(predictions, aes(x = shore.height, y = Analipus.japonicus, col=year))+
+# newDF <- expand.grid( shore.height = seq(60,380,by = 1), 
+#              # anom.pine.sum.1 = 1.1706,
+#              # anom.pine.win = 0.8530,
+#              year=c(2012:2019),
+#              site="new unit", 
+#              transect="new unit" )
+# newXData   <- newDF[,1:2]
+# newDesign  <- newDF[,3:4]
+# 
+# # newDesign <- data.frame( site="new unit", year="2020", ty=rep("new unit", 321)) 
+# # newDesign <- data.frame( site="West Beach", 
+# #                          transect=rep("new unit", 321),
+# #                          year=2019) 
+# # newDesign <- purrr::map_df( newDesign,as.factor)
+#   
+# predY <- predict(m, XData = newXData,
+#                  studyDesign= newDesign,
+#                  ranLevels = list(site=rL_site,transect=rL), expected = TRUE) #, transect=rL, year=rL_year
+# 
+# tmp = abind::abind(predY, along = 3)
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
+# predictions <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
+# predictions_low <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
+# predictions_high <- bind_cols(data.frame(qpred), newXData)
+# 
+# ggplot(predictions, aes(x = shore.height, y = Fucus.distichus, col=year))+
 #   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
-# ggplot(predictions, aes(x = shore.height, y = Barnacles, col=year))+
-#   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
-# ggplot(predictions, aes(x = shore.height, y = Pyropia, col=year))+
-#   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
-# ggplot(predictions, aes(x = shore.height, y = Nemalion.helminthoides, col=year))+
-#   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
-# ggplot(predictions, aes(x = shore.height, y = Blidingia, col=year))+
-#   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
+# # ggplot(predictions, aes(x = shore.height, y = Analipus.japonicus, col=year))+
+# #   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
+# # ggplot(predictions, aes(x = shore.height, y = Barnacles, col=year))+
+# #   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
+# # ggplot(predictions, aes(x = shore.height, y = Pyropia, col=year))+
+# #   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
+# # ggplot(predictions, aes(x = shore.height, y = Nemalion.helminthoides, col=year))+
+# #   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
+# # ggplot(predictions, aes(x = shore.height, y = Blidingia, col=year))+
+# #   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
+# 
+# predictions_abund <- predictions %>% 
+#   gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
+# predictions_abund_low <- predictions_low %>% 
+#   gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
+# predictions_abund_high <- predictions_high %>% 
+#   gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
+# 
+# predictions_abund <- left_join(left_join(predictions_abund, predictions_abund_low), predictions_abund_high)
+# 
+# predictions_abund$taxon <- factor(predictions_abund$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
+# # predictions_abund$dispersal <- factor(predictions_abund$dispersal, levels = c("none", "low", "high"), ordered = TRUE)
+# # predictions_abund$year <- rep( levels(newDesign$year), each=nrow(predictions_abund)/length(levels(newDesign$year))/97 )
+# # save this
+# save( predictions_abund, file = paste("R Code and Analysis/output from r/hmsc_pred",list.files( ModelDir )[model], sep="_") )
 
-predictions_abund <- predictions %>% 
-  gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
-predictions_abund_low <- predictions_low %>% 
-  gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
-predictions_abund_high <- predictions_high %>% 
-  gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
-
-predictions_abund <- left_join(left_join(predictions_abund, predictions_abund_low), predictions_abund_high)
-
-predictions_abund$taxon <- factor(predictions_abund$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
-# predictions_abund$dispersal <- factor(predictions_abund$dispersal, levels = c("none", "low", "high"), ordered = TRUE)
-# predictions_abund$year <- rep( levels(newDesign$year), each=nrow(predictions_abund)/length(levels(newDesign$year))/97 )
-# save this
-save( predictions_abund, file = paste("R Code and Analysis/output from r/hmsc_pred",list.files( ModelDir )[model], sep="_") )
-
-# load( file = paste("R Code and Analysis/output from r/hmsc_pred",list.files( ModelDir )[model], sep="_") )
+load( file = paste("R Code and Analysis/output from r/hmsc_pred",list.files( ModelDir )[model], sep="_") )
 
 # use actual data
 comm_select <- metacomm %>% 
@@ -371,7 +384,7 @@ bot10 <- colnames(m$Y)[(length(colnames(m$Y))-8):length(colnames(m$Y))]
 taxa2plot <- top6
 
 windows(6,4)
-ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2016)), aes(x = shore.height, y = N,
+ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2019)), aes(x = shore.height, y = N,
                                                         fill=factor(year) ))+
   geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
   facet_wrap(~taxon, scales = "free_y")+
@@ -379,7 +392,7 @@ ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2016)),
   # scale_fill_viridis_d() +
   # scale_color_manual(values=c("black","black"))+
   scale_fill_manual(values=c("whitesmoke", "mediumslateblue"))+
-  geom_point( data = filter( comm_final, taxon %in% taxa2plot, year %in% c(2012,2016)), pch=21 ) +
+  geom_point( data = filter( comm_final, taxon %in% taxa2plot, year %in% c(2012,2019)), pch=21 ) +
   geom_line(size = 0.5)+
   scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)")
 ggsave("R Code and Analysis/Figs/hmsc_response_curves.pdf", width = 6, height = 4)
@@ -431,7 +444,7 @@ ggplot( peak_shift, aes(x=funct, y=shift) ) +
   xlab("Functional group") + ylab("Peak shift (cm)") +
   theme_classic() +
   theme( axis.text.x = element_text(angle=45,hjust=1) )
-ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100,
+trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100,
                         fill=fill) ) + 
   geom_hline (yintercept=0, lty=2 ) +
   geom_boxplot()  + geom_point() +
@@ -443,6 +456,7 @@ ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100,
 
 peak_shift %>% arrange(-shift)
 peak_shift %>% arrange(shift)
+peak_shift %>% filter(shift >-10 & shift < 10)
 shift_increase <- peak_shift %>% arrange(-shift)
 choose <- shift_increase$taxon[1:6]
 ggplot( filter(peaks, taxon %in% choose), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
@@ -471,14 +485,16 @@ xs <- range( m$XData$shore.height )
 y1 <- c(0,diff(xs))
 y2 <- c(-diff(xs),0)
 df.bound <- data.frame( x1=xs[1],x2=xs[2],y1,y2 )
-
 df.poly <- data.frame( x=rep(xs,each=2), y=c(0,diff(xs),0,-diff(xs)) )
+
+
+
 (a <- ggplot( peak_compare, aes(x=peak,y=shift)) +
     geom_polygon( data=df.poly, aes(x=x,y=y), fill='whitesmoke', col='slategray', lty=2) +
     geom_hline( yintercept = 0, lty=2 ) +
      geom_smooth(method='lm', se=F, col='black') +
     geom_point( size=3, pch=1, col='slateblue' ) +
-  ylab("elevation peak shift (cm)") + xlab("initial peak elevation (cm)") +
+  ylab("peak elevationshift (cm)") + xlab("initial peak elevation (cm)") +
   theme_classic() )
 
   
@@ -497,7 +513,7 @@ int_shift <- integ %>%
 # plot by functional group
 int_shift %>% arrange(-shift) 
 
-ggplot( int_shift, aes(x=reorder(funct, shift, FUN = median), 
+trait.a <- ggplot( int_shift, aes(x=reorder(funct, shift, FUN = median), 
                                         y=log(shift,base=2), fill=fill ) ) + 
   geom_hline (yintercept=0, lty=2 ) +
   geom_boxplot()  + geom_point() +
@@ -509,57 +525,90 @@ ggplot( int_shift, aes(x=reorder(funct, shift, FUN = median),
   theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
   theme(legend.position = "none")
 
+windows()
+cowplot::plot_grid( trait.p, trait.a, ncol=1, align='hv', labels="AUTO" )
+
 summary( lm(shift~1,int_shift) )
 mod <- lm(log(shift,base=2)~1, int_shift )
 summary(mod) 
 
 # by short height
-abund_compare <- left_join( int_shift, peak_initial )
-(b <- ggplot( abund_compare, aes(x=peak,y=log(shift,base=2))) + 
+int_initial <- integ %>% filter( year==2012 )
+peak_initial <- peaks %>% filter( year==2012 )
+peak_compare <- left_join( peak_shift, peak_initial )
+abund_compare <- left_join( int_shift, int_initial )
+
+# combined figure of mean elevation shift and abundance shift
+compare_all <- left_join( peak_compare, abund_compare, by=c("taxon","funct","fill","year") )
+
+# shift in abundance ~ initial peak elevation
+(b <- ggplot( compare_all, aes(x=peak,y=log(shift.y,base=2))) + 
   geom_hline( yintercept=0, lty=2 ) +
-  # geom_smooth(method='lm') + 
-  geom_point() + 
-  ylab("Abundance shift") + xlab("initial peak elevation (cm)") +
+  geom_point(size=3, pch=1, col='slateblue') + 
+  ylab("abundance shift") + xlab("initial peak elevation (cm)") +
   scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
                       labels=c('10x','2x','0','1/2x','1/10x')) +
   theme_classic() )
-window()
 cowplot::plot_grid( a, b, ncol=1, align = 'hv' )
 
+# peak shift ~ initial abundance
+(c <- ggplot( compare_all, aes(x=integral/30,y=shift.x)) + 
+    geom_hline( yintercept=0, lty=2 ) +
+    geom_point(size=3, pch=1, col='slateblue') + 
+    ylab("peak elevationshift (cm)") + xlab("appox. initial cover (%)") +
+    # scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
+    #                     labels=c('10x','2x','0','1/2x','1/10x')) +
+    scale_x_continuous(trans = "log2") +
+    theme_classic() )
 
+# abund shift ~ initial abundance
+summary(lm( log(shift.y,base=2)~log(integral,base=2), compare_all ))
+(d <- ggplot( compare_all, aes(x=integral/30,y=log(shift.y,base=2))) + 
+    geom_hline( yintercept=0, lty=2 ) +
+    geom_smooth(method = 'lm', se = T, col='black' ) +
+    geom_point(size=3, pch=1, col='slateblue') + 
+    ylab("Abundance shift") + xlab("appox. initial cover (%)") +
+    scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
+                        labels=c('10x','2x','0','1/2x','1/10x')) +
+    scale_x_continuous(trans = "log2") +
+    theme_classic() )
 
-# combined figure of mean elevation shift and abundance shift
-compare_all <- left_join( peak_compare, abund_compare, by=c("taxon","funct","fill","year","peak") )
+cowplot::plot_grid( a, b, c, d, ncol=2, align = 'hv', labels = "AUTO" )
+ggsave(file="R Code and Analysis/Figs/abundance+peak_shift_intial.svg",width = 6, height = 6)
 
+compare_all %>% arrange(-shift.y)
+compare_all %>% arrange(-shift.x)
 
 # basically no relationship between peak and abundance shift
-ggplot( compare_all[compare_all$shift.y>0.00000001,], aes(x=log(shift.y,base=2),y=shift.x) ) + 
+ggplot( compare_all, aes(x=shift.y,y=shift.x) ) + 
+  geom_point() + geom_smooth( method='lm' )
+ggplot( compare_all, aes(x=log(shift.y,base=2),y=shift.x) ) + 
   geom_point() + geom_smooth( method='lm' )
 
-with( compare_all[compare_all$shift.y>0.00000001,], cor.test( shift.x,shift.y) )
+with( compare_all, cor.test( shift.x,shift.y) )
+with( compare_all, cor.test( shift.x,log(shift.y,base=2)) )
 
 
 # boxplots
 ylimits1 <- c(-max(abs(range(compare_all$shift.x))),max(abs(range(compare_all$shift.x))))
-ylimits2 <- c(-8,8) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^max(abs(log(range(compare_all$shift.y),base=2))))
-(bpa <- ggplot( compare_all[compare_all$shift.y>0.00000001,], aes(y=shift.x,x=1) ) +
+ylimits2 <- c(-6,6) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^max(abs(log(range(compare_all$shift.y),base=2))))
+(bpa <- ggplot( compare_all, aes(y=shift.x,x=1) ) +
     # geom_boxplot(notch = T,outlier.color = NA) + 
     geom_violin(outlier.color = NA, draw_quantiles = 0.5, trim=FALSE ) +
     geom_hline(yintercept=0,lty=2)+
-    geom_point(alpha=0.5) +
+    geom_point(alpha=0.25) +
     ylab( "Peak elevation shift (cm)" )   +
-    scale_y_continuous(limits=ylimits,breaks=c(log(50,base=2),log(10,base=2),log(2,base=2),0,log(0.5,base=2),log(1/10,base=2),log(1/50,base=2)),
-                       labels=c('50x','10x','2x','0','1/2x','1/10x','1/50x'),
-                       position="right") +
+    scale_y_continuous(limits=ylimits1,breaks=c(-300,-200,-100,-50,0,50,100,200,300),
+                       position="left") +
     theme_classic() +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) )
-(bpb <- ggplot( compare_all[compare_all$shift.y>0.00000001,], aes(y=log(shift.y,base=2),x=1) ) +
+(bpb <- ggplot( compare_all, aes(y=log(shift.y,base=2),x=1) ) +
     # geom_boxplot(notch=TRUE) + 
     geom_violin(outlier.color = NA, draw_quantiles = 0.5, trim=FALSE ) +
     geom_hline(yintercept=0,lty=2)+
-    geom_point(alpha=0.5) +
+    geom_point(alpha=0.25) +
     ylab( "Abundance shift" ) +
     scale_y_continuous(limits=ylimits2,breaks=c(log(50,base=2),log(10,base=2),log(2,base=2),0,log(0.5,base=2),log(1/10,base=2),log(1/50,base=2)),
                       labels=c('50x','10x','2x','0','1/2x','1/10x','1/50x'),
@@ -572,12 +621,52 @@ ylimits2 <- c(-8,8) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^ma
 cowplot::plot_grid(bpa,bpb, align = "h", axis='tblr', labels = "AUTO")
 #
 
+# add nice scatteplot
+# taxa to plot
+taxalabel <- top6
+xy <- ggplot( compare_all, aes(x=log(shift.y,base=2),y=shift.x)) + 
+  geom_hline(yintercept=0)+geom_vline(xintercept=0)+
+  geom_point(pch=21,size=2,fill="whitesmoke") +
+  geom_text_repel(data=filter(compare_all,taxon%in%taxalabel),aes(label=taxon),
+                  box.padding = 0.3, point.padding = 0.1, size=3) +
+  geom_point( data=filter(compare_all,taxon%in%taxalabel)) +
+  theme_classic() +
+  scale_x_continuous(breaks=c(log(50,base=2),log(10,base=2),log(5,base=2),log(2,base=2),0,log(0.5,base=2),log(1/5,base=2),log(1/10,base=2),log(1/50,base=2)),
+                     labels=c('50x','10x','5x','2x','0','1/2x','1/5x','1/10x','1/50x'),
+                     position="bottom")+
+  xlab("Abundance shift") + ylab("Elevation shift (cm)")
 
+# a densities not violin plots
+ydens <- axis_canvas(xy, axis = "y", coord_flip = TRUE)+
+  geom_vline(xintercept=mean(compare_all$shift.x), col='red' ) +
+  geom_vline(xintercept=0) +
+  geom_density(data = compare_all, aes(x = shift.x),
+               alpha = 0.7, size = 0.5) +
+  coord_flip()
+  
+# Marginal densities along y axis
+# Need to set coord_flip = TRUE, if you plan to use coord_flip()
+xdens <- axis_canvas(xy, axis = "x")+
+  geom_vline(xintercept=mean(log(compare_all$shift.y,base=2)), col='red' ) +
+  geom_vline(xintercept=0) +
+  geom_density(data = compare_all, aes(x = log(shift.y,base=2) ),
+               alpha = 0.7, size = 0.5)
 
+empty <- ggplot()+geom_point(aes(1,1), colour="white")+
+  theme(axis.ticks=element_blank(), 
+        panel.background=element_blank(), 
+        axis.text.x=element_blank(), axis.text.y=element_blank(),           
+        axis.title.x=element_blank(), axis.title.y=element_blank())
 
+p1 <- insert_xaxis_grob(xy, xdens, grid::unit(.2, "null"), position = "top")
+p2<- insert_yaxis_grob(p1, ydens, grid::unit(.2, "null"), position = "right")
+ggdraw(p2)
+ggsave(file="R Code and Analysis/Figs/abundance~peak.svg",width = 4, height = 4)
+
+#
   
 
-
+#
 
 
 

@@ -16,10 +16,10 @@ library(tidyverse)
 
 ## read data files
 # all data
-ad <- read.csv( "../Data/Excel Files/All years raw/Output from R/Martone_Hakai_data.csv")
+ad <- read.csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_data.csv" )
 # all metadata
-am <- read.csv("../Data/Excel Files/All years raw/Output from R/Martone_Hakai_metadata.csv" )
-
+am <- read.csv("Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
+# am <- filter(am,Year!=2011)
 
 ## Deal with trace cover and other oddities
 # # replace all commas with periods for Abundance
@@ -48,10 +48,9 @@ ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 # Choose a taxon 
 sort( unique( ad$Taxon ))
 # use general exp to pull several groups if needed
-sacc <- "Saccharina sess"
+sacc <- "Hedophyllum sess"
 sort(unique( ad$Taxon[ grep( paste0(sacc,"*"), ad$Taxon ) ]  ))
 dsacc   <- ad[ grep( paste0(sacc,"*"), ad$Taxon ), ]
-dsacc   <- dsacc[ -grep("Ectocarpus*",dsacc$Taxon), ]
 
 alar <- "Alaria"
 sort(unique( ad$Taxon[ grep( paste0(alar,"*"), ad$Taxon ) ]  ))
@@ -64,13 +63,13 @@ dkaty   <- ad[ grep( paste0(katy,"*"), ad$Taxon ), ]
 
 # get all instances of a particular taxon
 # to include all quadrats us full_join, or use left_join for quads with the taxon
-ds <- full_join( dsacc, am, by=c("SiteHeightYear","Quadrat"="Quadrat.No.") )
+ds <- left_join( dsacc, am )
 ds$Abundance[ is.na( ds$Abundance) ] <- 0
 ds$group <- sacc
-da <- full_join( dalar, am, by=c("SiteHeightYear","Quadrat"="Quadrat.No.") )
+da <- left_join( dalar, am )
 da$Abundance[ is.na( da$Abundance) ] <- 0
 da$group <- alar
-dk <- full_join( dkaty, am, by=c("SiteHeightYear","Quadrat"="Quadrat.No.") )
+dk <- left_join( dkaty, am )
 dk$Abundance[ is.na( dk$Abundance) ] <- 0
 dk$group <- katy
 
@@ -79,6 +78,7 @@ dask <- do.call( rbind, list(ds,da,dk))
 
 # only look at North Beach, where we have high abundance of all three players
 dn <- dask[ dask$Site == site, ]
+dn <-  dask
     
 # make abundances numeric
 sort(unique(dn$Abundance))
@@ -87,14 +87,29 @@ dn$Abundance <- as.numeric( dn$Abundance )
 dn$Zone <- factor( dn$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
 # define Site order
 dn$Site <- factor( dn$Site, levels = c("Fifth Beach", "West Beach", "North Beach", "Meay Channel"))
+# dn <- filter(dn,!is.na(Year))
+
+# all plots with Alaria or Hedophyllum sessile
+dah <- dn %>% filter(Taxon %in% c("Alaria marginata","Hedophyllum sessile")) %>% 
+  select( Site, Zone, Year, Meter.point ) %>% distinct
+# for every year and each taxon
+bits <- expand.grid( Year=2011:2019, Taxon=c("Alaria marginata","Hedophyllum sessile", "Katharina tunicata") )
+dnfill <- dn %>% group_by(Year) %>% summarize(Date = mean(lubridate::ymd(Date),na.rm=T))
+bits <- full_join(dnfill, bits)
+filling <- merge( dah, bits )
 
 # all sites
 # time trends in different tidal heights
-windows(5,7)
-(ggzone <- ggplot( dn, aes(x=Year,y=Abundance)) + facet_grid(group~Zone, scales="free_y") + 
-    geom_point(alpha=0.2) + ggtitle( site ) + geom_smooth() )
-
-ggsave( paste0("Figs/AlariaSaccKaty_",site,"_zone.pdf"), ggzone, "pdf" )
+windows(6,2)
+# fl16 <- filter(dn, Taxon %in% c("Alaria marginata","Hedophyllum sessile"), Meter.point==16, Site=="Fifth Beach", Zone=="LOW")
+# fl16$Date <- lubridate::ymd(fl16$Date)
+toplot <- left_join(filling,dn, by=c("Site","Zone","Meter.point","Year","Taxon"))
+toplot$Abundance[is.na(toplot$Abundance)] <- 0
+ggplot( toplot, aes(x=Date.x,y=Abundance)) + facet_wrap(~Taxon, scales="free_y") + 
+    geom_point(alpha=0.2) + geom_smooth() + #  geom_point( )#+
+  theme_classic() +
+  theme(axis.title.x=element_blank())
+ggsave( "R Code and Analysis/Figs/AlariaSaccKaty.pdf", width=6, height=2 )
 
 # subset of sites where elevation has been measured
 windows(10,4)

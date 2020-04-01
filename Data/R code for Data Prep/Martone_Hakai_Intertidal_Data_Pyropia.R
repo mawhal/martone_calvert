@@ -4,8 +4,8 @@ library(tidyverse)
 
 # look at some Pyropia
 
-all.data <- read.csv( "Output from R/Martone_Hakai_data.csv")
-all.meta <- read.csv("Output from R/Martone_Hakai_metadata.csv" )
+all.data <- read.csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_data.csv")
+all.meta <- read.csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 # replace all commas with periods for Abundance
 all.data$Abundance <- as.numeric( gsub( ",", "[.]", all.data$Abundance ) )

@@ -5,7 +5,16 @@
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
 taxon <- "Palmaria hecatensis"
+
+# taxa with predicted increases over time
+taxon <- "Mytilus"
+# taxon <- "Lithophyllum"
+# taxon <- "Neopolyporolithon reclinatum"
+# taxon <- "Lithothamnion phymatodeum"
+# taxon <- "Dilsea.californica"
 # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
+
+taxon <- "Alaria"
 
 # set options
 options(stringsAsFactors = FALSE)
@@ -86,6 +95,19 @@ windows(5,6)
     scale_x_continuous(breaks = seq(2010,2018,2) ) )
 
 ggsave( paste0("R Code and Analysis/Figs/",taxon,"_zone.pdf"), ggzone, "pdf" )
+
+# just plot abundan over time
+windows(6,2)
+(ggzall <- ggplot( d, aes(x=lubridate::ymd(Date),y=Abundance)) + 
+    # facet_grid(Site~Zone, scales="free_y") + 
+    # geom_smooth( se=TRUE, col='black' ) +
+    # stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
+    # stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
+    # geom_smooth(method='glm',method.args=list(family=quasipoisson)) +
+    geom_smooth() +
+    geom_point( alpha=0.4,col='slateblue' ) +# ggtitle( taxon ) + 
+    geom_point( data=filter(d,saoidjas))#
+    xlab("Year")  )
 
 # subset of sites where elevation has been measured
 delev <- d[ d$Site != "Meay Channel", ]

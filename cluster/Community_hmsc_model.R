@@ -22,9 +22,9 @@ load( mselect )
 # thin = 100
 # samples = 1000
 # nChains = 4
-thin = 100
-samples = 1000
-transient = 100
+thin = 3
+samples = 200
+transient = 10
 nChains = 6
 set.seed(1)
 # ptm = tic("model run")
@@ -34,7 +34,7 @@ m = sampleMcmc(m, samples = samples, thin = thin,
                nChains = nChains, nParallel = nChains,
                initPar = "fixed effects")
 warnings()# computational.time <- toc()
-model = "elevxyear"
+model = "elevxtemp"
 
 filename = file.path(getwd(), paste("model_",as.character(model),
                                      "_chains_",as.character(nChains),

@@ -222,7 +222,8 @@ for(i in 2:length(eigenvals(db1))){
 # extract axes
 nax <- 1:2
 sites     <- data.frame(scores(db1,choices = nax, scaling = 0)$sites)
-sites$zone <- factor( meta$Zone, levels=c("MID","LOW","HIGH") )
+sites$zone <- factor( meta$Zone, levels=c("LOW","MID","HIGH") )
+sites$year <- meta$Year
 centroids <- data.frame(scores(db1,choices = nax, scaling=0)$centroids)
 centroids$year <- 2012:2019
 
@@ -247,20 +248,22 @@ surv.cent$year2 <- paste0("'",substr(surv.cent$year+1,start=3,stop=4))
 ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
   # stat_contour(data = ordi.na, aes(x = x, y = y, z = z, colour = rev(..level..)),
   #              binwidth = 20)+ #can change the binwidth depending on how many contours you want
+  geom_smooth( aes(group=year), method='lm', se=F, size=0.5,col='gray85') +
   geom_point( data=sites, aes(shape=zone), size=1 ) +
-  geom_path( data=surv.cent, aes(col=summer1) ) +
-  geom_point( data=surv.cent, aes(col=summer1), size=2 ) + 
+  # geom_smooth( aes(group=1), method='lm', se=F, size=0.5,col='gray25') +
+  geom_path( data=surv.cent, aes(col=summer1),size=1 ) +
+  geom_point( data=surv.cent, aes(fill=summer1), size=3, shape=21 ) + 
   geom_text_repel( data=surv.cent, label=surv.cent$year, 
                    fontface="bold",
                    point.padding = 0.3, box.padding = 0.1 ) +
-  scale_shape_discrete(solid=F) +
+  scale_shape_manual(values = c(1,0,2)) +
   xlab(paste0(names(sites)[1],' (',round(R2[1],3)*100, '%)')) +
   ylab(paste0(names(sites)[2],' (',round(R2[2],3)*100, '%)')) +
-  scale_color_gradientn(colours=pal(100)) +
+  scale_fill_gradientn(colours=pal2(100),limits=c(-2,2)) +
+  scale_color_gradientn(colours=pal2(100),limits=c(-2,2)) +
   theme_bw() + theme( panel.grid.major = element_blank(), 
-                      panel.grid.minor = element_blank(),
-                      legend.position = "none")
-
+                      panel.grid.minor = element_blank())
+ggsave("R Code and Analysis/Figs/rda_bwr_pal2.svg", width=4, height=3 )
 
 
 
@@ -287,14 +290,32 @@ ggplot( surv.cent, aes(y=dbRDA2,x=winter) ) +
   geom_text_repel(label=surv.cent$year) 
 
 
+
+
 # show summer versus winter temperature anomaly
-ggplot( surv.cent, aes(y=summer,x=winter) ) + 
+as.survey.all <- anoms.season %>% 
+  # filter( year>=2010 ) %>% 
+  spread( key = season, value=temp.anom )
+
+ggplot( as.survey, aes(y=summer,x=winter) ) + 
   geom_hline(yintercept=0) +
   geom_vline(xintercept=0) +
-  geom_smooth(se=F,size=0.5) +
+  geom_smooth(se=T,size=0.5) +
   geom_point(size=2) +  geom_path(size=1) +
   geom_text_repel(label=surv.cent$year, box.padding = 0.5) +
   ylab(expression(paste("Summer SST anomaly (",degree,"C)"))) +
   xlab(expression(paste("Winter SST anomaly (",degree,"C)"))) +
   theme_bw()
-ggsave( "R Code and Analysis/Figs/winter_summer_SST.svg", width=3, height=3 )
+
+ggplot( as.survey.all, aes(y=summer,x=winter) ) + 
+  geom_hline(yintercept=0) +
+  geom_vline(xintercept=0) +
+  geom_smooth(se=T,size=0.5) +
+  geom_point(size=1,shape=1) +
+  geom_point(data=as.survey,size=2) +  geom_path(data=as.survey,size=1) +
+  geom_text_repel(data=as.survey,label=as.survey$year, box.padding = 0.5) +
+  ylab(expression(paste("Summer anomaly (",degree,"C)"))) +
+  xlab(expression(paste("Winter anomaly (",degree,"C)"))) +
+  theme_bw() +
+  theme( panel.grid.major = element_blank(), panel.grid.minor = element_blank() )
+ggsave( "R Code and Analysis/Figs/winter_summer_SST.svg", width=2, height=2 )

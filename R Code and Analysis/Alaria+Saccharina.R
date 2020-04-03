@@ -105,11 +105,14 @@ windows(6,2)
 # fl16$Date <- lubridate::ymd(fl16$Date)
 toplot <- left_join(filling,dn, by=c("Site","Zone","Meter.point","Year","Taxon"))
 toplot$Abundance[is.na(toplot$Abundance)] <- 0
+toplot$Abundance[toplot$Taxon =="Katharina tunicata" & toplot$Year==2011] <- NA
+
 ggplot( toplot, aes(x=Date.x,y=Abundance)) + facet_wrap(~Taxon, scales="free_y") + 
-    geom_point(alpha=0.2) + geom_smooth() + #  geom_point( )#+
+    geom_point(alpha=0.2) + geom_smooth() + 
+  scale_y_continuous(breaks = scales::pretty_breaks()) +
   theme_classic() +
   theme(axis.title.x=element_blank())
-ggsave( "R Code and Analysis/Figs/AlariaSaccKaty.pdf", width=6, height=2 )
+ggsave( "R Code and Analysis/Figs/AlariaSaccKaty.svg", width=6, height=2 )
 
 # subset of sites where elevation has been measured
 windows(10,4)

@@ -224,10 +224,10 @@ ggplot(mhw_clim, aes(x = t), group=site) +
   facet_wrap(~site, ncol=1, scales = "free_y") +
   geom_flame(aes(y = temp, y2 = thresh), 
              n=5,n_gap=2,
-             show.legend = T, col="gray25", fill='#B51D2C', size=0.5 ) +
+             show.legend = FALSE, col="gray25", fill='#B51D2C', size=0.5 ) +
   geom_flame(data=mcw_clim,aes(y2 = temp, y = thresh), 
              n=5,n_gap=2,
-             show.legend = T, col="gray25", fill='#296BA8', size=0.5 ) +
+             show.legend = FALSE, col="gray25", fill='#296BA8', size=0.5 ) +
   # geom_flame(data = mhw_top, aes(y = temp, y2 = thresh, fill = "top"),  show.legend = T) +
   geom_line(aes(y = temp, colour = "temp"), size=0.5, alpha=0.5) +
   geom_line(aes(y = thresh, colour = "thresh"), size = 0.5) +
@@ -242,6 +242,7 @@ ggplot(mhw_clim, aes(x = t), group=site) +
   guides(colour = guide_legend(override.aes = list(fill = NA))) +
   labs(y = expression(paste("Temperature (", degree, "C)")), x = NULL) 
   theme_minimal()
+  #Save as 4 x 8
 
 ##McInnes Island
   
@@ -249,10 +250,10 @@ ggplot(mhw_clim, aes(x = t), group=site) +
     facet_wrap(~site, ncol=1, scales = "free_y") +
     geom_flame(aes(y = temp, y2 = thresh), 
                n=5,n_gap=2,
-               show.legend = T, col="gray25", fill='#B51D2C', size=0.5 ) +
+               show.legend = F, col="gray25", fill='#B51D2C', size=0.5 ) +
     geom_flame(data=mcw2_clim,aes(y2 = temp, y = thresh), 
                n=5,n_gap=2,
-               show.legend = T, col="gray25", fill="#296BA8", size=0.5 ) +
+               show.legend = F, col="gray25", fill="#296BA8", size=0.5 ) +
     geom_line(aes(y = temp, colour = "temp"), size=0.5, alpha=0.5) +
     geom_line(aes(y = thresh, colour = "thresh"), size = 0.5) +
     geom_line(data=mcw2_clim,aes(y = thresh, colour = "thresh2"), size = 0.5) +

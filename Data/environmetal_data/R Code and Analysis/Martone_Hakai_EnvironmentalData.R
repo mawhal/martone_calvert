@@ -28,7 +28,7 @@ nut.avg<-nut.avg[complete.cases(nut.avg$Date),]
 nut.avg$Date<-as.Date(nut.avg$Date)
 nut.avg$Month<-month(as.POSIXlt(nut.avg$Date, format="%Y/%m/%d"))
 nut.avg$Year<-year(as.POSIXlt(nut.avg$Date, format="%Y/%m/%d"))
-plot(avg.N~Date, data=nut.avg, pch=19, cex=0.8, col="Blue", ylab="Total Nitrogen", las=1)
+plot(avg.N~Date, data=nut.avg, pch=19, cex=0.8, col="#296BA8", ylab="Total Nitrogen", las=1)
 lines(nut.avg$Date,nut.avg$avg.N, lwd=3)
 
 ####Summarize by month and year
@@ -54,7 +54,7 @@ nut.avg<-nut.avg[complete.cases(nut.avg$Date),]
 nut.avg$Date<-as.Date(nut.avg$Date)
 nut.avg$Month<-month(as.POSIXlt(nut.avg$Date, format="%Y/%m/%d"))
 nut.avg$Year<-year(as.POSIXlt(nut.avg$Date, format="%Y/%m/%d"))
-plot(avg.N~Date, data=nut.avg, pch=19, cex=0.8, col="Blue", ylab="Total Nitrogen", las=1)
+plot(avg.N~Date, data=nut.avg, pch=19, cex=0.8, col="#296BA8", ylab="Total Nitrogen", las=1)
 lines(nut.avg$Date,nut.avg$avg.N, lwd=3)
 
 ####Summarize by month and year
@@ -74,7 +74,7 @@ n.anom$Date<-as.yearmon(paste(n.anom$Year, n.anom$Month), "%Y %m")
 n.anom$Date<-as.Date(n.anom$Date)
 
 #Plot nitrogen anomalies
-plot(Anomaly~Date, data=n.anom[order(n.anom$Date),], pch=19, cex=0.8, col="Blue", ylab="Nitrogen Anomaly", las=1)
+plot(Anomaly~Date, data=n.anom[order(n.anom$Date),], pch=19, cex=0.8, col="#296BA8", ylab="Nitrogen Anomaly", las=1)
 lines(n.anom$Anomaly[order(n.anom$Date)]~n.anom$Date[order(n.anom$Date)], lwd=3)
 
 
@@ -83,13 +83,26 @@ lines(n.anom$Anomaly[order(n.anom$Date)]~n.anom$Date[order(n.anom$Date)], lwd=3)
 ###############################################
 
 #CTD data is too sparse to say anything meaningful about water temperature
+## try with data we already have 
+temp.pine <- read_table( "data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt",
+                    skip=3 )
+temp.mc <- read_table( "data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/McInnesDailySalTemp.txt",
+                    skip=3 )
+
+# air temperature - Addenbrooke air temperature
+adden <- read_csv( "data/environmetal_data/Addenbroke Air Temperature/EC/1060080.ascii", skip=1 )  # data from https://data.pacificclimate.org/portal/pcds/map/
+
+
 
 #######SST data from Pine Island############
-temp.pine<-read.csv("Data/Environmental Data/PineIsland_SST.csv")
+#temp.pine<-read.csv("./Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt", skip=2)
+temp.pine 
 #remove data from before 1985
-temp.pine2<-temp.pine[temp.pine$Year>1984,]
+temp.pine$`Temperature(C)`<-gsub("999.9","NA", temp.pine$`Temperature(C)`)
+temp.pine2<-temp.pine
 #view temperature data
-temp.pine2$Temperature
+temp.pine2$`Temperature(C)`<-as.numeric(temp.pine2$`Temperature(C)`)
+colnames(temp.pine2)<-c("Year","Month","Day","Temperature","Salinity")
 
 ###Average by month
 temp.pine.sum<-temp.pine2[temp.pine2$Temperature!="NA",] %>%
@@ -107,7 +120,7 @@ temp.pine.byMonth
 temp.pine.comb<-left_join(temp.pine.sum, temp.pine.byMonth, by="Month")
 temp.pine.comb$Anomaly <- temp.pine.comb$Temperature - temp.pine.comb$avgTemperature
 temp.pine.comb<-temp.pine.comb[complete.cases(temp.pine.comb$Anomaly),]
-temp.pine.RockyTime<-temp.pine.comb[temp.pine.comb$Year>2008,]
+temp.pine.RockyTime<-temp.pine.comb[temp.pine.comb$Year>2010,]
 
 #Add in months that have no data
 temp.pine.RockyTime<-InsertRow(temp.pine.RockyTime, NewRow=c(2013,4,NA,8.50, NA), RowNum=28)
@@ -120,9 +133,9 @@ temp.pine.RockyTime$Anomaly<-na.ma(temp.pine.RockyTime$Anomaly,k=12, weighting =
 #Assign colour to temperature anomaly direction
 for (i in 1:length(temp.pine.RockyTime$Anomaly)) {
 if (temp.pine.RockyTime$Anomaly[i] > 0) {
-  temp.pine.RockyTime$An.col[i]<-"red"
+  temp.pine.RockyTime$An.col[i]<-"#B51D2C"
 } else {
-  temp.pine.RockyTime$An.col[i]<-"blue"
+  temp.pine.RockyTime$An.col[i]<-"#296BA8"
 }
 }
 
@@ -132,10 +145,12 @@ temp.pine.RockyTime$Date<-as.Date(temp.pine.RockyTime$Date)
 ##Plot SST through time
 par(mar=c(4,4,2,1))
 par(mfrow=c(1,1))
-barplot(temp.pine.RockyTime$Anomaly, col=temp.pine.RockyTime$An.col, ylim=c(-2.5,2.5), space=0, border=FALSE, las=1, width=1)
-axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
-lines(movavg(temp.pine.RockyTime$Anomaly, 12, type="s"),lwd=2,lty=1)
-
+barplot(temp.pine.RockyTime$Anomaly, col=temp.pine.RockyTime$An.col, ylim=c(-3,3), space=0, border=TRUE, las=1, width=1, xlim=c(0,12*8))
+title(ylab=expression(paste("Temperature (", degree, "C)")), line=2, cex.lab=1.2)
+axis(1, at=seq(0,12*8,12), labels = seq(2011,2019,1), srt=45, cex=2)
+#lines(movavg(temp.pine.RockyTime$Anomaly, 4, type="s"),lwd=2,lty=1)
+box()
+####Export 3 x 5.5
 
 # write data to disk
 write.csv( temp.pine.RockyTime, "Data/Environmental Data/PineIsland_anomaly.csv", row.names=FALSE )
@@ -144,11 +159,15 @@ write.csv( temp.pine.RockyTime, "Data/Environmental Data/PineIsland_anomaly.csv"
 #######SST data from McInnes Island############
 
 ####Note that data from this station is very patchy and several months worth of data are missing
-temp.mc<-read.csv("Data/Environmental Data/McInnesIsland_SST.csv")
+#temp.mc<-read.csv("Data/Environmental Data/McInnesIsland_SST.csv")
 #remove data from before 1985
-temp.mc2<-temp.mc[temp.mc$Year>1984,]
+temp.mc$`Temperature(C)`<-gsub("999.9","NA", temp.mc$`Temperature(C)`)
+temp.mc2<-temp.mc
+
 #view temperature data
-temp.mc2$Temperature
+temp.mc2$`Temperature(C)`<-as.numeric(temp.mc2$`Temperature(C)`)
+colnames(temp.mc2)<-c("Year","Month","Day","Temperature","Salinity")
+
 
 ###Average by month
 temp.mc.sum<-temp.mc2[temp.mc2$Temperature!="NA",] %>%
@@ -166,18 +185,20 @@ temp.mc.byMonth
 temp.mc.comb<-left_join(temp.mc.sum, temp.mc.byMonth, by="Month")
 temp.mc.comb$Anomaly <- temp.mc.comb$Temperature - temp.mc.comb$avgTemperature
 temp.mc.comb<-temp.mc.comb[complete.cases(temp.mc.comb$Anomaly),]
-temp.mc.RockyTime<-temp.mc.comb[temp.mc.comb$Year>2009,]
+temp.mc.RockyTime<-temp.mc.comb[temp.mc.comb$Year>2010,]
 
 #Interpolate those months
 
-temp.mc.RockyTime$Anomaly<-na.ma(temp.mc.RockyTime$Anomaly,k=12, weighting = "exponential")
+#temp.mc.RockyTime$Anomaly<-na.ma(temp.mc.RockyTime$Anomaly,k=12, weighting = "exponential")
+
+
 
 #Assign colour to temperature anomaly direction
 for (i in 1:length(temp.mc.RockyTime$Anomaly)) {
   if (temp.mc.RockyTime$Anomaly[i] > 0) {
-    temp.mc.RockyTime$An.col[i]<-"red"
+    temp.mc.RockyTime$An.col[i]<-"#B51D2C"
   } else {
-    temp.mc.RockyTime$An.col[i]<-"blue"
+    temp.mc.RockyTime$An.col[i]<-"#296BA8"
   }
 }
 
@@ -192,9 +213,12 @@ temp.compare<-left_join(temp.pine.RockyTime,temp.mc.narrow, by="Date")
 ##Plot SST through time (note lots of missing data)
 par(mar=c(4,4,2,1))
 par(mfrow=c(1,1))
-barplot(temp.compare$Anomaly.mc, col=c("blue", "red", "black")[temp.compare$An.col.mc], ylim=c(-3.5,3.5), space=0, border=FALSE, las=1, width=1)
-axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
-
+barplot(temp.compare$Anomaly.mc, col=c("#296BA8", "#B51D2C", "black")[temp.compare$An.col.mc], ylim=c(-3.5,3.5), space=0, border=TRUE, las=1, width=1, xlim=c(0,12*8))
+title(ylab=expression(paste("Temperature (", degree, "C)")), line=2, cex.lab=1.2)
+axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7,12*8), labels = seq(2011,2019,1), srt=45)
+#lines(movavg(temp.pine.RockyTime$Anomaly, 4, type="s"),lwd=2,lty=1)
+box()
+####Export 3 x 5.5
 
 ##Average anomalies from both light stations 
 temp.compare$Average <- (temp.compare$Temperature+temp.compare$Temperature.mc, na.rm = TRUE)
@@ -205,40 +229,40 @@ temp.compare$Average <- (temp.compare$Temperature+temp.compare$Temperature.mc, n
 ######################################
 
 #Import Data (Each year is in a separate .csv file)
-ad.1985<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1985.csv", skip=24, stringsAsFactors = FALSE)
-ad.1986<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1986.csv", skip=24, stringsAsFactors = FALSE)
-ad.1987<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1987.csv", skip=24, stringsAsFactors = FALSE)
-ad.1988<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1988.csv", skip=24, stringsAsFactors = FALSE)
-ad.1989<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1989.csv", skip=24, stringsAsFactors = FALSE)
-ad.1990<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1990.csv", skip=24, stringsAsFactors = FALSE)
-ad.1991<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1991.csv", skip=24, stringsAsFactors = FALSE)
-ad.1992<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1992.csv", skip=24, stringsAsFactors = FALSE)
-ad.1993<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1993.csv", skip=24, stringsAsFactors = FALSE)
-ad.1994<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1994.csv", skip=24, stringsAsFactors = FALSE)
-ad.1995<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1995.csv", skip=24, stringsAsFactors = FALSE)
-ad.1996<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1996.csv", skip=24, stringsAsFactors = FALSE)
-ad.1997<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1997.csv", skip=24, stringsAsFactors = FALSE)
-ad.1998<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1998.csv", skip=24, stringsAsFactors = FALSE)
-ad.1999<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/1999.csv", skip=24, stringsAsFactors = FALSE)
-ad.2000<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2000.csv", skip=24, stringsAsFactors = FALSE)
-ad.2001<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2001.csv", skip=24, stringsAsFactors = FALSE)
-ad.2002<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2002.csv", skip=24, stringsAsFactors = FALSE)
-ad.2003<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2003.csv", skip=24, stringsAsFactors = FALSE)
-ad.2004<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2004.csv", skip=24, stringsAsFactors = FALSE)
-ad.2005<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2005.csv", skip=24, stringsAsFactors = FALSE)
-ad.2006<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2006.csv", skip=24, stringsAsFactors = FALSE)
-ad.2007<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2007.csv", skip=24, stringsAsFactors = FALSE)
-ad.2008<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2008.csv", skip=24, stringsAsFactors = FALSE)
-ad.2009<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2009.csv", skip=24, stringsAsFactors = FALSE)
-ad.2010<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2010.csv", skip=24, stringsAsFactors = FALSE)
-ad.2011<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2011.csv", skip=24, stringsAsFactors = FALSE)
-ad.2012<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2012.csv", skip=24, stringsAsFactors = FALSE)
-ad.2013<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2013.csv", skip=24, stringsAsFactors = FALSE)
-ad.2014<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2014.csv", skip=24, stringsAsFactors = FALSE)
-ad.2015<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2015.csv", skip=24, stringsAsFactors = FALSE)
-ad.2016<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2016.csv", skip=24, stringsAsFactors = FALSE)
-ad.2017<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2017.csv", skip=24, stringsAsFactors = FALSE)
-ad.2018<-read.csv("Data/Environmental Data/Addenbroke Air Temperature/2018.csv", skip=24, stringsAsFactors = FALSE)
+ad.1985<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1985.csv", skip=24, stringsAsFactors = FALSE)
+ad.1986<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1986.csv", skip=24, stringsAsFactors = FALSE)
+ad.1987<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1987.csv", skip=24, stringsAsFactors = FALSE)
+ad.1988<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1988.csv", skip=24, stringsAsFactors = FALSE)
+ad.1989<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1989.csv", skip=24, stringsAsFactors = FALSE)
+ad.1990<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1990.csv", skip=24, stringsAsFactors = FALSE)
+ad.1991<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1991.csv", skip=24, stringsAsFactors = FALSE)
+ad.1992<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1992.csv", skip=24, stringsAsFactors = FALSE)
+ad.1993<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1993.csv", skip=24, stringsAsFactors = FALSE)
+ad.1994<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1994.csv", skip=24, stringsAsFactors = FALSE)
+ad.1995<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1995.csv", skip=24, stringsAsFactors = FALSE)
+ad.1996<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1996.csv", skip=24, stringsAsFactors = FALSE)
+ad.1997<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1997.csv", skip=24, stringsAsFactors = FALSE)
+ad.1998<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1998.csv", skip=24, stringsAsFactors = FALSE)
+ad.1999<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/1999.csv", skip=24, stringsAsFactors = FALSE)
+ad.2000<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2000.csv", skip=24, stringsAsFactors = FALSE)
+ad.2001<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2001.csv", skip=24, stringsAsFactors = FALSE)
+ad.2002<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2002.csv", skip=24, stringsAsFactors = FALSE)
+ad.2003<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2003.csv", skip=24, stringsAsFactors = FALSE)
+ad.2004<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2004.csv", skip=24, stringsAsFactors = FALSE)
+ad.2005<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2005.csv", skip=24, stringsAsFactors = FALSE)
+ad.2006<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2006.csv", skip=24, stringsAsFactors = FALSE)
+ad.2007<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2007.csv", skip=24, stringsAsFactors = FALSE)
+ad.2008<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2008.csv", skip=24, stringsAsFactors = FALSE)
+ad.2009<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2009.csv", skip=24, stringsAsFactors = FALSE)
+ad.2010<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2010.csv", skip=24, stringsAsFactors = FALSE)
+ad.2011<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2011.csv", skip=24, stringsAsFactors = FALSE)
+ad.2012<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2012.csv", skip=24, stringsAsFactors = FALSE)
+ad.2013<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2013.csv", skip=24, stringsAsFactors = FALSE)
+ad.2014<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2014.csv", skip=24, stringsAsFactors = FALSE)
+ad.2015<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2015.csv", skip=24, stringsAsFactors = FALSE)
+ad.2016<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2016.csv", skip=24, stringsAsFactors = FALSE)
+ad.2017<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2017.csv", skip=24, stringsAsFactors = FALSE)
+ad.2018<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2018.csv", skip=24, stringsAsFactors = FALSE)
 
 #take only the first 10 rows, which contain temperature and date info
 ad.1985<-ad.1985[,1:10]
@@ -308,24 +332,19 @@ ad.anon$Anomaly<-na.ma(ad.anon$Anomaly,k=12, weighting = "exponential")
 #Create dummy variable that determines colour
 for (i in 1:length(ad.anon$Anomaly)) {
   if (ad.anon$Anomaly[i] > 0) {
-    ad.anon$An.col[i]<-"red"
+    ad.anon$An.col[i]<-"#B51D2C"
   } else {
-    ad.anon$An.col[i]<-"blue"
+    ad.anon$An.col[i]<-"#296BA8"
   }
 }
 
 
 
-#Plot data
-##Plot SST through time
-par(mar=c(4,3,0,1))
-par(mfrow=c(2,1))
-barplot(temp.pine.RockyTime$Anomaly[temp.pine.RockyTime$Year>2008][1:115], col=temp.pine.RockyTime$An.col[temp.pine.RockyTime$Year>2008][1:115], ylim=c(-2.5,2.5), space=0, border=FALSE, las=1, width=1)
-axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
-lines(movavg(temp.pine.RockyTime$Anomaly[temp.pine.RockyTime$Year>2008][1:115], 12, type="s"),lwd=2,lty=1)
-
 #Air Temp
-barplot(ad.anon$Anomaly[ad.anon$Year>2008][1:115], col=ad.anon$An.col[ad.anon$Year>2008][1:115], ylim=c(-3.5,3.5), space=0, border=FALSE, las=1, width=1)
-lines(movavg(ad.anon$Anomaly[ad.anon$Year>2008][1:115], 12, type="s"),lwd=2,lty=1)
-axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7, 12*8, 12*9))
+barplot(ad.anon$Anomaly[ad.anon$Year>2010][1:115], col=ad.anon$An.col[ad.anon$Year>2010][1:115], ylim=c(-3.5,3.5), space=0, border=TRUE, las=1, width=1, xlim=c(0,12*8))
+#lines(movavg(ad.anon$Anomaly[ad.anon$Year>2010][1:115], 12, type="s"),lwd=2,lty=1)
+title(ylab=expression(paste("Temperature (", degree, "C)")), line=2, cex.lab=1.2)
+axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7,12*8), labels = seq(2011,2019,1), srt=45)
+#lines(movavg(temp.pine.RockyTime$Anomaly, 4, type="s"),lwd=2,lty=1)
+box()
 

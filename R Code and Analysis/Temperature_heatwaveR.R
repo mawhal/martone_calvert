@@ -77,8 +77,8 @@ mhw2 <- detect_event(ts2)
 mcw2 <- detect_event(ts210,coldSpells = TRUE)
 ts3 <- ts2clm(d3, climatologyPeriod = c("1978-01-01", "2019-05-01"))
 ts310 <- ts2clm(d3, climatologyPeriod = c("1978-01-01", "2019-05-01"), pctile=10)
-mhw3 <- detect_event(ts3)
-mcw3 <- detect_event(ts310,coldSpells = TRUE)
+mhw3 <- detect_event(ts3, minDuration = 1)
+mcw3 <- detect_event(ts310,coldSpells = TRUE, minDuration = 1)
 ts4 <- ts2clm(d4, climatologyPeriod = c("1978-01-01", "2019-05-01"))
 ts410 <- ts2clm(d4, climatologyPeriod = c("1978-01-01", "2019-05-01"), pctile=10)
 mhw4 <- detect_event(ts4)
@@ -107,6 +107,8 @@ mhw3$event %>%
   dplyr::arrange(-intensity_max) %>% 
   head(6)
 
+event_line(mhw, start_date = "2012-01-01", end_date = "2019-05-01") #, min_duration = 30, spread = 180, start_date = "1937-01-01", end_date = "2019-05-01")
+
 
 event_line(mhw, min_duration = 30, spread = 180, metric = "intensity_max", # big El Nino of 1997
            start_date = "1937-01-01", end_date = "2019-05-01")
@@ -122,7 +124,6 @@ event_line(mcw2, spread = 180, metric = "intensity_max",
            start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
 event_line(mhw3, spread = 180, metric = "intensity_cumulative", 
            start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
-event_line(mcw3, spread = 180, metric = "intensity_max", 
            start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
 
 
@@ -185,7 +186,7 @@ ggplot(mhw_clim_join, aes(x = t, y = temp, y2 = thresh, col=site, fill=site)) +
 ggplot(mcw_clim_join, aes(x = t, y2 = temp, y = thresh, col=site, fill=site)) +
   geom_flame(n=5,n_gap = 2, alpha=0.5) 
 
-ggplot(mhw_clim_join, aes(x = t)) +
+ggplot(mhw_clim_join, aes(x = t), group=site) +
   facet_wrap(~site, ncol=1, scales = "free_y") +
   geom_flame(aes(y = temp, y2 = thresh), 
              n=5,n_gap=2,
@@ -214,3 +215,101 @@ ggplot(mhw_clim_join, aes(x = t)) +
 
 ggsave( "R Code and Analysis/Figs/heatwaveR_lighthouse_2011.png",
         dpi=300, width=11, height=8 )
+
+
+##Separate figures
+##Pine Island
+
+ggplot(mhw_clim, aes(x = t), group=site) +
+  facet_wrap(~site, ncol=1, scales = "free_y") +
+  geom_flame(aes(y = temp, y2 = thresh), 
+             n=5,n_gap=2,
+             show.legend = T, col="gray25", fill='#B51D2C', size=0.5 ) +
+  geom_flame(data=mcw_clim,aes(y2 = temp, y = thresh), 
+             n=5,n_gap=2,
+             show.legend = T, col="gray25", fill='#296BA8', size=0.5 ) +
+  # geom_flame(data = mhw_top, aes(y = temp, y2 = thresh, fill = "top"),  show.legend = T) +
+  geom_line(aes(y = temp, colour = "temp"), size=0.5, alpha=0.5) +
+  geom_line(aes(y = thresh, colour = "thresh"), size = 0.5) +
+  geom_line(data=mcw_clim,aes(y = thresh, colour = "thresh2"), size = 0.5) +
+  geom_line(aes(y = seas, colour = "seas"), size = 0.5) +
+  scale_colour_manual(name = "Line Colour",
+                      values = c("temp" = "gray25",
+                                 "thresh" =  "#B51D2C",
+                                 "thresh2" =  "#296BA8",
+                                 "seas" = "black")) +
+  scale_x_date(date_labels = "%b %Y") + theme_classic()+
+  guides(colour = guide_legend(override.aes = list(fill = NA))) +
+  labs(y = expression(paste("Temperature (", degree, "C)")), x = NULL) 
+  theme_minimal()
+
+##McInnes Island
+  
+  ggplot(mhw2_clim, aes(x = t), group=site) +
+    facet_wrap(~site, ncol=1, scales = "free_y") +
+    geom_flame(aes(y = temp, y2 = thresh), 
+               n=5,n_gap=2,
+               show.legend = T, col="gray25", fill='#B51D2C', size=0.5 ) +
+    geom_flame(data=mcw2_clim,aes(y2 = temp, y = thresh), 
+               n=5,n_gap=2,
+               show.legend = T, col="gray25", fill="#296BA8", size=0.5 ) +
+    geom_line(aes(y = temp, colour = "temp"), size=0.5, alpha=0.5) +
+    geom_line(aes(y = thresh, colour = "thresh"), size = 0.5) +
+    geom_line(data=mcw2_clim,aes(y = thresh, colour = "thresh2"), size = 0.5) +
+    geom_line(aes(y = seas, colour = "seas"), size = 0.5) +
+    scale_colour_manual(name = "Line Colour",
+                        values = c("temp" = "gray25",
+                                   "thresh" =  "#B51D2C",
+                                   "thresh2" =  "#296BA8",
+                                   "seas" = "black")) +
+    scale_x_date(date_labels = "%b %Y") + theme_classic()+
+    guides(colour = guide_legend(override.aes = list(fill = NA))) +
+    labs(y = expression(paste("Temperature (", degree, "C)")), x = NULL) 
+  theme_minimal()
+  
+###Pine Island
+year<-c("2011","2012","2013","2014","2015","2016","2017","2018","2019") %>% as.numeric()
+heatwave_days<-c(0,0,26,92,249,191,28,48,24)
+pine<-tibble(year, heatwave_days)
+
+
+ggplot(pine, aes(x=year, y=heatwave_days))+
+  geom_point(size=4)+
+  geom_line(aes(y=heatwave_days))+
+  theme_classic()+
+  scale_x_continuous(name="Year", limits=c(2011, 2019), breaks=seq(2011, 2019, 1))+
+  scale_y_continuous(name="Heatwave days")+
+  ggtitle("Pine Island")
+
+
+
+###McInnes Island
+year<-c("2011","2012","2013","2014","2015","2016","2017","2018","2019") %>% as.numeric()
+heatwave_days<-c(0,0,0,9,124,154,37,37,6)
+mc<-tibble(year, heatwave_days)
+
+
+ggplot(mc, aes(x=year, y=heatwave_days))+
+  geom_point(size=4)+
+  geom_line(aes(y=heatwave_days))+
+  theme_classic()+
+  scale_x_continuous(name="Year", limits=c(2011, 2019), breaks=seq(2011, 2019, 1))+
+  scale_y_continuous(name="Heatwave days")+
+  ggtitle("McInnes Island")
+
+
+###Addenbroke
+year<-c("2011","2012","2013","2014","2015","2016","2017","2018","2019") %>% as.numeric()
+heatwave_days<-c(11, 18, 24, 61, 93,76,32,48,74)
+ad<-tibble(year, heatwave_days)
+
+
+ggplot(ad, aes(x=year, y=heatwave_days))+
+  geom_point(size=4)+
+  geom_line(aes(y=heatwave_days))+
+  theme_classic()+
+  scale_x_continuous(name="Year", limits=c(2011, 2019), breaks=seq(2011, 2019, 1))+
+  scale_y_continuous(name="Heatwave days")+
+  ggtitle("Addenbroke Island (Air temperature)")
+
+

@@ -27,11 +27,10 @@ am <- am[ am$Site != "Meay Channel", ]
 # make it easier by replacing NA values for substratum
 ds <- ad
 ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
-ds <- ds[ ds$motile_sessile=="sessile", ]
-# ds <- ds[ ds$non.alga.flag=="Algae", ]
+ds <- ds[ ds$motile_sessile=="sessile" & !is.na(ds$motile_sessile), ]
+ds <- ds[ ds$non.alga.flag=="Algae" & !is.na(ds$non.alga.flag), ]
 
 
-# remove bare space? Not yet
 
 d <- ds
 # # split UID so we can average by transect
@@ -93,24 +92,30 @@ comm <- as.matrix(d.comm[,-c(1,2)])
 
 anti_join(d.comm[,1:2], mclean[,c("UID", "transect")] )
 anti_join(mclean[,c("UID", "transect")] , d.comm[,1:2]  )
+# add a line to d.comm to get missing samples
+
+
 ## Steps
 # for each quadrat, calculate richness, Shannon diversity, Simpson Diversity, and ENSPIE
 ## Total abundance - also used for ENSPIE below
-mclean$total.cover <- rowSums( comm )
+d.comm$total.cover <- rowSums( comm )
 ## shannon
-mclean$shannon <- diversity( comm, "shannon" )
+d.comm$shannon <- diversity( comm, "shannon" )
 ## simpson
-mclean$simpson <- diversity( comm, "simpson" )
+d.comm$simpson <- diversity( comm, "simpson" )
 ## ENSPIE
 # the function
 ENSPIE <- function(prop){
   ifelse( sum(prop,na.rm=T)>0, 1 / sum(prop^2, na.rm=T), NA ) 
 } 
-prop <- comm/mclean$total.cover
-mclean$enspie <- apply( prop, 1, ENSPIE )
+prop <- comm/d.comm$total.cover
+d.comm$enspie <- apply( prop, 1, ENSPIE )
 # richness
 pa <- ifelse( comm>0, 1, 0)
-mclean$richness <- rowSums( pa )
+d.comm$richness <- rowSums( pa )
+mclean <- left_join( mclean, select( d.comm, UID, transect, total.cover, shannon, simpson, enspie, richness ) )
+# replace NA
+mclean <- mclean %>% replace_na(list(total.cover = 0, shannon = 0, simpson = 0, enspie = 0, richness = 0))
 
 # splom for all quadrat summaries
 psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shannon,simpson,enspie), 
@@ -125,12 +130,6 @@ psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shanno
 # ggplot( mclean, aes(y=enspie,x=factor(Year))) + facet_grid(Site~Zone) + geom_boxplot()
 
 
-ggplot( mclean, aes(y=enspie,x=Year)) + facet_grid(Site~Zone) + 
-  geom_line() + geom_point() + #geom_smooth(se=F) + 
-  ylab("Effective number of species")
-ggplot( mclean, aes(y=richness,x=Year)) + facet_grid(Site~Zone) + 
-  geom_line() + geom_point() +
-  ylab("Species richness")
 
 
 # make mclean longer and include both richness and ENSPIE in the same figure
@@ -142,12 +141,6 @@ mlong <- mclean %>%
 mlong$Measure[mlong$Measure=="enspie"] <- "Effective"
 mlong$Measure[mlong$Measure=="richness"] <- "Total"
 
-windows(5,4)
-ggplot( mlong, aes(y=species,x=Year, col=Measure)) + facet_grid(Site~Zone) + 
-  geom_line() + geom_point() +
-  ylab("Number of species") +
-  scale_color_manual( values=c("grey","black")) +
-  theme_bw() 
 
 # consider the range of variation in estimates over time
 divvar <- mclean %>%
@@ -211,15 +204,17 @@ ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="fre
 windows(5,4)
 with( divvar2, cor.test(gmeanr, stability) )
 ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + 
-  geom_smooth(method='lm',se=F) +
+  geom_smooth(method='glm',se=T,method.args=list(family="poisson")) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
-  geom_point(aes(fill=Site,shape=Zone),size=3) +
-  ylab( expression(paste("Cover stability (",mu,"/",sigma,")")) ) + 
+  geom_point(aes(fill=Zone,shape=Site),size=3) +
+  ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")")) ) + 
   xlab("Mean species richness") +
-  scale_shape_manual( values=21:23) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
-  theme_classic()
-
+  scale_shape_manual( values=21:23 ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
+  scale_linetype_discrete(  guide=FALSE ) +
+  # guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
+ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
 
 # model stability by zone
 library(lme4)
@@ -259,7 +254,7 @@ heatwave <- 2014:2017
 maybe_hot <- 2019
 
 yearly$event <- "heatwave"
-yearly$event[yearly$Year %in% c(initial,maybe_normal)] <- "normal"
+yearly$event[yearly$Year %in% c(initial)] <- "normal"
 yearly$event[yearly$Year %in% maybe_hot] <- "heatwave2"
 
   
@@ -271,10 +266,10 @@ omega <- function( z, window=1 ){
   return(omega)
 }
 
-delta <- function( z ){
+delta <- function( z,lag=1 ){
   Yn  = mean(z$meana[z$Year %in% initial ])
   Ye  = mean(z$meana[z$event=="heatwave"])
-  Ye1 = z$meana[z$Year==2018]
+  Ye1 = z$meana[z$Year==c(2018,2019)[lag]]
   delta = abs( (Ye-Yn) / (Ye1-Yn) )
   return( delta )
 }
@@ -285,12 +280,13 @@ resistance2 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega
 resistance3 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=3  )
 resistance4 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=4  )
 
-resilience <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), delta )
+resilience1 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), delta, lag=1 )
+resilience2 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), delta, lag=2 )
 
 ress <- bind_cols( yearly %>% select(Site,Zone) %>% distinct(),
            data.frame( O1=c(resistance1), O2=c(resistance2), 
             O3=c(resistance3), O4=c(resistance4),
-            D=c(resilience) ) )
+            D1=c(resilience1), D2=c(resilience2) ) )
 
 
 ggplot( data=ress, aes(x=Zone,y=log(O1),col=Site)) + geom_point(size=2)
@@ -310,14 +306,15 @@ ress_long <- ress %>%
 
 ress_long <- left_join(ress_long,divvar2)
 
-ggplot( ress_long, aes(x=Zone,y=log(value),fill=Site)) +
+ggplot( ress_long, aes(x=Zone,y=(value),fill=Site)) +
   facet_wrap(~measure) + geom_point(size=3, alpha=0.5, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   theme_bw()
-ggplot( ress_long, aes(x=gmeanr,y=log(value),fill=Site)) +
-  facet_wrap(~measure) + geom_point(size=3, alpha=0.5, pch=21) +
+ggplot( ress_long, aes(x=gmeanr,y=(value),fill=Site)) +
+  facet_wrap(~measure,scales="free_y") + geom_point(size=3, alpha=0.5, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
-  geom_smooth(aes(group=1), method='lm') +
+  geom_smooth(aes(group=1), method='glm',method.args=list(family=poisson)) +
+  scale_y_continuous(trans="log2") +
   theme_bw()
 
 library(purrr)
@@ -331,7 +328,7 @@ ress_long %>%
   unnest(tidied)
 
 ress_long2 <- ress %>%
-  gather( "resistance","value", -Site, -Zone, -D )
+  gather( "resistance","value", -Site, -Zone, -D1, -D2 )
 
 ress_long2 %>%
   nest(-resistance) %>% 
@@ -341,7 +338,7 @@ ress_long2 %>%
   ) %>% 
   unnest(tidied, .drop=TRUE )
 
-ggplot( ress_long2, aes(x=log(value),y=log(D),fill=Site)) +
+ggplot( ress_long2, aes(x=log(value),y=log(D1),fill=Site)) +
   facet_wrap(~resistance, scales="free") + geom_point(size=3, alpha=0.5, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   geom_smooth(aes(group=1),method='lm') +

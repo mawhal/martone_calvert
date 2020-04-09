@@ -39,6 +39,7 @@ mpost = convertToCodaObject(m)
 # plot traces for particular species 
 taxa <- rep(colnames(m$Y), each=6)
 toplot <- which(taxa %in% "Hedophyllum.sessile")
+toplot <- which(taxa %in% "Polysiphonia")
 toplot <- which(taxa %in% "Fucus.distichus")
 betaplot <- lapply(mpost$Beta,function(z) z[,toplot])
 # betaplot <- lapply( betaplot, function(z) {
@@ -85,7 +86,7 @@ lapply( MF, boxplot )
 postBeta = getPostEstimate(m, parName = "Beta")
 # windows(5,8)
 # plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
-postBeta$mean[, c("Alaria.marginata","Hedophyllum.sessile")]
+postBeta$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
 
 pos.neg <- data.frame(pos = c(postBeta$support), neg = c(postBeta$supportNeg))
 pos.neg[pos.neg< 0.95] <- 0
@@ -194,7 +195,7 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
 OmegaCor = computeAssociations(m)
 supportLevel = 0.95
 # choose the random variable to plot
-rlevel = 2
+rlevel = 3
 toPlot = ((OmegaCor[[rlevel]]$support>supportLevel) 
           + (OmegaCor[[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[rlevel]]$mean
 # reorder species matrix
@@ -378,12 +379,16 @@ predictions_abund_trait$fill[predictions_abund_trait$taxon=="coralline.crust"] <
 
 # only pull the 10 most common taxa
 top6 <- colnames(m$Y)[c(1:6,9,14,15)]
+upX <- colnames(m$Y)[c(8,15,18,23,27,29,35,37,48)]
+downX <- colnames(m$Y)[c(43,36,5,24,28,33,30)]
+upY <- colnames(m$Y)[c(15,42,39,47,44,46,20,22,9)]
+customXY <- colnames(m$Y)[c(1,3,4,5,6,8,9,14,15,27,30,37,42)]
 # 10 rarest taxa
 bot10 <- colnames(m$Y)[(length(colnames(m$Y))-8):length(colnames(m$Y))]
 
-taxa2plot <- top6
+taxa2plot <- upY
 
-windows(6,4)
+# windows(6,4)
 ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2019)), aes(x = shore.height, y = N,
                                                         fill=factor(year) ))+
   geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
@@ -395,10 +400,20 @@ ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2019)),
   geom_point( data = filter( comm_final, taxon %in% taxa2plot, year %in% c(2012,2019)), pch=21 ) +
   geom_line(size = 0.5)+
   scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)")
-ggsave("R Code and Analysis/Figs/hmsc_response_curves.pdf", width = 6, height = 4)
+# ggsave("R Code and Analysis/Figs/hmsc_response_curves.pdf", width = 6, height = 4)
 
 # just show Fucus
 fuc <- "Fucus.distichus"
+fuc <- "Polysiphonia"
+fuc <- "Mazzaella.parvula"
+fuc <- "Microcladia.borealis"
+fuc <- "Palmaria.hecatensis"
+fuc <- "Farlowia.mollis"
+fuc <- "Cladophora.columbiana"
+fuc <- "Lithophyllum"
+fuc <- "coralline.crust"
+fuc <- "Egregia.menziesii"
+fuc <- "Hedophyllum.sessile"
 windows(5,3)
 ggplot( filter(predictions_abund,taxon %in% fuc ), 
         aes(x = shore.height, y = N ))+
@@ -624,6 +639,7 @@ cowplot::plot_grid(bpa,bpb, align = "h", axis='tblr', labels = "AUTO")
 # add nice scatteplot
 # taxa to plot
 taxalabel <- top6
+taxalabel <- customXY
 xy <- ggplot( compare_all, aes(x=log(shift.y,base=2),y=shift.x)) + 
   geom_hline(yintercept=0)+geom_vline(xintercept=0)+
   geom_point(pch=21,size=2,fill="whitesmoke") +
@@ -663,6 +679,7 @@ p2<- insert_yaxis_grob(p1, ydens, grid::unit(.2, "null"), position = "right")
 ggdraw(p2)
 ggsave(file="R Code and Analysis/Figs/abundance~peak.svg",width = 4, height = 4)
 
+write_csv( compare_all, "R Code and Analysis/output from r/shifts_predicted.csv")
 #
   
 

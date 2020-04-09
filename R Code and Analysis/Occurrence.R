@@ -14,6 +14,9 @@ metacomm <- read_csv( "R Code and Analysis/output from r/community.csv" )
 # replace space with period
 names(metacomm) <- gsub( " ", ".", names(metacomm) )
 
+# just grab the UIDs and taxa
+metacomm <- metacomm %>% 
+  select(UID, "Acrochaetium.sp.":"Unknown.red.blade")
 # use actual data
 comm_select <- metacomm %>% 
   gather( key = taxon, value = N, -UID ) %>%

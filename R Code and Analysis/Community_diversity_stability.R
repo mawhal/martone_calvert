@@ -269,7 +269,7 @@ omega <- function( z, window=1 ){
 delta <- function( z,lag=1 ){
   Yn  = mean(z$meana[z$Year %in% initial ])
   Ye  = mean(z$meana[z$event=="heatwave"])
-  Ye1 = z$meana[z$Year==c(2018,2019)[lag]]
+  Ye1 = mean(z$meana[z$Year==c(2018,2019)[1:lag]])
   delta = abs( (Ye-Yn) / (Ye1-Yn) )
   return( delta )
 }
@@ -289,16 +289,8 @@ ress <- bind_cols( yearly %>% select(Site,Zone) %>% distinct(),
             D1=c(resilience1), D2=c(resilience2) ) )
 
 
-ggplot( data=ress, aes(x=Zone,y=log(O1),col=Site)) + geom_point(size=2)
-ggplot( data=ress, aes(x=Zone,y=log(O2),col=Site)) + geom_point(size=2)
-ggplot( data=ress, aes(x=Zone,y=log(O3),col=Site)) + geom_point(size=2)
-ggplot( data=ress, aes(x=Zone,y=log(O4),col=Site)) + geom_point(size=2)
-ggplot( data=ress, aes(x=Zone,y=log(D),col=Site)) + geom_point(size=2)
-
-
 psych::pairs.panels( ress[,-c(1:2)])
 psych::pairs.panels( log(ress[,-c(1:2)]) )
-
 
 
 ress_long <- ress %>%
@@ -313,9 +305,28 @@ ggplot( ress_long, aes(x=Zone,y=(value),fill=Site)) +
 ggplot( ress_long, aes(x=gmeanr,y=(value),fill=Site)) +
   facet_wrap(~measure,scales="free_y") + geom_point(size=3, alpha=0.5, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
-  geom_smooth(aes(group=1), method='glm',method.args=list(family=poisson)) +
+  geom_smooth(aes(group=1), method='lm') +
+  # geom_smooth(aes(group=1), method='glm',method.args=list(family=poisson)) +
   scale_y_continuous(trans="log2") +
   theme_bw()
+
+a <- ggplot( filter(ress_long,measure %in% c("O1","O2","O3","O4")), aes(x=as.numeric(as.factor(measure)),y=value)) +
+  geom_point() +
+  geom_smooth( method='lm') +
+  scale_y_continuous(trans="log2") +
+  xlab("year of heatwave") + ylab("resistance") +
+  theme_bw()
+  
+b <- ggplot( filter(ress_long,measure %in% c("D2")), aes(x=gmeanr,y=(value),fill=Site)) +
+  geom_point(size=3, alpha=0.5, pch=21) +
+  scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
+  geom_smooth(aes(group=1), method='lm') +
+  # geom_smooth(aes(group=1), method='glm',method.args=list(family=poisson)) +
+  scale_y_continuous(trans="log2") +
+  xlab("mean species richness") + ylab("resilience") +
+  theme_bw() + theme( legend.position = c(0.01,0.99),legend.justification = c(0,1)) 
+cowplot::plot_grid(a,b,ncol=2,rel_widths = c(1,1))
+ggsave( "R Code and Analysis/Figs/stability_resist_resil.svg", width=6, height=3 )
 
 library(purrr)
 library(broom)
@@ -338,7 +349,7 @@ ress_long2 %>%
   ) %>% 
   unnest(tidied, .drop=TRUE )
 
-ggplot( ress_long2, aes(x=log(value),y=log(D1),fill=Site)) +
+ggplot( ress_long2, aes(x=log2(value),y=log2(D1),fill=Site)) +
   facet_wrap(~resistance, scales="free") + geom_point(size=3, alpha=0.5, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   geom_smooth(aes(group=1),method='lm') +

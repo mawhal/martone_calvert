@@ -146,9 +146,11 @@ commpa <- comm
 commpa[commpa>0] <- 1
 d12 <- comm[ meta$Year == 2012, ]
 d19 <- comm[ meta$Year == 2019, ]
+d12p <- commpa[ meta$Year == 2012, ]
+d19p <- commpa[ meta$Year == 2019, ]
 
 
-bpt <- bind_cols(meta[ meta$Year == 2012, ], beta.temp( d12, d19 ) )
+bpt <- bind_cols(meta[ meta$Year == 2012, ], beta.temp( d12p, d19p ) )
 bpt %>% mutate( turn=beta.sim/beta.sor, nest=beta.sne/beta.sor )
 
 # Legendre method (TBI)
@@ -171,6 +173,7 @@ tbi.sums.abun <- as.data.frame(tbi.sums.abun)
 names(tbi.sums.abun) <- c("losses","gains","total","B%","C%")
 tbi.sums.abun$comparison <- paste("2012",unique(meta$Year)[-1],sep = "-")
 tbi.sums.abun$comp <- 1:7
+tbi.sums.abun$second <- unique(meta$Year)[-1]
 tbi.sums.pa <- as.data.frame(tbi.sums.pa)
 names(tbi.sums.pa) <- c("losses","gains","total","B%","C%")
 tbi.sums.pa$comparison <- paste("2012",unique(meta$Year)[-1],sep = "-")
@@ -187,17 +190,20 @@ gath.pa <- tbi.sums.pa %>% select(losses,gains,total,comparison,comp) %>%
 a <- ggplot( gath.abun, aes(x=comp,y=value,col=key,shape=key)) + 
   geom_line() + geom_point(size=2) + 
   ylim(c(0,0.75)) + scale_color_manual(values=c("red","blue","black")) +
-  ylab("Dissimilarity") + xlab("Survey year pairs" ) +
-  scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$comparison ) +
+  ylab("Dissimilarity (%)") + xlab("Year compared to 2012") +
+  scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$second ) +
   theme_classic()
 b <- ggplot( gath.pa, aes(x=comp,y=value,col=key,shape=key)) + 
   geom_line() + geom_point(size=2) + 
-  ylim(c(0,0.5)) + scale_color_manual(values=c("red","blue","black")) +
-  ylab("Dissimilarity") + xlab("Survey year pairs" ) +
-  scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$comparison ) +
+  ylim(c(0,0.75)) + scale_color_manual(values=c("red","blue","black")) +
+  ylab("Dissimilarity (%)") + xlab("Year compared to 2012") +
+  scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$second ) +
   theme_classic()
 
-cowplot::plot_grid( a,b, ncol=1, rel_heights = c(2,1.5) )
+cowplot::plot_grid( a,b, ncol=1, rel_heights = c(1,1) )
+ggsave( "R Code and Analysis/Figs/beta_temporal_pairs.svg", width =4, height=3 )
+
+
 
 
 

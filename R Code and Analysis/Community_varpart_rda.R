@@ -52,8 +52,8 @@ dm <- left_join( duse, muse )
 
 # for now, restrict community analysis to algae only
 d <- dm %>% 
-  # filter( non.alga.flag %in% c("Algae"  )
-  filter( motile_sessile == "sessile" )
+  filter( motile_sessile == "sessile" ) %>% 
+  filter( non.alga.flag %in% c("Algae")  )
 
 # average elevation per zone
 dmeanelev <- d %>% 
@@ -123,19 +123,19 @@ dominance <- apply( comm, 1, function(z) names(z)[order(z,decreasing = T)]  )
 dominance[1:3,]
 
 # quick beta diversity by group
-z <- betadiver(comm,"z")
-mod <- betadisper(z, meta$Site)
-plot(mod)
-plot(mod, axes=c(3,1) )
-boxplot(mod)
-anova(mod)
-(mod3B <- betadisper(z, site, type = "median", bias.adjust=TRUE))
-anova(mod3B)
-permutest(mod3B, permutations = 99)
-plot(mod3B)
-boxplot(mod3B)
-
-adonis2( comm~site*year, by='margin'  )
+# z <- betadiver(comm,"z")
+# mod <- betadisper(z, meta$Site)
+# plot(mod)
+# plot(mod, axes=c(3,1) )
+# boxplot(mod)
+# anova(mod)
+# (mod3B <- betadisper(z, site, type = "median", bias.adjust=TRUE))
+# anova(mod3B)
+# permutest(mod3B, permutations = 99)
+# plot(mod3B)
+# boxplot(mod3B)
+# 
+# adonis2( comm~site*year, by='margin'  )
 
 
 
@@ -190,18 +190,18 @@ gath.pa <- tbi.sums.pa %>% select(losses,gains,total,comparison,comp) %>%
 a <- ggplot( gath.abun, aes(x=comp,y=value,col=key,shape=key)) + 
   geom_line() + geom_point(size=2) + 
   ylim(c(0,0.75)) + scale_color_manual(values=c("red","blue","black")) +
-  ylab("Dissimilarity (%)") + xlab("Year compared to 2012") +
+  ylab("Dissimilarity") + xlab("Year compared to 2012") +
   scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$second ) +
-  theme_classic()
+  theme_bw()
 b <- ggplot( gath.pa, aes(x=comp,y=value,col=key,shape=key)) + 
   geom_line() + geom_point(size=2) + 
   ylim(c(0,0.75)) + scale_color_manual(values=c("red","blue","black")) +
-  ylab("Dissimilarity (%)") + xlab("Year compared to 2012") +
+  ylab("Dissimilarity") + xlab("Year compared to 2012") +
   scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$second ) +
-  theme_classic()
+  theme_bw()
 
 cowplot::plot_grid( a,b, ncol=1, rel_heights = c(1,1) )
-ggsave( "R Code and Analysis/Figs/beta_temporal_pairs.svg", width =4, height=3 )
+ggsave( "R Code and Analysis/Figs/beta_temporal_pairs_algae.svg", width =4, height=3 )
 
 
 

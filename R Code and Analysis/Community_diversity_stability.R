@@ -163,14 +163,15 @@ divplot <- divvar %>%
   group_by(Site, Zone, cva) %>% 
   gather(key="estimate",value="mean", meanr, meand, means, meane )
 
-ggplot( data=divplot, aes(x=mean, y=cva)) + facet_wrap(~estimate, scales="free") + 
-  geom_smooth(method='lm',se=F) +
+ggplot( data=divplot, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="free") + 
+  geom_smooth(method='lm',se=T) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(col=Site,size=Zone))
 
 
 
-## above calculations include variation across and within times, exclude this variation within time?
+## above calculations include variation across and within times, 
+# exclude this variation within time becuase different quads sampled over time?
 yearly <- mclean %>% 
   group_by( Site, Zone, Year ) %>% 
   summarize( meana=mean(total.cover), 
@@ -203,6 +204,7 @@ ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="fre
 
 windows(5,4)
 with( divvar2, cor.test(gmeanr, stability) )
+with( divvar, cor.test(meanr, 1/cva) )
 ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + 
   geom_smooth(method='glm',se=T,method.args=list(family="poisson")) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
@@ -243,6 +245,67 @@ d <- ggplot( divvar2, aes(x=gmeane,y=1/cva) ) + geom_point() +
 
 library( cowplot )
 plot_grid( a,b,c,d, ncol=4 )
+
+
+
+
+
+## Species synchrony
+# repeat calculations for each taxon
+# we need to know if species abundance was zero, not just non-zero abundance
+d.long <- d.comm %>% 
+  select(-total.cover,-shannon,-simpson,-enspie,-richness) %>% 
+  gather( "taxon","Abundance",-UID,-transect)
+yearly.taxon <- d.long %>% 
+  group_by(transect, taxon) %>% 
+  summarize(meana = mean(Abundance) )
+
+# numerator is the variance in total cover over time
+numer <- divvar2 %>% 
+  select(Site,Zone,ea) %>% 
+  group_by(Site, Zone) %>% 
+  mutate( VT = ea^2 ) 
+
+# denominator of the calculation for synchrony is the sum of the individual taxon stadard deviations over time, squared
+denom <- yearly.taxon  %>% 
+  separate(transect, into=c("Site","blah","Zone","Year")) %>% 
+  unite( col="Site" , Site, blah, sep = " " ) %>% 
+  mutate( Zone=factor(Zone,levels=c("LOW","MID","HIGH"))) %>% 
+  group_by( Site, Zone, taxon ) %>% 
+  summarize( eai = sd(meana, na.rm=T) ) %>% 
+  mutate( eai = ifelse( eai>0,eai,NA) ) %>%
+  group_by( Site, Zone ) %>% 
+  mutate( Eeai=sum(eai, na.rm=T) ) %>% 
+  mutate( Evi = Eeai^2 )
+
+
+synch <- left_join( numer, denom )
+synch <- synch %>% 
+  mutate( phi = VT/Evi )
+summary( synch$phi )
+summary( synch$eai )
+
+a <- ggplot( synch, aes(x=Zone,y=eai)) + facet_wrap(~Site) +
+  geom_point( aes(y=ea), size=3, col='red' ) +
+  geom_point( alpha=0.1 ) + 
+  ylab("Cover SD") +
+  theme( strip.background = element_blank(),
+         strip.text.x = element_blank() )
+b <- ggplot( synch, aes(x=Zone,y=phi)) + facet_wrap(~Site) +
+  geom_point( alpha=1 ) +
+  ylab( expression(paste("Synchrony (",phi,")")) ) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+cowplot::plot_grid( b,a, ncol=1, rel_heights = c(1,1.5) )
+ggsave( "R Code and Analysis/Figs/synchrony_transect.svg", width=6, height=4 )
+#
+
+
+
+
+
+
 
 
 

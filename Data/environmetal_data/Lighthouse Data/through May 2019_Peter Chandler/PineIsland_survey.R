@@ -70,7 +70,7 @@ calvert <- time(dts.na)>=2010
 par(mar=c(5,4,1,2)+0.1)
 plot( subset(dts, subset=calvert), type='l', axes=F,
       ylab=expression('Sea Surface Temperature ('*~degree*C*')'), xlab="Date",
-      col='dodgerblue', ylim=c(3,20.5) )
+      col='dodgerblue', ylim=c(0,30) )
 abline( h=0,lty=2 )
 axis( 2, las=1 )
 xtick <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
@@ -114,6 +114,7 @@ ib16$`Date/Time` <- ymd_hms(ib16$`Date/Time`)
 
 # merge all of these
 ib <- full_join( full_join( ib13,ib15),ib16 )
+write_csv( ib, "output from R/FoggyCove_HIGH_iButton.csv")
 # posix
 ib <- ib %>%
   select( date.time=`Date/Time`, value=Value ) 
@@ -121,19 +122,76 @@ ib <- ib %>%
 split.df <- data.frame(do.call(rbind,strsplit(as.character(ib$date.time),split=" ")))
 names(split.df) <- c('date','time')
 ib <- data.frame( ib, split.df )
+ib <- ib %>% 
+  mutate(date=ymd(date))
 # summarize
 ib.sum <- ib %>%
-  mutate(date=ymd(date)) %>%
   group_by(date) %>%
   summarize(max=max(value),mean=mean(value))
 
 #  plot it
-ibs <- which( seq.Date(as.Date("2010-01-01"),as.Date("2014-01-01"), by="day" ) %in%
-                           ib.sum$date )
-ibs2 <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
-                ib.sum$date[ib.sum$date>ymd("2014-01-01")] )
+dateseq <- data.frame( date=seq.Date(as.Date("2010-01-01"),as.Date("2020-01-01"), by="day") )
+dateseq <- dateseq %>% mutate( rank=1:nrow(dateseq))
+ib <- left_join( ib, dateseq )
 
 # lines( x=ibs, y=ib.sum$max, pch=20, col=rgb(0,0,0,0.2), cex=0.1  )
+points( x=ib$rank, y=ib$value,lwd=0.5, col=rgb(0,0,0,0.5),pch=20,cex=0.2  )
 points( x=ibs, y=ib.sum$mean[ib.sum$date<ymd("2014-01-01")],lwd=0.5, col=rgb(0,0,0,0.5),pch=20,cex=0.2  )
 points( x=ibs2, y=ib.sum$mean[ib.sum$date>ymd("2014-01-01")],lwd=0.5, col=rgb(0,0,0,0.5),pch=20,cex=0.2  )
   
+
+windows(6,3)
+par(mar=c(5,4,1,2)+0.1)
+plot( subset(dts, subset=calvert), type='n', axes=F,
+      ylab=expression('Temperature ('*~degree*C*')'), xlab="Date",
+      col='dodgerblue', ylim=c(-5,40) )
+lines( subset(dts, subset=calvert),col='red' )
+points( x=ib$rank, y=ib$value,lwd=0.5, col=rgb(0,0,0,0.2),pch=20,cex=0.2  )
+abline( h=0,lty=1 )
+axis( 2, las=1 )
+xtick <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
+                  seq.Date(as.Date("2010-01-01"),as.Date("2019-01-01"), by="year" ) )
+axis( 1,at=xtick,labels=2010:2019, srt=45,las=3 )
+# get uniuue dates from surveys
+meta <- read_csv( "../../../R code for Data Prep/Output from R/Martone_Hakai_metadata.csv")
+mean.date <- meta %>%
+  mutate( year=year(Date) ) %>%
+  group_by( year ) %>%
+  summarise( date=mean(Date) )
+surveys <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
+                    ymd(mean.date$date) )
+abline( v=surveys, lty=2 )
+# moving average
+x.ma <- ma(dts.na,order=410, centre=T)
+ma.calvert <- subset( x.ma, subset=calvert )
+# lines( ma.calvert, col='red' )
+# mean of entire time series
+# abline( h=mean(dts,na.rm=T),col='blue' )
+# abline( h=mean(subset(dts, subset=calvert),na.rm=T),col='goldenrod')
+box()
+
+
+
+# just look at the second deployment 
+ib2 <- ib %>% 
+  filter( date > as.Date("2014-01-01"))
+ib.month <- ib2 %>% 
+  mutate( month=month(date), year=year(date) ) %>%
+  mutate( year = ifelse(month==12,year+1,year)) 
+ib.win <- ib.month %>% 
+  filter( month %in% c(12,1,2) ) 
+ib.sum <- ib.month %>% 
+  filter( month %in% c(7,8,9) )
+
+a <- ggplot(ib2, aes(x=date,y=value)) + geom_point(alpha=0.2) + geom_smooth() +
+  xlab("Date") + ylab(expression(paste("Temperature (",degree,"C)"))) + ylim(c(-3,37))
+
+b <- ggplot( ib.win, aes(group=year, x= factor(year), y=value)) + geom_boxplot(notch=T, width=0.5, outlier.alpha = 0.2) + 
+  xlab("Year") + ylab(expression(paste("Winter temperatures (",degree,"C)"))) + ylim(c(-3,37))
+
+c <- ggplot( ib.sum, aes(group=year, x= factor(year), y=value)) + geom_boxplot(notch=T, width=0.5, outlier.alpha = 0.2) + 
+  xlab("Year") + ylab(expression(paste("Summer temperatures (",degree,"C)"))) + ylim(c(-3,37))
+
+
+cowplot::plot_grid( a,c,b,ncol=3,rel_widths = c(2,1,1) )
+ggsave( "Figs/ibutton_2014-2016.svg", width=6,height=3 )

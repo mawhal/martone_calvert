@@ -52,7 +52,7 @@ dm <- left_join( duse, muse )
 
 # for now, restrict community analysis to algae only
 d <- dm %>% 
-  filter( motile_sessile == "sessile" ) %>% 
+  filter( motile_sessile == "sessile" ) #%>% 
   filter( non.alga.flag %in% c("Algae")  )
 
 # average elevation per zone
@@ -114,6 +114,43 @@ as.survey <- anoms.season %>%
   filter( year>=2010 ) %>% 
   spread( key = season, value=temp.anom )
 
+test <- c("Station_1_CTD_42","Station_1_CTD_42_2")
+gsub( "Station_1_CTD_42*", "Station_1", test )
+
+
+# show summer versus winter temperature anomaly
+as.survey.all <- anoms.season %>% 
+  # filter( year>=2010 ) %>% 
+  spread( key = season, value=temp.anom )
+
+ggplot( as.survey, aes(y=summer,x=winter) ) + 
+  geom_hline(yintercept=0) +
+  geom_vline(xintercept=0) +
+  geom_smooth(se=T,size=0.5) +
+  geom_point(size=2) +  geom_path(size=1) +
+  geom_text_repel(label=surv.cent$year, box.padding = 0.5) +
+  ylab(expression(paste("Summer SST anomaly (",degree,"C)"))) +
+  xlab(expression(paste("Winter SST anomaly (",degree,"C)"))) +
+  theme_bw()
+
+old.anom <- as.survey.all %>% filter( winter < -1.1 | winter >1 | summer > 1 | summer < -1) %>% filter(year<2015 )
+ggplot( as.survey.all, aes(y=summer,x=winter) ) + 
+  geom_hline(yintercept=0) +
+  geom_vline(xintercept=0) +
+  stat_ellipse( level = 0.9 ) +
+  geom_point(size=1,shape=1) +
+  geom_point(data=as.survey,size=2) +  geom_path(data=as.survey,size=1) +
+  geom_text_repel(data=old.anom, label=old.anom$year, box.padding = 0.5) +
+  geom_text_repel(data=filter(as.survey.all,year %in% c(2010,2015)), label=c(2010,2015), box.padding = 0.5) +
+  ylab(expression(paste("Summer anomaly (",degree,"C)"))) +
+  xlab(expression(paste("Winter anomaly (",degree,"C)"))) +
+  theme_bw() +
+  theme( panel.grid.major = element_blank(), panel.grid.minor = element_blank() )
+ggsave( "R Code and Analysis/Figs/winter_summer_SST.svg", width=3, height=3 )
+
+
+
+
 
 # which species are exceedingly rare?
 sort(colSums(comm))
@@ -158,50 +195,54 @@ tbia <- TBI( d12, d19, method = "%difference" )
 plot(tbia)
 tbip <- TBI( d12, d19, method = "%difference", pa.tr = TRUE )
 plot(tbip)
-
+data.frame( meta[meta$Year == 2019, ], tbia$BCD.mat )
 # get TBI matrix for all comparisons to 2012
-tbi.sums.abun <- matrix( nrow = length(unique(meta$Year))-1, ncol=5 )
-tbi.sums.pa   <- matrix( nrow = length(unique(meta$Year))-1, ncol=5 )
+tbi.sums.abun.loop <- matrix( nrow = length(unique(meta$Year))-1, ncol=8 )
+tbi.sums.pa.loop   <- matrix( nrow = length(unique(meta$Year))-1, ncol=8 )
 for( i in 2:length(unique(meta$Year)) ){
   di <- comm[ meta$Year == unique(meta$Year)[i], ]
-  tbi.sums.abun[i-1,] = unlist(TBI( d12, di, method = "%difference" )$BCD.summary[1:5])
-  tbi.sums.pa[i-1,]   = unlist(TBI( d12, di, method = "%difference", pa.tr = TRUE )$BCD.summary[1:5])
+  tbi.sums.abun.loop[i-1,] = unlist(lapply(TBI( d12, di, method = "%difference" )[5:6],function(z) z[1:4]) )
+  tbi.sums.pa.loop[i-1,]   = unlist(lapply(TBI( d12, di, method = "%difference", pa.tr = T )[5:6],function(z) z[1:4]) )
 }
 
 # add row and column names
-tbi.sums.abun <- as.data.frame(tbi.sums.abun)
-names(tbi.sums.abun) <- c("losses","gains","total","B%","C%")
+tbi.sums.abun <- as.data.frame(tbi.sums.abun.loop)
+names(tbi.sums.abun) <- c("losses","gains","total","B%","C-B","stat","p.val",'p.perm')
 tbi.sums.abun$comparison <- paste("2012",unique(meta$Year)[-1],sep = "-")
 tbi.sums.abun$comp <- 1:7
 tbi.sums.abun$second <- unique(meta$Year)[-1]
-tbi.sums.pa <- as.data.frame(tbi.sums.pa)
-names(tbi.sums.pa) <- c("losses","gains","total","B%","C%")
+tbi.sums.abun$sig <- ifelse( tbi.sums.abun$p.val < 0.05, 8, NA )
+tbi.sums.pa <- as.data.frame(tbi.sums.pa.loop)
+names(tbi.sums.pa) <- c("losses","gains","total","B%","C-B","stat","p.val",'p.perm')
 tbi.sums.pa$comparison <- paste("2012",unique(meta$Year)[-1],sep = "-")
 tbi.sums.pa$comp <- 1:7
+tbi.sums.pa$sig <- ifelse( tbi.sums.pa$p.val < 0.05, 8, NA )
 
 # gather
-gath.abun <- tbi.sums.abun %>% select(losses,gains,total,comparison,comp) %>% 
+gath.abun <- tbi.sums.abun %>% select(losses,gains,total,comparison,comp,sig) %>% 
   group_by(comparison,comp) %>% 
   gather(key,value,losses:total)
-gath.pa <- tbi.sums.pa %>% select(losses,gains,total,comparison,comp) %>% 
+gath.pa <- tbi.sums.pa %>% select(losses,gains,total,comparison,comp,sig) %>% 
   group_by(comparison,comp) %>% 
   gather(key,value,losses:total)
 
 a <- ggplot( gath.abun, aes(x=comp,y=value,col=key,shape=key)) + 
   geom_line() + geom_point(size=2) + 
+  geom_point(data=filter(gath.abun,!is.na(sig)),aes(y=0.7,x=comp),shape=8) +
   ylim(c(0,0.75)) + scale_color_manual(values=c("red","blue","black")) +
   ylab("Dissimilarity") + xlab("Year compared to 2012") +
   scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$second ) +
   theme_bw()
 b <- ggplot( gath.pa, aes(x=comp,y=value,col=key,shape=key)) + 
   geom_line() + geom_point(size=2) + 
+  # geom_point(data=filter(gath.pa,!is.na(sig)),aes(y=0.7,x=comp),shape=8) +
   ylim(c(0,0.75)) + scale_color_manual(values=c("red","blue","black")) +
   ylab("Dissimilarity") + xlab("Year compared to 2012") +
   scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$second ) +
   theme_bw()
 
 cowplot::plot_grid( a,b, ncol=1, rel_heights = c(1,1) )
-ggsave( "R Code and Analysis/Figs/beta_temporal_pairs_algae.svg", width =4, height=3 )
+ggsave( "R Code and Analysis/Figs/beta_temporal_pairs.svg", width =4, height=3 )
 
 
 
@@ -210,7 +251,8 @@ ggsave( "R Code and Analysis/Figs/beta_temporal_pairs_algae.svg", width =4, heig
 ### consider dbRDA with factor for year and site (and transect?)
 meta$year <- factor(meta$Year, ordered=F)
 meta$site <- factor(meta$Site, ordered=F)
-db1 <- dbrda( comm~year+Elevation, data=meta )
+db1 <- dbrda( comm~year+Elevation, distance="bray", data=meta )
+db2 <- dbrda( ifelse(comm>0,1,0)~year+Elevation, distance="jaccard", data=meta )
 plot(db1)
 os1 <- ordisurf( db1, meta$Elevation )
 ordiellipse( db1, meta$Zone, conf=0.6 )
@@ -251,11 +293,11 @@ names(centroid2) <- c("shift1","shift2","year")
 surv.cent <- left_join( surv.cent, centroid2  )
 surv.cent$year2 <- paste0("'",substr(surv.cent$year+1,start=3,stop=4))
 
-ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
+a <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
   # stat_contour(data = ordi.na, aes(x = x, y = y, z = z, colour = rev(..level..)),
   #              binwidth = 20)+ #can change the binwidth depending on how many contours you want
   geom_smooth( aes(group=year), method='lm', se=F, size=0.5,col='gray85') +
-  geom_point( data=sites, aes(shape=zone), size=1 ) +
+  geom_point( data=sites, aes(shape=zone), size=1 )  +
   # geom_smooth( aes(group=1), method='lm', se=F, size=0.5,col='gray25') +
   geom_path( data=surv.cent, aes(col=summer1),size=1 ) +
   geom_point( data=surv.cent, aes(fill=summer1), size=3, shape=21 ) + 
@@ -269,7 +311,7 @@ ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) +
   scale_color_gradientn(colours=pal2(100),limits=c(-2,2)) +
   theme_bw() + theme( panel.grid.major = element_blank(), 
                       panel.grid.minor = element_blank())
-ggsave("R Code and Analysis/Figs/rda_bwr_pal2.svg", width=4, height=3 )
+ggsave("R Code and Analysis/Figs/rda_bwr_pal2_PA.svg", width=4, height=3 )
 
 
 
@@ -279,7 +321,7 @@ windows(2,2)
 ggplot( surv.cent, aes(y=dbRDA2,x=winter) ) + geom_point()
 ggplot( surv.cent, aes(y=shift2,x=winter) ) + geom_point()
 ggplot( surv.cent, aes(y=shift2,x=summer) ) + 
-  # geom_smooth(method="lm",se=F) + 
+  geom_smooth(method="lm",se=T) + 
   geom_path() +
   geom_point(size=2) + 
   geom_text_repel(label=surv.cent$year2, 
@@ -297,31 +339,3 @@ ggplot( surv.cent, aes(y=dbRDA2,x=winter) ) +
 
 
 
-
-# show summer versus winter temperature anomaly
-as.survey.all <- anoms.season %>% 
-  # filter( year>=2010 ) %>% 
-  spread( key = season, value=temp.anom )
-
-ggplot( as.survey, aes(y=summer,x=winter) ) + 
-  geom_hline(yintercept=0) +
-  geom_vline(xintercept=0) +
-  geom_smooth(se=T,size=0.5) +
-  geom_point(size=2) +  geom_path(size=1) +
-  geom_text_repel(label=surv.cent$year, box.padding = 0.5) +
-  ylab(expression(paste("Summer SST anomaly (",degree,"C)"))) +
-  xlab(expression(paste("Winter SST anomaly (",degree,"C)"))) +
-  theme_bw()
-
-ggplot( as.survey.all, aes(y=summer,x=winter) ) + 
-  geom_hline(yintercept=0) +
-  geom_vline(xintercept=0) +
-  geom_smooth(se=T,size=0.5) +
-  geom_point(size=1,shape=1) +
-  geom_point(data=as.survey,size=2) +  geom_path(data=as.survey,size=1) +
-  geom_text_repel(data=as.survey,label=as.survey$year, box.padding = 0.5) +
-  ylab(expression(paste("Summer anomaly (",degree,"C)"))) +
-  xlab(expression(paste("Winter anomaly (",degree,"C)"))) +
-  theme_bw() +
-  theme( panel.grid.major = element_blank(), panel.grid.minor = element_blank() )
-ggsave( "R Code and Analysis/Figs/winter_summer_SST.svg", width=2, height=2 )

@@ -205,17 +205,18 @@ ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="fre
 windows(5,4)
 with( divvar2, cor.test(gmeanr, stability) )
 with( divvar, cor.test(meanr, 1/cva) )
-ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + 
+stab <- ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + 
   geom_smooth(method='glm',se=T,method.args=list(family="poisson")) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(fill=Zone,shape=Site),size=3) +
   ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")")) ) + 
-  xlab("Mean species richness") +
+  xlab("Mean algal species richness") +
   scale_shape_manual( values=21:23 ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
   scale_linetype_discrete(  guide=FALSE ) +
   # guides(fill = guide_legend(override.aes = list(shape = 21))) +
   theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
+stab
 ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
 
 # model stability by zone
@@ -299,6 +300,28 @@ b <- ggplot( synch, aes(x=Zone,y=phi)) + facet_wrap(~Site) +
         axis.ticks.x=element_blank())
 cowplot::plot_grid( b,a, ncol=1, rel_heights = c(1,1.5) )
 ggsave( "R Code and Analysis/Figs/synchrony_transect.svg", width=6, height=4 )
+
+# plot synchrony versus stability and richness
+synchrony <- synch %>% 
+  filter( !is.na(eai) ) %>% 
+  group_by( Site, Zone, phi ) %>%
+  summarize( richness = length(eai) )
+dsynch <- left_join( divvar2, synchrony )
+synchplot <- ggplot( dsynch, aes(x=gmeanr,y=phi,shape = Site, fill = Zone)) +
+  geom_smooth( aes(group=1), method="glm", method.args=list(family=quasibinomial))+ geom_point(size=3) +
+  scale_shape_manual( values=21:23, guide=FALSE ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
+  ylab( expression(paste("Species synchrony (",phi,")")) ) + xlab( "Mean algal species richness" ) +
+  theme_classic()
+ggplot( dsynch, aes(x=phi,y=stability,shape=Site, fill=Zone)) + 
+  # geom_smooth( aes(group=1), method="glm",method.args=list(family=quasipoisson),se=F) + 
+  geom_point() +
+  scale_shape_manual( values=21:23 ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  guides( fill=guide_legend("Zone",override.aes = list(shape = 21)) ) +
+  xlab( expression(paste("Species synchrony (",phi,")")) ) + ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")"))  ) +
+  theme_classic() #+ theme( legend.position = c(0.99,0.99), legend.justification = c(1,1) ) 
+ggsave( "R Code and Analysis/Figs/stability~synchrony.svg", width=3, height=3 )
 #
 
 
@@ -373,23 +396,45 @@ ggplot( ress_long, aes(x=gmeanr,y=(value),fill=Site)) +
   scale_y_continuous(trans="log2") +
   theme_bw()
 
-a <- ggplot( filter(ress_long,measure %in% c("O1","O2","O3","O4")), aes(x=as.numeric(as.factor(measure)),y=value)) +
-  geom_point() +
-  geom_smooth( method='lm') +
+resist <- ggplot( filter(ress_long,measure %in% c("O1","O2","O3","O4")), 
+                  aes(x=as.numeric(as.factor(measure)),y=value,fill=Zone,shape=Site)) +
+  geom_smooth( aes(group=Zone, lty=Zone), method='lm', se=F, col="black" ) +
+  geom_point(size=3) +
+  # geom_smooth( method='glm', method.args=list(family="quasipoisson")) +
   scale_y_continuous(trans="log2") +
-  xlab("year of heatwave") + ylab("resistance") +
-  theme_bw()
-  
-b <- ggplot( filter(ress_long,measure %in% c("D2")), aes(x=gmeanr,y=(value),fill=Site)) +
-  geom_point(size=3, alpha=0.5, pch=21) +
+  scale_shape_manual( values=21:23, guide=F ) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
-  geom_smooth(aes(group=1), method='lm') +
-  # geom_smooth(aes(group=1), method='glm',method.args=list(family=poisson)) +
-  scale_y_continuous(trans="log2") +
-  xlab("mean species richness") + ylab("resilience") +
-  theme_bw() + theme( legend.position = c(0.01,0.99),legend.justification = c(0,1)) 
-cowplot::plot_grid(a,b,ncol=2,rel_widths = c(1,1))
+  # scale_linetype_manual(guide=F ) +
+  guides(fill=guide_legend("Zone",override.aes = list(shape = 21))) +
+  xlab("Year of heatwave") + ylab(expression(paste("Resistance (",Omega,")"))) +
+  theme_classic() + theme( legend.position = c(0.99,0.99),legend.justification = c(1,1))
+summary(lm( value~as.numeric(as.factor(measure))*factor(Zone,ordered=F), data=filter(ress_long,measure %in% c("O1","O2","O3","O4")) ))
+summary(glm(value~as.numeric(as.factor(measure))+factor(Zone,ordered=F, levels=c("MID","LOW","HIGH")), 
+            data=filter(ress_long,measure %in% c("O1","O2","O3","O4")),
+            family="quasipoisson"))
+  
+resil <-  ggplot( filter(ress_long,measure %in% c("D2")), aes(x=gmeanr,y=(value))) +
+  # geom_smooth(aes(group=1), method='lm') +
+  geom_smooth(aes(group=1), method='glm',method.args=list(family='quasipoisson')) +
+  # scale_y_continuous(trans="log2") +
+  geom_point( aes(shape=Site,fill=Zone), size=3 ) +
+  xlab("Mean species richness") + ylab(expression(paste("Resilience (",Delta,")"))) +
+  scale_shape_manual( values=21:23 ) +
+  scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
+  theme_classic() + theme( legend.position = "none") #theme( legend.position = c(0.01,0.99),legend.justification = c(0,1)) 
+cowplot::plot_grid(resist,resil,ncol=2,rel_widths = c(1,1))
 ggsave( "R Code and Analysis/Figs/stability_resist_resil.svg", width=6, height=3 )
+summary(lm(value~gmeanr, data=filter(ress_long,measure %in% c("D2")) ))
+summary(glm(value~gmeanr, 
+            data=filter(ress_long,measure %in% c("D2")),
+            family="quasipoisson"))
+
+stabresil <- cowplot::plot_grid( stab, resil, ncol=2 )
+cowplot::plot_grid( stabresil, resist, ncol=1 )
+ggsave( "R Code and Analysis/Figs/stability+resist_resil.svg", width=6, height=5 )
+cowplot::plot_grid( stab, resil, resist, synchplot, ncol=2 )
+ggsave( "R Code and Analysis/Figs/stability+resist_resil_synch.svg", width=6, height=5 )
+
 
 library(purrr)
 library(broom)

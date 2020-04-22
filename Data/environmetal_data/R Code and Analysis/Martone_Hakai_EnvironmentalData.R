@@ -13,6 +13,9 @@ library(DataCombine)
 library(imputeTS)
 library(zoo)
 
+# set y axis limits for anomaly plots
+ylimits <- c(-3.5,3.5)
+
 #################################################
 ########Nutrient Data from QCS01#################
 ################################################
@@ -128,11 +131,11 @@ temp.pine.RockyTime<-InsertRow(temp.pine.RockyTime, NewRow=c(2015,1,NA,7.87, NA)
 
 #Interpolate those months
 
-temp.pine.RockyTime$Anomaly<-na.ma(temp.pine.RockyTime$Anomaly,k=12, weighting = "exponential")
+# temp.pine.RockyTime$Anomaly<-na.ma(temp.pine.RockyTime$Anomaly,k=12, weighting = "exponential")
 
 #Assign colour to temperature anomaly direction
 for (i in 1:length(temp.pine.RockyTime$Anomaly)) {
-if (temp.pine.RockyTime$Anomaly[i] > 0) {
+if ( all(c(!is.na(temp.pine.RockyTime$Anomaly[i]), temp.pine.RockyTime$Anomaly[i] > 0),na.rm=T) ) {
   temp.pine.RockyTime$An.col[i]<-"#B51D2C"
 } else {
   temp.pine.RockyTime$An.col[i]<-"#296BA8"
@@ -151,6 +154,23 @@ axis(1, at=seq(0,12*8,12), labels = seq(2011,2019,1), srt=45, cex=2)
 #lines(movavg(temp.pine.RockyTime$Anomaly, 4, type="s"),lwd=2,lty=1)
 box()
 ####Export 3 x 5.5
+
+# set x limits
+xlimits <- range(temp.pine.RockyTime$Date)
+
+yprange <- temp.pine.RockyTime %>% filter(Year > 2010 ) %>% ungroup() %>% select(Anomaly) %>% range(na.rm=T)
+yp <- round(yprange)
+diffp <- diff(c(yp[1],ylimits[1]))
+png(filename="Data/environmetal_data/R Code and Analysis/figs/anomaly_pine.png", units="in", res=300, width=5, height=3, pointsize=15)
+par(mar=c(3,5,1,1)+0.1,las=1, bg=NA, lend=2 )
+plot(Anomaly~Date, data=temp.pine.RockyTime, col=temp.pine.RockyTime$An.col, type="n", axes=F,
+     ylim=ylimits, xlim=xlimits,
+     ylab = expression(paste("SST anomaly (", degree, "C)")), xlab="" )
+# rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "white")
+points( Anomaly~Date, data=temp.pine.RockyTime, col=temp.pine.RockyTime$An.col, type="h", lwd=4 )
+axis( 2, at = yp[1]:yp[2] )
+axis.Date( x = ad.anon$Date, side = 1, line = 0+diffp, at = seq.Date(xlimits[1],xlimits[2],by="year") )
+dev.off()
 
 # write data to disk
 write.csv( temp.pine.RockyTime, "Data/Environmental Data/PineIsland_anomaly.csv", row.names=FALSE )
@@ -207,6 +227,7 @@ temp.mc.RockyTime$Date<-as.Date(temp.mc.RockyTime$Date)
 
 temp.mc.narrow<-data.frame(temp.mc.RockyTime$Date, temp.mc.RockyTime$Temperature, temp.mc.RockyTime$Anomaly,temp.mc.RockyTime$An.col )
 colnames(temp.mc.narrow)<-c("Date", "Temperature.mc", "Anomaly.mc", "An.col.mc")
+temp.mc.narrow$An.col.mc <- as.character( temp.mc.narrow$An.col.mc )
 temp.compare<-left_join(temp.pine.RockyTime,temp.mc.narrow, by="Date")
 
 
@@ -219,6 +240,20 @@ axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7,12*8), labels = seq(2011,2019,1), srt=
 #lines(movavg(temp.pine.RockyTime$Anomaly, 4, type="s"),lwd=2,lty=1)
 box()
 ####Export 3 x 5.5
+
+ymrange <- temp.compare %>% filter(Year > 2010 ) %>% ungroup() %>% select(Anomaly.mc) %>% range(na.rm=T)
+ym <- round(ymrange)
+diffm <- diff(c(ym[1],ylimits[1]))
+png(filename="Data/environmetal_data/R Code and Analysis/figs/anomaly_mcinnis.png", units="in", res=300, width=5, height=3, pointsize=15)
+par(mar=c(3,5,1,1)+0.1,las=1, bg=NA, lend=2 )
+plot(Anomaly.mc~Date, data=temp.compare, col=temp.compare$An.col.mc, type="n", axes=F,
+     ylim=ylimits, xlim=xlimits,
+     ylab = expression(paste("SST anomaly (", degree, "C)")), xlab="" )
+# rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "white")
+points( Anomaly.mc~Date, data=temp.compare, col=temp.compare$An.col.mc, type="h", lwd=4 )
+axis( 2, at = ym[1]:ym[2] )
+axis.Date( x = ad.anon$Date, side = 1, line = 0.5+diffm, at = seq.Date(xlimits[1],xlimits[2],by="year") )
+dev.off()
 
 ##Average anomalies from both light stations 
 temp.compare$Average <- (temp.compare$Temperature+temp.compare$Temperature.mc, na.rm = TRUE)
@@ -264,7 +299,7 @@ ad.2016<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_ye
 ad.2017<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2017.csv", skip=24, stringsAsFactors = FALSE)
 ad.2018<-read.csv("Data/environmetal_data/Addenbroke Air Temperature/separate_years/2018.csv", skip=24, stringsAsFactors = FALSE)
 
-#take only the first 10 rows, which contain temperature and date info
+#take only the first 10 columns, which contain temperature and date info
 ad.1985<-ad.1985[,1:10]
 ad.1986<-ad.1986[,1:10]
 ad.1987<-ad.1987[,1:10]
@@ -327,17 +362,19 @@ names(ad.anon)<-c("Year","Month", "Temp", "BaselineTemp")
 ad.anon$Anomaly <- ad.anon$Temp - ad.anon$BaselineTemp
 
 #Interpolate missing values for three months
-ad.anon$Anomaly<-na.ma(ad.anon$Anomaly,k=12, weighting = "exponential")
+# ad.anon$Anomaly<-na.ma(ad.anon$Anomaly,k=12, weighting = "exponential")
 
 #Create dummy variable that determines colour
 for (i in 1:length(ad.anon$Anomaly)) {
-  if (ad.anon$Anomaly[i] > 0) {
+  if ( all(c(!is.na(ad.anon$Anomaly[i]), ad.anon$Anomaly[i] > 0),na.rm=T) ) {
     ad.anon$An.col[i]<-"#B51D2C"
   } else {
     ad.anon$An.col[i]<-"#296BA8"
   }
 }
 
+ad.anon$Date<-as.yearmon(paste(ad.anon$Year, ad.anon$Month), "%Y %m")
+ad.anon$Date<-as.Date(ad.anon$Date)
 
 
 #Air Temp
@@ -347,4 +384,19 @@ title(ylab=expression(paste("Temperature (", degree, "C)")), line=2, cex.lab=1.2
 axis(1, at=c(0,12,24,36,48,12*5,12*6,12*7,12*8), labels = seq(2011,2019,1), srt=45)
 #lines(movavg(temp.pine.RockyTime$Anomaly, 4, type="s"),lwd=2,lty=1)
 box()
+
+# set custom locations for plotting axes
+yarange <- ad.anon %>% filter(Year > 2010 ) %>% ungroup() %>% select(Anomaly) %>% range(na.rm=T)
+ya <- round(yarange)
+diffa <- diff(c(ya[1],ylimits[1]))
+png(filename="Data/environmetal_data/R Code and Analysis/figs/anomaly_addenbrooke.png", units="in", res=300, width=5, height=3, pointsize=15)
+par(mar=c(3,5,1,1)+0.1,las=1, bg=NA, lend=2, bty="n" )
+plot(Anomaly~Date, data=ad.anon, col=ad.anon$An.col, type="n", 
+     ylim=ylimits, xlim=xlimits,
+     ylab = expression(paste("AT anomaly (", degree, "C)")), xlab="", axes=F )
+# rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "white")
+points( Anomaly~Date, data=ad.anon, col=ad.anon$An.col, type="h", lwd=4 )
+axis( 2, at = ya[1]:ya[2] )
+axis.Date( x = ad.anon$Date, side = 1, line = 0+diffa, at = seq.Date(xlimits[1],xlimits[2],by="year") )
+dev.off()
 

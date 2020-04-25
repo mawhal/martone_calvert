@@ -4,17 +4,17 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Palmaria hecatensis"
+taxon <- "Bare"
 
 # taxa with predicted increases over time
-taxon <- "Mytilus"
-# taxon <- "Lithophyllum"
-# taxon <- "Neopolyporolithon reclinatum"
-# taxon <- "Lithothamnion phymatodeum"
-# taxon <- "Dilsea.californica"
-# sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
-
-taxon <- "Alaria"
+# taxon <- "Mytilus"
+# # taxon <- "Lithophyllum"
+# # taxon <- "Neopolyporolithon reclinatum"
+# # taxon <- "Lithothamnion phymatodeum"
+# # taxon <- "Dilsea.californica"
+# # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
+# 
+# taxon <- "Alaria"
 
 # set options
 options(stringsAsFactors = FALSE)
@@ -32,10 +32,15 @@ am <- read.csv("Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.c
 
 
 
-# taxa to remove...for now
+# taxa to remove
 ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 
-
+# customize sites and years
+years <- 2012:2019
+sites <- c("West Beach", "Fifth Beach", "North Beach")
+metause <- am %>% 
+  filter( Year %in% years ) %>% 
+  filter( Site %in% sites )
 
 ## Customizations to carry through to figures
 
@@ -50,9 +55,11 @@ dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_lumped2 ), ]
 # merge data and metadata
 # get all instances of a particular taxon
 # to include all quadrats us full_join, or use left_join for quads with the taxon
-d <- full_join( dtax, am )
+d <- full_join( dtax, metause )
 d$Abundance[ is.na( d$Abundance) ] <- 0
-
+# get rid of bad merging
+d <- d %>% 
+  filter( !is.na(Site), !is.na(Zone) )
 
 
 
@@ -78,9 +85,11 @@ d$Abundance <- as.numeric( d$Abundance )
 # define leveles for zones
 d$Zone <- factor( d$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
 # define Site order
-d$Site <- factor( d$Site, levels = c("Fifth Beach", "West Beach", "North Beach", "Meay Channel"))
+d$Site <- factor( d$Site, levels = sites )
 # define Year factor
 d$Year <- factor( d$Year, ordered= TRUE )
+
+
 
 # all sites
 # time trends in different tidal zones
@@ -91,7 +100,7 @@ windows(5,6)
     stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
     stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
     geom_point( alpha=0.4,col='slateblue' ) + ggtitle( taxon ) + 
-    xlab("Year") +
+    xlab("Year") + ylab("Cover (%)") +
     scale_x_continuous(breaks = seq(2010,2018,2) ) )
 
 ggsave( paste0("R Code and Analysis/Figs/",taxon,"_zone.pdf"), ggzone, "pdf" )

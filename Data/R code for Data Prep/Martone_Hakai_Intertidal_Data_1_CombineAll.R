@@ -14,7 +14,6 @@
 ###################################################
 ###
 ### code created by Matt Whalen, 3 April 2018
-### updated 29 January 2019
 
 
 # load libraries
@@ -158,7 +157,9 @@ str( all.list, max.level = 2 )
 
 ### rbind data
 all.data <- do.call( rbind, all.list[[2]] )
-all.data
+# change West Beach to Foggy Cove
+all.data$SiteHeightYear <- gsub("West Beach", "Foggy Cove", all.data$SiteHeightYear)
+
 
 ### combine metadata
 # extract metadata from list
@@ -169,6 +170,8 @@ all.meta <- Reduce( full_join, meta.list ) # some warnings are okay here
 all.meta$Date <- as.Date( as.numeric(all.meta$Date), origin = "1899-12-30")
 # correct all spelling of Meay Channel
 all.meta$SiteHeightYear <- gsub("Maey", "Meay", all.meta$SiteHeightYear)
+# change West Beach to Foggy Cove
+all.meta$SiteHeightYear <- gsub("West Beach", "Foggy Cove", all.meta$SiteHeightYear)
 # expand SiteHeightYear into three separate columns
 splits <- strsplit( all.meta$SiteHeightYear, split=" " ) 
 all.meta$Site   <- unlist( lapply( splits, function(z) paste( z[1], z[2], sep=" " ) ) )
@@ -180,7 +183,6 @@ all.meta <- all.meta %>%
   mutate( UID = paste(SiteHeightYear,Quadrat)) # UID = Unique IDentifier
 
 # currently meter point has lots of different values
-sort(unique( all.meta$Meter.point ))
 # get rid of spaces and comments
 all.meta$Meter.point[ all.meta$Meter.point == "   30" ] <- 30
 all.meta$Meter.point[ all.meta$Meter.point == "   45" ] <- 45
@@ -188,6 +190,7 @@ all.meta$Meter.point[ all.meta$Meter.point == "11 (instead of 12)" ] <- 11
 all.meta$Meter.point[ all.meta$Meter.point == "16 (instead of 15)" ] <- 16
 # make Meter point numeric and round it
 all.meta$Meter.point <- round( as.numeric( all.meta$Meter.point) )
+sort(unique( all.meta$Meter.point ))
 
 # simplify data to contain only the UID, taxon, and abundance
 all.data <- left_join( all.data, all.meta[,c('Quadrat','SiteHeightYear','UID')])
@@ -206,7 +209,7 @@ all.data <- all.data %>% select( UID, Taxon, Abundance )
 # read elevation data
 elev <- read_xlsx( "Data/Shore Heights Elevation/Elevation_transects2014_2.xlsx" )
 # rename entries in Site and Zone
-elev$Site <- plyr::revalue( elev$Site, c("North"="North Beach", "Fifth"="Fifth Beach", "West"="West Beach") )
+elev$Site <- plyr::revalue( elev$Site, c("North"="North Beach", "Fifth"="Fifth Beach", "West"="Foggy Cove") )
 # make zone designations all upper case
 elev <- plyr::mutate( elev, Zone=toupper(Zone) )
 # select and rename columns
@@ -240,7 +243,7 @@ geo$Site <- unlist( lapply( strsplit( geo$ID, split = "_", fixed=T ), function(z
 geo$Site[ geo$Site=="nb" ] <- "North Beach"
 geo$Site[ geo$Site=="5th" ] <- "Fifth Beach"
 geo$Site[ geo$Site=="Meay" ] <- "Meay Channel"
-geo$Site[ geo$Site=="Foggy" ] <- "West Beach"
+geo$Site[ geo$Site=="Foggy" ] <- "Foggy Cove"
 # define zones
 geo$Zone <- unlist( lapply( strsplit( geo$ID, split = "_", fixed=T ), function(z) z[2] ) )
 # manualy rename zones
@@ -279,7 +282,7 @@ all.meta %>%
 # In addition, taxa might change over the years, and they need consistent labels
     # in a different script, use the Master Species Codes spreadsheet to adjust names
 # SiteHeightYear (the column used to merge data and metadata) also has some inconsistency over time
-  # Matt manually changed this for the excel files
+  # Matt Whalen manually changed this for the excel files
 
 # Save these and consider this script done...for now
 dim( all.data )

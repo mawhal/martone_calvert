@@ -59,6 +59,7 @@ d.simple <- d %>%
   group_by( UID, taxon_lumped2 ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T))
 
+
 # spread Taxon column out into many columns filled with abundance/cover data
 d.comm <- d.simple %>%
   tidyr::spread( taxon_lumped2, Abundance, fill=0 )

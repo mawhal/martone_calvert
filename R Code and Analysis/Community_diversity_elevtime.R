@@ -76,7 +76,7 @@ mclean <- muse
 # define levels for zones
 mclean$Zone <- factor( mclean$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
 # define Site order
-mclean$Site <- factor( mclean$Site, levels = c("West Beach", "Fifth Beach", "North Beach" ))
+mclean$Site <- factor( mclean$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 # define Year factor
 # mclean$Year <- factor( mclean$Year, ordered= TRUE )
 mclean$transect <- with( mclean, paste(Site,Zone,Year,sep = " ") )
@@ -119,29 +119,108 @@ psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shanno
 
 
 # look at patterns over time
-ggplot( mclean, aes(y=simpson,x=Shore_height_cm,col=Year)) + 
-  geom_smooth(aes(group=Year), method='loess',se=T,alpha=0.15) + viridis::scale_color_viridis(option = "E")
-ggplot( mclean, aes(y=simpson,x=Shore_height_cm,col=Year)) + 
-  geom_point(alpha=0.5) + viridis::scale_color_viridis(option = "E")
-mean_zone <- mclean %>% group_by(Year,Zone) %>% 
+# ggplot( mclean, aes(y=simpson,x=Shore_height_cm,col=Year)) +
+#   geom_smooth(aes(group=Year), method='loess',se=T,alpha=0.15) + viridis::scale_color_viridis(option = "E")
+# ggplot( mclean, aes(y=shannon,x=Shore_height_cm,col=Year)) +
+#   geom_smooth(aes(group=Year), method='loess',se=T,alpha=0.15) + viridis::scale_color_viridis(option = "E")
+# ggplot( mclean, aes(y=enspie,x=Shore_height_cm,col=Year)) +
+#   geom_smooth(aes(group=Year), method='loess',se=T,alpha=0.15) + viridis::scale_color_viridis(option = "E")
+# ggplot( mclean, aes(y=simpson,x=Shore_height_cm,col=Year)) +
+#   geom_point(alpha=0.5) + viridis::scale_color_viridis(option = "E")
+mean_zone <- mclean %>% group_by(Year,Zone) %>%
   summarise( enspie=mean(enspie),richness=mean(richness),shannon=mean(shannon), simpson=mean(simpson),Shore_height_cm=mean(Shore_height_cm,na.rm=T) )
 ggplot( mclean, aes(y=enspie,x=Shore_height_cm,col=Zone)) + facet_wrap(~Year) +
   geom_point(alpha=0.67) + #col='slateblue',
     # geom_smooth(aes(group=Zone),method='loess',se=T,col='black',method.args = list(family = "gaussian")) +
-  geom_smooth(aes(group=1),method='loess',se=T,col='black',method.args = list(family = "gaussian")) +
+  geom_smooth(aes(group=1),method='loess',se=T,col='black',method.args = list(family = "symmetric")) +
   geom_point(aes(fill=Zone), data=mean_zone,size=3,shape=21, col='black') +
-  xlab("Shore height (m above MLLW)") + ylab("Effective number of species") +
-  scale_x_continuous(breaks=c(100,200,300),labels=c(1,2,3)) + 
-  scale_color_viridis(discrete=TRUE, begin = 0.9,end = 0) +
-  scale_fill_viridis(discrete=TRUE, begin = 0.9,end = 0) +
+  xlab("Shore height (m above LLWLT)") + ylab("Effective number of species") +
+  scale_x_continuous(breaks=c(100,200,300),labels=c(1,2,3)) +
+  scale_y_continuous(trans = "log2") +
+  scale_color_viridis_d( begin = 0.9,end = 0) +
+  scale_fill_viridis_d( begin = 0.9,end = 0) +
   # scale_y_continuous(trans='log2') +
   theme_bw()
-ggplot( filter(mclean,Year%in%c(2012,2019)), aes(y=enspie,x=Shore_height_cm,group=Year,col=Year)) + 
-  geom_point( alpha=0.75 ) +
-  geom_smooth(method='loess',se=T,method.args = list(family = "symmetric")) +
-    xlab("Shore height (m above MLLW)") + ylab("ENSPIE") +
-  scale_x_continuous(breaks=c(100,200,300),labels=c(1,2,3)) + 
-  scale_y_continuous(breaks=seq(0,12,2)) +
+ggsave( "R Code and Analysis/Figs/diversity_height.pdf",width=6,height=5)
+# ggplot( filter(mclean,Year%in%c(2012,2019)), aes(y=enspie,x=Shore_height_cm,group=Year,col=Year)) +
+#   geom_point( alpha=0.75 ) +
+#   geom_smooth(method='loess',se=T,method.args = list(family = "symmetric")) +
+#     xlab("Shore height (m above MLLW)") + ylab("ENSPIE") +
+#   scale_x_continuous(breaks=c(100,200,300),labels=c(1,2,3)) +
+#   scale_y_continuous(breaks=seq(0,12,2)) +
+#   theme_bw()
+
+#
+
+
+
+# make mclean longer and include both richness and ENSPIE in the same figure
+mlong <- mclean %>%
+  select( transect, Site, Zone, Year, Shore_height_cm, enspie, richness ) %>%
+  group_by( transect, Site, Zone, Year, Shore_height_cm ) %>%
+  gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm )
+
+mlong$Measure[mlong$Measure=="enspie"] <- "Effective"
+mlong$Measure[mlong$Measure=="richness"] <- "Total"
+mlong$Measure2 <- mlong$Measure
+mlong$Measure2[mlong$Measure2=="Effective"] <- "ENSPIE"
+mlong$Measure2[mlong$Measure2=="Total"] <- "Richness"
+
+
+ggplot(mlong, aes(x=Year, y=species, col=Measure2, shape=Measure2) ) + 
+  geom_point(aes(alpha=Measure2)) + facet_grid(Site~Zone) +
+  # geom_smooth( method='gam', formula = y ~ s(x, bs = "cs",k=7) ) +
+  geom_smooth( se=T, lty=1, lwd=0.5 )+
+  scale_color_manual( values=c("gray50","black")) +
+  scale_shape_manual( values=c(1,19) ) +
+  scale_alpha_manual( values=c(1,0.5) ) +
+  ylab( "Number of species" ) +
+  scale_y_continuous(trans='log2') +
+  theme_bw()
+ggsave( "R Code and Analysis/Figs/diversity_time.pdf", width=6, height=5 )
+
+ggplot( filter(mlong,Measure=="Total"), aes(x=Year, y=species) ) + 
+  geom_point(alpha=0.5) + facet_grid(Site~Zone) +
+  geom_smooth( se=T, lty=1, lwd=0.5 )+
+  ylab( "Number of species" ) +
+  theme_bw()
+ggplot( filter(mlong,Measure=="Effective"), aes(x=Year, y=species) ) + 
+  geom_point(alpha=0.5) + facet_grid(Site~Zone) +
+  geom_smooth( se=T, lty=1, lwd=0.5 )+
+  ylab( "Number of species" ) +
+  scale_y_continuous(trans='log2') +
   theme_bw()
 
-# 
+# variance in species riness + enspie
+msum <- mlong %>% 
+  group_by( Site, Zone, Measure ) %>% 
+  summarize( sp.var=sd(species), sp.cv=sd(species)/mean(species) )
+
+ggplot( msum, aes(x=Zone, y=sp.cv) ) + geom_point()
+
+
+
+# model time to test for years for significant deviations
+library( lme4 )
+mlong <- unite( mlong, transect, Site, Zone, remove = F )
+mlong$Yearcent <- scale(mlong$Year)
+m1 <- lmer( species~factor(Zone,ordered=F)*factor(Year, ordered = F) + (1|transect), 
+            data=filter(mlong,Measure=="Total") )
+summary(m1)
+anova(m1)
+plot(m1)
+# linear effect of time
+m1a <- lmer( species~factor(Zone,ordered=F)*Yearcent + (1|transect), 
+            data=filter(mlong,Measure=="Total") )
+summary(m1a)
+## effective number of species
+m2 <- lmer( log2(species)~factor(Zone,ordered=F)*factor(Year,ordered=F) + (1|transect), 
+            data=filter(mlong,Measure=="Effective") )
+summary(m2)
+anova(m2)
+plot(m2)
+lattice::dotplot( ranef(m2), main = F )
+# linear effect of time?
+m2a <- lmer( log(species)~factor(Zone,ordered=F)*Yearcent + (1|transect), 
+            data=filter(mlong,Measure=="Effective") )
+summary(m2a)

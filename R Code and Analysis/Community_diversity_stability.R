@@ -27,9 +27,8 @@ am <- am[ am$Site != "Meay Channel", ]
 # make it easier by replacing NA values for substratum
 ds <- ad
 ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
-ds <- ds[ ds$motile_sessile=="sessile" & !is.na(ds$motile_sessile), ]
-ds <- ds[ ds$non.alga.flag=="Algae" & !is.na(ds$non.alga.flag), ]
-
+ds <- ds %>% filter( motile_sessile=="sessile", !is.na(non.alga.flag) )  %>%
+  mutate( Taxon=taxon_lumped3)
 
 
 d <- ds
@@ -43,7 +42,7 @@ d$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
 # restrict this to sessile taxa
 d.simple <- d %>%
   # filter( motile_sessile=="sessile" ) %>%
-  group_by( UID, transect, taxon_lumped ) %>%
+  group_by( UID, transect, Taxon, non.alga.flag ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T)) %>% 
   arrange(UID)
 # # calculate average abundance by transect
@@ -52,9 +51,13 @@ d.simple <- d %>%
 #   summarize( Abundance=mean(Abundance, na.rm=T))
 
 # spread Taxon column out into many columns filled with abundance/cover data
-d.comm <- d.simple %>%
-  spread( taxon_lumped, Abundance, fill=0 )
-
+d.comm.all  <- d.simple %>%
+  select( -non.alga.flag ) %>% 
+  spread( Taxon, Abundance, fill=0 )
+d.comm.algae <- d.simple %>%
+  filter( non.alga.flag == "Algae" ) %>% 
+  select( -non.alga.flag ) %>% 
+  spread( Taxon, Abundance, fill=0 )
 
 # merge meta data so we can chop things up and summarize across sites, zones, etc.
 # first, remove rows from data that are not in the restricted metadata
@@ -64,7 +67,8 @@ muse$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " "))
 muse <- arrange(muse,UID)
 
 # restrict to rows selected in metadata
-d.comm <- d.comm[ d.comm$transect %in% muse$transect, ] 
+d.comm.all <- d.comm.all[ d.comm.all$transect %in% muse$transect, ] 
+d.comm.algae <- d.comm.algae[ d.comm.algae$transect %in% muse$transect, ] 
 
 
 # # there is a quadrat without any metadata, remove this from the metadata
@@ -75,7 +79,7 @@ mclean <- muse
 # define levels for zones
 mclean$Zone <- factor( mclean$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
 # define Site order
-mclean$Site <- factor( mclean$Site, levels = c("West Beach", "Fifth Beach", "North Beach" ))
+mclean$Site <- factor( mclean$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 # define Year factor
 # mclean$Year <- factor( mclean$Year, ordered= TRUE )
 mclean$transect <- with( mclean, paste(Site,Zone,Year,sep = " ") )
@@ -88,39 +92,47 @@ mtrans <- mclean %>%
 # cbind( d.comm.order$transect, mtrans$transect )
 
 # remove UID column from community data
-comm <- as.matrix(d.comm[,-c(1,2)])
+comm.all <- as.matrix(d.comm.all[,-c(1:2)])
+comm.algae <- as.matrix(d.comm.algae[,-c(1:2)])
 
-anti_join(d.comm[,1:2], mclean[,c("UID", "transect")] )
-anti_join(mclean[,c("UID", "transect")] , d.comm[,1:2]  )
+anti_join(d.comm.all[,1:2], mclean[,c("UID", "transect")] )
+anti_join(mclean[,c("UID", "transect")] , d.comm.all[,1:2]  )
 # add a line to d.comm to get missing samples
 
+# combine in a list
+comm <- list(comm.all,comm.algae)
 
 ## Steps
-# for each quadrat, calculate richness, Shannon diversity, Simpson Diversity, and ENSPIE
-## Total abundance - also used for ENSPIE below
-d.comm$total.cover <- rowSums( comm )
-## shannon
-d.comm$shannon <- diversity( comm, "shannon" )
-## simpson
-d.comm$simpson <- diversity( comm, "simpson" )
 ## ENSPIE
 # the function
 ENSPIE <- function(prop){
   ifelse( sum(prop,na.rm=T)>0, 1 / sum(prop^2, na.rm=T), NA ) 
 } 
-prop <- comm/d.comm$total.cover
-d.comm$enspie <- apply( prop, 1, ENSPIE )
-# richness
-pa <- ifelse( comm>0, 1, 0)
-d.comm$richness <- rowSums( pa )
-mclean <- left_join( mclean, select( d.comm, UID, transect, total.cover, shannon, simpson, enspie, richness ) )
+# for each quadrat, calculate richness, Shannon diversity, Simpson Diversity, and ENSPIE
+divcalcs <- function( z ){
+  total.cover = rowSums( z )
+  pa = ifelse( z>0, 1, 0)
+  richness = rowSums( pa )
+  shannon = diversity( z, "shannon" )
+  simpson = diversity( z, "simpson" )
+  prop = z / total.cover
+  enspie = apply( prop, 1, ENSPIE )
+  return( data.frame(total.cover,richness,shannon,simpson,enspie) )
+}
+divs <- lapply( comm, divcalcs )
+divsdf <- bind_rows(divs, .id = "source")
+divsdf$source <- factor( divsdf$source, levels=c("1","2"), labels=c("all","algae") )
+ddf <- bind_rows( list(d.comm.all[,1:2],d.comm.algae[,1:2]) )
+# ddf$source <- factor( ddf$source, levels=c("1","2"), labels=c("all","algae") )
+dd <- bind_cols( ddf, divsdf )
+
+mclean <- left_join( mclean, dd )
 # replace NA
 mclean <- mclean %>% replace_na(list(total.cover = 0, shannon = 0, simpson = 0, enspie = 0, richness = 0))
 
-# splom for all quadrat summaries
-psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shannon,simpson,enspie), 
-              scale=F, ellipses = FALSE )
-# for each quadrat, calculate total cover of algae -- then use this to calculate Coefficient of Variation
+# # splom for all quadrat summaries
+# psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shannon,simpson,enspie),
+#               scale=F, ellipses = FALSE )
 
 
 # # look at patterns over time
@@ -134,17 +146,18 @@ psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shanno
 
 # make mclean longer and include both richness and ENSPIE in the same figure
 mlong <- mclean %>%
-  select( transect, Site, Zone, Year, Shore_height_cm, enspie, richness ) %>%
-  group_by( transect, Site, Zone, Year, Shore_height_cm ) %>%
-  gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm )
+  select( transect, Site, Zone, Year, source, Shore_height_cm, enspie, richness ) %>%
+  group_by( transect, Site, Zone, Year, source, Shore_height_cm ) %>%
+  gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm, -source )
 
 mlong$Measure[mlong$Measure=="enspie"] <- "Effective"
 mlong$Measure[mlong$Measure=="richness"] <- "Total"
 
+# read bar rock data
 
 # consider the range of variation in estimates over time
 divvar <- mclean %>%
-  group_by( Site, Zone ) %>%
+  group_by( source, Site, Zone ) %>%
   summarise( meana=mean(total.cover), ea=sd(total.cover),
              meanr=mean(richness), er=sd(richness),
              meand=mean(shannon), ed=sd(shannon),
@@ -153,27 +166,32 @@ divvar <- mclean %>%
              elev = mean(Shore_height_cm,na.rm=T) ) %>%
   mutate( cva = ea/meana, cvr = er/meanr, cvd = ed/meand, cvs = es/means, cve = ee/meane )
 
-ggplot( divvar, aes(x=meanr,y=cva) ) + geom_point() +
-  ylab( "CV( total algal % cover )") + xlab("Mean transect species richness")
+ggplot( divvar, aes(x=meanr,y=cva,col=source) ) + geom_point() +
+  ylab( "CV( % cover )") + xlab("Mean transect species richness")
 ggplot( divvar, aes(x=elev,y=cva,size=meanr,col=Site) ) + geom_point() +
   ylab( "CV( total algal % cover )") + xlab("Mean transect elevation (cm)")
 
 # collapse and plot all together
 divplot <- divvar %>% 
-  group_by(Site, Zone, cva) %>% 
-  gather(key="estimate",value="mean", meanr, meand, means, meane )
+  group_by(Site, Zone, source, cva) %>% 
+  gather(key="metric",value="mean", meanr, meand, means, meane )
 
-ggplot( data=divplot, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="free") + 
+ggplot( data=divplot, aes(x=mean, y=1/cva)) + facet_grid(source~metric, scales="free") + 
   geom_smooth(method='lm',se=T) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(col=Site,size=Zone))
 
-
+# compare variation by transect
+divplot2 <- divvar %>% 
+  group_by(Site, Zone, source, cva) %>% 
+  gather(key="metric",value="sd", er, ed, es, ee )
+ggplot( data=divplot2,aes(y=sd,x=Zone,col=Site)) +  facet_grid(source~metric, scales="free") + 
+  geom_point()
 
 ## above calculations include variation across and within times, 
 # exclude this variation within time becuase different quads sampled over time?
 yearly <- mclean %>% 
-  group_by( Site, Zone, Year ) %>% 
+  group_by( Site, Zone, Year, source ) %>% 
   summarize( meana=mean(total.cover), 
              meanr=mean(richness),
              meand=mean(shannon),
@@ -182,7 +200,7 @@ yearly <- mclean %>%
 
 # summarize over time
 divvar2 <- yearly %>%
-  group_by( Site, Zone ) %>%
+  group_by( Site, Zone, source ) %>%
   summarise( gmeana=mean(meana), ea=sd(meana),
              gmeanr=mean(meanr), er=sd(meanr),
              gmeand=mean(meand), ed=sd(meand),
@@ -191,21 +209,54 @@ divvar2 <- yearly %>%
   mutate( cva = ea/gmeana, cvr = er/gmeanr, cvd = ed/gmeand, cvs = es/gmeans, cve = ee/gmeane,
           stability=gmeana/ea )
 
+# initial diversities
+inits <- yearly %>% filter( Year==2012 )
+divvar2 <- left_join(divvar2, inits)
+
 # collapse and plot all together
 divplot2 <- divvar2 %>% 
-  group_by(Site, Zone, cva) %>% 
-  gather(key="estimate",value="mean", gmeanr, gmeand, gmeans, gmeane )
+  group_by(Site, Zone, source, cva) %>% 
+  gather(key="metric",value="mean", gmeanr, gmeand, gmeans, gmeane, meanr, meand, means, meane )
 
-ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_wrap(~estimate, scales="free") + 
+ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_grid(source~metric, scales="free") + 
   geom_smooth(method='lm',se=T) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(col=Site,size=Zone))
 
+# compare variation by transect
+divplot2 <- divvar2 %>% 
+  group_by(Site, Zone, source, cva) %>% 
+  gather(key="metric",value="sd", er, ed, es, ee )
+ggplot( data=divplot2,aes(y=sd,x=Zone,col=Site)) +  facet_grid(source~metric, scales="free") + 
+  geom_point()
+divplot2$Zone <-  factor( divplot2$Zone, ordered=F, levels=c("MID","LOW","HIGH"))
+library(tidyr)
+library(purrr)
+library(broom)
+divplot2 %>%
+  ungroup() %>% 
+  filter(metric %in% c("er","ee")) %>% 
+  nest(-source,-metric) %>% 
+  mutate(
+    fit = map(data, ~ (lm(sd ~ Zone, data = .x))),
+    tidied = map(fit, tidy)
+  ) %>% 
+  unnest(tidied)
+divplot2 %>%
+  ungroup() %>%
+  filter(metric %in% c("er","ee")) %>% 
+  nest(-metric,-source) %>% 
+  mutate(
+    fit = map(data, ~ anova(lm(sd ~ Zone, data = .x))),
+    tidied = map(fit, tidy)
+  ) %>% 
+  unnest(tidied)
 
-windows(5,4)
 with( divvar2, cor.test(gmeanr, stability) )
-with( divvar, cor.test(meanr, 1/cva) )
-stab <- ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + 
+with( divvar2, cor.test(meanr, stability) )
+divvar2 %>% group_by( Site, Zone) %>% summarize(diff=diff(stability))
+stab <- ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + #x=gmeanr
+  facet_wrap(~source) +
   geom_smooth(method='glm',se=T,method.args=list(family="poisson")) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(fill=Zone,shape=Site),size=3) +
@@ -222,30 +273,31 @@ ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, heigh
 # model stability by zone
 library(lme4)
 library(lmerTest)
-divvar2$Zone2 <- relevel( factor(divvar2$Zone, ordered=F), ref="MID" )
-contrasts(divvar2$Zone2) <- matrix( c(1,-0.5,-0.5,1,0,-1),ncol=2)
-me1 <- lmer( stability ~ Zone2 + (1|Site), data=divvar2 )
-summary(me1)
-anova(me1)
-me2 <- lmer( stability ~ gmeanr + (1|Site), data=divvar2 )
-summary(me2)
-anova(lm( stability ~ Zone2, data=divvar2 ))
-summary(lm( stability ~ Zone2, data=divvar2 ))
-summary(lm(stability ~ gmeanr, data=divvar2))
+divvar2$Zone2 <- relevel( factor(divvar2$Zone, ordered=F), ref="LOW" )
+divvar2$Zone3 <- as.character(divvar2$Zone2)
+divvar2$Zone3[ divvar2$Zone3=="MID"] <- "HIGH"
+divvar2$Zone3 <- factor(divvar2$Zone3)
+# contrasts(divvar2$Zone2) <- matrix( c(1,-0.5,-0.5,1,0,-1),ncol=2)
+anova(lm( stability ~ Zone, data=filter(divvar2,source=="all") ))
+anova(lm( stability ~ Zone, data=filter(divvar2,source=="algae") ))
+anova(lm( stability ~ Zone3, data=filter(divvar2,source=="algae") ))
+summary(lm( stability ~ Zone2, data=filter(divvar2,source=="all") ))
+summary(lm( stability ~ Zone2, data=filter(divvar2,source=="algae")))
+summary(lm( stability ~ gmeanr, data=filter(divvar2,source=="all") ))
+summary(lm( stability ~ gmeanr, data=filter(divvar2,source=="algae")))
+summary(lm( stability ~ meanr, data=filter(divvar2,source=="all") ))
+summary(lm( stability ~ meanr, data=filter(divvar2,source=="algae")))
 
 
-a <- ggplot( divvar2, aes(x=gmeanr,y=1/cva) ) + geom_point() +
+a <- ggplot( divvar2, aes(x=gmeanr,y=1/cva) ) + geom_point() + facet_wrap(~source) +
   ylab( "stability") + xlab("Mean species richness") + geom_smooth(method='lm') 
-b <- ggplot( divvar2, aes(x=gmeand,y=1/cva) ) + geom_point() +
+b <- ggplot( divvar2, aes(x=gmeand,y=1/cva) ) + geom_point() + facet_wrap(~source) +
   ylab( "stability") + xlab("Mean Shannon diversity") + geom_smooth(method='lm')
-c <- ggplot( divvar2, aes(x=gmeans,y=1/cva) ) + geom_point() +
+c <- ggplot( divvar2, aes(x=gmeans,y=1/cva) ) + geom_point() + facet_wrap(~source) +
   ylab( "stability") + xlab("Mean Simpson diversity") + geom_smooth(method='lm')
-d <- ggplot( divvar2, aes(x=gmeane,y=1/cva) ) + geom_point() +
+d <- ggplot( divvar2, aes(x=gmeane,y=1/cva) ) + geom_point() + facet_wrap(~source) +
   ylab( "stability") + xlab("Mean effective # species") + geom_smooth(method='lm') 
-
-
-library( cowplot )
-plot_grid( a,b,c,d, ncol=4 )
+cowplot::plot_grid( a,b,c,d, ncol=1 )
 
 
 
@@ -254,17 +306,23 @@ plot_grid( a,b,c,d, ncol=4 )
 ## Species synchrony
 # repeat calculations for each taxon
 # we need to know if species abundance was zero, not just non-zero abundance
-d.long <- d.comm %>% 
-  select(-total.cover,-shannon,-simpson,-enspie,-richness) %>% 
+d.long.all <- d.comm.all %>% 
   gather( "taxon","Abundance",-UID,-transect)
-yearly.taxon <- d.long %>% 
+yearly.taxon.all <- d.long.all %>% 
   group_by(transect, taxon) %>% 
   summarize(meana = mean(Abundance) )
+d.long.algae <- d.comm.algae %>% 
+  gather( "taxon","Abundance",-UID,-transect)
+yearly.taxon.algae <- d.long.algae %>% 
+  group_by(transect, taxon) %>% 
+  summarize(meana = mean(Abundance) )
+yearly.taxon <- bind_rows( yearly.taxon.all, yearly.taxon.algae, .id="source")
+yearly.taxon$source <- factor( yearly.taxon$source, levels=c("1","2"), labels=c("all","algae") )
 
 # numerator is the variance in total cover over time
 numer <- divvar2 %>% 
-  select(Site,Zone,ea) %>% 
-  group_by(Site, Zone) %>% 
+  select(Site,Zone,source,ea) %>% 
+  group_by(Site, Zone, source) %>% 
   mutate( VT = ea^2 ) 
 
 # denominator of the calculation for synchrony is the sum of the individual taxon stadard deviations over time, squared
@@ -272,7 +330,7 @@ denom <- yearly.taxon  %>%
   separate(transect, into=c("Site","blah","Zone","Year")) %>% 
   unite( col="Site" , Site, blah, sep = " " ) %>% 
   mutate( Zone=factor(Zone,levels=c("LOW","MID","HIGH"))) %>% 
-  group_by( Site, Zone, taxon ) %>% 
+  group_by( Site, Zone, source, taxon ) %>% 
   summarize( eai = sd(meana, na.rm=T) ) %>% 
   mutate( eai = ifelse( eai>0,eai,NA) ) %>%
   group_by( Site, Zone ) %>% 
@@ -285,35 +343,52 @@ synch <- synch %>%
   mutate( phi = VT/Evi )
 summary( synch$phi )
 summary( synch$eai )
+synch$invert <- factor(synch$source, levels="algae","all")
+tax.invert <- d.simple %>% ungroup() %>% select(taxon=Taxon,non.alga.flag) %>% distinct()
+synch <- left_join( synch, tax.invert )
+synch$source <- factor( synch$source, levels=c("algae","all") )
+synch$non.alga.flag <- factor( synch$non.alga.flag, levels=c("Algae","Animal"), labels=c("algae","all") )
+synch$non.alga.flag <- factor( synch$non.alga.flag, levels=c("algae","all") )
+synch$eai2 <-  synch$eai
+synch$eai2[ synch$source=="algae" & synch$non.alga.flag=="algae" ] <- NA
 
-a <- ggplot( synch, aes(x=Zone,y=eai)) + facet_wrap(~Site) +
-  geom_point( aes(y=ea), size=3, col='red' ) +
-  geom_point( alpha=0.1 ) + 
+a <- ggplot( synch, aes(x=Zone,y=eai2, col=source, fill=source)) + facet_wrap(~Site) +
+  geom_point( aes(y=ea), size=3, shape=21, col='black' ) +
+  geom_point( aes(shape=non.alga.flag,size=non.alga.flag,alpha=non.alga.flag), col='black', fill="grey")+#, position = position_dodge(width=0.2) ) +
   ylab("Cover SD") +
+  scale_color_manual( values=c("black","grey"), guide=F ) +
+  scale_fill_manual( values=c("black","grey"), guide=F ) +
+  scale_size_manual( values=(c(2,1)), guide=F ) +
+  scale_shape_manual( values=(c(1,21)), guide=F ) +
+  scale_alpha_manual( values=(c(0.1,1)), guide=F ) +
   theme( strip.background = element_blank(),
          strip.text.x = element_blank() )
-b <- ggplot( synch, aes(x=Zone,y=phi)) + facet_wrap(~Site) +
-  geom_point( alpha=1 ) +
+b <- ggplot( synch, aes(x=Zone,y=phi,fill=source)) + facet_wrap(~Site) +
+  geom_point( alpha=1, shape=21, size=3 ) +
   ylab( expression(paste("Synchrony (",phi,")")) ) +
+  scale_fill_manual( values=c("black","grey"), guide=F ) +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
-cowplot::plot_grid( b,a, ncol=1, rel_heights = c(1,1.5) )
+cowplot::plot_grid( b,a, ncol=1, rel_heights = c(1,1.5), align = "v" )
 ggsave( "R Code and Analysis/Figs/synchrony_transect.svg", width=6, height=4 )
 
 # plot synchrony versus stability and richness
 synchrony <- synch %>% 
   filter( !is.na(eai) ) %>% 
-  group_by( Site, Zone, phi ) %>%
+  group_by( Site, Zone, source, phi ) %>%
   summarize( richness = length(eai) )
 dsynch <- left_join( divvar2, synchrony )
-synchplot <- ggplot( dsynch, aes(x=gmeanr,y=phi,shape = Site, fill = Zone)) +
+dsynch$source <- factor( dsynch$source, levels=c("all","algae"))
+dsynch$Site <- factor( dsynch$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
+
+synchplot <- ggplot( dsynch, aes(x=gmeanr,y=phi,shape = Site, fill = Zone)) + facet_wrap(~source) +
   geom_smooth( aes(group=1), method="glm", method.args=list(family=quasibinomial))+ geom_point(size=3) +
-  scale_shape_manual( values=21:23, guide=FALSE ) +
+  scale_shape_manual( values=21:23, guide=F ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
   ylab( expression(paste("Species synchrony (",phi,")")) ) + xlab( "Mean algal species richness" ) +
   theme_classic()
-ggplot( dsynch, aes(x=phi,y=stability,shape=Site, fill=Zone)) + 
+ggplot( dsynch, aes(x=phi,y=stability,shape=Site, fill=Zone)) + facet_wrap(~source) +
   # geom_smooth( aes(group=1), method="glm",method.args=list(family=quasipoisson),se=F) + 
   geom_point() +
   scale_shape_manual( values=21:23 ) +
@@ -361,18 +436,17 @@ delta <- function( z,lag=1 ){
 }
 
 
-resistance1 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=1 )
-resistance2 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=2  )
-resistance3 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=3  )
-resistance4 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), omega, window=4  )
+resistance1 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site),factor(yearly$source)), omega, window=1 )
+resistance2 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site),factor(yearly$source)), omega, window=2  )
+resistance3 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site),factor(yearly$source)), omega, window=3  )
+resistance4 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site),factor(yearly$source)), omega, window=4  )
 
-resilience1 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), delta, lag=1 )
-resilience2 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site)), delta, lag=2 )
+resilience1 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site),factor(yearly$source)), delta, lag=1 )
+resilience2 <- by( yearly, list( factor(yearly$Zone),factor(yearly$Site),factor(yearly$source)), delta, lag=2 )
 
-ress <- bind_cols( yearly %>% select(Site,Zone) %>% distinct(),
+ress <- bind_cols( yearly %>% ungroup() %>% select(Site,Zone,source) %>% distinct() %>% arrange(source,Site,Zone),
            data.frame( O1=c(resistance1), O2=c(resistance2), 
-            O3=c(resistance3), O4=c(resistance4),
-            D1=c(resilience1), D2=c(resilience2) ) )
+            O3=c(resistance3),O4=c(resistance4), D1=c(resilience1), D2=c(resilience2) ) )
 
 
 psych::pairs.panels( ress[,-c(1:2)])
@@ -380,26 +454,22 @@ psych::pairs.panels( log(ress[,-c(1:2)]) )
 
 
 ress_long <- ress %>%
-  gather( "measure","value", -Site, -Zone )
+  gather( "measure","value", -Site, -Zone, -source )
 
 ress_long <- left_join(ress_long,divvar2)
 
-ggplot( ress_long, aes(x=Zone,y=(value),fill=Site)) +
-  facet_wrap(~measure) + geom_point(size=3, alpha=0.5, pch=21) +
-  scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
-  theme_bw()
 ggplot( ress_long, aes(x=gmeanr,y=(value),fill=Site)) +
-  facet_wrap(~measure,scales="free_y") + geom_point(size=3, alpha=0.5, pch=21) +
+  facet_grid(measure~source,scales="free_y") + geom_point(size=3, alpha=1, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   geom_smooth(aes(group=1), method='lm') +
-  # geom_smooth(aes(group=1), method='glm',method.args=list(family=poisson)) +
+  geom_smooth( method='lm', se=F, col='black') +
   scale_y_continuous(trans="log2") +
   theme_bw()
 
 resist <- ggplot( filter(ress_long,measure %in% c("O1","O2","O3","O4")), 
                   aes(x=as.numeric(as.factor(measure)),y=value,fill=Zone,shape=Site)) +
   geom_smooth( aes(group=Zone, lty=Zone), method='lm', se=F, col="black" ) +
-  geom_point(size=3) +
+  geom_point(size=3) + facet_wrap(~source)+
   # geom_smooth( method='glm', method.args=list(family="quasipoisson")) +
   scale_y_continuous(trans="log2") +
   scale_shape_manual( values=21:23, guide=F ) +
@@ -408,21 +478,28 @@ resist <- ggplot( filter(ress_long,measure %in% c("O1","O2","O3","O4")),
   guides(fill=guide_legend("Zone",override.aes = list(shape = 21))) +
   xlab("Year of heatwave") + ylab(expression(paste("Resistance (",Omega,")"))) +
   theme_classic() + theme( legend.position = c(0.99,0.99),legend.justification = c(1,1))
-summary(lm( value~as.numeric(as.factor(measure))*factor(Zone,ordered=F), data=filter(ress_long,measure %in% c("O1","O2","O3","O4")) ))
 summary(glm(value~as.numeric(as.factor(measure))+factor(Zone,ordered=F, levels=c("MID","LOW","HIGH")), 
+            data=filter(ress_long,measure %in% c("O1","O2","O3","O4"), source=="algae"),
+            family="quasipoisson"))
+summary(glm(value~factor(Zone,ordered=F, levels=c("MID","LOW","HIGH"))*source, 
             data=filter(ress_long,measure %in% c("O1","O2","O3","O4")),
             family="quasipoisson"))
-  
+summary(glm(value~as.numeric(as.factor(measure))*source, 
+            data=filter(ress_long,measure %in% c("O1","O2","O3","O4")),
+            family="quasipoisson"))
+summary(glm(value~as.numeric(as.factor(measure)), 
+            data=filter(ress_long,measure %in% c("O1","O2","O3","O4"), source=="algae"),
+            family="poisson"))
 resil <-  ggplot( filter(ress_long,measure %in% c("D2")), aes(x=gmeanr,y=(value))) +
   # geom_smooth(aes(group=1), method='lm') +
   geom_smooth(aes(group=1), method='glm',method.args=list(family='quasipoisson')) +
   # scale_y_continuous(trans="log2") +
-  geom_point( aes(shape=Site,fill=Zone), size=3 ) +
+  geom_point( aes(shape=Site,fill=Zone), size=3 ) + facet_wrap(~source)+
   xlab("Mean species richness") + ylab(expression(paste("Resilience (",Delta,")"))) +
   scale_shape_manual( values=21:23 ) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   theme_classic() + theme( legend.position = "none") #theme( legend.position = c(0.01,0.99),legend.justification = c(0,1)) 
-cowplot::plot_grid(resist,resil,ncol=2,rel_widths = c(1,1))
+cowplot::plot_grid(resist,resil,ncol=1,rel_widths = c(1,1))
 ggsave( "R Code and Analysis/Figs/stability_resist_resil.svg", width=6, height=3 )
 summary(lm(value~gmeanr, data=filter(ress_long,measure %in% c("D2")) ))
 summary(glm(value~gmeanr, 
@@ -431,9 +508,8 @@ summary(glm(value~gmeanr,
 
 stabresil <- cowplot::plot_grid( stab, resil, ncol=2 )
 cowplot::plot_grid( stabresil, resist, ncol=1 )
-ggsave( "R Code and Analysis/Figs/stability+resist_resil.svg", width=6, height=5 )
-cowplot::plot_grid( stab, resil, resist, synchplot, ncol=2 )
-ggsave( "R Code and Analysis/Figs/stability+resist_resil_synch.svg", width=6, height=5 )
+cowplot::plot_grid( stab, resil, resist, synchplot, ncol=1 )
+ggsave( "R Code and Analysis/Figs/stability+resist_resil_synch.svg", width=6, height=10 )
 
 
 library(purrr)

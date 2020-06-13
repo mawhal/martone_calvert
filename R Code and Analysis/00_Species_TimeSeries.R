@@ -4,7 +4,7 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Bare"
+taxon <- "Pyropia"
 
 # taxa with predicted increases over time
 # taxon <- "Mytilus"
@@ -37,7 +37,7 @@ ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 
 # customize sites and years
 years <- 2012:2019
-sites <- c("West Beach", "Fifth Beach", "North Beach")
+sites <- c("Fifth Beach", "North Beach","Foggy Cove")
 metause <- am %>% 
   filter( Year %in% years ) %>% 
   filter( Site %in% sites )
@@ -45,23 +45,21 @@ metause <- am %>%
 ## Customizations to carry through to figures
 
 # Choose a taxon 
-sort( unique( ad$taxon_lumped2 ))
+sort( unique( ad$taxon_lumped ))
 # use general exp to pull several groups if needed
-sort(unique( ad$taxon_lumped2[ grep( paste0(taxon,"*"), ad$taxon_lumped2 ) ]  ))
-dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_lumped2 ), ]
+sort(unique( ad$taxon_lumped[ grep( paste0(taxon,"*"), ad$taxon_lumped ) ]  ))
+dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_lumped ), ]
 #dtax  <-  dtax[ -grep( "Ectocarpus*",dtax$Taxon), ]
 
 
 # merge data and metadata
-# get all instances of a particular taxon
-# to include all quadrats us full_join, or use left_join for quads with the taxon
-d <- full_join( dtax, metause )
+# get all instances of a particular taxon, and code missing as zero
+# include all quadrats
+d <- left_join( metause, dtax )
 d$Abundance[ is.na( d$Abundance) ] <- 0
-# get rid of bad merging
-d <- d %>% 
-  filter( !is.na(Site), !is.na(Zone) )
-
-
+# # get rid of bad merging
+# d <- d %>% 
+#   filter( !is.na(Site), !is.na(Zone) )
 
 
 # *** to add *** include full names for each unique instance of Sampler
@@ -93,7 +91,7 @@ d$Year <- factor( d$Year, ordered= TRUE )
 
 # all sites
 # time trends in different tidal zones
-windows(5,6)
+windows(5,5)
 (ggzone <- ggplot( d, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
     facet_grid(Site~Zone, scales="free_y") + 
     # geom_smooth( se=TRUE, col='black' ) +
@@ -103,42 +101,43 @@ windows(5,6)
     xlab("Year") + ylab("Cover (%)") +
     scale_x_continuous(breaks = seq(2010,2018,2) ) )
 
-ggsave( paste0("R Code and Analysis/Figs/",taxon,"_zone.pdf"), ggzone, "pdf" )
+ggsave( paste0("R Code and Analysis/Figs/",taxon,"_zone.svg") )
 
 # just plot abundan over time
-windows(6,2)
-(ggzall <- ggplot( d, aes(x=lubridate::ymd(Date),y=Abundance)) + 
-    # facet_grid(Site~Zone, scales="free_y") + 
-    # geom_smooth( se=TRUE, col='black' ) +
-    # stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
-    # stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
-    # geom_smooth(method='glm',method.args=list(family=quasipoisson)) +
-    geom_smooth() +
-    geom_point( alpha=0.4,col='slateblue' ) +# ggtitle( taxon ) + 
-    geom_point( data=filter(d,saoidjas))#
-    xlab("Year")  )
-
-# subset of sites where elevation has been measured
-delev <- d[ d$Site != "Meay Channel", ]
-windows(10,4)
-(ggheight <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance)) + 
-    facet_grid(Site~Year, scales = "free_y") + 
-    geom_point(alpha=0.2) +  ggtitle( taxon ) + 
-    geom_smooth(method="glm", method.args=list(family="quasipoisson"), 
-                formula = ceiling(y) ~ poly(x,2), 
-                se=FALSE, lwd=0.5) )
-# ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation_wide.pdf"), ggheight, "pdf" )
-
-windows(4,6)
-(ggheight2 <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance,group=Year,col=Year )) + 
-    facet_wrap(~Site,ncol=1, scales = "free_y") + 
-    geom_point(alpha=0.75) +  ggtitle( taxon ) + 
-    geom_smooth(method="glm", method.args=list(family="poisson"), 
-                formula = ceiling(y) ~ poly(x,2), 
-                se=FALSE, lwd=0.5) +
-    # geom_smooth(aes(group=1)) + 
-    scale_x_continuous(trans='log10') ) +
-  scale_color_viridis_d( direction=-1 )
-
+# windows(6,2)
+# (ggzall <- ggplot( d, aes(x=lubridate::ymd(Date),y=Abundance)) + 
+#     # facet_grid(Site~Zone, scales="free_y") + 
+#     # geom_smooth( se=TRUE, col='black' ) +
+#     # stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
+#     # stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
+#     # geom_smooth(method='glm',method.args=list(family=quasipoisson)) +
+#     geom_smooth() +
+#     geom_point( alpha=0.4,col='slateblue' ) +# ggtitle( taxon ) + 
+#     geom_point( data=filter(d,saoidjas))#
+#     xlab("Year")  )
+# 
+# # subset of sites where elevation has been measured
+# delev <- d[ d$Site != "Meay Channel", ]
+# windows(10,4)
+# (ggheight <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance)) + 
+#     facet_grid(Site~Year, scales = "free_y") + 
+#     geom_point(alpha=0.2) +  ggtitle( taxon ) + 
+#     geom_smooth(method="glm", method.args=list(family="quasipoisson"), 
+#                 formula = ceiling(y) ~ poly(x,2), 
+#                 se=FALSE, lwd=0.5) )
+# # ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation_wide.pdf"), ggheight, "pdf" )
+# 
+# windows(4,6)
+# (ggheight2 <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance,group=Year,col=Year )) + 
+#     facet_wrap(~Site,ncol=1, scales = "free_y") + 
+#     geom_point(alpha=0.75) +  ggtitle( taxon ) + 
+#     geom_smooth(method="glm", method.args=list(family="poisson"), 
+#                 formula = ceiling(y) ~ poly(x,2), 
+#                 se=FALSE, lwd=0.5) +
+#     # geom_smooth(aes(group=1)) + 
+#     scale_x_continuous(trans='log10') ) +
+#   scale_color_viridis_d( direction=-1 )
+# 
 # ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation.pdf"), ggheight2, "pdf" )
 # })
+  

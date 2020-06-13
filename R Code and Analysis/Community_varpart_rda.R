@@ -79,6 +79,13 @@ meta <- d.comm.mean[ ,1:3 ]
 meta <- left_join(meta,dmeanelev)
 comm <- as.matrix(d.comm.mean[,-c(1:3)])
 
+
+# read temperature data
+pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )
+
+# merge temperature and the rest of the metadata
+M <- left_join( meta, pine )
+
 # # define site as the particular trasect
 # Zone <- factor( meta$Zone, levels=c("LOW","MID","HIGH"), labels=c("Low","Mid","High") )
 # Site <- factor( meta$Site, labels=c("5","N","W") )
@@ -253,6 +260,8 @@ meta$year <- factor(meta$Year, ordered=F)
 meta$site <- factor(meta$Site, ordered=F)
 db1 <- dbrda( comm~year+Elevation, distance="bray", data=meta )
 db2 <- dbrda( ifelse(comm>0,1,0)~year+Elevation, distance="jaccard", data=meta )
+db1 <- dbrda( comm~anom.pine.sum.1+anom.pine.win+Elevation+year, distance="bray", data=M )
+db2 <- dbrda( ifelse(comm>0,1,0)~year+Elevation, distance="jaccard", data=meta )
 plot(db1)
 os1 <- ordisurf( db1, meta$Elevation )
 ordiellipse( db1, meta$Zone, conf=0.6 )
@@ -311,7 +320,7 @@ a <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) +
   scale_color_gradientn(colours=pal2(100),limits=c(-2,2)) +
   theme_bw() + theme( panel.grid.major = element_blank(), 
                       panel.grid.minor = element_blank())
-ggsave("R Code and Analysis/Figs/rda_bwr_pal2_PA.svg", width=4, height=3 )
+ggsave("R Code and Analysis/Figs/rda_bwr_pal2_temp.svg", width=4, height=3 )
 
 
 

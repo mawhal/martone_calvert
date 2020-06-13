@@ -1,51 +1,48 @@
-taxon,funct,shift.elevation.cm,peak.2012.cm,shift.abund.proportion,integral.2012.cover
-Mytilus.sp.,Animal,-45,380,10.34428907,66.79378564
-Lithophyllum,crustose coralline,-52,150,5.070490959,6.223546476
-Neopolyporolithon.reclinatum,crustose coralline,-44,104,4.102871542,16.41359666
-Dilsea.californica,blade,-5,128,2.549915316,9.709827987
-Cladophora.columbiana,filament_turf,20,284,2.373914113,41.62243698
-Lithothamnion.phymatodeum,crustose coralline,-71,131,2.25378095,53.2318409
-Anemone,Animal,-33,288,2.147723198,146.7221552
-Cryptosiphonia.woodii,red turf,-16,132,1.914511921,169.6241499
-Phyllospadix.sp.,seagrass,0,60,1.791365841,1817.196363
-Acrosiphonia,filament turf,-141,201,1.71351556,110.1401956
-Acrosiphonia,filament_turf,-141,201,1.71351556,110.1401956
-Hedophyllum.sessile,Kelp,-73,153,1.58929346,14.97787883
-Savoiea.robusta,filament_turf,-134,380,1.424665369,82.78502536
-Ceramium.pacificum,filament,13,163,1.399713708,21.72668148
-Halosaccion.glandiforme,red turf,-162,222,1.290726039,191.7608494
-Barnacles,Animal,0,380,1.226600202,2594.880435
-Bossiella_articulate,articulated coralline,0,60,1.192987756,245.7315213
-Egregia.menziesii,Kelp,-47,107,1.002031976,54.21967948
-Callithamnion.pikeanum,red turf,-175,235,0.807929285,65.04886425
-Chamberlainium.tumidum,crustose coralline,-16,205,0.795211453,878.9420489
-Hildenbrandia,crust,-8,237,0.701472199,3441.078123
-Pyropia,blade,-173,380,0.684953553,2498.891296
-Mazzaella.parvula,blade,73,60,0.669587677,31.12198737
-Ralfsioid,crust,-119,215,0.662071875,80.60375891
-Neogastroclonium.subarticulatum,red turf,20,60,0.635665881,56.53072428
-Odonthalia.floccosa,red turf,-62,182,0.634600948,142.8064309
-Ulva,blade,-37,97,0.593884345,359.5222125
-Ulva,filament_turf,-37,97,0.593884345,359.5222125
-Endocladia.muricata,filament_turf,-1,285,0.575737539,832.3685211
-Microcladia.borealis,red turf,102,60,0.550498797,207.4224071
-Leathesia.marina,brown turf,-86,231,0.537686816,84.15818869
-Corallina,articulated coralline,25,60,0.528754684,855.6681849
-Neorhodomela.larix,red turf,13,114,0.525099185,191.958801
-Plocamium.violaceum,red turf,-17,214,0.479483403,496.309576
-Mazzaella.splendens,blade,7,112,0.440365265,102.7849123
-Ptilota,red turf,53,60,0.36940663,121.7852121
-Prionitis,red turf,0,60,0.361008768,122.6927583
-Polyneura.latissima,red turf,25,60,0.325225837,154.2540608
-Alaria.marginata,Kelp,-58,183,0.324924781,691.3820132
-Mazzaella.oregona,blade,-128,188,0.32196111,361.3074258
-Petrocelis,crust,-33,274,0.284450267,1733.26444
-Fucus.distichus,Fucoid,-31,256,0.275769546,3961.982761
-coralline.crust,crustose coralline,33,60,0.239005641,298.6116762
-Hymenena,red turf,-19,183,0.168324279,125.9099435
-Farlowia.mollis,red turf,-320,380,0.163035166,116.6991856
-Mastocarpus,red turf,-43,237,0.119699326,1199.684662
-Polysiphonia,filament_turf,213,60,0.094499126,484.4431334
-Gloiopeltis.furcata,red turf,-31,301,0.089129668,459.0129823
-Palmaria.hecatensis,red turf,66,62,0.062174368,71.44297834
-Elachista.fucicola,filament,-98,249,0.044321457,264.7461077
+taxon,funct,fill,shift.x,year,peak,shift.y,integral,labels,first,phylum,group
+Acrosiphonia,filament turf,whitesmoke,-148,2012,209,1.0732377524328256,129.12148581838085,1,Acrosiphonia,Chlorophyta,Chlorophyta
+Alaria.marginata,kelp,whitesmoke,-27,2012,88,0.23810407710935566,2673.784336713561,2,Alaria,Ochrophyta,Ochrophyta
+Anemone,animal,deepskyblue,-13,2012,257,2.5668292927786545,109.46439323335383,3,Anemone,animal,animal
+Barnacles,animal,deepskyblue,0,2012,382,2.04415369365974,2633.520510364146,4,Barnacles,animal,animal
+Bossiella_articulate,articulated coralline,whitesmoke,0,2012,61,1.372906986687985,124.35075901220155,5,Bossiella,Rhodophyta,Rhodophyta
+Callithamnion.pikeanum,red turf,whitesmoke,-77,2012,293,0.8095377264188647,47.109014107423874,6,Callithamnion,Rhodophyta,Rhodophyta
+Ceramium.pacificum,filament,whitesmoke,4,2012,148,1.727081881951038,12.672896796958549,7,Ceramium,Rhodophyta,Rhodophyta
+Chamberlainium.tumidum,crustose coralline,whitesmoke,-24,2012,203,0.7351131942429971,813.9466404382158,8,Chamberlainium,Rhodophyta,Rhodophyta
+Cladophora.columbiana,filament turf,whitesmoke,4,2012,287,1.7305552988706168,25.060987882881037,9,Cladophora,Chlorophyta,Chlorophyta
+Corallina,articulated coralline,whitesmoke,-46,2012,198,0.4662212038621726,415.6506106200705,10,Corallina,Rhodophyta,Rhodophyta
+coralline.crust,crustose coralline,whitesmoke,0,2012,61,0.5869915497921632,871.0224934840611,11,coralline,Rhodophyta,Rhodophyta
+Cryptosiphonia.woodii,red turf,whitesmoke,-69,2012,135,1.4734839552145012,109.47002517026142,12,Cryptosiphonia,Rhodophyta,Rhodophyta
+Dilsea.californica,blade,whitesmoke,25,2012,114,1.9389682436812183,12.915397609897685,13,Dilsea,Rhodophyta,Rhodophyta
+Egregia.menziesii,kelp,whitesmoke,-53,2012,114,0.5395671108743961,51.30761138077506,14,Egregia,Ochrophyta,Ochrophyta
+Elachista.fucicola,filament,whitesmoke,-131,2012,243,0.03911957220771434,191.09224061273991,15,Elachista,Ochrophyta,Ochrophyta
+Endocladia.muricata,filament turf,whitesmoke,-36,2012,311,0.7994953104610782,636.9267717896704,16,Endocladia,Rhodophyta,Rhodophyta
+Farlowia.mollis,red turf,whitesmoke,-203,2012,264,0.44187505817640677,25.17410275222445,17,Farlowia,Rhodophyta,Rhodophyta
+Fucus.distichus,fucoid,whitesmoke,-38,2012,283,0.20803426544644887,6638.8586505987405,18,Fucus,Ochrophyta,Ochrophyta
+Gloiopeltis.furcata,red turf,whitesmoke,-82,2012,369,0.22111997537958458,180.15143398030472,19,Gloiopeltis,Rhodophyta,Rhodophyta
+Halosaccion.glandiforme,red turf,whitesmoke,-48,2012,216,0.7515711217812137,261.23853982732106,20,Halosaccion,Rhodophyta,Rhodophyta
+Hedophyllum.sessile,Kelp,whitesmoke,-45,2012,156,0.8106393739217711,41.82933043701232,21,Hedophyllum,Ochrophyta,Ochrophyta
+Hildenbrandia,crust,whitesmoke,-2,2012,234,0.7854573690446124,3039.5489281536234,22,Hildenbrandia,Rhodophyta,Rhodophyta
+Hymenena,red turf,whitesmoke,-12,2012,134,0.3440496408214934,112.03475053811025,23,Hymenena,Rhodophyta,Rhodophyta
+Leathesia.marina,brown turf,whitesmoke,-75,2012,232,0.6338108466042883,48.98328124614487,24,Leathesia,Ochrophyta,Ochrophyta
+Lithothamnion.phymatodeum,crustose coralline,whitesmoke,-64,2012,139,2.456202994924877,22.50668132232516,25,Lithothamnion,Rhodophyta,Rhodophyta
+Mastocarpus,red turf,whitesmoke,-49,2012,222,0.22072438697894006,791.9318957294489,26,Mastocarpus,Rhodophyta,Rhodophyta
+Mazzaella.oregona,blade,whitesmoke,-61,2012,122,0.29692685232442045,335.55956569597606,27,Mazzaella,Rhodophyta,Rhodophyta
+Mazzaella.parvula,blade,whitesmoke,0,2012,61,0.8367473234439258,11.779951706542871,28,Mazzaella,Rhodophyta,Rhodophyta
+Mazzaella.splendens,blade,whitesmoke,-14,2012,102,0.5963634354629339,351.614598421649,29,Mazzaella,Rhodophyta,Rhodophyta
+Microcladia.borealis,red turf,whitesmoke,-55,2012,223,0.9439861427451199,81.73115441295204,30,Microcladia,Rhodophyta,Rhodophyta
+Mytilus.sp.,animal,deepskyblue,0,2012,382,23.238201002034174,55.85937841263154,31,Mytilus,animal,animal
+Neogastroclonium.subarticulatum,red turf,whitesmoke,-63,2012,124,0.6064593879869546,18.16918645227179,32,Neogastroclonium,Rhodophyta,Rhodophyta
+Neopolyporolithon.reclinatum,crustose coralline,whitesmoke,-127,2012,188,1.3182009398346075,9.135702959809185,33,Neopolyporolithon,Rhodophyta,Rhodophyta
+Neorhodomela.larix,red turf,whitesmoke,14,2012,88,0.561055652026704,309.0267539673172,34,Neorhodomela,Rhodophyta,Rhodophyta
+Odonthalia.floccosa,red turf,whitesmoke,0,2012,61,0.6566710338165636,267.77189092533877,35,Odonthalia,Rhodophyta,Rhodophyta
+Palmaria.hecatensis,red turf,whitesmoke,41,2012,61,0.18742985764795703,58.59426079676545,36,Palmaria,Rhodophyta,Rhodophyta
+Petrocelis,crust,whitesmoke,-143,2012,294,0.17252058629996206,531.0157029868877,37,Petrocelis,Rhodophyta,Rhodophyta
+Phyllospadix.sp.,seagrass,whitesmoke,0,2012,61,2.269338538842331,972.4768326731011,38,Phyllospadix,Streptophyta,Streptophyta
+Plocamium.violaceum,red turf,whitesmoke,-17,2012,205,0.39163396007438667,312.1317075848307,39,Plocamium,Rhodophyta,Rhodophyta
+Polyneura.latissima,red turf,whitesmoke,0,2012,61,0.2933467624926216,154.23791979501883,40,Polyneura,Rhodophyta,Rhodophyta
+Polysiphonia,filament turf,whitesmoke,21,2012,236,2.1819892210827203,72.4852479362628,41,Polysiphonia,Rhodophyta,Rhodophyta
+Prionitis,red turf,whitesmoke,-110,2012,171,0.43748523874903006,57.52244946018428,42,Prionitis,Rhodophyta,Rhodophyta
+Ptilota,red turf,whitesmoke,-36,2012,111,0.28224727087501456,170.1584455636124,43,Ptilota,Rhodophyta,Rhodophyta
+Pyropia,blade,whitesmoke,-116,2012,341,0.701098892584748,2034.612663203475,44,Pyropia,Rhodophyta,Rhodophyta
+Ralfsioid,crust,whitesmoke,-142,2012,230,0.818182870714985,28.21656496095975,45,Ralfsioid,Ochrophyta,Ochrophyta
+Savoiea.robusta,filament_turf,whitesmoke,-24,2012,311,1.7742072992192703,45.05885227465241,46,Savoiea,Rhodophyta,Rhodophyta
+Ulva,filament turf,whitesmoke,-51,2012,179,0.5321861468724439,394.46035643725253,47,Ulva,Chlorophyta,Chlorophyta

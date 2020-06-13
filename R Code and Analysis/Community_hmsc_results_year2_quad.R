@@ -25,7 +25,7 @@ MixingDir = paste0( here::here(), "/R Code and Analysis/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = 13
+model = 14
 mload <- load( paste(ModelDir,list.files( ModelDir ), sep="/")[model] )
 
 # load the data
@@ -37,10 +37,10 @@ metacomm <- read_csv("R Code and Analysis/output from r/community.csv" )
 # We evaluate MCMC convergence in terms of four kinds of parameters that we are especially interested in: the species niches `Beta`, the influence of traits on species niches `Gamma`, residual species associations `Omega`, and the strength of phylogenetic signal `rho`. As there are `r ns` species, the matrix `Omega` is a `r ns` x `r ns` matrix with `r ns*ns` elements. To avoid excessive computational times, we evaluate MCMC convergence for `Omega` only for a subsample of 100 randomly selected species pairs.
 mpost = convertToCodaObject(m)
 # plot traces for particular species 
-taxa <- rep(colnames(m$Y), each=12)
+taxa <- rep(colnames(m$Y), each=7)
 toplot <- which(taxa %in% "Hedophyllum.sessile")
-toplot <- which(taxa %in% "Polysiphonia")
-toplot <- which(taxa %in% "Fucus.distichus")
+# toplot <- which(taxa %in% "Polysiphonia")
+# toplot <- which(taxa %in% "Fucus.distichus")
 betaplot <- lapply(mpost$Beta,function(z) z[,toplot])
 lapply(betaplot, colnames)
 # betaplot <- lapply( betaplot, function(z) {
@@ -48,7 +48,7 @@ lapply(betaplot, colnames)
 # })
 params <- c('int','elev','elev2','year','elev:year','elev2:year')
 betaplot <- as.mcmc.list(betaplot)
-par( mfrow=c(6,4),mar=c(2,2,0,0)+0.1)
+par( mfrow=c(7,2),mar=c(2,2,0,0)+0.1)
 plot(betaplot, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
 # plot(mpost$Beta)
 ess.beta = effectiveSize(mpost$Beta)
@@ -93,12 +93,12 @@ pos.neg <- data.frame(pos = c(postBeta$support), neg = c(postBeta$supportNeg))
 pos.neg[pos.neg< 0.95] <- 0
 pos.neg$neg <- -pos.neg$neg
 pos.neg$value <- pos.neg$pos + pos.neg$neg
-pos.neg$parameter <- factor(c("intercept", "shore.elevation", "shore.elev.sq", "year",
-                              "shore.year", "shore2.year" ),
-                            levels = c("intercept", "shore.elevation", "shore.elev.sq",  
-                                       "year", "shore.year", "shore2.year" ), 
+pos.neg$parameter <- factor(c("intercept", "year1", "year2", "elev1",
+                              "elev2", "elev1:year1", "elev1:year2" ),
+                            levels = c("intercept", "year1", "year2", "elev1",
+                                       "elev2", "elev1:year1", "elev1:year2" ), 
                             ordered = TRUE)
-pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 6), 
+pos.neg$species <- factor(rep(colnames(postBeta$mean), each = 7), 
                           levels = colnames(m$Y)[order(colSums(m$Y),decreasing = TRUE)],
                           ordered = TRUE)
 
@@ -213,67 +213,61 @@ corrplot( mynewcor, method = "color",
 
 
 
-
 #####
 # Model  predictions
 # response curves
-newXData <- data.frame(shore.height = seq(60,380,by = 1),
-                       anom.pine.sum.1 = 1.1706,
-                       anom.pine.win = 0.8530 )
-newXData <- data.frame(shore.height = seq(60,380,by = 1),
-                       anom.pine.sum.1 = 1.1706,
-                       anom.pine.win = 0.8530 )
-years <- as.data.frame( m$XData %>% select(year1,year2) %>% mutate(year1=round(year1,7),year2=round(year2,7)) %>% distinct() )
-elevs <- as.data.frame( m$XData %>% select(elev1,elev2) %>% mutate(elev1=round(elev1,5),elev2=round(elev2,5)) %>% distinct() %>% arrange(elev1) )
-plot(elevs)
-plot(years)
-
-newDF <- expand.grid( shore.height = seq(60,380,by = 1),
-             year=c(2012:2019),
-             site="new unit",
-             transect="new unit" )
-newDF <- data.frame( merge(years, elevs),
-             site="new unit",
-             transect="new unit" )
-newXData   <- newDF[,1:(ncol(newDF)-2)]
-newDesign  <- newDF[,(ncol(newDF)-1):ncol(newDF)]
-
-predY <- predict(m, XData = newXData,
-                 studyDesign= newDesign,
-                 ranLevels = list(site=rL_site,transect=rL), expected = TRUE) #, transect=rL, year=rL_year
-
-tmp = abind::abind(predY, along = 3)
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
-predictions <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
-predictions_low <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
-predictions_high <- bind_cols(data.frame(qpred), newXData)
-
-ggplot(predictions, aes(x = shore.height, y = Fucus.distichus, col=year))+
-  geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
-ggplot(predictions, aes(x = shore.height, y = Fucus.distichus, col=year))+
-  geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
-#
-
-predictions_abund <- predictions %>%
-  gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
-predictions_abund_low <- predictions_low %>%
-  gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
-predictions_abund_high <- predictions_high %>%
-  gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
-
-predictions_abund <- left_join(left_join(predictions_abund, predictions_abund_low), predictions_abund_high)
-
-predictions_abund$taxon <- factor(predictions_abund$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
-# predictions_abund$dispersal <- factor(predictions_abund$dispersal, levels = c("none", "low", "high"), ordered = TRUE)
-# predictions_abund$year <- rep( levels(newDesign$year), each=nrow(predictions_abund)/length(levels(newDesign$year))/97 )
-# save this
+# newXData <- data.frame(shore.height = seq(60,380,by = 1),
+#                        anom.pine.sum.1 = 1.1706,
+#                        anom.pine.win = 0.8530 )
+# years <- as.data.frame( m$XData %>% select(year,year1,year2) %>% mutate(year1=round(year1,7),year2=round(year2,7)) %>% distinct() )
+# elevs <- as.data.frame( m$XData %>% select(elev,elev1,elev2) %>% mutate(elev1=round(elev1,5),elev2=round(elev2,5)) %>% distinct() %>% arrange(elev1) )
+# plot(elevs)
+# plot(years)
+# 
+# newDF <- expand.grid( shore.height = seq(60,380,by = 1),
+#              year=c(2012:2019),
+#              site="new unit",
+#              transect="new unit" )
+# newDF <- data.frame( merge(years, elevs),
+#              site="new unit",
+#              transect="new unit",
+#              quadrat="new unit")
+# newDFsel <- newDF %>% select(year1,year2,elev1,elev2,site,transect,quadrat)
+# newXData   <- newDFsel[,1:(ncol(newDFsel)-3)]
+# newDesign  <- newDFsel[,(ncol(newDFsel)-2):ncol(newDFsel)]
+# 
+# predY <- predict(m, XData = newXData,
+#                  studyDesign= newDesign,
+#                  ranLevels = list(site=rL_site,transect=rL, quadrat=rL_quad), expected = TRUE) #, transect=rL, year=rL_year
+# 
+# tmp = abind::abind(predY, along = 3)
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
+# predictions <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
+# predictions_low <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
+# predictions_high <- bind_cols(data.frame(qpred), newXData)
+# 
+# ggplot(predictions, aes(x = elev1, y = Fucus.distichus, col=year1))+
+#   geom_point() + scale_color_gradient(low = "slateblue1", high="slateblue4")
+# #
+# 
+# predictions_abund <- predictions %>%
+#   gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
+# predictions_abund_low <- predictions_low %>%
+#   gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
+# predictions_abund_high <- predictions_high %>%
+#   gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
+# 
+# predictions_abund <- left_join(left_join(predictions_abund, predictions_abund_low), predictions_abund_high)
+# 
+# predictions_abund$taxon <- factor(predictions_abund$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
+# predictions_abund <- left_join(predictions_abund,newDF)
 # save( predictions_abund, file = paste("R Code and Analysis/output from r/hmsc_pred",list.files( ModelDir )[model], sep="_") )
 
-# load( file = paste("R Code and Analysis/output from r/hmsc_pred",list.files( ModelDir )[model], sep="_") )
+load( file = paste("R Code and Analysis/output from r/hmsc_pred",list.files( ModelDir )[model], sep="_") )
 # load( file = paste("R Code and Analysis/output from r/hmsc_pred_model_5_chains_4_thin_100_samples_1000.Rdata") )
 
 # use actual data
@@ -299,6 +293,7 @@ comm_final$taxon <- factor(comm_final$taxon, levels = colnames(m$Y)[order(colSum
 inverts <- c("Barnacles","Mytilus.sp.","Anemone","Bryozoan","Tunicata/Porifera","Pollicipes.polymerus","Tube.worms","Hydroid" )
 comm_final$alga <- "alga"
 comm_final$alga[ comm_final$taxon %in% inverts ] <- "invert"
+comm_final$elev <- comm_final$shore.height
 predictions_abund$alga <- "alga"
 predictions_abund$alga[ predictions_abund$taxon %in% inverts ] <- "invert"
 # merge with other traits
@@ -377,7 +372,8 @@ predictions_abund_trait$fill[predictions_abund_trait$taxon=="coralline.crust"] <
 
 # only pull the 10 most common taxa
 top6 <- colnames(m$Y)[c(1:6,9,14,15)]
-upX <- colnames(m$Y)[c(8,15,18,23,27,29,35,37,48)]
+noxshift <- colnames(m$Y)[c(3,9,11,15,20,25,26,47)]
+upX <- colnames(m$Y)[c(45,42,44,16,37,35)]
 downX <- colnames(m$Y)[c(43,36,5,24,28,33,30)]
 upY <- colnames(m$Y)[c(15,42,39,47,44,46,20,22,9)]
 customXY <- colnames(m$Y)[c(1,3,4,5,6,8,9,14,15,27,30,37,42)]
@@ -387,7 +383,7 @@ bot10 <- colnames(m$Y)[(length(colnames(m$Y))-8):length(colnames(m$Y))]
 taxa2plot <- top6
 
 # windows(6,4)
-ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2019)), aes(x = shore.height, y = N,
+ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2019)), aes(x = elev, y = N,
                                                         fill=factor(year) ))+
   geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
   facet_wrap(~taxon, scales = "free_y")+
@@ -396,8 +392,9 @@ ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2019)),
   # scale_color_manual(values=c("black","black"))+
   scale_fill_manual(values=c("whitesmoke", "mediumslateblue"))+
   geom_point( data = filter( comm_final, taxon %in% taxa2plot, year %in% c(2012,2019)), pch=21 ) +
-  geom_line(size = 0.5)+
-  scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)")
+  geom_line(size = 0.5) +
+  scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)") +
+  coord_cartesian(ylim=c(0,100))
 # ggsave("R Code and Analysis/Figs/hmsc_response_curves.pdf", width = 6, height = 4)
 
 # just show Fucus
@@ -411,33 +408,45 @@ fuc <- "Cladophora.columbiana"
 fuc <- "coralline.crust"
 fuc <- "Egregia.menziesii"
 fuc <- "Hedophyllum.sessile"
-fuc <- "Crusticorallina.muricata"
 fuc <- "Lithothamnion.phymatodeum"
+fuc <- "Neopolyporolithon.reclinatum"
 fuc <- "Mytilus.sp."
 fuc <- "Barnacles"
 fuc <- "Alaria.marginata"
 fuc <- "Elachista.fucicola"
+fuc <- "Phyllospadix.sp."
+fuc <- "Acrosiphonia"
+fuc <- "Pyropia"
+fuc <- "Petrocelis"
+fuc <- "Ralfsioid"
 # windows(5,4)
 ggplot( filter(predictions_abund,taxon %in% fuc ), 
-        aes(x = shore.height, y = N ))+
+        aes(x = elev, y = N ))+
   facet_wrap(~year)+
   geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, fill="gray75")+
   geom_line(size = 0.5)+
   theme_classic() +
+  ggtitle(fuc) +
   geom_point( data = filter( comm_final, taxon %in% fuc), pch=21 ) +
   scale_y_sqrt(breaks=c(1,10,50,100,200)) + ylab("Percent cover") + xlab("Shore height (cm)") +
   coord_cartesian(ylim = c(-0, 100)) 
 #
-
+compare_all %>% arrange(shift.y)
+compare_all %>% arrange(shift.x)
+#
 
 
 # Find the predicted peak for each instance
 peaks <- predictions_abund_trait %>% 
   group_by( year, taxon, funct, fill ) %>% 
-  summarize( peak = mean(shore.height[which(N==max(N))]) )
+  summarize( peak = mean(elev[which(N==max(N))]) ) 
 peaks$peak
-ggplot( filter(peaks, taxon %in% top6), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+ggplot( filter(peaks, taxon %in% upX), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
   geom_point()
+ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
+  # geom_path(aes(group=taxon), alpha=0.5) + 
+  geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
+summary(lm(peak~1+year,data=peaks))
 
 # get difference between peaks for 2012 and 2019
 peak_shift <- peaks %>% 
@@ -475,13 +484,14 @@ trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shif
 
 peak_shift %>% arrange(-shift)
 peak_shift %>% arrange(shift)
+peak_shift %>% filter(shift==0)
 peak_shift %>% filter(shift >-10 & shift < 10)
 shift_increase <- peak_shift %>% arrange(-shift)
 choose <- shift_increase$taxon[1:6]
 ggplot( filter(peaks, taxon %in% choose), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
   geom_point()
 
-ggplot( filter(predictions_abund,taxon %in% "Alaria.marginata" ), aes(x = shore.height, y = N,
+ggplot( filter(predictions_abund,taxon %in% "Alaria.marginata" ), aes(x = elev, y = N,
                                                                                  fill=factor(year), col=factor(year) ))+
   # geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray50")+
   geom_line(size = 1)+
@@ -494,13 +504,16 @@ ggplot( filter(predictions_abund,taxon %in% "Alaria.marginata" ), aes(x = shore.
   scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)") +
   labs( fill="Year" )
 
-lm_shift <- lm( shift~1, peak_shift)
-summary(lm_shift)
+summary(lm( shift~1, peak_shift))
+peak_compare <- peak_compare %>% 
+  ungroup() %>% 
+  mutate(peak2=peak-min(peak))
+summary(lm( shift~peak2, peak_compare))
 
 
 
 # need to add lines showing the realm of possible shifts
-xs <- range( m$XData$shore.height )
+xs <- range( m$XData$elev )
 y1 <- c(0,diff(xs))
 y2 <- c(-diff(xs),0)
 df.bound <- data.frame( x1=xs[1],x2=xs[2],y1,y2 )
@@ -511,7 +524,7 @@ df.poly <- data.frame( x=rep(xs,each=2), y=c(0,diff(xs),0,-diff(xs)) )
 (a <- ggplot( peak_compare, aes(x=peak,y=shift)) +
     geom_polygon( data=df.poly, aes(x=x,y=y), fill='whitesmoke', col='slategray', lty=2) +
     geom_hline( yintercept = 0, lty=2 ) +
-     geom_smooth(method='lm', se=F, col='black') +
+     geom_smooth(method='lm', se=T, col='black') +
     geom_point( size=3, pch=1, col='slateblue' ) +
   ylab("peak elevationshift (cm)") + xlab("initial peak elevation (cm)") +
   theme_classic() )
@@ -593,8 +606,9 @@ summary(lm( log(shift.y,base=2)~log(integral,base=2), compare_all ))
 cowplot::plot_grid( a, b, c, d, ncol=2, align = 'hv', labels = "AUTO" )
 ggsave(file="R Code and Analysis/Figs/abundance+peak_shift_intial.svg",width = 6, height = 6)
 
-compare_all %>% arrange(shift.y)
+compare_all %>% arrange(-shift.y)
 compare_all %>% arrange(-shift.x)
+noxshift <- compare_all$taxon[ compare_all$shift.x == 0 ]
 
 # basically no relationship between peak and abundance shift
 ggplot( compare_all, aes(x=shift.y,y=shift.x) ) + 
@@ -659,7 +673,7 @@ ydens <- axis_canvas(xy, axis = "y", coord_flip = TRUE)+
   geom_vline(xintercept=mean(compare_all$shift.x), col='red' ) +
   geom_vline(xintercept=0) +
   geom_density(data = compare_all, aes(x = shift.x),
-               alpha = 0.7, size = 0.5) +
+               alpha = 0.7, size = 0.5, outline.type = "full") +
   coord_flip()
   
 # Marginal densities along y axis
@@ -668,7 +682,7 @@ xdens <- axis_canvas(xy, axis = "x")+
   geom_vline(xintercept=mean(log(compare_all$shift.y,base=2)), col='red' ) +
   geom_vline(xintercept=0) +
   geom_density(data = compare_all, aes(x = log(shift.y,base=2) ),
-               alpha = 0.7, size = 0.5)
+               alpha = 0.7, size = 0.5, outline.type = "full")
 
 empty <- ggplot()+geom_point(aes(1,1), colour="white")+
   theme(axis.ticks=element_blank(), 

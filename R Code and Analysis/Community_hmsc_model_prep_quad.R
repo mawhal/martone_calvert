@@ -39,9 +39,6 @@ muse <- am[ am$Year != "2011", ]
 ## NOTE THAT THIS ANALYSIS DOES NOT REQUIRE EQUAL SAMPLING OVER TIME OR SPACE
 ## a mjor exception to this is for convergence analysis, see trajectoryConvergence()
 muse <- muse[ muse$Site != "Meay Channel", ]
-# Only use Mid-shore transects for now
-# muse <- muse[ muse$Zone == "MID", ]
-# muse <- muse[ muse$Site == "North Beach", ]
 
 # no NA values allowed, so we need to remove these from the dataset
 rem <- unique( which(is.na(muse$Shore_height_cm))  )
@@ -190,7 +187,7 @@ names(XData) <- c("year","elev","year1","year2","elev1","elev2")
 # make sure to use spatial data
 # STUDY DESIGN
 studyDesign <- data.frame( year = factor(M$Year),
-                           observation = factor(M$UID),
+                           quadrat = factor(M$UID),
                            transect = factor(M$transect),
                            site = factor(M$Site) )
 # transect year
@@ -208,7 +205,8 @@ rL_year = HmscRandomLevel( sData = td )
 rL_site <-  HmscRandomLevel( unit = unique(studyDesign$site) )
 # transect year
 rL_ty <- HmscRandomLevel( unit = unique(studyDesign$ty) )
-
+# qudarat level (based on combination of site, transect, and quad)
+rL_quad <- HmscRandomLevel( unit = unique(studyDesign$quadrat) )
 
 
 
@@ -230,11 +228,11 @@ m <- Hmsc( Y = Y,
            XData = XData, XFormula = XFormula,
            distr = "poisson",
            studyDesign = studyDesign, 
-           ranLevels = list(site=rL_site, transect=rL ) )#,
+           ranLevels = list(site=rL_site, transect=rL, quadrat=rL_quad ) )#,
                             # year=rL_year, 
                              # ty=rL_ty ) )  
 
 # save the prepared model so it can be run in a separate script
-save( m, file="R Code and Analysis/output from r/hmsc_specified.Rdata" )
+save( m, file="R Code and Analysis/output from r/hmsc_quad_specified.Rdata" )
 
 

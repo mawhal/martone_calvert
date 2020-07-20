@@ -278,7 +278,7 @@ abun.shifts.summary <- data.frame(abun.init.med,abun.shifts.med, abun.shifts.low
 ## combine these results
 shift.summary <- data.frame( elev.shifts.summary, abun.shifts.summary )
 shift.summary$taxon <- colnames(m$Y)
-shift.summary %>% arrange(-abun.init.med)
+shift.summary <- shift.summary %>% arrange(-abun.init.med)
 shift.summary$rank <- 1:47
 ggplot( shift.summary, aes(x = log(abun.shifts.med,base=2), y = elev.shifts.med) ) +
   # geom_hline( yintercept=0, lty=2 ) + geom_vline( xintercept = 0, lty=2 ) +
@@ -305,14 +305,14 @@ shift.summary %>%
   filter( peak.sig == TRUE | abun.sig == TRUE )
 
 # individual shifts
-elev.shift.plot <- ggplot( elev.shifts.summary, aes(x=1:47,y=elev.shifts.med)) + 
+elev.shift.plot <- ggplot( shift.summary, aes(x=rank,y=elev.shifts.med)) + 
   geom_hline( yintercept=0 ) +
   geom_errorbar( aes(ymin=elev.shifts.low,ymax=elev.shifts.high) ) +
   geom_point() +
   ylab( "Elevation peak shift (cm)" ) + xlab("") +
   scale_x_continuous(breaks = c(1,10,20,30,40,47)) +
   theme( panel.grid.minor.x = element_blank() )
-abun.shift.plot <- ggplot( abun.shifts.summary, aes(x=1:47,y=log(abun.shifts.med,base=2)) ) + 
+abun.shift.plot <- ggplot( shift.summary, aes(x=rank,y=log(abun.shifts.med,base=2)) ) + 
   geom_hline( yintercept=0 ) +
   geom_errorbar( aes(ymin=log(abun.shifts.low,base=2),ymax=log(abun.shifts.high,base=2)) ) +
   geom_point() +
@@ -454,9 +454,6 @@ predictions_abund_trait$fill[predictions_abund_trait$taxon=="coralline.crust"] <
 
 
 
-
-
-
 # only pull the 10 most common taxa
 top6 <- colnames(m$Y)[c(1:6,9,14,15)]
 noxshift <- colnames(m$Y)[c(3,9,11,15,20,25,26,47)]
@@ -542,6 +539,9 @@ peak_shift <- peaks %>%
   filter( year %in% c(2012,2019) ) %>% 
   summarize( shift = diff(peak))
 
+
+
+
 # merge 2012 peaks with peak shift to compare shift relative to starting point
 peak_initial <- peaks %>% filter( year==2012 )
 peak_compare <- left_join( peak_shift, peak_initial )
@@ -553,9 +553,42 @@ peak_compare %>% filter(shift < cutoff & shift > -cutoff)
 peak_compare %>% filter(shift == 0 )
 
 
+# find the integral of the function for each year
+integ <- predictions_abund_trait %>% 
+  group_by( year, taxon, funct, fill ) %>% 
+  summarize( integral = sum(N) )
+ggplot( filter(integ, taxon %in% top6), aes(x=year,y=integral) ) + facet_wrap(~taxon) +
+  geom_point()
+# get difference between integrand for 2012 and 2019
+int_shift <- integ %>% 
+  group_by( taxon, funct, fill ) %>% 
+  filter( year %in% c(2012,2019) ) %>% 
+  summarize( shift = integral[2]/integral[1] )
+
+# by short height
+int_initial <- integ %>% filter( year==2012 )
+peak_initial <- peaks %>% filter( year==2012 )
+peak_compare <- left_join( peak_shift, peak_initial )
+abund_compare <- left_join( int_shift, int_initial )
+
+# combined figure of mean elevation shift and abundance shift
+compare_all <- left_join( peak_compare, abund_compare, by=c("taxon","funct","fill","year") )
+
+
+### merge both methods
+all.shifts <- left_join( shift.summary, compare_all )
+with( all.shifts, plot( elev.shifts.med ~ shift.x ) )
+with( all.shifts, plot( abun.shifts.med ~ shift.y ) )
+
+
+
 # plot by functional group
-trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100,
-                        fill=fill) ) + 
+int_shift %>% arrange(-shift) 
+
+
+# plot by functional group
+trait.p <- ggplot( all.shifts, aes(x=reorder(funct, elev.shifts.med, FUN = median), 
+                                   y=elev.shifts.med/100, fill=fill) ) + 
   geom_hline (yintercept=0, lty=2 ) +
   geom_boxplot()  + geom_point() +
   xlab("Functional group") + ylab("Peak shift (meters)") +
@@ -572,6 +605,27 @@ shift_increase <- peak_shift %>% arrange(-shift)
 choose <- shift_increase$taxon[1:6]
 ggplot( filter(peaks, taxon %in% choose), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
   geom_point()
+
+trait.a <- ggplot( all.shifts, aes(x=reorder(funct, abun.shifts.med, FUN = median), 
+                                  y=log(abun.shifts.med,base=2), fill=fill ) ) + 
+  geom_hline (yintercept=0, lty=2 ) +
+  geom_boxplot()  + geom_point() +
+  xlab("Functional group") + ylab("Abundance shift") +
+  theme_classic() +
+  scale_y_continuous( breaks=c(4,2,0,-2,-4), 
+                      labels=c('16x','4x','0','1/4x','1/16x')) +
+  scale_fill_manual(values=rev(unique(peak_shift$fill))) +
+  theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
+  theme(legend.position = "none")
+
+cowplot::plot_grid( trait.p, trait.a, ncol=1, align='hv', labels="AUTO" )
+ggsave( "R Code and Analysis/Figs/hmsc_funct_groups.svg", width=6, height=6)
+
+summary( lm(shift~1,int_shift) )
+mod <- lm(log(shift,base=2)~1, int_shift )
+summary(mod) 
+
+
 
 # ggplot( filter(predictions_abund,taxon %in% "Alaria.marginata" ), 
 #         aes(x = elev, y = N, fill=year, col=year ))+
@@ -603,60 +657,32 @@ df.poly <- data.frame( x=rep(xs,each=2), y=c(0,diff(xs),0,-diff(xs)) )
 
 
 
-(a <- ggplot( peak_compare, aes(x=peak,y=shift)) +
+# (a <- ggplot( peak_compare, aes(x=peak,y=shift)) +
+#     geom_polygon( data=df.poly, aes(x=x,y=y), fill='whitesmoke', col='slategray', lty=2) +
+#     geom_hline( yintercept = 0, lty=2 ) +
+#      geom_smooth(method='lm', se=T, col='black') +
+#     geom_point( size=3, pch=1, col='slateblue' ) +
+#   ylab("peak elevationshift (cm)") + xlab("initial peak elevation (cm)") +
+#   theme_classic() )
+summary(lm( elev.shifts.med ~ elev.init.med, data=shift.summary ))
+(a <- ggplot( shift.summary, aes(x=elev.init.med,y=elev.shifts.med)) +
     geom_polygon( data=df.poly, aes(x=x,y=y), fill='whitesmoke', col='slategray', lty=2) +
     geom_hline( yintercept = 0, lty=2 ) +
-     geom_smooth(method='lm', se=T, col='black') +
+    geom_smooth(method='lm', se=T, col='black') +
     geom_point( size=3, pch=1, col='slateblue' ) +
-  ylab("peak elevationshift (cm)") + xlab("initial peak elevation (cm)") +
-  theme_classic() )
-
+    ylab("peak elevationshift (cm)") + xlab("initial peak elevation (cm)") +
+    theme_classic() )
   
-# find the integral of the function for each year
-integ <- predictions_abund_trait %>% 
-  group_by( year, taxon, funct, fill ) %>% 
-  summarize( integral = sum(N) )
-ggplot( filter(integ, taxon %in% top6), aes(x=year,y=integral) ) + facet_wrap(~taxon) +
-  geom_point()
-# get difference between integrand for 2012 and 2019
-int_shift <- integ %>% 
-  group_by( taxon, funct, fill ) %>% 
-  filter( year %in% c(2012,2019) ) %>% 
-  summarize( shift = integral[2]/integral[1] )
-
-# plot by functional group
-int_shift %>% arrange(-shift) 
-
-trait.a <- ggplot( int_shift, aes(x=reorder(funct, shift, FUN = median), 
-                                        y=log(shift,base=2), fill=fill ) ) + 
-  geom_hline (yintercept=0, lty=2 ) +
-  geom_boxplot()  + geom_point() +
-  xlab("Functional group") + ylab("Abundance shift") +
-  theme_classic() +
-  scale_y_continuous( breaks=c(4,2,0,-2,-4), 
-                      labels=c('16x','4x','0','1/4x','1/16x')) +
-  scale_fill_manual(values=rev(unique(peak_shift$fill))) +
-  theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
-  theme(legend.position = "none")
-
-cowplot::plot_grid( trait.p, trait.a, ncol=1, align='hv', labels="AUTO" )
-ggsave( "R Code and Analysis/Figs/hmsc_funct_groups.svg", width=6, height=6)
-
-summary( lm(shift~1,int_shift) )
-mod <- lm(log(shift,base=2)~1, int_shift )
-summary(mod) 
-
-# by short height
-int_initial <- integ %>% filter( year==2012 )
-peak_initial <- peaks %>% filter( year==2012 )
-peak_compare <- left_join( peak_shift, peak_initial )
-abund_compare <- left_join( int_shift, int_initial )
-
-# combined figure of mean elevation shift and abundance shift
-compare_all <- left_join( peak_compare, abund_compare, by=c("taxon","funct","fill","year") )
 
 # shift in abundance ~ initial peak elevation
-(b <- ggplot( compare_all, aes(x=peak,y=log(shift.y,base=2))) + 
+# (b <- ggplot( compare_all, aes(x=peak,y=log(shift.y,base=2))) + 
+#   geom_hline( yintercept=0, lty=2 ) +
+#   geom_point(size=3, pch=1, col='slateblue') + 
+#   ylab("abundance shift") + xlab("initial peak elevation (cm)") +
+#   scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
+#                       labels=c('10x','2x','0','1/2x','1/10x')) +
+#   theme_classic() )
+(b <- ggplot( shift.summary, aes(x=elev.init.med,y=log(abun.shifts.med,base=2))) + 
   geom_hline( yintercept=0, lty=2 ) +
   geom_point(size=3, pch=1, col='slateblue') + 
   ylab("abundance shift") + xlab("initial peak elevation (cm)") +
@@ -665,7 +691,15 @@ compare_all <- left_join( peak_compare, abund_compare, by=c("taxon","funct","fil
   theme_classic() )
 
 # peak shift ~ initial abundance
-(c <- ggplot( compare_all, aes(x=integral/30,y=shift.x)) + 
+# (c <- ggplot( compare_all, aes(x=integral/30,y=shift.x)) + 
+#     geom_hline( yintercept=0, lty=2 ) +
+#     geom_point(size=3, pch=1, col='slateblue') + 
+#     ylab("peak elevationshift (cm)") + xlab("appox. initial cover (%)") +
+#     # scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
+#     #                     labels=c('10x','2x','0','1/2x','1/10x')) +
+#     scale_x_continuous(trans = "log2") +
+#     theme_classic() )
+(c <- ggplot( shift.summary, aes(x=abun.init.med/30,y=elev.shifts.med)) + 
     geom_hline( yintercept=0, lty=2 ) +
     geom_point(size=3, pch=1, col='slateblue') + 
     ylab("peak elevationshift (cm)") + xlab("appox. initial cover (%)") +
@@ -675,10 +709,20 @@ compare_all <- left_join( peak_compare, abund_compare, by=c("taxon","funct","fil
     theme_classic() )
 
 # abund shift ~ initial abundance
-summary(lm( log(shift.y,base=2)~log(integral,base=2), compare_all ))
-(d <- ggplot( compare_all, aes(x=integral/30,y=log(shift.y,base=2))) + 
+# summary(lm( log(shift.y,base=2)~log(integral,base=2), compare_all ))
+# (d <- ggplot( compare_all, aes(x=integral/30,y=log(shift.y,base=2))) + 
+#     geom_hline( yintercept=0, lty=2 ) +
+#     geom_smooth(method = 'lm', se = T, col='black' ) +
+#     geom_point(size=3, pch=1, col='slateblue') + 
+#     ylab("Abundance shift") + xlab("appox. initial cover (%)") +
+#     scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
+#                         labels=c('10x','2x','0','1/2x','1/10x')) +
+#     scale_x_continuous(trans = "log2") +
+#     theme_classic() )
+summary(lm( log(abun.shifts.med,base=2)~abun.init.med, shift.summary ))
+(d <- ggplot( shift.summary, aes(x=abun.init.med/30,y=log(abun.shifts.med,base=2))) + 
     geom_hline( yintercept=0, lty=2 ) +
-    geom_smooth(method = 'lm', se = T, col='black' ) +
+    # geom_smooth(method = 'lm', se = T, col='black' ) +
     geom_point(size=3, pch=1, col='slateblue') + 
     ylab("Abundance shift") + xlab("appox. initial cover (%)") +
     scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
@@ -697,14 +741,15 @@ noxshift <- compare_all$taxon[ compare_all$shift.x == 0 ]
 ggplot( compare_all, aes(x=log(shift.y,base=2),y=shift.x) ) + 
   geom_point() + geom_smooth( method='lm' )
 
+
 with( compare_all, cor.test( shift.x,shift.y) )
 with( compare_all, cor.test( shift.x,log(shift.y,base=2)) )
 
 
 # boxplots
-ylimits1 <- c(-max(abs(range(compare_all$shift.x))),max(abs(range(compare_all$shift.x))))
+ylimits1 <- c(-max(abs(range(shift.summary$elev.shifts.med))),max(abs(range(shift.summary$elev.shifts.med))))
 ylimits2 <- c(-6,6) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^max(abs(log(range(compare_all$shift.y),base=2))))
-(bpa <- ggplot( compare_all, aes(y=shift.x,x=1) ) +
+(bpa <- ggplot( shift.summary, aes(y=elev.shifts.med,x=1) ) +
     # geom_boxplot(notch = T,outlier.color = NA) + 
     geom_violin(outlier.color = NA, draw_quantiles = 0.5, trim=FALSE ) +
     geom_hline(yintercept=0,lty=2)+
@@ -716,7 +761,7 @@ ylimits2 <- c(-6,6) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^ma
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) )
-(bpb <- ggplot( compare_all, aes(y=log(shift.y,base=2),x=1) ) +
+(bpb <- ggplot( shift.summary, aes(y=log(abun.shifts.med,base=2),x=1) ) +
     # geom_boxplot(notch=TRUE) + 
     geom_violin(outlier.color = NA, draw_quantiles = 0.5, trim=FALSE ) +
     geom_hline(yintercept=0,lty=2)+
@@ -735,7 +780,7 @@ cowplot::plot_grid(bpa,bpb, align = "h", axis='tblr', labels = "AUTO")
 
 # add nice scatteplot
 # taxa to plot
-compare_all_plot <- compare_all
+compare_all_plot <- shift.summary
 compare_all_plot$labels <- factor( compare_all_plot$taxon, labels=1:47 )
 taxalabel <- top6
 taxalabel <- customXY
@@ -752,7 +797,7 @@ compare_all_plot$group <- compare_all_plot$phylum
 # deleted code to label points with taxon names
 # geom_text_repel(data=filter(compare_all,taxon%in%taxalabel),aes(label=taxon),
 #                 box.padding = 0.3, point.padding = 0.1, size=3) +
-(xy <- ggplot( compare_all_plot, aes(x=log(shift.y,base=2),y=shift.x)) + 
+(xy <- ggplot( compare_all_plot, aes(x=log(abun.shifts.med,base=2),y=elev.shifts.med)) + 
   geom_hline(yintercept=0)+geom_vline(xintercept=0)+
   geom_point( aes(fill=group), pch=21,size=4) +
   geom_text_repel(aes(label=labels),
@@ -767,18 +812,18 @@ compare_all_plot$group <- compare_all_plot$phylum
 
 # a densities not violin plots
 ydens <- axis_canvas(xy, axis = "y", coord_flip = TRUE)+
-  geom_vline(xintercept=mean(compare_all_plot$shift.x), col='red' ) +
+  geom_vline(xintercept=mean(compare_all_plot$elev.shifts.med), col='red' ) +
   geom_vline(xintercept=0) +
-  geom_density(data = compare_all_plot, aes(x = shift.x),
+  geom_density(data = compare_all_plot, aes(x = elev.shifts.med),
                alpha = 0.7, size = 0.5, outline.type = "full") +
   coord_flip()
   
 # Marginal densities along y axis
 # Need to set coord_flip = TRUE, if you plan to use coord_flip()
 xdens <- axis_canvas(xy, axis = "x")+
-  geom_vline(xintercept=mean(log(compare_all_plot$shift.y,base=2)), col='red' ) +
+  geom_vline(xintercept=mean(log(compare_all_plot$abun.shifts.med,base=2)), col='red' ) +
   geom_vline(xintercept=0) +
-  geom_density(data = compare_all_plot, aes(x = log(shift.y,base=2) ),
+  geom_density(data = compare_all_plot, aes(x = log(abun.shifts.med,base=2) ),
                alpha = 0.7, size = 0.5, outline.type = "full")
 
 empty <- ggplot()+geom_point(aes(1,1), colour="white")+

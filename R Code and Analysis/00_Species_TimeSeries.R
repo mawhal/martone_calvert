@@ -96,12 +96,34 @@ windows(5,5)
     facet_grid(Site~Zone, scales="free_y") + 
     # geom_smooth( se=TRUE, col='black' ) +
     stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
-    stat_summary( fun.y = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
+    stat_summary( fun = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
     geom_point( alpha=0.4,col='slateblue' ) + ggtitle( taxon ) + 
     xlab("Year") + ylab("Cover (%)") +
     scale_x_continuous(breaks = seq(2010,2018,2) ) )
 
 ggsave( paste0("R Code and Analysis/Figs/",taxon,"_zone.svg") )
+
+# plot means across the dataset, at least those with SOME presence
+# pick transects
+d <- d %>% 
+  unite( transect, Site, Zone, remove=F )
+dtrans <- d  %>% 
+  group_by( transect ) %>% 
+  summarize( Abundance=sum(Abundance) ) %>% 
+  filter( Abundance>0 )
+dall <- d %>% 
+  filter( transect %in% dtrans$transect )
+(ggall <- ggplot( dall, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
+    # facet_grid(Site~Zone, scales="free_y") + 
+    geom_smooth( se=TRUE, col='black' ) +
+    # stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
+    # stat_summary( fun = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
+    # geom_point( alpha=0.4,col='slateblue' ) + 
+    ggtitle( taxon ) + 
+    xlab("Year") + ylab("Cover (%)") +
+    scale_x_continuous(breaks = seq(2010,2018,2) ) )
+
+ggsave( paste0("R Code and Analysis/Figs/",taxon,"_all.svg"), width=3, height=3 ) 
 
 # just plot abundan over time
 # windows(6,2)

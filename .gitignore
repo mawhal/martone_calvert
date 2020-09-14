@@ -24,3 +24,7 @@ node_modules
 # Rdata files
 *.Rdata
 .DS_Store
+
+# ignore photo files
+*.HEIC
+*.JPG

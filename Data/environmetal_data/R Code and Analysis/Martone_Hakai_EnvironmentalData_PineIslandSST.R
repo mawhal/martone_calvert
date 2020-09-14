@@ -47,14 +47,16 @@ library(zoo)
 ### cross-correlate with sparser intertidal temperature loggers and CTD casts
 
 # read data
-draw <- read_table( file = "./Data/Environmental Data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt", skip=3 )
+draw <- read_csv( "Data/environmetal_data/Lighthouse Data/2020 update/DATA_-_Active_Sites/Pine_Island/Pine_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1937-2019.csv",
+                  skip=1 )
+names(draw) <- c( 'date','sal','temp','latitude', 'longitude' )
 
 # renames columns, make date columns, replace 999.9 with NA
 d <- draw %>%
-  select( year=Year, month=Month, day=Day, temp=`Temperature(C)`, sal=`Salinity(psu)` ) %>%
-  mutate( date=ymd(paste(year,month,day))) %>%
-  mutate( temp=replace(temp, temp==999.9, NA)) %>%
-  mutate( sal=replace(sal, sal==999.9, NA)) 
+  filter( !is.na(date) ) %>% 
+  mutate( date = mdy(date) ) %>% 
+  mutate( temp=replace(temp, temp==99.9, NA)) %>%
+  mutate( sal=replace(sal, sal==99.9, NA)) 
 
 d[ is.na(d$temp),]
 
@@ -78,7 +80,9 @@ decompose_temp = decompose(dts.na, "additive")
 
 
 ###Average by month
-temp.pine.sum<-d[d$temp!="NA",] %>%
+temp.pine.sum <- d %>%
+  filter( !is.na(temp) ) %>% 
+  mutate( year=year(date), month=month(date) ) %>% 
   group_by(year, month) %>%
   summarize(temp = mean(temp))
 

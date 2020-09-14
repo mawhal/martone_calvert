@@ -268,6 +268,9 @@ elev.shifts.summary <- data.frame(elev.init.med, elev.shifts.med, elev.shifts.lo
 # abundance
 abun.shifts.run     <- apply( abunds_array, c(2,3), function(z) z[8]/z[1] )
 abun.init           <- apply( abunds_array, c(2,3), function(z) z[1] )
+abun.time.med       <- apply( abunds_array, c(1,2), quantile, prob = 0.5, na.rm = TRUE )
+abun.time.high      <- apply( abunds_array, c(1,2), quantile, prob = 0.025, na.rm = TRUE )
+abun.time.low       <- apply( abunds_array, c(1,2), quantile, prob = 0.975, na.rm = TRUE )
 abun.init.med       <- apply(abun.init, 1, quantile, prob = 0.5, na.rm = TRUE)
 abun.shifts.med     <- apply(abun.shifts.run, 1, quantile, prob = 0.5, na.rm = TRUE)
 abun.shifts.high    <- apply(abun.shifts.run, 1, quantile, prob = 0.025, na.rm = TRUE)
@@ -291,9 +294,22 @@ ggplot( shift.summary, aes(x = log(abun.shifts.med,base=2), y = elev.shifts.med)
   ylab( "Elevation shift (cm)" ) + xlab( "Abundance shift" ) +
   theme_bw() + theme( panel.grid.minor = element_blank() )
 ggsave( "R Code and Analysis/Figs/shifts_error.pdf", width=4, height=4 )
+
 # correlation of median responses
-with( shift.summary, cor.test( elev.shifts.med, abun.shifts.med, method = 'spearman' ) )
+method <- 'spearman'
+with( shift.summary, cor.test( elev.shifts.med, abun.shifts.med, method = method ) )
+with( shift.summary, cor.test( elev.shifts.med, log(abun.shifts.med,base=2), method = method ) )
+ggplot( filter(shift.summary,abun.shifts.med<20), aes(x=abun.shifts.med, y=elev.shifts.med) ) + geom_point()
+ggplot( shift.summary, aes(x=abun.shifts.med, y=elev.shifts.med) ) + geom_point()
+ggplot( shift.summary, aes(x=log(abun.shifts.med,2), y=elev.shifts.med) ) + geom_point()
 filter( shift.summary, taxon=="Fucus.distichus" )
+
+# correlation of initial states and shifts
+with( shift.summary, cor.test( elev.shifts.med, elev.init.med, method = method ) )
+ggplot( shift.summary, aes(x=(elev.init.med), y=(elev.shifts.med)) ) + geom_point()
+with( shift.summary, cor.test( abun.init.med, log(abun.shifts.med,base=2), method = method ) )
+ggplot( shift.summary, aes(x=log(abun.init.med), y=log(abun.shifts.med,base=2)) ) + geom_point()
+
 
 # "significant" shifts as those that did not include zero
 shift.summary %>% 
@@ -323,6 +339,106 @@ abun.shift.plot <- ggplot( shift.summary, aes(x=rank,y=log(abun.shifts.med,base=
   theme( panel.grid.minor.x = element_blank() )
 plot_grid( elev.shift.plot, abun.shift.plot, ncol=1 )
 ggsave( "R Code and Analysis/Figs/shifts_2panel.pdf", width=6, height=5 )
+
+
+# abundance trajectories for each taxon
+abun.time.med.long <- abun.time.med %>% as_tibble() %>% 
+  pivot_longer( cols=V1:V47, names_to = "taxon", values_to = "N") %>% 
+  mutate( year = gl(n = 8,k = 47,labels = 2012:2019) )
+abun.time.low.long <- abun.time.low %>% as_tibble() %>% 
+  pivot_longer( cols=V1:V47, names_to = "taxon", values_to = "N_low") %>% 
+  mutate( year = gl(n = 8,k = 47,labels = 2012:2019) )
+abun.time.high.long <- abun.time.high %>% as_tibble() %>% 
+  pivot_longer( cols=V1:V47, names_to = "taxon", values_to = "N_high") %>% 
+  mutate( year = gl(n = 8,k = 47,labels = 2012:2019) )
+
+abun.time.long <- full_join( full_join( abun.time.med.long, abun.time.low.long ), abun.time.high.long )
+abun.time.long$taxon <- colnames(m$Y)
+abun.time.long$year <- as.numeric(as.character(abun.time.long$year) )
+
+# add empirical means
+m$studyDesign %>% 
+  group_by(year) %>% 
+  summarize(ntrans=length(transect))
+ogd <- bind_cols(  m$studyDesign, comm.all )  #data.frame(m$Y)
+ogd$year <- as.numeric(as.character(ogd$year))
+ogd.long <- ogd.mean <- ogd %>% 
+  pivot_longer( cols=names(comm.all)[1]:names(comm.all)[length(names(comm.all))], 
+                names_to = "taxon", values_to = "N" )
+ogd.mean <- ogd %>% 
+  pivot_longer( cols=names(comm.all)[1]:names(comm.all)[length(names(comm.all))], 
+                names_to = "taxon", values_to = "N" ) %>% 
+  group_by( year, transect , taxon) %>% 
+  summarize( N = mean(N) )
+ogd.pa <- ogd %>% 
+  pivot_longer( cols=names(comm.all)[1]:names(comm.all)[length(names(comm.all))], 
+                names_to = "taxon", values_to = "N" ) %>% 
+  group_by( transect , taxon ) %>% 
+  summarize( pa = sum(N) ) %>% 
+  filter( pa > 0 )
+
+# zero presence in entire survey
+ogd.zeros <- ogd %>% 
+  pivot_longer( cols=names(comm.all)[1]:names(comm.all)[length(names(comm.all))], 
+                names_to = "taxon", values_to = "N" ) %>% 
+  group_by( taxon ) %>% 
+  mutate( Nmean=mean(N) ) %>% 
+  group_by( year, taxon, Nmean ) %>% 
+  summarize( pa = sum(N) ) %>% 
+  filter( pa == 0 ) %>% 
+  arrange( -Nmean )
+
+ogd.mean.pa <- full_join(ogd.mean, ogd.pa)
+ogd.mean.pa <- ogd.mean.pa %>% 
+  ungroup() %>% 
+  # filter( !is.na(pa) ) %>%
+  mutate( year =  as.numeric(as.character(year)) ) 
+ogd.mean.pa.mean <- ogd.mean.pa %>% 
+  group_by(year,taxon) %>% 
+  summarize(N=mean(N))
+
+point_colors <- c("slateblue","firebrick", "goldenrod" )
+species <- c("Fucus.distichus","Elachista.fucicola")
+species <- c("Palmaria.hecatensis","Palmaria.mollis") 
+species <- c("Polysiphonia","Lithothamnion.phymatodeum") 
+species <- "Pyropia"
+species <- c("Alaria.marginata","Hedophyllum.sessile","Egregia.menziesii")
+species <- c( "Mazzaella.parvula", "Mazzaella.oregona", "Mazzaella.splendens" )
+species <- "Cladophora.columbiana"
+species <- "Corallina"
+species <- c("Colpomenia.bullosa","Colpomenia.peregrina")
+species <- c("Mastocarpus","Petrocelis")
+species <- c("Phyllospadix.sp.")
+species <- c("Gloiopeltis.furcata")
+species <- c("Barnacles","Mytilus.sp.")
+species <- c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides")
+species <- c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma")
+species <- c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola")
+
+abun.time.plot <- abun.time.long %>% filter(taxon %in% species ) %>% ungroup() 
+library(scales)
+ggplot( abun.time.plot, aes( x=year, y=N/90, group=taxon, col=taxon ) ) + 
+  # geom_ribbon( aes(x=year, ymin=N_high/90, ymax=N_low/90), fill="grey70", alpha=0.5 ) +
+  # facet_wrap(~taxon, scales="free_y",ncol=1) +
+  geom_path(size=3) +
+  # geom_point( data=filter(ogd.mean.pa, taxon %in% species ), aes(y=N+0.01111111), size=5, alpha = 0.1 ) +
+  geom_point( data=filter(ogd.long, taxon %in% species ), aes(y=N+0.01111111), size=5, alpha = 0.01 ) +
+  geom_path( data=filter(ogd.mean.pa.mean, taxon %in% species ), aes(y=N+0.01111111), size=0.5, alpha = 1 ) +
+  # stat_summary( data=filter(ogd.mean.pa, taxon %in% species ), aes(y=N), fun = "median", geom="line", size = 0.5 ) +
+  scale_color_manual(values=point_colors[1:length(species)]) +
+  ylab("Percent Cover") +
+  theme_classic() +
+  theme(legend.position="top") +
+  # ylim( c(0,18) ) +
+  scale_y_log10(labels = comma) +
+  # scale_y_continuous(labels = comma) +
+  guides(color=guide_legend(nrow=2,ncol=2,byrow=F))  
+
+ggsave( paste0("R Code and Analysis/Figs/",
+               paste0(species,collapse="_"),
+               "_model+data.svg"), width=3,height=3.5)
+
+
 # ### other ways to summarize the model results
 # tmp = abind::abind(predY, along = 3)
 # qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
@@ -407,9 +523,9 @@ tt$kelp_fucoid_turf[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
 tt$littler_groups[tt$taxon_revised=="Ectocarpus sp."] <- "filament"
 tt$kelp_fucoid_turf[tt$taxon_revised=="Melobesia sp."] <- "crustose coralline"
 tt$littler_groups[tt$taxon_revised=="Melobesia sp."] <- "coralline"
-tt$kelp_fucoid_turf[tt$taxon_revised=="Savoiea robusta"] <- "filament_turf"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Savoiea robusta"] <- "filament turf"
 tt$littler_groups[tt$taxon_revised=="Savoiea robusta"] <- "filament"
-tt$kelp_fucoid_turf[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament_turf"
+tt$kelp_fucoid_turf[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament turf"
 tt$littler_groups[tt$taxon_revised=="Symphyocladia plumosa"] <- "filament"
 tt$kelp_fucoid_turf[tt$taxon_revised=="Hedophyllum nigripes"] <- "Kelp"
 tt$littler_groups[tt$taxon_revised=="Hedophyllum nigripes"] <- "thick leathery"
@@ -434,12 +550,28 @@ tt$taxon <- gsub( " ",".",tt$taxon_lumped3 )
 tt <- tt %>% 
   select( taxon, funct=kelp_fucoid_turf, littler_groups ) %>% 
   distinct()
-tt$funct[ tt$funct=="green turf"] <- "filament_turf"
-tt$funct[tt$taxon=="Ulva"] <- "filament turf"
+# tt$funct[ tt$funct=="green turf"] <- "filament turf"
+tt$funct[tt$taxon=="Ulva"] <- "green turf"
+# tt$funct[tt$taxon=="Cladophora.columbiana"] <- "green turf"
+tt$funct <- gsub( "Kelp", "kelp", tt$funct )
+tt$funct[tt$taxon=="Tunicata/Porifera"] <- "Animal"
+tt$funct[tt$taxon=="coralline.crust"] <- "crustose coralline"
+
 
 tt[ tt$funct == "crustose coralline",]
 
 ttuse <- tt
+
+# write the final trait table to disk, in same order as modeling
+dim(ttuse)
+comm.all <- read_csv( "R Code and Analysis/output from r/community_all.csv" )
+sums <- apply( comm.all, 2, sum )
+tt_join <- left_join( left_join( select(ttuse,-fill), 
+           data.frame( taxon = names(sums), rank_abun=rank(-sums) ) ),
+           data.frame( taxon = colnames(m$Y), hmsc="yes") )
+write_csv( tt_join %>% arrange(  rank_abun ), "R Code and Analysis/output from r/traits_final.csv" )
+
+
 # tt <- tt[-c(4,21,213),]
 ttuse$fill <- "whitesmoke"
 ttuse$fill[ttuse$funct=="animal"] <- "deepskyblue"
@@ -447,39 +579,39 @@ ttuse$fill[ttuse$funct=="animal"] <- "deepskyblue"
 predictions_abund_trait <- left_join( predictions_abund, ttuse)
 sort(unique(predictions_abund_trait$taxon))
 sort(unique(predictions_abund_trait$taxon[ predictions_abund_trait$funct== "crustose coralline"]))
-predictions_abund_trait$funct[predictions_abund_trait$taxon=="Tunicata.Porifera"] <- "Animal"
-predictions_abund_trait$funct[predictions_abund_trait$taxon=="coralline.crust"] <- "crustose coralline"
 predictions_abund_trait$fill[predictions_abund_trait$taxon=="coralline.crust"] <- "whitesmoke"
 
-
+predictions_abund_trait %>% 
+  select( taxon, funct ) %>% 
+  distinct()
 
 
 # only pull the 10 most common taxa
-top6 <- colnames(m$Y)[c(1:6,9,14,15)]
-noxshift <- colnames(m$Y)[c(3,9,11,15,20,25,26,47)]
-upX <- colnames(m$Y)[c(45,42,44,16,37,35)]
-downX <- colnames(m$Y)[c(43,36,5,24,28,33,30)]
-upY <- colnames(m$Y)[c(15,42,39,47,44,46,20,22,9)]
-customXY <- colnames(m$Y)[c(1,3,4,5,6,8,9,14,15,27,30,37,42)]
-# 10 rarest taxa
-bot10 <- colnames(m$Y)[(length(colnames(m$Y))-8):length(colnames(m$Y))]
+colnames(m$Y)
+top6 <- colnames(m$Y)[c(1,34,4,6,5,7,3,15,14)]
+# noxshift <- colnames(m$Y)[c(3,9,11,15,20,25,26,47)]
+# upX <- colnames(m$Y)[c(45,42,44,16,37,35)]
+# downX <- colnames(m$Y)[c(43,36,5,24,28,33,30)]
+# upY <- colnames(m$Y)[c(15,42,39,47,44,46,20,22,9)]
+# customXY <- colnames(m$Y)[c(1,3,4,5,6,8,9,14,15,27,30,37,42)]
+# # 10 rarest taxa
+# bot10 <- colnames(m$Y)[(length(colnames(m$Y))-8):length(colnames(m$Y))]
 
-taxa2plot <- noxshift
-
+taxa2plot <- top6
 # windows(6,4)
 ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2019)), aes(x = elev, y = N,
                                                         fill=factor(year) ))+
   geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
   facet_wrap(~taxon, scales = "free_y")+
-  theme_classic() +#+
-  # scale_fill_viridis_d() +
-  # scale_color_manual(values=c("black","black"))+
-  scale_fill_manual(values=c("whitesmoke", "mediumslateblue"))+
-  geom_point( data = filter( comm_final, taxon %in% taxa2plot, year %in% c(2012,2019)), pch=21 ) +
-  geom_line(size = 0.5) +
+    geom_point( data = filter( comm_final, taxon %in% taxa2plot, year %in% c(2012,2019)), pch=21 ) +
+  geom_line(aes(col=factor(year)),size = 0.5) +
   scale_y_sqrt() + ylab("Percent cover") + xlab("Shore height (cm)") +
-  coord_cartesian(ylim=c(0,100))
-# ggsave("R Code and Analysis/Figs/hmsc_response_curves.pdf", width = 6, height = 4)
+  # scale_fill_viridis_d() +
+  scale_color_manual(values=c("black","darkslateblue"))+
+  scale_fill_manual(values=c("whitesmoke", "mediumslateblue"))+
+  coord_cartesian(ylim=c(0,100)) +
+  theme_classic() 
+# ggsave("R Code and Analysis/Figs/hmsc_response_curves.svg", width = 6, height = 4)
 
 # just show Fucus
 fuc <- "Fucus.distichus"
@@ -513,12 +645,15 @@ ggplot( filter(predictions_abund,taxon %in% fuc ),
   ggtitle(fuc) +
   geom_point( data = filter( comm_final, taxon %in% fuc), pch=21 ) +
   # scale_y_sqrt(breaks=c(1,10,50,100,200)) + 
-  ylab("Percent cover") + xlab("Shore height (cm)") +
+  ylab("Percent cover") + xlab("Shore height (cm)") #+
   coord_cartesian(ylim = c(-0, 100)) 
 #
 compare_all %>% arrange(shift.y)
 compare_all %>% arrange(shift.x)
 #
+
+
+
 
 
 # Find the predicted peak for each instance

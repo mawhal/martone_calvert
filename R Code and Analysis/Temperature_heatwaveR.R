@@ -17,8 +17,9 @@ library( heatwaveR )
 
 
 ## try with data we already have 
-pine <- read_table( "data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt",
-                  skip=3 )
+pine <- read_csv( "Data/environmetal_data/Lighthouse Data/2020 update/DATA_-_Active_Sites/Pine_Island/Pine_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1937-2019.csv",
+skip=1 )
+names(pine) <- c( 'date','sal','temp','latitude', 'longitude' )
 mcin <- read_table( "data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/McInnesDailySalTemp.txt",
                             skip=3 )
 
@@ -28,12 +29,14 @@ adden <- read_csv( "data/environmetal_data/Addenbroke Air Temperature/EC/1060080
 # clean up the data
 # renames columns, make date columns, replace 999.9 with NA
 d <- pine %>%
-  select( year=Year, month=Month, day=Day, temp=`Temperature(C)`, sal=`Salinity(psu)` ) %>%
+  filter( !is.na(date) ) %>% 
+  mutate( date = mdy(date) ) %>% 
+  # select( year=Year, month=Month, day=Day, temp=`Temperature(C)`, sal=`Salinity(psu)` ) %>%
   # mutate( date=ymd(paste(year,month,day))) %>%
-  unite( date, year,month,day, sep="-" ) %>%
-  mutate( date= ymd(date) ) %>%
-  mutate( temp=replace(temp, temp==999.9, NA)) %>%
-  mutate( sal=replace(sal, sal==999.9, NA)) 
+  # unite( date, year,month,day, sep="-" ) %>%
+  # mutate( date= ymd(date) ) %>%
+  mutate( temp=replace(temp, temp==99.9, NA)) %>%
+  mutate( sal=replace(sal, sal==99.9, NA))
 #
 d2 <- mcin %>%
   select( year=Year, month=Month, day=Day, temp=`Temperature(C)`, sal=`Salinity(psu)` ) %>%
@@ -66,9 +69,11 @@ lines(d2, type='l',col="blue")
 
 
 ## heatwaveR
+start.date <- "1937-01-01"
+end.date   <- "2019-10-31"
 # Detect the events in a time series
-ts <- ts2clm(d, climatologyPeriod = c("1937-01-01", "2019-05-01"))
-ts10 <- ts2clm(d, climatologyPeriod = c("1937-01-01", "2019-05-01"), pctile=10)
+ts <- ts2clm(d, climatologyPeriod = c(start.date, end.date))
+ts10 <- ts2clm(d, climatologyPeriod = c(start.date, end.date), pctile=10)
 mhw <- detect_event(ts)
 mcw <- detect_event(ts10,coldSpells = TRUE)
 ts2 <- ts2clm(d2, climatologyPeriod = c("1954-01-01", "2019-05-01"))

@@ -1,0 +1,217 @@
+taxon,funct,littler_groups,rank_abun,hmsc
+Fucus.distichus,fucoid,thick leathery,1,yes
+Hildenbrandia,crust,crustose,2,yes
+Barnacles,animal,animal,3,yes
+Alaria.marginata,kelp,thick leathery,4,yes
+Pyropia,blade,sheet,5,yes
+Hedophyllum.sessile,kelp,thick leathery,6,yes
+Petrocelis,crust,crustose,7,yes
+Corallina,articulated coralline,jointed calcareous,8,yes
+Phyllospadix.sp.,seagrass,seagrass,9,yes
+Chamberlainium.tumidum,crustose coralline,coralline,10,yes
+Bossiella_articulate,articulated coralline,jointed calcareous,11,yes
+Endocladia.muricata,filament turf,filament,12,yes
+Plocamium.violaceum,red turf,finely branching,13,yes
+Mastocarpus,red turf,thick leathery,14,yes
+Mytilus.sp.,animal,animal,15,yes
+Neorhodomela.larix,red turf,finely branching,16,yes
+Egregia.menziesii,kelp,thick leathery,17,yes
+Ptilota,red turf,finely branching,18,yes
+Mazzaella.splendens,blade,thick leathery,19,yes
+coralline.crust,crustose coralline,jointed calcareous,20,yes
+coralline.crust,crustose coralline,crustose,20,yes
+coralline.crust,crustose coralline,crustose,20,yes
+Ulva,green turf,sheet,21,yes
+Ulva,green turf,sheet,21,yes
+Anemone,animal,animal,22,yes
+Halosaccion.glandiforme,red turf,sheet,23,yes
+Cryptosiphonia.woodii,red turf,finely branching,24,yes
+Polyneura.latissima,red turf,sheet,25,yes
+Odonthalia.floccosa,red turf,finely branching,26,yes
+Hymenena,red turf,sheet,27,yes
+Acrosiphonia,filament turf,filament,28,yes
+Microcladia.borealis,red turf,filament,29,yes
+Mazzaella.oregona,blade,thick leathery,30,yes
+Gloiopeltis.furcata,red turf,finely branching,31,yes
+Neogastroclonium.subarticulatum,red turf,finely branching,32,yes
+Savoiea.robusta,filament turf,filament,33,yes
+Elachista.fucicola,filament,filament,34,yes
+Polysiphonia,filament turf,filament,35,yes
+Callithamnion.pikeanum,red turf,filament,36,yes
+Scytosiphon.dotyi,brown turf,sheet,37,NA
+Palmaria.hecatensis,red turf,thick leathery,38,yes
+Leathesia.marina,brown turf,finely branching,39,yes
+Bryozoan,animal,animal,40,NA
+Erythrotrichia.carnea,filament,filament,41,NA
+Lithothamnion.phymatodeum,crustose coralline,crustose,42,yes
+Prionitis,red turf,finely branching,43,yes
+Ralfsioid,crust,crustose,44,yes
+Cladophora.columbiana,filament turf,filament,45,yes
+Hedophyllum.nigripes,kelp,thick leathery,46,NA
+Farlowia.mollis,red turf,finely branching,47,yes
+Dilsea.californica,blade,thick leathery,48,yes
+Codium.fragile,other,finely branching,49,NA
+Ceramium.pacificum,filament,filament,50,yes
+Analipus.japonicus,brown turf,finely branching,51,NA
+Costaria.costata,kelp,thick leathery,52,NA
+Osmundea.spectabilis,red turf,thick leathery,53,NA
+Tunicata/Porifera,Animal,animal,54,NA
+Neopolyporolithon.reclinatum,crustose coralline,crustose,55,yes
+Scytosiphon.lomentaria,brown turf,sheet,56,NA
+Codium.setchellii,other,crustose,57,NA
+Calliarthron.tuberculosum,articulated coralline,jointed calcareous,58,NA
+Mazzaella.parvula,blade,thick leathery,59,yes
+Pollicipes.polymerus,animal,animal,60,NA
+Palmaria.mollis,red turf,thick leathery,61,NA
+Lomentaria.hakodatensis,red turf,finely branching,62,NA
+Ectocarpus.commensalis,filament,filament,63,NA
+Peyssonnelia.sp.,crust,crustose,64,NA
+Tube.worms,animal,animal,65,NA
+Nemalion.helminthoides,red turf,NA,66,NA
+Colpomenia.bullosa,brown turf,sheet,67,NA
+Schizymenia.pacifica,blade,thick leathery,68,NA
+Tokidadendron.bullatum,red turf,sheet,69,NA
+Blidingia,green turf,sheet,70.5,NA
+Desmarestia.ligulata,desmarestiales,thick leathery,70.5,NA
+Unknown.crust,crust,crustose,72,NA
+Ahnfeltia.fastigiata,red turf,finely branching,73.5,NA
+Salishia.firma,blade,thick leathery,73.5,NA
+Plocamium.pacificum,red turf,finely branching,75,NA
+Smithora.naiadum,red turf,sheet,76,NA
+Mazzaella.parksii,blade,thick leathery,77,NA
+Opuntiella.californica,blade,thick leathery,78,NA
+Hydroid,animal,animal,79,NA
+Chiharaea.silvae,articulated coralline,jointed calcareous,80,NA
+Laminaria.yezoensis,kelp,thick leathery,81,NA
+Laminaria.setchellii,kelp,thick leathery,82,NA
+Antithamnion.defectum,filament,filament,83,NA
+Melanosiphon.intestinalis,brown turf,sheet,84,NA
+Antithamnionella.pacifica,filament,filament,86,NA
+Desmarestia.aculeata,desmarestiales,thick leathery,86,NA
+Pylaiella.littoralis,filament,filament,86,NA
+Chiharaea.rhododactyla,articulated coralline,jointed calcareous,88.5,NA
+Johansenia.macmillanii,articulated coralline,jointed calcareous,88.5,NA
+Cumathamnion.decipiens,red turf,sheet,90.5,NA
+Neorhodomela.oregona,red turf,finely branching,90.5,NA
+Melobesia.sp.,crustose coralline,coralline,92,NA
+Collinsiella.tuberculata,green turf,sheet,94,NA
+Colpomenia.peregrina,brown turf,sheet,94,NA
+Nereocystis.luetkeana,kelp,thick leathery,94,NA
+Pleonosporium.vancouverianum,filament,filament,96.5,NA
+Ceramium.codicola,filament,filament,98.5,NA
+Lithothamnion.glaciale,crustose coralline,crustose,98.5,NA
+Acrochaetium.sp.,filament,filament,102,NA
+Colonial.Diatoms,filament,filament,102,NA
+Pterygophora.californica,kelp,thick leathery,102,NA
+Rhodochorton.purpureum,filament turf,filament,102,NA
+Soranthera.ulvoidea,brown turf,sheet,102,NA
+Cladophora.sericea,filament turf,filament,105.5,NA
+Neorhodomela.aculeata,red turf,finely branching,105.5,NA
+Halichondria,animal,animal,108,NA
+Odonthalia.floccosa.f..comosa,red turf,finely branching,108,NA
+Sphacelaria.rigidula,filament,filament,108,NA
+Rhizoclonium.tortuosum,filament turf,filament,110,NA
+Bangia.sp.,filament,filament,112,NA
+Flustralidra,animal,animal,112,NA
+Herposiphonia.plumula,filament turf,filament,112,NA
+Monostroma.grevillei,blade,sheet,114.5,NA
+Pterocladiella.caloglossoides,red turf,finely branching,114.5,NA
+Callophyllis.sp.,red turf,sheet,118.5,NA
+Chaetomorpha.cannabina,filament,filament,118.5,NA
+Jingle,animal,animal,118.5,NA
+Styela.sp.,animal,animal,118.5,NA
+Ulothrix-Urospora.sp.,green turf,filament,118.5,NA
+Ectocarpus.sp.,filament,filament,123,NA
+Mesophyllum.vancouveriense,crustose coralline,crustose,123,NA
+Riterella.pulchra,animal,animal,123,NA
+Chiharaea.bodegensis,articulated coralline,jointed calcareous,131.5,NA
+Ectocarpus.siliculosus,filament,filament,131.5,NA
+Fauchea.sp.,red turf,sheet,131.5,NA
+Haliclona,animal,animal,131.5,NA
+Kornmannia.leptoderma,blade,sheet,131.5,NA
+Petalonia.fascia,brown turf,sheet,131.5,NA
+Phycodrys.sp.,red turf,finely branching,131.5,NA
+Pododesmus.sp.,animal,animal,131.5,NA
+Pugetia.firma,blade,thick leathery,131.5,NA
+Rhodymenia.sp.,red turf,finely branching,131.5,NA
+Tiffaniella.snyderae,filament,filament,131.5,NA
+Acmaea.mitra,animal,animal,NA,NA
+Amphipoda,animal,animal,NA,NA
+Amphiporus,animal,animal,NA,NA
+Amphissa.sp.,animal,animal,NA,NA
+Bittium,animal,animal,NA,NA
+Black.spots.on.Fucus,filament,filament,NA,NA
+Brittle.star,animal,animal,NA,NA
+Calliostoma,animal,animal,NA,NA
+Chiton,animal,animal,NA,NA
+Chlorostoma.sp.,animal,animal,NA,NA
+Cladophora.stimpsonii,filament turf,filament,NA,NA
+Clam,animal,animal,NA,NA
+Clam.hole,animal,animal,NA,NA
+Constantinea.subulifera,blade,thick leathery,NA,NA
+Cottoidea,animal,animal,NA,NA
+Crab,animal,animal,NA,NA
+Cryptochiton,animal,animal,NA,NA
+Cucumaria.miniata,animal,animal,NA,NA
+Dermasterias,animal,animal,NA,NA
+Dictyosiphon.foeniculaceus,brown turf,finely branching,NA,NA
+Feldmannia.irregularis,filament,filament,NA,NA
+Fish,animal,animal,NA,NA
+Frederikia.sp.,red turf,finely branching,NA,NA
+Gammaridae,animal,animal,NA,NA
+Gelidium.sp.,red turf,finely branching,NA,NA
+Gobiesox,animal,animal,NA,NA
+Gracilaria.pacifica,red turf,finely branching,NA,NA
+Haplogaster.sp.,animal,animal,NA,NA
+Hemigrapsis.sp.,animal,animal,NA,NA
+Henricia,animal,animal,NA,NA
+Hollenbergia.subulata,filament,filament,NA,NA
+Isopoda,animal,animal,NA,NA
+Katharina.tunicata,animal,animal,NA,NA
+Lacuna.sp.,animal,animal,NA,NA
+Leptasterias.sp.,animal,animal,NA,NA
+Leptofauchea.sp.,red turf,finely branching,NA,NA
+Ligia.sp.,animal,animal,NA,NA
+Limpet,animal,animal,NA,NA
+Littorina.scutulata,animal,animal,NA,NA
+Littorina.sp.,animal,animal,NA,NA
+Lophopanopeus.bellus,animal,animal,NA,NA
+Lottia.sp.,animal,animal,NA,NA
+Macrocystis.pyrifera,kelp,thick leathery,NA,NA
+Mazzaella.rigidus,blade,thick leathery,NA,NA
+Mesocentrotus.franciscanus,animal,animal,NA,NA
+Mopalia.sp.,animal,animal,NA,NA
+Mysid,animal,animal,NA,NA
+Nemertea,animal,animal,NA,NA
+Neoagarum.fimbriatum,kelp,thick leathery,NA,NA
+Neodilsea.borealis,blade,thick leathery,NA,NA
+Nereid,animal,animal,NA,NA
+Nucella,animal,animal,NA,NA
+Nudipleura,animal,animal,NA,NA
+Onchidella,animal,animal,NA,NA
+Pagarus.sp.,animal,animal,NA,NA
+Pentidotea.sp.,animal,animal,NA,NA
+Pholidae,animal,animal,NA,NA
+Pisaster.ochraceus,animal,animal,NA,NA
+Polychaete,animal,animal,NA,NA
+Symphyocladia.plumosa,filament turf,filament,NA,NA
+Pugettia,animal,animal,NA,NA
+Punctaria.sp.,blade,thick leathery,NA,NA
+Pycnopodia.helianthoides,animal,animal,NA,NA
+Saccharina.latissima,kelp,thick leathery,NA,NA
+Sargassum.muticum,fucoid,thick leathery,NA,NA
+Scagelia.occidentale,filament,filament,NA,NA
+Sea.star,animal,animal,NA,NA
+Snail,animal,animal,NA,NA
+Sparlingia.pertusa,blade,thick leathery,NA,NA
+Strongylocentrotus.droebachiensis,animal,animal,NA,NA
+Strongylocentrotus.purpuratus,animal,animal,NA,NA
+Tegula.sp.,animal,animal,NA,NA
+Tonicella.lineata,animal,animal,NA,NA
+Tonicella.sp.,animal,animal,NA,NA
+Unknown.turf,filament,filament,NA,NA
+Worm,animal,animal,NA,NA
+Bossiella,crustose coralline,crustose,NA,NA
+Derbesia.marina,green turf,filament,NA,NA
+Shrimp,animal,animal,NA,NA
+Ceratostoma,animal,animal,NA,NA

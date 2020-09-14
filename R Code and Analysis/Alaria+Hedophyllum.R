@@ -1,10 +1,10 @@
 # Martone Hakai Rocky Shore Seaweed Surveys
 # 
 # by Matt Whalen
-# updated 20 December 2018
+# updated 20 July 2020
 
-# This script produces shows patterns of Alaria, Saccharina, and Katharina from on transect
-site <- "North Beach"
+# This script produces shows patterns of Alaria, Hedophyllum sessile, and Katharina from on transect
+# site <- "North Beach"
 
 
 # set options
@@ -16,9 +16,9 @@ library(tidyverse)
 
 ## read data files
 # all data
-ad <- read.csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_data.csv" )
+ad <- read_csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_data.csv" )
 # all metadata
-am <- read.csv("Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
+am <- read_csv("Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 # am <- filter(am,Year!=2011)
 
 ## Deal with trace cover and other oddities
@@ -48,9 +48,9 @@ ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 # Choose a taxon 
 sort( unique( ad$Taxon ))
 # use general exp to pull several groups if needed
-sacc <- "Hedophyllum sess"
-sort(unique( ad$Taxon[ grep( paste0(sacc,"*"), ad$Taxon ) ]  ))
-dsacc   <- ad[ grep( paste0(sacc,"*"), ad$Taxon ), ]
+hedo <- "Hedophyllum sess"
+sort(unique( ad$Taxon[ grep( paste0(hedo,"*"), ad$Taxon ) ]  ))
+dhedo   <- ad[ grep( paste0(hedo,"*"), ad$Taxon ), ]
 
 alar <- "Alaria"
 sort(unique( ad$Taxon[ grep( paste0(alar,"*"), ad$Taxon ) ]  ))
@@ -62,10 +62,9 @@ dkaty   <- ad[ grep( paste0(katy,"*"), ad$Taxon ), ]
 
 
 # get all instances of a particular taxon
-# to include all quadrats us full_join, or use left_join for quads with the taxon
-ds <- left_join( dsacc, am )
+ds <- left_join( dhedo, am )
 ds$Abundance[ is.na( ds$Abundance) ] <- 0
-ds$group <- sacc
+ds$group <- hedo
 da <- left_join( dalar, am )
 da$Abundance[ is.na( da$Abundance) ] <- 0
 da$group <- alar
@@ -76,10 +75,83 @@ dk$group <- katy
 # combine all datasets
 dask <- do.call( rbind, list(ds,da,dk))
 
-# only look at North Beach, where we have high abundance of all three players
-dn <- dask[ dask$Site == site, ]
-dn <-  dask
+# spread and identify transects that had both Alaria and Hedophyllum
+dha <- do.call( rbind, list(dhedo,dalar) ) %>% 
+  separate( UID, into = c("beach","x","zone","year","quad"), sep=" ", remove = F ) %>% 
+  unite( "transect", beach, x, zone, remove = F ) %>% 
+  mutate( Taxon=gsub(" ", "_", Taxon), Abundance=as.numeric(Abundance), year=as.numeric(year)) %>% 
+  filter( year != 2011 )
+dha_wide <- dha %>% 
+  pivot_wider( names_from=Taxon, values_from=Abundance ) 
+dha_wide[ is.na(dha_wide) ] <- 0
+trans <- dha_wide %>% 
+  group_by(transect) %>% 
+  summarize( Hedo=sum(Hedophyllum_sessile),Alar=sum(Alaria_marginata) ) %>% 
+  filter( Hedo!=0 ) %>% 
+  select(transect)
+dha_filt <- dha %>% 
+  filter( transect %in% trans$transect )
+# this contains all transects that had both species and quads with at least one of the species
+dha_corr <- dha_filt %>% 
+  pivot_wider( names_from=Taxon, values_from=Abundance ) 
+
+# filter out quad with 100% cover of both taxa
+dha_corr %>% filter( Alaria_marginata==100 )
+dha_corr %>% filter( (Alaria_marginata == 100 & Hedophyllum_sessile == 100) ) %>% select(UID)
+dha_corr <- dha_corr[ dha_corr$UID != "North Beach LOW 2019 6", ]
+dha_corr <- dha_corr %>% 
+  mutate( Alaria_marginata = replace_na(Alaria_marginata,replace=0),
+          Hedophyllum_sessile = replace_na(Hedophyllum_sessile,replace=0))
+
+ggplot( dha_corr, aes(x=Alaria_marginata,y=Hedophyllum_sessile,col=year) ) + 
+  geom_point( alpha=1, size=3 ) +
+  # geom_smooth(se=F) +
+  facet_wrap(~year) +
+  # geom_smooth( aes(group=year), method='lm', se=F ) +
+  # stat_ellipse(type="t",level=0.60) +
+  theme_bw()
+ggsave("R Code and Analysis/Figs/Alaria+Hedophyllum.svg", width=4, height=3)
+
+
+# correlation, regression
+library(lme4)
+mm1 <- lmer( Hedophyllum_sessile ~ Alaria_marginata + (Alaria_marginata|year/transect), data=dha_corr )
+summary(mm1)
     
+with( dha_corr, cor.test( Hedophyllum_sessile, Alaria_marginata, method="spearman") )
+
+
+# Cross-correlation
+dcf <- dha_corr %>%
+  ungroup() %>% 
+  select( t=year, Alaria_marginata, Hedophyllum_sessile ) 
+# is.na(dcf) <- na.omit(dcf)
+x <- ccf( dcf$Alaria_marginata, dcf$Hedophyllum_sessile, ylab="cross-correlation", main="Alaria & Hedophyllum", lag.max = 60)
+
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # make abundances numeric
 sort(unique(dn$Abundance))
 dn$Abundance <- as.numeric( dn$Abundance )
@@ -112,14 +184,14 @@ ggplot( toplot, aes(x=Date.x,y=Abundance)) + facet_wrap(~Taxon, scales="free_y")
   scale_y_continuous(breaks = scales::pretty_breaks()) +
   theme_classic() +
   theme(axis.title.x=element_blank())
-ggsave( "R Code and Analysis/Figs/AlariaSaccKaty.svg", width=6, height=2 )
+ggsave( "R Code and Analysis/Figs/AlariahedoKaty.svg", width=6, height=2 )
 
 # subset of sites where elevation has been measured
 windows(10,4)
 (ggheight <- ggplot( dn, aes(x=Shore_height_cm,y=Abundance)) + facet_grid(group~Year, scales = "free_y") + 
     geom_point(alpha=0.2) +  ggtitle( site ) + geom_smooth(se=FALSE))
 
-ggsave( paste0("Figs/AlariaSaccKaty_",site,"_elevation.pdf"), ggheight, "pdf" )
+ggsave( paste0("Figs/AlariahedoKaty_",site,"_elevation.pdf"), ggheight, "pdf" )
 
 
 ## correlations
@@ -137,10 +209,10 @@ dcor <- d11 %>%
   select( SiteHeightYear, Quadrat, group, Abundance)
 dcor <- dcast( dcor, SiteHeightYear + Quadrat ~ group)
 dcor <- dcor %>%
-  select( Alaria, Kat, Sacc="Saccharina sess")
+  select( Alaria, Kat, Hedo="Hedophyllum sess")
 # get rid of all zero cases for seaweed
 dcor <- dcor %>%
-  filter( Alaria>0 & Sacc>0 )
+  filter( Alaria>0 & Hedo>0 )
 pairs.panels(dcor)
 
-ggplot( dcor, aes(x= Alaria, y=Sacc)) + geom_point()
+ggplot( dcor, aes(x= Alaria, y=Hedo)) + geom_point()

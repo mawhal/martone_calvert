@@ -4,7 +4,7 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Pyropia"
+taxon <- "Alaria"
 
 # taxa with predicted increases over time
 # taxon <- "Mytilus"
@@ -118,7 +118,7 @@ dall <- d %>%
     geom_smooth( se=TRUE, col='black' ) +
     # stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
     # stat_summary( fun = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
-    # geom_point( alpha=0.4,col='slateblue' ) + 
+    geom_point( alpha=0.4,col='slateblue' ) +
     ggtitle( taxon ) + 
     xlab("Year") + ylab("Cover (%)") +
     scale_x_continuous(breaks = seq(2010,2018,2) ) )

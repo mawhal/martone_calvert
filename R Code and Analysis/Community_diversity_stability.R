@@ -212,6 +212,7 @@ divvar2 <- yearly %>%
 # initial diversities
 inits <- yearly %>% filter( Year==2012 )
 divvar2 <- left_join(divvar2, inits)
+# divvar2 <- filter( divvar2, source=="all" )
 
 # collapse and plot all together
 divplot2 <- divvar2 %>% 
@@ -256,12 +257,12 @@ with( divvar2, cor.test(gmeanr, stability) )
 with( divvar2, cor.test(meanr, stability) )
 divvar2 %>% group_by( Site, Zone) %>% summarize(diff=diff(stability))
 stab <- ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + #x=gmeanr
-  facet_wrap(~source) +
+  # facet_wrap(~source) +
   geom_smooth(method='glm',se=T,method.args=list(family="poisson")) +
   geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(fill=Zone,shape=Site),size=3) +
-  ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")")) ) + 
-  xlab("Mean algal species richness") +
+  ylab( expression(paste("Cover stability (",mu,"/",sigma,")")) ) + 
+  xlab("Mean species richness") +
   scale_shape_manual( values=21:23 ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
   scale_linetype_discrete(  guide=FALSE ) +
@@ -382,12 +383,15 @@ dsynch <- left_join( divvar2, synchrony )
 dsynch$source <- factor( dsynch$source, levels=c("all","algae"))
 dsynch$Site <- factor( dsynch$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 
-synchplot <- ggplot( dsynch, aes(x=gmeanr,y=phi,shape = Site, fill = Zone)) + facet_wrap(~source) +
+synchplot <- ggplot( dsynch, aes(x=gmeanr,y=phi,shape = Site, fill = Zone)) + 
+  # facet_wrap(~source) +
   geom_smooth( aes(group=1), method="glm", method.args=list(family=quasibinomial))+ geom_point(size=3) +
   scale_shape_manual( values=21:23, guide=F ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
-  ylab( expression(paste("Species synchrony (",phi,")")) ) + xlab( "Mean algal species richness" ) +
-  theme_classic()
+  ylab( expression(paste("Synchrony (",phi,")")) ) + xlab( "Mean species richness" ) +
+  guides(fill=guide_legend("Zone",override.aes = list(shape = 21,linetype=0)) ) +
+  theme_classic() + theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
+                           legend.background = element_blank() )
 ggplot( dsynch, aes(x=phi,y=stability,shape=Site, fill=Zone)) + facet_wrap(~source) +
   # geom_smooth( aes(group=1), method="glm",method.args=list(family=quasipoisson),se=F) + 
   geom_point() +
@@ -457,6 +461,7 @@ ress_long <- ress %>%
   gather( "measure","value", -Site, -Zone, -source )
 
 ress_long <- left_join(ress_long,divvar2)
+# ress_long <- filter(ress_long, source=="all")
 
 ggplot( ress_long, aes(x=gmeanr,y=(value),fill=Site)) +
   facet_grid(measure~source,scales="free_y") + geom_point(size=3, alpha=1, pch=21) +
@@ -468,37 +473,55 @@ ggplot( ress_long, aes(x=gmeanr,y=(value),fill=Site)) +
 
 resist <- ggplot( filter(ress_long,measure %in% c("O1","O2","O3","O4")), 
                   aes(x=as.numeric(as.factor(measure)),y=value,fill=Zone,shape=Site)) +
-  geom_smooth( aes(group=Zone, lty=Zone), method='lm', se=F, col="black" ) +
-  geom_point(size=3) + facet_wrap(~source)+
+  geom_smooth( aes(group=Zone, lty=Zone), method='glm', se=F, col="black", method.args = list(family="quasipoisson")  ) +
+  geom_point(size=3) + 
+  facet_wrap(~source)+
   # geom_smooth( method='glm', method.args=list(family="quasipoisson")) +
-  scale_y_continuous(trans="log2") +
+  # scale_y_continuous(trans="log2") +
   scale_shape_manual( values=21:23, guide=F ) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   # scale_linetype_manual(guide=F ) +
-  guides(fill=guide_legend("Zone",override.aes = list(shape = 21))) +
+  # guides(fill=guide_legend("Zone",override.aes = list(shape = 21))) +
   xlab("Year of heatwave") + ylab(expression(paste("Resistance (",Omega,")"))) +
-  theme_classic() + theme( legend.position = c(0.99,0.99),legend.justification = c(1,1))
-summary(glm(value~as.numeric(as.factor(measure))+factor(Zone,ordered=F, levels=c("MID","LOW","HIGH")), 
-            data=filter(ress_long,measure %in% c("O1","O2","O3","O4"), source=="algae"),
-            family="quasipoisson"))
-summary(glm(value~factor(Zone,ordered=F, levels=c("MID","LOW","HIGH"))*source, 
-            data=filter(ress_long,measure %in% c("O1","O2","O3","O4")),
-            family="quasipoisson"))
-summary(glm(value~as.numeric(as.factor(measure))*source, 
-            data=filter(ress_long,measure %in% c("O1","O2","O3","O4")),
-            family="quasipoisson"))
-summary(glm(value~as.numeric(as.factor(measure)), 
-            data=filter(ress_long,measure %in% c("O1","O2","O3","O4"), source=="algae"),
-            family="poisson"))
-resil <-  ggplot( filter(ress_long,measure %in% c("D2")), aes(x=gmeanr,y=(value))) +
+  theme_classic() + theme( legend.position = "none" )
+resist.df <- filter(ress_long,measure %in% c("O1","O2","O3","O4"))
+resist.df$zone <- factor(resist.df$Zone, ordered=F, levels=c("MID","LOW","HIGH") )
+resist.df$year <- scale( as.numeric( factor(resist.df$measure, ordered=F) ) )
+resist.lm <- filter(resist.df, source=="algae")
+anova( lm( log(value) ~ year*zone,  data = resist.lm ) )
+summary( lm( log(value) ~ year*zone,  data = resist.lm ) )
+plot( lm( log(value) ~ year*zone,  data = resist.lm ) )
+anova( lm( log(value) ~ gmeanr,  data = resist.lm ) )
+summary( lm( log(value) ~ gmeanr,  data = resist.lm ) )
+# summary(glm(value~as.numeric(as.factor(measure))+factor(Zone,ordered=F, levels=c("MID","LOW","HIGH")), 
+#             data=filter(ress_long,measure %in% c("O1","O2","O3","O4"), source=="algae"),
+#             family="quasipoisson"))
+# summary(glm(value~factor(Zone,ordered=F, levels=c("MID","LOW","HIGH"))*source, 
+#             data=filter(ress_long,measure %in% c("O1","O2","O3","O4")),
+#             family="quasipoisson"))
+# summary(glm(value~as.numeric(as.factor(measure))*source, 
+#             data=filter(ress_long,measure %in% c("O1","O2","O3","O4")),
+#             family="quasipoisson"))
+# summary(glm(value~as.numeric(as.factor(measure)), 
+#             data=filter(ress_long,measure %in% c("O1","O2","O3","O4"), source=="algae"),
+#             family="poisson"))
+resil <-  ggplot( filter(ress_long,measure %in% c("D1")), aes(x=gmeanr,y=(value))) +
   # geom_smooth(aes(group=1), method='lm') +
   geom_smooth(aes(group=1), method='glm',method.args=list(family='quasipoisson')) +
   # scale_y_continuous(trans="log2") +
-  geom_point( aes(shape=Site,fill=Zone), size=3 ) + facet_wrap(~source)+
+  geom_point( aes(shape=Site,fill=Zone), size=3 ) + 
+  facet_wrap(~source)+
   xlab("Mean species richness") + ylab(expression(paste("Resilience (",Delta,")"))) +
   scale_shape_manual( values=21:23 ) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
-  theme_classic() + theme( legend.position = "none") #theme( legend.position = c(0.01,0.99),legend.justification = c(0,1)) 
+  theme_classic() + theme( legend.position = "none" ) #theme( legend.position = c(0.01,0.99),legend.justification = c(0,1)) 
+resil.df <- filter(ress_long,measure %in% c("D1"))
+resil.df$zone <- factor(resil.df$Zone, ordered=F, levels=c("MID","LOW","HIGH") )
+by(resil.df,resil.df$source, function(z) with( z, cor.test( value,gmeanr,method = 'spearman' )))
+anova( glm( value ~ gmeanr,  data = resil.df, family="quasipoisson" ) )
+summary( glm( value ~ gmeanr,  data = resil.df, family="quasipoisson" ) )
+plot( glm( value ~ gmeanr*zone,  data = resil.df, family="quasipoisson" ) )
+
 cowplot::plot_grid(resist,resil,ncol=1,rel_widths = c(1,1))
 ggsave( "R Code and Analysis/Figs/stability_resist_resil.svg", width=6, height=3 )
 summary(lm(value~gmeanr, data=filter(ress_long,measure %in% c("D2")) ))
@@ -506,10 +529,15 @@ summary(glm(value~gmeanr,
             data=filter(ress_long,measure %in% c("D2")),
             family="quasipoisson"))
 
-stabresil <- cowplot::plot_grid( stab, resil, ncol=2 )
-cowplot::plot_grid( stabresil, resist, ncol=1 )
+stabresil <- cowplot::plot_grid( stab, resil, ncol=2, labels = "AUTO" )
+# cowplot::plot_grid( stabresil, resist, ncol=1 )
+resistsynch <- cowplot::plot_grid( resist, synchplot, ncol=2, labels = c("C","D") )
 cowplot::plot_grid( stab, resil, resist, synchplot, ncol=1 )
-ggsave( "R Code and Analysis/Figs/stability+resist_resil_synch.svg", width=6, height=10 )
+cowplot::plot_grid( stabresil, resistsynch, ncol=1 )
+ggsave( "R Code and Analysis/Figs/stability+resist_resil_synch.svg", width=6, height=6 )
+
+
+
 
 
 library(purrr)
@@ -523,18 +551,20 @@ ress_long %>%
   unnest(tidied)
 
 ress_long2 <- ress %>%
-  gather( "resistance","value", -Site, -Zone, -D1, -D2 )
+  gather( "resistance","value", -Site, -Zone, -source, -D1, -D2 )
+
+# show correlations between resistance and resilience
 
 ress_long2 %>%
-  nest(-resistance) %>% 
+  nest(-resistance,-source) %>% 
   mutate(
-    fit = map(data, ~ cor.test( (.x$value), (.x$D) )),
+    fit = map(data, ~ cor.test( (.x$value), (.x$D1) )),
     tidied = map(fit, tidy)
   ) %>% 
   unnest(tidied, .drop=TRUE )
 
-ggplot( ress_long2, aes(x=log2(value),y=log2(D1),fill=Site)) +
-  facet_wrap(~resistance, scales="free") + geom_point(size=3, alpha=0.5, pch=21) +
+ggplot( ress_long2, aes(x=(value),y=(D1),fill=Site)) +
+  facet_grid(source~resistance, scales="free") + geom_point(size=3, alpha=0.5, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   geom_smooth(aes(group=1),method='lm') +
   theme_bw()

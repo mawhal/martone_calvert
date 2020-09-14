@@ -101,7 +101,7 @@ M <- left_join( meta, pine )
 # 
 
 ## temperature anomaly data from Pine Island
-anoms <-  read_csv("Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/output from R/PineIsland_monthly_SST_anomaly.csv")
+anoms <-  read_csv("Data/R code for Data Prep/output from R/PineIsland_monthly_SST_anomaly.csv")
 
 # calculate winter and summer temperature anomalies
 library(zoo)
@@ -135,7 +135,7 @@ ggplot( as.survey, aes(y=summer,x=winter) ) +
   geom_vline(xintercept=0) +
   geom_smooth(se=T,size=0.5) +
   geom_point(size=2) +  geom_path(size=1) +
-  geom_text_repel(label=surv.cent$year, box.padding = 0.5) +
+  geom_text_repel(label=as.survey$year, box.padding = 0.5) +
   ylab(expression(paste("Summer SST anomaly (",degree,"C)"))) +
   xlab(expression(paste("Winter SST anomaly (",degree,"C)"))) +
   theme_bw()
@@ -147,13 +147,14 @@ ggplot( as.survey.all, aes(y=summer,x=winter) ) +
   stat_ellipse( level = 0.9 ) +
   geom_point(size=1,shape=1) +
   geom_point(data=as.survey,size=2) +  geom_path(data=as.survey,size=1) +
-  geom_text_repel(data=old.anom, label=old.anom$year, box.padding = 0.5) +
-  geom_text_repel(data=filter(as.survey.all,year %in% c(2010,2015)), label=c(2010,2015), box.padding = 0.5) +
+  geom_text_repel(data=old.anom, label=old.anom$year, box.padding = 0.5, size=5) +
+  geom_text(data=filter(as.survey.all,year %in% c(2010,2019)), 
+            label=c(2010,2019), nudge_x = 0.25, size=5 ) +
   ylab(expression(paste("Summer anomaly (",degree,"C)"))) +
   xlab(expression(paste("Winter anomaly (",degree,"C)"))) +
   theme_bw() +
   theme( panel.grid.major = element_blank(), panel.grid.minor = element_blank() )
-ggsave( "R Code and Analysis/Figs/winter_summer_SST.svg", width=3, height=3 )
+ggsave( "R Code and Analysis/Figs/winter_summer_SST.svg", width=4, height=4 )
 
 
 
@@ -257,10 +258,11 @@ ggsave( "R Code and Analysis/Figs/beta_temporal_pairs.svg", width =4, height=3 )
 
 ### consider dbRDA with factor for year and site (and transect?)
 meta$year <- factor(meta$Year, ordered=F)
+M$year <- factor(meta$Year, ordered=F)
 meta$site <- factor(meta$Site, ordered=F)
 db1 <- dbrda( comm~year+Elevation, distance="bray", data=meta )
 db2 <- dbrda( ifelse(comm>0,1,0)~year+Elevation, distance="jaccard", data=meta )
-db1 <- dbrda( comm~anom.pine.sum.1+anom.pine.win+Elevation+year, distance="bray", data=M )
+db1 <- dbrda( comm~anom.pine.sum.1+Elevation+year, distance="bray", data=M )
 db2 <- dbrda( ifelse(comm>0,1,0)~year+Elevation, distance="jaccard", data=meta )
 plot(db1)
 os1 <- ordisurf( db1, meta$Elevation )
@@ -275,6 +277,19 @@ cummr2 <- R2
 for(i in 2:length(eigenvals(db1))){
   cummr2[i] <- cummr2[i]+cummr2[i-1]  
 }
+
+##### 
+# https://archetypalecology.wordpress.com/2018/02/21/distance-based-redundancy-analysis-db-rda-in-r/
+anova(db1) # overall test of the significant of the analysis
+anova(db1, by="axis", perm.max=500) # test axes for significance
+anova(db1, by="terms", permu=200) # test for sign. environ. variables
+scores_dbRDA=scores(db1)
+site_scores=scores_dbRDA$sites # separating out the site scores, get CAP1 and CAP2 scores
+species_scores=scores_dbRDA$species # separating out the species scores
+site_scores_environment=cbind(site_scores,select(M,Elevation,anom.pine.sum.1)) # merge
+correlations=cor(site_scores_environment) # calculate correlations
+fix(correlations)
+#####
 
 # extract axes
 nax <- 1:2
@@ -302,12 +317,34 @@ names(centroid2) <- c("shift1","shift2","year")
 surv.cent <- left_join( surv.cent, centroid2  )
 surv.cent$year2 <- paste0("'",substr(surv.cent$year+1,start=3,stop=4))
 
+# model difference in slopes for elevation trajectory with year
+lmm1 <- lme4::lmer( dbRDA2~dbRDA1 + (dbRDA1|year), data=sites )
+summary(lmm1)
+coef(lmm1)
+# windows(3.5,3.5)
+par(mar=c(4,6,0,2)+0.1,pty='s',las=1)
+plot( y = coef(lmm1)$year$dbRDA1, x= 2012:2019, axes=F,
+      ylab="slope of\ndbRDA2~dbRDA1\n(BLUPs)", xlab="year" )
+abline( h=0, lty=2 )
+axis(1, at = 2012:2019, labels=F )
+text(x=2012:2019, par("usr")[3] - 0.12, labels = 2012:2019, srt=-45, xpd=T, pos=3 ) #paste0("'",12:19)
+axis(2)
+box()
+plot( dbRDA2~dbRDA1, data=sites)
+predict(lmm1)
+preds <- merTools::predictInterval(lmm1, newdata=sites, n.sims=999)
+preds <- predict(lmm1, newdata=sites, n.sims=999)
+preds.df <- bind_cols( sites, data.frame(fit=preds) )
+preds.env <- left_join( preds.df, select(surv.cent, year, summer1) )
+#
+
 a <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
   # stat_contour(data = ordi.na, aes(x = x, y = y, z = z, colour = rev(..level..)),
   #              binwidth = 20)+ #can change the binwidth depending on how many contours you want
-  geom_smooth( aes(group=year), method='lm', se=F, size=0.5,col='gray85') +
+  # geom_smooth( aes(group=year), method='lm', se=F, size=0.5,col='gray85') +
   geom_point( data=sites, aes(shape=zone), size=1 )  +
   # geom_smooth( aes(group=1), method='lm', se=F, size=0.5,col='gray25') +
+  geom_smooth( data=preds.env, aes(y=fit, group=year,col=summer1), method='lm', se=F, size=0.5 ) +
   geom_path( data=surv.cent, aes(col=summer1),size=1 ) +
   geom_point( data=surv.cent, aes(fill=summer1), size=3, shape=21 ) + 
   geom_text_repel( data=surv.cent, label=surv.cent$year, 
@@ -321,7 +358,6 @@ a <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) +
   theme_bw() + theme( panel.grid.major = element_blank(), 
                       panel.grid.minor = element_blank())
 ggsave("R Code and Analysis/Figs/rda_bwr_pal2_temp.svg", width=4, height=3 )
-
 
 
 

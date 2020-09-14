@@ -94,6 +94,7 @@ d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 
 # isolate the community, site, and sample data
 comm.all <- d.comm[,-c(1:4)]
+write_csv( comm.all, "R Code and Analysis/output from r/community_all.csv")
 comm.all <- ceiling(comm.all)
 
 windows(12,3)

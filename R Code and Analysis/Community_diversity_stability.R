@@ -108,6 +108,11 @@ comm <- list(comm.all,comm.algae)
 ENSPIE <- function(prop){
   ifelse( sum(prop,na.rm=T)>0, 1 / sum(prop^2, na.rm=T), NA ) 
 } 
+## Evenness as defined as Evar in Smith & Wilson 1996 Oikos
+Evar <- function( x ){
+  S = length( x[x>0] )
+  1 - 2/pi*atan( sum((log(x[ x>0 ]) - sum(log(x[ x>0 ]))/S)^2)/S ) 
+}
 # for each quadrat, calculate richness, Shannon diversity, Simpson Diversity, and ENSPIE
 divcalcs <- function( z ){
   total.cover = rowSums( z )
@@ -117,7 +122,8 @@ divcalcs <- function( z ){
   simpson = diversity( z, "simpson" )
   prop = z / total.cover
   enspie = apply( prop, 1, ENSPIE )
-  return( data.frame(total.cover,richness,shannon,simpson,enspie) )
+  evar = apply( z, 1, Evar )
+  return( data.frame(total.cover,richness,shannon,simpson,enspie,evar) )
 }
 divs <- lapply( comm, divcalcs )
 divsdf <- bind_rows(divs, .id = "source")

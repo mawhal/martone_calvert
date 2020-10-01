@@ -77,7 +77,7 @@ d.comm.algae <- d.comm.algae[ d.comm.algae$transect %in% muse$transect, ]
 # mclean <- muse[ muse$UID != noalgae$UID, ]
 mclean <- muse
 # define levels for zones
-mclean$Zone <- factor( mclean$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
+mclean$Zone <- factor( mclean$Zone, levels = c("LOW","MID","HIGH"), ordered = F )
 # define Site order
 mclean$Site <- factor( mclean$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 # define Year factor
@@ -108,6 +108,15 @@ comm <- list(comm.all,comm.algae)
 ENSPIE <- function(prop){
   ifelse( sum(prop,na.rm=T)>0, 1 / sum(prop^2, na.rm=T), NA ) 
 } 
+## Evenness as defined as Evar in Smith & Wilson 1996 Oikos
+Evar <- function( x ){
+  S = length( x[x>0] )
+  1 - 2/pi*atan( sum((log(x[ x>0 ]) - sum(log(x[ x>0 ]))/S)^2)/S ) 
+}
+Evar( comm.all[1,] )
+# x=comm.all[1,]
+# S = length( x[x>0] )
+# x[ x>0 ]
 # for each quadrat, calculate richness, Shannon diversity, Simpson Diversity, and ENSPIE
 divcalcs <- function( z ){
   total.cover = rowSums( z )
@@ -117,7 +126,8 @@ divcalcs <- function( z ){
   simpson = diversity( z, "simpson" )
   prop = z / total.cover
   enspie = apply( prop, 1, ENSPIE )
-  return( data.frame(total.cover,richness,shannon,simpson,enspie) )
+  evar = apply( z, 1, Evar )
+  return( data.frame(total.cover,richness,shannon,simpson,enspie,evar) )
 }
 divs <- lapply( comm, divcalcs )
 divsdf <- bind_rows(divs, .id = "source")
@@ -146,7 +156,7 @@ mclean <- mclean %>% replace_na(list(total.cover = 0, shannon = 0, simpson = 0, 
 
 # make mclean longer and include both richness and ENSPIE in the same figure
 mlong <- mclean %>%
-  select( transect, Site, Zone, Year, source, Shore_height_cm, enspie, richness ) %>%
+  select( transect, Site, Zone, Year, source, Shore_height_cm, enspie, richness, evar ) %>%
   group_by( transect, Site, Zone, Year, source, Shore_height_cm ) %>%
   gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm, -source )
 
@@ -163,6 +173,7 @@ divvar <- mclean %>%
              meand=mean(shannon), ed=sd(shannon),
              means=mean(simpson), es=sd(simpson),
              meane=mean(enspie), ee=sd(enspie),
+             meanv=mean(evar), ev=sd(evar),
              elev = mean(Shore_height_cm,na.rm=T) ) %>%
   mutate( cva = ea/meana, cvr = er/meanr, cvd = ed/meand, cvs = es/means, cve = ee/meane )
 
@@ -196,7 +207,9 @@ yearly <- mclean %>%
              meanr=mean(richness),
              meand=mean(shannon),
              means=mean(simpson),
-             meane=mean(enspie) )
+             meane=mean(enspie),
+             meanv=mean(evar),
+             elev = mean(Shore_height_cm,na.rm=T) )
 
 # summarize over time
 divvar2 <- yearly %>%
@@ -205,7 +218,9 @@ divvar2 <- yearly %>%
              gmeanr=mean(meanr), er=sd(meanr),
              gmeand=mean(meand), ed=sd(meand),
              gmeans=mean(means), es=sd(means),
-             gmeane=mean(meane), ee=sd(meane)    ) %>%
+             gmeane=mean(meane), ee=sd(meane),
+             gmeanv=mean(meanv), ev=sd(meanv),
+             gmeanelev=mean(elev), eelev=sd(elev)) %>%
   mutate( cva = ea/gmeana, cvr = er/gmeanr, cvd = ed/gmeand, cvs = es/gmeans, cve = ee/gmeane,
           stability=gmeana/ea )
 
@@ -217,7 +232,8 @@ divvar2 <- left_join(divvar2, inits)
 # collapse and plot all together
 divplot2 <- divvar2 %>% 
   group_by(Site, Zone, source, cva) %>% 
-  gather(key="metric",value="mean", gmeanr, gmeand, gmeans, gmeane, meanr, meand, means, meane )
+  gather(key="metric",value="mean", gmeanr, gmeand, gmeans, gmeane, gmeanv, 
+         meanr, meand, means, meane, meanv )
 
 ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_grid(source~metric, scales="free") + 
   geom_smooth(method='lm',se=T) +
@@ -227,8 +243,9 @@ ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_grid(source~metric, scales=
 # compare variation by transect
 divplot2 <- divvar2 %>% 
   group_by(Site, Zone, source, cva) %>% 
-  gather(key="metric",value="sd", er, ed, es, ee )
-ggplot( data=divplot2,aes(y=sd,x=Zone,col=Site)) +  facet_grid(source~metric, scales="free") + 
+  gather(key="metric",value="sd", er, ed, es, ee, ev )
+ggplot( data=divplot2,aes(y=sd,x=Zone,col=Site)) +  
+  facet_grid(metric~source, scales="free") + 
   geom_point()
 divplot2$Zone <-  factor( divplot2$Zone, ordered=F, levels=c("MID","LOW","HIGH"))
 library(tidyr)
@@ -270,6 +287,7 @@ stab <- ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + #x=gmeanr
   theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
 stab
 ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
+
 
 # model stability by zone
 library(lme4)
@@ -320,29 +338,31 @@ yearly.taxon.algae <- d.long.algae %>%
 yearly.taxon <- bind_rows( yearly.taxon.all, yearly.taxon.algae, .id="source")
 yearly.taxon$source <- factor( yearly.taxon$source, levels=c("1","2"), labels=c("all","algae") )
 
+# 16 Sep 2020 - change synchrony to "log var ratio" as in Leps et al 2018 and Valencia et al 2020
 # numerator is the variance in total cover over time
 numer <- divvar2 %>% 
+  mutate( Zone=factor(Zone,levels=c("LOW","MID","HIGH"),ordered=F)) %>% 
   select(Site,Zone,source,ea) %>% 
   group_by(Site, Zone, source) %>% 
   mutate( VT = ea^2 ) 
 
-# denominator of the calculation for synchrony is the sum of the individual taxon stadard deviations over time, squared
+# denominator of the calculation for synchrony is the sum of the individual taxon variances
 denom <- yearly.taxon  %>% 
   separate(transect, into=c("Site","blah","Zone","Year")) %>% 
   unite( col="Site" , Site, blah, sep = " " ) %>% 
   mutate( Zone=factor(Zone,levels=c("LOW","MID","HIGH"))) %>% 
   group_by( Site, Zone, source, taxon ) %>% 
-  summarize( eai = sd(meana, na.rm=T) ) %>% 
+  summarize( eai = sd(meana, na.rm=T)^2 ) %>%  # variance instead of SD
   mutate( eai = ifelse( eai>0,eai,NA) ) %>%
   group_by( Site, Zone ) %>% 
   mutate( Eeai=sum(eai, na.rm=T) ) %>% 
-  mutate( Evi = Eeai^2 )
+  mutate( Evi = Eeai ) # square operator now included with variance calculation
 
 
 synch <- left_join( numer, denom )
 synch <- synch %>% 
-  mutate( phi = VT/Evi )
-summary( synch$phi )
+  mutate( logV = log(VT/Evi) )
+summary( synch$logV )
 summary( synch$eai )
 synch$invert <- factor(synch$source, levels="algae","all")
 tax.invert <- d.simple %>% ungroup() %>% select(taxon=Taxon,non.alga.flag) %>% distinct()
@@ -350,7 +370,7 @@ synch <- left_join( synch, tax.invert )
 synch$source <- factor( synch$source, levels=c("algae","all") )
 synch$non.alga.flag <- factor( synch$non.alga.flag, levels=c("Algae","Animal"), labels=c("algae","all") )
 synch$non.alga.flag <- factor( synch$non.alga.flag, levels=c("algae","all") )
-synch$eai2 <-  synch$eai
+synch$eai2 <-  sqrt(synch$eai)
 synch$eai2[ synch$source=="algae" & synch$non.alga.flag=="algae" ] <- NA
 
 a <- ggplot( synch, aes(x=Zone,y=eai2, col=source, fill=source)) + facet_wrap(~Site) +
@@ -364,9 +384,9 @@ a <- ggplot( synch, aes(x=Zone,y=eai2, col=source, fill=source)) + facet_wrap(~S
   scale_alpha_manual( values=(c(0.1,1)), guide=F ) +
   theme( strip.background = element_blank(),
          strip.text.x = element_blank() )
-b <- ggplot( synch, aes(x=Zone,y=phi,fill=source)) + facet_wrap(~Site) +
+b <- ggplot( synch, aes(x=Zone,y=logV,fill=source)) + facet_wrap(~Site) +
   geom_point( alpha=1, shape=21, size=3 ) +
-  ylab( expression(paste("Synchrony (",phi,")")) ) +
+  ylab( expression(paste("Synchrony (",logV,")")) ) +
   scale_fill_manual( values=c("black","grey"), guide=F ) +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -377,33 +397,65 @@ ggsave( "R Code and Analysis/Figs/synchrony_transect.svg", width=6, height=4 )
 # plot synchrony versus stability and richness
 synchrony <- synch %>% 
   filter( !is.na(eai) ) %>% 
-  group_by( Site, Zone, source, phi ) %>%
+  group_by( Site, Zone, source, logV ) %>%
   summarize( richness = length(eai) )
 dsynch <- left_join( divvar2, synchrony )
 dsynch$source <- factor( dsynch$source, levels=c("all","algae"))
 dsynch$Site <- factor( dsynch$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 
-synchplot <- ggplot( dsynch, aes(x=gmeanr,y=phi,shape = Site, fill = Zone)) + 
+synchplot <- ggplot( dsynch, aes(x=gmeanr,y=logV,shape = Site, fill = Zone)) + 
   # facet_wrap(~source) +
   geom_smooth( aes(group=1), method="glm", method.args=list(family=quasibinomial))+ geom_point(size=3) +
   scale_shape_manual( values=21:23, guide=F ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
-  ylab( expression(paste("Synchrony (",phi,")")) ) + xlab( "Mean species richness" ) +
+  ylab( expression(paste("Synchrony (",logV,")")) ) + xlab( "Mean species richness" ) +
   guides(fill=guide_legend("Zone",override.aes = list(shape = 21,linetype=0)) ) +
   theme_classic() + theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
                            legend.background = element_blank() )
-ggplot( dsynch, aes(x=phi,y=stability,shape=Site, fill=Zone)) + facet_wrap(~source) +
+ggplot( dsynch, aes(x=logV,y=(stability),shape=Site, fill=Zone)) + facet_wrap(~source) +
   # geom_smooth( aes(group=1), method="glm",method.args=list(family=quasipoisson),se=F) + 
+  geom_smooth( aes(group=1), method="lm") + 
   geom_point() +
   scale_shape_manual( values=21:23 ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
   guides( fill=guide_legend("Zone",override.aes = list(shape = 21)) ) +
-  xlab( expression(paste("Species synchrony (",phi,")")) ) + ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")"))  ) +
+  xlab( expression(paste("Species synchrony (",logV,")")) ) + ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")"))  ) +
+  scale_y_continuous(trans="log2") +
   theme_classic() #+ theme( legend.position = c(0.99,0.99), legend.justification = c(1,1) ) 
-ggsave( "R Code and Analysis/Figs/stability~synchrony.svg", width=3, height=3 )
+ggsave( "R Code and Analysis/Figs/stability~synchrony.svg", width=6, height=3 )
 #
 
 
+
+###
+# Richness, Evenness, Stability, Synchrony
+responses <- dsynch %>% 
+  ungroup() %>% 
+  select( source, gmeanelev,gmeanr, gmeanv, logV, stability )
+
+responses %>% 
+  filter( source=="all" ) %>% 
+  mutate( stability=log(stability), gmeanr=log(gmeanr), gmeanv=log(gmeanv) ) %>% 
+  select( -source ) %>% 
+  pairs.panels( )
+
+
+responses %>%
+  nest(-source) %>% 
+  mutate(
+    fitstab = map(data, ~ lm( log(stability) ~ log(gmeanr)+gmeanelev+gmeanv+logV, data = .x)),
+    tidied = map(fitstab, tidy)
+  ) %>% 
+  unnest(tidied)
+
+responses %>%
+  nest(-source) %>% 
+  mutate(
+    fitstab = map(data, ~ lm( logV ~ log(gmeanr), data = .x)),
+    tidied = map(fitstab, tidy)
+  ) %>% 
+  unnest(tidied)
+###
 
 
 
@@ -460,24 +512,36 @@ psych::pairs.panels( log(ress[,-c(1:2)]) )
 ress_long <- ress %>%
   gather( "measure","value", -Site, -Zone, -source )
 
-ress_long <- left_join(ress_long,divvar2)
+ress_long <- left_join(ress_long,dsynch)
 # ress_long <- filter(ress_long, source=="all")
 
-ggplot( ress_long, aes(x=gmeanr,y=(value),fill=Site)) +
+# ggplot( ress_long, aes(x=logV,y=(value),fill=Site)) +
+ggplot( filter(ress_long,measure %in% c("D1","O4")), aes(x=logV,y=(value),fill=Site)) +
   facet_grid(measure~source,scales="free_y") + geom_point(size=3, alpha=1, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   geom_smooth(aes(group=1), method='lm') +
   geom_smooth( method='lm', se=F, col='black') +
   scale_y_continuous(trans="log2") +
   theme_bw()
+ggsave( "R Code and Analysis/Figs/resist_resil_logV.svg", width=6, height=5 )
+
+# ggplot( ress_long, aes(x=log(gmeanr),y=(value),fill=Site)) +
+ggplot( filter(ress_long,measure %in% c("D1","O4")), aes(x=log(gmeanr),y=(value),fill=Site)) +
+  facet_grid(measure~source,scales="free_y") + geom_point(size=3, alpha=1, pch=21) +
+  scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
+  geom_smooth(aes(group=1), method='lm') +
+  geom_smooth( method='lm', se=F, col='black') +
+  scale_y_continuous(trans="log2") +
+  theme_bw()
+ggsave( "R Code and Analysis/Figs/resist_resil_rich.svg", width=6, height=5 )
 
 resist <- ggplot( filter(ress_long,measure %in% c("O1","O2","O3","O4")), 
-                  aes(x=as.numeric(as.factor(measure)),y=value,fill=Zone,shape=Site)) +
+                  aes(x=as.numeric(as.factor(measure)),y=(value),fill=Zone,shape=Site)) +
   geom_smooth( aes(group=Zone, lty=Zone), method='glm', se=F, col="black", method.args = list(family="quasipoisson")  ) +
   geom_point(size=3) + 
   facet_wrap(~source)+
   # geom_smooth( method='glm', method.args=list(family="quasipoisson")) +
-  # scale_y_continuous(trans="log2") +
+  scale_y_continuous(trans="log2") +
   scale_shape_manual( values=21:23, guide=F ) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   # scale_linetype_manual(guide=F ) +
@@ -508,7 +572,7 @@ summary( lm( log(value) ~ gmeanr,  data = resist.lm ) )
 resil <-  ggplot( filter(ress_long,measure %in% c("D1")), aes(x=gmeanr,y=(value))) +
   # geom_smooth(aes(group=1), method='lm') +
   geom_smooth(aes(group=1), method='glm',method.args=list(family='quasipoisson')) +
-  # scale_y_continuous(trans="log2") +
+  scale_y_continuous(trans="log2") +
   geom_point( aes(shape=Site,fill=Zone), size=3 ) + 
   facet_wrap(~source)+
   xlab("Mean species richness") + ylab(expression(paste("Resilience (",Delta,")"))) +
@@ -523,7 +587,7 @@ summary( glm( value ~ gmeanr,  data = resil.df, family="quasipoisson" ) )
 plot( glm( value ~ gmeanr*zone,  data = resil.df, family="quasipoisson" ) )
 
 cowplot::plot_grid(resist,resil,ncol=1,rel_widths = c(1,1))
-ggsave( "R Code and Analysis/Figs/stability_resist_resil.svg", width=6, height=3 )
+ggsave( "R Code and Analysis/Figs/stability_resist_resil.svg", width=6, height=5 )
 summary(lm(value~gmeanr, data=filter(ress_long,measure %in% c("D2")) ))
 summary(glm(value~gmeanr, 
             data=filter(ress_long,measure %in% c("D2")),

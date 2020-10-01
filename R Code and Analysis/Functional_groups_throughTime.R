@@ -3,6 +3,7 @@
 ##Code written by Sam Starko
 library(tidyverse)
 library(Rmisc)
+library(cowplot)
 
 #Import functional groups by species
 FunGroups<-read_csv("./Data/taxa/Algae_functional_groups.csv")
@@ -54,7 +55,8 @@ ggplot(d, aes(x = Year, y = mean, fill = FunGroup))+
   theme(plot.title = element_text(size = 5))+
   theme_cowplot()+
   facet_wrap(~Site + Zone)+
-  scale_fill_manual(values = c("darkred", "red","pink", "darkgrey", "darkgreen", "#996633") %>% rev())
+  scale_fill_manual(values = c("darkred", "red","pink", "darkgrey", "darkgreen", "#996633") %>% rev())+
+  ylab("Average percent cover (%)")
   
 
 #filter(d, Site == "Fifth Beach"&Zone=="LOW")

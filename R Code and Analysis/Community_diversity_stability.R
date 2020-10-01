@@ -156,7 +156,7 @@ mclean <- mclean %>% replace_na(list(total.cover = 0, shannon = 0, simpson = 0, 
 
 # make mclean longer and include both richness and ENSPIE in the same figure
 mlong <- mclean %>%
-  select( transect, Site, Zone, Year, source, Shore_height_cm, enspie, richness ) %>%
+  select( transect, Site, Zone, Year, source, Shore_height_cm, enspie, richness, evar ) %>%
   group_by( transect, Site, Zone, Year, source, Shore_height_cm ) %>%
   gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm, -source )
 
@@ -173,6 +173,7 @@ divvar <- mclean %>%
              meand=mean(shannon), ed=sd(shannon),
              means=mean(simpson), es=sd(simpson),
              meane=mean(enspie), ee=sd(enspie),
+             meanv=mean(evar), ev=sd(evar),
              elev = mean(Shore_height_cm,na.rm=T) ) %>%
   mutate( cva = ea/meana, cvr = er/meanr, cvd = ed/meand, cvs = es/means, cve = ee/meane )
 
@@ -206,7 +207,9 @@ yearly <- mclean %>%
              meanr=mean(richness),
              meand=mean(shannon),
              means=mean(simpson),
-             meane=mean(enspie) )
+             meane=mean(enspie),
+             meanv=mean(evar),
+             elev = mean(Shore_height_cm,na.rm=T) )
 
 # summarize over time
 divvar2 <- yearly %>%
@@ -215,7 +218,9 @@ divvar2 <- yearly %>%
              gmeanr=mean(meanr), er=sd(meanr),
              gmeand=mean(meand), ed=sd(meand),
              gmeans=mean(means), es=sd(means),
-             gmeane=mean(meane), ee=sd(meane)    ) %>%
+             gmeane=mean(meane), ee=sd(meane),
+             gmeanv=mean(meanv), ev=sd(meanv),
+             gmeanelev=mean(elev), eelev=sd(elev)) %>%
   mutate( cva = ea/gmeana, cvr = er/gmeanr, cvd = ed/gmeand, cvs = es/gmeans, cve = ee/gmeane,
           stability=gmeana/ea )
 
@@ -227,7 +232,8 @@ divvar2 <- left_join(divvar2, inits)
 # collapse and plot all together
 divplot2 <- divvar2 %>% 
   group_by(Site, Zone, source, cva) %>% 
-  gather(key="metric",value="mean", gmeanr, gmeand, gmeans, gmeane, meanr, meand, means, meane )
+  gather(key="metric",value="mean", gmeanr, gmeand, gmeans, gmeane, gmeanv, 
+         meanr, meand, means, meane, meanv )
 
 ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_grid(source~metric, scales="free") + 
   geom_smooth(method='lm',se=T) +
@@ -237,8 +243,9 @@ ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_grid(source~metric, scales=
 # compare variation by transect
 divplot2 <- divvar2 %>% 
   group_by(Site, Zone, source, cva) %>% 
-  gather(key="metric",value="sd", er, ed, es, ee )
-ggplot( data=divplot2,aes(y=sd,x=Zone,col=Site)) +  facet_grid(source~metric, scales="free") + 
+  gather(key="metric",value="sd", er, ed, es, ee, ev )
+ggplot( data=divplot2,aes(y=sd,x=Zone,col=Site)) +  
+  facet_grid(metric~source, scales="free") + 
   geom_point()
 divplot2$Zone <-  factor( divplot2$Zone, ordered=F, levels=c("MID","LOW","HIGH"))
 library(tidyr)
@@ -280,6 +287,7 @@ stab <- ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + #x=gmeanr
   theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
 stab
 ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
+
 
 # model stability by zone
 library(lme4)
@@ -404,18 +412,50 @@ synchplot <- ggplot( dsynch, aes(x=gmeanr,y=logV,shape = Site, fill = Zone)) +
   guides(fill=guide_legend("Zone",override.aes = list(shape = 21,linetype=0)) ) +
   theme_classic() + theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
                            legend.background = element_blank() )
-ggplot( dsynch, aes(x=logV,y=stability,shape=Site, fill=Zone)) + facet_wrap(~source) +
+ggplot( dsynch, aes(x=logV,y=(stability),shape=Site, fill=Zone)) + facet_wrap(~source) +
   # geom_smooth( aes(group=1), method="glm",method.args=list(family=quasipoisson),se=F) + 
+  geom_smooth( aes(group=1), method="lm") + 
   geom_point() +
   scale_shape_manual( values=21:23 ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
   guides( fill=guide_legend("Zone",override.aes = list(shape = 21)) ) +
   xlab( expression(paste("Species synchrony (",logV,")")) ) + ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")"))  ) +
+  scale_y_continuous(trans="log2") +
   theme_classic() #+ theme( legend.position = c(0.99,0.99), legend.justification = c(1,1) ) 
-ggsave( "R Code and Analysis/Figs/stability~synchrony.svg", width=3, height=3 )
+ggsave( "R Code and Analysis/Figs/stability~synchrony.svg", width=6, height=3 )
 #
 
 
+
+###
+# Richness, Evenness, Stability, Synchrony
+responses <- dsynch %>% 
+  ungroup() %>% 
+  select( source, gmeanelev,gmeanr, gmeanv, logV, stability )
+
+responses %>% 
+  filter( source=="all" ) %>% 
+  mutate( stability=log(stability), gmeanr=log(gmeanr), gmeanv=log(gmeanv) ) %>% 
+  select( -source ) %>% 
+  pairs.panels( )
+
+
+responses %>%
+  nest(-source) %>% 
+  mutate(
+    fitstab = map(data, ~ lm( log(stability) ~ log(gmeanr)+gmeanelev+gmeanv+logV, data = .x)),
+    tidied = map(fitstab, tidy)
+  ) %>% 
+  unnest(tidied)
+
+responses %>%
+  nest(-source) %>% 
+  mutate(
+    fitstab = map(data, ~ lm( logV ~ log(gmeanr), data = .x)),
+    tidied = map(fitstab, tidy)
+  ) %>% 
+  unnest(tidied)
+###
 
 
 
@@ -472,24 +512,36 @@ psych::pairs.panels( log(ress[,-c(1:2)]) )
 ress_long <- ress %>%
   gather( "measure","value", -Site, -Zone, -source )
 
-ress_long <- left_join(ress_long,divvar2)
+ress_long <- left_join(ress_long,dsynch)
 # ress_long <- filter(ress_long, source=="all")
 
-ggplot( ress_long, aes(x=gmeanr,y=(value),fill=Site)) +
+# ggplot( ress_long, aes(x=logV,y=(value),fill=Site)) +
+ggplot( filter(ress_long,measure %in% c("D1","O4")), aes(x=logV,y=(value),fill=Site)) +
   facet_grid(measure~source,scales="free_y") + geom_point(size=3, alpha=1, pch=21) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   geom_smooth(aes(group=1), method='lm') +
   geom_smooth( method='lm', se=F, col='black') +
   scale_y_continuous(trans="log2") +
   theme_bw()
+ggsave( "R Code and Analysis/Figs/resist_resil_logV.svg", width=6, height=5 )
+
+# ggplot( ress_long, aes(x=log(gmeanr),y=(value),fill=Site)) +
+ggplot( filter(ress_long,measure %in% c("D1","O4")), aes(x=log(gmeanr),y=(value),fill=Site)) +
+  facet_grid(measure~source,scales="free_y") + geom_point(size=3, alpha=1, pch=21) +
+  scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
+  geom_smooth(aes(group=1), method='lm') +
+  geom_smooth( method='lm', se=F, col='black') +
+  scale_y_continuous(trans="log2") +
+  theme_bw()
+ggsave( "R Code and Analysis/Figs/resist_resil_rich.svg", width=6, height=5 )
 
 resist <- ggplot( filter(ress_long,measure %in% c("O1","O2","O3","O4")), 
-                  aes(x=as.numeric(as.factor(measure)),y=value,fill=Zone,shape=Site)) +
+                  aes(x=as.numeric(as.factor(measure)),y=(value),fill=Zone,shape=Site)) +
   geom_smooth( aes(group=Zone, lty=Zone), method='glm', se=F, col="black", method.args = list(family="quasipoisson")  ) +
   geom_point(size=3) + 
   facet_wrap(~source)+
   # geom_smooth( method='glm', method.args=list(family="quasipoisson")) +
-  # scale_y_continuous(trans="log2") +
+  scale_y_continuous(trans="log2") +
   scale_shape_manual( values=21:23, guide=F ) +
   scale_fill_manual(values=c("black","gray50","whitesmoke") ) +
   # scale_linetype_manual(guide=F ) +
@@ -520,7 +572,7 @@ summary( lm( log(value) ~ gmeanr,  data = resist.lm ) )
 resil <-  ggplot( filter(ress_long,measure %in% c("D1")), aes(x=gmeanr,y=(value))) +
   # geom_smooth(aes(group=1), method='lm') +
   geom_smooth(aes(group=1), method='glm',method.args=list(family='quasipoisson')) +
-  # scale_y_continuous(trans="log2") +
+  scale_y_continuous(trans="log2") +
   geom_point( aes(shape=Site,fill=Zone), size=3 ) + 
   facet_wrap(~source)+
   xlab("Mean species richness") + ylab(expression(paste("Resilience (",Delta,")"))) +
@@ -535,7 +587,7 @@ summary( glm( value ~ gmeanr,  data = resil.df, family="quasipoisson" ) )
 plot( glm( value ~ gmeanr*zone,  data = resil.df, family="quasipoisson" ) )
 
 cowplot::plot_grid(resist,resil,ncol=1,rel_widths = c(1,1))
-ggsave( "R Code and Analysis/Figs/stability_resist_resil.svg", width=6, height=3 )
+ggsave( "R Code and Analysis/Figs/stability_resist_resil.svg", width=6, height=5 )
 summary(lm(value~gmeanr, data=filter(ress_long,measure %in% c("D2")) ))
 summary(glm(value~gmeanr, 
             data=filter(ress_long,measure %in% c("D2")),

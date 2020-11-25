@@ -4,6 +4,9 @@
 
 # This script uses HMSC to model communities change over time and space
 
+# Running HURDLE model
+# see https://www.helsinki.fi/en/researchgroups/statistical-ecology/hmsc
+  # Wednesday 4th November - R-demonstration 4 youtube video (39minutes)
 
 # load libraries
 library( tidyverse )
@@ -28,61 +31,17 @@ ad <- read.csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump
 # all metadata
 am <- read.csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv", stringsAsFactors = TRUE )
 
-## temperature anomalies from Pine Island
-anoms <-  read_csv("Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/output from R/PineIsland_monthly_SST_anomaly.csv")
 
-# calculate winter and summer temperature anomalies
-library(zoo)
-yq <- as.yearqtr( as.yearmon( paste(anoms$month,anoms$year,sep="/"), "%m/%Y") + 1/12)
-anoms$season <- factor(format(yq, "%q"), levels = 1:4, 
-                       labels = c("winter", "spring", "summer", "fall"))
-anoms.season <- anoms %>% 
-  group_by( year, season ) %>% 
-  summarize( temp.anom=mean(temp.anom), month=mean(month) ) %>% 
-  mutate( ym = lubridate::make_date(year=year,month=month) )
-ggplot(anoms.season, aes(x=year,y=temp.anom,col=season)) + geom_point() + geom_smooth(aes(group=1))
-windows(12,4)
-ggplot(anoms.season, aes(x=ym,y=temp.anom)) + 
-  geom_hline(yintercept=0) +
-  geom_line(aes(group=1)) +
-  geom_smooth(aes(group=1),se=F) +
-  geom_point(aes(fill=season),size=2,pch=21) +
-  scale_x_date( breaks=lubridate::make_date(year=c(1941,1963,1973,1983,1998,2012,2015,2019)), date_labels = "%Y" ) +
-  scale_fill_manual( values=c("black","whitesmoke","dodgerblue","firebrick"))
 
-anoms.use <- anoms.season %>% 
-  mutate( yearprev = year+1 ) %>% 
-  select( year, yearprev, season, temp.anom )
-
-## topography
-toporaw <- read_csv( "Data/Site maps + topography/transects_slope+aspect.csv" )
-topo <- toporaw %>% 
-  select( Site, Zone, Meter.point=StartEnd, aspect, slope ) 
-topo$Meter.point[ topo$Meter.point == "Start" ] <- 0
-topo$Meter.point[ topo$Meter.point == "End" ] <- as.numeric(topo$Meter.point[ which(topo$Meter.point == "End")-1 ]) + 1
-topo$Meter.point <- as.numeric(topo$Meter.point)
-
-# rename West beach
-topo$Site[ topo$Site=="Foggy Cove" ] <- "West Beach"
-# remove bas values
-topo <- filter( topo, slope > -9999, aspect > -9999 )
-
-# merge with metadata
-am2 <- left_join( am, filter(anoms.use,season=="summer"), by = c("Year" = "yearprev"))
-am3 <- left_join(am2, topo)
 
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
-muse <- am3
-muse <- muse[ muse$Year != "2011", ]
+muse <- am[ am$Year != "2011", ]
 # remove Meay Channel
 ## NOTE THAT THIS ANALYSIS DOES NOT REQUIRE EQUAL SAMPLING OVER TIME OR SPACE
 ## a mjor exception to this is for convergence analysis, see trajectoryConvergence()
 muse <- muse[ muse$Site != "Meay Channel", ]
-# Only use Mid-shore transects for now
-# muse <- muse[ muse$Zone == "MID", ]
-# muse <- muse[ muse$Site == "North Beach", ]
 
 # no NA values allowed, so we need to remove these from the dataset
 rem <- unique( which(is.na(muse$Shore_height_cm))  )
@@ -109,9 +68,9 @@ d <- dm %>%
 # this uses lumped taxon names, which will reduce the size of the dataset a bit
 # restrict this to seaweeds and sessile invertebrates
 d.simple <- d %>%
-  group_by( UID, Year, Site, Zone, taxon_lumped2 ) %>%
-  summarize( Abundance=sum(Abundance,na.rm=T)) %>%
-  mutate( taxon_lumped2 = gsub(" ",".",taxon_lumped2) )
+  mutate( taxon = gsub(" ",".",taxon_lumped3) ) %>% 
+  group_by( UID, Year, Site, Zone, taxon ) %>%
+  summarize( Abundance=sum(Abundance,na.rm=T)) 
 
 # # average cover per transect
 # dmean <- d.simple %>%
@@ -124,7 +83,7 @@ d.comm.prep <- d.simple  # dmean
 
 # spread Taxon column out into many columns filled with abundance/cover data
 d.comm <- d.comm.prep %>%
-  spread( taxon_lumped2, Abundance, fill=0 )
+  spread( taxon, Abundance, fill=0 )
 
 # order community data by site and zone
 d.comm <- d.comm %>%
@@ -135,17 +94,22 @@ d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 
 # isolate the community, site, and sample data
 comm.all <- d.comm[,-c(1:4)]
-# colSums(comm.all)
-# summary(colSums(comm.all))
-# hist(colSums(comm.all))
-# sort(colSums(comm.all))
-# sort(colSums(comm.all),decreasing = TRUE)[1:10]
-# boxplot( colSums(comm.all))
-# boxplot( log(colSums(comm.all)) )
-# boxplot( colSums(comm.all)[ colSums(comm.all)> 10] ) 
-# hist( colSums(comm.all)[ colSums(comm.all)> 10] )
-# sort(colSums(comm.all)[ which( colSums(comm.all) <=10 )  ])
-# length(colSums(comm.all)[ which( colSums(comm.all) <=10 )  ])
+comm.all <- ceiling(comm.all)
+
+windows(12,3)
+par( mar=c(5,5,1,1)+0.01, cex=0.7, las=1 )
+boxplot( comm.all[rev(order(colSums(comm.all)))], pch=16, cex=0.3, axes=F )
+axis(2)
+axis(1, at=c(1,seq(10,300,by=10)) )
+boxplot( comm.all[rev(order(apply(comm.all,2,function(z) length(z[z>0]))))], pch=16, cex=0.3, axes=F )
+axis(2)
+mtext("cover (%)",2,line = 3,las=3)
+axis(1, at=c(1,seq(10,300,by=10)) )
+abline(v=48,col='red')
+# abline(h=5,lty=1)
+mtext("occupancy rank",1,line = 3)
+box()
+dev.off()
 
 # reduce the dataset by removing the rarest taxa 
 # those that have less than a total percent cover 
@@ -155,9 +119,9 @@ which( colSums(comm.all) <=10 )
 # filter by occurence
 occurrence <- apply(comm.all, 2, function(z) length(z[z>0])) 
 comm <- comm.all %>% 
-  select( names(occurrence)[ which(occurrence >= length(unique(d.comm$Year))*6) ] )
+  select( names(occurrence)[ which(occurrence >= length(unique(d.comm$Year))*6) ] ) 
 # filter by abundance
-abundance <- colSums(comm)d
+abundance <- colSums(comm)
 which( colSums(comm) <=10 )
 # comm <- comm[ ,-which( abundance <=10 )  ]
 # comm <- comm.all
@@ -165,7 +129,12 @@ commpa <- comm
 commpa[commpa>0] <- 1
 sort(colSums(commpa))[1:20]
 # reorder community matrix based on the most abundant to least (across all quadrats)
-Y <- ceiling(as.matrix( comm[, order(colSums(comm),decreasing = T) ] ))
+Y <- as.matrix( comm[, order(colSums(comm),decreasing = T) ] )
+# convert Y to presence-absence matrix, and then to abundance, given presence (zeros become NA)
+Ypa <- ifelse( Y>0,1,0 )
+Yap <- ifelse( Y==0, NA, Y )
+# log transform abundance given presence, so we can run a gaussian model
+Ylap <- log( Yap )
 
 # compare Y and ad
 ncol(Y)
@@ -194,8 +163,8 @@ write_csv( metacomm, "R Code and Analysis/output from r/community.csv")
 
 # # read temperature data
 # pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )
-# 
-# # merge temperature and the rest of the metadata
+
+# merge temperature and the rest of the metadata
 # M <- left_join( metacomm, pine )
 M <- metacomm
 # qudrat as another potential term? but should be captured by lat,long
@@ -212,18 +181,22 @@ M$transect <- unlist(lapply( strsplit( M$UID, " " ), function(z) paste( z[1],z[2
 # 
 
 ## Fixed Effects
-XData <- M %>%
+XData.raw <- M %>%
   ungroup() %>%
-  select( shore.height = Shore_height_cm, temp.anom, slope, aspect ) #%>% 
-  # mutate( year=factor(year, ordered=TRUE ) )
-XData <- as.data.frame( XData )
+  select( year=Year, shore.height = Shore_height_cm )#, anom.pine.sum.1, anom.pine.win ) #%>%
+  #mutate( year=factor(year, ordered=TRUE ) )
+XData.raw <- as.data.frame( XData.raw )
 
+# centered and scaled 
+XData <- data.frame( XData.raw$year,XData.raw$shore.height, as.data.frame(poly(XData.raw$year,2)),
+            as.data.frame(poly(XData.raw$shore.height,2)) )
+names(XData) <- c("year","elev","year1","year2","elev1","elev2")
 
 # set up random effects for hmsc
 # make sure to use spatial data
 # STUDY DESIGN
 studyDesign <- data.frame( year = factor(M$Year),
-                           observation = factor(M$UID),
+                           quadrat = factor(M$UID),
                            transect = factor(M$transect),
                            site = factor(M$Site) )
 # transect year
@@ -241,15 +214,16 @@ rL_year = HmscRandomLevel( sData = td )
 rL_site <-  HmscRandomLevel( unit = unique(studyDesign$site) )
 # transect year
 rL_ty <- HmscRandomLevel( unit = unique(studyDesign$ty) )
-
+# qudarat level (based on combination of site, transect, and quad)
+rL_quad <- HmscRandomLevel( unit = unique(studyDesign$quadrat) )
 
 
 
 
 ## formula for fixed effects
-XFormula = ~ poly(shore.height, degree = 2, raw = TRUE)*temp.anom + slope + aspect
-  # poly(shore.height, degree = 2, raw = TRUE):year
-  # anom.pine.sum.1 + anom.pine.win
+XFormula = ~ poly(shore.height, degree = 2, raw = F)*poly(year, degree=5, raw=F)
+XFormula = ~ year1 + year2 + elev1 + elev2 +
+  elev1:year1 + elev1:year2 #+ elev2:year1  
   
   
 
@@ -259,15 +233,28 @@ XFormula = ~ poly(shore.height, degree = 2, raw = TRUE)*temp.anom + slope + aspe
 ## Phylogeny -- may only be able to do this for red algae or brown algae separately
 
 
-m <- Hmsc( Y = Y, 
+# For hurdle model, we need to run two model
+# probit presence-absence model with ones and zeros
+mprobit <- Hmsc( Y = Ypa, 
            XData = XData, XFormula = XFormula,
-           distr = "poisson",
+           distr = "probit",
            studyDesign = studyDesign, 
-           ranLevels = list(site=rL_site, transect=rL, year=rL_year ) )#,
-                            #y, 
-                             # ty=rL_ty ) )  
+           ranLevels = list(site=rL_site, transect=rL) ) #, quadrat=rL_quad ) )#,
+                            # year=rL_year, 
+                             # ty=rL_ty ) ) 
+# second, Gaussian model with log-abundances given presence
+mnormal <- Hmsc( Y = Ylap, YScale = TRUE,
+                 XData = XData, XFormula = XFormula,
+                 distr = "normal",
+                 studyDesign = studyDesign, 
+                 ranLevels = list(site=rL_site, transect=rL) )
+
+# combine these models into a list
+models = list( mprobit, mnormal )
+modelnames= c( "presence_absence", "abundance_COP" )
 
 # save the prepared model so it can be run in a separate script
-save( m, file="R Code and Analysis/output from r/hmsc_temp_specified.Rdata" )
-
+# save( mprobit, file="R Code and Analysis/output from r/hmsc_hurdle_probit_specified.Rdata" )
+# save( mnormal, file="R Code and Analysis/output from r/hmsc_hurdle_normal_specified.Rdata" )
+save(models, modelnames, file="R Code and Analysis/output from r/hmsc_hurdle_specified.Rdata")
 

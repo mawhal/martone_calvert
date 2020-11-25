@@ -11,34 +11,34 @@ library( Hmsc )
 
 
 # read models
-models <- list.files( path = getwd(), pattern = "*specified.Rdata", recursive = T)
-# pick a model
-mselect <- models[1]
+model_path <- list.files( path = getwd(), pattern = "*specified.Rdata", recursive = T)
+# pick models
+mselect <- model_path[1]
 # load it - will bring "x" into the environment, which has everything we need to run a model
 load( mselect ) 
 
 
 ## Run MCMC and save the model
-# thin = 100
-# samples = 1000
-# nChains = 4
-thin = 5
-samples = 1000
-transient = 20*thin
+thin = 100
+samples = 250
 nChains = 4
+transient = ceiling(thin*samples*0.5)
 set.seed(1)
-# ptm = tic("model run")
-m = sampleMcmc(m, samples = samples, thin = thin,
+nm = length(models)
+for( model in 1:nm ){
+  print(paste0("model = ",modelnames[model]))
+  m = models[[model]]
+  m = sampleMcmc(m, samples = samples, thin = thin,
                # adaptNf = rep(ceiling(0.4*samples*thin),m$nr),
                transient = transient,
-               nChains = nChains, nParallel = nChains,
-               initPar = "fixed effects")
+               nChains = nChains, #nParallel = nChains,
+               )
+  models[[model]] = m
+}
 warnings()# computational.time <- toc()
-model = "year"
-
+model = "elevxyear_hurdle"
 filename = file.path(getwd(), paste("model_",as.character(model),
                                      "_chains_",as.character(nChains),
                                      "_thin_", ... = as.character(thin),
                                      "_samples_", as.character(samples),".Rdata",sep = ""))
-save(m,file=filename)#,computational.time
-
+save(models,file=filename)#,computational.time

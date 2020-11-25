@@ -127,6 +127,11 @@ commpa[commpa>0] <- 1
 sort(colSums(commpa))[1:20]
 # reorder community matrix based on the most abundant to least (across all quadrats)
 Y <- as.matrix( comm[, order(colSums(comm),decreasing = T) ] )
+# convert Y to presence-absence matrix, and then to abundance, given presence (zeros become NA)
+Ypa <- ifelse( Y>0,1,0 )
+Yap <- ifelse( Y==0, NA, Y )
+# log transform abundance given presence, so we can run a gaussian model
+Ylap <- log( Yap+1 )
 
 # compare Y and ad
 ncol(Y)

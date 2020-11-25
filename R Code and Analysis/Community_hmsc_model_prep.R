@@ -231,7 +231,7 @@ m <- Hmsc( Y = Y,
            XData = XData, XFormula = XFormula,
            distr = "poisson",
            studyDesign = studyDesign, 
-           ranLevels = list(site=rL_site, transect=rL ) )#,
+           ranLevels = list(site=rL_site, transect=rL ) )#, quadrat
                             # year=rL_year, 
                              # ty=rL_ty ) )  
 

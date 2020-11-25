@@ -4,7 +4,7 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Alaria"
+taxon <- "Hedophyllum"
 
 # taxa with predicted increases over time
 # taxon <- "Mytilus"

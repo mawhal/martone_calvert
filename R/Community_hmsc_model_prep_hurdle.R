@@ -96,7 +96,7 @@ d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 comm.all <- d.comm[,-c(1:4)]
 comm.all <- ceiling(comm.all)
 
-windows(12,3)
+# windows(12,3)
 par( mar=c(5,5,1,1)+0.01, cex=0.7, las=1 )
 boxplot( comm.all[rev(order(colSums(comm.all)))], pch=16, cex=0.3, axes=F )
 axis(2)
@@ -256,5 +256,5 @@ modelnames= c( "presence_absence", "abundance_COP" )
 # save the prepared model so it can be run in a separate script
 # save( mprobit, file="R Code and Analysis/output from r/hmsc_hurdle_probit_specified.Rdata" )
 # save( mnormal, file="R Code and Analysis/output from r/hmsc_hurdle_normal_specified.Rdata" )
-save(models, modelnames, file="R Code and Analysis/output from r/hmsc_hurdle_specified.Rdata")
+save(models, modelnames, file="R/output/hmsc_hurdle_specified.Rdata")
 

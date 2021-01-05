@@ -273,12 +273,12 @@ divplot2 %>%
 with( divvar2, cor.test(gmeanr, stability) )
 with( divvar2, cor.test(meanr, stability) )
 divvar2 %>% group_by( Site, Zone) %>% summarize(diff=diff(stability))
-stab <- ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + #x=gmeanr
+stab <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)) + #x=gmeanr
   # facet_wrap(~source) +
   geom_smooth(method='glm',se=T,method.args=list(family="poisson")) +
-  geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
+  # geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
   geom_point(aes(fill=Zone,shape=Site),size=3) +
-  ylab( expression(paste("Cover stability (",mu,"/",sigma,")")) ) + 
+  ylab( expression(paste("Stability of seaweed cover (",mu,"/",sigma,")")) ) + 
   xlab("Mean species richness") +
   scale_shape_manual( values=21:23 ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
@@ -287,12 +287,26 @@ stab <- ggplot( data=divvar2, aes(x=gmeanr, y=stability)) + #x=gmeanr
   theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
 stab
 ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
-
+stab2 <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)) + #x=gmeanr
+  # facet_wrap(~source) +
+  geom_smooth(method='glm',method.args=list(family="poisson"),
+              se=T, col = "black", lwd = 0.5) +
+  # geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
+  geom_point(aes(fill=Site,shape=Zone),size=3) +
+  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
+  xlab("Seaweed species richness") +
+  scale_shape_manual( values=c(21,22,24), guide = F ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  scale_linetype_discrete(  guide=FALSE ) +
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
+stab2
 
 # model stability by zone
 library(lme4)
 library(lmerTest)
 divvar2$Zone2 <- relevel( factor(divvar2$Zone, ordered=F), ref="LOW" )
+divvar2$Zone4 <- relevel( factor(divvar2$Zone, ordered=F), ref="HIGH" )
 divvar2$Zone3 <- as.character(divvar2$Zone2)
 divvar2$Zone3[ divvar2$Zone3=="MID"] <- "HIGH"
 divvar2$Zone3 <- factor(divvar2$Zone3)
@@ -300,6 +314,7 @@ divvar2$Zone3 <- factor(divvar2$Zone3)
 anova(lm( stability ~ Zone, data=filter(divvar2,source=="all") ))
 anova(lm( stability ~ Zone, data=filter(divvar2,source=="algae") ))
 anova(lm( stability ~ Zone3, data=filter(divvar2,source=="algae") ))
+summary(lm( stability ~ Zone4, data=filter(divvar2,source=="algae") ))
 summary(lm( stability ~ Zone2, data=filter(divvar2,source=="all") ))
 summary(lm( stability ~ Zone2, data=filter(divvar2,source=="algae")))
 summary(lm( stability ~ gmeanr, data=filter(divvar2,source=="all") ))
@@ -403,26 +418,51 @@ dsynch <- left_join( divvar2, synchrony )
 dsynch$source <- factor( dsynch$source, levels=c("all","algae"))
 dsynch$Site <- factor( dsynch$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 
-synchplot <- ggplot( dsynch, aes(x=gmeanr,y=logV,shape = Site, fill = Zone)) + 
+synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanr,y=logV,shape = Zone, fill = Site)) + 
   # facet_wrap(~source) +
-  geom_smooth( aes(group=1), method="glm", method.args=list(family=quasibinomial))+ geom_point(size=3) +
+  geom_smooth( aes(group=1), method="lm", se = T, col='black', lwd=0.5, show.legend = FALSE )+ 
+  geom_point(size=3) +
+  # geom_smooth( aes(group=1), method="glm", method.args=list(family=quasibinomial))+ geom_point(size=3) +
   scale_shape_manual( values=21:23, guide=F ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
-  ylab( expression(paste("Synchrony (",logV,")")) ) + xlab( "Mean species richness" ) +
-  guides(fill=guide_legend("Zone",override.aes = list(shape = 21,linetype=0)) ) +
-  theme_classic() + theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
-                           legend.background = element_blank() )
-ggplot( dsynch, aes(x=logV,y=(stability),shape=Site, fill=Zone)) + facet_wrap(~source) +
+  ylab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
+  xlab( "Seaweed species richness" ) +
+  guides(fill=guide_legend("Site",override.aes = list(shape = 21)) ) +
+  theme_classic() + theme( legend.position = "none" )
+synchrich
+summary(lm(logV ~ gmeanr, data = filter(dsynch,source == "algae")))
+
+stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),shape=Zone, fill=Site)) + 
+  geom_smooth( aes(group=1), method="lm", se=T, col='black', lwd=0.5, show.legend = FALSE) + 
+  geom_point(size=3) +
+  scale_shape_manual( values=c(21,22,24) ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=F ) +
+  # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
+  xlab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
+  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")"))  ) +
+  scale_y_continuous(trans="log2") +
+  theme_classic() +
+  theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
+         legend.background = element_blank() )
+stabsynch
+
+cowplot::plot_grid( stabsynch, synchrich, stab2, 
+                    nrow = 1, align = "hv", 
+                    labels = "AUTO", vjust = 1.01 )
+ggsave( "R/Figs/stability_synchrony_richness.svg", width = 9, height = 3 )
+
+ggplot( dsynch, aes(x=logV,y=(stability),shape=Zone, fill=Site)) + facet_wrap(~source) +
   # geom_smooth( aes(group=1), method="glm",method.args=list(family=quasipoisson),se=F) + 
-  geom_smooth( aes(group=1), method="lm") + 
+  geom_smooth( aes(group=1), method="lm", se=F) + 
   geom_point() +
   scale_shape_manual( values=21:23 ) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
-  guides( fill=guide_legend("Zone",override.aes = list(shape = 21)) ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=F ) +
+  guides( fill=guide_legend("Site") ) +  #,override.aes = list(shape = 21)
   xlab( expression(paste("Species synchrony (",logV,")")) ) + ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")"))  ) +
   scale_y_continuous(trans="log2") +
   theme_classic() #+ theme( legend.position = c(0.99,0.99), legend.justification = c(1,1) ) 
 ggsave( "R Code and Analysis/Figs/stability~synchrony.svg", width=6, height=3 )
+
 #
 
 

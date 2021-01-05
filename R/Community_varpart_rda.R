@@ -50,10 +50,22 @@ duse <- ad[ ad$UID %in% muse$UID, ]
 dm <- left_join( duse, muse )
 
 
-# for now, restrict community analysis to algae only
+# choose which to include
 d <- dm %>% 
   filter( motile_sessile == "sessile" ) #%>% 
-  filter( non.alga.flag %in% c("Algae")  )
+  # filter( non.alga.flag %in% c("Algae")  ) # restrict community analysis to algae only
+
+# take a closer look
+d %>% 
+  group_by(taxon_lumped2) %>% 
+  summarize(total=sum(Abundance)) %>% 
+  arrange( total )
+# remove a few taxa that are unidentified or extremely low abundance
+d %>% 
+  filter( (taxon_lumped %in% c("articulated coralline","Unknown red blade","")) )
+  
+# Haliclona to sponge - fix these below using taxon_lumped, but likely need to update in data prep
+# Mytilus trossolus combine with others - using taxon_lumped2 fixes this, but changes many other things, too. changes total taxa from 165 to 141
 
 # average elevation per zone
 dmeanelev <- d %>% 
@@ -61,13 +73,17 @@ dmeanelev <- d %>%
   summarise( Elevation=mean(Shore_height_cm, na.rm=T) )
   
 # calculate mean abundance per transect in each year
+# first fix some taxa names
+d$taxon_lumped[d$taxon_lumped=="Haliclona"] <- "Porifera"
+d$taxon_lumped[d$taxon_lumped=="Mytilus trossulus"] <- "Mytilus sp."
 dmean <- d %>% 
-  group_by( Year, Site, Zone, taxon_lumped ) %>%
+  filter( !(taxon_lumped %in% c("articulated coralline","Unknown red blade")) ) %>% 
+  group_by( Year, Site, Zone, taxon_lumped2 ) %>%
   summarise( Abundance=mean(Abundance) )
 
 # spread out
 d.comm.mean <- dmean %>%
-  spread( taxon_lumped, Abundance, fill=0 ) %>% 
+  spread( taxon_lumped2, Abundance, fill=0 ) %>% 
   ungroup() %>% 
   mutate( Zone = factor(Zone, levels=c("LOW","MID","HIGH")) ) %>% 
   arrange( Year, Site, Zone )
@@ -79,20 +95,21 @@ meta <- d.comm.mean[ ,1:3 ]
 meta <- left_join(meta,dmeanelev)
 comm <- as.matrix(d.comm.mean[,-c(1:3)])
 
+# interrogate the dataset
+sort( colSums(comm), decreasing = T )
+# should we remove 
 
-# read temperature data
-pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )
 
-# merge temperature and the rest of the metadata
-M <- left_join( meta, pine )
-
+# # read temperature data
+# pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )
+# # merge temperature and the rest of the metadata
+# M <- left_join( meta, pine )
 # # define site as the particular trasect
 # Zone <- factor( meta$Zone, levels=c("LOW","MID","HIGH"), labels=c("Low","Mid","High") )
 # Site <- factor( meta$Site, labels=c("5","N","W") )
 # site <- paste( Site, Zone, sep="." )
 # site <- factor( site, levels= c("5.Low","5.Mid","5.High","N.Low","N.Mid","N.High","W.Low","W.Mid","W.High"),
 #                 labels= c("5.L","5.M","5.H","N.L","N.M","N.H","W.L","W.M","W.H"))
-# 
 # # define year
 # year <- meta$Year
 # # define 2016 for plotting later
@@ -111,10 +128,25 @@ anoms$season <- factor(format(yq, "%q"), levels = 1:4,
 anoms.season <- anoms %>% 
   group_by( year, season ) %>% 
   summarize( temp.anom=mean(temp.anom) )
-ggplot(anoms.season, aes(x=year,y=temp.anom,col=season)) + geom_point()
+ggplot(anoms.season, aes(x=year,y=temp.anom,col=season)) +  geom_line()
 ggplot(anoms.season, aes(x=year,y=temp.anom,col=season)) + facet_wrap(~season) + geom_path() + geom_point()
 ggplot(filter(anoms.season, year>=2010), aes(x=year,y=temp.anom,col=season)) + facet_wrap(~season) + geom_path() + geom_point()
 # figure out how to make an anomly plot with vertical lines from zero
+# pairwise correlations among seasonal anomalies
+as.all <- anoms.season %>% 
+  spread( key = season, value=temp.anom )
+winter = ts(as.all$winter)
+spring = ts(as.all$spring)
+summer = ts(as.all$summer)
+fall   = ts(as.all$fall)
+ccf(winter, summer)
+ccf(spring, summer)
+ccf(summer, fall)
+ccf(winter, fall)
+cor(winter, summer) # 0.77
+cor(spring, summer) # 0.88
+cor(winter, fall)   # 0.69
+cor(fall, summer)   # 0.73
 
 # extract data for 2011 to 2019
 as.survey <- anoms.season %>% 
@@ -124,6 +156,12 @@ as.survey <- anoms.season %>%
 test <- c("Station_1_CTD_42","Station_1_CTD_42_2")
 gsub( "Station_1_CTD_42*", "Station_1", test )
 
+# 
+# extract data for 2011 to 2019
+as.survey <- anoms.season %>% 
+  filter( year>=2010 ) %>% 
+  spread( key = season, value=temp.anom )
+M <- left_join( meta, as.survey )
 
 # show summer versus winter temperature anomaly
 as.survey.all <- anoms.season %>% 
@@ -269,7 +307,7 @@ os1 <- ordisurf( db1, meta$Elevation )
 ordiellipse( db1, meta$Zone, conf=0.6 )
 
 
-RsquareAdj(db1)  # explains 20-25% of variation in consumption rate?
+RsquareAdj(db1)  # explains 25-33% of variation in community composition?
 R2 <- eigenvals(db1)/sum(eigenvals(db1))
 R2
 summary(db1)
@@ -286,7 +324,7 @@ anova(db1, by="terms", permu=200) # test for sign. environ. variables
 scores_dbRDA=scores(db1)
 site_scores=scores_dbRDA$sites # separating out the site scores, get CAP1 and CAP2 scores
 species_scores=scores_dbRDA$species # separating out the species scores
-site_scores_environment=cbind(site_scores,select(M,Elevation,anom.pine.sum.1)) # merge
+site_scores_environment=cbind(site_scores,select(meta,Elevation,anom.pine.sum.1)) # merge
 correlations=cor(site_scores_environment) # calculate correlations
 fix(correlations)
 #####
@@ -357,8 +395,38 @@ a <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) +
   scale_color_gradientn(colours=pal2(100),limits=c(-2,2)) +
   theme_bw() + theme( panel.grid.major = element_blank(), 
                       panel.grid.minor = element_blank())
+a
 ggsave("R Code and Analysis/Figs/rda_bwr_pal2_temp.svg", width=4, height=3 )
 
+# flip axes
+sites$zone <-  factor( sites$zone, levels = c("HIGH","MID","LOW"))
+ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
+  # stat_contour(data = ordi.na, aes(x = x, y = y, z = z, colour = rev(..level..)),
+               # binwidth = 20)+ #can change the binwidth depending on how many contours you want
+  # geom_smooth( aes(group=year), method='lm', se=F, size=0.5,col='gray85') +
+  geom_point( aes(shape=zone), size=1, col='darkslategrey' )  +
+  stat_ellipse( aes(lty=zone), level = 0.6, col='slategrey', lwd = 0.33 ) +
+  # geom_smooth( aes(group=1), method='lm', se=F, size=0.5,col='gray25') +
+  # geom_smooth( data=preds.env, aes(y=fit, group=year,col=summer1), method='lm', se=F, size=0.5 ) +
+  geom_path( data=surv.cent, aes(col=summer1),size=1 ) +
+  geom_point( data=surv.cent, aes(fill=summer1), size=3, shape=21 ) +
+  geom_text_repel( data=surv.cent, label=surv.cent$year, 
+                   fontface="bold",
+                   point.padding = 0.3, box.padding = 0.1 ) +
+  xlab(paste0(names(sites)[1],' (',round(R2[1],3)*100, '%)')) +
+  ylab(paste0(names(sites)[2],' (',round(R2[2],3)*100, '%)')) +
+  scale_fill_gradientn(colours=pal2(100),limits=c(-2,2)) +
+  scale_color_gradientn(colours=pal2(100),limits=c(-2,2)) +
+  scale_shape_manual(values = c(2,0,1)) +
+  scale_linetype_manual(values = c(3,2,1)) +
+  theme_bw() + theme( panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank()) +
+  theme( legend.title = element_text(size=8),
+         legend.text = element_text(size=8),
+         legend.key.size = unit(0.4, "cm")) +
+  labs(fill = "Summer\nSST anomaly", col = "Summer\nSST anomaly", shape = "Zone", lty = "Zone" ) +
+  coord_flip()
+ggsave("R/Figs/rda_bwr_pal2_temp_flip.svg", width=4, height=3 )
 
 
 

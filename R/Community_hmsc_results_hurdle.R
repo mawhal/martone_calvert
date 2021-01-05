@@ -508,18 +508,18 @@ species_occur <- species_occur %>%
   mutate(value = scale(value)) %>%
   spread(key = quant, value = value)
 
-species_con_bmass <- left_join(apply(log_con_bmass, c(1,2), median) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional biomass") %>% gather(key = Species, value = median, -year1, -metric),
-                               apply(log_con_bmass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional biomass") %>% gather(key = Species, value = quant_0.25, -year1, -metric)) %>%
-  left_join(apply(log_con_bmass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional biomass") %>% gather(key = Species, value = quant_0.75, -year1, -metric))
+species_con_bmass <- left_join(apply(log_con_bmass, c(1,2), median) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional cover") %>% gather(key = Species, value = median, -year1, -metric),
+                               apply(log_con_bmass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional cover") %>% gather(key = Species, value = quant_0.25, -year1, -metric)) %>%
+  left_join(apply(log_con_bmass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional cover") %>% gather(key = Species, value = quant_0.75, -year1, -metric))
 
 species_con_bmass <- species_con_bmass %>%
   gather(key = quant, value = value, median:quant_0.75) %>%
   mutate(value = scale(value)) %>%
   spread(key = quant, value = value)
 
-species_bmass <- left_join(apply(log_biomass, c(1,2), median) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "biomass") %>% gather(key = Species, value = median, -year1, -metric),
-                           apply(log_biomass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "biomass") %>% gather(key = Species, value = quant_0.25, -year1, -metric)) %>%
-  left_join(apply(log_biomass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "biomass") %>% gather(key = Species, value = quant_0.75, -year1, -metric))
+species_bmass <- left_join(apply(log_biomass, c(1,2), median) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "cover") %>% gather(key = Species, value = median, -year1, -metric),
+                           apply(log_biomass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "cover") %>% gather(key = Species, value = quant_0.25, -year1, -metric)) %>%
+  left_join(apply(log_biomass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "cover") %>% gather(key = Species, value = quant_0.75, -year1, -metric))
 
 species_bmass <- species_bmass %>%
   gather(key = quant, value = value, median:quant_0.75) %>%
@@ -540,23 +540,103 @@ sp_scaled_trends <- species_temporal.df %>%
   mutate(estimate_sig = estimate * as.numeric(p.value<0.05))
 
 order_occur <- sp_scaled_trends %>%
-  filter(metric == "biomass") %>%
-  arrange(estimate_sig)
+  filter(metric == "cover") %>%
+  arrange(estimate_sig) 
 
 sp_scaled_trends$Species <- factor(sp_scaled_trends$Species, levels = order_occur$Species, ordered = TRUE)
+sp_scaled_trends$metric <- factor(sp_scaled_trends$metric, levels = c('occurrence','conditional cover','cover'), ordered = FALSE)
 
 
 ggplot(sp_scaled_trends, aes(x = metric, y = Species, fill = estimate_sig))+
   geom_tile()+
   scale_fill_gradient2(low = "dodgerblue3", high = "red", name = "scaled\nchange/year")+
   ylab("")+
-  xlab("")
-ggsave("R/Figs/hmsc_scale_change_heatplot.pdf", height = 6, width = 6)
+  xlab("") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+ggsave("R/Figs/hmsc_scale_change_heatplot.pdf", height = 6.2, width = 5)
 
+# boxplot of estimates
+fill_cols <- c('mintcream','mediumseagreen','mediumspringgreen')
+a <- ggplot(sp_scaled_trends, aes(x = metric, y = estimate, fill=metric)) + 
+  geom_hline(yintercept = 0) +
+  geom_boxplot(width=0.5) +
+  xlab("Metric") + ylab("Estimate") + 
+  theme_bw() + 
+  theme( legend.position = 'none',panel.grid = element_blank()) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+  scale_fill_manual( values = fill_cols)
+a
+ggsave("R/Figs/hmsc_scale_change_boxplot.png", height = 4, width = 4)
+
+# add functional groups
+taxon.key$Species = taxon.key$taxon
+sp_scaled_trends_fun <- left_join( sp_scaled_trends, taxon.key  )
+sp_scaled_trends_fun$funct_Sep2020[ is.na(sp_scaled_trends_fun$funct_Sep2020)] <- "animal"
+sp_scaled_trends_fun$funct_Sep2020 <- factor(sp_scaled_trends_fun$funct_Sep2020,
+                                             levels = c('canopy','turf','thin_turf','crust','blade','animal'))
+b <- ggplot(sp_scaled_trends_fun, aes(x = funct_Sep2020, y = estimate, fill=metric)) + 
+  geom_hline(yintercept = 0) +
+  geom_boxplot(width=0.5) +
+  xlab("Functional Group") + ylab("") + 
+  theme_bw() +
+  theme( legend.position = 'none',panel.grid = element_blank()) +
+  theme( panel.grid = element_blank())+
+  scale_fill_manual( values = fill_cols)
+b
+plot_grid(a,NULL,b,nrow=1,rel_widths = c(0.5,-0.01,1),
+          align = 'hv', labels=c("A","","B") )
+ggsave("R/Figs/hmsc_scale_change_boxplot_combo.png", height = 3, width = 6)
+
+# combine datasets for boxplots
+sp_scaled_trends$funct_Sep2020 <- "pooled"
+sp_scaled_trends_comb <- bind_rows( sp_scaled_trends, sp_scaled_trends_fun )
+# remove hyphen from functional group names
+sp_scaled_trends_comb$funct_Sep2020 <- gsub("_"," ",as.character(sp_scaled_trends_comb$funct_Sep2020))
+sp_scaled_trends_comb$funct_Sep2020 <- factor(sp_scaled_trends_comb$funct_Sep2020,
+                                             levels = c('pooled','canopy','turf','thin turf','crust','blade','animal'))
+# # colors
+# fill_cols <- c('mintcream','mediumseagreen','mediumspringgreen')
+sp_scaled_trends_comb$colors <- "mintcream" 
+sp_scaled_trends_comb$colors[sp_scaled_trends_comb$metric == 'conditional cover'] <- "mediumseagreen" 
+sp_scaled_trends_comb$colors[sp_scaled_trends_comb$metric == 'cover'] <- "mediumspringgreen" 
+# fill_cols <- c('mintcream','mediumseagreen','mediumspringgreen')
+# line types, colors
+sp_scaled_trends_comb$line.type <- 1
+sp_scaled_trends_comb$line.type[ sp_scaled_trends_comb$funct_Sep2020 == "pooled"] <- 3
+sp_scaled_trends_comb$a <- 0.75
+sp_scaled_trends_comb$a[ sp_scaled_trends_comb$funct_Sep2020 == "pooled"] <- 1
+
+
+
+# get the number of datapoints for each group
+reps <- sp_scaled_trends_comb %>% 
+  group_by(funct_Sep2020) %>% 
+  summarize(n=length(estimate)/3) %>% 
+  mutate(estimate = -22.5, metric = 'conditional cover')
+
+ggplot(sp_scaled_trends_comb, aes(x = funct_Sep2020, y = estimate, fill=metric)) + 
+  geom_hline(yintercept = 0) +
+  geom_boxplot() +
+  geom_text(data = reps, aes(label = paste0('(',n,')')), size = 3) +
+  xlab("Functional Group") + ylab("Estimate") + 
+  ylim(c(-23,13)) +
+  theme_bw() +
+  theme( legend.justification = c(1,0), legend.position = c(0.99,0.09),
+         panel.grid = element_blank(),
+         legend.title = element_blank(),
+         legend.text = element_text(size=8),
+         legend.key.size = unit(0.25, "cm"),
+         legend.key = element_rect(colour = NA, fill = NA)) +
+  scale_fill_manual( values = fill_cols)
+ggsave("R/Figs/hmsc_scale_change_boxplot_comb_single.png", height = 3, width = 4)
+
+
+
+## plot trends for all species
 species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, ordered = TRUE)
 species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, labels = gsub("[.]","\n",order_occur$Species), ordered = TRUE)
 
-ggplot(species_temporal.df, aes(x = year, y = median, color = metric, fill = metric, group = metric))+
+ggplot(species_temporal.df, aes(x = year1, y = median, color = metric, fill = metric, group = metric))+
   geom_ribbon(aes(ymin = quant_0.25, ymax= quant_0.75), alpha = 0.2, col = NA)+
   geom_line(size = 1)+
   facet_wrap(~Species, scales = "free", ncol = 6)+
@@ -630,11 +710,12 @@ FunGroups$taxon<-gsub(" ",".",FunGroups$taxon)
 # group seagrass with large browns
 FunGroups$funct_Sep2020 <- gsub("large_brown","canopy",FunGroups$funct_Sep2020)
 FunGroups$funct_Sep2020 <- gsub("seagrass","canopy",FunGroups$funct_Sep2020)
+FunGroups$taxon[ FunGroups$taxon == "Bossiella.articulate" ] <- "Bossiella_articulate"
 
 # Check which species names don't match #These should all be animals and other non-algal fields
 colnames(comm)[colnames(comm) %in% FunGroups$taxon == "FALSE"] 
 # fix naming discrepancies
-names(comm)[colnames(comm)=="Bossiella_articulate"] <- "Bossiella.articulate"
+# names(comm)[colnames(comm)=="Bossiella_articulate"] <- "Bossiella.articulate"
 
 # Creat2 matrix of functional groups summed
 taxon<-data.frame(taxon = colnames(comm))

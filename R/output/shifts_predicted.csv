@@ -1,48 +1,48 @@
-taxon,funct,fill,shift.x,year,peak,shift.y,integral,labels,first,phylum,group
-Acrosiphonia,filament turf,whitesmoke,-148,2012,209,1.0732377524328256,129.12148581838085,1,Acrosiphonia,Chlorophyta,Chlorophyta
-Alaria.marginata,kelp,whitesmoke,-27,2012,88,0.23810407710935566,2673.784336713561,2,Alaria,Ochrophyta,Ochrophyta
-Anemone,animal,deepskyblue,-13,2012,257,2.5668292927786545,109.46439323335383,3,Anemone,animal,animal
-Barnacles,animal,deepskyblue,0,2012,382,2.04415369365974,2633.520510364146,4,Barnacles,animal,animal
-Bossiella_articulate,articulated coralline,whitesmoke,0,2012,61,1.372906986687985,124.35075901220155,5,Bossiella,Rhodophyta,Rhodophyta
-Callithamnion.pikeanum,red turf,whitesmoke,-77,2012,293,0.8095377264188647,47.109014107423874,6,Callithamnion,Rhodophyta,Rhodophyta
-Ceramium.pacificum,filament,whitesmoke,4,2012,148,1.727081881951038,12.672896796958549,7,Ceramium,Rhodophyta,Rhodophyta
-Chamberlainium.tumidum,crustose coralline,whitesmoke,-24,2012,203,0.7351131942429971,813.9466404382158,8,Chamberlainium,Rhodophyta,Rhodophyta
-Cladophora.columbiana,filament turf,whitesmoke,4,2012,287,1.7305552988706168,25.060987882881037,9,Cladophora,Chlorophyta,Chlorophyta
-Corallina,articulated coralline,whitesmoke,-46,2012,198,0.4662212038621726,415.6506106200705,10,Corallina,Rhodophyta,Rhodophyta
-coralline.crust,crustose coralline,whitesmoke,0,2012,61,0.5869915497921632,871.0224934840611,11,coralline,Rhodophyta,Rhodophyta
-Cryptosiphonia.woodii,red turf,whitesmoke,-69,2012,135,1.4734839552145012,109.47002517026142,12,Cryptosiphonia,Rhodophyta,Rhodophyta
-Dilsea.californica,blade,whitesmoke,25,2012,114,1.9389682436812183,12.915397609897685,13,Dilsea,Rhodophyta,Rhodophyta
-Egregia.menziesii,kelp,whitesmoke,-53,2012,114,0.5395671108743961,51.30761138077506,14,Egregia,Ochrophyta,Ochrophyta
-Elachista.fucicola,filament,whitesmoke,-131,2012,243,0.03911957220771434,191.09224061273991,15,Elachista,Ochrophyta,Ochrophyta
-Endocladia.muricata,filament turf,whitesmoke,-36,2012,311,0.7994953104610782,636.9267717896704,16,Endocladia,Rhodophyta,Rhodophyta
-Farlowia.mollis,red turf,whitesmoke,-203,2012,264,0.44187505817640677,25.17410275222445,17,Farlowia,Rhodophyta,Rhodophyta
-Fucus.distichus,fucoid,whitesmoke,-38,2012,283,0.20803426544644887,6638.8586505987405,18,Fucus,Ochrophyta,Ochrophyta
-Gloiopeltis.furcata,red turf,whitesmoke,-82,2012,369,0.22111997537958458,180.15143398030472,19,Gloiopeltis,Rhodophyta,Rhodophyta
-Halosaccion.glandiforme,red turf,whitesmoke,-48,2012,216,0.7515711217812137,261.23853982732106,20,Halosaccion,Rhodophyta,Rhodophyta
-Hedophyllum.sessile,Kelp,whitesmoke,-45,2012,156,0.8106393739217711,41.82933043701232,21,Hedophyllum,Ochrophyta,Ochrophyta
-Hildenbrandia,crust,whitesmoke,-2,2012,234,0.7854573690446124,3039.5489281536234,22,Hildenbrandia,Rhodophyta,Rhodophyta
-Hymenena,red turf,whitesmoke,-12,2012,134,0.3440496408214934,112.03475053811025,23,Hymenena,Rhodophyta,Rhodophyta
-Leathesia.marina,brown turf,whitesmoke,-75,2012,232,0.6338108466042883,48.98328124614487,24,Leathesia,Ochrophyta,Ochrophyta
-Lithothamnion.phymatodeum,crustose coralline,whitesmoke,-64,2012,139,2.456202994924877,22.50668132232516,25,Lithothamnion,Rhodophyta,Rhodophyta
-Mastocarpus,red turf,whitesmoke,-49,2012,222,0.22072438697894006,791.9318957294489,26,Mastocarpus,Rhodophyta,Rhodophyta
-Mazzaella.oregona,blade,whitesmoke,-61,2012,122,0.29692685232442045,335.55956569597606,27,Mazzaella,Rhodophyta,Rhodophyta
-Mazzaella.parvula,blade,whitesmoke,0,2012,61,0.8367473234439258,11.779951706542871,28,Mazzaella,Rhodophyta,Rhodophyta
-Mazzaella.splendens,blade,whitesmoke,-14,2012,102,0.5963634354629339,351.614598421649,29,Mazzaella,Rhodophyta,Rhodophyta
-Microcladia.borealis,red turf,whitesmoke,-55,2012,223,0.9439861427451199,81.73115441295204,30,Microcladia,Rhodophyta,Rhodophyta
-Mytilus.sp.,animal,deepskyblue,0,2012,382,23.238201002034174,55.85937841263154,31,Mytilus,animal,animal
-Neogastroclonium.subarticulatum,red turf,whitesmoke,-63,2012,124,0.6064593879869546,18.16918645227179,32,Neogastroclonium,Rhodophyta,Rhodophyta
-Neopolyporolithon.reclinatum,crustose coralline,whitesmoke,-127,2012,188,1.3182009398346075,9.135702959809185,33,Neopolyporolithon,Rhodophyta,Rhodophyta
-Neorhodomela.larix,red turf,whitesmoke,14,2012,88,0.561055652026704,309.0267539673172,34,Neorhodomela,Rhodophyta,Rhodophyta
-Odonthalia.floccosa,red turf,whitesmoke,0,2012,61,0.6566710338165636,267.77189092533877,35,Odonthalia,Rhodophyta,Rhodophyta
-Palmaria.hecatensis,red turf,whitesmoke,41,2012,61,0.18742985764795703,58.59426079676545,36,Palmaria,Rhodophyta,Rhodophyta
-Petrocelis,crust,whitesmoke,-143,2012,294,0.17252058629996206,531.0157029868877,37,Petrocelis,Rhodophyta,Rhodophyta
-Phyllospadix.sp.,seagrass,whitesmoke,0,2012,61,2.269338538842331,972.4768326731011,38,Phyllospadix,Streptophyta,Streptophyta
-Plocamium.violaceum,red turf,whitesmoke,-17,2012,205,0.39163396007438667,312.1317075848307,39,Plocamium,Rhodophyta,Rhodophyta
-Polyneura.latissima,red turf,whitesmoke,0,2012,61,0.2933467624926216,154.23791979501883,40,Polyneura,Rhodophyta,Rhodophyta
-Polysiphonia,filament turf,whitesmoke,21,2012,236,2.1819892210827203,72.4852479362628,41,Polysiphonia,Rhodophyta,Rhodophyta
-Prionitis,red turf,whitesmoke,-110,2012,171,0.43748523874903006,57.52244946018428,42,Prionitis,Rhodophyta,Rhodophyta
-Ptilota,red turf,whitesmoke,-36,2012,111,0.28224727087501456,170.1584455636124,43,Ptilota,Rhodophyta,Rhodophyta
-Pyropia,blade,whitesmoke,-116,2012,341,0.701098892584748,2034.612663203475,44,Pyropia,Rhodophyta,Rhodophyta
-Ralfsioid,crust,whitesmoke,-142,2012,230,0.818182870714985,28.21656496095975,45,Ralfsioid,Ochrophyta,Ochrophyta
-Savoiea.robusta,filament_turf,whitesmoke,-24,2012,311,1.7742072992192703,45.05885227465241,46,Savoiea,Rhodophyta,Rhodophyta
-Ulva,filament turf,whitesmoke,-51,2012,179,0.5321861468724439,394.46035643725253,47,Ulva,Chlorophyta,Chlorophyta
+elev.init.med,elev.shifts.med,elev.shifts.low,elev.shifts.high,abun.init.med,abun.shifts.med,abun.shifts.low,abun.shifts.high,rank,taxon,labels,first,kelp_fucoid_turf,littler_groups,new_cat,new_cat_simple1,new_cat_simple2,new_cat_simple3,funct_Sep2020,flag,Species,group
+275,-38,-11,-68.025,2541.9462950416655,0.23448638660637994,0.36262730089522877,0.12287467323362257,1,Fucus.distichus,18,Fucus,Fucoid,thick leathery,Fucus,Fucus,Fucus,Fucus,canopy,NA,Fucus.distichus,canopy
+242,-10,14,-37,1647.1116833928913,0.6747876982205274,0.9002580076207494,0.5102363337581253,2,Hildenbrandia,22,Hildenbrandia,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,NA,Hildenbrandia,crust
+382,0,0,0,1339.1009456814602,1.265362784461642,1.956791225599114,0.826589281223341,3,Barnacles,4,Barnacles,NA,NA,NA,NA,NA,NA,NA,NA,Barnacles,animal
+148,-29,25,-95,1154.4729445398325,0.2520717074652734,0.5914811848890102,0.05049646718149382,4,Alaria.marginata,2,Alaria,Kelp,thick leathery,Kelp,Kelp,Kelp,Kelp,canopy,NA,Alaria.marginata,canopy
+382,-173,-98,-266.025,723.8283160625452,0.843904204085986,1.2384874325961437,0.5396139831032215,5,Pyropia,44,Pyropia,blade,sheet,red blade,blade,red blade,blade,blade,NA,Pyropia,blade
+147,-61,0,-321,54.9005330066193,0.9868213124739253,7.372695665559094,0.07502477215663422,6,Hedophyllum.sessile,21,Hedophyllum,large_brown,thick leathery,large_brown,large_brown,large_brown,large_brown,canopy,NA,Hedophyllum.sessile,canopy
+294,-134,-72,-246,332.93350306455454,0.18518978663917152,0.3064040063851588,0.11161842346543385,7,Petrocelis,37,Petrocelis,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,NA,Petrocelis,crust
+192,-35,18,-120.025,408.82550533017024,0.4694649066587502,0.7268711219649713,0.23057923088165203,8,Corallina,10,Corallina,articulated coralline,jointed calcareous,articulated coralline,articulated coralline,articulated coralline,articulated coralline,turf,NA,Corallina,turf
+156,-40,51.02499999999998,-182.15,281.15592592735607,0.8327943151354091,2.3250149220201277,0.3548921054574638,9,Phyllospadix.sp.,38,Phyllospadix,seagrass,seagrass,seagrass,seagrass,seagrass,seagrass,canopy,NA,Phyllospadix.sp.,canopy
+203,-18,7.024999999999977,-44,380.96834383618994,0.7201306250845778,1.02159639356785,0.49923165086908367,10,Chamberlainium.tumidum,8,Chamberlainium,crustose coralline,crustose,crustose coralline,crustose coralline,crustose coralline,crustose coralline,crust,NA,Chamberlainium.tumidum,crust
+69,0,14.024999999999977,-192.17499999999998,98.41859181402447,1.7119061842015069,5.563313806021006,0.8726362085712321,11,Bossiella_articulate,5,Bossiella,articulated coralline,Jointed calcareous,articulated coralline,articulated coralline,articulated coralline,articulated coralline,turf,NA,Bossiella_articulate,turf
+302,-46,12.024999999999977,-144.025,295.49469377211994,0.8664872696829529,1.209661814291936,0.6011986341331482,12,Endocladia.muricata,16,Endocladia,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,NA,Endocladia.muricata,thin_turf
+213,-14,18,-49,255.28079248202852,0.26101935076830873,0.516312805342301,0.12921246447328658,13,Plocamium.violaceum,39,Plocamium,red turf,finely branching,red turf,red turf,turf,turf,thin_turf,NA,Plocamium.violaceum,thin_turf
+227,-12,19.024999999999977,-47.025,548.8020895516134,0.24929359923417296,0.3376030059074776,0.17399219578251668,14,Mastocarpus,26,Mastocarpus,red turf,thick leathery,red turf,red turf,turf,turf,turf,NA,Mastocarpus,turf
+382,0,3,-26,22.053756376618217,13.913981454054507,42.82325439367868,4.645496336697969,15,Mytilus.sp.,31,Mytilus,NA,NA,NA,NA,NA,NA,NA,NA,Mytilus.sp.,animal
+61,0,56.02499999999998,-29.049999999999997,183.38763973892213,0.42988538290959,1.0754620249338755,0.1396056043439126,16,Neorhodomela.larix,34,Neorhodomela,red turf,finely branching,red turf,red turf,turf,turf,turf,NA,Neorhodomela.larix,turf
+61,0,0,-72.05,26.76491048277242,0.3476850676281754,1.5990406395570682,0.043190704504672384,17,Egregia.menziesii,14,Egregia,Kelp,thick leathery,Kelp,Kelp,Kelp,Kelp,canopy,NA,Egregia.menziesii,canopy
+95,-11,42,-113.1,121.05552374099537,0.20959346484644514,0.5777231493180437,0.05910748738884557,18,Ptilota,43,Ptilota,red turf,finely branching,red turf,red turf,turf,turf,thin_turf,NA,Ptilota,thin_turf
+61,0,40.02499999999998,-34,140.75724734388274,0.6277802662736816,1.2602102853386892,0.2864990722040499,19,Mazzaella.splendens,29,Mazzaella,blade,thick leathery,red blade,blade,red blade,blade,blade,NA,Mazzaella.splendens,blade
+61,0,36.07499999999993,-27,188.50339913524897,0.7667422996904685,1.2735551586676226,0.4421202929767567,20,coralline.crust,11,coralline,crust,crustose,crustose coralline,crustose coralline,crustose coralline,crustose coralline,crust,NA,coralline.crust,crust
+188,-53,4,-141.1,136.51936289069005,0.6118815015961468,0.9080727796701905,0.3489200456746257,21,Ulva,47,Ulva,blade,sheet,green blade,blade,green blade,blade,blade,NA,Ulva,blade
+244,-11,22,-48,94.17811152472737,1.989133902865579,3.5369553093194055,1.3030505088226854,22,Anemone,3,Anemone,NA,NA,NA,NA,NA,NA,NA,NA,Anemone,animal
+223,-63,-30,-127,195.9545434280535,0.7891214324497695,1.1356171092452851,0.5346647586026149,23,Halosaccion.glandiforme,20,Halosaccion,red turf,sheet,red turf,red turf,turf,turf,turf,NA,Halosaccion.glandiforme,turf
+168,-75,0,-139,80.96112340822486,1.393275156142959,3.2268043423035078,0.7252747499390229,24,Cryptosiphonia.woodii,12,Cryptosiphonia,red turf,finely branching,red turf,red turf,turf,turf,turf,NA,Cryptosiphonia.woodii,turf
+61,0,48.049999999999955,-11,143.8576436948238,0.2858548323471401,0.6103305730645039,0.10902173326687435,25,Polyneura.latissima,40,Polyneura,red turf,sheet,red turf,red turf,turf,turf,turf,could also be blade,Polyneura.latissima,turf
+116,-37,13,-99.1,99.62253773964429,0.6664045260198519,1.4597456757720504,0.3224050766329227,26,Odonthalia.floccosa,35,Odonthalia,red turf,finely branching,red turf,red turf,turf,turf,turf,NA,Odonthalia.floccosa,turf
+147,-13,31,-57,140.79605111623744,0.2526738370878176,0.5131130987205939,0.12104443845803704,27,Hymenena,23,Hymenena,red turf,sheet,red turf,red turf,turf,turf,turf,NA,Hymenena,turf
+184,-55,10.049999999999955,-321,97.99526902884452,1.1651049283093673,1.8311938489226671,0.6717503761395517,28,Acrosiphonia,1,Acrosiphonia,filament_turf,filament,green turf,green turf,turf,turf,thin_turf,NA,Acrosiphonia,thin_turf
+200,-63,-3.900000000000091,-139.05,55.892377276375214,1.1123737503883304,2.6131248016365927,0.5564768410397237,29,Microcladia.borealis,30,Microcladia,red turf,filament,red turf,red turf,turf,turf,thin_turf,NA,Microcladia.borealis,thin_turf
+188,-88,0,-164.025,211.33834006155826,0.3041752187104725,0.5438565877662759,0.14960437131970464,30,Mazzaella.oregona,27,Mazzaella,blade,thick leathery,red blade,blade,red blade,blade,blade,NA,Mazzaella.oregona,blade
+382,-30,18,-101,115.10125695251148,0.27626178220215053,0.5421302561199811,0.12443448137048087,31,Gloiopeltis.furcata,19,Gloiopeltis,red turf,finely branching,red turf,red turf,turf,turf,thin_turf,NA,Gloiopeltis.furcata,thin_turf
+61,0,0,-321,13.354140888213525,0.7374102251723371,5.931397020709483,0.13084976659629635,32,Neogastroclonium.subarticulatum,32,Neogastroclonium,red turf,finely branching,red turf,red turf,turf,turf,turf,NA,Neogastroclonium.subarticulatum,turf
+282,-0.5,89,-98,35.07159855878308,1.3542253593064193,3.319141572496581,0.657108843990506,33,Savoiea.robusta,46,Savoiea,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,NA,Savoiea.robusta,thin_turf
+228,-76,-28,-134,122.08411650095914,0.04491537075128543,0.18505570409451005,0.006387290414998714,34,Elachista.fucicola,15,Elachista,filament,filament,filament,filament,filament,filament,thin_turf,NA,Elachista.fucicola,thin_turf
+203,32,287.1999999999998,-100.125,56.036607221178016,1.438009494991956,3.2447988549272972,0.6841576054870698,35,Polysiphonia,41,Polysiphonia,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,NA,Polysiphonia,thin_turf
+233,-41,65,-222.025,50.26977353716069,0.9129745580095128,1.727701097564021,0.5330793796321651,36,Callithamnion.pikeanum,6,Callithamnion,red turf,filament,red turf,red turf,turf,turf,thin_turf,NA,Callithamnion.pikeanum,thin_turf
+61,0,148.0999999999999,0,70.88384491194458,0.09197117008753032,0.33148750458708015,0.014491010528000847,37,Palmaria.hecatensis,36,Palmaria,red turf,thick leathery,red turf,red turf,turf,turf,blade,NA,Palmaria.hecatensis,blade
+222,-80.5,-44,-139.05,42.93127073684576,0.7252209219409848,1.5770963413914085,0.4152042437432681,38,Leathesia.marina,24,Leathesia,brown turf,finely branching,brown turf,brown turf,turf,turf,turf,NA,Leathesia.marina,turf
+112,-42,0,-134,24.569604300386295,2.419914731122965,5.822443257455136,1.051473957569751,39,Lithothamnion.phymatodeum,25,Lithothamnion,crustose coralline,crustose,crustose coralline,crustose coralline,crustose coralline,crustose coralline,crust,NA,Lithothamnion.phymatodeum,crust
+151,-44,43.09999999999991,-321,49.65419863121302,0.32301577731055764,0.908641198790205,0.1040721853137355,40,Prionitis,42,Prionitis,red turf,finely branching,red turf,red turf,turf,turf,turf,NA,Prionitis,turf
+245,-155,-61.97500000000002,-321,22.68331067788396,0.7252843452030262,1.678654339380562,0.27570846986320646,41,Ralfsioid,45,Ralfsioid,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,NA,Ralfsioid,crust
+283,14,90,-42,21.48724544754473,1.5265055471428186,3.669741561043249,0.6627094088169428,42,Cladophora.columbiana,9,Cladophora,filament_turf,filament,green turf,green turf,turf,turf,thin_turf,NA,Cladophora.columbiana,thin_turf
+260,-150.5,-37.950000000000045,-321,20.925495219093634,0.372231030629801,1.6071633003037107,0.09110266448276141,43,Farlowia.mollis,17,Farlowia,red turf,finely branching,red turf,red turf,turf,turf,turf,NA,Farlowia.mollis,turf
+103,0,49,-63,9.490250358993137,2.144912071118762,9.04558945811243,0.6491722588705016,44,Dilsea.californica,13,Dilsea,blade,thick leathery,red blade,blade,red blade,blade,blade,NA,Dilsea.californica,blade
+157,-12,48,-71.025,8.182087167408856,1.5758613620036293,5.116522658294018,0.5762424129097397,45,Ceramium.pacificum,7,Ceramium,filament,filament,red turf,red turf,turf,turf,thin_turf,NA,Ceramium.pacificum,thin_turf
+95,-34,0,-172.075,11.064482530103586,1.6520767493006046,5.87221960645184,0.6189976669910656,46,Neopolyporolithon.reclinatum,33,Neopolyporolithon,crustose coralline,crustose,crustose coralline,crustose coralline,crustose coralline,crustose coralline,crust,NA,Neopolyporolithon.reclinatum,crust
+61,0,105.12499999999989,-82.07499999999999,8.774710550255463,0.8266151192816152,2.5585591071659097,0.2810843277047432,47,Mazzaella.parvula,28,Mazzaella,blade,thick leathery,red blade,blade,red blade,blade,turf,NA,Mazzaella.parvula,turf

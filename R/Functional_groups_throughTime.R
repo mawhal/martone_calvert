@@ -11,24 +11,27 @@ FunGroups$taxon<-gsub(" ",".",FunGroups$taxon)
 # group seagrass with large browns
 FunGroups$funct_Sep2020 <- gsub("large_brown","canopy",FunGroups$funct_Sep2020)
 FunGroups$funct_Sep2020 <- gsub("seagrass","canopy",FunGroups$funct_Sep2020)
-
+FunGroups[is.na(FunGroups$funct_Sep2020),]
 
 #Import community matrix
-comm<-read_csv("./R Code and Analysis/output from r/community.csv")
+comm<-read_csv("R/output/community.csv")
 #Check which species names don't match #These should all be animals and other non-algal fields
 colnames(comm)[colnames(comm) %in% FunGroups$taxon == "FALSE"] 
 #Remove non-algal fields from community matrix
 comm2<-comm[,colnames(comm) %in% FunGroups$taxon]
+# keep inverts
+commuse <- comm
 
 #Creat matrix of functional groups summed
-taxon<-data.frame(taxon = colnames(comm2))
-taxon.key<-left_join(taxon, FunGroups, by = "taxon") 
+taxon<-data.frame(taxon = colnames(commuse))
+taxon.key<-left_join(taxon, FunGroups, by = "taxon")
+taxon.key$funct_Sep2020[taxon.key$taxon %in% c('Barnacles','Anemone','Mytilus.sp.')] <- "animal"
 # how many taxa (S for species richness) in each group
 group_richness <- taxon.key %>% 
   dplyr::group_by(funct_Sep2020) %>% 
   dplyr::summarise(S=length(taxon))
-colnames(comm2)<-taxon.key$funct_Sep2020
-comm3<-comm2[,which(colnames(comm2) != "NA")]
+colnames(commuse)<-taxon.key$funct_Sep2020
+comm3<-commuse[,which(colnames(commuse) != "NA")]
 comm.sum <- t(rowsum(t(comm3), group = colnames(comm3), na.rm = T)) %>% as_tibble()
 comm.sum$Year<-comm$Year
 comm.sum$Site<-comm$Site
@@ -55,7 +58,8 @@ comm.sum$Zone<-comm$Zone
 
 # tidy and calculate summaries
 comm.tidy <- comm.sum %>%  
-  pivot_longer( cols = blade:turf, names_to = "FunGroup" )
+  pivot_longer( cols = animal:turf, names_to = "FunGroup" )
+  # pivot_longer( cols = blade:turf, names_to = "FunGroup" )
 
 d <- comm.tidy %>% 
   dplyr::group_by( Year, Site, Zone, FunGroup ) %>% 
@@ -72,7 +76,7 @@ d$site_num <- as.numeric(d$Site)
 # d <- d_sitezone
 # d$sitezone <- factor(d$sitezone, levels=unique(d$sitezone[order(d$Site,d$Zone)]), ordered=TRUE)
 
-d$FunGroup<-factor(d$FunGroup, levels = rev(c("turf", "thin_turf", "blade", "crust", "canopy")))
+d$FunGroup<-factor(d$FunGroup, levels = rev(c("animal","turf", "thin_turf", "blade", "crust", "canopy")))
 # d$FunGroup<-factor(d$FunGroup, levels = rev(c("crust", "blade", "thin_turf",  "turf", "canopy")))
 
 # add taxon richness to fun group names
@@ -83,15 +87,35 @@ d <- left_join( d, group_richness )
 dplot <- d %>% 
   mutate( FunGroup = gsub("_"," ",FunGroup) ) %>% 
   mutate( `Functional Group` = factor(paste0(FunGroup, " (",S,")")) )
-dplot$`Functional Group` <-   forcats::fct_relevel( dplot$`Functional Group`, "canopy (13)")
+dplot$`Functional Group` <-   forcats::fct_relevel( dplot$`Functional Group`, 
+                                                    "canopy (13)","blade (15)","crust (13)","thin turf (30)","turf (47)","animal (3)")
 
 # add bare rock data
-bareraw <- read_csv( "R Code and Analysis/output from r/bare.csv")
+bareraw <- read_csv( "R/output/bare.csv")
 bare2020 <- read_csv( "Data/Excel Files/2020_short_survey/bare_rock.csv" )
 bare <- bind_rows( bareraw, bare2020 )
 bare$Zone<-factor(bare$Zone, levels = c("LOW", "MID", "HIGH"))
 bare$Site <- factor(bare$Site, levels=c("North Beach","Fifth Beach","Foggy Cove"))
 
+
+dplot2 <- dplot %>% 
+  dplyr::group_by( Year, FunGroup, `Functional Group` ) %>% 
+  dplyr::summarize( mean=mean(mean) )
+ggplot(dplot2, aes(x = Year, y = mean))+
+  geom_bar(aes(fill = `Functional Group`), position="stack", 
+           stat="identity", col='black', lwd=0.25)+
+  geom_smooth( data=bare, aes(x=Year,y=Abundance, group=1), 
+               fill="black",col="yellow" ) +
+  theme_classic()+
+  scale_fill_manual(values = c("white", "darkred", "red","pink", "darkgrey", "#996633") %>% rev())+  #"darkgreen",
+  theme( legend.position = 'top',
+         legend.title = element_blank(),
+         legend.text = element_text(size=8),
+         legend.key.size = unit(0.25, "cm") ) +
+  guides( fill =  guide_legend(nrow=2,byrow=T) ) +
+  theme( panel.border = element_rect(colour = "black", fill=NA, size=0.5) ) +
+  ylab("Mean cover (%)")
+ggsave( "R/Figs/FunGroups_time.svg",width=3,height=3.5)
 
 ggplot(dplot, aes(x = Year, y = mean))+
   geom_bar(aes(fill = `Functional Group`), position="stack", stat="identity")+
@@ -107,7 +131,7 @@ ggplot(dplot, aes(x = Year, y = mean))+
   theme( axis.text.x = element_text(size=10) ) +
   # theme(legend.justification=c(1,1), legend.position=c(1,1)) +
   ylab("Mean cover (%)")
-ggsave( "R Code and Analysis/Figs/FunGroups_time_zone_site.svg",width=8,height=7)
+ggsave( "R/Figs/FunGroups_time_zone_site.svg",width=8,height=7)
 
 
 # what is the temporal coeffient of variation for each functional group? Which group varied the most?
@@ -126,7 +150,7 @@ ggplot( data=dcv, aes( x=CVrank, y=CV)) + #facet_grid(Site~Zone) +
 dsum <- d %>% 
   dplyr::group_by(FunGroup, Site, Zone) %>% 
   dplyr::summarize( change=diff(mean) ) %>%
-  mutate( year = gl(7,1,35,labels = c(2013:2019) ))
+  mutate( year = gl(7,1,315,labels = c(2013:2019) ))
 
 # point colors based on positive or negative anomaly
 dsum$sign <- ifelse(dsum$change>0,"red","blue")

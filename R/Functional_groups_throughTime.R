@@ -101,7 +101,7 @@ bare$Site <- factor(bare$Site, levels=c("North Beach","Fifth Beach","Foggy Cove"
 dplot2 <- dplot %>% 
   dplyr::group_by( Year, FunGroup, `Functional Group` ) %>% 
   dplyr::summarize( mean=mean(mean) )
-ggplot(dplot2, aes(x = Year, y = mean))+
+ggplot(dplot2, aes(x = Year, y = mean)) +
   geom_bar(aes(fill = `Functional Group`), position="stack", 
            stat="identity", col='black', lwd=0.25)+
   geom_smooth( data=bare, aes(x=Year,y=Abundance, group=1), 
@@ -117,15 +117,16 @@ ggplot(dplot2, aes(x = Year, y = mean))+
   ylab("Mean cover (%)")
 ggsave( "R/Figs/FunGroups_time.svg",width=3,height=3.5)
 
-ggplot(dplot, aes(x = Year, y = mean))+
-  geom_bar(aes(fill = `Functional Group`), position="stack", stat="identity")+
+ggplot(dplot, aes(x = Year, y = mean)) +
+  geom_bar(aes(fill = `Functional Group`), position="stack", 
+           stat="identity", col='black', lwd=0.25)+
   geom_smooth( data=bare, aes(x=Year,y=Abundance, group=1), 
                fill="black",col="yellow" ) +
   theme(plot.title = element_text(size = 5))+
   theme_cowplot()+
   facet_wrap(Site~Zone,dir = "h")+
   # facet_grid(Site~Zone)+
-  scale_fill_manual(values = c("darkred", "red","pink", "darkgrey", "#996633") %>% rev())+  #"darkgreen",
+  scale_fill_manual(values = c("white", "darkred", "red","pink", "darkgrey", "#996633") %>% rev())+  #"darkgreen",
   # scale_fill_manual(values = c("pink", "darkgrey", "darkred", "red", "#996633") %>% rev())+  #"darkgreen", 
   scale_x_continuous(guide = guide_axis(n.dodge = 2)) +
   theme( axis.text.x = element_text(size=10) ) +

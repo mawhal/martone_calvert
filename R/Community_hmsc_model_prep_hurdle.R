@@ -96,18 +96,26 @@ d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 comm.all <- d.comm[,-c(1:4)]
 comm.all <- ceiling(comm.all)
 
-# windows(12,3)
-par( mar=c(5,5,1,1)+0.01, cex=0.7, las=1 )
-boxplot( comm.all[rev(order(colSums(comm.all)))], pch=16, cex=0.3, axes=F )
-axis(2)
-axis(1, at=c(1,seq(10,300,by=10)) )
-boxplot( comm.all[rev(order(apply(comm.all,2,function(z) length(z[z>0]))))], pch=16, cex=0.3, axes=F )
+# 
+windows(12,3)
+par( mar=c(3,4,0.5,0.5)+0.01, cex=0.7, las=1, cex=1.1 )
+# boxplot( comm.all[rev(order(colSums(comm.all)))], pch=16, cex=0.3, axes=F )
+# axis(2)
+# axis(1, at=c(1,seq(10,300,by=10)) )
+# all data
+boxplot( comm.all[rev(order(apply(comm.all,2,function(z) length(z[z>0]))))], 
+         pch=16, cex=0.3, axes=F, col = 'moccasin', outwex = 0.5, boxcol = 'black', outcol = scales::alpha("black",0.25) )
+# # non-zero cover
+# comm.present <- comm.all
+# comm.present[ comm.present == 0] <- NA
+# boxplot( comm.present[rev(order(apply(comm.all,2,function(z) length(z[z>0]))))],
+#          pch=16, cex=0.3, axes=F, col = 'moccasin', log='y' )
 axis(2)
 mtext("cover (%)",2,line = 3,las=3)
 axis(1, at=c(1,seq(10,300,by=10)) )
 abline(v=48,col='red')
 # abline(h=5,lty=1)
-mtext("occupancy rank",1,line = 3)
+mtext("occupancy rank",1,line = 2)
 box()
 dev.off()
 

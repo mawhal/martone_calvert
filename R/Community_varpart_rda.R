@@ -348,6 +348,7 @@ ordi.na #looks ready for plotting!
 ### compare centroids to temperature anomaly data
 centroids
 as.survey$summer1 <- c(NA, as.survey$summer[1:length(as.survey$summer)-1])
+write_csv( as.survey, "R/output/sst_anoms_survey.csv" )
 surv.cent <- left_join( as.survey, centroids )
 centroid2 <- centroids
 centroid2$year <- centroid2$year-1

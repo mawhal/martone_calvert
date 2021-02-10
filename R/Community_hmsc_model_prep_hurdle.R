@@ -163,6 +163,9 @@ ad.rich <- ad %>% filter(motile_sessile == "sessile") %>%
 
 ncol(Y)/ad.rich
 
+# look at genus overlap
+sort(unlist(lapply( strsplit( colnames(Y), split = "[.]"), function(z) z[1] )))
+
 
 # define the variables to test from metadata and data
 # merge community data with metadata
@@ -235,8 +238,9 @@ XFormula = ~ year1 + year2 + elev1 + elev2 +
   
   
 
-## Traits -- will include the kelp.fucoid.turf type of functional grouping 
+## Traits -- could include the kelp.fucoid.turf type of functional grouping 
 #            from the file "Algae_functional_groups.csv", but restricted to algae only
+#           could also include generally occpuied zone (e.g., high, mid, low)
 
 ## Phylogeny -- may only be able to do this for red algae or brown algae separately
 

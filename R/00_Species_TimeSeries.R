@@ -4,14 +4,8 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Hedophyllum"
+taxon <- "Farlowia mollis"
 
-# taxa with predicted increases over time
-# taxon <- "Mytilus"
-# # taxon <- "Lithophyllum"
-# # taxon <- "Neopolyporolithon reclinatum"
-# # taxon <- "Lithothamnion phymatodeum"
-# # taxon <- "Dilsea.californica"
 # # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
 # 
 # taxon <- "Alaria"
@@ -37,7 +31,7 @@ ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 
 # customize sites and years
 years <- 2012:2019
-sites <- c("Fifth Beach", "North Beach","Foggy Cove")
+sites <- c("Fifth Beach", "North Beach","Foggy Cove", "Meay Channel")
 metause <- am %>% 
   filter( Year %in% years ) %>% 
   filter( Site %in% sites )
@@ -60,7 +54,14 @@ d$Abundance[ is.na( d$Abundance) ] <- 0
 # # get rid of bad merging
 # d <- d %>% 
 #   filter( !is.na(Site), !is.na(Zone) )
-
+# # query d for consistent plots revisited
+# drevisited <- d %>% 
+#   group_by( Site, Zone, Meter.point ) %>% 
+#   summarize( n = length(Quadrat) ) %>% 
+#   arrange( -n )
+# dfilt <- left_join(d, drevisited) %>% 
+#   filter( n > 5 )
+# d <- dfilt
 
 # *** to add *** include full names for each unique instance of Sampler
 
@@ -101,7 +102,7 @@ windows(5,5)
     xlab("Year") + ylab("Cover (%)") +
     scale_x_continuous(breaks = seq(2010,2018,2) ) )
 
-ggsave( paste0("R Code and Analysis/Figs/",taxon,"_zone.svg") )
+ggsave( paste0("R/Figs/",taxon,"_zone.svg") )
 
 # plot means across the dataset, at least those with SOME presence
 # pick transects
@@ -123,7 +124,7 @@ dall <- d %>%
     xlab("Year") + ylab("Cover (%)") +
     scale_x_continuous(breaks = seq(2010,2018,2) ) )
 
-ggsave( paste0("R Code and Analysis/Figs/",taxon,"_all.svg"), width=3, height=3 ) 
+ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 ) 
 
 # just plot abundan over time
 # windows(6,2)

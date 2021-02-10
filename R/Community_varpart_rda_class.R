@@ -76,14 +76,55 @@ dmeanelev <- d %>%
 # first fix some taxa names
 d$taxon_lumped[d$taxon_lumped=="Haliclona"] <- "Porifera"
 d$taxon_lumped[d$taxon_lumped=="Mytilus trossulus"] <- "Mytilus sp."
+d$taxon_lumped2[d$taxon_lumped2=="Bossiella_articulate"] <- "Bossiella articulate"
+d$taxon_lumped2[d$taxon_lumped2=="Bossiella_crust"] <- "Bossiella crust"
 dmean <- d %>% 
   filter( !(taxon_lumped %in% c("articulated coralline","Unknown red blade")) ) %>% 
   group_by( Year, Site, Zone, taxon_lumped2 ) %>%
   summarise( Abundance=mean(Abundance) )
 
+### quick trial of "genus" level
+d$genus <- unlist(lapply(strsplit( d$taxon_lumped2, split = " " ), function(z) z[1]))
+## family level
+tax <- read_csv("Data/taxa/algal_taxonomy.csv")
+# animal taxonomy , just replace with "genus" for now because this is already above genus level 
+dtax <- left_join( d, tax )
+dtax$family[ d$non.alga.flag == "Animal" ] <- dtax$genus[ d$non.alga.flag == "Animal" ]
+dtax$class[ d$non.alga.flag == "Animal" ] <- dtax$genus[ d$non.alga.flag == "Animal" ]
+dtax$order[ d$non.alga.flag == "Animal" ] <- dtax$genus[ d$non.alga.flag == "Animal" ]
+
+dtax$family[ d$genus == "Petrocelis" ] <- unique(dtax$family[ d$genus == "Mastocarpus" ])
+dtax$class[ d$genus == "Petrocelis" ] <- unique(dtax$class[ d$genus == "Mastocarpus" ])
+dtax$order[ d$genus == "Petrocelis" ] <- unique(dtax$order[ d$genus == "Mastocarpus" ])
+dtax$family[ d$genus == "Ralfsioid" ] <- "Ralfsiaceae"
+dtax$order[ d$genus == "Ralfsioid" ] <- "Ralfsiales"
+dtax$class[ d$genus == "Ralfsioid" ] <- "Phaeophyceae"
+dtax$family[ d$genus == "coralline" ] <- "Corallinaceae"
+dtax$order[ d$genus == "coralline" ] <- "Corallinales"
+dtax$class[ d$genus == "coralline" ] <- "Florideophyceae"
+dtax$family[ d$genus == "Colonial" ] <- "Bacillariophyceae"
+dtax$order[ d$genus == "Colonial" ] <- "Bacillariophyceae"
+dtax$class[ d$genus == "Colonial" ] <- "Bacillariophyceae"
+dtax$family[ d$genus == "Opuntiella" ] <- "Furcellariaceae"
+dtax$order[ d$genus == "Opuntiella" ] <- "Gigartinales"
+dtax$class[ d$genus == "Opuntiella" ] <- "Florideophyceae"
+dtax$family[ d$genus %in%  c("Halichondria","Haliclona","Tunicata/Porifera","Riterella","Styela") ] <- "Tunicata/Porifera"
+dtax$order[ d$genus %in%  c("Halichondria","Haliclona","Tunicata/Porifera","Riterella","Styela") ] <- "Tunicata/Porifera"
+dtax$class[ d$genus %in%  c("Halichondria","Haliclona","Tunicata/Porifera","Riterella","Styela") ] <- "Tunicata/Porifera"
+dtax$class[ d$genus %in%  c("Mytilus","Jingle") ] <- "Bivalvia"
+dtax$family[ d$genus %in%  c("Pododesmus","Jingle") ] <- "Anomiidae"
+dtax$order[ d$genus %in%  c("Pododesmus","Jingle") ] <- "Pectinida"
+
+
+dmean <- dtax %>% 
+  filter( !(taxon_lumped %in% c("articulated coralline","Unknown red blade")) ) %>% 
+  group_by( Year, Site, Zone, class ) %>%
+  summarise( Abundance=mean(Abundance) )
+
 # spread out
 d.comm.mean <- dmean %>%
-  spread( taxon_lumped2, Abundance, fill=0 ) %>% 
+  filter( !is.na(class)) %>% 
+  spread( class, Abundance, fill=0 ) %>% 
   ungroup() %>% 
   mutate( Zone = factor(Zone, levels=c("LOW","MID","HIGH")) ) %>% 
   arrange( Year, Site, Zone )
@@ -333,7 +374,7 @@ site_scores=scores_dbRDA$sites # separating out the site scores, get CAP1 and CA
 species_scores=scores_dbRDA$species # separating out the species scores
 site_scores_environment=cbind(site_scores,select(meta,Elevation,anom.pine.sum.1)) # merge
 correlations=cor(site_scores_environment) # calculate correlations
-fix(correlations)
+# fix(correlations)
 #####
 
 # extract axes
@@ -472,7 +513,7 @@ ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) +
          legend.key.size = unit(0.59, "cm")) +
   labs(fill = "Summer\nSST anomaly", col = "Summer\nSST anomaly", shape = "Zone", lty = "Zone" ) +
   coord_flip()
-ggsave("R/Figs/rda_bwr_pal2_temp_flip.svg", width=4, height=3 )
+ggsave("R/Figs/rda_class_bwr_pal2_temp_flip.svg", width=4, height=3 )
 #
 
 

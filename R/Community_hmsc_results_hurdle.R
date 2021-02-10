@@ -239,8 +239,8 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
   theme_classic()+
   theme(axis.text.x = element_text(angle = 90))+
   scale_fill_manual(values = c("darkred", "maroon", viridis(7)), name = "")+
-  geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
-  geom_point(data = R2.df, aes(y = -0.07, fill = NULL, size = R2))+
+  # geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
+  # geom_point(data = R2.df, aes(y = -0.07, fill = NULL, size = R2))+
   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
   xlab(label = "")
 
@@ -329,7 +329,7 @@ abunds_array <- abind::abind(abunds_bind, along=3)
 
 ## calculate differences between 2012 and 2019 to get shift in end member states
 # elevation peak
-elev.shifts.run     <- apply( peaks_array, c(2,3), function(z) z[8]-z[1] )
+elev.shifts.run     <- apply( peaks_array, c(2,3), function(z) z[length(z)]-z[1] )
 elev.init           <- apply( peaks_array, c(2,3), function(z) z[1] )
 elev.init.med       <- apply(elev.init, 1, quantile, prob = 0.5, na.rm = TRUE)
 elev.shifts.med     <- apply(elev.shifts.run, 1, quantile, prob = 0.5, na.rm = TRUE)
@@ -339,7 +339,7 @@ elev.shifts.summary <- data.frame(elev.init.med, elev.shifts.med, elev.shifts.lo
 summary( lm(elev.shifts.med~1) )
 
 # abundance
-abun.shifts.run     <- apply( abunds_array, c(2,3), function(z) z[8]/z[1] )
+abun.shifts.run     <- apply( abunds_array, c(2,3), function(z) z[length(z)]/z[1] )
 abun.init           <- apply( abunds_array, c(2,3), function(z) z[1] )
 abun.init.med       <- apply(abun.init, 1, quantile, prob = 0.5, na.rm = TRUE)
 abun.shifts.med     <- apply(abun.shifts.run, 1, quantile, prob = 0.5, na.rm = TRUE)
@@ -366,6 +366,7 @@ ggplot( shift.summary, aes(x = log(abun.shifts.med,base=2), y = elev.shifts.med)
 # ggsave( "R/Figs/shifts_error.pdf", width=4, height=4 )
 # correlation of median responses
 with( shift.summary, cor.test( elev.shifts.med, abun.shifts.med, method = 'spearman' ) )
+filter( shift.summary, taxon=="Fucus.distichus" )
 filter( shift.summary, taxon=="Fucus.distichus" )
 
 # "significant" shifts as those that did not include zero
@@ -400,126 +401,126 @@ ggsave( "R/Figs/shifts_2panel.pdf", width=6, height=5 )
 
 
 
-# ###
-### other ways to summarize the model results
-tmp = abind::abind(predY_pa, along = 3)
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
-predictions_pa <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
-predictions_pa_low <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
-predictions_pa_high <- bind_cols(data.frame(qpred), newXData)
-
-tmp = abind::abind(lapply(predY_cop,exp), along = 3)
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
-predictions_cop <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
-predictions_cop_low <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
-predictions_cop_high <- bind_cols(data.frame(qpred), newXData)
-
-tmp = abind::abind(predY_abun, along = 3)
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
-predictions_abun <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
-predictions_abun_low <- bind_cols(data.frame(qpred), newXData)
-
-qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
-predictions_abun_high <- bind_cols(data.frame(qpred), newXData)
-
-
-
-# plot responses
-predictions_pa$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_cop$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_abun$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_pa$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-predictions_cop$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-
-
-# color scheme
-as.survey <- read_csv(  "R/output/sst_anoms_survey.csv" )
-as.survey$year <-  as.character(as.survey$year)
-library( RColorBrewer )
-anom.range <- c(-2,2)
-n=9
-cols <- brewer.pal(n,"RdBu")
-pal <- colorRampPalette(rev(cols))
-
-predictions_pa <- left_join(predictions_pa, as.survey)
-predictions_cop <- left_join(predictions_cop, as.survey)
-predictions_abun <- left_join(predictions_abun, as.survey)
-# colors
-
-cols.two <- c( rgb( 211,230,240, maxColorValue=255), rgb( 232,139,110, maxColorValue=255))
-
-hist( comm$Fucus.distichus )
-taxon <- "Hedophyllum.sessile"
-
-a <- ggplot(predictions_pa, aes_string(x = 'elev', y = taxon, col='year'))+
-  geom_smooth(aes(group=year1),se=F,lwd=1.5) +
-  scale_color_manual(values=cols.two) +
-  ylab("") +
-  xlab("") +
-  theme_classic() + theme(legend.position = "none") +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank())
-b <- ggplot(predictions_cop, aes_string(x = 'elev', y = taxon, col='year'))+
-  geom_smooth(aes(group=year1),se=F,lwd=1.5) +
-  scale_color_manual(values=cols.two) +
-  ylab("") +
-  xlab("") +
-  theme_classic() + 
-  # theme(legend.position = "none") +
-  theme(legend.position = c(1,0.25), legend.justification = c(1,0) ) +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank())
-c <- ggplot(predictions_abun, aes_string(x = 'elev', y = taxon, col='year'))+
-  geom_smooth(aes(group=year1),se=F,lwd=1.5) +
-  # scale_color_gradient(low = "grey75", high="gray20") +
-  # scale_color_gradientn(colours=pal2(100),limits=c(-2,2)) +
-  scale_color_manual(values=cols.two) +
-  # ylab("percent cover") +
-  # xlab("elevation (cm)") +
-  ylab("") +
-  xlab("") +
-  theme_classic() + theme(legend.position = "none") +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank())
-plot_grid(a,b,c,ncol=1, align='hv')
-ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxon,".svg"), height=4.5, width=1.5 )
-
-# a <- ggplot(predictions_pa, aes_string(x = 'factor(year1,labels=2012:2019)',
-#                                 y = taxon))+
-#   geom_boxplot() +  ylab("probability of occurrence") + xlab('')
-# b <- ggplot(predictions_cop, aes_string(x = 'factor(year1,labels=2012:2019)',
-#                                         y = taxon))+
-#   geom_boxplot() +  ylab("percent cover | occurrence") + xlab('')
-# c <- ggplot(predictions_abun, aes_string(x = 'factor(year1,labels=2012:2019)',
-#                                          y = taxon))+
-#   geom_boxplot() +  ylab("percent cover") + xlab('year')
-# plot_grid(a,b,c,ncol=1)
-#
-
-## tidy the data and combine
-predictions_abund <- predictions_abun %>%
-  gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
-predictions_abund_low <- predictions_abun_low %>%
-  gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
-predictions_abund_high <- predictions_abun_high %>%
-  gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
-
-predictions_abund <- left_join(left_join(predictions_abund, predictions_abund_low), predictions_abund_high)
-
-predictions_abund$taxon <- factor(predictions_abund$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
-predictions_abund <- left_join(predictions_abund,newDF)
-save( predictions_abund, file = paste("R/output/hmsc_pred",model, sep="_") )
+# # ###
+# ### other ways to summarize the model results
+# tmp = abind::abind(predY_pa, along = 3)
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
+# predictions_pa <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
+# predictions_pa_low <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
+# predictions_pa_high <- bind_cols(data.frame(qpred), newXData)
+# 
+# tmp = abind::abind(lapply(predY_cop,exp), along = 3)
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
+# predictions_cop <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
+# predictions_cop_low <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
+# predictions_cop_high <- bind_cols(data.frame(qpred), newXData)
+# 
+# tmp = abind::abind(predY_abun, along = 3)
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.5, na.rm = TRUE)
+# predictions_abun <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.025, na.rm = TRUE)
+# predictions_abun_low <- bind_cols(data.frame(qpred), newXData)
+# 
+# qpred = apply(tmp, c(1, 2), quantile, prob = 0.975, na.rm = TRUE)
+# predictions_abun_high <- bind_cols(data.frame(qpred), newXData)
+# 
+# 
+# 
+# # plot responses
+# predictions_pa$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+# predictions_cop$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+# predictions_abun$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+# predictions_pa$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# predictions_cop$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# 
+# 
+# # color scheme
+# as.survey <- read_csv(  "R/output/sst_anoms_survey.csv" )
+# as.survey$year <-  as.character(as.survey$year)
+# library( RColorBrewer )
+# anom.range <- c(-2,2)
+# n=9
+# cols <- brewer.pal(n,"RdBu")
+# pal <- colorRampPalette(rev(cols))
+# 
+# predictions_pa <- left_join(predictions_pa, as.survey)
+# predictions_cop <- left_join(predictions_cop, as.survey)
+# predictions_abun <- left_join(predictions_abun, as.survey)
+# # colors
+# 
+# cols.two <- c( rgb( 211,230,240, maxColorValue=255), rgb( 232,139,110, maxColorValue=255))
+# 
+# hist( comm$Fucus.distichus )
+# taxon <- "Hedophyllum.sessile"
+# 
+# a <- ggplot(predictions_pa, aes_string(x = 'elev', y = taxon, col='year'))+
+#   geom_smooth(aes(group=year1),se=F,lwd=1.5) +
+#   scale_color_manual(values=cols.two) +
+#   ylab("") +
+#   xlab("") +
+#   theme_classic() + theme(legend.position = "none") +
+#   theme(axis.title.x = element_blank(),
+#         axis.title.y = element_blank())
+# b <- ggplot(predictions_cop, aes_string(x = 'elev', y = taxon, col='year'))+
+#   geom_smooth(aes(group=year1),se=F,lwd=1.5) +
+#   scale_color_manual(values=cols.two) +
+#   ylab("") +
+#   xlab("") +
+#   theme_classic() + 
+#   # theme(legend.position = "none") +
+#   theme(legend.position = c(1,0.25), legend.justification = c(1,0) ) +
+#   theme(axis.title.x = element_blank(),
+#         axis.title.y = element_blank())
+# c <- ggplot(predictions_abun, aes_string(x = 'elev', y = taxon, col='year'))+
+#   geom_smooth(aes(group=year1),se=F,lwd=1.5) +
+#   # scale_color_gradient(low = "grey75", high="gray20") +
+#   # scale_color_gradientn(colours=pal2(100),limits=c(-2,2)) +
+#   scale_color_manual(values=cols.two) +
+#   # ylab("percent cover") +
+#   # xlab("elevation (cm)") +
+#   ylab("") +
+#   xlab("") +
+#   theme_classic() + theme(legend.position = "none") +
+#   theme(axis.title.x = element_blank(),
+#         axis.title.y = element_blank())
+# plot_grid(a,b,c,ncol=1, align='hv')
+# ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxon,".svg"), height=4.5, width=1.5 )
+# 
+# # a <- ggplot(predictions_pa, aes_string(x = 'factor(year1,labels=2012:2019)',
+# #                                 y = taxon))+
+# #   geom_boxplot() +  ylab("probability of occurrence") + xlab('')
+# # b <- ggplot(predictions_cop, aes_string(x = 'factor(year1,labels=2012:2019)',
+# #                                         y = taxon))+
+# #   geom_boxplot() +  ylab("percent cover | occurrence") + xlab('')
+# # c <- ggplot(predictions_abun, aes_string(x = 'factor(year1,labels=2012:2019)',
+# #                                          y = taxon))+
+# #   geom_boxplot() +  ylab("percent cover") + xlab('year')
+# # plot_grid(a,b,c,ncol=1)
+# #
+# 
+# ## tidy the data and combine
+# predictions_abund <- predictions_abun %>%
+#   gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
+# predictions_abund_low <- predictions_abun_low %>%
+#   gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
+# predictions_abund_high <- predictions_abun_high %>%
+#   gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
+# 
+# predictions_abund <- left_join(left_join(predictions_abund, predictions_abund_low), predictions_abund_high)
+# 
+# predictions_abund$taxon <- factor(predictions_abund$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
+# predictions_abund <- left_join(predictions_abund,newDF)
+# save( predictions_abund, file = paste("R/output/hmsc_pred",model, sep="_") )
 # ###
 
 
@@ -724,6 +725,9 @@ ggsave(sp.trends, "R/Figs/hmsc_sp_trends.svg", height = 11*1.5, width = 8.5*1.5)
 #
 
 
+
+
+
 # add empirical means
 models[[1]]$studyDesign %>% 
   group_by(year) %>% 
@@ -765,7 +769,7 @@ ogd.mean.pa.mean <- ogd.mean.pa %>%
   group_by(year,taxon) %>% 
   summarize(N=mean(N))
 
-point_colors <- c("slateblue","firebrick", "goldenrod" )
+
 species <- c("Fucus.distichus","Elachista.fucicola")
 species <- c("Palmaria.hecatensis","Palmaria.mollis") 
 species <- c("Polysiphonia","Lithothamnion.phymatodeum") 
@@ -783,21 +787,27 @@ species <- c("Barnacles","Mytilus.sp.")
 species <- c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides")
 species <- c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma")
 species <- c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola")
-species <-list( c("Fucus.distichus","Elachista.fucicola"),c("Palmaria.hecatensis","Palmaria.mollis") ,c("Polysiphonia","Lithothamnion.phymatodeum"),"Pyropia",c("Alaria.marginata","Hedophyllum.sessile"),c( "Mazzaella.parvula", "Mazzaella.oregona", "Mazzaella.splendens" ),"Cladophora.columbiana","Corallina",c("Colpomenia.bullosa","Colpomenia.peregrina"),c("Mastocarpus","Petrocelis"),c("Phyllospadix.sp."),c("Gloiopeltis.furcata"),c("Barnacles","Mytilus.sp."),c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides"),c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma"),c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola"))
+species <- list( c("Fucus.distichus","Elachista.fucicola"),c("Palmaria.hecatensis","Palmaria.mollis") ,c("Polysiphonia","Lithothamnion.phymatodeum"),"Pyropia",c("Alaria.marginata","Hedophyllum.sessile"),c( "Mazzaella.parvula", "Mazzaella.oregona", "Mazzaella.splendens" ),"Cladophora.columbiana","Corallina",c("Colpomenia.bullosa","Colpomenia.peregrina"),c("Mastocarpus","Petrocelis"),c("Phyllospadix.sp."),c("Gloiopeltis.furcata"),c("Barnacles","Mytilus.sp."),c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides"),c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma"),c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola"))
 
 species_temporal.df$taxon <- gsub("\n", ".", species_temporal.df$Species)
+predictions_abund_mean <- predictions_abund %>% 
+  group_by( year, site, transect, taxon) %>% 
+  summarize( N = mean(N) )
 
 alpha_choose = 0.1
 alpha_choose2 = 1
 size_choose = 2.5
 size_choose2 = 5
+point_colors <- c("slateblue","firebrick", "goldenrod" )
 for(i in 1:length(species)){
-  abun.time.plot <- species_temporal.df %>% 
-  filter(taxon %in% species[[i]] ) %>% ungroup() %>% 
-  filter( metric == "conditional cover" ) %>% 
-  mutate( N = median )
+  # abun.time.plot <- species_temporal.df %>% 
+  abun.time.plot <- predictions_abund_mean %>% 
+  filter(taxon %in% species[[i]] ) %>% ungroup() #%>% 
+  # filter( metric == "conditional cover" ) %>% 
+  # mutate( N = median )
   
-  ggplot( abun.time.plot, aes( x=year, y=exp(N), group=taxon, col=taxon ) ) + 
+  # ggplot( abun.time.plot, aes( x=year, y=exp(N), group=taxon, col=taxon ) ) + 
+  ggplot( abun.time.plot, aes( x=year, y=N, group=taxon, col=taxon ) ) + 
   # geom_ribbon( aes(x=year, ymin=N_high/90, ymax=N_low/90), fill="grey70", alpha=0.5 ) +
   # facet_wrap(~taxon, scales="free_y",ncol=1) +
   geom_path(size=size_choose, alpha=alpha_choose2) +
@@ -913,7 +923,7 @@ customXY <- taxa[c(1,4,5,6,7,
 # 10 rarest taxa
 bot10 <- taxa[(length(taxa)-8):length(taxa)]
 
-taxa2plot <- customXY
+taxa2plot <- top6
 
 # windows(6,4)
 ggplot( filter(predictions_abund,taxon %in% taxa2plot & year %in% c(2012,2019)), 

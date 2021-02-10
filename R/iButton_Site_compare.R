@@ -2,6 +2,7 @@
 #Load in required packages
 library(tidyverse)
 library(lubridate)
+library(cowplot)
 
 #Load in and reformat iButton data
 FB.high<-read_csv("./Data/environmetal_data/iButtons/ibuttons/2016 ibuttons/2016 ibuttons/2016_Hakai_FB_High_N_BlackPVCCap.csv", skip=14)

@@ -171,13 +171,14 @@ ggplot(mlong, aes(x=Year, y=species, col=Measure2, shape=Measure2) ) +
   geom_point(aes(alpha=Measure2)) + facet_grid(Site~Zone) +
   # geom_smooth( method='gam', formula = y ~ s(x, bs = "cs",k=7) ) +
   geom_smooth( se=T, lty=1, lwd=0.5 )+
-  scale_color_manual( values=c("gray50","black")) +
-  scale_shape_manual( values=c(1,19) ) +
-  scale_alpha_manual( values=c(1,0.5) ) +
+  scale_color_manual( values=c("gray50","black"), name="Measure") +
+  scale_shape_manual( values=c(1,19), name="Measure" ) +
+  scale_alpha_manual( values=c(1,0.5), name="Measure" ) +
+  scale_x_continuous(guide = guide_axis(n.dodge = 2)) +
   ylab( "Number of species" ) +
   scale_y_continuous(trans='log2') +
   theme_bw()
-ggsave( "R Code and Analysis/Figs/diversity_time.pdf", width=6, height=5 )
+ggsave( "R/Figs/diversity_time.svg", width=5, height=5 )
 
 ggplot( filter(mlong,Measure=="Total"), aes(x=Year, y=species) ) + 
   geom_point(alpha=0.5) + facet_grid(Site~Zone) +
@@ -202,6 +203,7 @@ ggplot( msum, aes(x=Zone, y=sp.cv) ) + geom_point()
 
 # model time to test for years for significant deviations
 library( lme4 )
+library( lmerTest)
 mlong <- unite( mlong, transect, Site, Zone, remove = F )
 mlong$Yearcent <- scale(mlong$Year)
 m1 <- lmer( species~factor(Zone,ordered=F)*factor(Year, ordered = F) + (1|transect), 
@@ -224,3 +226,15 @@ lattice::dotplot( ranef(m2), main = F )
 m2a <- lmer( log(species)~factor(Zone,ordered=F)*Yearcent + (1|transect), 
             data=filter(mlong,Measure=="Effective") )
 summary(m2a)
+
+
+# categorical effect of time
+m3 <- lmer( log2(species)~factor(Year,ordered=F) + (1|transect), 
+            data=filter(mlong,Measure=="Total") )
+anova(m3)
+summary(m3)
+
+m3a <- lmer( log2(species)~factor(Year,ordered=F) + (1|transect), 
+            data=filter(mlong,Measure=="Effective") )
+anova(m3a)
+summary(m3a)

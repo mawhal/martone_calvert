@@ -81,9 +81,17 @@ dmean <- d %>%
   group_by( Year, Site, Zone, taxon_lumped2 ) %>%
   summarise( Abundance=mean(Abundance) )
 
+### quick trial of "genus" level
+d$genus <- unlist(lapply(strsplit( d$taxon_lumped2, split = " " ), function(z) z[1]))
+dmean <- d %>% 
+  filter( !(taxon_lumped %in% c("articulated coralline","Unknown red blade")) ) %>% 
+  group_by( Year, Site, Zone, genus ) %>%
+  summarise( Abundance=mean(Abundance) )
+## how to get family level
+
 # spread out
 d.comm.mean <- dmean %>%
-  spread( taxon_lumped2, Abundance, fill=0 ) %>% 
+  spread( genus, Abundance, fill=0 ) %>% 
   ungroup() %>% 
   mutate( Zone = factor(Zone, levels=c("LOW","MID","HIGH")) ) %>% 
   arrange( Year, Site, Zone )
@@ -472,7 +480,7 @@ ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) +
          legend.key.size = unit(0.59, "cm")) +
   labs(fill = "Summer\nSST anomaly", col = "Summer\nSST anomaly", shape = "Zone", lty = "Zone" ) +
   coord_flip()
-ggsave("R/Figs/rda_bwr_pal2_temp_flip.svg", width=4, height=3 )
+ggsave("R/Figs/rda_genus_bwr_pal2_temp_flip.svg", width=4, height=3 )
 #
 
 

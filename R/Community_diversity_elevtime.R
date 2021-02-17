@@ -206,35 +206,43 @@ library( lme4 )
 library( lmerTest)
 mlong <- unite( mlong, transect, Site, Zone, remove = F )
 mlong$Yearcent <- scale(mlong$Year)
-m1 <- lmer( species~factor(Zone,ordered=F)*factor(Year, ordered = F) + (1|transect), 
+mlong$Yearfact <- factor(mlong$Year, ordered=F)
+mlong$Zonefact <- factor(mlong$Zone, ordered=F)
+# categorical effect of year
+m1 <- lmer( sqrt(species)~Yearfact + (1|transect), 
             data=filter(mlong,Measure=="Total") )
 summary(m1)
 anova(m1)
 plot(m1)
-# linear effect of time
-m1a <- lmer( species~factor(Zone,ordered=F)*Yearcent + (1|transect), 
+# year and zone
+m1a <- lmer( sqrt(species)~Zonefact*Yearfact + (1|transect), 
             data=filter(mlong,Measure=="Total") )
 summary(m1a)
+anova(m1a)
+plot(m1a)
+# linear effect of time
+m1b <- lmer( sqrt(species)~Yearcent + (1|transect), 
+            data=filter(mlong,Measure=="Total") )
+summary(m1b)
+anova(m1b)
+plot(m1b)
 ## effective number of species
-m2 <- lmer( log2(species)~factor(Zone,ordered=F)*factor(Year,ordered=F) + (1|transect), 
+m2 <- lmer( log(species)~Yearfact + (1|transect), 
             data=filter(mlong,Measure=="Effective") )
 summary(m2)
 anova(m2)
 plot(m2)
 lattice::dotplot( ranef(m2), main = F )
-# linear effect of time?
-m2a <- lmer( log(species)~factor(Zone,ordered=F)*Yearcent + (1|transect), 
+# year and zone
+m2a <- lmer( log(species)~Zonefact+Yearcent + (1|transect), 
             data=filter(mlong,Measure=="Effective") )
 summary(m2a)
-
-
-# categorical effect of time
-m3 <- lmer( log2(species)~factor(Year,ordered=F) + (1|transect), 
-            data=filter(mlong,Measure=="Total") )
-anova(m3)
-summary(m3)
-
-m3a <- lmer( log2(species)~factor(Year,ordered=F) + (1|transect), 
-            data=filter(mlong,Measure=="Effective") )
-anova(m3a)
-summary(m3a)
+anova(m2a)
+plot(m2a)
+# linear effect of time
+m2b <- lmer( log(species)~Yearcent + (1|transect), 
+             data=filter(mlong,Measure=="Effective") )
+summary(m2b)
+anova(m2b)
+plot(m2b)
+lattice::dotplot( ranef(m2b), main = F )

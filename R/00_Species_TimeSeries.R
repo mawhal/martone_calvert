@@ -4,7 +4,7 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Farlowia mollis"
+taxon <- "Phyllospadix sp."
 
 # # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
 # 
@@ -40,9 +40,10 @@ metause <- am %>%
 
 # Choose a taxon 
 sort( unique( ad$taxon_lumped ))
+sort( unique( ad$taxon_revised ))
 # use general exp to pull several groups if needed
-sort(unique( ad$taxon_lumped[ grep( paste0(taxon,"*"), ad$taxon_lumped ) ]  ))
-dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_lumped ), ]
+sort(unique( ad$taxon_revised[ grep( paste0(taxon,"*"), ad$taxon_revised ) ]  ))
+dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_revised ), ]
 #dtax  <-  dtax[ -grep( "Ectocarpus*",dtax$Taxon), ]
 
 

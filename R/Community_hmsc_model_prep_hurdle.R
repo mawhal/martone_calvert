@@ -170,7 +170,7 @@ sort(unlist(lapply( strsplit( colnames(Y), split = "[.]"), function(z) z[1] )))
 # define the variables to test from metadata and data
 # merge community data with metadata
 metacomm <- left_join( d.comm, muse )
-write_csv( metacomm, "R Code and Analysis/output from r/community.csv")
+write_csv( metacomm, "R/output/community.csv")
 
 # # read temperature data
 # pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )

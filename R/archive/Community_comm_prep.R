@@ -58,6 +58,7 @@ d[ duplicated(d), ] # generalize this to look at particular columns
 d.simple <- d %>%
   group_by( UID, taxon_lumped2 ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T))
+d.simple$taxon_lumped2 <- gsub(" ",".",d.simple$taxon_lumped2)
 
 
 # spread Taxon column out into many columns filled with abundance/cover data
@@ -74,7 +75,7 @@ d.comm <- d.comm[ d.comm$UID %in% am$UID, ]
 View(d.comm[,c("UID","Savoiea robusta")])
 
 # write the community data to disk
-write_csv( d.comm, "R Code and Analysis/output from r/community.csv" )
+write_csv( d.comm, "R/output/community.csv" )
 
 
 

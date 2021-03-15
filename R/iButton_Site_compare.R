@@ -2,7 +2,6 @@
 #Load in required packages
 library(tidyverse)
 library(lubridate)
-library(cowplot)
 
 #Load in and reformat iButton data
 FB.high<-read_csv("./Data/environmetal_data/iButtons/ibuttons/2016 ibuttons/2016 ibuttons/2016_Hakai_FB_High_N_BlackPVCCap.csv", skip=14)
@@ -76,18 +75,26 @@ iBut_sum<-iBut %>%
 
 
 iBut_gg<-cbind(gather(iBut_sum, key = "temp", value = "count", 2:6))
-iBut_gg$site<-factor(iBut_gg$site, levels=c("FifthBeach.low", "NorthBeach.low", "WestBeach.low", "FifthBeach.high", "NorthBeach.high", "WestBeach.high"))
-iBut_gg$temp<-factor(iBut_gg$temp, levels=c("above_30","above_25","above_20",  "below_0", "below_5"))
+iBut_gg$site2<-factor(iBut_gg$site, levels=c("FifthBeach.low", "NorthBeach.low", "WestBeach.low", "FifthBeach.high", "NorthBeach.high", "WestBeach.high"))
+strsplit( iBut_gg$site, split = "[.]")
+iBut_gg$temp5<-factor(iBut_gg$temp, levels=c("above_30","above_25","above_20",  "below_0", "below_5"))
+iBut_gg$temp2<- as.numeric(as.character(factor(iBut_gg$temp, levels=c("above_30","above_25","above_20", "below_5",  "below_0"),
+                     labels = c("30","25","20","5","0"), ordered=F )))
+iBut_gg$temp3<-factor(iBut_gg$temp2, levels=c(30,25,20,5,0),
+                      labels = c("> 30°C","> 25°C","> 20°C","< 5°C","< 0°C"), ordered=F )
+iBut_gg$temp4<-factor(iBut_gg$temp2,levels=c(30,25,20,5,0))
 
-ggplot(iBut_gg, aes(x = site, y = count), position="stack")+
-  geom_col(aes(fill=temp))+
+
+
+ggplot(iBut_gg, aes(x = site2, y = count)) +
+  geom_col(aes(fill=temp3, group=temp5), position="stack",col='black',lwd=0.25)+
   ylim(c(-200,200))+
-  theme_cowplot(15)+
-  scale_fill_manual(values = c("darkred", "red","pink", "navy", "blue"))
-  
+  scale_fill_manual(values = c("darkred", "red","pink", "skyblue", "blue"), name="Temperature") +
+  scale_x_discrete(labels=c("Fifth Beach", "North Beach", "Foggy Cove", "Fifth Beach", "North Beach", "Foggy Cove")) +
+  ylab("Number of observations") +
+  xlab("|-------LOW-------|   |-------HIGH-------|") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
 
-
-
-
-
+ggsave( "R/Figs/iButton_compare.svg", width=4.5, height=4 )
    

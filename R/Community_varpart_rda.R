@@ -74,10 +74,23 @@ dmeanelev <- d %>%
   
 # calculate mean abundance per transect in each year
 # first fix some taxa names
-d$taxon_lumped[d$taxon_lumped=="Haliclona"] <- "Porifera"
 d$taxon_lumped[d$taxon_lumped=="Mytilus trossulus"] <- "Mytilus sp."
+d$taxon_lumped2[d$taxon_lumped2=="Haliclona"] <- "Tunicata/Porifera"
+d$taxon_lumped2[d$taxon_lumped2=="Halichondria"] <- "Tunicata/Porifera"
+
+d <- d %>% 
+  filter( !(taxon_lumped %in% c("articulated coralline","Unknown red blade",
+                                "Colonial Diatoms", "Pleonosporium vancouverianum",
+                                "Acrochaetium sp.")) )
+
+dwide <-  d %>%
+  group_by( Year, Site, Zone, Quadrat, taxon_lumped2 ) %>%
+  summarise( Abundance=mean(Abundance) ) %>% 
+  spread( taxon_lumped2, Abundance, fill=0 ) %>% 
+  ungroup()
+
+
 dmean <- d %>% 
-  filter( !(taxon_lumped %in% c("articulated coralline","Unknown red blade")) ) %>% 
   group_by( Year, Site, Zone, taxon_lumped2 ) %>%
   summarise( Abundance=mean(Abundance) )
 

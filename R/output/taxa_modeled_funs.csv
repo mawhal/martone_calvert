@@ -1,0 +1,132 @@
+"","source","taxon","rank","hmsc","taxon_lumped2","non.alga.flag","kelp_fucoid_turf","littler_groups","new_cat","new_cat_simple1","new_cat_simple2","new_cat_simple3","funct_Sep2020","flag"
+"1","all","Hildenbrandia",1,TRUE,"Hildenbrandia","Algae","crust","crustose","fleshy crust","fleshy crust","fleshy crust","fleshy crust","crust",NA
+"2","all","Fucus.distichus",2,TRUE,"Fucus distichus","Algae","Fucoid","thick leathery","Fucus","Fucus","Fucus","Fucus","large_brown",NA
+"3","all","Pyropia",3,TRUE,"Pyropia","Algae","blade","sheet","red blade","blade","red blade","blade","blade",NA
+"4","all","Mastocarpus",4,TRUE,"Mastocarpus","Algae","red turf","thick leathery","red turf","red turf","turf","turf","turf",NA
+"5","all","Petrocelis",5,TRUE,"Petrocelis","Algae","crust","crustose","fleshy crust","fleshy crust","fleshy crust","fleshy crust","crust",NA
+"6","all","Barnacles",6,TRUE,"Barnacles","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"7","all","Corallina",7,TRUE,"Corallina","Algae","articulated coralline","jointed calcareous","articulated coralline","articulated coralline","articulated coralline","articulated coralline","turf",NA
+"8","all","Endocladia.muricata",8,TRUE,"Endocladia muricata","Algae","filament_turf","filament","red turf","red turf","turf","turf","thin_turf",NA
+"9","all","Chamberlainium.tumidum",9,TRUE,"Chamberlainium tumidum","Algae","crustose coralline","crustose","crustose coralline","crustose coralline","crustose coralline","crustose coralline","crust",NA
+"10","all","Ulva",10,TRUE,"Ulva","Algae","blade","sheet","green blade","blade","green blade","blade","blade",NA
+"11","all","Halosaccion.glandiforme",11,TRUE,"Halosaccion glandiforme","Algae","red turf","sheet","red turf","red turf","turf","turf","turf",NA
+"12","all","Bossiella_articulate",12,TRUE,"Bossiella_articulate","Algae",NA,NA,NA,NA,NA,NA,NA,NA
+"13","all","Alaria.marginata",13,TRUE,"Alaria marginata","Algae","Kelp","thick leathery","Kelp","Kelp","Kelp","Kelp","large_brown",NA
+"14","all","Acrosiphonia",14,TRUE,"Acrosiphonia","Algae","filament_turf","filament","green turf","green turf","turf","turf","thin_turf",NA
+"15","all","Anemone",15,TRUE,"Anemone","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"16","all","Plocamium.violaceum",16,TRUE,"Plocamium violaceum","Algae","red turf","finely branching","red turf","red turf","turf","turf","thin_turf",NA
+"17","all","Mazzaella.oregona",17,TRUE,"Mazzaella oregona","Algae","blade","thick leathery","red blade","blade","red blade","blade","blade",NA
+"18","all","Microcladia.borealis",18,TRUE,"Microcladia borealis","Algae","red turf","filament","red turf","red turf","turf","turf","thin_turf",NA
+"19","all","Callithamnion.pikeanum",19,TRUE,"Callithamnion pikeanum","Algae","red turf","filament","red turf","red turf","turf","turf","thin_turf",NA
+"20","all","Cryptosiphonia.woodii",20,TRUE,"Cryptosiphonia woodii","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"21","all","Gloiopeltis.furcata",21,TRUE,"Gloiopeltis furcata","Algae","red turf","finely branching","red turf","red turf","turf","turf","thin_turf",NA
+"22","all","coralline.crust",22,TRUE,"coralline crust","Algae",NA,NA,NA,NA,NA,NA,NA,NA
+"23","all","Leathesia.marina",23,TRUE,"Leathesia marina","Algae","brown turf","finely branching","brown turf","brown turf","turf","turf","turf",NA
+"24","all","Hymenena",24,TRUE,"Hymenena","Algae","red turf","sheet","red turf","red turf","turf","turf","turf",NA
+"25","all","Phyllospadix.sp.",25,TRUE,"Phyllospadix sp.","Algae",NA,NA,NA,NA,NA,NA,NA,NA
+"26","all","Polyneura.latissima",26,TRUE,"Polyneura latissima","Algae","red turf","sheet","red turf","red turf","turf","turf","turf","could also be blade"
+"27","all","Mazzaella.splendens",27,TRUE,"Mazzaella splendens","Algae","blade","thick leathery","red blade","blade","red blade","blade","blade",NA
+"28","all","Neorhodomela.larix",28,TRUE,"Neorhodomela larix","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"29","all","Ptilota",29,TRUE,"Ptilota","Algae","red turf","finely branching","red turf","red turf","turf","turf","thin_turf",NA
+"30","all","Savoiea.robusta",29,TRUE,"Savoiea robusta","Algae","filament_turf","filament","red turf","red turf","turf","turf","thin_turf",NA
+"31","all","Mytilus.sp.",31,TRUE,"Mytilus sp.","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"32","all","Odonthalia.floccosa",32,TRUE,"Odonthalia floccosa","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"33","all","Elachista.fucicola",33,TRUE,"Elachista fucicola","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"34","all","Cladophora.columbiana",34,TRUE,"Cladophora columbiana","Algae","filament_turf","filament","green turf","green turf","turf","turf","thin_turf",NA
+"35","all","Lithothamnion.phymatodeum",34,TRUE,"Lithothamnion phymatodeum","Algae","crustose coralline","crustose","crustose coralline","crustose coralline","crustose coralline","crustose coralline","crust",NA
+"36","all","Ralfsioid",34,TRUE,"Ralfsioid","Algae","crust","crustose","fleshy crust","fleshy crust","fleshy crust","fleshy crust","crust",NA
+"37","all","Polysiphonia",37,TRUE,"Polysiphonia","Algae","filament_turf","filament","red turf","red turf","turf","turf","thin_turf",NA
+"38","all","Hedophyllum.sessile",38,TRUE,"Hedophyllum sessile","Algae","large_brown","thick leathery","large_brown","large_brown","large_brown","large_brown","large_brown",NA
+"39","all","Ceramium.pacificum",39,TRUE,"Ceramium pacificum","Algae","filament","filament","red turf","red turf","turf","turf","thin_turf",NA
+"40","all","Lithophyllum",40,NA,"Lithophyllum","Algae",NA,NA,NA,NA,NA,NA,NA,NA
+"41","all","Neopolyporolithon.reclinatum",40,TRUE,"Neopolyporolithon reclinatum","Algae","crustose coralline","crustose","crustose coralline","crustose coralline","crustose coralline","crustose coralline","crust",NA
+"42","all","Neogastroclonium.subarticulatum",42,TRUE,"Neogastroclonium subarticulatum","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"43","all","Mazzaella.parvula",43,TRUE,"Mazzaella parvula","Algae","blade","thick leathery","red blade","blade","red blade","blade","turf",NA
+"44","all","Prionitis",44,TRUE,"Prionitis","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"45","all","Farlowia.mollis",45,TRUE,"Farlowia mollis","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"46","all","Egregia.menziesii",46,TRUE,"Egregia menziesii","Algae","Kelp","thick leathery","Kelp","Kelp","Kelp","Kelp","large_brown",NA
+"47","all","Dilsea.californica",47,TRUE,"Dilsea californica","Algae","blade","thick leathery","red blade","blade","red blade","blade","blade",NA
+"48","all","Palmaria.hecatensis",48,TRUE,"Palmaria hecatensis","Algae","red turf","thick leathery","red turf","red turf","turf","turf","blade",NA
+"49","all","Codium.fragile",49,NA,"Codium fragile","Algae","other","finely branching","Codium","Codium","Codium","Codium","turf",NA
+"50","all","Nemalion.helminthoides",50,NA,"Nemalion helminthoides","Algae","red turf",NA,"red turf","red turf","turf","turf","turf",NA
+"51","all","Tube.worms",50,NA,"Tube worms","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"52","all","Analipus.japonicus",52,NA,"Analipus japonicus","Algae","brown turf","finely branching","brown turf","brown turf","turf","turf","turf",NA
+"53","all","Tunicata/Porifera",53,NA,"Tunicata/Porifera","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"54","all","Bossiella_crust",54,NA,"Bossiella_crust","Algae",NA,NA,NA,NA,NA,NA,NA,NA
+"55","all","Bryozoan",54,NA,"Bryozoan","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"56","all","Schizymenia.pacifica",54,NA,"Schizymenia pacifica","Algae","blade","thick leathery","red blade","blade","red blade","blade","blade",NA
+"57","all","Scytosiphon.lomentaria",57,NA,"Scytosiphon lomentaria","Algae","brown turf","sheet","brown turf","brown turf","turf","turf","turf",NA
+"58","all","Codium.setchellii",58,NA,"Codium setchellii","Algae","other","crustose","Codium","Codium","Codium","Codium","crust","could be turf instead"
+"59","all","Hedophyllum.nigripes",58,NA,"Hedophyllum nigripes","Algae","large_brown","thick leathery","large_brown","large_brown","large_brown","large_brown","large_brown",NA
+"60","all","Costaria.costata",60,NA,"Costaria costata","Algae","Kelp","thick leathery","Kelp","Kelp","Kelp","Kelp","large_brown",NA
+"61","all","Ectocarpus.commensalis",60,NA,"Ectocarpus commensalis","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"62","all","Osmundea.spectabilis",60,NA,"Osmundea spectabilis","Algae","red turf","thick leathery","red turf","red turf","turf","turf","turf",NA
+"63","all","Peyssonnelia.sp.",63,NA,"Peyssonnelia sp.","Algae","crust","crustose","fleshy crust","fleshy crust","fleshy crust","fleshy crust","crust",NA
+"64","all","Blidingia",64,NA,"Blidingia","Algae","green turf","sheet","green turf","green turf","turf","turf","turf",NA
+"65","all","Crusticorallina.muricata",64,NA,"Crusticorallina muricata","Algae","crustose coralline","crustose","crustose coralline","crustose coralline","crustose coralline","crustose coralline","crust",NA
+"66","all","Palmaria.mollis",64,NA,"Palmaria mollis","Algae","red turf","thick leathery","red turf","red turf","turf","turf","blade",NA
+"67","all","Scytosiphon.dotyi",67,NA,"Scytosiphon dotyi","Algae","brown turf","sheet","brown turf","brown turf","turf","turf","turf",NA
+"68","all","Calliarthron.tuberculosum",68,NA,"Calliarthron tuberculosum","Algae","articulated coralline","jointed calcareous","articulated coralline","articulated coralline","articulated coralline","articulated coralline","turf",NA
+"69","all","Colpomenia.bullosa",68,NA,"Colpomenia bullosa","Algae","brown turf","sheet","brown turf","brown turf","turf","turf","turf",NA
+"70","all","Tokidadendron.bullatum",70,NA,"Tokidadendron bullatum","Algae","red turf","sheet","red turf","red turf","turf","turf","turf",NA
+"71","all","Unknown.crust",71,NA,"Unknown crust","Algae","crust","crustose","fleshy crust","fleshy crust","fleshy crust","fleshy crust","crust",NA
+"72","all","Salishia.firma",72,NA,"Salishia firma","Algae","blade","thick leathery","red blade","blade","red blade","blade","blade",NA
+"73","all","Ahnfeltia.fastigiata",73,NA,"Ahnfeltia fastigiata","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"74","all","Chiharaea.silvae",73,NA,"Chiharaea silvae","Algae","articulated coralline","jointed calcareous","articulated coralline","articulated coralline","articulated coralline","articulated coralline","turf",NA
+"75","all","Cumathamnion.decipiens",73,NA,"Cumathamnion decipiens","Algae","red turf","sheet","red turf","red turf","turf","turf","turf",NA
+"76","all","Lomentaria.hakodatensis",73,NA,"Lomentaria hakodatensis","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"77","all","Mazzaella.parksii",73,NA,"Mazzaella parksii","Algae","blade","thick leathery","red blade","blade","red blade","blade","turf",NA
+"78","all","Melanosiphon.intestinalis",73,NA,"Melanosiphon intestinalis","Algae","brown turf","sheet","brown turf","brown turf","turf","turf","turf",NA
+"79","all","Pollicipes.polymerus",73,NA,"Pollicipes polymerus","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"80","all","Colpomenia.peregrina",80,NA,"Colpomenia peregrina","Algae","brown turf","sheet","brown turf","brown turf","turf","turf","turf",NA
+"81","all","Desmarestia.ligulata",80,NA,"Desmarestia ligulata","Algae","Desmarestiales","thick leathery","Desmarestia","Desmarestia","Desmarestia","Desmarestia","large_brown","Ah shit; calling this kelp because it is functionally similar to a kelp"
+"82","all","Laminaria.setchellii",80,NA,"Laminaria setchellii","Algae","large_brown","thick leathery","Kelp","Kelp","Kelp","Kelp","large_brown",NA
+"83","all","Chiharaea.rhododactyla",83,NA,"Chiharaea rhododactyla","Algae","articulated coralline","jointed calcareous","articulated coralline","articulated coralline","articulated coralline","articulated coralline","turf",NA
+"84","all","Antithamnionella.pacifica",84,NA,"Antithamnionella pacifica","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"85","all","Melobesia.sp.",84,NA,"Melobesia sp.","Algae","crustose coralline","crustose","crustose coralline","crustose coralline","crustose coralline","crustose coralline","crust",NA
+"86","all","Smithora.naiadum",84,NA,"Smithora naiadum","Algae","red turf","sheet","red turf","red turf","turf","turf","blade","Could also be turf"
+"87","all","Antithamnion.defectum",87,NA,"Antithamnion defectum","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"88","all","Johansenia.macmillanii",87,NA,"Johansenia macmillanii","Algae","articulated coralline","jointed calcareous","articulated coralline","articulated coralline","articulated coralline","articulated coralline","turf",NA
+"89","all","Erythrotrichia.carnea",89,NA,"Erythrotrichia carnea","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"90","all","Nereocystis.luetkeana",89,NA,"Nereocystis luetkeana","Algae","Kelp","thick leathery","Kelp","Kelp","Kelp","Kelp","large_brown",NA
+"91","all","Pylaiella.littoralis",89,NA,"Pylaiella littoralis","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"92","all","Collinsiella.tuberculata",92,NA,"Collinsiella tuberculata","Algae","green turf","sheet","green turf","green turf","turf","turf","turf",NA
+"93","all","Hydroid",92,NA,"Hydroid","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"94","all","Neorhodomela.oregona",92,NA,"Neorhodomela oregona","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"95","all","Rhodochorton.purpureum",92,NA,"Rhodochorton purpureum","Algae","filament_turf","filament","red turf","red turf","turf","turf","thin_turf",NA
+"96","all","Bangia.sp.",96,NA,"Bangia sp.","Algae","filament","filament","red turf","red turf","turf","turf","thin_turf",NA
+"97","all","Cladophora.sericea",96,NA,"Cladophora sericea","Algae","filament_turf","filament","green turf","green turf","turf","turf","thin_turf",NA
+"98","all","Laminaria.yezoensis",96,NA,"Laminaria yezoensis","Algae","large_brown","thick leathery","Kelp","Kelp","Kelp","Kelp","large_brown",NA
+"99","all","Rhizoclonium.tortuosum",96,NA,"Rhizoclonium tortuosum","Algae","filament_turf","filament","green turf","green turf","turf","turf","thin_turf",NA
+"100","all","Desmarestia.aculeata",100,NA,"Desmarestia aculeata","Algae","Desmarestiales","thick leathery","Desmarestia","Desmarestia","Desmarestia","Desmarestia","turf","Ah shit"
+"101","all","Herposiphonia.plumula",100,NA,"Herposiphonia plumula","Algae","filament_turf","filament","red turf","red turf","turf","turf","turf",NA
+"102","all","Lithothamnion.glaciale",100,NA,"Lithothamnion glaciale","Algae","crustose coralline","crustose","crustose coralline","crustose coralline","crustose coralline","crustose coralline","crust",NA
+"103","all","Opuntiella.californica",100,NA,"Opuntiella californica","Algae","blade","thick leathery","blade","blade","blade","blade","blade","could also be turf"
+"104","all","Pododesmus.sp.",100,NA,"Pododesmus sp.","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"105","all","Soranthera.ulvoidea",100,NA,"Soranthera ulvoidea","Algae","brown turf","sheet","brown turf","brown turf","turf","turf","turf",NA
+"106","all","Sphacelaria.rigidula",100,NA,"Sphacelaria rigidula","Algae","filament","filament","brown turf","brown turf","turf","turf","thin_turf",NA
+"107","all","Callophyllis.sp.",107,NA,"Callophyllis sp.","Algae","red turf","sheet","red turf","red turf","turf","turf","turf",NA
+"108","all","Chaetomorpha.cannabina",107,NA,"Chaetomorpha cannabina","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"109","all","Monostroma.grevillei",107,NA,"Monostroma grevillei","Algae","blade","sheet","green blade","blade","green blade","blade","blade",NA
+"110","all","Neorhodomela.aculeata",107,NA,"Neorhodomela aculeata","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"111","all","Odonthalia.floccosa.f..comosa",107,NA,"Odonthalia floccosa f. comosa","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"112","all","Plocamium.pacificum",107,NA,"Plocamium pacificum","Algae","red turf","finely branching","red turf","red turf","turf","turf","thin_turf",NA
+"113","all","Pterocladiella.caloglossoides",107,NA,"Pterocladiella caloglossoides","Algae","red turf","finely branching","red turf","red turf","turf","turf","thin_turf",NA
+"114","all","Styela.sp.",107,NA,"Styela sp.","Animal",NA,NA,NA,NA,NA,NA,NA,NA
+"115","all","Ceramium.codicola",115,NA,"Ceramium codicola","Algae","filament","filament","red turf","red turf","turf","turf","thin_turf",NA
+"116","all","Ectocarpus.sp.",115,NA,"Ectocarpus sp.","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"117","all","Mesophyllum.vancouveriense",115,NA,"Mesophyllum vancouveriense","Algae","crustose coralline","crustose","crustose coralline","crustose coralline","crustose coralline","crustose coralline","crust",NA
+"118","all","Pterygophora.californica",115,NA,"Pterygophora californica","Algae","Kelp","thick leathery","Kelp","Kelp","Kelp","Kelp","large_brown",NA
+"119","all","Symphyocladiella.dendroidea",115,NA,"Symphyocladiella dendroidea","Algae",NA,NA,NA,NA,NA,NA,NA,NA
+"120","all","Chiharaea.bodegensis",120,NA,"Chiharaea bodegensis","Algae","articulated coralline","jointed calcareous","articulated coralline","articulated coralline","articulated coralline","articulated coralline","turf",NA
+"121","all","Dactylosiphon.bullosus",120,NA,"Dactylosiphon bullosus","Algae",NA,NA,NA,NA,NA,NA,NA,NA
+"122","all","Desmarestia.herbacea",120,NA,"Desmarestia herbacea","Algae",NA,NA,NA,NA,NA,NA,NA,NA
+"123","all","Ectocarpus.siliculosus",120,NA,"Ectocarpus siliculosus","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"124","all","Fauchea.sp.",120,NA,"Fauchea sp.","Algae","red turf","sheet","red blade","blade","red blade","blade","turf",NA
+"125","all","Kornmannia.leptoderma",120,NA,"Kornmannia leptoderma","Algae","blade","sheet","green blade","blade","green blade","blade","blade",NA
+"126","all","Petalonia.fascia",120,NA,"Petalonia fascia","Algae","brown turf","sheet","brown turf","brown turf","turf","turf","turf","could also be blade"
+"127","all","Phycodrys.sp.",120,NA,"Phycodrys sp.","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"128","all","Pugetia.firma",120,NA,"Pugetia firma","Algae","blade","thick leathery","red blade","blade","red blade","blade","blade",NA
+"129","all","Rhodymenia.sp.",120,NA,"Rhodymenia sp.","Algae","red turf","finely branching","red turf","red turf","turf","turf","turf",NA
+"130","all","Tiffaniella.snyderae",120,NA,"Tiffaniella snyderae","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA
+"131","all","Ulothrix-Urospora.sp.",120,NA,"Ulothrix-Urospora sp.","Algae","filament","filament","filament","filament","filament","filament","thin_turf",NA

@@ -11,7 +11,6 @@ FunGroups$taxon<-gsub(" ",".",FunGroups$taxon)
 # group seagrass with large browns
 FunGroups$funct_Sep2020 <- gsub("large_brown","canopy",FunGroups$funct_Sep2020)
 FunGroups$funct_Sep2020 <- gsub("seagrass","canopy",FunGroups$funct_Sep2020)
-FunGroups[is.na(FunGroups$funct_Sep2020),]
 
 #Import community matrix
 comm<-read_csv("R/output/community.csv")
@@ -26,6 +25,11 @@ commuse <- comm
 taxon<-data.frame(taxon = colnames(commuse))
 taxon.key<-left_join(taxon, FunGroups, by = "taxon")
 taxon.key$funct_Sep2020[taxon.key$taxon %in% c('Barnacles','Anemone','Mytilus.sp.')] <- "animal"
+taxon.key$funct_Sep2020[taxon.key$taxon %in% c('Bryozoan','Tube.worms','Tunicata/Porifera',
+                                               'Pollicipes.polymerus','Pododesmus.sp.',
+                                               'Hydroid')] <- "animal"
+taxon.key$taxon[is.na(taxon.key$funct_Sep2020)]
+
 # how many taxa (S for species richness) in each group
 group_richness <- taxon.key %>% 
   dplyr::group_by(funct_Sep2020) %>% 
@@ -88,7 +92,7 @@ dplot <- d %>%
   mutate( FunGroup = gsub("_"," ",FunGroup) ) %>% 
   mutate( `Functional Group` = factor(paste0(FunGroup, " (",S,")")) )
 dplot$`Functional Group` <-   forcats::fct_relevel( dplot$`Functional Group`, 
-                                                    "canopy (13)","blade (15)","crust (13)","thin turf (30)","turf (47)","animal (3)")
+                                                    "canopy (13)","blade (15)","crust (13)","thin turf (30)","turf (47)","animal (9)")
 
 # add bare rock data
 bareraw <- read_csv( "R/output/bare.csv")
@@ -101,7 +105,7 @@ bare$Site <- factor(bare$Site, levels=c("North Beach","Fifth Beach","Foggy Cove"
 dplot2 <- dplot %>% 
   dplyr::group_by( Year, FunGroup, `Functional Group` ) %>% 
   dplyr::summarize( mean=mean(mean) )
-ggplot(dplot2, aes(x = Year, y = mean)) +
+fun1 <- ggplot(dplot2, aes(x = Year, y = mean)) +
   geom_bar(aes(fill = `Functional Group`), position="stack", 
            stat="identity", col='black', lwd=0.25)+
   geom_smooth( data=bare, aes(x=Year,y=Abundance, group=1), 
@@ -113,9 +117,10 @@ ggplot(dplot2, aes(x = Year, y = mean)) +
          legend.text = element_text(size=8),
          legend.key.size = unit(0.25, "cm") ) +
   guides( fill =  guide_legend(nrow=2,byrow=T) ) +
-  theme( panel.border = element_rect(colour = "black", fill=NA, size=0.5) ) +
+  theme( panel.border = element_rect(colour = "black", fill=NA, size=0.5),
+         legend.text=element_text(size=7)) +
   ylab("Mean cover (%)")
-ggsave( "R/Figs/FunGroups_time.svg",width=3,height=3.5)
+ggsave( "R/Figs/FunGroups_time.svg", fun1, width=3,height=3.5)
 
 ggplot(dplot, aes(x = Year, y = mean)) +
   geom_bar(aes(fill = `Functional Group`), position="stack", 

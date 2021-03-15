@@ -127,8 +127,9 @@ event_line(mhw2, min_duration = 30, spread = 180, metric = "intensity_cumulative
            start_date = "2000-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
 event_line(mcw2, spread = 180, metric = "intensity_max", 
            start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
-event_line(mhw3, spread = 180, metric = "intensity_cumulative", 
+event_line(mcw3, spread = 180, metric = "intensity_max", 
            start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
+event_line(mhw3, spread = 180, metric = "intensity_cumulative", 
            start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
 
 

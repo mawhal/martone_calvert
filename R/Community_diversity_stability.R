@@ -273,13 +273,30 @@ divplot2 %>%
 with( divvar2, cor.test(gmeanr, stability) )
 with( divvar2, cor.test(meanr, stability) )
 divvar2 %>% group_by( Site, Zone) %>% summarize(diff=diff(stability))
+summary(lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae")))
+mstab <- lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae"))
+summary(mstab)$adj.r.squared
+divvar2_algae <- filter(divvar2,source=="algae")
+divvar2_algae$Zone3
+mzone3 <- lm( log(stability,base=2) ~ Zone3, data = divvar2_algae )
+summary(mzone3)
 stab <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)) + #x=gmeanr
   # facet_wrap(~source) +
   # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
   geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
   geom_point(aes(fill=Zone,shape=Site),size=3) +
-  ylab( expression(paste("Stability of seaweed cover (",mu,"/",sigma,")")) ) + 
+  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
   xlab("Mean species richness") +
+  annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mstab)$adj.r.squared,2))), 
+           x = max(divvar2_algae$gmeanr), y = 1.1, hjust = 1, vjust = 0, size = 5) +
+  # annotate("text", label = "top", 
+  #          x = 0.5*(min(mpg$hwy) + max(mpg$hwy)), y = max(mpg$cty), vjust = 1) +
+  # annotate("text", label = "bottom", 
+  #          x = 0.5*(min(mpg$hwy) + max(mpg$hwy)), y = min(mpg$cty), vjust = 0) +
+  # annotate("text", label = "right", 
+  #          x =  max(mpg$hwy), y = 0.5*(min(mpg$cty) + max(mpg$cty)), hjust = 1) +
+  # annotate("text", label = "left", 
+  #          x =  min(mpg$hwy), y = 0.5*(min(mpg$cty) + max(mpg$cty)), hjust = 0) +
   scale_shape_manual( values=c(21,22,24) ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
   scale_linetype_discrete(  guide=FALSE ) +
@@ -289,7 +306,7 @@ stab <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)
   theme_classic() + theme( legend.position = c(0.01,.99), 
                            legend.justification = c(0,1),
                            legend.background = element_blank())
-summary(lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae")))
+
 stab
 ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
 stab2 <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)) + #x=gmeanr
@@ -426,6 +443,7 @@ dsynch <- left_join( divvar2, synchrony )
 dsynch$source <- factor( dsynch$source, levels=c("all","algae"))
 dsynch$Site <- factor( dsynch$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 
+mrich <- lm(logV ~ gmeanr, data = filter(dsynch,source == "algae"))
 synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanr,y=logV,shape = Site, fill = Zone)) + 
   # facet_wrap(~source) +
   geom_smooth( aes(group=1), method="lm", se = T, col='black', lwd=0.5, show.legend = FALSE )+ 
@@ -435,11 +453,13 @@ synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanr,y=logV,shape
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
   ylab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
   xlab( "Seaweed species richness" ) +
+  annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mrich)$adj.r.squared,2))), 
+           x = min(divvar2_algae$gmeanr), y = -2.3, hjust = 0, vjust = 0, size = 5) +
   guides(fill=guide_legend("Site",override.aes = list(shape = 21)) ) +
   theme_classic() + theme( legend.position = "none" )
 synchrich
-summary(lm(logV ~ gmeanr, data = filter(dsynch,source == "algae")))
 
+msynch <- lm(log(stability,base=2) ~ logV, data = filter(dsynch,source == "algae"))
 stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),shape = Site, fill = Zone)) + 
   geom_smooth( aes(group=1), method="lm", se=T, col='black', lwd=0.5, show.legend = FALSE) + 
   geom_point(size=3) +
@@ -449,13 +469,15 @@ stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),
   guides(fill = guide_legend(override.aes = list(shape = 21))) +
   xlab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")"))  ) +
+  annotate(geom = 'text', label = bquote( R^2 == .(round(summary(msynch)$adj.r.squared,2))), 
+           x = min(dsynch$logV), y = 1.1, hjust = 0, vjust = 0, size = 5) +
   scale_y_continuous(trans="log2") +
   coord_cartesian( ylim = c(1,16)) +
   theme_classic() +
   theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
          legend.background = element_blank() )
 stabsynch
-summary(lm(log(stability,base=2) ~ logV, data = filter(dsynch,source == "algae")))
+
 
 cowplot::plot_grid( stabsynch, synchrich, stab, 
                     nrow = 1, align = "hv", 

@@ -12,9 +12,10 @@ library(lubridate)
 library(fpp)
 library(zoo)
 library(imputeTS)
+library(cowplot)
 
 # read data
-draw <- read_table( file = "PineDailySalTemp.txt", skip=3 )
+draw <- read_table( file = "Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt", skip=3 )
 
 # renames columns, make date columns, replace 999.9 with NA
 d <- draw %>%
@@ -52,6 +53,7 @@ season <- time(dts.na)>1940 & time(dts.na)<1945
 plot( decompose_temp$seasonal )
 plot( subset(decompose_temp$seasonal, subset=season), type='l' )
 calendar <- time(dts.na)>=1940 & time(dts.na)<1941
+calendar2 <- time(dts.na)>=1980 & time(dts.na)<2000
 
 windows(6,4)
 par(mar=c(6,4,1,2)+0.1)
@@ -77,11 +79,11 @@ xtick <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" )
                   seq.Date(as.Date("2010-01-01"),as.Date("2019-01-01"), by="year" ) )
 axis( 1,at=xtick,labels=2010:2019, srt=45,las=3 )
 # get uniuue dates from surveys
-meta <- read_csv( "../../../Martone_Hakai_metadata.csv")
+meta <- read_csv( "R/output/sampling_date_range.csv")
 mean.date <- meta %>%
-  mutate( year=year(Date) ) %>%
-  group_by( year ) %>%
-  summarise( date=mean(Date) )
+  pivot_longer( cols = c(start, end)) %>% 
+  group_by( Year ) %>%
+  summarise( date=mean(value) )
 surveys <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
                     ymd(mean.date$date) )
 abline( v=surveys, lty=2 )
@@ -99,22 +101,22 @@ box()
 ## get data from iButtons all in one place
 # for now, all from West Beach High Shore
 # 2012+2013
-ib13 <- read_csv( "../../iButtons/ibuttons/12_WBB_High_BlueFalcon.csv", skip=14 )
+ib13 <- read_csv( "Data/environmetal_data/iButtons/ibuttons/12_WBB_High_BlueFalcon.csv", skip=14 )
 ib13$`Date/Time` <- as.POSIXlt(ib13$`Date/Time`, format="%d/%m/%Y %H:%M")
 ib13$`Date/Time` <- ymd_hms(ib13$`Date/Time`)
 # 2015
-ib15 <- read_csv( "../../iButtons/ibuttons/2015 ibuttons/WBB_High_1A.csv", skip=14)
+ib15 <- read_csv( "Data/environmetal_data/iButtons/ibuttons/2015 ibuttons/WBB_High_1A.csv", skip=14)
 ib15$`Date/Time` <- as.POSIXlt(ib15$`Date/Time`, format="%m/%d/%y %I:%M:%S %p")
 ib15$`Date/Time` <- ymd_hms(ib15$`Date/Time`)
 # 2016
-ib16 <- read_csv( "../../iButtons/ibuttons/2016 ibuttons/2016 ibuttons/2016_Hakai_WBB_High_N_BlackPVCCapW.csv",
+ib16 <- read_csv( "Data/environmetal_data/iButtons/ibuttons/2016 ibuttons/2016 ibuttons/2016_Hakai_WBB_High_N_BlackPVCCapW.csv",
                   skip=14 )
 ib16$`Date/Time` <- as.POSIXlt(ib16$`Date/Time`, format="%m/%d/%y %I:%M:%S %p")
 ib16$`Date/Time` <- ymd_hms(ib16$`Date/Time`)
 
 # merge all of these
 ib <- full_join( full_join( ib13,ib15),ib16 )
-write_csv( ib, "output from R/FoggyCove_HIGH_iButton.csv")
+write_csv( ib, "Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/output from R/FoggyCove_HIGH_iButton.csv")
 # posix
 ib <- ib %>%
   select( date.time=`Date/Time`, value=Value ) 
@@ -124,6 +126,7 @@ names(split.df) <- c('date','time')
 ib <- data.frame( ib, split.df )
 ib <- ib %>% 
   mutate(date=ymd(date))
+ib$lube.date <- ymd_hms(ib$date.time)
 # summarize
 ib.sum <- ib %>%
   group_by(date) %>%
@@ -140,26 +143,22 @@ points( x=ibs, y=ib.sum$mean[ib.sum$date<ymd("2014-01-01")],lwd=0.5, col=rgb(0,0
 points( x=ibs2, y=ib.sum$mean[ib.sum$date>ymd("2014-01-01")],lwd=0.5, col=rgb(0,0,0,0.5),pch=20,cex=0.2  )
   
 
-windows(6,3)
+svg(filename="Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/Figs/Pine_Foggy_compare.svg", 
+    width=5, 
+    height=3, 
+    pointsize=12)
+
 par(mar=c(5,4,1,2)+0.1)
 plot( subset(dts, subset=calvert), type='n', axes=F,
-      ylab=expression('Temperature ('*~degree*C*')'), xlab="Date",
-      col='dodgerblue', ylim=c(-5,40) )
-lines( subset(dts, subset=calvert),col='red' )
+      ylab=expression('Temperature ('*~degree*C*')'), xlab="Date", ylim=c(-5,40) )
 points( x=ib$rank, y=ib$value,lwd=0.5, col=rgb(0,0,0,0.2),pch=20,cex=0.2  )
+lines( subset(dts, subset=calvert),col='red' )
 abline( h=0,lty=1 )
 axis( 2, las=1 )
 xtick <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
                   seq.Date(as.Date("2010-01-01"),as.Date("2019-01-01"), by="year" ) )
 axis( 1,at=xtick,labels=2010:2019, srt=45,las=3 )
-# get uniuue dates from surveys
-meta <- read_csv( "../../../R code for Data Prep/Output from R/Martone_Hakai_metadata.csv")
-mean.date <- meta %>%
-  mutate( year=year(Date) ) %>%
-  group_by( year ) %>%
-  summarise( date=mean(Date) )
-surveys <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
-                    ymd(mean.date$date) )
+
 abline( v=surveys, lty=2 )
 # moving average
 x.ma <- ma(dts.na,order=410, centre=T)
@@ -169,8 +168,21 @@ ma.calvert <- subset( x.ma, subset=calvert )
 # abline( h=mean(dts,na.rm=T),col='blue' )
 # abline( h=mean(subset(dts, subset=calvert),na.rm=T),col='goldenrod')
 box()
+dev.off()
 
 
+# make date/time for pine island data
+# ad a time each day, say noon
+d$date.time <- ymd_hms(paste( d$date, "12:00:00"))
+pt.size <- 0.6
+fcib <- ggplot( data = filter(d,year >= 2010), aes(x=date.time,y=temp)) + 
+  geom_point(data = ib, aes(x=lube.date, y=value), alpha=0.2, size=pt.size) +
+  geom_line(col='red') +
+  ylim(c(-3,37)) +
+  ylab(expression(paste("Temperature (",degree,"C)"))) +
+  xlab("")+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45,hjust=1))
 
 # just look at the second deployment 
 ib2 <- ib %>% 
@@ -186,12 +198,21 @@ ib.sum <- ib.month %>%
 a <- ggplot(ib2, aes(x=date,y=value)) + geom_point(alpha=0.2) + geom_smooth() +
   xlab("Date") + ylab(expression(paste("Temperature (",degree,"C)"))) + ylim(c(-3,37))
 
-b <- ggplot( ib.win, aes(group=year, x= factor(year), y=value)) + geom_boxplot(notch=T, width=0.5, outlier.alpha = 0.2) + 
-  xlab("Year") + ylab(expression(paste("Winter temperatures (",degree,"C)"))) + ylim(c(-3,37))
+b <- ggplot( ib.win, aes(group=year, x= factor(year), y=value)) + 
+  geom_boxplot(notch=T, width=0.5, outlier.alpha = 0.2, outlier.size = pt.size, lwd=0.3) + 
+    xlab("") + 
+  ylab(expression(paste("Winter temperature (",degree,"C)"))) + 
+  ylim(c(-3,37)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45,hjust=1))
 
-c <- ggplot( ib.sum, aes(group=year, x= factor(year), y=value)) + geom_boxplot(notch=T, width=0.5, outlier.alpha = 0.2) + 
-  xlab("Year") + ylab(expression(paste("Summer temperatures (",degree,"C)"))) + ylim(c(-3,37))
+c <- ggplot( ib.sum, aes(group=year, x= factor(year), y=value)) + 
+  geom_boxplot(notch=T, width=0.5, outlier.alpha = 0.2, outlier.size = pt.size, lwd=0.3) + 
+  xlab("") + 
+  ylab(expression(paste("Summer temperature (",degree,"C)"))) + 
+  ylim(c(-3,37)) + theme_bw()+
+  theme(axis.text.x = element_text(angle = 45,hjust=1))
 
 
-cowplot::plot_grid( a,c,b,ncol=3,rel_widths = c(2,1,1) )
-ggsave( "Figs/ibutton_2014-2016.svg", width=6,height=3 )
+cowplot::plot_grid( fcib,c,b,ncol=3,rel_widths = c(4,1.25,1.25), labels = "AUTO" )
+ggsave( "Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/Figs/ibutton_2014-2016.svg", width=6,height=3 )

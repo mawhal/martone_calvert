@@ -23,7 +23,8 @@ Anthopleura xanthgrammica,Anthopleura xanthogrammica,Animal,sessile
 Anthopleura xanthogrammica,Anthopleura xanthogrammica,Animal,sessile
 Anthopleura zanthogrammica,Anthopleura xanthogrammica,Animal,sessile
 Antithamnion defectum,Antithamnion defectum,Algae,sessile
-Antithamnionella pacifica,Antithamnionella pacifica,Algae,sessile
+Antithamnionella floccosa,Antithamnionella spp.,Algae,sessile
+Antithamnionella pacifica,Antithamnionella spp.,Algae,sessile
 Balanus glandula,Balanus glandula,Animal,sessile
 Balanus,Balanus sp.,Animal,sessile
 Bangia,Bangia sp.,Algae,sessile
@@ -104,7 +105,7 @@ Collinsiella tuberculata,Collinsiella tuberculata,Algae,sessile
 Colonial Diatoms,Colonial Diatoms,Algae,sessile
 "Diatoms, colonial",Colonial Diatoms,Algae,sessile
 Diatoms,Colonial Diatoms,Algae,sessile
-Colpomenia bullosa,Colpomenia bullosa,Algae,sessile
+Colpomenia bullosa,Dactylosiphon bullosus,Algae,sessile
 Colpomenia peregrina,Colpomenia peregrina,Algae,sessile
 Constantinea subulifera,Constantinea subulifera,Algae,sessile
 Corallina arbuscula,Corallina arbuscula,Algae,sessile
@@ -192,15 +193,15 @@ Hollenbergia subulata,Hollenbergia subulata,Algae,sessile
 Erect hydroid,Hydroid,Animal,sessile
 Hydroid,Hydroid,Animal,sessile
 Hymenena setchellii,Hymenena setchellii,Algae,sessile
-Hymenena,Hymenena sp.,Algae,sessile
-Cryptopleura,Hymenena sp.,Algae,sessile
-Hymenena / Cryptopleura sp.,Hymenena sp.,Algae,sessile
-Hymenena sp.,Hymenena sp.,Algae,sessile
-Hymenena/Cryptopleura,Hymenena sp.,Algae,sessile
-Hymenena/Cryptopleura curly,Hymenena sp.,Algae,sessile
-Nitophyllum dotyi,Hymenena sp.,Algae,sessile
-Nitophyllum dotyi ?,Hymenena sp.,Algae,sessile
-Nitophyllum sp.,Hymenena sp.,Algae,sessile
+Hymenena,Hymenena spp.,Algae,sessile
+Cryptopleura,Hymenena spp.,Algae,sessile
+Hymenena / Cryptopleura sp.,Hymenena spp.,Algae,sessile
+Hymenena sp.,Hymenena spp.,Algae,sessile
+Hymenena/Cryptopleura,Hymenena spp.,Algae,sessile
+Hymenena/Cryptopleura curly,Hymenena spp.,Algae,sessile
+Nitophyllum dotyi,Hymenena spp.,Algae,sessile
+Nitophyllum dotyi ?,Hymenena spp.,Algae,sessile
+Nitophyllum sp.,Hymenena spp.,Algae,sessile
 Isopoda,Isopoda,Animal,motile
 Jingle,Jingle,Animal,sessile
 Johansenia macmillanii,Johansenia macmillanii,Algae,sessile
@@ -368,11 +369,11 @@ Pterygophora californica,Pterygophora californica,Algae,sessile
 Ptilota serrata,Ptilota filicina,Algae,sessile
 Ptilota serrata filicina,Ptilota filicina,Algae,sessile
 Ptilota filicina,Ptilota filicina,Algae,sessile
-Ptilota sp.,Ptilota sp.,Algae,sessile
-Ptilota spp.,Ptilota sp.,Algae,sessile
-Ptilota tenuis,Ptilota tenuis,Algae,sessile
-Pugetia firma,Pugetia firma,Algae,sessile
-Pugettia firma,Pugetia firma,Algae,sessile
+Ptilota sp.,Ptilota filicina,Algae,sessile
+Ptilota spp.,Ptilota filicina,Algae,sessile
+Ptilota tenuis,Ptilota filicina,Algae,sessile
+Pugetia firma,Salishia firma,Algae,sessile
+Pugettia firma,Salishia firma,Algae,sessile
 Kelp crab,Pugettia producta,Animal,motile
 Pugettia producta,Pugettia producta,Animal,motile
 Pugettia,Pugettia sp.,Animal,motile

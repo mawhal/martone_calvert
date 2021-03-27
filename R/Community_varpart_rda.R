@@ -57,7 +57,7 @@ d <- dm %>%
 
 # take a closer look
 d %>% 
-  group_by(taxon_lumped2) %>% 
+  group_by(taxon_lumped3) %>% 
   summarize(total=sum(Abundance)) %>% 
   arrange( total )
 # remove a few taxa that are unidentified or extremely low abundance
@@ -81,27 +81,35 @@ d$taxon_lumped2[d$taxon_lumped2=="Halichondria"] <- "Tunicata/Porifera"
 d <- d %>% 
   filter( !(taxon_lumped %in% c("articulated coralline","Unknown red blade",
                                 "Colonial Diatoms", "Pleonosporium vancouverianum",
-                                "Acrochaetium sp.")) )
+                                "Acrochaetium sp.", "Fauchea") ) )
 
 dwide <-  d %>%
-  group_by( Year, Site, Zone, Quadrat, taxon_lumped2 ) %>%
+  group_by( Year, Site, Zone, Quadrat, taxon = taxon_lumped3 ) %>%
   summarise( Abundance=mean(Abundance) ) %>% 
-  spread( taxon_lumped2, Abundance, fill=0 ) %>% 
+  pivot_wider( names_from = taxon, values_from = Abundance, values_fill=0 ) %>% 
   ungroup()
-
+# Remove taxa with less than one percent 
+# remove taxa with less than two occurrences (singletons)? some are good
+occurrences <- colSums(ifelse( dwide[,-c(1:4)] == 0, 0, 1 ) )
+total_abundances <- colSums(dwide[,-c(1:4)])
+sort(occurrences, decreasing = T)
+sort(total_abundances, decreasing = T)
+# taxa_keep <- names(total_abundances[total_abundances>=1])
 
 dmean <- d %>% 
-  group_by( Year, Site, Zone, taxon_lumped2 ) %>%
+  group_by( Year, Site, Zone, taxon = taxon_lumped3 ) %>%
+  # filter( taxon %in% taxa_keep ) %>% 
   summarise( Abundance=mean(Abundance) )
+
 
 # spread out
 d.comm.mean <- dmean %>%
-  spread( taxon_lumped2, Abundance, fill=0 ) %>% 
+  pivot_wider( names_from = taxon, values_from = Abundance, values_fill=0 ) %>%
   ungroup() %>% 
   mutate( Zone = factor(Zone, levels=c("LOW","MID","HIGH")) ) %>% 
   arrange( Year, Site, Zone )
 
-d.comm.mean <- d.comm.mean %>% filter( !is.na(Elevation) )
+# d.comm.mean <- d.comm.mean %>% filter( !is.na(Elevation) )
 
 # remove UID column from community data
 meta <- d.comm.mean[ ,1:3 ]
@@ -110,7 +118,6 @@ comm <- as.matrix(d.comm.mean[,-c(1:3)])
 
 # interrogate the dataset
 sort( colSums(comm), decreasing = T )
-# should we remove 
 
 
 # # read temperature data
@@ -346,7 +353,6 @@ site_scores=scores_dbRDA$sites # separating out the site scores, get CAP1 and CA
 species_scores=scores_dbRDA$species # separating out the species scores
 site_scores_environment=cbind(site_scores,select(meta,Elevation,anom.pine.sum.1)) # merge
 correlations=cor(site_scores_environment) # calculate correlations
-fix(correlations)
 #####
 
 # extract axes

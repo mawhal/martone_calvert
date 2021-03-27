@@ -4,9 +4,11 @@ hmsc <- data.frame( hmsc = T, taxon = colnames(Y))
 
 # need to use comm data from rda script
 rank_occurrence <- rank(-apply(dwide[,-c(1:4)],2,function(z) length(z[z>0])), ties.method = "min")
-commtest <- gsub(" ",".",colnames(comm))
+rank_occurrence <- data.frame( taxon = names(rank_occurrence), rank = rank_occurrence ) %>% 
+  arrange(taxon)
+commtest <- gsub(" ",".",sort(colnames(comm)))
 
-community <- data.frame( source = 'all', taxon = commtest, rank=rank_occurrence)
+community <- data.frame( source = 'all', taxon = commtest, rank_occurrence ) 
 
 # join
 taxa_modeled <- full_join(community, hmsc)

@@ -68,7 +68,7 @@ Fifth Beach HIGH 2011 4,Nemalion helminthoides,1
 Fifth Beach HIGH 2011 4,Neorhodomela larix,0.5
 Fifth Beach HIGH 2011 4,Petrocelis,50
 Fifth Beach HIGH 2011 4,Pyropia perforata,4
-Fifth Beach HIGH 2011 5,Acrosiphonia sp.,0.5
+Fifth Beach HIGH 2011 5,Acrosiphonia spp.,0.5
 Fifth Beach HIGH 2011 5,Chamberlainium tumidum,2
 Fifth Beach HIGH 2011 5,Cladophora columbiana,5
 Fifth Beach HIGH 2011 5,Corallina vancouveriensis,3
@@ -152,7 +152,7 @@ Fifth Beach HIGH 2012 1,Pyropia perforata,3
 Fifth Beach HIGH 2012 1,Ulva lactuca,1
 Fifth Beach HIGH 2012 1,Ulva linza,2
 Fifth Beach HIGH 2012 1,Wildmania norrisii,2
-Fifth Beach HIGH 2012 10,Acrosiphonia sp.,0.5
+Fifth Beach HIGH 2012 10,Acrosiphonia spp.,0.5
 Fifth Beach HIGH 2012 10,Alaria marginata,8
 Fifth Beach HIGH 2012 10,Balanus glandula,18
 Fifth Beach HIGH 2012 10,bare rock,1
@@ -220,7 +220,7 @@ Fifth Beach HIGH 2012 3,Pentidotea sp.,1
 Fifth Beach HIGH 2012 3,Pyropia perforata,3
 Fifth Beach HIGH 2012 3,Ulva lactuca,4
 Fifth Beach HIGH 2012 3,Ulva linza,1
-Fifth Beach HIGH 2012 4,Acrosiphonia sp.,1
+Fifth Beach HIGH 2012 4,Acrosiphonia spp.,1
 Fifth Beach HIGH 2012 4,Balanus glandula,30
 Fifth Beach HIGH 2012 4,bare rock,2
 Fifth Beach HIGH 2012 4,Chthamalus dalli,40
@@ -235,7 +235,7 @@ Fifth Beach HIGH 2012 4,Pentidotea sp.,1
 Fifth Beach HIGH 2012 4,Pyropia perforata,8
 Fifth Beach HIGH 2012 4,Ulva lactuca,2
 Fifth Beach HIGH 2012 4,Ulva linza,1
-Fifth Beach HIGH 2012 5,Acrosiphonia sp.,0.5
+Fifth Beach HIGH 2012 5,Acrosiphonia spp.,0.5
 Fifth Beach HIGH 2012 5,Anthopleura sp.,1
 Fifth Beach HIGH 2012 5,Balanus glandula,30
 Fifth Beach HIGH 2012 5,bare rock,2
@@ -257,7 +257,7 @@ Fifth Beach HIGH 2012 5,Semibalanus cariosus,3
 Fifth Beach HIGH 2012 5,Ulva lactuca,0.5
 Fifth Beach HIGH 2012 5,Ulva linza,13
 Fifth Beach HIGH 2012 5,Wildmania norrisii,0.5
-Fifth Beach HIGH 2012 6,Acrosiphonia sp.,5
+Fifth Beach HIGH 2012 6,Acrosiphonia spp.,5
 Fifth Beach HIGH 2012 6,Alaria marginata,2
 Fifth Beach HIGH 2012 6,Analipus japonicus,0.5
 Fifth Beach HIGH 2012 6,Balanus glandula,12
@@ -283,7 +283,7 @@ Fifth Beach HIGH 2012 6,Polysiphonia hendryi,2.5
 Fifth Beach HIGH 2012 6,Pyropia perforata,3
 Fifth Beach HIGH 2012 6,Ulva lactuca,1
 Fifth Beach HIGH 2012 6,Ulva linza,4
-Fifth Beach HIGH 2012 7,Acrosiphonia sp.,2.5
+Fifth Beach HIGH 2012 7,Acrosiphonia spp.,2.5
 Fifth Beach HIGH 2012 7,Anthopleura sp.,1
 Fifth Beach HIGH 2012 7,Balanus glandula,30
 Fifth Beach HIGH 2012 7,Chamberlainium tumidum,1.5
@@ -326,7 +326,7 @@ Fifth Beach HIGH 2012 8,Savoiea robusta,0.5
 Fifth Beach HIGH 2012 8,Semibalanus cariosus,36
 Fifth Beach HIGH 2012 8,Ulva linza,0.5
 Fifth Beach HIGH 2012 8,Wildmania norrisii,1
-Fifth Beach HIGH 2012 9,Acrosiphonia sp.,1
+Fifth Beach HIGH 2012 9,Acrosiphonia spp.,1
 Fifth Beach HIGH 2012 9,Alaria marginata,5
 Fifth Beach HIGH 2012 9,Callithamnion pikeanum,1.5
 Fifth Beach HIGH 2012 9,Corallina vancouveriensis,4
@@ -1475,7 +1475,7 @@ Fifth Beach LOW 2011 10,coralline crust,4
 Fifth Beach LOW 2011 10,Endocladia muricata,2
 Fifth Beach LOW 2011 10,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2011 10,Hildenbrandia sp.,8
-Fifth Beach LOW 2011 10,Hymenena sp.,3
+Fifth Beach LOW 2011 10,Hymenena spp.,3
 Fifth Beach LOW 2011 10,Mastocarpus latissimus,2
 Fifth Beach LOW 2011 10,Mastocarpus rigidus,5
 Fifth Beach LOW 2011 10,Mazzaella oregona,3
@@ -1509,7 +1509,7 @@ Fifth Beach LOW 2011 3,coralline crust,2
 Fifth Beach LOW 2011 3,Cryptosiphonia woodii,6
 Fifth Beach LOW 2011 3,Farlowia mollis,1
 Fifth Beach LOW 2011 3,Hildenbrandia sp.,5
-Fifth Beach LOW 2011 3,Hymenena sp.,7
+Fifth Beach LOW 2011 3,Hymenena spp.,7
 Fifth Beach LOW 2011 3,Mastocarpus rigidus,4
 Fifth Beach LOW 2011 3,Mazzaella oregona,5
 Fifth Beach LOW 2011 3,Mazzaella splendens,13
@@ -1529,7 +1529,7 @@ Fifth Beach LOW 2011 4,Cryptosiphonia woodii,0.5
 Fifth Beach LOW 2011 4,Farlowia mollis,0.5
 Fifth Beach LOW 2011 4,Hedophyllum sessile,1
 Fifth Beach LOW 2011 4,Hildenbrandia sp.,2
-Fifth Beach LOW 2011 4,Hymenena sp.,3
+Fifth Beach LOW 2011 4,Hymenena spp.,3
 Fifth Beach LOW 2011 4,Lithothamnion phymatodeum,1
 Fifth Beach LOW 2011 4,Mastocarpus latissimus,3
 Fifth Beach LOW 2011 4,Mazzaella oregona,2
@@ -1551,13 +1551,13 @@ Fifth Beach LOW 2011 5,Polyneura latissima,2
 Fifth Beach LOW 2011 5,Ptilota filicina,0.5
 Fifth Beach LOW 2011 5,Pyropia perforata,2
 Fifth Beach LOW 2011 5,Ulva lactuca,0.5
-Fifth Beach LOW 2011 6,Antithamnionella pacifica,4
+Fifth Beach LOW 2011 6,Antithamnionella spp.,4
 Fifth Beach LOW 2011 6,Callithamnion pikeanum,4
 Fifth Beach LOW 2011 6,Chamberlainium tumidum,4
 Fifth Beach LOW 2011 6,coralline crust,1
 Fifth Beach LOW 2011 6,Cryptosiphonia woodii,3
 Fifth Beach LOW 2011 6,Hildenbrandia sp.,12
-Fifth Beach LOW 2011 6,Hymenena sp.,4
+Fifth Beach LOW 2011 6,Hymenena spp.,4
 Fifth Beach LOW 2011 6,Mastocarpus rigidus,4
 Fifth Beach LOW 2011 6,Mazzaella oregona,9
 Fifth Beach LOW 2011 6,Mazzaella splendens,9
@@ -1574,7 +1574,7 @@ Fifth Beach LOW 2011 7,Corallina frondescens,0.5
 Fifth Beach LOW 2011 7,Corallina vancouveriensis,3
 Fifth Beach LOW 2011 7,coralline crust,3
 Fifth Beach LOW 2011 7,Hildenbrandia sp.,12
-Fifth Beach LOW 2011 7,Hymenena sp.,5
+Fifth Beach LOW 2011 7,Hymenena spp.,5
 Fifth Beach LOW 2011 7,Lithothamnion phymatodeum,1
 Fifth Beach LOW 2011 7,Mastocarpus latissimus,2
 Fifth Beach LOW 2011 7,Mastocarpus rigidus,0.5
@@ -1593,7 +1593,7 @@ Fifth Beach LOW 2011 8,Corallina frondescens,0.5
 Fifth Beach LOW 2011 8,Endocladia muricata,3
 Fifth Beach LOW 2011 8,Fucus distichus,1
 Fifth Beach LOW 2011 8,Hildenbrandia sp.,25
-Fifth Beach LOW 2011 8,Hymenena sp.,1
+Fifth Beach LOW 2011 8,Hymenena spp.,1
 Fifth Beach LOW 2011 8,Mastocarpus latissimus,3
 Fifth Beach LOW 2011 8,Mastocarpus rigidus,1
 Fifth Beach LOW 2011 8,Mazzaella oregona,0.5
@@ -1608,7 +1608,7 @@ Fifth Beach LOW 2011 9,Corallina vancouveriensis,3
 Fifth Beach LOW 2011 9,coralline crust,10
 Fifth Beach LOW 2011 9,Endocladia muricata,2
 Fifth Beach LOW 2011 9,Hildenbrandia sp.,30
-Fifth Beach LOW 2011 9,Hymenena sp.,6
+Fifth Beach LOW 2011 9,Hymenena spp.,6
 Fifth Beach LOW 2011 9,Mastocarpus rigidus,6
 Fifth Beach LOW 2011 9,Mazzaella oregona,1
 Fifth Beach LOW 2011 9,Mazzaella splendens,5
@@ -1653,7 +1653,7 @@ Fifth Beach LOW 2012 10,coralline crust,1
 Fifth Beach LOW 2012 10,Endocladia muricata,0.5
 Fifth Beach LOW 2012 10,Hedophyllum sessile,10
 Fifth Beach LOW 2012 10,Hildenbrandia occidentalis,3
-Fifth Beach LOW 2012 10,Hymenena sp.,20
+Fifth Beach LOW 2012 10,Hymenena spp.,20
 Fifth Beach LOW 2012 10,Katharina tunicata,4
 Fifth Beach LOW 2012 10,Mastocarpus agardhii,8
 Fifth Beach LOW 2012 10,Mastocarpus latissimus,3
@@ -1740,7 +1740,7 @@ Fifth Beach LOW 2012 5,Chamberlainium tumidum,1
 Fifth Beach LOW 2012 5,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2012 5,Cryptosiphonia woodii,4
 Fifth Beach LOW 2012 5,Halosaccion glandiforme,0.5
-Fifth Beach LOW 2012 5,Hymenena sp.,4
+Fifth Beach LOW 2012 5,Hymenena spp.,4
 Fifth Beach LOW 2012 5,Mastocarpus agardhii,8
 Fifth Beach LOW 2012 5,Mastocarpus latissimus,5
 Fifth Beach LOW 2012 5,Mazzaella oregona,8
@@ -1752,7 +1752,7 @@ Fifth Beach LOW 2012 5,Plocamium violaceum,15
 Fifth Beach LOW 2012 5,Polyneura latissima,5
 Fifth Beach LOW 2012 5,Ptilota filicina,8
 Fifth Beach LOW 2012 5,Tokidadendron bullatum,6
-Fifth Beach LOW 2012 6,Acrosiphonia sp.,0.5
+Fifth Beach LOW 2012 6,Acrosiphonia spp.,0.5
 Fifth Beach LOW 2012 6,Alaria marginata,90
 Fifth Beach LOW 2012 6,bare rock,2
 Fifth Beach LOW 2012 6,Bryozoan,4
@@ -1778,7 +1778,7 @@ Fifth Beach LOW 2012 7,Costaria costata,6
 Fifth Beach LOW 2012 7,Hildenbrandia occidentalis,5
 Fifth Beach LOW 2012 7,Hydroid,12
 Fifth Beach LOW 2012 7,Hymenena setchellii,4
-Fifth Beach LOW 2012 7,Hymenena sp.,4
+Fifth Beach LOW 2012 7,Hymenena spp.,4
 Fifth Beach LOW 2012 7,Mazzaella splendens,15
 Fifth Beach LOW 2012 7,Plocamium violaceum,10
 Fifth Beach LOW 2012 7,Polyneura latissima,12
@@ -1795,7 +1795,7 @@ Fifth Beach LOW 2012 8,Chiton,7
 Fifth Beach LOW 2012 8,coralline crust,11
 Fifth Beach LOW 2012 8,Hildenbrandia occidentalis,10
 Fifth Beach LOW 2012 8,Hildenbrandia rubra,4
-Fifth Beach LOW 2012 8,Hymenena sp.,14
+Fifth Beach LOW 2012 8,Hymenena spp.,14
 Fifth Beach LOW 2012 8,Katharina tunicata,1
 Fifth Beach LOW 2012 8,Lottia sp.,1
 Fifth Beach LOW 2012 8,Mazzaella oregona,2
@@ -1816,7 +1816,7 @@ Fifth Beach LOW 2012 9,coralline crust,4
 Fifth Beach LOW 2012 9,Endocladia muricata,8
 Fifth Beach LOW 2012 9,Hedophyllum sessile,10
 Fifth Beach LOW 2012 9,Hildenbrandia occidentalis,8
-Fifth Beach LOW 2012 9,Hymenena sp.,8
+Fifth Beach LOW 2012 9,Hymenena spp.,8
 Fifth Beach LOW 2012 9,Katharina tunicata,1
 Fifth Beach LOW 2012 9,Mastocarpus agardhii,6
 Fifth Beach LOW 2012 9,Mastocarpus latissimus,6
@@ -1832,12 +1832,12 @@ Fifth Beach LOW 2013 1,Egregia menziesii,3
 Fifth Beach LOW 2013 1,Farlowia mollis,6
 Fifth Beach LOW 2013 1,Hildenbrandia occidentalis,1
 Fifth Beach LOW 2013 1,Hildenbrandia rubra,0.5
-Fifth Beach LOW 2013 1,Hymenena sp.,2
+Fifth Beach LOW 2013 1,Hymenena spp.,2
 Fifth Beach LOW 2013 1,Mastocarpus latissimus,1
 Fifth Beach LOW 2013 1,Neorhodomela larix,8
 Fifth Beach LOW 2013 1,Osmundea spectabilis,65
 Fifth Beach LOW 2013 1,Polysiphonia sp.,1
-Fifth Beach LOW 2013 1,Ptilota sp.,1
+Fifth Beach LOW 2013 1,Ptilota filicina,1
 Fifth Beach LOW 2013 1,Pyropia fucicola,18
 Fifth Beach LOW 2013 1,Sand,1
 Fifth Beach LOW 2013 10,Analipus japonicus,35
@@ -1848,7 +1848,7 @@ Fifth Beach LOW 2013 10,Cladophora columbiana,1
 Fifth Beach LOW 2013 10,coralline crust,6
 Fifth Beach LOW 2013 10,Farlowia mollis,1
 Fifth Beach LOW 2013 10,Hymenena setchellii,5
-Fifth Beach LOW 2013 10,Hymenena sp.,18
+Fifth Beach LOW 2013 10,Hymenena spp.,18
 Fifth Beach LOW 2013 10,Katharina tunicata,5
 Fifth Beach LOW 2013 10,Limpet,1
 Fifth Beach LOW 2013 10,Lomentaria hakodatensis,26
@@ -1890,7 +1890,7 @@ Fifth Beach LOW 2013 3,Mazzaella splendens,1
 Fifth Beach LOW 2013 3,Microcladia borealis,5
 Fifth Beach LOW 2013 3,Neorhodomela larix,85
 Fifth Beach LOW 2013 3,Polyneura latissima,0.5
-Fifth Beach LOW 2013 3,Ptilota sp.,6
+Fifth Beach LOW 2013 3,Ptilota filicina,6
 Fifth Beach LOW 2013 3,Ulva lactuca,0.5
 Fifth Beach LOW 2013 4,Acrosiphonia coalita,0.5
 Fifth Beach LOW 2013 4,bare rock,2
@@ -1911,7 +1911,7 @@ Fifth Beach LOW 2013 4,Petrocelis,0.5
 Fifth Beach LOW 2013 4,Phyllospadix scouleri,34
 Fifth Beach LOW 2013 4,Plocamium violaceum,9
 Fifth Beach LOW 2013 4,Polyneura latissima,1
-Fifth Beach LOW 2013 4,Ptilota sp.,7
+Fifth Beach LOW 2013 4,Ptilota filicina,7
 Fifth Beach LOW 2013 4,Sand,2
 Fifth Beach LOW 2013 5,Ahnfeltia fastigiata,0.5
 Fifth Beach LOW 2013 5,Analipus japonicus,8
@@ -1922,7 +1922,7 @@ Fifth Beach LOW 2013 5,Elachista fucicola,1
 Fifth Beach LOW 2013 5,Farlowia mollis,4
 Fifth Beach LOW 2013 5,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2013 5,Hymenena setchellii,5
-Fifth Beach LOW 2013 5,Hymenena sp.,2.5
+Fifth Beach LOW 2013 5,Hymenena spp.,2.5
 Fifth Beach LOW 2013 5,Lomentaria hakodatensis,5
 Fifth Beach LOW 2013 5,Mazzaella splendens,0.5
 Fifth Beach LOW 2013 5,Melanosiphon intestinalis,6
@@ -1949,7 +1949,7 @@ Fifth Beach LOW 2013 6,Chamberlainium tumidum,4
 Fifth Beach LOW 2013 6,Corallina vancouveriensis,1
 Fifth Beach LOW 2013 6,Hedophyllum sessile,9
 Fifth Beach LOW 2013 6,Hildenbrandia occidentalis,3
-Fifth Beach LOW 2013 6,Hymenena sp.,20
+Fifth Beach LOW 2013 6,Hymenena spp.,20
 Fifth Beach LOW 2013 6,Mazzaella oregona,25
 Fifth Beach LOW 2013 6,Microcladia borealis,5
 Fifth Beach LOW 2013 6,Petrocelis,2
@@ -1957,7 +1957,7 @@ Fifth Beach LOW 2013 6,Plocamium violaceum,18
 Fifth Beach LOW 2013 6,Polyneura latissima,12
 Fifth Beach LOW 2013 6,Pyropia perforata,3
 Fifth Beach LOW 2013 7,Analipus japonicus,53
-Fifth Beach LOW 2013 7,Antithamnionella pacifica,0.5
+Fifth Beach LOW 2013 7,Antithamnionella spp.,0.5
 Fifth Beach LOW 2013 7,bare rock,1
 Fifth Beach LOW 2013 7,Bryozoan,1
 Fifth Beach LOW 2013 7,Callithamnion pikeanum,5
@@ -1987,7 +1987,7 @@ Fifth Beach LOW 2013 8,Elachista fucicola,1
 Fifth Beach LOW 2013 8,Endocladia muricata,2
 Fifth Beach LOW 2013 8,Fucus distichus,6
 Fifth Beach LOW 2013 8,Hildenbrandia occidentalis,10
-Fifth Beach LOW 2013 8,Hymenena sp.,4
+Fifth Beach LOW 2013 8,Hymenena spp.,4
 Fifth Beach LOW 2013 8,Mastocarpus alaskensis,0.5
 Fifth Beach LOW 2013 8,Mastocarpus intermedius,0.5
 Fifth Beach LOW 2013 8,Microcladia borealis,2
@@ -2004,7 +2004,7 @@ Fifth Beach LOW 2013 9,Corallina sp.,0.5
 Fifth Beach LOW 2013 9,Corallina vancouveriensis,21
 Fifth Beach LOW 2013 9,Endocladia muricata,2
 Fifth Beach LOW 2013 9,Hildenbrandia occidentalis,50
-Fifth Beach LOW 2013 9,Hymenena sp.,16
+Fifth Beach LOW 2013 9,Hymenena spp.,16
 Fifth Beach LOW 2013 9,Mastocarpus alaskensis,0.5
 Fifth Beach LOW 2013 9,Mazzaella oregona,6
 Fifth Beach LOW 2013 9,Petrocelis,8
@@ -2021,7 +2021,7 @@ Fifth Beach LOW 2014 1,Mazzaella oregona,6
 Fifth Beach LOW 2014 1,Mazzaella parvula,0.5
 Fifth Beach LOW 2014 1,Neorhodomela larix,17
 Fifth Beach LOW 2014 1,Phyllospadix scouleri,27
-Fifth Beach LOW 2014 1,Ptilota sp.,19
+Fifth Beach LOW 2014 1,Ptilota filicina,19
 Fifth Beach LOW 2014 1,Ulva lactuca,0.5
 Fifth Beach LOW 2014 10,Alaria marginata,22
 Fifth Beach LOW 2014 10,Analipus japonicus,2
@@ -2061,13 +2061,13 @@ Fifth Beach LOW 2014 2,Chamberlainium tumidum,7
 Fifth Beach LOW 2014 2,coralline crust,0.5
 Fifth Beach LOW 2014 2,Cryptosiphonia woodii,5
 Fifth Beach LOW 2014 2,Dilsea californica,0.5
-Fifth Beach LOW 2014 2,Hymenena sp.,1
+Fifth Beach LOW 2014 2,Hymenena spp.,1
 Fifth Beach LOW 2014 2,Mazzaella oregona,4
 Fifth Beach LOW 2014 2,Mazzaella splendens,18
 Fifth Beach LOW 2014 2,Microcladia borealis,0.5
 Fifth Beach LOW 2014 2,Neorhodomela larix,3
 Fifth Beach LOW 2014 2,Phyllospadix scouleri,34
-Fifth Beach LOW 2014 2,Ptilota sp.,9
+Fifth Beach LOW 2014 2,Ptilota filicina,9
 Fifth Beach LOW 2014 2,Tokidadendron bullatum,3
 Fifth Beach LOW 2014 3,Acrosiphonia coalita,0.5
 Fifth Beach LOW 2014 3,Alaria marginata,23
@@ -2092,7 +2092,7 @@ Fifth Beach LOW 2014 3,Neorhodomela larix,50
 Fifth Beach LOW 2014 3,Odonthalia floccosa,1
 Fifth Beach LOW 2014 3,Phyllospadix scouleri,0.5
 Fifth Beach LOW 2014 3,Polyneura latissima,2
-Fifth Beach LOW 2014 3,Ptilota sp.,17
+Fifth Beach LOW 2014 3,Ptilota filicina,17
 Fifth Beach LOW 2014 3,Pyropia abbottiae,0.5
 Fifth Beach LOW 2014 3,Tokidadendron bullatum,0.5
 Fifth Beach LOW 2014 3,Tunicata,1
@@ -2125,7 +2125,7 @@ Fifth Beach LOW 2014 4,Phyllospadix scouleri,32
 Fifth Beach LOW 2014 4,Plocamium violaceum,8
 Fifth Beach LOW 2014 4,Polyneura latissima,0.5
 Fifth Beach LOW 2014 4,Polysiphonia hendryi var. hendryi,0.5
-Fifth Beach LOW 2014 4,Ptilota sp.,12
+Fifth Beach LOW 2014 4,Ptilota filicina,12
 Fifth Beach LOW 2014 4,Tokidadendron bullatum,0.5
 Fifth Beach LOW 2014 4,Tunicata,1
 Fifth Beach LOW 2014 5,Acrosiphonia arcta,0.5
@@ -2141,7 +2141,7 @@ Fifth Beach LOW 2014 5,Endocladia muricata,4
 Fifth Beach LOW 2014 5,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2014 5,Hildenbrandia occidentalis,40
 Fifth Beach LOW 2014 5,Hildenbrandia rubra,4
-Fifth Beach LOW 2014 5,Hymenena sp.,4
+Fifth Beach LOW 2014 5,Hymenena spp.,4
 Fifth Beach LOW 2014 5,Katharina tunicata,4
 Fifth Beach LOW 2014 5,Leathesia marina,0.5
 Fifth Beach LOW 2014 5,Mastocarpus agardhii,1
@@ -2165,7 +2165,7 @@ Fifth Beach LOW 2014 6,Cryptosiphonia woodii,2
 Fifth Beach LOW 2014 6,Hedophyllum sessile,34
 Fifth Beach LOW 2014 6,Hildenbrandia occidentalis,1
 Fifth Beach LOW 2014 6,Hildenbrandia sp.,1
-Fifth Beach LOW 2014 6,Hymenena sp.,23
+Fifth Beach LOW 2014 6,Hymenena spp.,23
 Fifth Beach LOW 2014 6,Lithophyllum sp. 1,2
 Fifth Beach LOW 2014 6,Mazzaella splendens,11
 Fifth Beach LOW 2014 6,Odonthalia floccosa,3
@@ -2201,7 +2201,7 @@ Fifth Beach LOW 2014 8,Fucus distichus,3
 Fifth Beach LOW 2014 8,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2014 8,Hildenbrandia occidentalis,11
 Fifth Beach LOW 2014 8,Hildenbrandia rubra,1
-Fifth Beach LOW 2014 8,Hymenena sp.,6
+Fifth Beach LOW 2014 8,Hymenena spp.,6
 Fifth Beach LOW 2014 8,Katharina tunicata,3
 Fifth Beach LOW 2014 8,Leathesia marina,0.5
 Fifth Beach LOW 2014 8,Mastocarpus intermedius,0.5
@@ -2260,7 +2260,7 @@ Fifth Beach LOW 2015 10,Gloiopeltis furcata,0.5
 Fifth Beach LOW 2015 10,Hedophyllum sessile,10
 Fifth Beach LOW 2015 10,Hildenbrandia occidentalis,47
 Fifth Beach LOW 2015 10,Hildenbrandia rubra,2
-Fifth Beach LOW 2015 10,Hymenena sp.,11
+Fifth Beach LOW 2015 10,Hymenena spp.,11
 Fifth Beach LOW 2015 10,Lithophyllum sp.,1
 Fifth Beach LOW 2015 10,Mastocarpus agardhii,1
 Fifth Beach LOW 2015 10,Mastocarpus latissimus,1
@@ -2276,7 +2276,7 @@ Fifth Beach LOW 2015 2,bare rock,0.5
 Fifth Beach LOW 2015 2,Callithamnion pikeanum,0.5
 Fifth Beach LOW 2015 2,Cryptosiphonia woodii,8
 Fifth Beach LOW 2015 2,Dilsea californica,2
-Fifth Beach LOW 2015 2,Hymenena sp.,2
+Fifth Beach LOW 2015 2,Hymenena spp.,2
 Fifth Beach LOW 2015 2,Mazzaella oregona,3
 Fifth Beach LOW 2015 2,Mazzaella parvula,0.5
 Fifth Beach LOW 2015 2,Mazzaella splendens,18
@@ -2290,7 +2290,7 @@ Fifth Beach LOW 2015 2,Ulva lactuca,0.5
 Fifth Beach LOW 2015 3,Alaria marginata,3
 Fifth Beach LOW 2015 3,bare rock,1
 Fifth Beach LOW 2015 3,Bryozoan,1
-Fifth Beach LOW 2015 3,Hymenena sp.,0.5
+Fifth Beach LOW 2015 3,Hymenena spp.,0.5
 Fifth Beach LOW 2015 3,Mazzaella splendens,0.5
 Fifth Beach LOW 2015 3,Neorhodomela larix,2
 Fifth Beach LOW 2015 3,Phyllospadix scouleri,96
@@ -2316,7 +2316,7 @@ Fifth Beach LOW 2015 5,Chamberlainium tumidum,2
 Fifth Beach LOW 2015 5,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2015 5,Cryptosiphonia woodii,0.5
 Fifth Beach LOW 2015 5,Hymenena setchellii,2
-Fifth Beach LOW 2015 5,Hymenena sp.,6
+Fifth Beach LOW 2015 5,Hymenena spp.,6
 Fifth Beach LOW 2015 5,Leptasterias sp.,1
 Fifth Beach LOW 2015 5,Mazzaella oregona,0.5
 Fifth Beach LOW 2015 5,Mazzaella splendens,20
@@ -2345,7 +2345,7 @@ Fifth Beach LOW 2015 6,Cryptosiphonia woodii,4
 Fifth Beach LOW 2015 6,Dilsea californica,1
 Fifth Beach LOW 2015 6,Hildenbrandia occidentalis,0.5
 Fifth Beach LOW 2015 6,Hildenbrandia rubra,1
-Fifth Beach LOW 2015 6,Hymenena sp.,3
+Fifth Beach LOW 2015 6,Hymenena spp.,3
 Fifth Beach LOW 2015 6,Laminaria setchellii,7
 Fifth Beach LOW 2015 6,Leathesia marina,0.5
 Fifth Beach LOW 2015 6,Mastocarpus agardhii,1.5
@@ -2370,7 +2370,7 @@ Fifth Beach LOW 2015 7,Dilsea californica,0.5
 Fifth Beach LOW 2015 7,Endocladia muricata,1
 Fifth Beach LOW 2015 7,Farlowia mollis,1
 Fifth Beach LOW 2015 7,Hildenbrandia occidentalis,28
-Fifth Beach LOW 2015 7,Hymenena sp.,0.5
+Fifth Beach LOW 2015 7,Hymenena spp.,0.5
 Fifth Beach LOW 2015 7,Leathesia marina,1
 Fifth Beach LOW 2015 7,Mastocarpus agardhii,1.5
 Fifth Beach LOW 2015 7,Mastocarpus latissimus,1
@@ -2390,7 +2390,7 @@ Fifth Beach LOW 2015 8,Corallina vancouveriensis,1
 Fifth Beach LOW 2015 8,Endocladia muricata,2
 Fifth Beach LOW 2015 8,Fucus distichus,2
 Fifth Beach LOW 2015 8,Hildenbrandia occidentalis,15
-Fifth Beach LOW 2015 8,Hymenena sp.,2
+Fifth Beach LOW 2015 8,Hymenena spp.,2
 Fifth Beach LOW 2015 8,Leathesia marina,1
 Fifth Beach LOW 2015 8,Mastocarpus agardhii,3
 Fifth Beach LOW 2015 8,Mastocarpus latissimus,2
@@ -2401,7 +2401,7 @@ Fifth Beach LOW 2015 8,Microcladia borealis,4
 Fifth Beach LOW 2015 8,Petrocelis,0.5
 Fifth Beach LOW 2015 8,Plocamium violaceum,39
 Fifth Beach LOW 2015 8,Polyneura latissima,9
-Fifth Beach LOW 2015 8,Ptilota sp.,1
+Fifth Beach LOW 2015 8,Ptilota filicina,1
 Fifth Beach LOW 2015 8,Ralfsioid,1
 Fifth Beach LOW 2015 8,Riterella pulchra,2
 Fifth Beach LOW 2015 8,Ulva lactuca,0.5
@@ -2448,7 +2448,7 @@ Fifth Beach LOW 2016 1,Neorhodomela larix,32
 Fifth Beach LOW 2016 1,Petrocelis,5
 Fifth Beach LOW 2016 1,Phyllospadix scouleri,15
 Fifth Beach LOW 2016 1,Plocamium violaceum,0.5
-Fifth Beach LOW 2016 1,Ptilota tenuis,45
+Fifth Beach LOW 2016 1,Ptilota filicina,45
 Fifth Beach LOW 2016 1,Spirorbis,0.5
 Fifth Beach LOW 2016 10,Alaria marginata,3
 Fifth Beach LOW 2016 10,Antithamnion defectum,0.5
@@ -2460,7 +2460,7 @@ Fifth Beach LOW 2016 10,Callithamnion pikeanum,3
 Fifth Beach LOW 2016 10,Colonial Diatoms,0.5
 Fifth Beach LOW 2016 10,Corallina vancouveriensis,18
 Fifth Beach LOW 2016 10,Hildenbrandia sp.,5
-Fifth Beach LOW 2016 10,Hymenena sp.,3
+Fifth Beach LOW 2016 10,Hymenena spp.,3
 Fifth Beach LOW 2016 10,Lithophyllum sp. 1,1
 Fifth Beach LOW 2016 10,Mastocarpus agardhii,2.5
 Fifth Beach LOW 2016 10,Mazzaella splendens,5
@@ -2476,14 +2476,14 @@ Fifth Beach LOW 2016 2,Callithamnion pikeanum,3
 Fifth Beach LOW 2016 2,Cryptosiphonia woodii,6
 Fifth Beach LOW 2016 2,Dilsea californica,1
 Fifth Beach LOW 2016 2,Farlowia mollis,1
-Fifth Beach LOW 2016 2,Hymenena sp.,3
+Fifth Beach LOW 2016 2,Hymenena spp.,3
 Fifth Beach LOW 2016 2,Mazzaella oregona,5
 Fifth Beach LOW 2016 2,Mazzaella splendens,24
 Fifth Beach LOW 2016 2,Microcladia borealis,2
 Fifth Beach LOW 2016 2,Neorhodomela larix,38
 Fifth Beach LOW 2016 2,Phyllospadix scouleri,1
 Fifth Beach LOW 2016 2,Polyneura latissima,1
-Fifth Beach LOW 2016 2,Ptilota tenuis,29
+Fifth Beach LOW 2016 2,Ptilota filicina,29
 Fifth Beach LOW 2016 2,Ulva lactuca,0.5
 Fifth Beach LOW 2016 3,bare rock,4
 Fifth Beach LOW 2016 3,Bossiella frondifera,2
@@ -2492,7 +2492,7 @@ Fifth Beach LOW 2016 3,Callithamnion pikeanum,3
 Fifth Beach LOW 2016 3,Corallina vancouveriensis,1
 Fifth Beach LOW 2016 3,Cryptosiphonia woodii,2
 Fifth Beach LOW 2016 3,Hildenbrandia sp.,2
-Fifth Beach LOW 2016 3,Hymenena sp.,3
+Fifth Beach LOW 2016 3,Hymenena spp.,3
 Fifth Beach LOW 2016 3,Lithothamnion phymatodeum,1
 Fifth Beach LOW 2016 3,Mastocarpus agardhii,1
 Fifth Beach LOW 2016 3,Mazzaella oregona,1
@@ -2504,7 +2504,7 @@ Fifth Beach LOW 2016 3,Petrocelis,0.5
 Fifth Beach LOW 2016 3,Phyllospadix scouleri,9
 Fifth Beach LOW 2016 3,Plocamium violaceum,14
 Fifth Beach LOW 2016 3,Polyneura latissima,1
-Fifth Beach LOW 2016 3,Ptilota tenuis,27
+Fifth Beach LOW 2016 3,Ptilota filicina,27
 Fifth Beach LOW 2016 3,Pyropia perforata,0.5
 Fifth Beach LOW 2016 3,Ulva lactuca,0.5
 Fifth Beach LOW 2016 4,Anemone,6
@@ -2514,7 +2514,7 @@ Fifth Beach LOW 2016 4,Callithamnion pikeanum,0.5
 Fifth Beach LOW 2016 4,Corallina vancouveriensis,2
 Fifth Beach LOW 2016 4,Cryptosiphonia woodii,0.5
 Fifth Beach LOW 2016 4,Hildenbrandia sp.,4
-Fifth Beach LOW 2016 4,Hymenena sp.,8
+Fifth Beach LOW 2016 4,Hymenena spp.,8
 Fifth Beach LOW 2016 4,Leathesia marina,0.5
 Fifth Beach LOW 2016 4,Mastocarpus sp,0.5
 Fifth Beach LOW 2016 4,Mazzaella oregona,2
@@ -2551,7 +2551,7 @@ Fifth Beach LOW 2016 5,Mazzaella splendens,2
 Fifth Beach LOW 2016 5,Petrocelis,6
 Fifth Beach LOW 2016 5,Plocamium violaceum,12
 Fifth Beach LOW 2016 5,Polysiphonia sp.,3
-Fifth Beach LOW 2016 5,Ptilota tenuis,0.5
+Fifth Beach LOW 2016 5,Ptilota filicina,0.5
 Fifth Beach LOW 2016 5,Pyropia perforata,1
 Fifth Beach LOW 2016 5,Savoiea robusta,3
 Fifth Beach LOW 2016 5,Ulva lactuca,1
@@ -2570,7 +2570,7 @@ Fifth Beach LOW 2016 6,Corallina vancouveriensis,9
 Fifth Beach LOW 2016 6,Crusticorallina muricata,5
 Fifth Beach LOW 2016 6,Hedophyllum sessile,37
 Fifth Beach LOW 2016 6,Hildenbrandia sp.,9
-Fifth Beach LOW 2016 6,Hymenena sp.,25
+Fifth Beach LOW 2016 6,Hymenena spp.,25
 Fifth Beach LOW 2016 6,Katharina tunicata,1
 Fifth Beach LOW 2016 6,Lithophyllum sp. 1,3
 Fifth Beach LOW 2016 6,Lithothamnion phymatodeum,2
@@ -2608,7 +2608,7 @@ Fifth Beach LOW 2016 8,coralline crust,0.5
 Fifth Beach LOW 2016 8,Hedophyllum sessile,12
 Fifth Beach LOW 2016 8,Hildenbrandia sp.,43
 Fifth Beach LOW 2016 8,Hymenena setchellii,4
-Fifth Beach LOW 2016 8,Hymenena sp.,4
+Fifth Beach LOW 2016 8,Hymenena spp.,4
 Fifth Beach LOW 2016 8,Katharina tunicata,3
 Fifth Beach LOW 2016 8,Limpet,22
 Fifth Beach LOW 2016 8,Lophopanopeus bellus,1
@@ -2642,7 +2642,7 @@ Fifth Beach LOW 2017 1,Callithamnion pikeanum,3
 Fifth Beach LOW 2017 1,Chamberlainium tumidum,2
 Fifth Beach LOW 2017 1,Cryptosiphonia woodii,3
 Fifth Beach LOW 2017 1,Dilsea californica,4
-Fifth Beach LOW 2017 1,Hymenena sp.,1
+Fifth Beach LOW 2017 1,Hymenena spp.,1
 Fifth Beach LOW 2017 1,Limpet,9
 Fifth Beach LOW 2017 1,Mastocarpus latissimus,1
 Fifth Beach LOW 2017 1,Mazzaella oregona,5
@@ -2667,7 +2667,7 @@ Fifth Beach LOW 2017 10,Chiharaea silvae,0.5
 Fifth Beach LOW 2017 10,Hedophyllum sessile,14
 Fifth Beach LOW 2017 10,Hildenbrandia occidentalis,2
 Fifth Beach LOW 2017 10,Hildenbrandia rubra,0.5
-Fifth Beach LOW 2017 10,Hymenena sp.,6
+Fifth Beach LOW 2017 10,Hymenena spp.,6
 Fifth Beach LOW 2017 10,Johansenia macmillanii,4
 Fifth Beach LOW 2017 10,Lithophyllum sp. 2,2
 Fifth Beach LOW 2017 10,Mastocarpus latissimus,0.5
@@ -2689,7 +2689,7 @@ Fifth Beach LOW 2017 2,coralline crust,1
 Fifth Beach LOW 2017 2,Cryptosiphonia woodii,11.5
 Fifth Beach LOW 2017 2,Dilsea californica,3
 Fifth Beach LOW 2017 2,Farlowia mollis,1
-Fifth Beach LOW 2017 2,Hymenena sp.,1.5
+Fifth Beach LOW 2017 2,Hymenena spp.,1.5
 Fifth Beach LOW 2017 2,Katharina tunicata,1
 Fifth Beach LOW 2017 2,Limpet,1
 Fifth Beach LOW 2017 2,Mazzaella oregona,7.5
@@ -2708,7 +2708,7 @@ Fifth Beach LOW 2017 3,Cryptosiphonia woodii,6
 Fifth Beach LOW 2017 3,Cumathamnion decipiens,2
 Fifth Beach LOW 2017 3,Dilsea californica,3
 Fifth Beach LOW 2017 3,Farlowia mollis,0.5
-Fifth Beach LOW 2017 3,Hymenena sp.,2
+Fifth Beach LOW 2017 3,Hymenena spp.,2
 Fifth Beach LOW 2017 3,Mastocarpus latissimus,0.5
 Fifth Beach LOW 2017 3,Mazzaella oregona,14
 Fifth Beach LOW 2017 3,Mazzaella splendens,10
@@ -2727,7 +2727,7 @@ Fifth Beach LOW 2017 4,Callithamnion pikeanum,0.5
 Fifth Beach LOW 2017 4,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2017 4,Cryptosiphonia woodii,10
 Fifth Beach LOW 2017 4,Dilsea californica,3
-Fifth Beach LOW 2017 4,Hymenena sp.,2
+Fifth Beach LOW 2017 4,Hymenena spp.,2
 Fifth Beach LOW 2017 4,Mazzaella oregona,1
 Fifth Beach LOW 2017 4,Mazzaella parvula,1
 Fifth Beach LOW 2017 4,Mazzaella splendens,6
@@ -2742,7 +2742,7 @@ Fifth Beach LOW 2017 4,Pyropia abbottiae,6
 Fifth Beach LOW 2017 4,Savoiea robusta,1
 Fifth Beach LOW 2017 4,Tokidadendron bullatum,2
 Fifth Beach LOW 2017 5,Anemone,3
-Fifth Beach LOW 2017 5,Antithamnionella pacifica,2
+Fifth Beach LOW 2017 5,Antithamnionella spp.,2
 Fifth Beach LOW 2017 5,bare rock,8
 Fifth Beach LOW 2017 5,Bossiella frondescens,2
 Fifth Beach LOW 2017 5,Bossiella hakaiensis,4
@@ -2754,7 +2754,7 @@ Fifth Beach LOW 2017 5,Dilsea californica,1
 Fifth Beach LOW 2017 5,Endocladia muricata,6
 Fifth Beach LOW 2017 5,Hildenbrandia occidentalis,2
 Fifth Beach LOW 2017 5,Hildenbrandia rubra,3
-Fifth Beach LOW 2017 5,Hymenena sp.,14
+Fifth Beach LOW 2017 5,Hymenena spp.,14
 Fifth Beach LOW 2017 5,Leathesia marina,1
 Fifth Beach LOW 2017 5,Lithophyllum sp. 2,0.5
 Fifth Beach LOW 2017 5,Lithothamnion phymatodeum,0.5
@@ -2778,12 +2778,12 @@ Fifth Beach LOW 2017 6,Bossiella frondifera,4
 Fifth Beach LOW 2017 6,Callithamnion pikeanum,1
 Fifth Beach LOW 2017 6,Chamberlainium tumidum,1
 Fifth Beach LOW 2017 6,Codium fragile,0.5
-Fifth Beach LOW 2017 6,Colpomenia bullosa,0.5
 Fifth Beach LOW 2017 6,Corallina vancouveriensis,1
 Fifth Beach LOW 2017 6,coralline crust,4
 Fifth Beach LOW 2017 6,Cryptosiphonia woodii,1
+Fifth Beach LOW 2017 6,Dactylosiphon bullosus,0.5
 Fifth Beach LOW 2017 6,Hildenbrandia rubra,1
-Fifth Beach LOW 2017 6,Hymenena sp.,3
+Fifth Beach LOW 2017 6,Hymenena spp.,3
 Fifth Beach LOW 2017 6,Leathesia marina,0.5
 Fifth Beach LOW 2017 6,Leptasterias sp.,1
 Fifth Beach LOW 2017 6,Mastocarpus agardhii,0.5
@@ -2810,9 +2810,9 @@ Fifth Beach LOW 2017 7,Bossiella frondescens,0.5
 Fifth Beach LOW 2017 7,Bossiella frondifera,0.5
 Fifth Beach LOW 2017 7,Callithamnion pikeanum,1
 Fifth Beach LOW 2017 7,Chamberlainium tumidum,5
-Fifth Beach LOW 2017 7,Colpomenia bullosa,0.5
 Fifth Beach LOW 2017 7,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2017 7,coralline crust,7
+Fifth Beach LOW 2017 7,Dactylosiphon bullosus,0.5
 Fifth Beach LOW 2017 7,Hildenbrandia occidentalis,5
 Fifth Beach LOW 2017 7,Katharina tunicata,3
 Fifth Beach LOW 2017 7,Laminaria yezoensis,0.5
@@ -2849,7 +2849,7 @@ Fifth Beach LOW 2017 9,Chamberlainium tumidum,4
 Fifth Beach LOW 2017 9,Endocladia muricata,0.5
 Fifth Beach LOW 2017 9,Hildenbrandia occidentalis,11
 Fifth Beach LOW 2017 9,Hildenbrandia rubra,3
-Fifth Beach LOW 2017 9,Hymenena sp.,1
+Fifth Beach LOW 2017 9,Hymenena spp.,1
 Fifth Beach LOW 2017 9,Katharina tunicata,1
 Fifth Beach LOW 2017 9,Limpet,1
 Fifth Beach LOW 2017 9,Microcladia borealis,8
@@ -2904,7 +2904,7 @@ Fifth Beach LOW 2018 2,coralline crust,1
 Fifth Beach LOW 2018 2,Cryptosiphonia woodii,3
 Fifth Beach LOW 2018 2,Dilsea californica,0.5
 Fifth Beach LOW 2018 2,Hildenbrandia rubra,1
-Fifth Beach LOW 2018 2,Hymenena sp.,1
+Fifth Beach LOW 2018 2,Hymenena spp.,1
 Fifth Beach LOW 2018 2,Leathesia marina,0.5
 Fifth Beach LOW 2018 2,Limpet,2
 Fifth Beach LOW 2018 2,Mastocarpus latissimus,0.5
@@ -2932,7 +2932,7 @@ Fifth Beach LOW 2018 3,Cryptosiphonia woodii,5
 Fifth Beach LOW 2018 3,Cumathamnion decipiens,0.5
 Fifth Beach LOW 2018 3,Dilsea californica,4
 Fifth Beach LOW 2018 3,Hildenbrandia rubra,1
-Fifth Beach LOW 2018 3,Hymenena sp.,1
+Fifth Beach LOW 2018 3,Hymenena spp.,1
 Fifth Beach LOW 2018 3,Leathesia marina,0.5
 Fifth Beach LOW 2018 3,Limpet,2
 Fifth Beach LOW 2018 3,Lithothamnion glaciale,1
@@ -2963,7 +2963,7 @@ Fifth Beach LOW 2018 4,Cumathamnion decipiens,1
 Fifth Beach LOW 2018 4,Dilsea californica,5
 Fifth Beach LOW 2018 4,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2018 4,Hildenbrandia rubra,1
-Fifth Beach LOW 2018 4,Hymenena sp.,3
+Fifth Beach LOW 2018 4,Hymenena spp.,3
 Fifth Beach LOW 2018 4,Mazzaella oregona,14
 Fifth Beach LOW 2018 4,Mazzaella splendens,38
 Fifth Beach LOW 2018 4,Microcladia borealis,4
@@ -2990,7 +2990,7 @@ Fifth Beach LOW 2018 5,Dilsea californica,0.5
 Fifth Beach LOW 2018 5,Farlowia mollis,0.5
 Fifth Beach LOW 2018 5,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2018 5,Hildenbrandia occidentalis,1
-Fifth Beach LOW 2018 5,Hymenena sp.,3
+Fifth Beach LOW 2018 5,Hymenena spp.,3
 Fifth Beach LOW 2018 5,Isopoda,2
 Fifth Beach LOW 2018 5,Leathesia marina,0.5
 Fifth Beach LOW 2018 5,Limpet,20
@@ -3063,11 +3063,11 @@ Fifth Beach LOW 2018 8,Anemone,3
 Fifth Beach LOW 2018 8,Bossiella frondescens,0.5
 Fifth Beach LOW 2018 8,Bossiella reptans,1
 Fifth Beach LOW 2018 8,Chamberlainium tumidum,2
-Fifth Beach LOW 2018 8,Colpomenia bullosa,2
 Fifth Beach LOW 2018 8,coralline crust,0.5
+Fifth Beach LOW 2018 8,Dactylosiphon bullosus,2
 Fifth Beach LOW 2018 8,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2018 8,Hildenbrandia rubra,2
-Fifth Beach LOW 2018 8,Hymenena sp.,2
+Fifth Beach LOW 2018 8,Hymenena spp.,2
 Fifth Beach LOW 2018 8,Katharina tunicata,1.5
 Fifth Beach LOW 2018 8,Leathesia marina,1
 Fifth Beach LOW 2018 8,Lithophyllum impressum,5
@@ -3091,7 +3091,7 @@ Fifth Beach LOW 2018 9,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2018 9,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2018 9,Hildenbrandia occidentalis,3
 Fifth Beach LOW 2018 9,Hildenbrandia rubra,0.5
-Fifth Beach LOW 2018 9,Hymenena sp.,0.5
+Fifth Beach LOW 2018 9,Hymenena spp.,0.5
 Fifth Beach LOW 2018 9,Leathesia marina,0.5
 Fifth Beach LOW 2018 9,Mastocarpus agardhii,0.5
 Fifth Beach LOW 2018 9,Microcladia borealis,3
@@ -3116,7 +3116,7 @@ Fifth Beach LOW 2019 1,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2019 1,Hildenbrandia occidentalis,0.5
 Fifth Beach LOW 2019 1,Hildenbrandia rubra,2
 Fifth Beach LOW 2019 1,Hydroid,0.5
-Fifth Beach LOW 2019 1,Hymenena sp.,0.5
+Fifth Beach LOW 2019 1,Hymenena spp.,0.5
 Fifth Beach LOW 2019 1,Mazzaella splendens,6
 Fifth Beach LOW 2019 1,Melobesia sp.,0.5
 Fifth Beach LOW 2019 1,Neorhodomela larix,10
@@ -3135,7 +3135,7 @@ Fifth Beach LOW 2019 10,Dilsea californica,1
 Fifth Beach LOW 2019 10,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2019 10,Hildenbrandia occidentalis,5
 Fifth Beach LOW 2019 10,Hildenbrandia rubra,7
-Fifth Beach LOW 2019 10,Hymenena sp.,6
+Fifth Beach LOW 2019 10,Hymenena spp.,6
 Fifth Beach LOW 2019 10,Katharina tunicata,3.5
 Fifth Beach LOW 2019 10,Limpet,3
 Fifth Beach LOW 2019 10,Mastocarpus agardhii,2
@@ -3161,7 +3161,7 @@ Fifth Beach LOW 2019 2,Dilsea californica,2
 Fifth Beach LOW 2019 2,Farlowia mollis,2
 Fifth Beach LOW 2019 2,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2019 2,Hildenbrandia occidentalis,1
-Fifth Beach LOW 2019 2,Hymenena sp.,1
+Fifth Beach LOW 2019 2,Hymenena spp.,1
 Fifth Beach LOW 2019 2,Leathesia marina,1
 Fifth Beach LOW 2019 2,Limpet,2
 Fifth Beach LOW 2019 2,Lithothamnion phymatodeum,0.5
@@ -3180,11 +3180,11 @@ Fifth Beach LOW 2019 3,bare rock,6
 Fifth Beach LOW 2019 3,Bossiella frondescens,2
 Fifth Beach LOW 2019 3,Bossiella sp. (crust),3
 Fifth Beach LOW 2019 3,Callithamnion pikeanum,1
-Fifth Beach LOW 2019 3,Colpomenia bullosa,0.5
 Fifth Beach LOW 2019 3,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2019 3,coralline crust,5
 Fifth Beach LOW 2019 3,Cryptosiphonia woodii,16
 Fifth Beach LOW 2019 3,Cumathamnion decipiens,1
+Fifth Beach LOW 2019 3,Dactylosiphon bullosus,0.5
 Fifth Beach LOW 2019 3,Dilsea californica,7
 Fifth Beach LOW 2019 3,Hildenbrandia occidentalis,2
 Fifth Beach LOW 2019 3,Hildenbrandia rubra,2
@@ -3210,9 +3210,9 @@ Fifth Beach LOW 2019 4,Anemone,0.5
 Fifth Beach LOW 2019 4,bare rock,5
 Fifth Beach LOW 2019 4,Bossiella frondifera,1
 Fifth Beach LOW 2019 4,Callithamnion pikeanum,3
-Fifth Beach LOW 2019 4,Colpomenia bullosa,0.5
 Fifth Beach LOW 2019 4,Corallina vancouveriensis,2
 Fifth Beach LOW 2019 4,Cryptosiphonia woodii,5
+Fifth Beach LOW 2019 4,Dactylosiphon bullosus,0.5
 Fifth Beach LOW 2019 4,Dilsea californica,4
 Fifth Beach LOW 2019 4,Endocladia muricata,13
 Fifth Beach LOW 2019 4,Farlowia mollis,0.5
@@ -3265,10 +3265,10 @@ Fifth Beach LOW 2019 6,Bossiella frondifera,4
 Fifth Beach LOW 2019 6,Callithamnion pikeanum,0.5
 Fifth Beach LOW 2019 6,Chamberlainium tumidum,6
 Fifth Beach LOW 2019 6,Codium fragile,2
-Fifth Beach LOW 2019 6,Colpomenia bullosa,0.5
 Fifth Beach LOW 2019 6,Corallina vancouveriensis,8
 Fifth Beach LOW 2019 6,coralline crust,4
 Fifth Beach LOW 2019 6,Cryptosiphonia woodii,1
+Fifth Beach LOW 2019 6,Dactylosiphon bullosus,0.5
 Fifth Beach LOW 2019 6,Hildenbrandia occidentalis,11
 Fifth Beach LOW 2019 6,Hildenbrandia rubra,5
 Fifth Beach LOW 2019 6,Katharina tunicata,1.5
@@ -3300,7 +3300,7 @@ Fifth Beach LOW 2019 7,Corallina vancouveriensis,9
 Fifth Beach LOW 2019 7,Crusticorallina muricata,0.5
 Fifth Beach LOW 2019 7,Hedophyllum sessile,1
 Fifth Beach LOW 2019 7,Hildenbrandia occidentalis,16
-Fifth Beach LOW 2019 7,Hymenena sp.,7
+Fifth Beach LOW 2019 7,Hymenena spp.,7
 Fifth Beach LOW 2019 7,Katharina tunicata,8
 Fifth Beach LOW 2019 7,Limpet,7
 Fifth Beach LOW 2019 7,Mastocarpus latissimus,0.5
@@ -3336,7 +3336,7 @@ Fifth Beach LOW 2019 9,Corallina vancouveriensis,2
 Fifth Beach LOW 2019 9,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2019 9,Hildenbrandia occidentalis,30
 Fifth Beach LOW 2019 9,Hildenbrandia rubra,5
-Fifth Beach LOW 2019 9,Hymenena sp.,0.5
+Fifth Beach LOW 2019 9,Hymenena spp.,0.5
 Fifth Beach LOW 2019 9,Katharina tunicata,8
 Fifth Beach LOW 2019 9,Limpet,12
 Fifth Beach LOW 2019 9,Microcladia borealis,3
@@ -3377,7 +3377,7 @@ Fifth Beach MID 2011 10,coralline crust,10
 Fifth Beach MID 2011 10,Endocladia muricata,15
 Fifth Beach MID 2011 10,Hedophyllum sessile,15
 Fifth Beach MID 2011 10,Hildenbrandia sp.,25
-Fifth Beach MID 2011 10,Hymenena sp.,10
+Fifth Beach MID 2011 10,Hymenena spp.,10
 Fifth Beach MID 2011 10,Lithothamnion phymatodeum,8
 Fifth Beach MID 2011 10,Mastocarpus latissimus,4
 Fifth Beach MID 2011 10,Mazzaella splendens,4
@@ -3385,8 +3385,7 @@ Fifth Beach MID 2011 10,Microcladia borealis,1
 Fifth Beach MID 2011 10,Petrocelis,1
 Fifth Beach MID 2011 10,Plocamium violaceum,5
 Fifth Beach MID 2011 10,Pyropia perforata,3
-Fifth Beach MID 2011 2,Acrosiphonia sp.,2
-Fifth Beach MID 2011 2,Acrosiphonia spp.,2
+Fifth Beach MID 2011 2,Acrosiphonia spp.,4
 Fifth Beach MID 2011 2,Alaria marginata,40
 Fifth Beach MID 2011 2,Corallina frondescens,2
 Fifth Beach MID 2011 2,Corallina vancouveriensis,4
@@ -3447,8 +3446,7 @@ Fifth Beach MID 2011 4,Plocamium violaceum,0.5
 Fifth Beach MID 2011 4,Ptilota filicina,0.5
 Fifth Beach MID 2011 4,Pyropia perforata,0.5
 Fifth Beach MID 2011 4,Ulva lactuca,2
-Fifth Beach MID 2011 5,Acrosiphonia sp.,3
-Fifth Beach MID 2011 5,Acrosiphonia spp.,3
+Fifth Beach MID 2011 5,Acrosiphonia spp.,6
 Fifth Beach MID 2011 5,Alaria marginata,25
 Fifth Beach MID 2011 5,Analipus japonicus,1
 Fifth Beach MID 2011 5,bare rock,3
@@ -3467,8 +3465,7 @@ Fifth Beach MID 2011 5,Petrocelis,5
 Fifth Beach MID 2011 5,Plocamium violaceum,6
 Fifth Beach MID 2011 5,Ptilota filicina,1
 Fifth Beach MID 2011 5,Ulva lactuca,3
-Fifth Beach MID 2011 6,Acrosiphonia sp.,4
-Fifth Beach MID 2011 6,Acrosiphonia spp.,4
+Fifth Beach MID 2011 6,Acrosiphonia spp.,8
 Fifth Beach MID 2011 6,Alaria marginata,8
 Fifth Beach MID 2011 6,Analipus japonicus,2
 Fifth Beach MID 2011 6,Callithamnion pikeanum,1.5
@@ -3487,8 +3484,7 @@ Fifth Beach MID 2011 6,Petrocelis,8
 Fifth Beach MID 2011 6,Plocamium violaceum,3
 Fifth Beach MID 2011 6,Pyropia perforata,2.5
 Fifth Beach MID 2011 6,Ulva lactuca,6
-Fifth Beach MID 2011 7,Acrosiphonia sp.,2
-Fifth Beach MID 2011 7,Acrosiphonia spp.,2
+Fifth Beach MID 2011 7,Acrosiphonia spp.,4
 Fifth Beach MID 2011 7,Alaria marginata,23
 Fifth Beach MID 2011 7,Callithamnion pikeanum,5
 Fifth Beach MID 2011 7,Ceramium pacificum,2
@@ -3534,7 +3530,7 @@ Fifth Beach MID 2011 9,Cladophora columbiana,5
 Fifth Beach MID 2011 9,Corallina vancouveriensis,30
 Fifth Beach MID 2011 9,Halosaccion glandiforme,0.5
 Fifth Beach MID 2011 9,Hildenbrandia sp.,3
-Fifth Beach MID 2011 9,Hymenena sp.,2
+Fifth Beach MID 2011 9,Hymenena spp.,2
 Fifth Beach MID 2011 9,Leathesia marina,5
 Fifth Beach MID 2011 9,Mastocarpus latissimus,2
 Fifth Beach MID 2011 9,Neopolyporolithon reclinatum,0.5
@@ -3542,7 +3538,7 @@ Fifth Beach MID 2011 9,Opuntiella californica,3
 Fifth Beach MID 2011 9,Petrocelis,2
 Fifth Beach MID 2011 9,Phyllospadix scouleri,10
 Fifth Beach MID 2011 9,Ulva lactuca,7
-Fifth Beach MID 2012 1,Acrosiphonia sp.,18
+Fifth Beach MID 2012 1,Acrosiphonia spp.,18
 Fifth Beach MID 2012 1,Anthopleura sp.,3
 Fifth Beach MID 2012 1,Balanus glandula,9
 Fifth Beach MID 2012 1,Callithamnion pikeanum,1
@@ -3563,7 +3559,7 @@ Fifth Beach MID 2012 1,Petrocelis,2
 Fifth Beach MID 2012 1,Plocamium violaceum,6
 Fifth Beach MID 2012 1,Pyropia perforata,2
 Fifth Beach MID 2012 1,Wildmania schizophylla,3
-Fifth Beach MID 2012 10,Acrosiphonia sp.,11
+Fifth Beach MID 2012 10,Acrosiphonia spp.,11
 Fifth Beach MID 2012 10,Anthopleura sp.,3
 Fifth Beach MID 2012 10,Balanus glandula,0.25
 Fifth Beach MID 2012 10,bare rock,15
@@ -3587,7 +3583,7 @@ Fifth Beach MID 2012 10,Pentidotea sp.,6
 Fifth Beach MID 2012 10,Pisaster ochraceus,2
 Fifth Beach MID 2012 10,Plocamium violaceum,27
 Fifth Beach MID 2012 10,Worm,1
-Fifth Beach MID 2012 2,Acrosiphonia sp.,3
+Fifth Beach MID 2012 2,Acrosiphonia spp.,3
 Fifth Beach MID 2012 2,Anthopleura sp.,5
 Fifth Beach MID 2012 2,Balanus glandula,30
 Fifth Beach MID 2012 2,bare rock,4
@@ -3634,7 +3630,7 @@ Fifth Beach MID 2012 4,Mastocarpus alaskensis,6
 Fifth Beach MID 2012 4,Mazzaella oregona,12
 Fifth Beach MID 2012 4,Pyropia perforata,3
 Fifth Beach MID 2012 4,Ulva lactuca,1
-Fifth Beach MID 2012 5,Acrosiphonia sp.,0.5
+Fifth Beach MID 2012 5,Acrosiphonia spp.,0.5
 Fifth Beach MID 2012 5,Alaria marginata,25
 Fifth Beach MID 2012 5,Analipus japonicus,1
 Fifth Beach MID 2012 5,Anthopleura sp.,2
@@ -3708,7 +3704,7 @@ Fifth Beach MID 2012 7,Pyropia perforata,2
 Fifth Beach MID 2012 7,Semibalanus cariosus,2
 Fifth Beach MID 2012 7,Ulva lactuca,1
 Fifth Beach MID 2012 7,Ulva linza,0.5
-Fifth Beach MID 2012 8,Acrosiphonia sp.,0.25
+Fifth Beach MID 2012 8,Acrosiphonia spp.,0.25
 Fifth Beach MID 2012 8,Balanus glandula,4
 Fifth Beach MID 2012 8,bare rock,10
 Fifth Beach MID 2012 8,Callithamnion pikeanum,4
@@ -3727,7 +3723,7 @@ Fifth Beach MID 2012 8,Petrocelis,36
 Fifth Beach MID 2012 8,Plocamium violaceum,3
 Fifth Beach MID 2012 8,Pyropia perforata,16
 Fifth Beach MID 2012 8,Wildmania schizophylla,3
-Fifth Beach MID 2012 9,Acrosiphonia sp.,3.5
+Fifth Beach MID 2012 9,Acrosiphonia spp.,3.5
 Fifth Beach MID 2012 9,Anthopleura sp.,5
 Fifth Beach MID 2012 9,Balanus glandula,3
 Fifth Beach MID 2012 9,bare rock,8
@@ -3758,7 +3754,7 @@ Fifth Beach MID 2013 1,Elachista fucicola,20
 Fifth Beach MID 2013 1,Farlowia mollis,23
 Fifth Beach MID 2013 1,Gloiopeltis furcata,0.5
 Fifth Beach MID 2013 1,Halosaccion glandiforme,5
-Fifth Beach MID 2013 1,Hymenena sp.,2
+Fifth Beach MID 2013 1,Hymenena spp.,2
 Fifth Beach MID 2013 1,Katharina tunicata,2
 Fifth Beach MID 2013 1,Mastocarpus agardhii,0.5
 Fifth Beach MID 2013 1,Mastocarpus alaskensis,0.5
@@ -3798,7 +3794,7 @@ Fifth Beach MID 2013 2,Desmarestia aculeata,5
 Fifth Beach MID 2013 2,Farlowia mollis,3
 Fifth Beach MID 2013 2,Gloiopeltis furcata,0.5
 Fifth Beach MID 2013 2,Halosaccion glandiforme,5
-Fifth Beach MID 2013 2,Hymenena sp.,6
+Fifth Beach MID 2013 2,Hymenena spp.,6
 Fifth Beach MID 2013 2,Limpet,1
 Fifth Beach MID 2013 2,Mastocarpus alaskensis,2
 Fifth Beach MID 2013 2,Mazzaella parksii,1
@@ -3951,7 +3947,7 @@ Fifth Beach MID 2013 9,coralline crust,0.5
 Fifth Beach MID 2013 9,Fucus distichus,6
 Fifth Beach MID 2013 9,Halosaccion glandiforme,4
 Fifth Beach MID 2013 9,Hildenbrandia occidentalis,30
-Fifth Beach MID 2013 9,Hymenena sp.,0.5
+Fifth Beach MID 2013 9,Hymenena spp.,0.5
 Fifth Beach MID 2013 9,Leathesia marina,2
 Fifth Beach MID 2013 9,Lithothamnion phymatodeum,0.5
 Fifth Beach MID 2013 9,Mastocarpus agardhii,1
@@ -4034,13 +4030,13 @@ Fifth Beach MID 2014 3,Fucus distichus,3
 Fifth Beach MID 2014 3,Halosaccion glandiforme,0.5
 Fifth Beach MID 2014 3,Hildenbrandia occidentalis,0.5
 Fifth Beach MID 2014 3,Hildenbrandia rubra,1
-Fifth Beach MID 2014 3,Hymenena sp.,0.5
+Fifth Beach MID 2014 3,Hymenena spp.,0.5
 Fifth Beach MID 2014 3,Mastocarpus alaskensis,0.5
 Fifth Beach MID 2014 3,Mazzaella oregona,4
 Fifth Beach MID 2014 3,Microcladia borealis,1
 Fifth Beach MID 2014 3,Neorhodomela larix,16
 Fifth Beach MID 2014 3,Petrocelis,1
-Fifth Beach MID 2014 3,Ptilota sp.,5
+Fifth Beach MID 2014 3,Ptilota filicina,5
 Fifth Beach MID 2014 3,Pyropia abbottiae,7
 Fifth Beach MID 2014 3,Pyropia perforata,2
 Fifth Beach MID 2014 3,Ulva lactuca,1.5
@@ -4654,7 +4650,7 @@ Fifth Beach MID 2017 3,Endocladia muricata,6
 Fifth Beach MID 2017 3,Farlowia mollis,2
 Fifth Beach MID 2017 3,Halosaccion glandiforme,0.5
 Fifth Beach MID 2017 3,Hildenbrandia occidentalis,1
-Fifth Beach MID 2017 3,Hymenena sp.,0.5
+Fifth Beach MID 2017 3,Hymenena spp.,0.5
 Fifth Beach MID 2017 3,Limpet,3
 Fifth Beach MID 2017 3,Microcladia borealis,2
 Fifth Beach MID 2017 3,Mytilus sp.,0.5
@@ -4673,9 +4669,9 @@ Fifth Beach MID 2017 4,Barnacle,22
 Fifth Beach MID 2017 4,Bossiella frondescens,0.5
 Fifth Beach MID 2017 4,Chamberlainium tumidum,0.5
 Fifth Beach MID 2017 4,Cladophora columbiana,0.5
-Fifth Beach MID 2017 4,Colpomenia bullosa,0.5
 Fifth Beach MID 2017 4,Corallina vancouveriensis,1
 Fifth Beach MID 2017 4,coralline crust,1
+Fifth Beach MID 2017 4,Dactylosiphon bullosus,0.5
 Fifth Beach MID 2017 4,Dilsea californica,5
 Fifth Beach MID 2017 4,Endocladia muricata,12
 Fifth Beach MID 2017 4,Farlowia mollis,0.5
@@ -4739,8 +4735,8 @@ Fifth Beach MID 2017 7,Barnacle,8
 Fifth Beach MID 2017 7,Bossiella frondescens,2
 Fifth Beach MID 2017 7,Bossiella frondifera,2
 Fifth Beach MID 2017 7,Chamberlainium tumidum,7
-Fifth Beach MID 2017 7,Colpomenia bullosa,0.5
 Fifth Beach MID 2017 7,Corallina vancouveriensis,8
+Fifth Beach MID 2017 7,Dactylosiphon bullosus,0.5
 Fifth Beach MID 2017 7,Farlowia mollis,1
 Fifth Beach MID 2017 7,Hildenbrandia occidentalis,2
 Fifth Beach MID 2017 7,Hildenbrandia rubra,1
@@ -4828,7 +4824,7 @@ Fifth Beach MID 2018 10,Corallina vancouveriensis,2
 Fifth Beach MID 2018 10,coralline crust,1
 Fifth Beach MID 2018 10,Endocladia muricata,6
 Fifth Beach MID 2018 10,Hildenbrandia rubra,16
-Fifth Beach MID 2018 10,Hymenena sp.,2
+Fifth Beach MID 2018 10,Hymenena spp.,2
 Fifth Beach MID 2018 10,Katharina tunicata,7
 Fifth Beach MID 2018 10,Leathesia marina,1
 Fifth Beach MID 2018 10,Limpet,15
@@ -4852,9 +4848,9 @@ Fifth Beach MID 2018 2,Barnacle,9
 Fifth Beach MID 2018 2,Bossiella frondescens,2
 Fifth Beach MID 2018 2,Chamberlainium tumidum,3
 Fifth Beach MID 2018 2,Cladophora columbiana,1
-Fifth Beach MID 2018 2,Colpomenia bullosa,0.5
 Fifth Beach MID 2018 2,Corallina vancouveriensis,5
 Fifth Beach MID 2018 2,Cryptosiphonia woodii,5
+Fifth Beach MID 2018 2,Dactylosiphon bullosus,0.5
 Fifth Beach MID 2018 2,Endocladia muricata,3
 Fifth Beach MID 2018 2,Farlowia mollis,0.5
 Fifth Beach MID 2018 2,Fucus distichus,3
@@ -4994,7 +4990,7 @@ Fifth Beach MID 2018 6,Cryptosiphonia woodii,2
 Fifth Beach MID 2018 6,Farlowia mollis,0.5
 Fifth Beach MID 2018 6,Halosaccion glandiforme,0.5
 Fifth Beach MID 2018 6,Hildenbrandia occidentalis,11
-Fifth Beach MID 2018 6,Hymenena sp.,1
+Fifth Beach MID 2018 6,Hymenena spp.,1
 Fifth Beach MID 2018 6,Isopoda,1
 Fifth Beach MID 2018 6,Katharina tunicata,1
 Fifth Beach MID 2018 6,Leathesia marina,2
@@ -5301,9 +5297,9 @@ Fifth Beach MID 2019 9,Bossiella frondescens,3
 Fifth Beach MID 2019 9,Bossiella frondifera,4
 Fifth Beach MID 2019 9,Chamberlainium tumidum,2
 Fifth Beach MID 2019 9,Colonial Diatoms,1
-Fifth Beach MID 2019 9,Colpomenia bullosa,0.5
 Fifth Beach MID 2019 9,Corallina vancouveriensis,17
 Fifth Beach MID 2019 9,coralline crust,8
+Fifth Beach MID 2019 9,Dactylosiphon bullosus,0.5
 Fifth Beach MID 2019 9,Dilsea californica,4
 Fifth Beach MID 2019 9,Fish,1
 Fifth Beach MID 2019 9,Halosaccion glandiforme,0.5
@@ -6086,7 +6082,7 @@ Foggy Cove LOW 2011 1,Mazzaella oregona,8
 Foggy Cove LOW 2011 1,Odonthalia floccosa,4
 Foggy Cove LOW 2011 1,Palmaria hecatensis,8
 Foggy Cove LOW 2011 1,Polyneura latissima,5
-Foggy Cove LOW 2011 1,Ptilota sp.,8
+Foggy Cove LOW 2011 1,Ptilota filicina,8
 Foggy Cove LOW 2011 1,Saccharina latissima,5
 Foggy Cove LOW 2011 10,Alaria marginata,25
 Foggy Cove LOW 2011 10,Ceramium pacificum,5
@@ -6102,7 +6098,7 @@ Foggy Cove LOW 2011 10,Neorhodomela larix,30
 Foggy Cove LOW 2011 10,Palmaria hecatensis,12
 Foggy Cove LOW 2011 10,Plocamium violaceum,1
 Foggy Cove LOW 2011 10,Polyneura latissima,0.5
-Foggy Cove LOW 2011 10,Ptilota sp.,8
+Foggy Cove LOW 2011 10,Ptilota filicina,8
 Foggy Cove LOW 2011 10,Ulva lactuca,1
 Foggy Cove LOW 2011 2,Alaria marginata,0.5
 Foggy Cove LOW 2011 2,bare rock,5
@@ -6140,10 +6136,10 @@ Foggy Cove LOW 2011 3,Odonthalia floccosa,2
 Foggy Cove LOW 2011 3,Petrocelis,2
 Foggy Cove LOW 2011 3,Plocamium violaceum,10
 Foggy Cove LOW 2011 3,Polyneura latissima,1
-Foggy Cove LOW 2011 3,Ptilota sp.,1
+Foggy Cove LOW 2011 3,Ptilota filicina,1
 Foggy Cove LOW 2011 3,Pylaiella littoralis,2
 Foggy Cove LOW 2011 3,Ulva lactuca,1
-Foggy Cove LOW 2011 4,Acrosiphonia sp.,0.5
+Foggy Cove LOW 2011 4,Acrosiphonia spp.,0.5
 Foggy Cove LOW 2011 4,Alaria marginata,4
 Foggy Cove LOW 2011 4,Chamberlainium tumidum,8
 Foggy Cove LOW 2011 4,Codium fragile,0.5
@@ -6162,7 +6158,7 @@ Foggy Cove LOW 2011 4,Palmaria hecatensis,3
 Foggy Cove LOW 2011 4,Petrocelis,4
 Foggy Cove LOW 2011 4,Plocamium violaceum,20
 Foggy Cove LOW 2011 4,Ulva lactuca,5
-Foggy Cove LOW 2011 5,Acrosiphonia sp.,0.5
+Foggy Cove LOW 2011 5,Acrosiphonia spp.,0.5
 Foggy Cove LOW 2011 5,Alaria marginata,20
 Foggy Cove LOW 2011 5,bare rock,25
 Foggy Cove LOW 2011 5,Bossiella sp.,0.5
@@ -6181,11 +6177,11 @@ Foggy Cove LOW 2011 5,Neorhodomela larix,0.5
 Foggy Cove LOW 2011 5,Palmaria hecatensis,1
 Foggy Cove LOW 2011 5,Petrocelis,2
 Foggy Cove LOW 2011 5,Polyneura latissima,4
-Foggy Cove LOW 2011 5,Ptilota sp.,4
+Foggy Cove LOW 2011 5,Ptilota filicina,4
 Foggy Cove LOW 2011 5,Sphacelaria rigidula,0.5
 Foggy Cove LOW 2011 5,Tokidadendron bullatum,0.5
 Foggy Cove LOW 2011 5,Ulva lactuca,0.5
-Foggy Cove LOW 2011 6,Acrosiphonia sp.,8
+Foggy Cove LOW 2011 6,Acrosiphonia spp.,8
 Foggy Cove LOW 2011 6,Alaria marginata,20
 Foggy Cove LOW 2011 6,Callithamnion pikeanum,2
 Foggy Cove LOW 2011 6,Chamberlainium tumidum,8
@@ -6200,7 +6196,7 @@ Foggy Cove LOW 2011 6,Palmaria hecatensis,12
 Foggy Cove LOW 2011 6,Petrocelis,2
 Foggy Cove LOW 2011 6,Plocamium violaceum,4
 Foggy Cove LOW 2011 6,Polyneura latissima,0.5
-Foggy Cove LOW 2011 6,Ptilota sp.,2
+Foggy Cove LOW 2011 6,Ptilota filicina,2
 Foggy Cove LOW 2011 6,Rhodochorton purpureum,5
 Foggy Cove LOW 2011 7,Alaria marginata,12
 Foggy Cove LOW 2011 7,Ceramium pacificum,0.5
@@ -6222,9 +6218,9 @@ Foggy Cove LOW 2011 7,Petrocelis,1
 Foggy Cove LOW 2011 7,Phyllospadix sp.,2
 Foggy Cove LOW 2011 7,Plocamium violaceum,10
 Foggy Cove LOW 2011 7,Polyneura latissima,1
-Foggy Cove LOW 2011 7,Ptilota sp.,5
+Foggy Cove LOW 2011 7,Ptilota filicina,5
 Foggy Cove LOW 2011 7,Tokidadendron bullatum,0.5
-Foggy Cove LOW 2011 8,Acrosiphonia sp.,1
+Foggy Cove LOW 2011 8,Acrosiphonia spp.,1
 Foggy Cove LOW 2011 8,Alaria marginata,5
 Foggy Cove LOW 2011 8,bare rock,50
 Foggy Cove LOW 2011 8,Bossiella sp.,0.5
@@ -6246,9 +6242,9 @@ Foggy Cove LOW 2011 8,Neogastroclonium subarticulatum,10
 Foggy Cove LOW 2011 8,Neorhodomela larix,8
 Foggy Cove LOW 2011 8,Palmaria hecatensis,6
 Foggy Cove LOW 2011 8,Polyneura latissima,3
-Foggy Cove LOW 2011 8,Ptilota sp.,6
+Foggy Cove LOW 2011 8,Ptilota filicina,6
 Foggy Cove LOW 2011 8,Ulva lactuca,4
-Foggy Cove LOW 2011 9,Acrosiphonia sp.,0.5
+Foggy Cove LOW 2011 9,Acrosiphonia spp.,0.5
 Foggy Cove LOW 2011 9,Alaria marginata,20
 Foggy Cove LOW 2011 9,Analipus japonicus,0.5
 Foggy Cove LOW 2011 9,bare rock,35
@@ -6267,7 +6263,7 @@ Foggy Cove LOW 2011 9,Petrocelis,5
 Foggy Cove LOW 2011 9,Plocamium violaceum,5
 Foggy Cove LOW 2011 9,Polyneura latissima,3
 Foggy Cove LOW 2011 9,Prionitis sternbergii,0.5
-Foggy Cove LOW 2011 9,Ptilota sp.,4
+Foggy Cove LOW 2011 9,Ptilota filicina,4
 Foggy Cove LOW 2011 9,Tokidadendron bullatum,0.5
 Foggy Cove LOW 2011 9,Ulva lactuca,0.5
 Foggy Cove LOW 2012 1,Corallina frondescens,0.5
@@ -6289,7 +6285,7 @@ Foggy Cove LOW 2012 1,Pagarus sp.,1
 Foggy Cove LOW 2012 1,Petrocelis,2
 Foggy Cove LOW 2012 1,Phyllospadix serrulatus,35
 Foggy Cove LOW 2012 1,Polyneura latissima,2
-Foggy Cove LOW 2012 1,Ptilota sp.,8
+Foggy Cove LOW 2012 1,Ptilota filicina,8
 Foggy Cove LOW 2012 1,Unknown crust,1
 Foggy Cove LOW 2012 10,Acrosiphonia coalita,0.5
 Foggy Cove LOW 2012 10,Alaria marginata,35
@@ -6314,7 +6310,7 @@ Foggy Cove LOW 2012 10,Petrocelis,0.5
 Foggy Cove LOW 2012 10,Phyllospadix serrulatus,20
 Foggy Cove LOW 2012 10,Plocamium violaceum,5
 Foggy Cove LOW 2012 10,Polyneura latissima,2
-Foggy Cove LOW 2012 10,Ptilota sp.,3
+Foggy Cove LOW 2012 10,Ptilota filicina,3
 Foggy Cove LOW 2012 10,Ulva lactuca,0.5
 Foggy Cove LOW 2012 2,Acrosiphonia coalita,1
 Foggy Cove LOW 2012 2,Alaria marginata,10
@@ -6333,7 +6329,7 @@ Foggy Cove LOW 2012 2,Pagarus sp.,1
 Foggy Cove LOW 2012 2,Palmaria hecatensis,7
 Foggy Cove LOW 2012 2,Polyneura latissima,15
 Foggy Cove LOW 2012 2,Prionitis sternbergii,3
-Foggy Cove LOW 2012 2,Ptilota sp.,5
+Foggy Cove LOW 2012 2,Ptilota filicina,5
 Foggy Cove LOW 2012 2,Pugettia producta,1
 Foggy Cove LOW 2012 2,Pyropia sp.,1
 Foggy Cove LOW 2012 2,Ulva lactuca,4
@@ -6346,13 +6342,13 @@ Foggy Cove LOW 2012 3,coralline crust,8
 Foggy Cove LOW 2012 3,Egregia menziesii,6
 Foggy Cove LOW 2012 3,Hedophyllum nigripes,5
 Foggy Cove LOW 2012 3,Hildenbrandia sp.,5
-Foggy Cove LOW 2012 3,Hymenena sp.,3
+Foggy Cove LOW 2012 3,Hymenena spp.,3
 Foggy Cove LOW 2012 3,Mazzaella oregona,3
 Foggy Cove LOW 2012 3,Mazzaella splendens,2
 Foggy Cove LOW 2012 3,Neorhodomela larix,4
 Foggy Cove LOW 2012 3,Odonthalia floccosa,4
 Foggy Cove LOW 2012 3,Palmaria hecatensis,12
-Foggy Cove LOW 2012 3,Ptilota sp.,2
+Foggy Cove LOW 2012 3,Ptilota filicina,2
 Foggy Cove LOW 2012 3,Ulva lactuca,10
 Foggy Cove LOW 2012 4,Alaria marginata,35
 Foggy Cove LOW 2012 4,Ceramium pacificum,1
@@ -6376,7 +6372,7 @@ Foggy Cove LOW 2012 4,Pisaster ochraceus,1
 Foggy Cove LOW 2012 4,Plocamium violaceum,0.5
 Foggy Cove LOW 2012 4,Polyneura latissima,12
 Foggy Cove LOW 2012 4,Prionitis sternbergii,6
-Foggy Cove LOW 2012 4,Ptilota sp.,4
+Foggy Cove LOW 2012 4,Ptilota filicina,4
 Foggy Cove LOW 2012 4,Spirorbidae,1
 Foggy Cove LOW 2012 4,Ulva lactuca,2
 Foggy Cove LOW 2012 4,Unknown crust,2
@@ -6403,7 +6399,7 @@ Foggy Cove LOW 2012 5,Neorhodomela larix,5
 Foggy Cove LOW 2012 5,Palmaria hecatensis,1
 Foggy Cove LOW 2012 5,Palmaria mollis,1
 Foggy Cove LOW 2012 5,Polyneura latissima,25
-Foggy Cove LOW 2012 5,Ptilota sp.,1
+Foggy Cove LOW 2012 5,Ptilota filicina,1
 Foggy Cove LOW 2012 5,Pyropia sp.,1
 Foggy Cove LOW 2012 5,Snail,1
 Foggy Cove LOW 2012 5,Spirorbidae,0.5
@@ -6411,7 +6407,7 @@ Foggy Cove LOW 2012 5,Ulva lactuca,1
 Foggy Cove LOW 2012 5,Unknown crust,5
 Foggy Cove LOW 2012 5,Worm,1
 Foggy Cove LOW 2012 6,Alaria marginata,25
-Foggy Cove LOW 2012 6,Antithamnionella pacifica,1
+Foggy Cove LOW 2012 6,Antithamnionella spp.,1
 Foggy Cove LOW 2012 6,bare rock,10
 Foggy Cove LOW 2012 6,Bossiella frondifera,4
 Foggy Cove LOW 2012 6,Chiton,1
@@ -6429,11 +6425,11 @@ Foggy Cove LOW 2012 6,Pagarus sp.,1
 Foggy Cove LOW 2012 6,Palmaria hecatensis,5
 Foggy Cove LOW 2012 6,Polyneura latissima,6
 Foggy Cove LOW 2012 6,Prionitis sternbergii,0.5
-Foggy Cove LOW 2012 6,Ptilota sp.,7
+Foggy Cove LOW 2012 6,Ptilota filicina,7
 Foggy Cove LOW 2012 6,Ulva lactuca,4
 Foggy Cove LOW 2012 7,Acrosiphonia coalita,0.5
 Foggy Cove LOW 2012 7,Alaria marginata,4
-Foggy Cove LOW 2012 7,Antithamnionella pacifica,2
+Foggy Cove LOW 2012 7,Antithamnionella spp.,2
 Foggy Cove LOW 2012 7,bare rock,4
 Foggy Cove LOW 2012 7,Ceramium codicola,4
 Foggy Cove LOW 2012 7,Ceramium pacificum,4
@@ -6445,7 +6441,7 @@ Foggy Cove LOW 2012 7,Cryptosiphonia woodii,7
 Foggy Cove LOW 2012 7,Fucus distichus,70
 Foggy Cove LOW 2012 7,Halosaccion glandiforme,2
 Foggy Cove LOW 2012 7,Hildenbrandia sp.,0.5
-Foggy Cove LOW 2012 7,Hymenena sp.,4
+Foggy Cove LOW 2012 7,Hymenena spp.,4
 Foggy Cove LOW 2012 7,Mastocarpus agardhii,3
 Foggy Cove LOW 2012 7,Mastocarpus latissimus,8
 Foggy Cove LOW 2012 7,Mazzaella oregona,5
@@ -6455,7 +6451,7 @@ Foggy Cove LOW 2012 7,Odonthalia floccosa,1
 Foggy Cove LOW 2012 7,Palmaria hecatensis,5
 Foggy Cove LOW 2012 7,Plocamium violaceum,12
 Foggy Cove LOW 2012 7,Polyneura latissima,8
-Foggy Cove LOW 2012 7,Ptilota sp.,7
+Foggy Cove LOW 2012 7,Ptilota filicina,7
 Foggy Cove LOW 2012 7,Ulva lactuca,0.5
 Foggy Cove LOW 2012 7,Worm,1
 Foggy Cove LOW 2012 8,Alaria marginata,6
@@ -6467,14 +6463,14 @@ Foggy Cove LOW 2012 8,Corallina frondescens,5
 Foggy Cove LOW 2012 8,Corallina vancouveriensis,2
 Foggy Cove LOW 2012 8,Cryptosiphonia woodii,8
 Foggy Cove LOW 2012 8,Fucus distichus,30
-Foggy Cove LOW 2012 8,Hymenena sp.,3
+Foggy Cove LOW 2012 8,Hymenena spp.,3
 Foggy Cove LOW 2012 8,Mastocarpus latissimus,3
 Foggy Cove LOW 2012 8,Neorhodomela larix,5
 Foggy Cove LOW 2012 8,Odonthalia floccosa,0.5
 Foggy Cove LOW 2012 8,Palmaria hecatensis,4
 Foggy Cove LOW 2012 8,Plocamium violaceum,25
 Foggy Cove LOW 2012 8,Polyneura latissima,10
-Foggy Cove LOW 2012 8,Ptilota sp.,7
+Foggy Cove LOW 2012 8,Ptilota filicina,7
 Foggy Cove LOW 2012 8,Pyropia sp.,2
 Foggy Cove LOW 2012 8,Tokidadendron bullatum,0.5
 Foggy Cove LOW 2012 8,Ulva lactuca,8
@@ -6503,7 +6499,7 @@ Foggy Cove LOW 2012 9,Phyllospadix serrulatus,0.5
 Foggy Cove LOW 2012 9,Plocamium violaceum,3
 Foggy Cove LOW 2012 9,Polyneura latissima,3
 Foggy Cove LOW 2012 9,Porifera,1
-Foggy Cove LOW 2012 9,Ptilota sp.,1
+Foggy Cove LOW 2012 9,Ptilota filicina,1
 Foggy Cove LOW 2012 9,Rhodochorton purpureum,3
 Foggy Cove LOW 2012 9,Spirorbidae,1
 Foggy Cove LOW 2012 9,Tonicella lineata,1
@@ -6534,7 +6530,7 @@ Foggy Cove LOW 2013 1,Palmaria mollis,6
 Foggy Cove LOW 2013 1,Phyllospadix serrulatus,11
 Foggy Cove LOW 2013 1,Plocamium violaceum,4
 Foggy Cove LOW 2013 1,Polyneura latissima,24
-Foggy Cove LOW 2013 1,Ptilota sp.,8
+Foggy Cove LOW 2013 1,Ptilota filicina,8
 Foggy Cove LOW 2013 1,Ulva lactuca,4
 Foggy Cove LOW 2013 10,Acrosiphonia coalita,0.5
 Foggy Cove LOW 2013 10,Alaria marginata,22
@@ -6557,7 +6553,7 @@ Foggy Cove LOW 2013 10,Odonthalia floccosa,13
 Foggy Cove LOW 2013 10,Palmaria hecatensis,3
 Foggy Cove LOW 2013 10,Plocamium violaceum,2
 Foggy Cove LOW 2013 10,Polyneura latissima,20
-Foggy Cove LOW 2013 10,Ptilota sp.,6
+Foggy Cove LOW 2013 10,Ptilota filicina,6
 Foggy Cove LOW 2013 10,Pycnopodia helianthoides,1
 Foggy Cove LOW 2013 10,Scytosiphon lomentaria,0.5
 Foggy Cove LOW 2013 10,Ulva lactuca,1
@@ -6573,12 +6569,12 @@ Foggy Cove LOW 2013 2,Fucus distichus,10
 Foggy Cove LOW 2013 2,Halosaccion glandiforme,0.5
 Foggy Cove LOW 2013 2,Hedophyllum nigripes,1
 Foggy Cove LOW 2013 2,Hildenbrandia occidentalis,10
-Foggy Cove LOW 2013 2,Hymenena sp.,0.5
+Foggy Cove LOW 2013 2,Hymenena spp.,0.5
 Foggy Cove LOW 2013 2,Mazzaella splendens,1
 Foggy Cove LOW 2013 2,Neogastroclonium subarticulatum,25
 Foggy Cove LOW 2013 2,Osmundea spectabilis,2
 Foggy Cove LOW 2013 2,Polyneura latissima,13
-Foggy Cove LOW 2013 2,Ptilota sp.,16
+Foggy Cove LOW 2013 2,Ptilota filicina,16
 Foggy Cove LOW 2013 3,Acrosiphonia coalita,0.5
 Foggy Cove LOW 2013 3,Alaria marginata,50
 Foggy Cove LOW 2013 3,bare rock,1
@@ -6601,7 +6597,7 @@ Foggy Cove LOW 2013 3,Palmaria hecatensis,9
 Foggy Cove LOW 2013 3,Phyllospadix serrulatus,2
 Foggy Cove LOW 2013 3,Pleonosporium vancouverianum,0.5
 Foggy Cove LOW 2013 3,Polyneura latissima,35
-Foggy Cove LOW 2013 3,Ptilota sp.,7
+Foggy Cove LOW 2013 3,Ptilota filicina,7
 Foggy Cove LOW 2013 3,Pyropia fucicola,0.5
 Foggy Cove LOW 2013 3,Sphacelaria rigidula,3
 Foggy Cove LOW 2013 3,Ulva lactuca,2
@@ -6613,7 +6609,7 @@ Foggy Cove LOW 2013 4,Chamberlainium tumidum,1
 Foggy Cove LOW 2013 4,Codium fragile,6
 Foggy Cove LOW 2013 4,Corallina frondescens,5
 Foggy Cove LOW 2013 4,Egregia menziesii,65
-Foggy Cove LOW 2013 4,Hymenena sp.,3
+Foggy Cove LOW 2013 4,Hymenena spp.,3
 Foggy Cove LOW 2013 4,Mastocarpus agardhii,2
 Foggy Cove LOW 2013 4,Monostroma grevillei,0.5
 Foggy Cove LOW 2013 4,Neopolyporolithon reclinatum,0.5
@@ -6621,7 +6617,7 @@ Foggy Cove LOW 2013 4,Neorhodomela larix,2
 Foggy Cove LOW 2013 4,Palmaria hecatensis,5
 Foggy Cove LOW 2013 4,Polyneura latissima,9
 Foggy Cove LOW 2013 4,Prionitis sternbergii,6
-Foggy Cove LOW 2013 4,Ptilota sp.,4
+Foggy Cove LOW 2013 4,Ptilota filicina,4
 Foggy Cove LOW 2013 4,Pyropia abbottiae,8
 Foggy Cove LOW 2013 4,Ulva lactuca,14
 Foggy Cove LOW 2013 5,Acrosiphonia arcta,0.5
@@ -6645,7 +6641,7 @@ Foggy Cove LOW 2013 5,Odonthalia floccosa,1
 Foggy Cove LOW 2013 5,Phyllospadix serrulatus,0.5
 Foggy Cove LOW 2013 5,Plocamium violaceum,13
 Foggy Cove LOW 2013 5,Polyneura latissima,11
-Foggy Cove LOW 2013 5,Ptilota sp.,4
+Foggy Cove LOW 2013 5,Ptilota filicina,4
 Foggy Cove LOW 2013 5,Savoiea robusta,0.5
 Foggy Cove LOW 2013 5,Ulva lactuca,0.5
 Foggy Cove LOW 2013 6,Alaria marginata,58
@@ -6665,11 +6661,11 @@ Foggy Cove LOW 2013 6,Palmaria hecatensis,6
 Foggy Cove LOW 2013 6,Palmaria mollis,1
 Foggy Cove LOW 2013 6,Plocamium violaceum,8
 Foggy Cove LOW 2013 6,Polyneura latissima,18
-Foggy Cove LOW 2013 6,Ptilota sp.,8
+Foggy Cove LOW 2013 6,Ptilota filicina,8
 Foggy Cove LOW 2013 6,Sphacelaria rigidula,2
 Foggy Cove LOW 2013 7,Acrosiphonia coalita,12
 Foggy Cove LOW 2013 7,Alaria marginata,60
-Foggy Cove LOW 2013 7,Antithamnionella pacifica,1
+Foggy Cove LOW 2013 7,Antithamnionella spp.,1
 Foggy Cove LOW 2013 7,bare rock,10
 Foggy Cove LOW 2013 7,Bossiella frondifera,0.5
 Foggy Cove LOW 2013 7,Cryptosiphonia woodii,1
@@ -6725,7 +6721,7 @@ Foggy Cove LOW 2013 9,Palmaria hecatensis,35
 Foggy Cove LOW 2013 9,Palmaria mollis,2
 Foggy Cove LOW 2013 9,Plocamium violaceum,2
 Foggy Cove LOW 2013 9,Polyneura latissima,20
-Foggy Cove LOW 2013 9,Ptilota sp.,0.5
+Foggy Cove LOW 2013 9,Ptilota filicina,0.5
 Foggy Cove LOW 2013 9,Ulva lactuca,2
 Foggy Cove LOW 2014 1,Bossiella frondescens,0.5
 Foggy Cove LOW 2014 1,Bossiella frondifera,0.5
@@ -6733,13 +6729,13 @@ Foggy Cove LOW 2014 1,Chamberlainium tumidum,2
 Foggy Cove LOW 2014 1,Cryptosiphonia woodii,6
 Foggy Cove LOW 2014 1,Egregia menziesii,5
 Foggy Cove LOW 2014 1,Halosaccion glandiforme,1
-Foggy Cove LOW 2014 1,Hymenena sp.,1
+Foggy Cove LOW 2014 1,Hymenena spp.,1
 Foggy Cove LOW 2014 1,Leathesia marina,3
 Foggy Cove LOW 2014 1,Neogastroclonium subarticulatum,6
 Foggy Cove LOW 2014 1,Neorhodomela larix,18
 Foggy Cove LOW 2014 1,Phyllospadix serrulatus,67
 Foggy Cove LOW 2014 1,Polyneura latissima,6
-Foggy Cove LOW 2014 1,Ptilota sp.,9
+Foggy Cove LOW 2014 1,Ptilota filicina,9
 Foggy Cove LOW 2014 1,Ulva lactuca,2
 Foggy Cove LOW 2014 10,Acrosiphonia coalita,8
 Foggy Cove LOW 2014 10,Alaria marginata,70
@@ -6765,7 +6761,7 @@ Foggy Cove LOW 2014 10,Palmaria mollis,2
 Foggy Cove LOW 2014 10,Petrocelis,3
 Foggy Cove LOW 2014 10,Plocamium violaceum,3
 Foggy Cove LOW 2014 10,Polyneura latissima,0.5
-Foggy Cove LOW 2014 10,Ptilota sp.,0.5
+Foggy Cove LOW 2014 10,Ptilota filicina,0.5
 Foggy Cove LOW 2014 10,Pyropia fucicola,0.5
 Foggy Cove LOW 2014 10,Ulva lactuca,1
 Foggy Cove LOW 2014 2,Acrosiphonia arcta,1
@@ -6811,13 +6807,13 @@ Foggy Cove LOW 2014 3,Microcladia borealis,1
 Foggy Cove LOW 2014 3,Petrocelis,1
 Foggy Cove LOW 2014 3,Plocamium violaceum,13
 Foggy Cove LOW 2014 3,Polyneura latissima,0.5
-Foggy Cove LOW 2014 3,Ptilota sp.,0.5
+Foggy Cove LOW 2014 3,Ptilota filicina,0.5
 Foggy Cove LOW 2014 3,Pyropia fucicola,2
 Foggy Cove LOW 2014 3,Ulva lactuca,0.5
 Foggy Cove LOW 2014 4,Acrosiphonia coalita,2
 Foggy Cove LOW 2014 4,Alaria marginata,5
 Foggy Cove LOW 2014 4,Anemone,1
-Foggy Cove LOW 2014 4,Antithamnionella pacifica,2
+Foggy Cove LOW 2014 4,Antithamnionella spp.,2
 Foggy Cove LOW 2014 4,Bossiella frondescens,16
 Foggy Cove LOW 2014 4,Bossiella frondifera,8
 Foggy Cove LOW 2014 4,Ceramium pacificum,2
@@ -6831,7 +6827,7 @@ Foggy Cove LOW 2014 4,Fucus distichus,2
 Foggy Cove LOW 2014 4,Halosaccion glandiforme,0.5
 Foggy Cove LOW 2014 4,Hedophyllum nigripes,16
 Foggy Cove LOW 2014 4,Hildenbrandia rubra,4
-Foggy Cove LOW 2014 4,Hymenena sp.,0.5
+Foggy Cove LOW 2014 4,Hymenena spp.,0.5
 Foggy Cove LOW 2014 4,Mastocarpus agardhii,2
 Foggy Cove LOW 2014 4,Mazzaella oregona,3
 Foggy Cove LOW 2014 4,Mazzaella splendens,7
@@ -6940,7 +6936,7 @@ Foggy Cove LOW 2014 8,Petrocelis,0.5
 Foggy Cove LOW 2014 8,Phyllospadix serrulatus,4
 Foggy Cove LOW 2014 8,Plocamium violaceum,4
 Foggy Cove LOW 2014 8,Polyneura latissima,2
-Foggy Cove LOW 2014 8,Ptilota sp.,2
+Foggy Cove LOW 2014 8,Ptilota filicina,2
 Foggy Cove LOW 2014 8,Pyropia fucicola,2
 Foggy Cove LOW 2014 8,Tunicata,2
 Foggy Cove LOW 2014 8,Ulva lactuca,7
@@ -6964,10 +6960,10 @@ Foggy Cove LOW 2015 1,Anemone,0.5
 Foggy Cove LOW 2015 1,bare rock,7
 Foggy Cove LOW 2015 1,Bossiella frondescens,17
 Foggy Cove LOW 2015 1,Chamberlainium tumidum,5
-Foggy Cove LOW 2015 1,Colpomenia bullosa,0.5
 Foggy Cove LOW 2015 1,Corallina vancouveriensis,5
 Foggy Cove LOW 2015 1,coralline crust,2
 Foggy Cove LOW 2015 1,Cryptosiphonia woodii,1
+Foggy Cove LOW 2015 1,Dactylosiphon bullosus,0.5
 Foggy Cove LOW 2015 1,Egregia menziesii,50
 Foggy Cove LOW 2015 1,Fucus distichus,40
 Foggy Cove LOW 2015 1,Halosaccion glandiforme,0.5
@@ -7154,8 +7150,8 @@ Foggy Cove LOW 2015 9,Barnacle,0.5
 Foggy Cove LOW 2015 9,Callithamnion pikeanum,0.5
 Foggy Cove LOW 2015 9,Ceramium pacificum,2
 Foggy Cove LOW 2015 9,Chamberlainium tumidum,6
-Foggy Cove LOW 2015 9,Colpomenia bullosa,0.5
 Foggy Cove LOW 2015 9,Cryptosiphonia woodii,17
+Foggy Cove LOW 2015 9,Dactylosiphon bullosus,0.5
 Foggy Cove LOW 2015 9,Endocladia muricata,12
 Foggy Cove LOW 2015 9,Fucus distichus,37
 Foggy Cove LOW 2015 9,Halosaccion glandiforme,0.5
@@ -7178,11 +7174,11 @@ Foggy Cove LOW 2016 1,coralline crust,0.5
 Foggy Cove LOW 2016 1,Cryptosiphonia woodii,2
 Foggy Cove LOW 2016 1,Egregia menziesii,29
 Foggy Cove LOW 2016 1,Hildenbrandia sp.,1
-Foggy Cove LOW 2016 1,Hymenena sp.,3
+Foggy Cove LOW 2016 1,Hymenena spp.,3
 Foggy Cove LOW 2016 1,Melobesia sp.,0.5
 Foggy Cove LOW 2016 1,Neogastroclonium subarticulatum,9
 Foggy Cove LOW 2016 1,Phyllospadix scouleri,93
-Foggy Cove LOW 2016 1,Ptilota tenuis,2
+Foggy Cove LOW 2016 1,Ptilota filicina,2
 Foggy Cove LOW 2016 10,Acrosiphonia coalita,0.5
 Foggy Cove LOW 2016 10,Alaria marginata,3
 Foggy Cove LOW 2016 10,bare rock,15
@@ -7198,7 +7194,7 @@ Foggy Cove LOW 2016 10,Farlowia mollis,2
 Foggy Cove LOW 2016 10,Fucus distichus,0.5
 Foggy Cove LOW 2016 10,Halosaccion glandiforme,0.5
 Foggy Cove LOW 2016 10,Hildenbrandia sp.,2
-Foggy Cove LOW 2016 10,Hymenena sp.,2
+Foggy Cove LOW 2016 10,Hymenena spp.,2
 Foggy Cove LOW 2016 10,Leathesia marina,0.5
 Foggy Cove LOW 2016 10,Limpet,4
 Foggy Cove LOW 2016 10,Mastocarpus intermedius,0.5
@@ -7215,7 +7211,7 @@ Foggy Cove LOW 2016 10,Plocamium violaceum,6
 Foggy Cove LOW 2016 10,Polyneura latissima,5
 Foggy Cove LOW 2016 10,Polysiphonia sp.,0.5
 Foggy Cove LOW 2016 10,Prionitis sternbergii,0.5
-Foggy Cove LOW 2016 10,Ptilota tenuis,7
+Foggy Cove LOW 2016 10,Ptilota filicina,7
 Foggy Cove LOW 2016 10,Ralfsioid,0.5
 Foggy Cove LOW 2016 10,Schizymenia pacifica,0.5
 Foggy Cove LOW 2016 10,Spirorbis,1
@@ -7227,7 +7223,7 @@ Foggy Cove LOW 2016 2,Corallina vancouveriensis,3
 Foggy Cove LOW 2016 2,Desmarestia ligulata,0.5
 Foggy Cove LOW 2016 2,Egregia menziesii,64
 Foggy Cove LOW 2016 2,Farlowia mollis,0.5
-Foggy Cove LOW 2016 2,Hymenena sp.,3
+Foggy Cove LOW 2016 2,Hymenena spp.,3
 Foggy Cove LOW 2016 2,Lithophyllum sp. 8,0.5
 Foggy Cove LOW 2016 2,Lithothamnion phymatodeum,1
 Foggy Cove LOW 2016 2,Mastocarpus agardhii,0.5
@@ -7238,7 +7234,7 @@ Foggy Cove LOW 2016 2,Palmaria hecatensis,0.5
 Foggy Cove LOW 2016 2,Phyllospadix scouleri,61
 Foggy Cove LOW 2016 2,Polyneura latissima,1
 Foggy Cove LOW 2016 2,Prionitis sternbergii,2
-Foggy Cove LOW 2016 2,Ptilota tenuis,3
+Foggy Cove LOW 2016 2,Ptilota filicina,3
 Foggy Cove LOW 2016 2,Ralfsioid,0.5
 Foggy Cove LOW 2016 2,Ulva lactuca,3
 Foggy Cove LOW 2016 3,bare rock,6
@@ -7250,7 +7246,7 @@ Foggy Cove LOW 2016 3,Egregia menziesii,1
 Foggy Cove LOW 2016 3,Farlowia mollis,18
 Foggy Cove LOW 2016 3,Halosaccion glandiforme,0.5
 Foggy Cove LOW 2016 3,Hildenbrandia sp.,2
-Foggy Cove LOW 2016 3,Hymenena sp.,2
+Foggy Cove LOW 2016 3,Hymenena spp.,2
 Foggy Cove LOW 2016 3,Mazzaella splendens,1
 Foggy Cove LOW 2016 3,Neogastroclonium subarticulatum,31
 Foggy Cove LOW 2016 3,Neorhodomela larix,2
@@ -7259,7 +7255,7 @@ Foggy Cove LOW 2016 3,Palmaria hecatensis,1
 Foggy Cove LOW 2016 3,Petrocelis,2
 Foggy Cove LOW 2016 3,Polyneura latissima,2
 Foggy Cove LOW 2016 3,Prionitis sternbergii,1
-Foggy Cove LOW 2016 3,Ptilota tenuis,4
+Foggy Cove LOW 2016 3,Ptilota filicina,4
 Foggy Cove LOW 2016 4,bare rock,8
 Foggy Cove LOW 2016 4,Bossiella frondescens,5
 Foggy Cove LOW 2016 4,Bossiella frondifera,8
@@ -7275,7 +7271,7 @@ Foggy Cove LOW 2016 4,Farlowia mollis,2
 Foggy Cove LOW 2016 4,Halosaccion glandiforme,0.5
 Foggy Cove LOW 2016 4,Hedophyllum nigripes,4
 Foggy Cove LOW 2016 4,Herposiphonia plumula,1
-Foggy Cove LOW 2016 4,Hymenena sp.,4
+Foggy Cove LOW 2016 4,Hymenena spp.,4
 Foggy Cove LOW 2016 4,Limpet,1
 Foggy Cove LOW 2016 4,Lithophyllum sp. 1,1
 Foggy Cove LOW 2016 4,Lithothamnion phymatodeum,2
@@ -7292,7 +7288,7 @@ Foggy Cove LOW 2016 4,Plocamium violaceum,3
 Foggy Cove LOW 2016 4,Polyneura latissima,3
 Foggy Cove LOW 2016 4,Prionitis sternbergii,11
 Foggy Cove LOW 2016 4,Pterocladiella caloglossoides,0.5
-Foggy Cove LOW 2016 4,Ptilota tenuis,13
+Foggy Cove LOW 2016 4,Ptilota filicina,13
 Foggy Cove LOW 2016 4,Spirorbis,0.5
 Foggy Cove LOW 2016 4,Symphyocladiella dendroidea,2
 Foggy Cove LOW 2016 4,Ulva lactuca,2
@@ -7316,7 +7312,7 @@ Foggy Cove LOW 2016 5,Petrocelis,0.5
 Foggy Cove LOW 2016 5,Phyllospadix scouleri,7
 Foggy Cove LOW 2016 5,Polyneura latissima,12
 Foggy Cove LOW 2016 5,Prionitis sternbergii,0.5
-Foggy Cove LOW 2016 5,Ptilota tenuis,18
+Foggy Cove LOW 2016 5,Ptilota filicina,18
 Foggy Cove LOW 2016 5,Ralfsioid,5
 Foggy Cove LOW 2016 5,Tokidadendron bullatum,0.5
 Foggy Cove LOW 2016 6,bare rock,9
@@ -7330,7 +7326,7 @@ Foggy Cove LOW 2016 6,Corallina vancouveriensis,5
 Foggy Cove LOW 2016 6,Egregia menziesii,45
 Foggy Cove LOW 2016 6,Fucus distichus,13
 Foggy Cove LOW 2016 6,Hildenbrandia sp.,1.5
-Foggy Cove LOW 2016 6,Hymenena sp.,1
+Foggy Cove LOW 2016 6,Hymenena spp.,1
 Foggy Cove LOW 2016 6,Lithophyllum impressum,1
 Foggy Cove LOW 2016 6,Lithothamnion phymatodeum,2
 Foggy Cove LOW 2016 6,Mastocarpus alaskensis,1
@@ -7345,7 +7341,7 @@ Foggy Cove LOW 2016 6,Plocamium violaceum,4
 Foggy Cove LOW 2016 6,Polyneura latissima,10
 Foggy Cove LOW 2016 6,Polysiphonia pacifica,4
 Foggy Cove LOW 2016 6,Prionitis sternbergii,6
-Foggy Cove LOW 2016 6,Ptilota tenuis,10
+Foggy Cove LOW 2016 6,Ptilota filicina,10
 Foggy Cove LOW 2016 6,Schizymenia pacifica,2
 Foggy Cove LOW 2016 7,Alaria marginata,30
 Foggy Cove LOW 2016 7,bare rock,4
@@ -7359,7 +7355,7 @@ Foggy Cove LOW 2016 7,Egregia menziesii,10
 Foggy Cove LOW 2016 7,Fucus distichus,3
 Foggy Cove LOW 2016 7,Halosaccion glandiforme,0.5
 Foggy Cove LOW 2016 7,Hildenbrandia sp.,2
-Foggy Cove LOW 2016 7,Hymenena sp.,49
+Foggy Cove LOW 2016 7,Hymenena spp.,49
 Foggy Cove LOW 2016 7,Lithophyllum sp. 8,0.5
 Foggy Cove LOW 2016 7,Lomentaria hakodatensis,0.5
 Foggy Cove LOW 2016 7,Mastocarpus agardhii,2
@@ -7371,7 +7367,7 @@ Foggy Cove LOW 2016 7,Neopolyporolithon reclinatum,0.5
 Foggy Cove LOW 2016 7,Neorhodomela larix,0.5
 Foggy Cove LOW 2016 7,Petrocelis,1
 Foggy Cove LOW 2016 7,Plocamium violaceum,11
-Foggy Cove LOW 2016 7,Ptilota tenuis,2
+Foggy Cove LOW 2016 7,Ptilota filicina,2
 Foggy Cove LOW 2016 8,Acrosiphonia coalita,0.5
 Foggy Cove LOW 2016 8,Alaria marginata,7
 Foggy Cove LOW 2016 8,bare rock,4
@@ -7386,7 +7382,7 @@ Foggy Cove LOW 2016 8,Egregia menziesii,42
 Foggy Cove LOW 2016 8,Fucus distichus,15
 Foggy Cove LOW 2016 8,Halosaccion glandiforme,0.5
 Foggy Cove LOW 2016 8,Hildenbrandia sp.,5.5
-Foggy Cove LOW 2016 8,Hymenena sp.,21
+Foggy Cove LOW 2016 8,Hymenena spp.,21
 Foggy Cove LOW 2016 8,Mastocarpus agardhii,1
 Foggy Cove LOW 2016 8,Mastocarpus latissimus,0.5
 Foggy Cove LOW 2016 8,Mazzaella oregona,1
@@ -7397,7 +7393,7 @@ Foggy Cove LOW 2016 8,Osmundea spectabilis,0.5
 Foggy Cove LOW 2016 8,Palmaria mollis,0.5
 Foggy Cove LOW 2016 8,Plocamium violaceum,12
 Foggy Cove LOW 2016 8,Polyneura latissima,2
-Foggy Cove LOW 2016 8,Ptilota tenuis,1.5
+Foggy Cove LOW 2016 8,Ptilota filicina,1.5
 Foggy Cove LOW 2016 8,Symphyocladiella dendroidea,0.5
 Foggy Cove LOW 2016 8,Ulva lactuca,4
 Foggy Cove LOW 2016 9,bare rock,8
@@ -7425,7 +7421,7 @@ Foggy Cove LOW 2016 9,Palmaria mollis,0.5
 Foggy Cove LOW 2016 9,Petrocelis,0.5
 Foggy Cove LOW 2016 9,Plocamium violaceum,4
 Foggy Cove LOW 2016 9,Polyneura latissima,48
-Foggy Cove LOW 2016 9,Ptilota tenuis,14
+Foggy Cove LOW 2016 9,Ptilota filicina,14
 Foggy Cove LOW 2016 9,Spirorbis,0.5
 Foggy Cove LOW 2017 1,bare rock,1
 Foggy Cove LOW 2017 1,Bossiella frondescens,2
@@ -7455,10 +7451,10 @@ Foggy Cove LOW 2017 10,Acrosiphonia coalita,16
 Foggy Cove LOW 2017 10,Alaria marginata,18
 Foggy Cove LOW 2017 10,bare rock,29
 Foggy Cove LOW 2017 10,Chamberlainium tumidum,6
-Foggy Cove LOW 2017 10,Colpomenia bullosa,4
 Foggy Cove LOW 2017 10,Corallina arbuscula,3
 Foggy Cove LOW 2017 10,Corallina vancouveriensis,1
 Foggy Cove LOW 2017 10,Cryptosiphonia woodii,2
+Foggy Cove LOW 2017 10,Dactylosiphon bullosus,4
 Foggy Cove LOW 2017 10,Fucus distichus,5
 Foggy Cove LOW 2017 10,Halosaccion glandiforme,1
 Foggy Cove LOW 2017 10,Hedophyllum nigripes,0.5
@@ -7531,11 +7527,11 @@ Foggy Cove LOW 2017 4,Bossiella frondifera,5
 Foggy Cove LOW 2017 4,Callophyllis sp.,1
 Foggy Cove LOW 2017 4,Ceramium pacificum,1
 Foggy Cove LOW 2017 4,Codium fragile,4
-Foggy Cove LOW 2017 4,Colpomenia bullosa,0.5
 Foggy Cove LOW 2017 4,Corallina vancouveriensis,0.5
 Foggy Cove LOW 2017 4,coralline crust,0.5
 Foggy Cove LOW 2017 4,Costaria costata,2
 Foggy Cove LOW 2017 4,Cryptosiphonia woodii,25
+Foggy Cove LOW 2017 4,Dactylosiphon bullosus,0.5
 Foggy Cove LOW 2017 4,Egregia menziesii,60
 Foggy Cove LOW 2017 4,Farlowia mollis,0.5
 Foggy Cove LOW 2017 4,Fucus distichus,3
@@ -7608,9 +7604,9 @@ Foggy Cove LOW 2017 7,Alaria marginata,60
 Foggy Cove LOW 2017 7,bare rock,20
 Foggy Cove LOW 2017 7,Bossiella frondescens,10
 Foggy Cove LOW 2017 7,Bossiella frondifera,8
-Foggy Cove LOW 2017 7,Colpomenia bullosa,2
 Foggy Cove LOW 2017 7,Corallina vancouveriensis,10
 Foggy Cove LOW 2017 7,Crab,1
+Foggy Cove LOW 2017 7,Dactylosiphon bullosus,2
 Foggy Cove LOW 2017 7,Dilsea californica,1
 Foggy Cove LOW 2017 7,Egregia menziesii,22
 Foggy Cove LOW 2017 7,Farlowia mollis,1
@@ -7675,7 +7671,7 @@ Foggy Cove LOW 2017 9,Petrocelis,3
 Foggy Cove LOW 2017 9,Plocamium violaceum,0.5
 Foggy Cove LOW 2017 9,Polyneura latissima,14
 Foggy Cove LOW 2017 9,Polysiphonia pacifica,0.5
-Foggy Cove LOW 2017 9,Ptilota sp.,3
+Foggy Cove LOW 2017 9,Ptilota filicina,3
 Foggy Cove LOW 2017 9,Pyropia fucicola,1
 Foggy Cove LOW 2017 9,Scytosiphon lomentaria,0.5
 Foggy Cove LOW 2017 9,Ulva lactuca,3
@@ -7695,7 +7691,7 @@ Foggy Cove LOW 2018 1,Fucus distichus,51
 Foggy Cove LOW 2018 1,Halosaccion glandiforme,2.5
 Foggy Cove LOW 2018 1,Hedophyllum nigripes,2
 Foggy Cove LOW 2018 1,Hildenbrandia occidentalis,2
-Foggy Cove LOW 2018 1,Hymenena sp.,2
+Foggy Cove LOW 2018 1,Hymenena spp.,2
 Foggy Cove LOW 2018 1,Leathesia marina,1
 Foggy Cove LOW 2018 1,Limpet,3
 Foggy Cove LOW 2018 1,Lithothamnion phymatodeum,0.5
@@ -7727,7 +7723,7 @@ Foggy Cove LOW 2018 10,Crab,2
 Foggy Cove LOW 2018 10,Cryptosiphonia woodii,3
 Foggy Cove LOW 2018 10,Fucus distichus,12
 Foggy Cove LOW 2018 10,Halosaccion glandiforme,7
-Foggy Cove LOW 2018 10,Hymenena sp.,4
+Foggy Cove LOW 2018 10,Hymenena spp.,4
 Foggy Cove LOW 2018 10,Leathesia marina,1
 Foggy Cove LOW 2018 10,Limpet,3
 Foggy Cove LOW 2018 10,Mastocarpus agardhii,0.5
@@ -7758,7 +7754,7 @@ Foggy Cove LOW 2018 2,Farlowia mollis,2
 Foggy Cove LOW 2018 2,Halosaccion glandiforme,2
 Foggy Cove LOW 2018 2,Hedophyllum nigripes,18
 Foggy Cove LOW 2018 2,Hildenbrandia rubra,0.5
-Foggy Cove LOW 2018 2,Hymenena sp.,0.5
+Foggy Cove LOW 2018 2,Hymenena spp.,0.5
 Foggy Cove LOW 2018 2,Leathesia marina,2
 Foggy Cove LOW 2018 2,Limpet,9
 Foggy Cove LOW 2018 2,Lithothamnion phymatodeum,1
@@ -7793,7 +7789,7 @@ Foggy Cove LOW 2018 3,Endocladia muricata,6
 Foggy Cove LOW 2018 3,Fucus distichus,71
 Foggy Cove LOW 2018 3,Halosaccion glandiforme,1
 Foggy Cove LOW 2018 3,Hildenbrandia rubra,25
-Foggy Cove LOW 2018 3,Hymenena sp.,0.5
+Foggy Cove LOW 2018 3,Hymenena spp.,0.5
 Foggy Cove LOW 2018 3,Mastocarpus agardhii,0.5
 Foggy Cove LOW 2018 3,Mastocarpus intermedius,1
 Foggy Cove LOW 2018 3,Mazzaella oregona,1
@@ -7810,13 +7806,13 @@ Foggy Cove LOW 2018 4,bare rock,9
 Foggy Cove LOW 2018 4,Bossiella frondescens,11
 Foggy Cove LOW 2018 4,Ceramium pacificum,1
 Foggy Cove LOW 2018 4,Chamberlainium tumidum,1
-Foggy Cove LOW 2018 4,Colpomenia bullosa,1
 Foggy Cove LOW 2018 4,Colpomenia peregrina,1
 Foggy Cove LOW 2018 4,Corallina sp.,1
 Foggy Cove LOW 2018 4,Corallina sp.1 frondescens,4
 Foggy Cove LOW 2018 4,Corallina vancouveriensis,4
 Foggy Cove LOW 2018 4,coralline crust,5
 Foggy Cove LOW 2018 4,Cryptosiphonia woodii,4
+Foggy Cove LOW 2018 4,Dactylosiphon bullosus,1
 Foggy Cove LOW 2018 4,Egregia menziesii,3
 Foggy Cove LOW 2018 4,Farlowia mollis,2
 Foggy Cove LOW 2018 4,Fucus distichus,13
@@ -7835,7 +7831,7 @@ Foggy Cove LOW 2018 4,Palmaria hecatensis,0.5
 Foggy Cove LOW 2018 4,Palmaria mollis,2
 Foggy Cove LOW 2018 4,Phyllospadix scouleri,2
 Foggy Cove LOW 2018 4,Plocamium violaceum,0.5
-Foggy Cove LOW 2018 4,Ptilota tenuis,0.5
+Foggy Cove LOW 2018 4,Ptilota filicina,0.5
 Foggy Cove LOW 2018 4,Ralfsioid,1
 Foggy Cove LOW 2018 4,Scytosiphon lomentaria,1
 Foggy Cove LOW 2018 4,Ulva lactuca,14
@@ -7846,9 +7842,9 @@ Foggy Cove LOW 2018 5,bare rock,10
 Foggy Cove LOW 2018 5,Bossiella frondescens,13
 Foggy Cove LOW 2018 5,Callithamnion pikeanum,1
 Foggy Cove LOW 2018 5,Chamberlainium tumidum,4
-Foggy Cove LOW 2018 5,Colpomenia bullosa,0.5
 Foggy Cove LOW 2018 5,coralline crust,1
 Foggy Cove LOW 2018 5,Cryptosiphonia woodii,1
+Foggy Cove LOW 2018 5,Dactylosiphon bullosus,0.5
 Foggy Cove LOW 2018 5,Elachista fucicola,0.5
 Foggy Cove LOW 2018 5,Fucus distichus,13
 Foggy Cove LOW 2018 5,Halosaccion glandiforme,1
@@ -7884,7 +7880,7 @@ Foggy Cove LOW 2018 6,Endocladia muricata,4
 Foggy Cove LOW 2018 6,Fucus distichus,24
 Foggy Cove LOW 2018 6,Halosaccion glandiforme,6
 Foggy Cove LOW 2018 6,Hildenbrandia rubra,10
-Foggy Cove LOW 2018 6,Hymenena sp.,1
+Foggy Cove LOW 2018 6,Hymenena spp.,1
 Foggy Cove LOW 2018 6,Leathesia marina,1
 Foggy Cove LOW 2018 6,Limpet,5
 Foggy Cove LOW 2018 6,Mastocarpus agardhii,3
@@ -8083,7 +8079,7 @@ Foggy Cove LOW 2019 3,Fucus distichus,44
 Foggy Cove LOW 2019 3,Halosaccion glandiforme,2
 Foggy Cove LOW 2019 3,Hildenbrandia occidentalis,2
 Foggy Cove LOW 2019 3,Hildenbrandia rubra,7
-Foggy Cove LOW 2019 3,Hymenena sp.,0.5
+Foggy Cove LOW 2019 3,Hymenena spp.,0.5
 Foggy Cove LOW 2019 3,Mastocarpus latissimus,3
 Foggy Cove LOW 2019 3,Mazzaella oregona,1
 Foggy Cove LOW 2019 3,Mazzaella splendens,0.5
@@ -8216,7 +8212,7 @@ Foggy Cove LOW 2019 9,Nucella eggs,5
 Foggy Cove LOW 2019 9,Palmaria hecatensis,3
 Foggy Cove LOW 2019 9,Petrocelis,0.5
 Foggy Cove LOW 2019 9,Polyneura latissima,0.5
-Foggy Cove LOW 2019 9,Ptilota sp.,0.5
+Foggy Cove LOW 2019 9,Ptilota filicina,0.5
 Foggy Cove LOW 2019 9,Pyropia perforata,12
 Foggy Cove LOW 2019 9,Tonicella sp.,2
 Foggy Cove LOW 2019 9,Ulva fenestrata,2
@@ -8286,7 +8282,7 @@ Foggy Cove MID 2011 5,Endocladia muricata,2
 Foggy Cove MID 2011 5,Fucus distichus,10
 Foggy Cove MID 2011 5,Halosaccion glandiforme,5
 Foggy Cove MID 2011 5,Hildenbrandia sp.,1
-Foggy Cove MID 2011 5,Hymenena sp.,1
+Foggy Cove MID 2011 5,Hymenena spp.,1
 Foggy Cove MID 2011 5,Leathesia marina,1
 Foggy Cove MID 2011 5,Mastocarpus rigidus,10
 Foggy Cove MID 2011 5,Neorhodomela larix,5
@@ -8636,7 +8632,7 @@ Foggy Cove MID 2013 8,Fucus distichus,60
 Foggy Cove MID 2013 8,Halosaccion glandiforme,1
 Foggy Cove MID 2013 8,Hildenbrandia occidentalis,40
 Foggy Cove MID 2013 8,Hildenbrandia rubra,1
-Foggy Cove MID 2013 8,Hymenena sp.,20
+Foggy Cove MID 2013 8,Hymenena spp.,20
 Foggy Cove MID 2013 8,Mastocarpus agardhii,25
 Foggy Cove MID 2013 8,Palmaria mollis,0.5
 Foggy Cove MID 2013 8,Petrocelis,1
@@ -9326,7 +9322,7 @@ Foggy Cove MID 2018 7,Endocladia muricata,20
 Foggy Cove MID 2018 7,Fucus distichus,16
 Foggy Cove MID 2018 7,Halosaccion glandiforme,0.5
 Foggy Cove MID 2018 7,Hildenbrandia rubra,7
-Foggy Cove MID 2018 7,Hymenena sp.,1
+Foggy Cove MID 2018 7,Hymenena spp.,1
 Foggy Cove MID 2018 7,Limpet,3
 Foggy Cove MID 2018 7,Lithothamnion phymatodeum,5
 Foggy Cove MID 2018 7,Mastocarpus latissimus,5
@@ -9738,7 +9734,7 @@ Meay Channel HIGH 2017 2,Ralfsioid,0.5
 Meay Channel HIGH 2017 2,Savoiea robusta,0.5
 Meay Channel HIGH 2017 2,Ulva lactuca,44
 Meay Channel HIGH 2017 2,Unknown turf,2
-Meay Channel HIGH 2017 3,Acrosiphonia sp.,2
+Meay Channel HIGH 2017 3,Acrosiphonia spp.,2
 Meay Channel HIGH 2017 3,bare rock,4
 Meay Channel HIGH 2017 3,Elachista fucicola,0.5
 Meay Channel HIGH 2017 3,Fucus distichus,2
@@ -9780,7 +9776,7 @@ Meay Channel HIGH 2017 5,Ulva lactuca,22
 Meay Channel HIGH 2017 6,Barnacle,2
 Meay Channel HIGH 2017 6,Neorhodomela aculeata,0.5
 Meay Channel HIGH 2017 6,Savoiea robusta,9
-Meay Channel HIGH 2017 7,Acrosiphonia sp.,0.5
+Meay Channel HIGH 2017 7,Acrosiphonia spp.,0.5
 Meay Channel HIGH 2017 7,bare rock,75
 Meay Channel HIGH 2017 7,Barnacle,3
 Meay Channel HIGH 2017 7,Clam shell,22
@@ -9921,7 +9917,7 @@ Meay Channel HIGH 2018 9,Petalonia fascia,0.5
 Meay Channel HIGH 2018 9,Soranthera ulvoidea,0.5
 Meay Channel HIGH 2018 9,Ulva lobata,3
 Meay Channel HIGH 2018 9,Ulva sp.,2
-Meay Channel HIGH 2019 1,Acrosiphonia sp.,1
+Meay Channel HIGH 2019 1,Acrosiphonia spp.,1
 Meay Channel HIGH 2019 1,Barnacle,1
 Meay Channel HIGH 2019 1,Lomentaria hakodatensis,2
 Meay Channel HIGH 2019 1,Polysiphonia hendryi var. gardneri,0.5
@@ -9931,7 +9927,7 @@ Meay Channel HIGH 2019 1,Ulva fenestrata,6
 Meay Channel HIGH 2019 10,Barnacle,3
 Meay Channel HIGH 2019 10,Punctaria sp.,1
 Meay Channel HIGH 2019 10,Ulva expansa,1
-Meay Channel HIGH 2019 2,Acrosiphonia sp.,2
+Meay Channel HIGH 2019 2,Acrosiphonia spp.,2
 Meay Channel HIGH 2019 2,Barnacle,2
 Meay Channel HIGH 2019 2,Cryptosiphonia woodii,2
 Meay Channel HIGH 2019 2,Eugomontia sacculata,3
@@ -10017,7 +10013,7 @@ Meay Channel HIGH 2019 8,Ralfsioid,0.5
 Meay Channel HIGH 2019 8,Ulva expansa,25
 Meay Channel HIGH 2019 8,Ulva linza,0.5
 Meay Channel HIGH 2019 8,Unknown crust,0.5
-Meay Channel HIGH 2019 9,Acrosiphonia sp.,0.5
+Meay Channel HIGH 2019 9,Acrosiphonia spp.,0.5
 Meay Channel HIGH 2019 9,bare rock,12
 Meay Channel HIGH 2019 9,Barnacle,4
 Meay Channel HIGH 2019 9,Cryptosiphonia woodii,0.5
@@ -10349,7 +10345,7 @@ Meay Channel LOW 2016 9,Sargassum muticum,11
 Meay Channel LOW 2016 9,Sphacelaria rigidula,5
 Meay Channel LOW 2016 9,Ulva lactuca,9
 Meay Channel LOW 2016 9,Ulva prolifera,1
-Meay Channel LOW 2017 1,Acrosiphonia sp.,0.5
+Meay Channel LOW 2017 1,Acrosiphonia spp.,0.5
 Meay Channel LOW 2017 1,bare rock,13
 Meay Channel LOW 2017 1,Barnacle,1
 Meay Channel LOW 2017 1,Ceramium pacificum,3
@@ -10369,7 +10365,7 @@ Meay Channel LOW 2017 1,Saccharina latissima,9
 Meay Channel LOW 2017 1,Sargassum muticum,5
 Meay Channel LOW 2017 1,Ulva lactuca,25
 Meay Channel LOW 2017 1,Unknown turf,14
-Meay Channel LOW 2017 10,Acrosiphonia sp.,1
+Meay Channel LOW 2017 10,Acrosiphonia spp.,1
 Meay Channel LOW 2017 10,bare rock,12
 Meay Channel LOW 2017 10,Bossiella frondescens,1
 Meay Channel LOW 2017 10,Ceramium pacificum,2
@@ -10498,7 +10494,7 @@ Meay Channel LOW 2017 7,Neorhodomela aculeata,47
 Meay Channel LOW 2017 7,Ralfsioid,0.5
 Meay Channel LOW 2017 7,Ulva lactuca,9
 Meay Channel LOW 2017 7,Ulva prolifera,1
-Meay Channel LOW 2017 8,Acrosiphonia sp.,1
+Meay Channel LOW 2017 8,Acrosiphonia spp.,1
 Meay Channel LOW 2017 8,bare rock,2
 Meay Channel LOW 2017 8,Bossiella frondescens,3
 Meay Channel LOW 2017 8,Bossiella sp. (crust),2
@@ -10621,7 +10617,7 @@ Meay Channel LOW 2018 3,Savoiea robusta,3
 Meay Channel LOW 2018 3,Ulva lobata,34
 Meay Channel LOW 2018 3,Ulva prolifera,1
 Meay Channel LOW 2018 3,Unknown turf,2
-Meay Channel LOW 2018 4,Acrosiphonia sp.,0.5
+Meay Channel LOW 2018 4,Acrosiphonia spp.,0.5
 Meay Channel LOW 2018 4,bare rock,10
 Meay Channel LOW 2018 4,Barnacle,2
 Meay Channel LOW 2018 4,Ceramium pacificum,8
@@ -10755,7 +10751,7 @@ Meay Channel LOW 2018 9,Scytosiphon lomentaria,0.5
 Meay Channel LOW 2018 9,Tonicella sp.,2
 Meay Channel LOW 2018 9,Ulva lobata,9
 Meay Channel LOW 2018 9,Ulva prolifera,2
-Meay Channel LOW 2019 1,Acrosiphonia sp.,2
+Meay Channel LOW 2019 1,Acrosiphonia spp.,2
 Meay Channel LOW 2019 1,Callithamnion biseriatum,5
 Meay Channel LOW 2019 1,Ceramium pacificum,6
 Meay Channel LOW 2019 1,Halosaccion glandiforme,3
@@ -10786,7 +10782,7 @@ Meay Channel LOW 2019 10,Rhizoclonium tortuosum,42.5
 Meay Channel LOW 2019 10,Sargassum muticum,91
 Meay Channel LOW 2019 10,Ulothrix-Urospora sp.,13
 Meay Channel LOW 2019 10,Ulva fenestrata,20
-Meay Channel LOW 2019 2,Acrosiphonia sp.,3
+Meay Channel LOW 2019 2,Acrosiphonia spp.,3
 Meay Channel LOW 2019 2,bare rock,12
 Meay Channel LOW 2019 2,Barnacle,0.5
 Meay Channel LOW 2019 2,Chamberlainium tumidum,2
@@ -11179,7 +11175,7 @@ Meay Channel MID 2016 9,Leathesia marina,3
 Meay Channel MID 2016 9,Neorhodomela aculeata,10
 Meay Channel MID 2016 9,Ulva lactuca,3
 Meay Channel MID 2016 9,Unknown turf,7
-Meay Channel MID 2017 1,Acrosiphonia sp.,1
+Meay Channel MID 2017 1,Acrosiphonia spp.,1
 Meay Channel MID 2017 1,bare rock,11
 Meay Channel MID 2017 1,Barnacle,1
 Meay Channel MID 2017 1,Clam shell,8
@@ -11200,7 +11196,7 @@ Meay Channel MID 2017 1,Savoiea robusta,1
 Meay Channel MID 2017 1,Ulva lactuca,30
 Meay Channel MID 2017 1,Ulva prolifera,0.5
 Meay Channel MID 2017 1,Unknown turf,4
-Meay Channel MID 2017 10,Acrosiphonia sp.,6
+Meay Channel MID 2017 10,Acrosiphonia spp.,6
 Meay Channel MID 2017 10,bare rock,4
 Meay Channel MID 2017 10,Halosaccion glandiforme,0.5
 Meay Channel MID 2017 10,Hildenbrandia occidentalis,31
@@ -11215,7 +11211,7 @@ Meay Channel MID 2017 10,Punctaria sp.,1
 Meay Channel MID 2017 10,Scytosiphon dotyi,0.5
 Meay Channel MID 2017 10,Ulva lactuca,58
 Meay Channel MID 2017 10,Ulva prolifera,3
-Meay Channel MID 2017 2,Acrosiphonia sp.,11
+Meay Channel MID 2017 2,Acrosiphonia spp.,11
 Meay Channel MID 2017 2,bare rock,7
 Meay Channel MID 2017 2,Barnacle,2
 Meay Channel MID 2017 2,Clam shell,7
@@ -11229,7 +11225,7 @@ Meay Channel MID 2017 2,Neorhodomela aculeata,6
 Meay Channel MID 2017 2,Petalonia fascia,1
 Meay Channel MID 2017 2,Punctaria sp.,1
 Meay Channel MID 2017 2,Ulva lactuca,39
-Meay Channel MID 2017 3,Acrosiphonia sp.,0.5
+Meay Channel MID 2017 3,Acrosiphonia spp.,0.5
 Meay Channel MID 2017 3,bare rock,7
 Meay Channel MID 2017 3,coralline crust,0.5
 Meay Channel MID 2017 3,Cryptosiphonia woodii,9
@@ -11283,7 +11279,7 @@ Meay Channel MID 2017 5,Savoiea robusta,13
 Meay Channel MID 2017 5,Scytosiphon lomentaria,0.5
 Meay Channel MID 2017 5,Ulva lactuca,16
 Meay Channel MID 2017 5,Ulva prolifera,1
-Meay Channel MID 2017 6,Acrosiphonia sp.,4.5
+Meay Channel MID 2017 6,Acrosiphonia spp.,4.5
 Meay Channel MID 2017 6,bare rock,2
 Meay Channel MID 2017 6,Barnacle,1
 Meay Channel MID 2017 6,Clam shell,2
@@ -11299,7 +11295,7 @@ Meay Channel MID 2017 6,Ralfsioid,1
 Meay Channel MID 2017 6,Savoiea robusta,4
 Meay Channel MID 2017 6,Ulva lactuca,28
 Meay Channel MID 2017 6,Ulva prolifera,1
-Meay Channel MID 2017 7,Acrosiphonia sp.,4
+Meay Channel MID 2017 7,Acrosiphonia spp.,4
 Meay Channel MID 2017 7,bare rock,4
 Meay Channel MID 2017 7,Barnacle,0.5
 Meay Channel MID 2017 7,Clam shell,5
@@ -11317,7 +11313,7 @@ Meay Channel MID 2017 7,Savoiea robusta,4
 Meay Channel MID 2017 7,Ulva lactuca,14
 Meay Channel MID 2017 7,Ulva prolifera,1
 Meay Channel MID 2017 7,Wildmania amplissima,6
-Meay Channel MID 2017 8,Acrosiphonia sp.,27
+Meay Channel MID 2017 8,Acrosiphonia spp.,27
 Meay Channel MID 2017 8,bare rock,16
 Meay Channel MID 2017 8,Barnacle,0.5
 Meay Channel MID 2017 8,Ceramium pacificum,2
@@ -11337,7 +11333,7 @@ Meay Channel MID 2017 8,Savoiea robusta,4
 Meay Channel MID 2017 8,Ulva lactuca,62
 Meay Channel MID 2017 8,Unknown turf,2
 Meay Channel MID 2017 8,Wildmania amplissima,2
-Meay Channel MID 2017 9,Acrosiphonia sp.,2
+Meay Channel MID 2017 9,Acrosiphonia spp.,2
 Meay Channel MID 2017 9,bare rock,3
 Meay Channel MID 2017 9,Cladophora sericea,2
 Meay Channel MID 2017 9,Clam shell,8
@@ -11349,7 +11345,7 @@ Meay Channel MID 2017 9,Savoiea robusta,4
 Meay Channel MID 2017 9,Ulva lactuca,89
 Meay Channel MID 2017 9,Ulva prolifera,1
 Meay Channel MID 2017 9,Wildmania amplissima,0.5
-Meay Channel MID 2018 1,Acrosiphonia sp.,0.5
+Meay Channel MID 2018 1,Acrosiphonia spp.,0.5
 Meay Channel MID 2018 1,bare rock,8
 Meay Channel MID 2018 1,Barnacle,5
 Meay Channel MID 2018 1,Cladophora sericea,0.5
@@ -11501,7 +11497,7 @@ Meay Channel MID 2018 9,Limpet,2
 Meay Channel MID 2018 9,Palmaria mollis,0.5
 Meay Channel MID 2018 9,Scytosiphon lomentaria,0.5
 Meay Channel MID 2018 9,Ulva lobata,2
-Meay Channel MID 2019 1,Acrosiphonia sp.,10
+Meay Channel MID 2019 1,Acrosiphonia spp.,10
 Meay Channel MID 2019 1,Barnacle,1
 Meay Channel MID 2019 1,Dictyosiphon sinicola,1
 Meay Channel MID 2019 1,Hildenbrandia occidentalis,1
@@ -11511,7 +11507,7 @@ Meay Channel MID 2019 1,Polysiphonia hendryi var. luxuriens,6
 Meay Channel MID 2019 1,Rhizoclonium tortuosum,1
 Meay Channel MID 2019 1,Ulva fenestrata,6
 Meay Channel MID 2019 1,Ulva prolifera,2
-Meay Channel MID 2019 10,Acrosiphonia sp.,18
+Meay Channel MID 2019 10,Acrosiphonia spp.,18
 Meay Channel MID 2019 10,bare rock,9
 Meay Channel MID 2019 10,Barnacle,0.5
 Meay Channel MID 2019 10,coralline crust,0.5
@@ -11526,7 +11522,7 @@ Meay Channel MID 2019 10,Neorhodomela aculeata,8
 Meay Channel MID 2019 10,Polysiphonia hendryi var. hendryi,3
 Meay Channel MID 2019 10,Punctaria sp.,1
 Meay Channel MID 2019 10,Ulva expansa,33
-Meay Channel MID 2019 2,Acrosiphonia sp.,5.3
+Meay Channel MID 2019 2,Acrosiphonia spp.,5.3
 Meay Channel MID 2019 2,Barnacle,1
 Meay Channel MID 2019 2,Colpomenia peregrina,1
 Meay Channel MID 2019 2,Dictyosiphon sinicola,4
@@ -11536,7 +11532,7 @@ Meay Channel MID 2019 2,Polysiphonia hendryi var. luxuriens,4
 Meay Channel MID 2019 2,Punctaria sp.,6
 Meay Channel MID 2019 2,Rhizoclonium tortuosum,0.3
 Meay Channel MID 2019 2,Ulva intestinalis,3
-Meay Channel MID 2019 3,Acrosiphonia sp.,12
+Meay Channel MID 2019 3,Acrosiphonia spp.,12
 Meay Channel MID 2019 3,bare rock,2
 Meay Channel MID 2019 3,Barnacle,4
 Meay Channel MID 2019 3,Colpomenia peregrina,0.5
@@ -11568,7 +11564,7 @@ Meay Channel MID 2019 4,Ulva fenestrata,32
 Meay Channel MID 2019 4,Ulva intestinalis,19
 Meay Channel MID 2019 4,Ulva prolifera,7
 Meay Channel MID 2019 4,Wildmania amplissima,1
-Meay Channel MID 2019 5,Acrosiphonia sp.,14
+Meay Channel MID 2019 5,Acrosiphonia spp.,14
 Meay Channel MID 2019 5,bare rock,12
 Meay Channel MID 2019 5,Barnacle,3
 Meay Channel MID 2019 5,Cladophora sericea,3
@@ -11588,7 +11584,7 @@ Meay Channel MID 2019 5,Ulva expansa,4
 Meay Channel MID 2019 5,Ulva linza,1
 Meay Channel MID 2019 5,Ulva prolifera,2
 Meay Channel MID 2019 5,Unknown crust,2
-Meay Channel MID 2019 6,Acrosiphonia sp.,10
+Meay Channel MID 2019 6,Acrosiphonia spp.,10
 Meay Channel MID 2019 6,bare rock,10
 Meay Channel MID 2019 6,Barnacle,1
 Meay Channel MID 2019 6,Cladophora sericea,1
@@ -11608,7 +11604,7 @@ Meay Channel MID 2019 6,Ulva linza,5
 Meay Channel MID 2019 6,Ulva prolifera,0.5
 Meay Channel MID 2019 6,Unknown crust,1
 Meay Channel MID 2019 6,Wildmania amplissima,1
-Meay Channel MID 2019 7,Acrosiphonia sp.,4
+Meay Channel MID 2019 7,Acrosiphonia spp.,4
 Meay Channel MID 2019 7,Fucus distichus,15
 Meay Channel MID 2019 7,Halosaccion glandiforme,1
 Meay Channel MID 2019 7,Hildenbrandia rubra,3
@@ -11616,7 +11612,7 @@ Meay Channel MID 2019 7,Neorhodomela aculeata,12
 Meay Channel MID 2019 7,Punctaria sp.,27
 Meay Channel MID 2019 7,Ulothrix palusalsa,11
 Meay Channel MID 2019 7,Ulva fenestrata,22
-Meay Channel MID 2019 8,Acrosiphonia sp.,7
+Meay Channel MID 2019 8,Acrosiphonia spp.,7
 Meay Channel MID 2019 8,Barnacle,2
 Meay Channel MID 2019 8,Colpomenia peregrina,1
 Meay Channel MID 2019 8,Fucus distichus,4
@@ -11628,7 +11624,7 @@ Meay Channel MID 2019 8,Punctaria sp.,7
 Meay Channel MID 2019 8,Scytosiphon lomentaria,3
 Meay Channel MID 2019 8,Ulva fenestrata,40
 Meay Channel MID 2019 8,Ulva intestinalis,2
-Meay Channel MID 2019 9,Acrosiphonia sp.,10
+Meay Channel MID 2019 9,Acrosiphonia spp.,10
 Meay Channel MID 2019 9,bare rock,3
 Meay Channel MID 2019 9,Barnacle,0.5
 Meay Channel MID 2019 9,Colpomenia peregrina,0.5
@@ -11743,7 +11739,7 @@ North Beach HIGH 2011 9,Mazzaella rigidus,2
 North Beach HIGH 2011 9,Petrocelis,90
 North Beach HIGH 2011 9,Ulva lactuca,2
 North Beach HIGH 2011 9,Ulva linza,1
-North Beach HIGH 2012 1,Acrosiphonia sp.,1
+North Beach HIGH 2012 1,Acrosiphonia spp.,1
 North Beach HIGH 2012 1,Anthopleura sp.,2.5
 North Beach HIGH 2012 1,Balanus glandula,28
 North Beach HIGH 2012 1,bare rock,3
@@ -11850,7 +11846,7 @@ North Beach HIGH 2012 5,Mytilus sp.,0.5
 North Beach HIGH 2012 5,Pyropia perforata,7
 North Beach HIGH 2012 5,Semibalanus cariosus,1
 North Beach HIGH 2012 5,Ulva linza,0.5
-North Beach HIGH 2012 6,Acrosiphonia sp.,1
+North Beach HIGH 2012 6,Acrosiphonia spp.,1
 North Beach HIGH 2012 6,Anthopleura sp.,0.5
 North Beach HIGH 2012 6,Balanus glandula,50
 North Beach HIGH 2012 6,bare rock,10
@@ -11866,7 +11862,7 @@ North Beach HIGH 2012 6,Pagarus sp.,1
 North Beach HIGH 2012 6,Petrocelis,3
 North Beach HIGH 2012 6,Polysiphonia hendryi,3
 North Beach HIGH 2012 6,Prionitis sternbergii,3
-North Beach HIGH 2012 7,Acrosiphonia sp.,2
+North Beach HIGH 2012 7,Acrosiphonia spp.,2
 North Beach HIGH 2012 7,Anthopleura sp.,1.5
 North Beach HIGH 2012 7,bare rock,5
 North Beach HIGH 2012 7,Bossiella frondifera,5
@@ -11891,7 +11887,7 @@ North Beach HIGH 2012 7,Prionitis sternbergii,1
 North Beach HIGH 2012 7,Pyropia fucicola,10
 North Beach HIGH 2012 7,Savoiea robusta,2
 North Beach HIGH 2012 7,Ulva lactuca,20
-North Beach HIGH 2012 8,Acrosiphonia sp.,3
+North Beach HIGH 2012 8,Acrosiphonia spp.,3
 North Beach HIGH 2012 8,Anthopleura sp.,1.5
 North Beach HIGH 2012 8,bare rock,8
 North Beach HIGH 2012 8,Chamberlainium tumidum,5
@@ -12133,7 +12129,7 @@ North Beach HIGH 2014 7,Farlowia mollis,2
 North Beach HIGH 2014 7,Fucus distichus,1.5
 North Beach HIGH 2014 7,Halosaccion glandiforme,2
 North Beach HIGH 2014 7,Hildenbrandia occidentalis,1
-North Beach HIGH 2014 7,Hymenena sp.,0.5
+North Beach HIGH 2014 7,Hymenena spp.,0.5
 North Beach HIGH 2014 7,Leathesia marina,8
 North Beach HIGH 2014 7,Mastocarpus agardhii,2
 North Beach HIGH 2014 7,Mazzaella oregona,0.5
@@ -12768,10 +12764,10 @@ North Beach LOW 2011 1,Corallina vancouveriensis,20
 North Beach LOW 2011 1,coralline crust,2
 North Beach LOW 2011 1,Hedophyllum sessile,70
 North Beach LOW 2011 1,Hildenbrandia sp.,7
-North Beach LOW 2011 1,Hymenena sp.,2
+North Beach LOW 2011 1,Hymenena spp.,2
 North Beach LOW 2011 1,Odonthalia floccosa,5
 North Beach LOW 2011 1,Petrocelis,3
-North Beach LOW 2011 1,Ptilota tenuis,0.5
+North Beach LOW 2011 1,Ptilota filicina,0.5
 North Beach LOW 2011 10,Alaria marginata,45
 North Beach LOW 2011 10,bare rock,10
 North Beach LOW 2011 10,Bossiella sp.,4
@@ -12779,7 +12775,7 @@ North Beach LOW 2011 10,Corallina frondescens,4
 North Beach LOW 2011 10,Corallina vancouveriensis,5
 North Beach LOW 2011 10,coralline crust,2
 North Beach LOW 2011 10,Hildenbrandia sp.,15
-North Beach LOW 2011 10,Hymenena sp.,2
+North Beach LOW 2011 10,Hymenena spp.,2
 North Beach LOW 2011 10,Mastocarpus latissimus,0.5
 North Beach LOW 2011 10,Mazzaella splendens,20
 North Beach LOW 2011 10,Odonthalia floccosa,10
@@ -12809,7 +12805,7 @@ North Beach LOW 2011 4,Bossiella sp.,80
 North Beach LOW 2011 4,Codium setchellii,1
 North Beach LOW 2011 4,Corallina frondescens,1
 North Beach LOW 2011 4,Hildenbrandia sp.,2
-North Beach LOW 2011 4,Hymenena sp.,0.5
+North Beach LOW 2011 4,Hymenena spp.,0.5
 North Beach LOW 2011 4,Mazzaella splendens,2
 North Beach LOW 2011 4,Odonthalia floccosa,1
 North Beach LOW 2011 5,Alaria marginata,18
@@ -12818,7 +12814,7 @@ North Beach LOW 2011 5,Chamberlainium tumidum,9
 North Beach LOW 2011 5,Corallina vancouveriensis,24
 North Beach LOW 2011 5,coralline crust,4
 North Beach LOW 2011 5,Hildenbrandia sp.,6
-North Beach LOW 2011 5,Hymenena sp.,1
+North Beach LOW 2011 5,Hymenena spp.,1
 North Beach LOW 2011 5,Mazzaella splendens,8
 North Beach LOW 2011 5,Odonthalia floccosa,1
 North Beach LOW 2011 5,Petrocelis,16
@@ -12830,7 +12826,7 @@ North Beach LOW 2011 6,Corallina vancouveriensis,5
 North Beach LOW 2011 6,coralline crust,3
 North Beach LOW 2011 6,Fucus distichus,0.5
 North Beach LOW 2011 6,Hildenbrandia sp.,0.5
-North Beach LOW 2011 6,Hymenena sp.,3
+North Beach LOW 2011 6,Hymenena spp.,3
 North Beach LOW 2011 6,Mazzaella splendens,2
 North Beach LOW 2011 6,Odonthalia floccosa,1
 North Beach LOW 2011 6,Petrocelis,15
@@ -12842,14 +12838,14 @@ North Beach LOW 2011 7,Corallina frondescens,8
 North Beach LOW 2011 7,Corallina vancouveriensis,1
 North Beach LOW 2011 7,coralline crust,1
 North Beach LOW 2011 7,Hildenbrandia sp.,2
-North Beach LOW 2011 7,Hymenena sp.,8
+North Beach LOW 2011 7,Hymenena spp.,8
 North Beach LOW 2011 7,Mastocarpus latissimus,1
 North Beach LOW 2011 7,Mazzaella oregona,3
 North Beach LOW 2011 7,Mazzaella splendens,4
 North Beach LOW 2011 7,Odonthalia floccosa,0.5
 North Beach LOW 2011 7,Petrocelis,5
 North Beach LOW 2011 7,Plocamium violaceum,5
-North Beach LOW 2011 7,Ptilota tenuis,0.5
+North Beach LOW 2011 7,Ptilota filicina,0.5
 North Beach LOW 2011 8,Alaria marginata,9
 North Beach LOW 2011 8,bare rock,26
 North Beach LOW 2011 8,Bossiella sp.,3
@@ -12858,7 +12854,7 @@ North Beach LOW 2011 8,Corallina vancouveriensis,9
 North Beach LOW 2011 8,coralline crust,1
 North Beach LOW 2011 8,Hedophyllum sessile,9
 North Beach LOW 2011 8,Hildenbrandia sp.,3
-North Beach LOW 2011 8,Hymenena sp.,14
+North Beach LOW 2011 8,Hymenena spp.,14
 North Beach LOW 2011 8,Mazzaella splendens,8
 North Beach LOW 2011 8,Odonthalia floccosa,9
 North Beach LOW 2011 8,Petrocelis,6
@@ -12870,7 +12866,7 @@ North Beach LOW 2011 9,Corallina vancouveriensis,1
 North Beach LOW 2011 9,coralline crust,25
 North Beach LOW 2011 9,Endocladia muricata,0.5
 North Beach LOW 2011 9,Hildenbrandia sp.,10
-North Beach LOW 2011 9,Hymenena sp.,4
+North Beach LOW 2011 9,Hymenena spp.,4
 North Beach LOW 2011 9,Mazzaella splendens,7
 North Beach LOW 2011 9,Odonthalia floccosa,15
 North Beach LOW 2011 9,Petrocelis,3
@@ -12887,7 +12883,7 @@ North Beach LOW 2012 1,Haliclona,0.5
 North Beach LOW 2012 1,Hedophyllum sessile,50
 North Beach LOW 2012 1,Hildenbrandia occidentalis,20
 North Beach LOW 2012 1,Hildenbrandia rubra,8
-North Beach LOW 2012 1,Hymenena sp.,1
+North Beach LOW 2012 1,Hymenena spp.,1
 North Beach LOW 2012 1,Katharina tunicata,1
 North Beach LOW 2012 1,Lithothamnion phymatodeum,3
 North Beach LOW 2012 1,Mazzaella oregona,1
@@ -12903,7 +12899,7 @@ North Beach LOW 2012 10,Corallina vancouveriensis,2
 North Beach LOW 2012 10,coralline crust,2
 North Beach LOW 2012 10,Hedophyllum sessile,20
 North Beach LOW 2012 10,Hildenbrandia rubra,1
-North Beach LOW 2012 10,Hymenena sp.,45
+North Beach LOW 2012 10,Hymenena spp.,45
 North Beach LOW 2012 10,Katharina tunicata,1
 North Beach LOW 2012 10,Mazzaella splendens,40
 North Beach LOW 2012 10,Odonthalia floccosa,18
@@ -12952,7 +12948,7 @@ North Beach LOW 2012 4,Corallina vancouveriensis,25
 North Beach LOW 2012 4,coralline crust,12
 North Beach LOW 2012 4,Feather duster worm,1
 North Beach LOW 2012 4,Hildenbrandia occidentalis,12
-North Beach LOW 2012 4,Hymenena sp.,0.5
+North Beach LOW 2012 4,Hymenena spp.,0.5
 North Beach LOW 2012 4,Limpet,2
 North Beach LOW 2012 4,Mazzaella splendens,2
 North Beach LOW 2012 4,Prionitis sternbergii,4
@@ -12972,7 +12968,7 @@ North Beach LOW 2012 5,Hedophyllum nigripes,5
 North Beach LOW 2012 5,Hedophyllum sessile,50
 North Beach LOW 2012 5,Hemigrapsis sp.,1
 North Beach LOW 2012 5,Hildenbrandia occidentalis,0.5
-North Beach LOW 2012 5,Hymenena sp.,30
+North Beach LOW 2012 5,Hymenena spp.,30
 North Beach LOW 2012 5,Mazzaella splendens,20
 North Beach LOW 2012 5,Nudipleura,1
 North Beach LOW 2012 5,Odonthalia floccosa,5
@@ -12990,7 +12986,7 @@ North Beach LOW 2012 6,coralline crust,8
 North Beach LOW 2012 6,Egregia menziesii,2
 North Beach LOW 2012 6,Feather duster worm,1
 North Beach LOW 2012 6,Hildenbrandia rubra,6
-North Beach LOW 2012 6,Hymenena sp.,1
+North Beach LOW 2012 6,Hymenena spp.,1
 North Beach LOW 2012 6,Katharina tunicata,1
 North Beach LOW 2012 6,Mazzaella splendens,15
 North Beach LOW 2012 6,Neopolyporolithon reclinatum,0.5
@@ -13005,13 +13001,13 @@ North Beach LOW 2012 7,Corallina vancouveriensis,6
 North Beach LOW 2012 7,coralline crust,4
 North Beach LOW 2012 7,Hedophyllum sessile,60
 North Beach LOW 2012 7,Hildenbrandia rubra,10
-North Beach LOW 2012 7,Hymenena sp.,20
+North Beach LOW 2012 7,Hymenena spp.,20
 North Beach LOW 2012 7,Katharina tunicata,6
 North Beach LOW 2012 7,Mazzaella splendens,15
 North Beach LOW 2012 7,Odonthalia floccosa,8
-North Beach LOW 2012 7,Pugetia firma,1
+North Beach LOW 2012 7,Salishia firma,1
 North Beach LOW 2012 8,Acmaea mitra,1
-North Beach LOW 2012 8,Acrosiphonia sp.,0.5
+North Beach LOW 2012 8,Acrosiphonia spp.,0.5
 North Beach LOW 2012 8,Alaria marginata,65
 North Beach LOW 2012 8,Amphiporus,2
 North Beach LOW 2012 8,Balanus glandula,0.5
@@ -13029,7 +13025,7 @@ North Beach LOW 2012 8,Halosaccion glandiforme,0.5
 North Beach LOW 2012 8,Haplogaster sp.,1
 North Beach LOW 2012 8,Hedophyllum sessile,35
 North Beach LOW 2012 8,Hildenbrandia occidentalis,75
-North Beach LOW 2012 8,Hymenena sp.,5
+North Beach LOW 2012 8,Hymenena spp.,5
 North Beach LOW 2012 8,Katharina tunicata,2
 North Beach LOW 2012 8,Limpet,9
 North Beach LOW 2012 8,Mastocarpus latissimus,2
@@ -13040,7 +13036,7 @@ North Beach LOW 2012 8,Petrocelis,1
 North Beach LOW 2012 8,Plocamium violaceum,1
 North Beach LOW 2012 8,Porifera,2
 North Beach LOW 2012 8,Pyropia perforata,0.5
-North Beach LOW 2012 9,Acrosiphonia sp.,0.5
+North Beach LOW 2012 9,Acrosiphonia spp.,0.5
 North Beach LOW 2012 9,Alaria marginata,40
 North Beach LOW 2012 9,bare rock,40
 North Beach LOW 2012 9,Bossiella frondifera,10
@@ -13094,7 +13090,7 @@ North Beach LOW 2013 10,Corallina sp.1 frondescens,1
 North Beach LOW 2013 10,Corallina vancouveriensis,1
 North Beach LOW 2013 10,Halosaccion glandiforme,1
 North Beach LOW 2013 10,Hedophyllum sessile,10
-North Beach LOW 2013 10,Hymenena sp.,29
+North Beach LOW 2013 10,Hymenena spp.,29
 North Beach LOW 2013 10,Mazzaella oregona,10
 North Beach LOW 2013 10,Mazzaella splendens,26
 North Beach LOW 2013 10,Odonthalia floccosa,18
@@ -13127,7 +13123,7 @@ North Beach LOW 2013 3,coralline crust,12
 North Beach LOW 2013 3,Halosaccion glandiforme,0.5
 North Beach LOW 2013 3,Hedophyllum sessile,45
 North Beach LOW 2013 3,Hildenbrandia occidentalis,2
-North Beach LOW 2013 3,Hymenena sp.,18
+North Beach LOW 2013 3,Hymenena spp.,18
 North Beach LOW 2013 3,Mastocarpus agardhii,0.5
 North Beach LOW 2013 3,Mazzaella oregona,10
 North Beach LOW 2013 3,Mazzaella splendens,4
@@ -13169,7 +13165,7 @@ North Beach LOW 2013 5,Costaria costata,1
 North Beach LOW 2013 5,Egregia menziesii,3
 North Beach LOW 2013 5,Hedophyllum sessile,76
 North Beach LOW 2013 5,Hildenbrandia occidentalis,3
-North Beach LOW 2013 5,Hymenena sp.,2
+North Beach LOW 2013 5,Hymenena spp.,2
 North Beach LOW 2013 5,Mazzaella splendens,15
 North Beach LOW 2013 5,Microcladia borealis,0.5
 North Beach LOW 2013 5,Odonthalia floccosa,3
@@ -13276,7 +13272,7 @@ North Beach LOW 2014 1,Costaria costata,13
 North Beach LOW 2014 1,Ectocarpus sp.,0.5
 North Beach LOW 2014 1,Hedophyllum sessile,65
 North Beach LOW 2014 1,Hildenbrandia occidentalis,3
-North Beach LOW 2014 1,Hymenena sp.,0.5
+North Beach LOW 2014 1,Hymenena spp.,0.5
 North Beach LOW 2014 1,Lithophyllum sp. 1,11
 North Beach LOW 2014 1,Lithothamnion phymatodeum,4
 North Beach LOW 2014 1,Mazzaella splendens,1
@@ -13295,7 +13291,7 @@ North Beach LOW 2014 10,Corallina vancouveriensis,3
 North Beach LOW 2014 10,Fucus distichus,2
 North Beach LOW 2014 10,Halosaccion glandiforme,1
 North Beach LOW 2014 10,Hedophyllum sessile,2
-North Beach LOW 2014 10,Hymenena sp.,9
+North Beach LOW 2014 10,Hymenena spp.,9
 North Beach LOW 2014 10,Katharina tunicata,1.5
 North Beach LOW 2014 10,Leathesia marina,0.5
 North Beach LOW 2014 10,Mastocarpus agardhii,3
@@ -13321,7 +13317,7 @@ North Beach LOW 2014 2,Ectocarpus sp.,1
 North Beach LOW 2014 2,Hedophyllum sessile,65
 North Beach LOW 2014 2,Hildenbrandia occidentalis,3
 North Beach LOW 2014 2,Hildenbrandia rubra,2
-North Beach LOW 2014 2,Hymenena sp.,0.5
+North Beach LOW 2014 2,Hymenena spp.,0.5
 North Beach LOW 2014 2,Limpet,1
 North Beach LOW 2014 2,Lithophyllum sp. 1,0.5
 North Beach LOW 2014 2,Lithothamnion phymatodeum,0.5
@@ -13344,7 +13340,7 @@ North Beach LOW 2014 3,Dermasterias,1
 North Beach LOW 2014 3,Desmarestia ligulata,3
 North Beach LOW 2014 3,Hedophyllum sessile,46
 North Beach LOW 2014 3,Hildenbrandia rubra,1.5
-North Beach LOW 2014 3,Hymenena sp.,2
+North Beach LOW 2014 3,Hymenena spp.,2
 North Beach LOW 2014 3,Laminaria setchellii,1
 North Beach LOW 2014 3,Lithophyllum sp. 1,0.5
 North Beach LOW 2014 3,Lithothamnion phymatodeum,2
@@ -13356,7 +13352,7 @@ North Beach LOW 2014 3,Pyropia abbottiae,0.5
 North Beach LOW 2014 3,Salishia firma,0.5
 North Beach LOW 2014 3,Schizymenia pacifica,1.5
 North Beach LOW 2014 4,Alaria marginata,91
-North Beach LOW 2014 4,Antithamnionella pacifica,6
+North Beach LOW 2014 4,Antithamnionella spp.,6
 North Beach LOW 2014 4,bare rock,3
 North Beach LOW 2014 4,Bossiella frondifera,9
 North Beach LOW 2014 4,Bossiella sp.5 chiloensis,4
@@ -13370,7 +13366,7 @@ North Beach LOW 2014 4,Hedophyllum nigripes,1
 North Beach LOW 2014 4,Hedophyllum sessile,18
 North Beach LOW 2014 4,Hildenbrandia occidentalis,3
 North Beach LOW 2014 4,Hildenbrandia rubra,2
-North Beach LOW 2014 4,Hymenena sp.,2
+North Beach LOW 2014 4,Hymenena spp.,2
 North Beach LOW 2014 4,Katharina tunicata,1
 North Beach LOW 2014 4,Lithophyllum sp. 1,1
 North Beach LOW 2014 4,Mazzaella splendens,9
@@ -13384,14 +13380,14 @@ North Beach LOW 2014 5,Fucus distichus,3
 North Beach LOW 2014 5,Halosaccion glandiforme,1
 North Beach LOW 2014 5,Hedophyllum sessile,32
 North Beach LOW 2014 5,Hildenbrandia occidentalis,49
-North Beach LOW 2014 5,Hymenena sp.,4
+North Beach LOW 2014 5,Hymenena spp.,4
 North Beach LOW 2014 5,Lithothamnion phymatodeum,4
 North Beach LOW 2014 5,Mastocarpus agardhii,6
 North Beach LOW 2014 5,Mazzaella oregona,1
 North Beach LOW 2014 5,Mazzaella splendens,6
 North Beach LOW 2014 5,Microcladia borealis,6
 North Beach LOW 2014 5,Pseudolithophyllum muricatum,3
-North Beach LOW 2014 5,Ptilota sp.,1
+North Beach LOW 2014 5,Ptilota filicina,1
 North Beach LOW 2014 6,Acrosiphonia arcta,0.5
 North Beach LOW 2014 6,Alaria marginata,37
 North Beach LOW 2014 6,Analipus japonicus,4
@@ -13406,7 +13402,7 @@ North Beach LOW 2014 6,Fucus distichus,12
 North Beach LOW 2014 6,Halosaccion glandiforme,0.5
 North Beach LOW 2014 6,Hedophyllum sessile,9
 North Beach LOW 2014 6,Hildenbrandia occidentalis,30
-North Beach LOW 2014 6,Hymenena sp.,0.5
+North Beach LOW 2014 6,Hymenena spp.,0.5
 North Beach LOW 2014 6,Leathesia marina,0.5
 North Beach LOW 2014 6,Lithophyllum sp. 1,2
 North Beach LOW 2014 6,Lithothamnion phymatodeum,1
@@ -13441,12 +13437,12 @@ North Beach LOW 2014 7,Odonthalia floccosa,19
 North Beach LOW 2014 7,Petrocelis,3
 North Beach LOW 2014 7,Prionitis sternbergii,8
 North Beach LOW 2014 7,Pseudolithophyllum muricatum,1
-North Beach LOW 2014 7,Ptilota sp.,1
+North Beach LOW 2014 7,Ptilota filicina,1
 North Beach LOW 2014 7,Schizymenia pacifica,0.5
 North Beach LOW 2014 7,Ulva lactuca,0.5
 North Beach LOW 2014 8,Acrosiphonia coalita,13
 North Beach LOW 2014 8,Alaria marginata,50
-North Beach LOW 2014 8,Antithamnionella pacifica,2
+North Beach LOW 2014 8,Antithamnionella spp.,2
 North Beach LOW 2014 8,Bossiella reptans,2
 North Beach LOW 2014 8,Bossiella sp. (crust),0.5
 North Beach LOW 2014 8,Bossiella sp.2 chiloensis,1
@@ -13455,7 +13451,7 @@ North Beach LOW 2014 8,Corallina vancouveriensis,2
 North Beach LOW 2014 8,Costaria costata,2
 North Beach LOW 2014 8,Hedophyllum nigripes,22
 North Beach LOW 2014 8,Hedophyllum sessile,28
-North Beach LOW 2014 8,Hymenena sp.,20
+North Beach LOW 2014 8,Hymenena spp.,20
 North Beach LOW 2014 8,Lithothamnion phymatodeum,1
 North Beach LOW 2014 8,Mazzaella splendens,24
 North Beach LOW 2014 8,Microcladia borealis,0.5
@@ -13474,7 +13470,7 @@ North Beach LOW 2014 9,Corallina vancouveriensis,3
 North Beach LOW 2014 9,Halosaccion glandiforme,0.5
 North Beach LOW 2014 9,Hedophyllum sessile,25
 North Beach LOW 2014 9,Hildenbrandia occidentalis,2
-North Beach LOW 2014 9,Hymenena sp.,8
+North Beach LOW 2014 9,Hymenena spp.,8
 North Beach LOW 2014 9,Lithophyllum sp. 1,0.5
 North Beach LOW 2014 9,Mazzaella oregona,2
 North Beach LOW 2014 9,Mazzaella splendens,50
@@ -13495,7 +13491,7 @@ North Beach LOW 2015 1,coralline crust,6
 North Beach LOW 2015 1,Ectocarpus commensalis,1
 North Beach LOW 2015 1,Hedophyllum sessile,100
 North Beach LOW 2015 1,Hildenbrandia occidentalis,2
-North Beach LOW 2015 1,Hymenena sp.,0.5
+North Beach LOW 2015 1,Hymenena spp.,0.5
 North Beach LOW 2015 1,Leptasterias sp.,1
 North Beach LOW 2015 1,Limpet,2
 North Beach LOW 2015 1,Lithophyllum sp.,1
@@ -13515,7 +13511,7 @@ North Beach LOW 2015 10,coralline crust,6
 North Beach LOW 2015 10,Cryptosiphonia woodii,1
 North Beach LOW 2015 10,Hedophyllum sessile,88
 North Beach LOW 2015 10,Hildenbrandia occidentalis,16
-North Beach LOW 2015 10,Hymenena sp.,2
+North Beach LOW 2015 10,Hymenena spp.,2
 North Beach LOW 2015 10,Mazzaella splendens,37
 North Beach LOW 2015 10,Odonthalia floccosa,28
 North Beach LOW 2015 10,Ralfsioid,2
@@ -13533,7 +13529,7 @@ North Beach LOW 2015 2,Ectocarpus commensalis,1
 North Beach LOW 2015 2,Hedophyllum sessile,97
 North Beach LOW 2015 2,Henricia,1
 North Beach LOW 2015 2,Hildenbrandia occidentalis,3
-North Beach LOW 2015 2,Hymenena sp.,0.5
+North Beach LOW 2015 2,Hymenena spp.,0.5
 North Beach LOW 2015 2,Leptasterias sp.,1
 North Beach LOW 2015 2,Lithophyllum sp.,3
 North Beach LOW 2015 2,Lithothamnion phymatodeum,5
@@ -13559,7 +13555,7 @@ North Beach LOW 2015 3,Costaria costata,2
 North Beach LOW 2015 3,Ectocarpus commensalis,1
 North Beach LOW 2015 3,Hedophyllum sessile,47
 North Beach LOW 2015 3,Hildenbrandia occidentalis,9
-North Beach LOW 2015 3,Hymenena sp.,0.5
+North Beach LOW 2015 3,Hymenena spp.,0.5
 North Beach LOW 2015 3,Johansenia macmillanii,1
 North Beach LOW 2015 3,Neopolyporolithon reclinatum,1
 North Beach LOW 2015 3,Petrocelis,1
@@ -13581,7 +13577,7 @@ North Beach LOW 2015 4,Ectocarpus commensalis,1
 North Beach LOW 2015 4,Hedophyllum sessile,82
 North Beach LOW 2015 4,Hildenbrandia occidentalis,7
 North Beach LOW 2015 4,Hildenbrandia rubra,1
-North Beach LOW 2015 4,Hymenena sp.,0.5
+North Beach LOW 2015 4,Hymenena spp.,0.5
 North Beach LOW 2015 4,Laminaria setchellii,0.5
 North Beach LOW 2015 4,Lithophyllum sp.,4
 North Beach LOW 2015 4,Mastocarpus latissimus,0.5
@@ -13602,7 +13598,7 @@ North Beach LOW 2015 5,coralline crust,6
 North Beach LOW 2015 5,Ectocarpus commensalis,2
 North Beach LOW 2015 5,Hedophyllum sessile,99
 North Beach LOW 2015 5,Hildenbrandia occidentalis,0.5
-North Beach LOW 2015 5,Hymenena sp.,0.5
+North Beach LOW 2015 5,Hymenena spp.,0.5
 North Beach LOW 2015 5,Lithothamnion phymatodeum,0.5
 North Beach LOW 2015 5,Mazzaella splendens,3
 North Beach LOW 2015 5,Neopolyporolithon reclinatum,0.5
@@ -13625,7 +13621,7 @@ North Beach LOW 2015 6,Cryptochiton,1
 North Beach LOW 2015 6,Ectocarpus commensalis,0.5
 North Beach LOW 2015 6,Hedophyllum sessile,91
 North Beach LOW 2015 6,Hildenbrandia rubra,2
-North Beach LOW 2015 6,Hymenena sp.,2
+North Beach LOW 2015 6,Hymenena spp.,2
 North Beach LOW 2015 6,Mazzaella splendens,9
 North Beach LOW 2015 6,Odonthalia floccosa,24
 North Beach LOW 2015 6,Ralfsioid,2
@@ -13643,7 +13639,7 @@ North Beach LOW 2015 7,Chiton,6
 North Beach LOW 2015 7,Corallina vancouveriensis,15
 North Beach LOW 2015 7,coralline crust,4
 North Beach LOW 2015 7,Hedophyllum sessile,16
-North Beach LOW 2015 7,Hymenena sp.,7
+North Beach LOW 2015 7,Hymenena spp.,7
 North Beach LOW 2015 7,Leathesia marina,0.5
 North Beach LOW 2015 7,Leptasterias sp.,2
 North Beach LOW 2015 7,Limpet,1
@@ -13669,7 +13665,7 @@ North Beach LOW 2015 8,Corallina vancouveriensis,14
 North Beach LOW 2015 8,coralline crust,52
 North Beach LOW 2015 8,Hedophyllum sessile,92
 North Beach LOW 2015 8,Hildenbrandia occidentalis,16
-North Beach LOW 2015 8,Hymenena sp.,0.5
+North Beach LOW 2015 8,Hymenena spp.,0.5
 North Beach LOW 2015 8,Lithophyllum sp.,3
 North Beach LOW 2015 8,Mastocarpus agardhii,0.5
 North Beach LOW 2015 8,Ralfsioid,1
@@ -13708,7 +13704,7 @@ North Beach LOW 2016 1,Corallina vancouveriensis,23
 North Beach LOW 2016 1,coralline crust,1
 North Beach LOW 2016 1,Hedophyllum sessile,48
 North Beach LOW 2016 1,Hildenbrandia rubra,13
-North Beach LOW 2016 1,Hymenena sp.,5
+North Beach LOW 2016 1,Hymenena spp.,5
 North Beach LOW 2016 1,Katharina tunicata,2
 North Beach LOW 2016 1,Limpet,13
 North Beach LOW 2016 1,Lithothamnion phymatodeum,2
@@ -13732,7 +13728,7 @@ North Beach LOW 2016 10,coralline crust,5
 North Beach LOW 2016 10,Ectocarpus commensalis,0.5
 North Beach LOW 2016 10,Hedophyllum sessile,48
 North Beach LOW 2016 10,Hildenbrandia rubra,3
-North Beach LOW 2016 10,Hymenena sp.,2
+North Beach LOW 2016 10,Hymenena spp.,2
 North Beach LOW 2016 10,Katharina tunicata,2
 North Beach LOW 2016 10,Lithothamnion phymatodeum,7
 North Beach LOW 2016 10,Mazzaella parvula,1
@@ -13754,7 +13750,7 @@ North Beach LOW 2016 2,Corallina sp.,2
 North Beach LOW 2016 2,coralline crust,0.5
 North Beach LOW 2016 2,Hedophyllum sessile,17
 North Beach LOW 2016 2,Hildenbrandia rubra,1
-North Beach LOW 2016 2,Hymenena sp.,2
+North Beach LOW 2016 2,Hymenena spp.,2
 North Beach LOW 2016 2,Limpet,1
 North Beach LOW 2016 2,Lithothamnion phymatodeum,2
 North Beach LOW 2016 2,Melobesia sp.,1
@@ -13822,7 +13818,7 @@ North Beach LOW 2016 5,Ectocarpus commensalis,2
 North Beach LOW 2016 5,Egregia menziesii,2
 North Beach LOW 2016 5,Hedophyllum sessile,82
 North Beach LOW 2016 5,Hildenbrandia rubra,1
-North Beach LOW 2016 5,Hymenena sp.,10
+North Beach LOW 2016 5,Hymenena spp.,10
 North Beach LOW 2016 5,Mazzaella splendens,12
 North Beach LOW 2016 5,Odonthalia floccosa,15
 North Beach LOW 2016 5,Pododesmus sp.,1
@@ -13838,7 +13834,7 @@ North Beach LOW 2016 6,coralline crust,9
 North Beach LOW 2016 6,Hedophyllum sessile,52
 North Beach LOW 2016 6,Hildenbrandia occidentalis,0.5
 North Beach LOW 2016 6,Hildenbrandia rubra,3
-North Beach LOW 2016 6,Hymenena sp.,3
+North Beach LOW 2016 6,Hymenena spp.,3
 North Beach LOW 2016 6,Katharina tunicata,1
 North Beach LOW 2016 6,Mazzaella oregona,1
 North Beach LOW 2016 6,Mazzaella splendens,22
@@ -13935,14 +13931,14 @@ North Beach LOW 2017 10,bare rock,15
 North Beach LOW 2017 10,Callithamnion pikeanum,3
 North Beach LOW 2017 10,Ceramium pacificum,8
 North Beach LOW 2017 10,Chamberlainium tumidum,14
-North Beach LOW 2017 10,Colpomenia bullosa,18
 North Beach LOW 2017 10,Corallina vancouveriensis,4
 North Beach LOW 2017 10,Cryptosiphonia woodii,1.5
+North Beach LOW 2017 10,Dactylosiphon bullosus,18
 North Beach LOW 2017 10,Halosaccion glandiforme,1
 North Beach LOW 2017 10,Hedophyllum nigripes,0.5
 North Beach LOW 2017 10,Hildenbrandia occidentalis,1
 North Beach LOW 2017 10,Hildenbrandia rubra,0.5
-North Beach LOW 2017 10,Hymenena sp.,1
+North Beach LOW 2017 10,Hymenena spp.,1
 North Beach LOW 2017 10,Leathesia marina,6
 North Beach LOW 2017 10,Mastocarpus agardhii,0.5
 North Beach LOW 2017 10,Mazzaella oregona,3
@@ -13970,7 +13966,7 @@ North Beach LOW 2017 2,coralline crust,10
 North Beach LOW 2017 2,Dermasterias,1
 North Beach LOW 2017 2,Hedophyllum sessile,85
 North Beach LOW 2017 2,Hildenbrandia rubra,7
-North Beach LOW 2017 2,Hymenena sp.,0.5
+North Beach LOW 2017 2,Hymenena spp.,0.5
 North Beach LOW 2017 2,Katharina tunicata,4
 North Beach LOW 2017 2,Lithophyllum sp. 2,2
 North Beach LOW 2017 2,Lithothamnion phymatodeum,4
@@ -13987,7 +13983,7 @@ North Beach LOW 2017 2,Tube worms,1
 North Beach LOW 2017 2,Ulva lactuca,0.5
 North Beach LOW 2017 2,Unknown crust,6
 North Beach LOW 2017 3,Alaria marginata,4
-North Beach LOW 2017 3,Antithamnionella pacifica,0.5
+North Beach LOW 2017 3,Antithamnionella spp.,0.5
 North Beach LOW 2017 3,bare rock,4
 North Beach LOW 2017 3,Bossiella frondifera,7
 North Beach LOW 2017 3,Bossiella hakaiensis,3
@@ -14023,7 +14019,7 @@ North Beach LOW 2017 4,Corallina vancouveriensis,16
 North Beach LOW 2017 4,Hedophyllum sessile,77
 North Beach LOW 2017 4,Hildenbrandia occidentalis,0.5
 North Beach LOW 2017 4,Hildenbrandia rubra,1
-North Beach LOW 2017 4,Hymenena sp.,0.5
+North Beach LOW 2017 4,Hymenena spp.,0.5
 North Beach LOW 2017 4,Lithophyllum sp. 2,2
 North Beach LOW 2017 4,Lithothamnion phymatodeum,3
 North Beach LOW 2017 4,Neopolyporolithon reclinatum,1
@@ -14046,7 +14042,7 @@ North Beach LOW 2017 5,Ectocarpus commensalis,0.5
 North Beach LOW 2017 5,Halosaccion glandiforme,0.5
 North Beach LOW 2017 5,Hedophyllum sessile,80
 North Beach LOW 2017 5,Hildenbrandia rubra,3
-North Beach LOW 2017 5,Hymenena sp.,4
+North Beach LOW 2017 5,Hymenena spp.,4
 North Beach LOW 2017 5,Leathesia marina,0.5
 North Beach LOW 2017 5,Lithophyllum sp. 2,0.5
 North Beach LOW 2017 5,Lithothamnion phymatodeum,0.5
@@ -14074,7 +14070,7 @@ North Beach LOW 2017 6,Cryptochiton,1
 North Beach LOW 2017 6,Hedophyllum sessile,97
 North Beach LOW 2017 6,Hildenbrandia occidentalis,6
 North Beach LOW 2017 6,Hildenbrandia rubra,2
-North Beach LOW 2017 6,Hymenena sp.,1
+North Beach LOW 2017 6,Hymenena spp.,1
 North Beach LOW 2017 6,Katharina tunicata,7
 North Beach LOW 2017 6,Lithophyllum sp. 1,0.5
 North Beach LOW 2017 6,Lithothamnion phymatodeum,3
@@ -14092,7 +14088,7 @@ North Beach LOW 2017 7,Corallina vancouveriensis,19
 North Beach LOW 2017 7,Hedophyllum sessile,96
 North Beach LOW 2017 7,Hildenbrandia occidentalis,0.5
 North Beach LOW 2017 7,Hildenbrandia rubra,5
-North Beach LOW 2017 7,Hymenena sp.,10
+North Beach LOW 2017 7,Hymenena spp.,10
 North Beach LOW 2017 7,Lithophyllum sp. 2,0.5
 North Beach LOW 2017 7,Odonthalia floccosa,11
 North Beach LOW 2017 7,Petrocelis,3
@@ -14105,10 +14101,10 @@ North Beach LOW 2017 8,Barnacle,0.5
 North Beach LOW 2017 8,Bossiella frondescens,11
 North Beach LOW 2017 8,Callithamnion pikeanum,2
 North Beach LOW 2017 8,Chamberlainium tumidum,3
-North Beach LOW 2017 8,Colpomenia bullosa,1
 North Beach LOW 2017 8,Corallina vancouveriensis,2
 North Beach LOW 2017 8,coralline crust,2
 North Beach LOW 2017 8,Cryptosiphonia woodii,0.5
+North Beach LOW 2017 8,Dactylosiphon bullosus,1
 North Beach LOW 2017 8,Endocladia muricata,5
 North Beach LOW 2017 8,Fucus distichus,0.5
 North Beach LOW 2017 8,Halosaccion glandiforme,0.5
@@ -14137,8 +14133,8 @@ North Beach LOW 2017 9,Bossiella frondescens,2
 North Beach LOW 2017 9,Bossiella frondifera,1
 North Beach LOW 2017 9,Callithamnion pikeanum,1
 North Beach LOW 2017 9,Chamberlainium tumidum,8
-North Beach LOW 2017 9,Colpomenia bullosa,2
 North Beach LOW 2017 9,Corallina vancouveriensis,5
+North Beach LOW 2017 9,Dactylosiphon bullosus,2
 North Beach LOW 2017 9,Fucus distichus,0.5
 North Beach LOW 2017 9,Hildenbrandia occidentalis,2
 North Beach LOW 2017 9,Hildenbrandia rubra,22
@@ -14187,7 +14183,7 @@ North Beach LOW 2018 10,Fucus distichus,7
 North Beach LOW 2018 10,Halosaccion glandiforme,1
 North Beach LOW 2018 10,Hildenbrandia occidentalis,0.5
 North Beach LOW 2018 10,Hildenbrandia rubra,0.5
-North Beach LOW 2018 10,Hymenena sp.,5
+North Beach LOW 2018 10,Hymenena spp.,5
 North Beach LOW 2018 10,Katharina tunicata,3
 North Beach LOW 2018 10,Leathesia marina,0.5
 North Beach LOW 2018 10,Limpet,10
@@ -14215,7 +14211,7 @@ North Beach LOW 2018 2,Crab,1
 North Beach LOW 2018 2,Ectocarpus commensalis,0.5
 North Beach LOW 2018 2,Hedophyllum sessile,98
 North Beach LOW 2018 2,Hildenbrandia occidentalis,8
-North Beach LOW 2018 2,Hymenena sp.,1
+North Beach LOW 2018 2,Hymenena spp.,1
 North Beach LOW 2018 2,Johansenia macmillanii,0.5
 North Beach LOW 2018 2,Katharina tunicata,4
 North Beach LOW 2018 2,Leptasterias sp.,2
@@ -14244,7 +14240,7 @@ North Beach LOW 2018 3,Dermasterias,1
 North Beach LOW 2018 3,Ectocarpus commensalis,0.5
 North Beach LOW 2018 3,Hedophyllum sessile,90
 North Beach LOW 2018 3,Hildenbrandia occidentalis,7
-North Beach LOW 2018 3,Hymenena sp.,0.5
+North Beach LOW 2018 3,Hymenena spp.,0.5
 North Beach LOW 2018 3,Katharina tunicata,4
 North Beach LOW 2018 3,Leptasterias sp.,1
 North Beach LOW 2018 3,Lithophyllum sp. 1,0.5
@@ -14291,7 +14287,7 @@ North Beach LOW 2018 5,Ectocarpus commensalis,1
 North Beach LOW 2018 5,Hedophyllum nigripes,6
 North Beach LOW 2018 5,Hedophyllum sessile,78
 North Beach LOW 2018 5,Hildenbrandia occidentalis,4
-North Beach LOW 2018 5,Hymenena sp.,0.5
+North Beach LOW 2018 5,Hymenena spp.,0.5
 North Beach LOW 2018 5,Lithothamnion glaciale,4
 North Beach LOW 2018 5,Mesophyllum vancouveriense,1
 North Beach LOW 2018 5,Nemertea,1
@@ -14378,7 +14374,7 @@ North Beach LOW 2018 9,Halosaccion glandiforme,0.5
 North Beach LOW 2018 9,Hedophyllum sessile,26
 North Beach LOW 2018 9,Hildenbrandia occidentalis,2
 North Beach LOW 2018 9,Hildenbrandia rubra,1
-North Beach LOW 2018 9,Hymenena sp.,4
+North Beach LOW 2018 9,Hymenena spp.,4
 North Beach LOW 2018 9,Katharina tunicata,2
 North Beach LOW 2018 9,Lithophyllum sp. 1,1
 North Beach LOW 2018 9,Lithothamnion phymatodeum,0.5
@@ -14401,7 +14397,7 @@ North Beach LOW 2019 1,Flustralidra,2
 North Beach LOW 2019 1,Hedophyllum sessile,100
 North Beach LOW 2019 1,Hildenbrandia occidentalis,4
 North Beach LOW 2019 1,Hildenbrandia rubra,2
-North Beach LOW 2019 1,Hymenena sp.,0.5
+North Beach LOW 2019 1,Hymenena spp.,0.5
 North Beach LOW 2019 1,Jingle,1
 North Beach LOW 2019 1,Johansenia macmillanii,0.5
 North Beach LOW 2019 1,Katharina tunicata,7
@@ -14426,7 +14422,7 @@ North Beach LOW 2019 10,Crusticorallina muricata,4
 North Beach LOW 2019 10,Hedophyllum nigripes,25
 North Beach LOW 2019 10,Hildenbrandia occidentalis,2
 North Beach LOW 2019 10,Hildenbrandia rubra,4
-North Beach LOW 2019 10,Hymenena sp.,1
+North Beach LOW 2019 10,Hymenena spp.,1
 North Beach LOW 2019 10,Lithophyllum sp. 1,2
 North Beach LOW 2019 10,Mazzaella splendens,3
 North Beach LOW 2019 10,Neopolyporolithon reclinatum,1
@@ -14450,7 +14446,7 @@ North Beach LOW 2019 2,Halosaccion glandiforme,0.5
 North Beach LOW 2019 2,Hedophyllum sessile,100
 North Beach LOW 2019 2,Hildenbrandia occidentalis,4
 North Beach LOW 2019 2,Hildenbrandia rubra,3
-North Beach LOW 2019 2,Hymenena sp.,1
+North Beach LOW 2019 2,Hymenena spp.,1
 North Beach LOW 2019 2,Lithophyllum sp. 1,1
 North Beach LOW 2019 2,Lithothamnion phymatodeum,4
 North Beach LOW 2019 2,Neopolyporolithon reclinatum,1
@@ -14474,7 +14470,7 @@ North Beach LOW 2019 3,Ectocarpus commensalis,22
 North Beach LOW 2019 3,Hedophyllum sessile,100
 North Beach LOW 2019 3,Hildenbrandia occidentalis,1
 North Beach LOW 2019 3,Hildenbrandia rubra,0.5
-North Beach LOW 2019 3,Hymenena sp.,1
+North Beach LOW 2019 3,Hymenena spp.,1
 North Beach LOW 2019 3,Jingle,1
 North Beach LOW 2019 3,Laminaria setchellii,2
 North Beach LOW 2019 3,Lithophyllum impressum,1
@@ -14507,7 +14503,7 @@ North Beach LOW 2019 4,Ectocarpus commensalis,1
 North Beach LOW 2019 4,Hedophyllum sessile,99
 North Beach LOW 2019 4,Hildenbrandia occidentalis,8
 North Beach LOW 2019 4,Hildenbrandia rubra,5
-North Beach LOW 2019 4,Hymenena sp.,3
+North Beach LOW 2019 4,Hymenena spp.,3
 North Beach LOW 2019 4,Leptasterias sp.,1
 North Beach LOW 2019 4,Lithophyllum impressum,1
 North Beach LOW 2019 4,Lithophyllum sp. 1,3
@@ -14528,7 +14524,7 @@ North Beach LOW 2019 5,Ectocarpus commensalis,2
 North Beach LOW 2019 5,Hedophyllum sessile,94
 North Beach LOW 2019 5,Hildenbrandia occidentalis,5
 North Beach LOW 2019 5,Hildenbrandia rubra,3
-North Beach LOW 2019 5,Hymenena sp.,1
+North Beach LOW 2019 5,Hymenena spp.,1
 North Beach LOW 2019 5,Lithothamnion phymatodeum,1
 North Beach LOW 2019 5,Neopolyporolithon reclinatum,1
 North Beach LOW 2019 5,Peyssonnelia sp.,2
@@ -14553,7 +14549,7 @@ North Beach LOW 2019 6,Halosaccion glandiforme,0.5
 North Beach LOW 2019 6,Hedophyllum sessile,100
 North Beach LOW 2019 6,Hildenbrandia occidentalis,3
 North Beach LOW 2019 6,Hildenbrandia rubra,4
-North Beach LOW 2019 6,Hymenena sp.,3
+North Beach LOW 2019 6,Hymenena spp.,3
 North Beach LOW 2019 6,Jingle,1
 North Beach LOW 2019 6,Limpet,10
 North Beach LOW 2019 6,Lithophyllum sp. 1,2
@@ -14594,7 +14590,7 @@ North Beach LOW 2019 8,Corallina vancouveriensis,10
 North Beach LOW 2019 8,Crusticorallina muricata,5
 North Beach LOW 2019 8,Hedophyllum nigripes,30
 North Beach LOW 2019 8,Hildenbrandia rubra,4
-North Beach LOW 2019 8,Hymenena sp.,1
+North Beach LOW 2019 8,Hymenena spp.,1
 North Beach LOW 2019 8,Lithophyllum sp. 1,2
 North Beach LOW 2019 8,Peyssonnelia sp.,1
 North Beach LOW 2019 8,Plocamium violaceum,0.5
@@ -14630,7 +14626,7 @@ North Beach LOW 2019 9,Schizymenia pacifica,0.5
 North Beach LOW 2019 9,Scytosiphon dotyi,0.5
 North Beach LOW 2019 9,Snail,3
 North Beach LOW 2019 9,Ulva lactuca,0.5
-North Beach MID 2011 1,Acrosiphonia sp.,1
+North Beach MID 2011 1,Acrosiphonia spp.,1
 North Beach MID 2011 1,Alaria marginata,25
 North Beach MID 2011 1,bare rock,10
 North Beach MID 2011 1,Bossiella sp.,1
@@ -14685,7 +14681,7 @@ North Beach MID 2011 2,Pyropia perforata,0.5
 North Beach MID 2011 2,Schizymenia pacifica,1
 North Beach MID 2011 2,Ulva lactuca,2
 North Beach MID 2011 2,Ulva linza,0.5
-North Beach MID 2011 3,Acrosiphonia sp.,2
+North Beach MID 2011 3,Acrosiphonia spp.,2
 North Beach MID 2011 3,Alaria marginata,6
 North Beach MID 2011 3,Bossiella sp.,1
 North Beach MID 2011 3,Calliarthron tuberculosum,3
@@ -14810,7 +14806,7 @@ North Beach MID 2011 9,Plocamium violaceum,0.5
 North Beach MID 2011 9,Pyropia abbottiae,6
 North Beach MID 2011 9,Pyropia perforata,0.5
 North Beach MID 2011 9,Wildmania schizophylla,7
-North Beach MID 2012 1,Acrosiphonia sp.,0.5
+North Beach MID 2012 1,Acrosiphonia spp.,0.5
 North Beach MID 2012 1,Alaria marginata,25
 North Beach MID 2012 1,Anthopleura sp.,3
 North Beach MID 2012 1,Balanus glandula,4
@@ -14834,7 +14830,7 @@ North Beach MID 2012 1,Pyropia perforata,8
 North Beach MID 2012 1,Savoiea robusta,2
 North Beach MID 2012 1,Ulva lactuca,1
 North Beach MID 2012 1,Worm,1
-North Beach MID 2012 10,Acrosiphonia sp.,0.5
+North Beach MID 2012 10,Acrosiphonia spp.,0.5
 North Beach MID 2012 10,Anthopleura sp.,3
 North Beach MID 2012 10,Balanus glandula,0.5
 North Beach MID 2012 10,bare rock,10
@@ -14853,7 +14849,7 @@ North Beach MID 2012 10,Savoiea robusta,0.5
 North Beach MID 2012 10,Ulva lactuca,0.5
 North Beach MID 2012 10,Ulva linza,0.5
 North Beach MID 2012 10,Wildmania norrisii,5
-North Beach MID 2012 2,Acrosiphonia sp.,0.5
+North Beach MID 2012 2,Acrosiphonia spp.,0.5
 North Beach MID 2012 2,Alaria marginata,95
 North Beach MID 2012 2,Balanus glandula,4
 North Beach MID 2012 2,bare rock,8
@@ -14864,7 +14860,7 @@ North Beach MID 2012 2,Corallina vancouveriensis,45
 North Beach MID 2012 2,Cottoidea,1
 North Beach MID 2012 2,Halosaccion glandiforme,1.5
 North Beach MID 2012 2,Hildenbrandia occidentalis,3
-North Beach MID 2012 2,Hymenena sp.,7
+North Beach MID 2012 2,Hymenena spp.,7
 North Beach MID 2012 2,Katharina tunicata,10
 North Beach MID 2012 2,Leathesia marina,1
 North Beach MID 2012 2,Leptasterias sp.,3
@@ -14894,7 +14890,7 @@ North Beach MID 2012 3,Leathesia marina,4
 North Beach MID 2012 3,Littorina sp.,92
 North Beach MID 2012 3,Lottia sp.,132
 North Beach MID 2012 3,Petrocelis,3
-North Beach MID 2012 4,Acrosiphonia sp.,0.1
+North Beach MID 2012 4,Acrosiphonia spp.,0.1
 North Beach MID 2012 4,Anthopleura sp.,2.5
 North Beach MID 2012 4,Balanus glandula,20
 North Beach MID 2012 4,Chthamalus dalli,1
@@ -14937,7 +14933,7 @@ North Beach MID 2012 5,Pisaster ochraceus,3
 North Beach MID 2012 5,Pyropia perforata,4
 North Beach MID 2012 5,Savoiea robusta,3
 North Beach MID 2012 5,Semibalanus cariosus,2
-North Beach MID 2012 6,Acrosiphonia sp.,0.25
+North Beach MID 2012 6,Acrosiphonia spp.,0.25
 North Beach MID 2012 6,Anthopleura sp.,4
 North Beach MID 2012 6,Balanus glandula,15
 North Beach MID 2012 6,bare rock,28
@@ -15059,8 +15055,7 @@ North Beach MID 2013 1,Neogastroclonium subarticulatum,3
 North Beach MID 2013 1,Pagarus sp.,1
 North Beach MID 2013 1,Phyllospadix serrulatus,18
 North Beach MID 2013 1,Polysiphonia hendryi var. hendryi,5
-North Beach MID 2013 1,Ptilota filicina,12
-North Beach MID 2013 1,Ptilota sp.,7
+North Beach MID 2013 1,Ptilota filicina,19
 North Beach MID 2013 1,Pyropia perforata,16
 North Beach MID 2013 1,Pyropia schizophylla,6
 North Beach MID 2013 1,Pyropia sp.,5
@@ -15102,8 +15097,7 @@ North Beach MID 2013 2,Neopolyporolithon reclinatum,0.5
 North Beach MID 2013 2,Phyllospadix serrulatus,0.5
 North Beach MID 2013 2,Pleonosporium vancouverianum,3
 North Beach MID 2013 2,Polysiphonia hendryi var. hendryi,2
-North Beach MID 2013 2,Ptilota filicina,15
-North Beach MID 2013 2,Ptilota sp.,1
+North Beach MID 2013 2,Ptilota filicina,16
 North Beach MID 2013 2,Pyropia schizophylla,0.5
 North Beach MID 2013 2,Strongylocentrotus purpuratus,1
 North Beach MID 2013 3,Alaria marginata,25
@@ -15161,7 +15155,7 @@ North Beach MID 2013 5,Halosaccion glandiforme,0.5
 North Beach MID 2013 5,Hedophyllum sessile,2
 North Beach MID 2013 5,Hildenbrandia occidentalis,6
 North Beach MID 2013 5,Hildenbrandia rubra,3
-North Beach MID 2013 5,Hymenena sp.,3
+North Beach MID 2013 5,Hymenena spp.,3
 North Beach MID 2013 5,Microcladia borealis,19
 North Beach MID 2013 5,Plocamium violaceum,40
 North Beach MID 2013 5,Pyropia perforata,1
@@ -15185,8 +15179,7 @@ North Beach MID 2013 6,Limpet,1
 North Beach MID 2013 6,Mazzaella parksii,1
 North Beach MID 2013 6,Neogastroclonium subarticulatum,1
 North Beach MID 2013 6,Phyllospadix serrulatus,80
-North Beach MID 2013 6,Ptilota filicina,3
-North Beach MID 2013 6,Ptilota sp.,3
+North Beach MID 2013 6,Ptilota filicina,6
 North Beach MID 2013 6,Pyropia perforata,37
 North Beach MID 2013 6,Pyropia sp.,7
 North Beach MID 2013 6,Tonicella sp.,1
@@ -15706,7 +15699,7 @@ North Beach MID 2016 6,Pisaster ochraceus,0.5
 North Beach MID 2016 6,Pyropia perforata,4
 North Beach MID 2016 6,Savoiea robusta,5
 North Beach MID 2016 6,Ulva lactuca,1
-North Beach MID 2016 7,Acrosiphonia sp.,0.5
+North Beach MID 2016 7,Acrosiphonia spp.,0.5
 North Beach MID 2016 7,bare rock,6
 North Beach MID 2016 7,Barnacle,45
 North Beach MID 2016 7,Corallina vancouveriensis,3
@@ -15802,9 +15795,9 @@ North Beach MID 2017 2,Bossiella frondifera,4
 North Beach MID 2017 2,Callithamnion pikeanum,2
 North Beach MID 2017 2,Chamberlainium tumidum,6
 North Beach MID 2017 2,Cladophora columbiana,0.5
-North Beach MID 2017 2,Colpomenia bullosa,0.5
 North Beach MID 2017 2,Corallina vancouveriensis,15
 North Beach MID 2017 2,coralline crust,0.5
+North Beach MID 2017 2,Dactylosiphon bullosus,0.5
 North Beach MID 2017 2,Endocladia muricata,0.5
 North Beach MID 2017 2,Gloiopeltis furcata,0.5
 North Beach MID 2017 2,Hildenbrandia occidentalis,7
@@ -15870,7 +15863,7 @@ North Beach MID 2017 5,Chamberlainium tumidum,22
 North Beach MID 2017 5,Corallina vancouveriensis,4
 North Beach MID 2017 5,Hildenbrandia occidentalis,16
 North Beach MID 2017 5,Hildenbrandia rubra,2
-North Beach MID 2017 5,Hymenena sp.,1
+North Beach MID 2017 5,Hymenena spp.,1
 North Beach MID 2017 5,Mastocarpus agardhii,0.5
 North Beach MID 2017 5,Mazzaella oregona,0.5
 North Beach MID 2017 5,Microcladia borealis,3

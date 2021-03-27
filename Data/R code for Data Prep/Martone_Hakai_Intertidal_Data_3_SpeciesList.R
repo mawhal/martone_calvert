@@ -52,11 +52,13 @@ lumped.data <- left_join( data, lump, by = c("Taxon"="taxon_corrected") )
 
 
 ## merge functional traits with lumped species
-data.funct  <- left_join( lumped.data, functional, by = c("taxon_lumped"="taxon"))
+data.funct  <- left_join( lumped.data, functional, by = c("taxon_lumped3"="taxon"))
 # # which lines are messed up?
 # extras <- data.funct[ duplicated( data.funct[,c(1:7)] ), ]
 # sort( unique(extras$Taxon) )
-
+data.funct %>% filter(motile_sessile=="sessile") %>% filter(is.na(funct_2021)) %>% 
+  filter(non.alga.flag == "Algae") %>% 
+  select(taxon_lumped3) %>% distinct()
 
 
 

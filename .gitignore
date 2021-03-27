@@ -28,3 +28,6 @@ node_modules
 # ignore photo files
 *.HEIC
 *.JPG
+
+# ignore cluster folder, which is a temporary folder
+cluster/

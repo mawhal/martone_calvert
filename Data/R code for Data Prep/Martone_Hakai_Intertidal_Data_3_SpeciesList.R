@@ -40,7 +40,7 @@ write_csv( data.frame(taxon=sort(unique( data$Taxon ))),
 lump <- read_csv("data/taxa/TaxonList_corrected_lumped_unique.csv")
 
 # functional group data
-functional <- read_csv("Data/taxa/Algae_functional_groups.csv")
+functional <- read_csv("Data/taxa/functional_groups.csv")
 
 
 

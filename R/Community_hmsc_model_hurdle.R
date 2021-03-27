@@ -31,7 +31,7 @@ for( model in 1:nm ){
   m = sampleMcmc(m, samples = samples, thin = thin,
                # adaptNf = rep(ceiling(0.4*samples*thin),m$nr),
                transient = transient,
-               nChains = nChains, #nParallel = nChains,
+               nChains = nChains, nParallel = nChains,
                )
   models[[model]] = m
 }

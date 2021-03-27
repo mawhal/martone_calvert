@@ -33,8 +33,6 @@ am <- read.csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.
 
 
 
-
-
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
 muse <- am[ am$Year != "2011", ]
@@ -69,7 +67,7 @@ d <- dm %>%
 # restrict this to seaweeds and sessile invertebrates
 d.simple <- d %>%
   mutate( taxon = gsub(" ",".",taxon_lumped3) ) %>% 
-  group_by( UID, Year, Site, Zone, taxon ) %>%
+  group_by( UID, Year, Site, Zone, taxon, funct_2021 ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T)) 
 
 # # average cover per transect
@@ -79,7 +77,7 @@ d.simple <- d %>%
 #   group_by( Year, Site, Zone, taxon_lumped2 ) %>%
 #   summarise( Abundance=mean(Abundance) )
 
-d.comm.prep <- d.simple  # dmean
+d.comm.prep <- d.simple  %>% filter( !is.na(funct_2021) )
 
 # spread Taxon column out into many columns filled with abundance/cover data
 d.comm <- d.comm.prep %>%
@@ -93,7 +91,7 @@ d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 
 
 # isolate the community, site, and sample data
-comm.all <- d.comm[,-c(1:4)]
+comm.all <- d.comm[,-c(1:5)]
 comm.all <- ceiling(comm.all)
 
 # 
@@ -103,21 +101,20 @@ par( mar=c(3,4,0.5,0.5)+0.01, cex=0.7, las=1, cex=1.1 )
 # axis(2)
 # axis(1, at=c(1,seq(10,300,by=10)) )
 # all data
-boxplot( comm.all[rev(order(apply(comm.all,2,function(z) length(z[z>0]))))], 
-         pch=16, cex=0.3, axes=F, col = 'moccasin', outwex = 0.5, boxcol = 'black', outcol = scales::alpha("black",0.25) )
-# # non-zero cover
-# comm.present <- comm.all
-# comm.present[ comm.present == 0] <- NA
-# boxplot( comm.present[rev(order(apply(comm.all,2,function(z) length(z[z>0]))))],
-#          pch=16, cex=0.3, axes=F, col = 'moccasin', log='y' )
-axis(2)
-mtext("cover (%)",2,line = 3,las=3)
-axis(1, at=c(1,seq(10,300,by=10)) )
-abline(v=48,col='red')
-# abline(h=5,lty=1)
-mtext("occupancy rank",1,line = 2)
-box()
-dev.off()
+# arrange by rank abundance
+d.occ <- d.simple %>% ungroup() %>%
+  group_by(taxon) %>% 
+  summarize( occupied = length(Abundance) ) 
+d.occ$rank <- rank(-d.occ$occupied, ties.method = "first")
+comm.plot <- left_join( d.simple, d.occ ) %>% ungroup()
+ggplot( comm.plot, aes(group = rank, y = Abundance) ) + geom_boxplot()
+ggplot( comm.plot, aes(x = rank, y = Abundance) ) +
+  geom_vline( xintercept = 47.5, col='red' ) +
+  geom_point( alpha = 0.05, col='darkslategrey' ) +
+  ylab("Cover (%)") +
+  xlab("Occurrence rank") +
+  theme_classic() + theme( legend.position = "none" )
+ggsave("R/Figs/rank_abundance_hmsc.svg", width = 7, height = 2 )
 
 # reduce the dataset by removing the rarest taxa 
 # those that have less than a total percent cover 
@@ -144,24 +141,15 @@ Yap <- ifelse( Y==0, NA, Y )
 # log transform abundance given presence, so we can run a gaussian model
 Ylap <- log( Yap )
 
-# compare Y and ad
-ncol(Y)
-ad %>% filter(motile_sessile == "sessile") %>% 
-  select(taxon_lumped2,motile_sessile,kelp_fucoid_turf,new_cat_simple3) %>%
-  arrange( taxon_lumped2 ) %>% 
-  distinct()
-
-ad %>% filter(motile_sessile == "sessile") %>% 
-  select(taxon_lumped2) %>%
-  arrange( taxon_lumped2 ) %>% 
-  distinct() #%>% 
-ad.rich <- ad %>% filter(motile_sessile == "sessile") %>% 
-  select(taxon_lumped2) %>%
-  arrange( taxon_lumped2 ) %>% 
-  distinct() %>% 
-  summarize(length(unique(taxon_lumped2)))
-
-ncol(Y)/ad.rich
+# We define prevalence as the  fraction of occupied sampling units
+P = colMeans(Y > 0)
+par(mar = c(5,4,2,2)+0.1)
+hist(P, xlim=c(0,0.25), xlab = "Proportion of quadrats occupied", main = "")
+sort(P)
+# We define abundance as the mean number of individuals over sites
+# where the species is present.
+A = colSums(Y)/colSums(Y>0)
+hist(log(A), xlab = "Abundance")
 
 # look at genus overlap
 sort(unlist(lapply( strsplit( colnames(Y), split = "[.]"), function(z) z[1] )))
@@ -203,6 +191,16 @@ XData <- data.frame( XData.raw$year,XData.raw$shore.height, as.data.frame(poly(X
             as.data.frame(poly(XData.raw$shore.height,2)) )
 names(XData) <- c("year","elev","year1","year2","elev1","elev2")
 
+## trait data
+trait.all <- d.simple %>%
+  ungroup() %>%
+  select( taxon, FG = funct_2021 ) %>% 
+  distinct() %>% 
+  filter( taxon %in% colnames(Y) )
+trait.hmsc <- left_join( data.frame(taxon = colnames(Y)), trait.all )
+TrData <- trait.hmsc %>% select( FG )
+TrData$FG <- factor( TrData$FG, levels = c('canopy','blade','crust','thin_turf','turf','animal'))
+
 # set up random effects for hmsc
 # make sure to use spatial data
 # STUDY DESIGN
@@ -236,11 +234,10 @@ XFormula = ~ poly(shore.height, degree = 2, raw = F)*poly(year, degree=5, raw=F)
 XFormula = ~ year1 + year2 + elev1 + elev2 +
   elev1:year1 + elev1:year2 #+ elev2:year1  
   
-  
-
 ## Traits -- could include the kelp.fucoid.turf type of functional grouping 
 #            from the file "Algae_functional_groups.csv", but restricted to algae only
 #           could also include generally occpuied zone (e.g., high, mid, low)
+TrFormula = ~ FG
 
 ## Phylogeny -- may only be able to do this for red algae or brown algae separately
 
@@ -249,6 +246,7 @@ XFormula = ~ year1 + year2 + elev1 + elev2 +
 # probit presence-absence model with ones and zeros
 mprobit <- Hmsc( Y = Ypa, 
            XData = XData, XFormula = XFormula,
+           TrData = TrData, TrFormula = TrFormula,
            distr = "probit",
            studyDesign = studyDesign, 
            ranLevels = list(site=rL_site, transect=rL) ) #, quadrat=rL_quad ) )#,
@@ -257,6 +255,7 @@ mprobit <- Hmsc( Y = Ypa,
 # second, Gaussian model with log-abundances given presence
 mnormal <- Hmsc( Y = Ylap, YScale = TRUE,
                  XData = XData, XFormula = XFormula,
+                 TrData = TrData, TrFormula = TrFormula,
                  distr = "normal",
                  studyDesign = studyDesign, 
                  ranLevels = list(site=rL_site, transect=rL) )

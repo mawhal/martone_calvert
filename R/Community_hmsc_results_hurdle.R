@@ -31,6 +31,7 @@ MixingDir = paste0( here::here(), "/R/mixing")
 ## load the model
 list.files( ModelDir )
 model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250.Rdata"
+model = "model_elevxyear_hurdle_test_chains_1_thin_1_samples_5.Rdata"
 mload <- load( paste(ModelDir,model, sep="/") )
 
 # load the data

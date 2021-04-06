@@ -114,7 +114,7 @@ ggplot( comm.plot, aes(x = rank, y = Abundance) ) +
   ylab("Cover (%)") +
   xlab("Occurrence rank") +
   theme_classic() + theme( legend.position = "none" )
-ggsave("R/Figs/rank_abundance_hmsc.svg", width = 7, height = 2 )
+ggsave("R/Figs/rank_abundance_hmsc.svg", width = 7, height = 2 ) # note that zeros are not inlcuded here
 
 # reduce the dataset by removing the rarest taxa 
 # those that have less than a total percent cover 

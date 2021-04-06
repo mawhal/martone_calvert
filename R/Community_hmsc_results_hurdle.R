@@ -30,8 +30,9 @@ MixingDir = paste0( here::here(), "/R/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250.Rdata"
-model = "model_elevxyear_hurdle_test_chains_1_thin_1_samples_5.Rdata"
+model = "model_elevxyear_traits_hurdle_chains_4_thin_100_samples_250.Rdata"
+# model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250.Rdata"
+# model = "model_elevxyear_hurdle_test_chains_1_thin_1_samples_5.Rdata"
 mload <- load( paste(ModelDir,model, sep="/") )
 
 # load the data
@@ -82,14 +83,14 @@ for(j in 1:nm){
     ma = cbind(ma,ge.beta)#[,1])
   }
 }
-png(file="Figs/MCMC_convergence_hurdle.png")
-windows(4.5,6)
-par(mfrow=c(2,1),las=1, mar=c(3,4,2,1))
+png(file="R/Figs/MCMC_convergence_hurdle.png", res = 600, width = 4.5, height = 6, units = "in")
+# windows(4.5,6)
+par(mfrow=c(2,1),las=1, mar=c(3,4,2,1)+0.1)
 vioplot(ma,col=rainbow_hcl(nm),names=c("presence-absence","abundance-cop"),
-        ylim=c(0.9,max(ma)),main="psrf(beta)", ylab="Gelman statistic" )
+        ylim=c(0.99,max(ma)),main="psrf(beta)", ylab="Gelman statistic" )
 abline(a=1.05,b=0)
 vioplot(ma,col=rainbow_hcl(nm),names=c("presence-absence","abundance-cop"),
-        ylim=c(0.9,1.1),main="psrf(beta)", ylab="Gelman statistic" )
+        ylim=c(0.99,1.1),main="psrf(beta)", ylab="Gelman statistic" )
 abline(a=1.05,b=0)
 dev.off()
 
@@ -187,6 +188,8 @@ ggplot( coef_plot, aes(y=value, x=factor(1), col=alga)) +
 
 
 
+
+
 ## variance partitioning
 VP = lapply( models, computeVariancePartitioning ) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
 # plotVariancePartitioning(m, VP = VP)
@@ -253,7 +256,7 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
 OmegaCor = lapply( models, computeAssociations )
 supportLevel = 0.95
 # choose the random variable to plot
-rlevel = 1
+rlevel = 2
 pick <- 1
 toPlot = ((OmegaCor[[pick]][[rlevel]]$support>supportLevel)
           + (OmegaCor[[pick]][[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[pick]][[rlevel]]$mean
@@ -273,15 +276,13 @@ corrplot( mynewcor, method = "color",
 
 
 #####
-# Model  predictions
+# Model  predictions across elevations
 # response curves across all combinations
 newXData <- data.frame(shore.height = seq(60,380,by = 1),
                        anom.pine.sum.1 = 1.1706,
                        anom.pine.win = 0.8530 )
 years <- as.data.frame( models[[1]]$XData %>% select(year,year1,year2) %>% mutate(year1=round(year1,7),year2=round(year2,7)) %>% distinct() )
 elevs <- as.data.frame( models[[1]]$XData %>% select(elev,elev1,elev2) %>% mutate(elev1=round(elev1,5),elev2=round(elev2,5)) %>% distinct() %>% arrange(elev1) )
-plot(elevs)
-plot(years)
 
 newDF <- expand.grid( shore.height = seq(60,380,by = 1),
              year=c(2012:2019),
@@ -463,6 +464,8 @@ cols.two <- c( rgb( 211,230,240, maxColorValue=255), rgb( 232,139,110, maxColorV
 
 hist( comm$Fucus.distichus )
 taxon <- "Hedophyllum.sessile"
+taxon <- "Alaria.marginata"
+taxon <- "Fucus.distichus"
 
 a <- ggplot(predictions_pa, aes_string(x = 'elev', y = taxon, col='year'))+
   geom_smooth(aes(group=year1),se=F,lwd=1.5) +
@@ -479,25 +482,22 @@ b <- ggplot(predictions_cop, aes_string(x = 'elev', y = taxon, col='year'))+
   xlab("") +
   theme_classic() +
   theme(legend.position = "none") +
-  # theme(legend.position = c(1,0.25), legend.justification = c(1,0) ) +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 c <- ggplot(predictions_abun, aes_string(x = 'elev', y = taxon, col='year'))+
   geom_smooth(aes(group=year1),se=F,lwd=1.5) +
-  # scale_color_gradient(low = "grey75", high="gray20") +
-  # scale_color_gradientn(colours=pal2(100),limits=c(-2,2)) +
   scale_color_manual(values=cols.two) +
   # ylab("percent cover") +
   # xlab("elevation (cm)") +
   ylab("") +
   xlab("") +
   theme_classic() + 
-  # theme(legend.position = "none") +
-  theme(legend.position = c(1,0.25), legend.justification = c(1,0) ) +
+  theme(legend.position = "none") +
+  # theme(legend.position = c(1,0.25), legend.justification = c(1,0) ) +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 plot_grid(c,a,b,ncol=1, align='hv')
-ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxon,".svg"), height=4.5, width=1.5 )
+ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxon,".svg"), height = 4.5, width = 1.6 ) # width 1.75 for Hedophyllum 
 
 # a <- ggplot(predictions_pa, aes_string(x = 'factor(year1,labels=2012:2019)',
 #                                 y = taxon))+
@@ -527,193 +527,175 @@ save( predictions_abund, file = paste("R/output/hmsc_pred",model, sep="_") )
 ###
 
 
-load( file = paste("R/output/hmsc_pred",model, sep="_") )
-# load( file = paste("R/output/hmsc_pred_model_5_chains_4_thin_100_samples_1000.Rdata") )
+# load( file = paste("R/output/hmsc_pred",model, sep="_") )
 
 
 
 
 
 
-##### Counter-factual predicitons
-## predictions over on factor only
-# get predictions over time
-Gradient <- constructGradient(models[[1]], focalVariable = "year1", non.focalVariables = list("elev1" = list(1)),
-                              ngrid = 8) #length(unique(models[[1]]$XData$year1)))
+##### Counter-factual predictions ####
+# ## predictions over on factor only
+# # get predictions over time
+# Gradient <- constructGradient(models[[1]], focalVariable = "year1", non.focalVariables = list("elev1" = list(1)),
+#                               ngrid = 8) #length(unique(models[[1]]$XData$year1)))
+# 
+# Gradient$XDataNew$year1
+# XData_choose <- models[[1]]$XData %>% 
+#   select(year,year1,year2) %>% mutate_all(round,7) %>%  distinct()
+# XData_choose_elev <- models[[1]]$XData %>% 
+#   select(elev,elev1,elev2) %>% mutate_all(round,7) %>%  distinct() %>% arrange(elev)
+# # get a model for elev2 as functions of elev and elev1 so we can predict any elevation
+# plot(XData_choose_elev)
+# lm_raw <- lm( elev2 ~ poly(elev, 2, raw = T), data = XData_choose_elev )
+# lm_scale <- lm( elev2 ~ poly(elev1, 2, raw = T), data = XData_choose_elev )
+# lm_linear <- lm( elev1 ~ elev, data = XData_choose_elev )
+# predict( lm_raw, newdata = data.frame(elev = 61))
+# predict( lm_scale, newdata = data.frame(elev1 = predict(lm_linear, newdata = data.frame(elev = 61))))
+# XData_choose_elev %>% filter( elev2==min(elev2))
+# mean(XData_choose_elev$elev)
+# Gradient$XDataNew$year2 <- XData_choose$year2#[ XData_choose$year1 == round(Gradient$XDataNew$year1,7)]
+# 
+# # middle of low zone
+# mean(quantile( elevs$elev, c(0,0.33) )) # middle of lower zone (although for Fifth Beach this is very close to the lower limit)
+# Gradient$XDataNew$elev1 <- -0.04676  
+# Gradient$XDataNew$elev2 <- 0.02619
+# 
+# # middle of shore
+# Gradient$XDataNew$elev1 <- 0.00011
+# Gradient$XDataNew$elev2 <- -0.03570
+# 
+# years <- data.frame( year1 = round(Gradient$XDataNew$year1,7), year = 2012:2019 )
+# 
+# # Gradient$studyDesignNew$Time <- unique(mod_list[[1]]$studyDesign$Time)
+# # Gradient$rLNew$Time <- mod_list[[1]]$rL$Time
+# 
+# Time_predY1 <- predict(models[[1]], XData = Gradient$XDataNew, studyDesign = Gradient$studyDesignNew, ranLevels = Gradient$rLNew, expected = TRUE)
+# Time_predY2 <- predict(models[[2]], XData = Gradient$XDataNew, studyDesign = Gradient$studyDesignNew, ranLevels = Gradient$rLNew, expected = TRUE)
+# 
+# Time_predY1 <- abind::abind(Time_predY1, along = 3)
+# Time_predY2 <- exp(abind::abind(Time_predY2, along = 3))
+# Time_predY3 <- Time_predY1*Time_predY2
+# 
+# scaled_occur <- Time_predY1
+# log_con_bmass <- log(Time_predY2)
+# log_biomass <- log(Time_predY3)
+# 
 
-Gradient$XDataNew$year1
-XData_choose <- models[[1]]$XData %>% 
-  select(year,year1,year2) %>% mutate_all(round,7) %>%  distinct()
-XData_choose_elev <- models[[1]]$XData %>% 
-  select(elev,elev1,elev2) %>% mutate_all(round,7) %>%  distinct()
-XData_choose_elev %>% filter( elev2==min(elev2))
-mean(XData_choose_elev$elev)
-Gradient$XDataNew$year2 <- XData_choose$year2#[ XData_choose$year1 == round(Gradient$XDataNew$year1,7)]
 
-# middle of low zone
-mean(quantile( elevs$elev, c(0,0.33) )) # middle of lower zone (although for Fifth Beach this is very close to the lower limit)
-Gradient$XDataNew$elev1 <- -0.04676  
-Gradient$XDataNew$elev2 <- 0.02619
+# gammas
+# Gammas
+summary(mpost_pa$Gamma)
+summary(mpost_abun$Gamma)
+postGamma = lapply( models, getPostEstimate, parName = "Gamma")
+plotGamma(models[[1]], post=postGamma[[1]], param="Support", supportLevel = 0.95, covNamesNumbers = c(T,F), trNamesNumbers = c(T,F), colorLevels = 3 )
+plotGamma(models[[2]], post=postGamma[[2]], param="Support", supportLevel = 0.95, covNamesNumbers = c(T,F), trNamesNumbers = c(T,F), colorLevels = 3 )
+plotGamma(models[[2]], post=postGamma[[2]], param="Mean", supportLevel = 0.5, covNamesNumbers = c(T,F), trNamesNumbers = c(T,F), colorLevels = 3)
+#
+pick = 2
+hM <- models[[pick]]
+# Gradient = constructGradient(models[[pick]],focalVariable = "year1")
+predY = predict(hM,Gradient = Gradient, studyDesign = Gradient$studyDesignNew, ranLevels = Gradient$rLNew, expected = TRUE)
+prob = c(0.25,0.5,0.75)
+# plotGradient
+plotGradient(hM, Gradient, pred=predY, measure="S", showData = TRUE, q = prob) # prob should be q
+plotGradient(hM, Gradient, pred=predY, measure="Y", index=1, showData = TRUE, q = prob) # prob should be q
+plotGradient(hM, Gradient, pred=predY, measure="T", index=1, showData = TRUE,  q = prob) # prob should be q
+plotGradient(hM, Gradient, pred=predY, measure="T", index=2, showData = TRUE,  q = prob) # prob should be q
+plotGradient(hM, Gradient, pred=predY, measure="T", index=3, showData = TRUE,  q = prob) # prob should be q
+plotGradient(hM, Gradient, pred=predY, measure="T", index=4, showData = TRUE,  q = prob) # prob should be q
+plotGradient(hM, Gradient, pred=predY, measure="T", index=5, showData = TRUE,  q = prob) # prob should be q
+plotGradient(hM, Gradient, pred=predY, measure="T", index=6, showData = TRUE,  q = prob) # prob should be q
 
-# middle of shore
-Gradient$XDataNew$elev1 <- 0.00011
-Gradient$XDataNew$elev2 <- -0.03570
 
 
 
-# Gradient$studyDesignNew$Time <- unique(mod_list[[1]]$studyDesign$Time)
-# Gradient$rLNew$Time <- mod_list[[1]]$rL$Time
 
-Time_predY1 <- predict(models[[1]], XData = Gradient$XDataNew, studyDesign = Gradient$studyDesignNew, ranLevels = Gradient$rLNew, expected = TRUE)
-Time_predY2 <- predict(models[[2]], XData = Gradient$XDataNew, studyDesign = Gradient$studyDesignNew, ranLevels = Gradient$rLNew, expected = TRUE)
 
-Time_predY1 <- abind::abind(Time_predY1, along = 3)
-Time_predY2 <- exp(abind::abind(Time_predY2, along = 3))
-Time_predY3 <- Time_predY1*Time_predY2
 
-scaled_occur <- Time_predY1
-log_con_bmass <- log(Time_predY2)
-log_biomass <- log(Time_predY3)
 
-species_occur <- left_join(apply(scaled_occur, c(1,2), median) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "occurrence") %>% gather(key = Species, value = median, -year1, -metric),
-                           apply(scaled_occur, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "occurrence") %>% gather(key = Species, value = quant_0.25, -year1, -metric)) %>%
-  left_join(apply(scaled_occur, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "occurrence") %>% gather(key = Species, value = quant_0.75, -year1, -metric))
+#####
+# code from Patrick Thompson
+# 
+quantile(models[[1]]$XData$elev, probs = c(0.01,0.25, 0.5, 0.75, 0.99))
+hist(models[[1]]$XData$elev)
+elev_length = 16
+elev_grad <- round((seq((69), (379), length = elev_length)))
+elev_grad_bins <- elev_grad[seq(1,elev_length, by = 2)]
+elev_bin_prop <- table(cut(models[[1]]$XData$elev, elev_grad_bins, right = FALSE))
+elev_bin_prop <- elev_bin_prop/sum(elev_bin_prop)
+elev_grad <-  elev_grad[seq(2,elev_length, by = 2)]
+abline(v = elev_grad, col='slateblue', lty=2)
+elev_grad2 <- data.frame( elev = elev_grad,
+                          elev1 = predict( lm_linear, newdata = data.frame(elev = elev_grad)),
+                          elev2 = predict( lm_scale, newdata = data.frame(elev1 = predict(lm_linear, newdata = data.frame(elev = elev_grad)))) )
+occur_all_list <- list()
+cond_bmass_list <- list()
+bmass_list <- list()
+for(i in 1:length(elev_grad)){
+  Gradient <- constructGradient(models[[1]], focalVariable = 'year1', non.focalVariables = list('elev1' = list(1)),
+                                ngrid = 8 )
+  Gradient$XDataNew$year2 <- XData_choose$year2
+  Gradient$XDataNew$elev1 <- elev_grad2$elev1[i]
+  Gradient$XDataNew$elev2 <- elev_grad2$elev2[i]
+  Time_predY1 <- predict(models[[1]], XData = Gradient$XDataNew, studyDesign = Gradient$studyDesignNew, ranLevels = Gradient$rLNew, expected = TRUE)
+  Time_predY2 <- predict(models[[2]], XData = Gradient$XDataNew, studyDesign = Gradient$studyDesignNew, ranLevels = Gradient$rLNew, expected = TRUE)
+  Time_predY1 <- abind::abind(Time_predY1, along = 3)
+  Time_predY2 <- exp(abind::abind(Time_predY2, along = 3))
+  Time_predY3 <- Time_predY1*Time_predY2
+  occur_all_list[[i]] <- Time_predY1
+  cond_bmass_list[[i]] <- Time_predY2
+  bmass_list[[i]] <- Time_predY3
+}
+occur_mean <- occur_all_list[[1]]
+cond_bmass_mean <- cond_bmass_list[[1]]
+bmass_mean <- bmass_list[[1]]
+for(i in 2:length(elev_grad)){
+  occur_mean <- occur_mean + occur_all_list[[i]] * elev_bin_prop[i-1]
+  cond_bmass_mean <- cond_bmass_mean + cond_bmass_list[[i]] * elev_bin_prop[i-1]
+  bmass_mean <- bmass_mean + bmass_list[[i]] * elev_bin_prop[i-1]
+}
+scaled_occur <- occur_mean
+log_con_bmass <- log(cond_bmass_mean)
+log_biomass <- log(bmass_mean)
 
-species_occur <- species_occur %>%
+species_occur <- left_join(apply(scaled_occur, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "occurrence") %>% gather(key = Species, value = median, -year, -metric),
+                           apply(scaled_occur, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "occurrence") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
+  left_join(apply(scaled_occur, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "occurrence") %>% gather(key = Species, value = quant_0.75, -year, -metric))
+
+species_occur_scale <- species_occur %>%
   gather(key = quant, value = value, median:quant_0.75) %>%
   mutate(value = scale(value)) %>%
   spread(key = quant, value = value)
 
-species_con_bmass <- left_join(apply(log_con_bmass, c(1,2), median) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional cover") %>% gather(key = Species, value = median, -year1, -metric),
-                               apply(log_con_bmass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional cover") %>% gather(key = Species, value = quant_0.25, -year1, -metric)) %>%
-  left_join(apply(log_con_bmass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "conditional cover") %>% gather(key = Species, value = quant_0.75, -year1, -metric))
+species_con_bmass <- left_join(apply(log_con_bmass, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "conditional cover") %>% gather(key = Species, value = median, -year, -metric),
+                               apply(log_con_bmass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "conditional cover") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
+  left_join(apply(log_con_bmass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "conditional cover") %>% gather(key = Species, value = quant_0.75, -year, -metric))
 
-species_con_bmass <- species_con_bmass %>%
+species_con_bmass_scale <- species_con_bmass %>%
   gather(key = quant, value = value, median:quant_0.75) %>%
   mutate(value = scale(value)) %>%
   spread(key = quant, value = value)
 
-species_bmass <- left_join(apply(log_biomass, c(1,2), median) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "cover") %>% gather(key = Species, value = median, -year1, -metric),
-                           apply(log_biomass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "cover") %>% gather(key = Species, value = quant_0.25, -year1, -metric)) %>%
-  left_join(apply(log_biomass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year1 = Gradient$XDataNew$year1, metric = "cover") %>% gather(key = Species, value = quant_0.75, -year1, -metric))
+species_bmass <- left_join(apply(log_biomass, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = median, -year, -metric),
+                           apply(log_biomass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
+  left_join(apply(log_biomass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = quant_0.75, -year, -metric))
 
-species_bmass <- species_bmass %>%
+species_bmass_scale <- species_bmass %>%
   gather(key = quant, value = value, median:quant_0.75) %>%
   mutate(value = scale(value)) %>%
   spread(key = quant, value = value)
 
-species_temporal.df <- rbind(species_occur, species_con_bmass, species_bmass)
-species_temporal.df <- left_join( mutate(species_temporal.df,year1=round(year1,7)), years )
-
-library(broom)
-sp_scaled_trends <- species_temporal.df %>%
-  ungroup() %>%
-  dplyr::select(-quant_0.25, -quant_0.75) %>%
-  nest_by(Species, metric) %>%
-  mutate(fitYear = list(lm(median ~ year1, data = data))) %>%
-  summarise(tidy(fitYear)) %>%
-  filter(term != "(Intercept)") %>%
-  mutate(estimate_sig = estimate * as.numeric(p.value<0.05))
-
-order_occur <- sp_scaled_trends %>%
-  filter(metric == "cover") %>%
-  arrange(estimate_sig) 
-
-sp_scaled_trends$Species <- factor(sp_scaled_trends$Species, levels = order_occur$Species, ordered = TRUE)
-sp_scaled_trends$metric <- factor(sp_scaled_trends$metric, levels = c('occurrence','conditional cover','cover'), ordered = FALSE)
-
-
-ggplot(sp_scaled_trends, aes(x = metric, y = Species, fill = estimate_sig))+
-  geom_tile()+
-  scale_fill_gradient2(low = "dodgerblue3", high = "red", name = "scaled\nchange/year")+
-  ylab("")+
-  xlab("") +
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))
-ggsave("R/Figs/hmsc_scale_change_heatplot.svg", height = 6.2, width = 5)
-
-# boxplot of estimates
-fill_cols <- c('mintcream','mediumseagreen','mediumspringgreen')
-a <- ggplot(sp_scaled_trends, aes(x = metric, y = estimate, fill=metric)) + 
-  geom_hline(yintercept = 0) +
-  geom_boxplot(width=0.5) +
-  xlab("Metric") + ylab("Estimate") + 
-  theme_bw() + 
-  theme( legend.position = 'none',panel.grid = element_blank()) +
-  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
-  scale_fill_manual( values = fill_cols)
-a
-ggsave("R/Figs/hmsc_scale_change_boxplot.png", height = 4, width = 4)
-
-# add functional groups
-sp_scaled_trends$taxon <- sp_scaled_trends$Species
-sp_scaled_trends_fun <- left_join( sp_scaled_trends, taxon.key  )
-sp_scaled_trends_fun$funct_Sep2020[ is.na(sp_scaled_trends_fun$funct_Sep2020)] <- "animal"
-sp_scaled_trends_fun$funct_Sep2020 <- factor(sp_scaled_trends_fun$funct_Sep2020,
-                                             levels = c('canopy','turf','thin_turf','crust','blade','animal'))
-b <- ggplot(sp_scaled_trends_fun, aes(x = funct_Sep2020, y = estimate, fill=metric)) + 
-  geom_hline(yintercept = 0) +
-  geom_boxplot(width=0.5) +
-  xlab("Functional Group") + ylab("") + 
-  theme_bw() +
-  theme( legend.position = 'none',panel.grid = element_blank()) +
-  theme( panel.grid = element_blank())+
-  scale_fill_manual( values = fill_cols)
-b
-plot_grid(a,NULL,b,nrow=1,rel_widths = c(0.5,-0.01,1),
-          align = 'hv', labels=c("A","","B") )
-ggsave("R/Figs/hmsc_scale_change_boxplot_combo.png", height = 3, width = 6)
-
-# combine datasets for boxplots
-sp_scaled_trends$funct_Sep2020 <- "all\ntaxa"
-sp_scaled_trends_comb <- bind_rows( sp_scaled_trends, sp_scaled_trends_fun )
-# remove hyphen from functional group names
-sp_scaled_trends_comb$funct_Sep2020 <- gsub("_"," ",as.character(sp_scaled_trends_comb$funct_Sep2020))
-sp_scaled_trends_comb$funct_Sep2020 <- factor(sp_scaled_trends_comb$funct_Sep2020,
-                                             levels = c("all\ntaxa",'canopy','turf','thin turf','crust','blade','animal'))
-# # colors
-# fill_cols <- c('mintcream','mediumseagreen','mediumspringgreen')
-sp_scaled_trends_comb$colors <- "mintcream" 
-sp_scaled_trends_comb$colors[sp_scaled_trends_comb$metric == 'conditional cover'] <- "mediumseagreen" 
-sp_scaled_trends_comb$colors[sp_scaled_trends_comb$metric == 'cover'] <- "mediumspringgreen" 
-# fill_cols <- c('mintcream','mediumseagreen','mediumspringgreen')
-# line types, colors
-sp_scaled_trends_comb$line.type <- 1
-sp_scaled_trends_comb$line.type[ sp_scaled_trends_comb$funct_Sep2020 == "all\ntaxa"] <- 3
-sp_scaled_trends_comb$a <- 0.75
-sp_scaled_trends_comb$a[ sp_scaled_trends_comb$funct_Sep2020 == "all\ntaxa"] <- 1
-
-
-
-# get the number of datapoints for each group
-reps <- sp_scaled_trends_comb %>% 
-  group_by(funct_Sep2020) %>% 
-  summarize(n=length(estimate)/3) %>% 
-  mutate(estimate = -22.5, metric = 'conditional cover')
-
-hmsc_box <- ggplot(sp_scaled_trends_comb, aes(x = funct_Sep2020, y = estimate, fill=metric)) + 
-  geom_hline(yintercept = 0) +
-  geom_boxplot(lwd=0.33) +
-  geom_text(data = reps, aes(label = paste0('(',n,')')), size = 3) +
-  xlab("Functional Group") + ylab("Estimate") + 
-  ylim(c(-23,13)) +
-  theme_bw() +
-  theme( legend.position="top",
-         panel.grid = element_blank(),
-         legend.title = element_text(size=10),
-         legend.text = element_text(size=8),
-         legend.key.size = unit(0.5, "cm"),
-         legend.key = element_rect(colour = NA, fill = NA)) +
-  scale_fill_manual( values = fill_cols)
-ggsave("R/Figs/hmsc_scale_change_boxplot_comb_single.svg", hmsc_box, height = 3.5, width = 4)
-
-
+species_temporal.df <- rbind(species_occur_scale, species_con_bmass_scale, species_bmass)
+species_temporal.df <- left_join( mutate(species_temporal.df,year=round(year,7)), years )
 
 ## plot trends for all species
-species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, ordered = TRUE)
-species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, labels = gsub("[.]","\n",order_occur$Species), ordered = TRUE)
+# species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, ordered = TRUE)
+# species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, labels = gsub("[.]","\n",order_occur$Species), ordered = TRUE)
+species_temporal.df$Species <- gsub("_",".", species_temporal.df$Species)
 species_temporal.df$metric  <- factor(species_temporal.df$metric, levels = c("occurrence","conditional cover","cover"))
 
-sp.trends <- ggplot(species_temporal.df, aes(x = year1, y = median, color = metric,  fill = metric, group = metric))+ #fill = metric,
+sp.trends <- ggplot(species_temporal.df, aes(x = year, y = median, color = metric,  fill = metric, group = metric))+ #fill = metric,
   geom_ribbon(aes(ymin = quant_0.25, ymax= quant_0.75), alpha = 0.2, col = NA)+
   geom_line(size = 1)+
   facet_wrap(~Species, scales = "free", ncol = 6)+
@@ -721,11 +703,234 @@ sp.trends <- ggplot(species_temporal.df, aes(x = year1, y = median, color = metr
   # scale_fill_brewer(type = "qual", palette = "Dark2", name = "", guide = FALSE)+
   scale_color_manual( values = c('gray25','seagreen','springgreen') ) +
   scale_fill_manual( values = c('gray50','seagreen','springgreen3') ) +
-  xlab("")+
-  ylab("")+
+  xlab("Year")+
+  ylab("Scaled estimate")+
   theme_classic() + theme(legend.position = "top")
-ggsave(sp.trends, "R/Figs/hmsc_sp_trends.svg", height = 11*1.5, width = 8.5*1.5)
+ggsave("R/Figs/hmsc_sp_trends.svg", height = 11*1.5, width = 8.5*1.5)
 #
+
+
+Years <- 2012:2019
+slopes <- sapply(X = 1:dim(scaled_occur)[2], FUN = function(i){
+  sapply(X = 1:dim(scaled_occur)[3], FUN = function(x){
+    c(coef(lm(scaled_occur[,i,x]~Years))[2])
+  })
+})
+slopes_con_biomass_ln <- sapply(X = 1:dim(log_con_bmass)[2], FUN = function(i){
+  sapply(X = 1:dim(log_con_bmass)[3], FUN = function(x){
+    c(coef(lm(log_con_bmass[,i,x]~Years))[2])
+  })
+})
+slopes_biomass_ln <- sapply(X = 1:dim(log_biomass)[2], FUN = function(i){
+  sapply(X = 1:dim(log_biomass)[3], FUN = function(x){
+    c(coef(lm(log_biomass[,i,x]~Years))[2])
+  })
+})
+occur_trends <- data.frame(species = colnames(models[[1]]$Y),
+                           median = apply(slopes, 2, median),
+                           lower_0.25 = apply(slopes, 2, quantile, prob = 0.25),
+                           upper_0.75 = apply(slopes, 2, quantile, prob = 0.75),
+                           lower = apply(slopes, 2, quantile, prob = 0.025),
+                           upper = apply(slopes, 2, quantile, prob = 0.975),
+                           measure = 'Occurrence prob.')
+biomass_cond_ln_trends <- data.frame(species = colnames(models[[1]]$Y),
+                                     median = apply(slopes_con_biomass_ln, 2, median),
+                                     lower_0.25 = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.25),
+                                     upper_0.75 = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.75),
+                                     lower = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.025),
+                                     upper = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.975),
+                                     measure = 'Conditional cover (log)')
+biomass_ln_trends <- data.frame(species = colnames(models[[1]]$Y),
+                                median = apply(slopes_biomass_ln, 2, median),
+                                lower_0.25 = apply(slopes_biomass_ln, 2, quantile, prob = 0.25),
+                                upper_0.75 = apply(slopes_biomass_ln, 2, quantile, prob = 0.75),
+                                lower = apply(slopes_biomass_ln, 2, quantile, prob = 0.025),
+                                upper = apply(slopes_biomass_ln, 2, quantile, prob = 0.975),
+                                measure = 'Cover (log)')
+all_trends <- bind_rows(occur_trends, biomass_cond_ln_trends, biomass_ln_trends) %>%
+  mutate(sig = sign(upper) == sign(lower)) %>%
+  mutate(sign = ifelse(median > 0 & sig == TRUE, 'increasing', ifelse(median < 0 & sig == TRUE, 'decreasing', 'no trend'))) %>%
+  mutate(sign = factor(sign, levels = c('decreasing', 'no trend', 'increasing'), ordered = TRUE)) %>%
+  mutate(species = gsub("_",".",species)) %>%
+  mutate(species = factor(species, levels = gsub("_",".",occur_trends$species[order(occur_trends$median)]), ordered = TRUE)) %>%
+  mutate(measure = factor(measure, levels = c('Occurrence prob.', 'Conditional cover (log)', 'Cover (log)')))
+all_trends %>%
+  ggplot(aes(x = species, y = median, color = sign))+
+  geom_vline(xintercept = c(levels(all_trends$species)[seq(3, models[[1]]$ns, by = 3)]), col = 'grey', size = 0.1, linetype = 2)+
+  geom_hline(yintercept = 0, linetype = 2)+
+  geom_errorbar(aes(ymin = lower_0.25, ymax = upper_0.75), width = 0, size = 1)+
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0)+
+  geom_point()+
+  coord_flip()+
+  facet_wrap(~measure, scales = 'free_x')+
+  scale_color_manual(values = c('blue', 'grey', 'red'), guide = FALSE)+
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
+  ylab('Change per year')+
+  xlab('')
+ggsave("R/Figs/hmsc_species_trends_summary.svg",width = 6, height = 7)
+
+## now predict traits
+##### code modified from function plotGradient() ####
+hM = models[[1]]
+all(hM$distr[, 1] == 1)
+# make a new version of the intercept here to show canopy taxa
+which( hM$TrData == "canopy")
+new_traits <- hM$Tr
+new_traits[,1] <- 0
+new_traits[which( hM$TrData == "canopy"),1] <- 1
+
+split.along.dim <- function(a, n){
+  setNames(lapply(split(a, arrayInd(seq_along(a), dim(a))[, n]),
+                  array, dim = dim(a)[-n], dimnames(a)[-n]),
+           dimnames(a)[[n]])
+}
+
+predYO <- split.along.dim(scaled_occur, n=3)
+predYC <- split.along.dim(log_con_bmass, n=3)
+predYT <- split.along.dim(log_biomass, n=3)
+
+# presence-absence
+predTO = lapply(predYO, function(a) (a %*% new_traits)/matrix(rep(rowSums(a),
+                                                                  hM$nt), ncol = hM$nt))
+predTO_scale <- lapply( predTO, function(z) data.frame(matrix(scale(c(z)), ncol=6) )) 
+# conditional cover/biomass/abundance 
+predTC = lapply(predYC, function(a) (exp(a) %*% new_traits)/matrix(rep(rowSums(exp(a)), 
+                                                                     hM$nt), ncol = hM$nt))
+predTC_log_scale <- lapply( predTC, function(z) data.frame(matrix(scale(log(c(z))), ncol=6) )) 
+# total cover
+predTT = lapply(predYT, function(a) (exp(a) %*% new_traits))
+predTT_log_scale <- lapply( predTT, function(z) data.frame(matrix(scale(log(c(z))), ncol=6) )) 
+
+# index = 2
+predTO_scale = abind::abind(predTO_scale, along = 3)
+predTC_log_scale = abind::abind(predTC_log_scale, along = 3)
+predTT_log_scale = abind::abind(predTT_log_scale, along = 3)
+# xx = Gradient$XDataNew[, 1]
+# ngrid = length(xx)
+# Pr = mean(predT[ngrid, 1, ] > predT[1, 1, ])
+# q = prob = c(0.25,0.5,0.75)
+# qpred = apply(predT, c(1, 2), quantile, probs = q, na.rm = TRUE)
+# qpred = qpred[, , index]
+# lo = qpred[1, ]
+# hi = qpred[3, ]
+# me = qpred[2, ]
+# lo1 = min(lo, na.rm = TRUE)
+# hi1 = max(hi,  na.rm = TRUE)
+# ylabel = hM$trNames[[index]]
+# xlabel = colnames(Gradient$XDataNew)[[1]]
+# plot(2012:2019, qpred[2, ], ylim = c(lo1, hi1), type = "l", 
+#      xlab = "Year", ylab = ylabel)
+# polygon(c(2012:2019, rev(2012:2019)), c(qpred[1, ], rev(qpred[3, ])), 
+#         col = 'slateblue1', border = FALSE)
+# lines(2012:2019, qpred[2, ], lwd = 2)
+
+# combine qpreds to make some different plots
+qpred = apply(predTC, c(1, 2), quantile, probs = q, na.rm = TRUE)
+qpred_list <- split.along.dim( qpred, n = 3 )
+qpred_bind <- do.call(rbind, qpred_list)
+qpred_long <- qpred_bind %>% c() %>% 
+  data.frame() 
+names(qpred_long) = "value"
+qpred_long$year <- gl(8,3*6, labels = 2012:2019)
+qpred_long$FG <- gl(6,3, labels = levels(models[[1]]$TrData$FG) )
+qpred_long$quantile <- gl(3,1, labels = c("25%","50%","75%"))
+qpred_median <- qpred_long %>% 
+  filter( quantile == "50%" )
+FGcolor <- c("white","darkred","red","pink","darkgrey","#996633")
+ggplot( data = qpred_median, aes(x = year, y = value, group = FG, fill = FG)) +
+  geom_area(col="black") +
+  scale_fill_manual( values = rev(FGcolor) )
+  
+# make slopes for traits like with species predictions
+Years <- 2012:2019
+
+slopes <- sapply(X = 1:dim(predTO_scale)[2], FUN = function(i){
+  sapply(X = 1:dim(predTO_scale)[3], FUN = function(x){
+    c(coef(lm(predTO_scale[,i,x]~Years))[2])
+  })
+})
+slopes_con_biomass_ln <- sapply(X = 1:dim(predTC_log_scale)[2], FUN = function(i){
+  sapply(X = 1:dim(predTC_log_scale)[3], FUN = function(x){
+    c(coef(lm(predTC_log_scale[,i,x]~Years))[2])
+  })
+})
+slopes_biomass_ln <- sapply(X = 1:dim(predTT_log_scale)[2], FUN = function(i){
+  sapply(X = 1:dim(predTT_log_scale)[3], FUN = function(x){
+    c(coef(lm(predTT_log_scale[,i,x]~Years))[2])
+  })
+})
+occur_trends <- data.frame(FG = levels(models[[1]]$TrData$FG) ,
+                           median = apply(slopes, 2, median),
+                           lower_0.25 = apply(slopes, 2, quantile, prob = 0.25),
+                           upper_0.75 = apply(slopes, 2, quantile, prob = 0.75),
+                           lower = apply(slopes, 2, quantile, prob = 0.025),
+                           upper = apply(slopes, 2, quantile, prob = 0.975),
+                           measure = 'Occurrence prob.')
+biomass_cond_ln_trends <- data.frame(FG = levels(models[[1]]$TrData$FG),
+                                     median = apply(slopes_con_biomass_ln, 2, median),
+                                     lower_0.25 = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.25),
+                                     upper_0.75 = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.75),
+                                     lower = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.025),
+                                     upper = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.975),
+                                     measure = 'Conditional cover (log)')
+biomass_ln_trends <- data.frame(FG = levels(models[[1]]$TrData$FG),
+                                median = apply(slopes_biomass_ln, 2, median),
+                                lower_0.25 = apply(slopes_biomass_ln, 2, quantile, prob = 0.25),
+                                upper_0.75 = apply(slopes_biomass_ln, 2, quantile, prob = 0.75),
+                                lower = apply(slopes_biomass_ln, 2, quantile, prob = 0.025),
+                                upper = apply(slopes_biomass_ln, 2, quantile, prob = 0.975),
+                                measure = 'Cover (log)')
+all_trends <- bind_rows(occur_trends, biomass_cond_ln_trends, biomass_ln_trends) %>%
+  mutate(sig = sign(upper) == sign(lower)) %>%
+  mutate(sign = ifelse(median > 0 & sig == TRUE, 'increasing', ifelse(median < 0 & sig == TRUE, 'decreasing', 'no trend'))) %>%
+  mutate(sign = factor(sign, levels = c('decreasing', 'no trend', 'increasing'), ordered = TRUE)) %>%
+  mutate(FG = gsub("_"," ",FG)) %>%
+  mutate(FG = factor(FG, levels = gsub("_"," ",biomass_ln_trends$FG[order(biomass_ln_trends$median)]), ordered = TRUE)) %>%
+  mutate(measure = factor(measure, levels = c('Occurrence prob.', 'Conditional cover (log)', 'Cover (log)')))
+all_trends %>%
+  ggplot(aes(x = FG, y = median, color = sign))+
+  geom_vline(xintercept = c(levels(all_trends$species)[seq(3, models[[1]]$ns, by = 3)]), col = 'grey', size = 0.1, linetype = 2)+
+  geom_hline(yintercept = 0, linetype = 2)+
+  geom_errorbar(aes(ymin = lower_0.25, ymax = upper_0.75), width = 0, size = 1)+
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0)+
+  geom_point()+
+  coord_flip()+
+  facet_wrap(~measure, scales = 'free_x')+
+  scale_color_manual(values = c('blue', 'grey', 'red'), guide = FALSE)+
+  ylab('Change per year')+
+  xlab('')
+# horizontal; group by FG
+measure_cols <- c("black","mediumspringgreen","mediumseagreen")
+measure_cols <- c("black","springgreen2","seagreen")
+reps <- models[[1]]$TrData %>% 
+  mutate(FG = gsub("_"," ",FG)) %>% 
+  group_by(FG) %>% 
+  summarize(n=length(FG)) %>% 
+  mutate(median = -0.33, measure = 'Conditional cover (log)')
+
+all_trends %>%
+  ggplot(aes(x = FG, y = median, group = measure, col = measure))+
+  geom_hline(yintercept = 0, linetype = 2)+
+  geom_errorbar(aes(ymin = lower_0.25, ymax = upper_0.75), width = 0, size = 1, position = position_dodge(width = 0.5))+
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0, position = position_dodge(width = 0.5))+
+  geom_point(position = position_dodge(width = 0.5))+
+  geom_text(data = reps, aes(label = paste0('(',n,')')), size = 3, col = 'black') +
+  scale_color_manual(values = measure_cols) +
+  theme_bw() +
+  theme( legend.position="top",
+         panel.grid = element_blank(),
+         legend.title = element_blank(),
+         legend.text = element_text(size=8),
+         legend.key.size = unit(0.5, "cm"),
+         legend.key = element_rect(colour = NA, fill = NA)) +
+  ylab('Change per year (scaled)')+
+  xlab('Functional Group')
+ggsave( "R/Figs/hmsc_scale_change_FG.svg", height = 3.5, width = 4.02)
+
+
+#####
+#
+
 
 
 
@@ -790,12 +995,19 @@ species <- c("Barnacles","Mytilus.sp.")
 species <- c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides")
 species <- c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma")
 species <- c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola")
-species <- list( c("Fucus.distichus","Elachista.fucicola"),c("Palmaria.hecatensis","Palmaria.mollis") ,c("Polysiphonia","Lithothamnion.phymatodeum"),"Pyropia",c("Alaria.marginata","Hedophyllum.sessile"),c( "Mazzaella.parvula", "Mazzaella.oregona", "Mazzaella.splendens" ),"Cladophora.columbiana","Corallina",c("Colpomenia.bullosa","Colpomenia.peregrina"),c("Mastocarpus","Petrocelis"),c("Phyllospadix.sp."),c("Gloiopeltis.furcata"),c("Barnacles","Mytilus.sp."),c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides"),c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma"),c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola"))
+species <- list( c("Fucus.distichus","Elachista.fucicola"),c("Palmaria.hecatensis","Palmaria.mollis"),
+                 c("Polysiphonia","Lithothamnion.phymatodeum"),"Pyropia",c("Alaria.marginata","Hedophyllum.sessile"),
+                 c( "Mazzaella.parvula", "Mazzaella.oregona", "Mazzaella.splendens" ),"Cladophora.columbiana",
+                 "Corallina",c("Dactylosiphon.bullosus","Colpomenia.peregrina"),c("Mastocarpus","Petrocelis"),
+                 c("Phyllospadix.sp."),c("Gloiopeltis.furcata"),c("Barnacles","Mytilus.sp."),
+                 c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides"),
+                 c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma"),
+                 c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola"))
 
-species_temporal.df$taxon <- gsub("\n", ".", species_temporal.df$Species)
-predictions_abund_mean <- predictions_abund %>% 
-  group_by( year, site, transect, taxon) %>% 
-  summarize( N = mean(N) )
+# species_temporal.df$taxon <- gsub("\n", ".", species_temporal.df$Species)
+# predictions_abund_mean <- predictions_abund %>% 
+#   group_by( year,  taxon) %>%  #site, transect,
+#   summarize( N = mean(N) )
 
 alpha_choose = 0.1
 alpha_choose2 = 1
@@ -803,31 +1015,27 @@ size_choose = 2.5
 size_choose2 = 5
 point_colors <- c("slateblue","firebrick", "goldenrod" )
 for(i in 1:length(species)){
-  # abun.time.plot <- species_temporal.df %>% 
-  abun.time.plot <- predictions_abund_mean %>% 
-  filter(taxon %in% species[[i]] ) %>% ungroup() #%>% 
-  # filter( metric == "conditional cover" ) %>% 
-  # mutate( N = median )
+  abun.time.plot <- species_bmass %>% 
+  filter(Species %in% species[[i]] ) %>% ungroup() #%>% 
   
-  # ggplot( abun.time.plot, aes( x=year, y=exp(N), group=taxon, col=taxon ) ) + 
-  ggplot( abun.time.plot, aes( x=year, y=N, group=taxon, col=taxon ) ) + 
+  ggplot( abun.time.plot, aes( x=year, y=exp(median), group=Species, col=Species ) ) + 
   # geom_ribbon( aes(x=year, ymin=N_high/90, ymax=N_low/90), fill="grey70", alpha=0.5 ) +
   # facet_wrap(~taxon, scales="free_y",ncol=1) +
   geom_path(size=size_choose, alpha=alpha_choose2) +
   # geom_point( data=filter(ogd.mean.pa, taxon %in% species ), aes(y=N+0.01111111), size=5, alpha = 0.1 ) +
-  geom_point( data=filter(ogd.mean, taxon %in% species[[i]] ), aes(y=N+0.01111111), size=size_choose2, 
+  geom_point( data=filter(ogd.mean, taxon %in% species[[i]] ), aes(y=N+0.01111111, group=taxon, col=taxon), size=size_choose2, 
               alpha = alpha_choose, position = position_dodge(width = 0.25) ) +
-  geom_path( data=filter(ogd.mean.pa.mean, taxon %in% species[[i]] ), aes(y=N+0.01111111), lwd=0.75, alpha = 1 ) +
+  geom_path( data=filter(ogd.mean.pa.mean, taxon %in% species[[i]] ), aes(y=N+0.01111111, group=taxon, col=taxon), lwd=0.75, alpha = 1 ) +
   # stat_summary( data=filter(ogd.mean.pa, taxon %in% species ), aes(y=N), fun = "median", geom="line", size = 0.5 ) +
   scale_color_manual(values=point_colors[1:length(species[[i]])]) +
   ylab("Percent Cover") +
   theme_classic() +
-  theme(legend.position="top") +
+  theme(legend.position = "top", legend.title = element_blank()) +
   # ylim( c(0,18) ) +
   # scale_y_sqrt(labels = comma, breaks = c(0, 1.01111111, 10, 25, 50, 75, 100)) +
   scale_y_log10(labels = comma) +
   # scale_y_continuous(labels = comma) +
-  guides(color=guide_legend(nrow=2,ncol=2,byrow=F))  
+  guides(color=guide_legend(nrow=3,ncol=1,byrow=F))  
   
   ggsave( paste0("R/Figs/temporal_trends_select_taxa/",paste0(species[[i]],collapse="_"),"_model+data.svg"), 
         width=3,height=3.5)

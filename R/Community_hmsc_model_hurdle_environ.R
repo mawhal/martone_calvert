@@ -36,7 +36,7 @@ for( model in 1:nm ){
   models[[model]] = m
 }
 warnings()# computational.time <- toc()
-model = "elevxyear_hurdle"
+model = "elevxyearxenviron_hurdle"
 filename = file.path(getwd(), paste("model_",as.character(model),
                                      "_chains_",as.character(nChains),
                                      "_thin_", ... = as.character(thin),

@@ -96,7 +96,6 @@ comm.all <- d.comm[,-c(1:5)]
 comm.all <- ceiling(comm.all)
 
 # 
-# windows(12,3)
 par( mar=c(3,4,0.5,0.5)+0.01, cex=0.7, las=1, cex=1.1 )
 # boxplot( comm.all[rev(order(colSums(comm.all)))], pch=16, cex=0.3, axes=F )
 # axis(2)
@@ -115,7 +114,7 @@ ggplot( comm.plot, aes(x = rank, y = Abundance) ) +
   ylab("Cover (%)") +
   xlab("Occurrence rank") +
   theme_classic() + theme( legend.position = "none" )
-ggsave("R/Figs/rank_abundance_hmsc.svg", width = 4, height = 3 ) # note that zeros are not inlcuded here
+ggsave("R/Figs/rank_abundance_hmsc.svg", width = 7, height = 2 ) # note that zeros are not inlcuded here
 
 # reduce the dataset by removing the rarest taxa 
 # those that have less than a total percent cover 
@@ -159,7 +158,8 @@ sort(unlist(lapply( strsplit( colnames(Y), split = "[.]"), function(z) z[1] )))
 # define the variables to test from metadata and data
 # merge community data with metadata
 metacomm <- left_join( d.comm, muse )
-write_csv( metacomm, "R/output/community.csv")
+write_csv( metacomm, "R/output/community_all.csv")
+write_csv( comm, "R/output/community.csv")
 
 # # read temperature data
 # pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )
@@ -179,18 +179,23 @@ M$transect <- unlist(lapply( strsplit( M$UID, " " ), function(z) paste( z[1],z[2
 # temperature
 # shore height
 # 
+environ <- read_csv( "R/output/sst_anoms_survey.csv" )
+M <- left_join( M, environ, by = c("Year" = "survey.year") )
 
 ## Fixed Effects
 XData.raw <- M %>%
   ungroup() %>%
-  select( year=Year, shore.height = Shore_height_cm )#, anom.pine.sum.1, anom.pine.win ) #%>%
+  select( year=Year, shore.height = Shore_height_cm , pca1, pca2 ) #%>%
   #mutate( year=factor(year, ordered=TRUE ) )
 XData.raw <- as.data.frame( XData.raw )
 
 # centered and scaled 
-XData <- data.frame( XData.raw$year,XData.raw$shore.height, as.data.frame(poly(XData.raw$year,2)),
-            as.data.frame(poly(XData.raw$shore.height,2)) )
-names(XData) <- c("year","elev","year1","year2","elev1","elev2")
+# XData <- data.frame( XData.raw$year,XData.raw$shore.height, as.data.frame(poly(XData.raw$year,2)),
+#             as.data.frame(poly(XData.raw$shore.height,2)) )
+XData <- data.frame( XData.raw$year,XData.raw$shore.height, as.data.frame(poly(XData.raw$year,1)),
+            as.data.frame(poly(XData.raw$shore.height,2)),
+            XData.raw$pca1, XData.raw$pca2 )
+names(XData) <- c("year","elev","year1","elev1","elev2","pca1","pca2")
 
 ## trait data
 trait.all <- d.simple %>%
@@ -206,15 +211,16 @@ TrData$FG <- factor( TrData$FG, levels = c('canopy','blade','crust','thin_turf',
 # make sure to use spatial data
 # STUDY DESIGN
 studyDesign <- data.frame( year = factor(M$Year),
-                           quadrat = factor(M$UID),
+                           observation = factor(M$UID),
                            transect = factor(M$transect),
                            site = factor(M$Site) )
 # transect year
 studyDesign$ty <- factor(with(studyDesign, paste( transect, year, sep = "_" )))
+# quadrat
+studyDesign$quadrat <- factor(with(studyDesign, paste( transect, M$Meter.point, sep = "_" )))
 
 
 # Random effects for unit
-# rL_obs <- HmscRandomLevel( unit = studyDesign$observation )
 rL <- HmscRandomLevel( unit = unique(studyDesign$transect) )
 # Random Structure for Year (temporal data)
 td <- data.frame(year=unique(M$Year))
@@ -231,9 +237,8 @@ rL_quad <- HmscRandomLevel( unit = unique(studyDesign$quadrat) )
 
 
 ## formula for fixed effects
-XFormula = ~ poly(shore.height, degree = 2, raw = F)*poly(year, degree=5, raw=F)
-XFormula = ~ year1 + year2 + elev1 + elev2 +
-  elev1:year1 + elev1:year2 #+ elev2:year1  
+XFormula = ~ year1 + elev1 + elev2 + pca1 + pca2 +
+  elev1:year1 + elev1:pca1 + elev:pca2 + year:pca1 + year:pca2 #+ elev2:year1  
   
 ## Traits -- could include the kelp.fucoid.turf type of functional grouping 
 #            from the file "Algae_functional_groups.csv", but restricted to algae only

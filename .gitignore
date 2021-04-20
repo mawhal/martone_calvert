@@ -31,3 +31,4 @@ node_modules
 
 # ignore cluster folder, which is a temporary folder
 cluster/
+R/Figs/

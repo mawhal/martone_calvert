@@ -30,5 +30,5 @@ node_modules
 *.JPG
 
 # ignore cluster folder, which is a temporary folder
-cluster/
-R/Figs/
+/cluster/
+/R/Figs/

@@ -35,7 +35,7 @@ sst <- bind_rows( pineraw, mcinnraw ) %>%
 addenraw <- read_csv( "data/environmetal_data/Addenbroke Air Temperature/EC/1060080.ascii", skip=1 )  # data from https://data.pacificclimate.org/portal/pcds/map/
 
 names(addenraw) <- c( 'precip','rain','temp','snow','time','snow_ground','temp_max' )
-addenraw$site <- 'addenbrooke'
+addenraw$site <- 'addenbroke'
 adden <- addenraw %>% 
   mutate(date = ymd(time) ) %>% 
   select(-time)
@@ -74,10 +74,169 @@ dm <- dm %>%
 write_csv( dm, "Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv" )
 
 
+# PCA #####
+## temperature anomaly data from Pine Island
+anoms <-  read_csv("Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv")
+plot(anoms$sal[anoms$site == "mccinnis" & anoms$year >= 2000], type='l')
+filter(anoms, site == "mccinnis") %>%  summarize(mean.sal = mean(sal,na.rm=T))
+# collect temperature, sal, precip and use these in a PCA
+temp_wide <- anoms %>% 
+  select( site, year, month, temp.anom ) %>% 
+  pivot_wider( names_from = site, values_from = temp.anom, names_prefix = "temp_" ) 
+sal_wide <- anoms %>% 
+  filter( site != "addenbrooke" ) %>% 
+  select( site, year, month, sal.anom ) %>% 
+  pivot_wider( names_from = site, values_from = sal.anom, names_prefix = "sal_" ) 
+precip <- anoms %>% 
+  filter( site == "addenbrooke" ) %>% 
+  select( year, month, precip.anom ) %>% 
+  mutate( precip.anom = -precip.anom )
+
+alld <- full_join(full_join(temp_wide, sal_wide),precip)
+# alld <- full_join(temp_wide,precip)
+alld <- alld %>% 
+  unite(date, year,month,remove = F) %>% 
+  mutate( date = lubridate::ym(date) ) %>% 
+  select( -precip.anom )
+# PCA
+dna <- alld[ !(apply( alld, 1, function(z) any(is.na(z)) )), ]
+pca1 <- princomp( select(dna,temp_pine:sal_mccinnis ) )
+summary(pca1)
+plot(pca1)
+biplot(pca1,scale = 0)
+biplot(pca1,scale = 0, choice = c(2,3))
+# missing and imputation ---- see http://juliejosse.com/wp-content/uploads/2018/05/DataAnalysisMissingR.html -----
+library(missMDA)
+# ignore the earlier years of the dataset
+filtd <- filter( alld,year > 1977 )
+nb <- estim_ncpPCA( select(filtd,temp_pine:sal_mccinnis ), method.cv = "Kfold", verbose = FALSE) # estimate the number of components from incomplete data
+#(available methods include GCV to approximate CV)
+nb$ncp
+res.comp <- imputePCA( select(filtd,temp_pine:sal_mccinnis ), ncp = nb$ncp) # iterativePCA algorithm
+res.comp$completeObs[1:3,] # the imputed data set
+imp <- res.comp$completeObs
+library(FactoMineR)
+res.pca <- PCA(imp, ncp = nb$ncp, graph = TRUE)
+res.pca$var
+summary(res.pca)
+plot(res.pca, choix = "var", cex = 0.8)
+plot(res.pca, choix = "var", axes = 2:3, cex = 0.8)
+dimdesc( res.pca )
+pcscores <- data.frame( res.pca$ind$coord )
+names(pcscores) <- paste0("pca",1:ncol(pcscores))
+
+# biplot(pca1,scale = 0, choice = c(3,4))
+# ccf(pcscores$pca1, pcscores$pca2 )
+ccf(pcscores$pca1, pcscores$pca2 )
+par( mar=c(1,1,1,1)+0.1, mfrow=c(4,1) )
+plot(x = filtd$date, y = pcscores$pca1, type = 'l', col = 'slateblue' ); abline(h = 0)
+plot(x = filtd$date, y = pcscores$pca2, type = 'l', col = 'firebrick' ); abline(h = 0)
+plot(x = filtd$date, y = pcscores$pca3, type = 'l', col = 'darkorange' ); abline(h = 0)
+plot(x = filtd$date, y = pcscores$pca4, type = 'l', col = 'pink' ); abline(h = 0)
+dna <- bind_cols( filtd, pcscores )
+
+# calculate winter and summer temperature anomalies
+library(zoo)
+yq <- as.yearqtr( as.yearmon( paste(dna$month,dna$year,sep="/"), "%m/%Y") + 1/12)
+dna$season <- factor(format(yq, "%q"), levels = 1:4,
+                     labels = c("winter", "spring", "summer", "fall"))
+# add year groupings - for instance, seaweeds in summer 2016 would be influenced by conditions over the previous year, 
+#                      so, count previous summer, fall, and current winter and spring towards a give year
+dna$survey.year <- dna$year 
+dna$survey.year[ dna$month %in% 6:12 ] <- dna$survey.year[ dna$month %in% 6:12 ] + 1
+dna %>% select(date, season, survey.year, temp_pine ) %>% filter( survey.year > 2010)
+anoms.season <- dna %>%
+  group_by( survey.year, season ) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE)
+ggplot(anoms.season, aes(x=survey.year,y=pca2,col=season)) + geom_line()
+ggplot(anoms.season, aes(x=survey.year,y=pca1,col=season)) + facet_wrap(~season) + geom_path() + geom_point()
+ggplot(filter(anoms.season, survey.year>=2010), aes(x=survey.year,y=pca1,col=season)) + geom_path() + geom_point()
+
+# include previous year as summer to summer rather than winter to winter
+# anoms.season$yeargroup <-  anoms.season$year + 1
+# anoms.season$yeargroup <-  ifelse(anoms.season$season %in% c("winter","spring"), anoms.season$yeargroup - 1, anoms.season$yeargroup)
+# compare with means across years
+anoms.annual <- anoms.season %>%  # or dna if just using annual means
+  group_by( survey.year ) %>% 
+  summarise_if(is.numeric, mean, na.rm = TRUE)
+ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca1)) + geom_path() + geom_point()
+ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca2)) + geom_path() + geom_point()
+ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca3)) + geom_path() + geom_point()
+ggplot(filter(anoms.annual), aes(x=survey.year,y=sal_mccinnis)) + geom_hline(yintercept = 0) +  geom_path(col = 'slateblue') + geom_point(col = 'slateblue') + ylim(c(-1.75,1.75))
+ggplot(filter(anoms.annual), aes(x=survey.year,y=sal_pine)) + geom_hline(yintercept = 0) +  geom_path(col = 'slateblue') + geom_point(col = 'slateblue') + ylim(c(-1.75,1.75))
+ggplot(filter(anoms.annual, year>=2010), aes(x=year,y=temp_pine)) + geom_path() + geom_point()
+
+# # figure out how to make an anomaly plot with vertical lines from zero
+# # pairwise correlations among seasonal anomalies
+# as.all <- anoms.season %>% 
+#   spread( key = season, value=temp.anom )
+# winter = ts(as.all$winter)
+# spring = ts(as.all$spring)
+# summer = ts(as.all$summer)
+# fall   = ts(as.all$fall)
+# ccf(winter, summer)
+# ccf(spring, summer)
+# ccf(summer, fall)
+# ccf(winter, fall)
+# cor(winter, summer) # 0.77
+# cor(spring, summer) # 0.88
+# cor(winter, fall)   # 0.69
+# cor(fall, summer)   # 0.73
+
+# extract data for 2011 to 2019
+as.survey <- anoms.annual %>% 
+  filter( survey.year>=2010 ) 
+# as.survey <- anoms.season %>% 
+# filter( year>=2010 ) # %>% spread(season, Comp.2)
 
 
 
-# 
+
+
+
+
+
+## plot all data together  ####
+# plot anomalies
+dm %>% 
+  filter(year > 2009 & year < 2020) %>% 
+  select(year,month,site,temp = temp.anom,sal = sal.anom) %>% 
+  unite( "yearmonth", year, month, sep = "-", remove = F ) %>%
+  mutate( yearmonth = lubridate::ym(yearmonth) ) %>% 
+  pivot_longer( c(temp, sal), names_to = 'measure', values_to = 'anom') %>% 
+  mutate( sign = ifelse(anom>0,"red","blue")) %>%
+  filter( !is.na(anom) ) %>% 
+  ggplot( aes( x = yearmonth, xend = yearmonth, y = 0, yend = anom, col=sign ) ) + 
+  facet_grid(measure~site, scales = "free_y") +
+    geom_hline( yintercept = 0 ) +
+    geom_segment(  ) +
+    # geom_point( ) +
+    scale_color_manual( values = c("blue","red")) +
+    scale_x_date( breaks = ymd(c("2012-01-01","2014-01-01","2016-01-01","2018-01-01")), 
+                  labels = c("2012","2014","2016","2018"),
+                  guide = guide_axis(n.dodge = 2)) +
+  ylab("monthly anomaly") +
+  theme( legend.position = "none" )
+  
+# plot raw data
+dm %>% 
+  filter(year > 2009 & year < 2020) %>% 
+  select(year,month,site,temperature = temp,salinity = sal) %>% 
+  unite( "yearmonth", year, month, sep = "-", remove = F ) %>%
+  mutate( yearmonth = lubridate::ym(yearmonth) ) %>% 
+  pivot_longer( c(temperature, salinity), names_to = 'measure', values_to = 'value') %>% 
+  ggplot( aes( x = yearmonth, xend = yearmonth, y = value ) ) + 
+  facet_grid(measure~site, scales = "free_y") +
+  geom_path( ) +
+  geom_point( ) +
+  scale_x_date( breaks = ymd(c("2012-01-01","2014-01-01","2016-01-01","2018-01-01")), 
+                labels = c("2012","2014","2016","2018"),
+                guide = guide_axis(n.dodge = 2))
+
+
+
+
+  # 
 # 
 # ## spectral decomposition after seasons and trend removed
 # dmts <- ts( dm$temp.na, frequency=12, start=c(1937,1) )

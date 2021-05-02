@@ -106,14 +106,18 @@ mclean$simpson <- diversity( comm, "simpson" )
 ENSPIE <- function(prop){
   ifelse( sum(prop,na.rm=T)>0, 1 / sum(prop^2, na.rm=T), NA ) 
 } 
+Hill_Shannon <- function(prop){
+  exp( -sum(prop*log(prop),na.rm=T) )
+}
 prop <- comm/mclean$total.cover
 mclean$enspie <- apply( prop, 1, ENSPIE )
+mclean$hillshan <- apply( prop, 1, Hill_Shannon )
 # richness
 pa <- ifelse( comm>0, 1, 0)
 mclean$richness <- rowSums( pa )
 
 # splom for all quadrat summaries
-psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shannon,simpson,enspie), 
+psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,enspie,hillshan), 
               scale=F, ellipses = FALSE )
 # for each quadrat, calculate total cover of algae -- then use this to calculate Coefficient of Variation
 
@@ -128,8 +132,8 @@ psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,shanno
 # ggplot( mclean, aes(y=simpson,x=Shore_height_cm,col=Year)) +
 #   geom_point(alpha=0.5) + viridis::scale_color_viridis(option = "E")
 mean_zone <- mclean %>% group_by(Year,Zone) %>%
-  summarise( enspie=mean(enspie),richness=mean(richness),shannon=mean(shannon), simpson=mean(simpson),Shore_height_cm=mean(Shore_height_cm,na.rm=T) )
-ggplot( mclean, aes(y=enspie,x=Shore_height_cm,col=Zone)) + facet_wrap(~Year) +
+  summarise( enspie=mean(enspie),richness=mean(richness),hillshan = mean(hillshan),Shore_height_cm=mean(Shore_height_cm,na.rm=T) )
+ggplot( mclean, aes(y=hillshan,x=Shore_height_cm,col=Zone)) + facet_wrap(~Year) +
   geom_point(alpha=0.67) + #col='slateblue',
     # geom_smooth(aes(group=Zone),method='loess',se=T,col='black',method.args = list(family = "gaussian")) +
   geom_smooth(aes(group=1),method='loess',se=T,col='black',method.args = list(family = "symmetric")) +
@@ -156,28 +160,28 @@ ggsave( "R Code and Analysis/Figs/diversity_height.pdf",width=6,height=5)
 
 # make mclean longer and include both richness and ENSPIE in the same figure
 mlong <- mclean %>%
-  select( transect, Site, Zone, Year, Shore_height_cm, enspie, richness ) %>%
+  select( transect, Site, Zone, Year, Shore_height_cm, enspie, richness, hillshan ) %>%
   group_by( transect, Site, Zone, Year, Shore_height_cm ) %>%
   gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm )
 
-mlong$Measure[mlong$Measure=="enspie"] <- "Effective"
+mlong$Measure[mlong$Measure=="enspie"] <- "Hill-Simpson"
+mlong$Measure[mlong$Measure=="hillshan"] <- "Hill-Shannon"
 mlong$Measure[mlong$Measure=="richness"] <- "Total"
 mlong$Measure2 <- mlong$Measure
-mlong$Measure2[mlong$Measure2=="Effective"] <- "ENSPIE"
+# mlong$Measure2[mlong$Measure2=="Effective"] <- "ENSPIE"
 mlong$Measure2[mlong$Measure2=="Total"] <- "Richness"
-
+mlong$Measure2 <- factor(mlong$Measure2, levels = c("Richness","Hill-Shannon","Hill-Simpson") )
 
 ggplot(mlong, aes(x=Year, y=species, col=Measure2, shape=Measure2) ) + 
   geom_point(aes(alpha=Measure2)) + facet_grid(Site~Zone) +
   # geom_smooth( method='gam', formula = y ~ s(x, bs = "cs",k=7) ) +
   geom_smooth( se=T, lty=1, lwd=0.5 )+
-  scale_color_manual( values=c("gray50","black"), name="Measure") +
-  scale_shape_manual( values=c(1,19), name="Measure" ) +
-  scale_alpha_manual( values=c(1,0.5), name="Measure" ) +
+  scale_color_manual( values=c("whitesmoke","gray50","black"), name="Measure") +
+  scale_shape_manual( values=c(19,19,19), name="Measure" ) +
+  scale_alpha_manual( values=c(1,1,1), name="Measure" ) +
   scale_x_continuous(guide = guide_axis(n.dodge = 2)) +
   ylab( "Number of species" ) +
-  scale_y_continuous(trans='log2') +
-  theme_bw()
+  scale_y_continuous(trans='log2') 
 ggsave( "R/Figs/diversity_time.svg", width=5, height=5 )
 
 ggplot( filter(mlong,Measure=="Total"), aes(x=Year, y=species) ) + 

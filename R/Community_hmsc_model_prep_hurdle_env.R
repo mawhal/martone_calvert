@@ -238,7 +238,7 @@ rL_quad <- HmscRandomLevel( unit = unique(studyDesign$quadrat) )
 
 ## formula for fixed effects
 XFormula = ~ year1 + elev1 + elev2 + pca1 + pca2 +
-  elev1:year1 + elev1:pca1 + elev:pca2 + year:pca1 + year:pca2 #+ elev2:year1  
+  elev1:year1 + elev1:pca1 + elev1:pca2 + year:pca1 + year:pca2 #+ elev2:year1  
   
 ## Traits -- could include the kelp.fucoid.turf type of functional grouping 
 #            from the file "Algae_functional_groups.csv", but restricted to algae only
@@ -255,7 +255,7 @@ mprobit <- Hmsc( Y = Ypa,
            TrData = TrData, TrFormula = TrFormula,
            distr = "probit",
            studyDesign = studyDesign, 
-           ranLevels = list(site=rL_site, transect=rL) ) #, quadrat=rL_quad ) )#,
+           ranLevels = list(site=rL_site, transect=rL, quadrat=rL_quad) ) #, quadrat=rL_quad ) )#,
                             # year=rL_year, 
                              # ty=rL_ty ) ) 
 # second, Gaussian model with log-abundances given presence
@@ -264,7 +264,7 @@ mnormal <- Hmsc( Y = Ylap, YScale = TRUE,
                  TrData = TrData, TrFormula = TrFormula,
                  distr = "normal",
                  studyDesign = studyDesign, 
-                 ranLevels = list(site=rL_site, transect=rL) )
+                 ranLevels = list(site=rL_site, transect=rL, quadrat=rL_quad) )
 
 # combine these models into a list
 models = list( mprobit, mnormal )

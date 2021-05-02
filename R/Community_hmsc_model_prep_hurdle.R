@@ -108,7 +108,7 @@ d.occ <- d.simple %>% ungroup() %>%
   summarize( occupied = length(Abundance) ) 
 d.occ$rank <- rank(-d.occ$occupied, ties.method = "first")
 comm.plot <- left_join( d.simple, d.occ ) %>% ungroup()
-ggplot( comm.plot, aes(group = rank, y = Abundance) ) + geom_boxplot()
+# ggplot( comm.plot, aes(group = rank, y = Abundance) ) + geom_boxplot()
 ggplot( comm.plot, aes(x = rank, y = Abundance) ) +
   geom_vline( xintercept = 46.5, col='red' ) +
   geom_point( alpha = 0.05, col='darkslategrey' ) +

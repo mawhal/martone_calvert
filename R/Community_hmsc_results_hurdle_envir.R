@@ -30,7 +30,7 @@ MixingDir = paste0( here::here(), "/R/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250.Rdata"
+model = "model_elevxyearxenviron_hurdle_chains_4_thin_100_samples_250.Rdata"
 # model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250.Rdata"
 # model = "model_elevxyear_hurdle_test_chains_1_thin_1_samples_5.Rdata"
 mload <- load( paste(ModelDir,model, sep="/") )
@@ -98,95 +98,95 @@ dev.off()
 
 
 
-## Assess model fit #####
-preds = lapply( models, computePredictedValues )
-MF <- mapply( evaluateModelFit, models, preds )
-# windows(5,5)
-for(i in 1:length(models)){
-  print(lapply( MF[[i]], summary))
-}
-
-
-
-
-# ## parameter estimates ####
-# postBeta = lapply( models, getPostEstimate, parName = "Beta")
-# # windows(5,8)
-# # plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
-# postBeta[[1]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
-# postBeta[[2]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
-# 
-# cor( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
-# plot( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
-# 
-# pos.negs <- NULL
+# ## Assess model fit #####
+# preds = lapply( models, computePredictedValues )
+# MF <- mapply( evaluateModelFit, models, preds )
+# # windows(5,5)
 # for(i in 1:length(models)){
-#   pos.neg <- data.frame(pos = c(postBeta[[i]]$support), neg = c(postBeta[[i]]$supportNeg))
-#   pos.neg[pos.neg< 0.95] <- 0
-#   pos.neg$neg <- -pos.neg$neg
-#   pos.neg$value <- pos.neg$pos + pos.neg$neg
-#   names(pos.neg) <- paste0( c('pos','neg','value'),i)
-#   if(is.null(pos.negs)){
-#     pos.negs=pos.neg#[,1]
-#   } else {
-#     pos.negs = cbind(pos.negs,pos.neg)#[,1])
-#   }
-#   pos.negs$parameter <- factor(c("intercept", "year1", "year2", "elev1",
-#                                 "elev2", "elev1:year1", "elev1:year2" ),
-#                               levels = c("intercept", "year1", "year2", "elev1",
-#                                          "elev2", "elev1:year1", "elev1:year2" ), 
-#                               ordered = TRUE)
-#   pos.negs$species <- factor(rep(colnames(postBeta[[i]]$mean), each = 7), 
-#                             levels = colnames(models[[i]]$Y)[order(colSums(models[[i]]$Y),decreasing = TRUE)],
-#                             ordered = TRUE)
+#   print(lapply( MF[[i]], summary))
 # }
 # 
 # 
-# windows(12,8)
-# support1 <- ggplot(pos.negs, aes(y = parameter, x = species, fill = value1))+
-#   geom_tile()+
-#   scale_fill_gradient2(low = "blue", mid = "white", "high" = "red", guide = FALSE)+
-#   theme(axis.text.x = element_text(angle = 90,size=7.5))+
-#   xlab(label = "")+
-#   ylab(label = "")
-# support2 <- ggplot(pos.negs, aes(y = parameter, x = species, fill = value2))+
-#   geom_tile()+
-#   scale_fill_gradient2(low = "blue", mid = "white", "high" = "red", guide = FALSE)+
-#   theme(axis.text.x = element_text(angle = 90,size=7.5))+
-#   xlab(label = "")+
-#   ylab(label = "")
-# plot_grid( support1, support2, ncol=1 )
-# 
-# 
-# # # pull taxa with positive estimated response to temperature anomaly
-# # taxa.pos.anom <- as.character(pos.neg[ pos.neg$parameter=='temp.anom' & pos.neg$value>0, 'species'])
-# 
-# # calculate mean and variance of parameter esimates
-# pbdf <- data.frame( t(postBeta$mean), taxon=colnames(postBeta$mean) )
-# names(pbdf) <- c("intercept","elev","elev2","year",
-#                  "elev:year","elev2:year","taxon")
-# ## Add some basic trait information
-# pbdf$alga <- "alga"
-# pbdf$alga[c(3,15,20,56,57,62,68,82)] <- "invert"
-# # More specific groups
-# 
-# 
-# coef_plot <- pbdf %>% 
-#   select( -taxon ) %>%
-#   group_by( alga ) %>%
-#   gather( coefficient, value, -alga )
-# 
-# windows(6,4)
-# ggplot( coef_plot, aes(y=value, x=factor(1), col=alga)) +
-#   facet_wrap(~coefficient, scales="free_y") +
-#   geom_hline(yintercept=0) +
-#   stat_summary( fun.data=mean_cl_boot, geom='errorbar',
-#                 size=1, width=0.1, position=position_dodge(width=0.9) )  +
-#   stat_summary( fun.y=mean, geom='point',
-#                 size=3, position=position_dodge(width=0.9) )  +
-#   ylab('coefficient') + xlab('') +
-#   theme(axis.text.x=element_blank(),
-#         axis.ticks.x=element_blank())
+
+
+## parameter estimates ####
+postBeta = lapply( models, getPostEstimate, parName = "Beta")
+# windows(5,8)
+# plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
+postBeta[[1]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
+postBeta[[2]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
+
+cor( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
+plot( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
+
+pos.negs <- NULL
+for(i in 1:length(models)){
+  pos.neg <- data.frame(pos = c(postBeta[[i]]$support), neg = c(postBeta[[i]]$supportNeg))
+  pos.neg[pos.neg< 0.95] <- 0
+  pos.neg$neg <- -pos.neg$neg
+  pos.neg$value <- pos.neg$pos + pos.neg$neg
+  names(pos.neg) <- paste0( c('pos','neg','value'),i)
+  if(is.null(pos.negs)){
+    pos.negs=pos.neg#[,1]
+  } else {
+    pos.negs = cbind(pos.negs,pos.neg)#[,1])
+  }
+  pos.negs$parameter <- factor(c("intercept", "year1", "elev1", "pca1", "pca2",
+                                 "elev1:year1","elev1:pca1","elev:pca2","year:pca1","year:pca2" ),
+                              levels = c("intercept", "year1", "elev1", "pca1", "pca2",
+                                         "elev1:year1","elev1:pca1","elev:pca2","year:pca1","year:pca2" ),
+                              ordered = TRUE)
+  pos.negs$species <- factor(rep(colnames(postBeta[[i]]$mean), each = 10),
+                            levels = colnames(models[[i]]$Y)[order(colSums(models[[i]]$Y),decreasing = TRUE)],
+                            ordered = TRUE)
+}
+
+
+windows(12,8)
+support1 <- ggplot(pos.negs, aes(y = parameter, x = species, fill = value1))+
+  geom_tile()+
+  scale_fill_gradient2(low = "blue", mid = "white", "high" = "red", guide = FALSE)+
+  theme(axis.text.x = element_text(angle = 90,size=7.5))+
+  xlab(label = "")+
+  ylab(label = "")
+support2 <- ggplot(pos.negs, aes(y = parameter, x = species, fill = value2))+
+  geom_tile()+
+  scale_fill_gradient2(low = "blue", mid = "white", "high" = "red", guide = FALSE)+
+  theme(axis.text.x = element_text(angle = 90,size=7.5))+
+  xlab(label = "")+
+  ylab(label = "")
+plot_grid( support1, support2, ncol=1 )
+
+
+# # pull taxa with positive estimated response to temperature anomaly
+# taxa.pos.anom <- as.character(pos.neg[ pos.neg$parameter=='temp.anom' & pos.neg$value>0, 'species'])
+
+# calculate mean and variance of parameter esimates
+pbdf <- data.frame( t(postBeta$mean), taxon=colnames(postBeta$mean) )
+names(pbdf) <- c("intercept","elev","elev2","year",
+                 "elev:year","elev2:year","taxon")
+## Add some basic trait information
+pbdf$alga <- "alga"
+pbdf$alga[c(3,15,20,56,57,62,68,82)] <- "invert"
+# More specific groups
+
+
+coef_plot <- pbdf %>%
+  select( -taxon ) %>%
+  group_by( alga ) %>%
+  gather( coefficient, value, -alga )
+
+windows(6,4)
+ggplot( coef_plot, aes(y=value, x=factor(1), col=alga)) +
+  facet_wrap(~coefficient, scales="free_y") +
+  geom_hline(yintercept=0) +
+  stat_summary( fun.data=mean_cl_boot, geom='errorbar',
+                size=1, width=0.1, position=position_dodge(width=0.9) )  +
+  stat_summary( fun.y=mean, geom='point',
+                size=3, position=position_dodge(width=0.9) )  +
+  ylab('coefficient') + xlab('') +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
 
 
@@ -630,7 +630,6 @@ plotGradient(hM, Gradient, pred=predY, measure="S", showData = TRUE, q = prob, l
 axis(2,las = 1)
 axis(1, at = Gradient$XDataNew$year1, labels = 2012:2019 )
 dev.off()
-plotGradient(hM, Gradient, pred=predY, measure="S", index=1, showData = TRUE, q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="Y", index=1, showData = TRUE, q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="T", index=1, showData = TRUE,  q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="T", index=2, showData = TRUE,  q = prob) # prob should be q
@@ -1262,22 +1261,11 @@ elev.shifts.25     <- apply(slopes.peak*8, 2, quantile, prob = 0.25, na.rm = TRU
 elev.shifts.75     <- apply(slopes.peak*8, 2, quantile, prob = 0.75, na.rm = TRUE)
 elev.shifts.summary <- data.frame(elev.init.med, elev.shifts.med, elev.shifts.low, elev.shifts.high,elev.shifts.25,elev.shifts.75)
 elev.shifts.summary.algae <- elev.shifts.summary[taxon.key$funct != "animal",]
-elev.shift <- data.frame( shift = c(slopes.peak*8) )
-hist(c(slopes.peak*8))
-boxplot(c(slopes.peak*8))
-mean(c(slopes.peak*8))
-quantile(c(slopes.peak*8),probs = 0.5)
-summary( lm(c(slopes.peak*8)~1) )
+hist(slopes.peak*8)
+summary( lm(slopes.peak*8~1) )
 
 quantile( c(slopes.peak.algae*8), prob = rev(c(0.025,0.25,0.5,0.75,0.975)) )
 
-library(easystats)
-library(rstanarm)
-stan1 <- stan_glm(shift ~ 1, data = elev.shift)
-posteriors <- describe_posterior(stan1)
-# for a nicer table
-print_md(posteriors, digits = 2)
-plot(stan1)
 
 # abundance
 # cover shifts
@@ -1381,59 +1369,63 @@ abun.shift.plot <- ggplot( shift.summary, aes(x=newrank,
 plot_grid( elev.shift.plot, abun.shift.plot, ncol=1 )
 ggsave( "R/Figs/shifts_2panel.svg", width=5, height=5 )
 
-# # Find the predicted peak for each instance
-# # filter out animals
-# peaks <- predictions_pab_trait %>%
-#   filter( funct != "animals" ) %>% 
-#   group_by( year, taxon, funct ) %>%
-#   summarize( peak = mean(elev[which(N==max(N))]), peaksd = mean(elev[which(N==max(N))],na.rm=T) )
-# peaks$peak
-# ggplot( filter(peaks, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
-#   geom_point()
-# ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
-#   # geom_path(aes(group=taxon), alpha=0.5) + 
-#   geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
-# summary(lm(peak~1+year,data=peaks))
-# 
-# # get difference between peaks for 2012 and 2019
-# peak_shift <- peaks %>% 
-#   group_by( taxon, funct ) %>% 
-#   filter( year %in% c(2012,2019) ) %>% 
-#   summarize( shift = diff(peak))
-# 
-# # merge 2012 peaks with peak shift to compare shift relative to starting point
-# peak_initial <- peaks %>% filter( year==2012 )
-# peak_compare <- left_join( peak_shift, peak_initial )
-# 
-# cutoff <- 20
-# peak_compare %>% filter(shift <= -cutoff)
-# peak_compare %>% filter(shift >= cutoff)
-# peak_compare %>% filter(shift < cutoff & shift > -cutoff)
-# peak_compare %>% filter(shift == 0 )
-# peak_compare %>% arrange(shift)
-# peak_compare %>% arrange(-shift)
-# 
-# # plot by functional group
-# trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100) ) + 
-#   geom_hline (yintercept=0, lty=2 ) +
-#   geom_boxplot()  + geom_point() +
-#   xlab("Functional group") + ylab("Peak shift (meters)") +
-#   # scale_fill_manual(values=c("whitesmoke","dodgerblue")) +
-#   theme_classic() +
-#   theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
-#   theme(legend.position = "none")
-# 
-# peak_shift %>% arrange(-shift)
-# peak_shift %>% arrange(shift)
-# peak_shift %>% filter(shift==0)
-# peak_shift %>% filter(shift >-10 & shift < 10)
-# shift_increase <- peak_shift %>% arrange(-shift)
-# choose <- shift_increase$taxon[1:6]
-# ggplot( filter(peaks, taxon %in% choose), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
-#   geom_point()
+# Find the predicted peak for each instance
+# filter out animals
+peaks <- predictions_pab_trait %>%
+  filter( funct != "animals" ) %>% 
+  group_by( year, taxon, funct ) %>%
+  summarize( peak = mean(elev[which(N==max(N))]), peaksd = mean(elev[which(N==max(N))],na.rm=T) )
+peaks$peak
+ggplot( filter(peaks, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
+ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
+  # geom_path(aes(group=taxon), alpha=0.5) + 
+  geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
+summary(lm(peak~1+year,data=peaks))
+
+# get difference between peaks for 2012 and 2019
+peak_shift <- peaks %>% 
+  group_by( taxon, funct ) %>% 
+  filter( year %in% c(2012,2019) ) %>% 
+  summarize( shift = diff(peak))
+
+# merge 2012 peaks with peak shift to compare shift relative to starting point
+peak_initial <- peaks %>% filter( year==2012 )
+peak_compare <- left_join( peak_shift, peak_initial )
+
+cutoff <- 20
+peak_compare %>% filter(shift <= -cutoff)
+peak_compare %>% filter(shift >= cutoff)
+peak_compare %>% filter(shift < cutoff & shift > -cutoff)
+peak_compare %>% filter(shift == 0 )
+peak_compare %>% arrange(shift)
+peak_compare %>% arrange(-shift)
+
+# plot by functional group
+trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100) ) + 
+  geom_hline (yintercept=0, lty=2 ) +
+  geom_boxplot()  + geom_point() +
+  xlab("Functional group") + ylab("Peak shift (meters)") +
+  # scale_fill_manual(values=c("whitesmoke","dodgerblue")) +
+  theme_classic() +
+  theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
+  theme(legend.position = "none")
+
+peak_shift %>% arrange(-shift)
+peak_shift %>% arrange(shift)
+peak_shift %>% filter(shift==0)
+peak_shift %>% filter(shift >-10 & shift < 10)
+shift_increase <- peak_shift %>% arrange(-shift)
+choose <- shift_increase$taxon[1:6]
+ggplot( filter(peaks, taxon %in% choose), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
 
 
-
+summary(lm( shift~1, peak_shift))
+peak_compare <- peak_compare %>% 
+  ungroup() %>% 
+  mutate(peak2=peak-min(peak))
+summary(lm( shift~peak2, peak_compare))
 
 
 

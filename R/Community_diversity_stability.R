@@ -36,7 +36,6 @@ d <- ds
 splits <- strsplit( as.character(d$UID), " " )
 d$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
 
-
 # add together taxa that are not unique to each quadrat
 # this uses lumped taxon names, which wil reduce the size of the dataset a bit
 # restrict this to sessile taxa
@@ -45,10 +44,10 @@ d.simple <- d %>%
   group_by( UID, transect, Taxon, non.alga.flag ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T)) %>% 
   arrange(UID)
-# # calculate average abundance by transect
-# d.trans <- d.simple %>%
-#   group_by( transect,taxon_lumped ) %>%
-#   summarize( Abundance=mean(Abundance, na.rm=T))
+# calculate average abundance by transect
+d.trans <- d.simple %>%
+  group_by( transect,Taxon, non.alga.flag  ) %>%
+  summarize( Abundance=mean(Abundance, na.rm=T))
 
 # spread Taxon column out into many columns filled with abundance/cover data
 d.comm.all  <- d.simple %>%
@@ -67,8 +66,8 @@ muse$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " "))
 muse <- arrange(muse,UID)
 
 # restrict to rows selected in metadata
-d.comm.all <- d.comm.all[ d.comm.all$transect %in% muse$transect, ] 
-d.comm.algae <- d.comm.algae[ d.comm.algae$transect %in% muse$transect, ] 
+d.comm.all <- d.comm.all[ d.comm.all$transect %in% unique(muse$transect), ] 
+d.comm.algae <- d.comm.algae[ d.comm.algae$transect %in% unique(muse$transect), ] 
 
 
 # # there is a quadrat without any metadata, remove this from the metadata
@@ -108,6 +107,10 @@ comm <- list(comm.all,comm.algae)
 ENSPIE <- function(prop){
   ifelse( sum(prop,na.rm=T)>0, 1 / sum(prop^2, na.rm=T), NA ) 
 } 
+# Hill-Shannon
+Hill_Shannon <- function(prop){
+  exp( -sum(prop*log(prop),na.rm=T) )
+}
 ## Evenness as defined as Evar in Smith & Wilson 1996 Oikos
 Evar <- function( x ){
   S = length( x[x>0] )
@@ -126,8 +129,9 @@ divcalcs <- function( z ){
   simpson = diversity( z, "simpson" )
   prop = z / total.cover
   enspie = apply( prop, 1, ENSPIE )
+  hillshan = apply( prop, 1, Hill_Shannon )
   evar = apply( z, 1, Evar )
-  return( data.frame(total.cover,richness,shannon,simpson,enspie,evar) )
+  return( data.frame(total.cover,richness,shannon,simpson,enspie,hillshan,evar) )
 }
 divs <- lapply( comm, divcalcs )
 divsdf <- bind_rows(divs, .id = "source")
@@ -208,6 +212,7 @@ yearly <- mclean %>%
              meand=mean(shannon),
              means=mean(simpson),
              meane=mean(enspie),
+             meanh=mean(hillshan),
              meanv=mean(evar),
              elev = mean(Shore_height_cm,na.rm=T) )
 
@@ -219,6 +224,7 @@ divvar2 <- yearly %>%
              gmeand=mean(meand), ed=sd(meand),
              gmeans=mean(means), es=sd(means),
              gmeane=mean(meane), ee=sd(meane),
+             gmeanh=mean(meanh), eh=sd(meanh),
              gmeanv=mean(meanv), ev=sd(meanv),
              gmeanelev=mean(elev), eelev=sd(elev)) %>%
   mutate( cva = ea/gmeana, cvr = er/gmeanr, cvd = ed/gmeand, cvs = es/gmeans, cve = ee/gmeane,
@@ -232,8 +238,8 @@ divvar2 <- left_join(divvar2, inits)
 # collapse and plot all together
 divplot2 <- divvar2 %>% 
   group_by(Site, Zone, source, cva) %>% 
-  gather(key="metric",value="mean", gmeanr, gmeand, gmeans, gmeane, gmeanv, 
-         meanr, meand, means, meane, meanv )
+  gather(key="metric",value="mean", gmeanr, gmeand, gmeans, gmeane, gmeanh, gmeanv, 
+         meanr, meand, means, meane, meanh, meanv )
 
 ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_grid(source~metric, scales="free") + 
   geom_smooth(method='lm',se=T) +
@@ -243,7 +249,7 @@ ggplot( data=divplot2, aes(x=mean, y=1/cva)) + facet_grid(source~metric, scales=
 # compare variation by transect
 divplot2 <- divvar2 %>% 
   group_by(Site, Zone, source, cva) %>% 
-  gather(key="metric",value="sd", er, ed, es, ee, ev )
+  gather(key="metric",value="sd", er, ed, es, ee, eh, ev )
 ggplot( data=divplot2,aes(y=sd,x=Zone,col=Site)) +  
   facet_grid(metric~source, scales="free") + 
   geom_point()
@@ -253,7 +259,7 @@ library(purrr)
 library(broom)
 divplot2 %>%
   ungroup() %>% 
-  filter(metric %in% c("er","ee")) %>% 
+  filter(metric %in% c("er","ee","eh")) %>% 
   nest(-source,-metric) %>% 
   mutate(
     fit = map(data, ~ (lm(sd ~ Zone, data = .x))),
@@ -262,7 +268,7 @@ divplot2 %>%
   unnest(tidied)
 divplot2 %>%
   ungroup() %>%
-  filter(metric %in% c("er","ee")) %>% 
+  filter(metric %in% c("er","ee","eh")) %>% 
   nest(-metric,-source) %>% 
   mutate(
     fit = map(data, ~ anova(lm(sd ~ Zone, data = .x))),
@@ -274,13 +280,16 @@ with( divvar2, cor.test(gmeanr, stability) )
 with( divvar2, cor.test(meanr, stability) )
 divvar2 %>% group_by( Site, Zone) %>% summarize(diff=diff(stability))
 summary(lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae")))
-mstab <- lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae"))
+
 summary(mstab)$adj.r.squared
 divvar2_algae <- filter(divvar2,source=="algae")
 divvar2_algae$Zone3
 mzone3 <- lm( log(stability,base=2) ~ Zone3, data = divvar2_algae )
 summary(mzone3)
-stab <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)) + #x=gmeanr
+divvar2$div <- divvar2$gmeane
+mstab <- lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "algae"))
+summary(mstab)
+stab <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
   # facet_wrap(~source) +
   # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
   geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
@@ -288,7 +297,7 @@ stab <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)
   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
   xlab("Mean species richness") +
   annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mstab)$adj.r.squared,2))), 
-           x = max(divvar2_algae$gmeanr), y = 1.1, hjust = 1, vjust = 0, size = 5) +
+           x = max(divvar2$div), y = 1.1, hjust = 1, vjust = 0, size = 5) +
   # annotate("text", label = "top", 
   #          x = 0.5*(min(mpg$hwy) + max(mpg$hwy)), y = max(mpg$cty), vjust = 1) +
   # annotate("text", label = "bottom", 
@@ -443,8 +452,9 @@ dsynch <- left_join( divvar2, synchrony )
 dsynch$source <- factor( dsynch$source, levels=c("all","algae"))
 dsynch$Site <- factor( dsynch$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 
-mrich <- lm(logV ~ gmeanr, data = filter(dsynch,source == "algae"))
-synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanr,y=logV,shape = Site, fill = Zone)) + 
+dsynch$div <- dsynch$gmeanh
+mrich <- lm(logV ~ div, data = filter(dsynch,source == "algae"))
+synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x = div, y = logV, shape = Site, fill = Zone)) + 
   # facet_wrap(~source) +
   geom_smooth( aes(group=1), method="lm", se = T, col='black', lwd=0.5, show.legend = FALSE )+ 
   geom_point(size=3) +
@@ -454,7 +464,7 @@ synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanr,y=logV,shape
   ylab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
   xlab( "Seaweed species richness" ) +
   annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mrich)$adj.r.squared,2))), 
-           x = min(divvar2_algae$gmeanr), y = -2.3, hjust = 0, vjust = 0, size = 5) +
+           x = min(dsynch$div), y = -2.3, hjust = 0, vjust = 0, size = 5) +
   guides(fill=guide_legend("Site",override.aes = list(shape = 21)) ) +
   theme_classic() + theme( legend.position = "none" )
 synchrich
@@ -477,6 +487,37 @@ stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),
   theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
          legend.background = element_blank() )
 stabsynch
+
+allstab <- left_join( filter(divvar2,source=="algae") %>% select(div=gmeanr), filter(dsynch,source=="algae") %>% select(logV,stability) )
+pairs.panels( allstab[3:5] )
+# mediation model
+# regressions
+library(lavaan)
+m1 <- '
+  logV ~ 1 + div
+  stability ~ 1 + logV + div
+'
+fit1 <- sem(m1, data=allstab)
+summary(fit1)
+m2 <- '
+  logV ~ 1 + div
+  stability ~ 1 + logV
+'
+fit2 <- sem(m2, data=allstab)
+summary(fit2)
+anova(fit1,fit2)
+# moderation
+Xc    <- data.frame(apply(allstab[3:5],2, scale , center=TRUE, scale=FALSE ) )
+#Moderation "By Hand"
+library(gvlma)
+fitMod <- lm(stability ~ div + logV + div:logV, data=Xc) #Model interacts IV & moderator
+summary(fitMod)
+gvlma(fitMod)
+library(stargazer)
+stargazer(fitMod,type="text", title = "synchrony and richness on stability")
+library(rockchalk)
+ps  <- plotSlopes(fitMod, plotx="logV", modx="div", xlab = "Synchrony", ylab = "Diversity", modxVals = "std.dev")
+
 
 
 cowplot::plot_grid( stabsynch, synchrich, stab, 
@@ -529,6 +570,15 @@ responses %>%
   ) %>% 
   unnest(tidied)
 ###
+
+
+
+
+
+
+
+
+
 
 
 

@@ -98,15 +98,15 @@ dev.off()
 
 
 
-## Assess model fit #####
-preds = lapply( models, computePredictedValues )
-MF <- mapply( evaluateModelFit, models, preds )
-# windows(5,5)
-for(i in 1:length(models)){
-  print(lapply( MF[[i]], summary))
-}
-
-
+# ## Assess model fit #####
+# preds = lapply( models, computePredictedValues )
+# MF <- mapply( evaluateModelFit, models, preds )
+# # windows(5,5)
+# for(i in 1:length(models)){
+#   print(lapply( MF[[i]], summary))
+# }
+# 
+# 
 
 
 # ## parameter estimates ####
@@ -418,6 +418,109 @@ predY_abun <- Map('*', predY_pa, lapply(predY_cop,exp) )
 
 
 
+## get peak elevation and "abundance" for each species in YEAR in each run #####
+# elevation peaks for each species in each YEAR in each run
+peaks  <- lapply( predY_pa, 
+                  function(i) lapply( split( i, newDF$year ), 
+                          function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2, 
+                                            function(z) unique(newDF$elev)[which(z==max(z))]) ) )
+peaks_bind <- lapply( peaks, function(z) do.call(rbind,z) )
+peaks_array <- abind::abind(peaks_bind, along=3)
+# abundances of each species in each YEAR in each run
+abunds  <- lapply( predY_abun, 
+                  function(i) lapply( split( i, newDF$year ), 
+                                      function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2,sum) ) )
+abunds_bind <- lapply( abunds, function(z) do.call(rbind,z) )
+abunds_array <- abind::abind(abunds_bind, along=3)
+
+## calculate shifts as slope of peaks over time
+Years <- 2012:2019
+dim(peaks_array)
+slopes_peak <- sapply(X = 1:dim(peaks_array)[2], FUN = function(i){
+  sapply(X = 1:dim(peaks_array)[3], FUN = function(x){
+    c(coef(lm(peaks_array[,i,x]~Years))[2])
+  })
+})
+# ## calculate differences between 2012 and 2019 to get shift in end member states
+# # elevation peak
+# elev.shifts.run     <- apply( peaks_array, c(2,3), function(z) z[length(z)]-z[1] )
+slopes.peak.algae     <- slopes_peak[,taxon.key$funct != "animal"]
+elev.init           <- apply( peaks_array, c(2,3), function(z) z[1] )
+elev.init.algae           <- elev.init[taxon.key$funct != "animal",]
+elev.init.med       <- apply(elev.init.algae, 1, quantile, prob = 0.5, na.rm = TRUE)
+elev.shifts.med     <- apply(slopes.peak.algae, 2, quantile, prob = 0.5, na.rm = TRUE)
+elev.shifts.high    <- apply(slopes.peak.algae, 2, quantile, prob = 0.025, na.rm = TRUE)
+elev.shifts.low     <- apply(slopes.peak.algae, 2, quantile, prob = 0.975, na.rm = TRUE)
+elev.shifts.summary <- data.frame(elev.init.med, elev.shifts.med, elev.shifts.low, elev.shifts.high)
+hist(elev.shifts.med)
+summary( lm(elev.shifts.med~1) )
+data.frame( elev.shifts.med, taxon = colnames(models[[1]]$Y)[taxon.key$funct != "animal"])
+
+# abundance
+abun.shifts.run     <- apply( abunds_array, c(2,3), function(z) z[length(z)]/z[1] )
+abun.shifts.run.algae     <- abun.shifts.run[taxon.key$funct != "animal",]
+## use cover slopes for this part
+abun.init           <- apply( abunds_array, c(2,3), function(z) z[1] )
+abun.init.algae           <- abun.init[taxon.key$funct != "animal",]
+abun.init.med       <- apply(abun.init.algae, 1, quantile, prob = 0.5, na.rm = TRUE)
+abun.shifts.med     <- apply(abun.shifts.run.algae, 1, quantile, prob = 0.5, na.rm = TRUE)
+abun.shifts.high    <- apply(abun.shifts.run.algae, 1, quantile, prob = 0.025, na.rm = TRUE)
+abun.shifts.low     <- apply(abun.shifts.run.algae, 1, quantile, prob = 0.975, na.rm = TRUE)
+abun.shifts.summary <- data.frame(abun.init.med,abun.shifts.med, abun.shifts.low, abun.shifts.high)
+hist(log(abun.shifts.med,base=2))
+summary( lm(log(abun.shifts.med,base=2)~1) )
+
+## combine these results
+shift.summary <- data.frame( elev.shifts.summary, abun.shifts.summary )
+shift.summary$taxon <- colnames(models[[1]]$Y)[taxon.key$funct != "animal"]
+shift.summary %>% arrange(-abun.init.med)
+shift.summary$rank <- 1:43
+ggplot( shift.summary, aes(x = log(abun.shifts.med,base=2), y = elev.shifts.med) ) +
+  # geom_hline( yintercept=0, lty=2 ) + geom_vline( xintercept = 0, lty=2 ) +
+  geom_linerange( aes( ymin = elev.shifts.low, ymax= elev.shifts.high), alpha=0.25) +
+  geom_linerange( aes(xmin = log(abun.shifts.low,base=2), 
+                      xmax = log(abun.shifts.high,base=2)), alpha=0.25 ) +
+  geom_point() + 
+  scale_x_continuous( breaks=c(4,2,0,-2,-4), 
+                      labels=c('16x','4x','0','1/4x','1/16x')) +
+  ylab( "Elevation shift (cm)" ) + xlab( "Abundance shift" ) +
+  theme_bw() + theme( panel.grid.minor = element_blank() )
+# ggsave( "R/Figs/shifts_error.pdf", width=4, height=4 )
+# correlation of median responses
+with( shift.summary, cor.test( elev.shifts.med, abun.shifts.med, method = 'spearman' ) )
+with( shift.summary, cor.test( elev.shifts.med, abun.shifts.med, method = 'pearson' ) )
+filter( shift.summary, taxon=="Fucus.distichus" )
+
+# "significant" shifts as those that did not include zero
+shift.summary %>% 
+  mutate( peak.sig = elev.shifts.high*elev.shifts.low > 0 ) %>% 
+  mutate( abun.high.one = abun.shifts.high > 1,
+          abun.low.one = abun.shifts.low > 1 ) %>% 
+  mutate( abun.sig = abun.high.one == abun.low.one ) %>% 
+  select( rank, taxon, peak.sig, abun.sig, elev.shifts.med, abun.shifts.med ) %>% 
+  filter( peak.sig == TRUE | abun.sig == TRUE )
+
+# individual shifts
+elev.shift.plot <- ggplot( elev.shifts.summary, aes(x=1:nrow(elev.shifts.summary),
+                                                    y=elev.shifts.med)) + 
+  geom_hline( yintercept=0 ) +
+  geom_errorbar( aes(ymin=elev.shifts.low,ymax=elev.shifts.high) ) +
+  geom_point() +
+  ylab( "Elevation peak shift (cm)" ) + xlab("") +
+  scale_x_continuous(breaks = c(1,10,20,30,40,47)) +
+  theme( panel.grid.minor.x = element_blank() )
+abun.shift.plot <- ggplot( abun.shifts.summary, aes(x=1:nrow(abun.shifts.summary),
+                                                    y=log(abun.shifts.med,base=2)) ) + 
+  geom_hline( yintercept=0 ) +
+  geom_errorbar( aes(ymin=log(abun.shifts.low,base=2),ymax=log(abun.shifts.high,base=2)) ) +
+  geom_point() +
+  ylab( "Percent cover shift" ) + xlab("Rank occurrence") +
+  scale_y_continuous( breaks=c(6,4,2,0,-2,-4,-6), 
+                      labels=c('64x','16x','4x','0','1/4x','1/16x','1/64x')) +
+  scale_x_continuous( breaks = c(1,10,20,30,40,47)) +
+  theme( panel.grid.minor.x = element_blank() )
+plot_grid( elev.shift.plot, abun.shift.plot, ncol=1 )
+ggsave( "R/Figs/shifts_2panel.pdf", width=6, height=5 )
 
 
 
@@ -487,19 +590,16 @@ taxon <- "Alaria.marginata"
 taxon <- "Fucus.distichus"
 taxon <- "Mytilus.sp."
 
-a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='year'))+
-  # geom_smooth(aes(group=year1),se=F,lwd=1.5) +
-  geom_line(lwd=1.5) +
+a <- ggplot(filter(predictions_pa, year %in% c(2012,2019)), aes_string(x = 'elev', y = taxon, col='year'))+
+  geom_smooth(aes(group=year1),se=F,lwd=1.5) +
   scale_color_manual(values=cols.two) +
   ylab("") +
   xlab("") +
   theme_classic() + theme(legend.position = "none") +
   theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank()) 
-b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='year'))+
-  geom_line(lwd=1.5) +
+        axis.title.y = element_blank())
+b <- ggplot(filter(predictions_cop, year %in% c(2012,2019)), aes_string(x = 'elev', y = taxon, col='year'))+
+  geom_smooth(aes(group=year1),se=F,lwd=1.5) +
   scale_color_manual(values=cols.two) +
   ylab("") +
   xlab("") +
@@ -507,9 +607,8 @@ b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models
   theme(legend.position = "none") +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
-c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='year'))+
-  geom_line(lwd=1.5) +
+c <- ggplot(filter(predictions_abun, year %in% c(2012,2019)), aes_string(x = 'elev', y = taxon, col='year'))+
+  geom_smooth(aes(group=year1),se=F,lwd=1.5) +
   scale_color_manual(values=cols.two) +
   # ylab("percent cover") +
   # xlab("elevation (cm)") +
@@ -519,7 +618,7 @@ c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(model
   theme(legend.position = "none") +
   # theme(legend.position = c(1,0.25), legend.justification = c(1,0) ) +
   theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank()) 
+        axis.title.y = element_blank())
 plot_grid(c,a,b,ncol=1, align='hv')
 ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxon,".svg"), height = 4.5, width = 1.5 ) # width 1.6 for Hedophyllum, 1.5 for others
 
@@ -614,6 +713,8 @@ log_biomass <- log(Time_predY3)
 
 # gammas
 # Gammas
+summary(mpost_pa$Gamma)
+summary(mpost_abun$Gamma)
 postGamma = lapply( models, getPostEstimate, parName = "Gamma")
 plotGamma(models[[1]], post=postGamma[[1]], param="Support", supportLevel = 0.95, covNamesNumbers = c(T,F), trNamesNumbers = c(T,F), colorLevels = 3 )
 plotGamma(models[[2]], post=postGamma[[2]], param="Support", supportLevel = 0.95, covNamesNumbers = c(T,F), trNamesNumbers = c(T,F), colorLevels = 3 )
@@ -625,12 +726,7 @@ hM <- models[[pick]]
 predY = predict(hM,Gradient = Gradient, studyDesign = Gradient$studyDesignNew, ranLevels = Gradient$rLNew, expected = TRUE)
 prob = c(0.25,0.5,0.75)
 # plotGradient
-png(file="R/Figs/HMSC_species_richness.png", res = 600, width = 4, height = 4, units = "in")
-plotGradient(hM, Gradient, pred=predY, measure="S", showData = TRUE, q = prob, las = 1, axes = F, xlab="Year")
-axis(2,las = 1)
-axis(1, at = Gradient$XDataNew$year1, labels = 2012:2019 )
-dev.off()
-plotGradient(hM, Gradient, pred=predY, measure="S", index=1, showData = TRUE, q = prob) # prob should be q
+plotGradient(hM, Gradient, pred=predY, measure="S", showData = TRUE, q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="Y", index=1, showData = TRUE, q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="T", index=1, showData = TRUE,  q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="T", index=2, showData = TRUE,  q = prob) # prob should be q
@@ -765,7 +861,6 @@ occur_trends <- data.frame(species = colnames(models[[1]]$Y),
                            lower = apply(slopes, 2, quantile, prob = 0.025),
                            upper = apply(slopes, 2, quantile, prob = 0.975),
                            measure = 'Occurrence prob.')
-occur_trends_taxa <- occur_trends
 biomass_cond_ln_trends <- data.frame(species = colnames(models[[1]]$Y),
                                      median = apply(slopes_con_biomass_ln, 2, median),
                                      lower_0.25 = apply(slopes_con_biomass_ln, 2, quantile, prob = 0.25),
@@ -780,8 +875,6 @@ biomass_ln_trends <- data.frame(species = colnames(models[[1]]$Y),
                                 lower = apply(slopes_biomass_ln, 2, quantile, prob = 0.025),
                                 upper = apply(slopes_biomass_ln, 2, quantile, prob = 0.975),
                                 measure = 'Cover (log)')
-# save biomass_ln_trends for later
-biomass_ln_slopes <- slopes_biomass_ln
 all_trends <- bind_rows(occur_trends, biomass_cond_ln_trends, biomass_ln_trends) %>%
   mutate(sig = sign(upper) == sign(lower)) %>%
   mutate(sign = ifelse(median > 0 & sig == TRUE, 'increasing', ifelse(median < 0 & sig == TRUE, 'decreasing', 'no trend'))) %>%
@@ -804,10 +897,8 @@ all_trends %>%
   xlab('')
 ggsave("R/Figs/hmsc_species_trends_summary.svg",width = 6, height = 7)
 
-
-
-## now predict traits ####
-##### code modified from function plotGradient() 
+## now predict traits
+##### code modified from function plotGradient() ####
 hM = models[[1]]
 all(hM$distr[, 1] == 1)
 # make a new version of the intercept here to show canopy taxa
@@ -877,7 +968,7 @@ qpred_long$FG <- gl(6,3, labels = levels(models[[1]]$TrData$FG) )
 qpred_long$quantile <- gl(3,1, labels = c("25%","50%","75%"))
 qpred_median <- qpred_long %>% 
   filter( quantile == "50%" )
-FGcolor <- c("midnightblue","darkred","red","pink","darkgrey","#996633")
+FGcolor <- c("white","darkred","red","pink","darkgrey","#996633")
 ggplot( data = qpred_median, aes(x = year, y = value, group = FG, fill = FG)) +
   geom_area(col="black") +
   scale_fill_manual( values = rev(FGcolor) )
@@ -953,29 +1044,26 @@ all_trends %>%
   select(FG, measure, median, sign) %>% 
   arrange(FG)
 
-hmsc_FG <- all_trends %>%
+all_trends %>%
   ggplot(aes(x = FG, y = median, group = measure, col = measure))+
   geom_hline(yintercept = 0, linetype = 2)+
   geom_errorbar(aes(ymin = lower_0.25, ymax = upper_0.75), width = 0, size = 1, position = position_dodge(width = 0.5))+
   geom_errorbar(aes(ymin = lower, ymax = upper), width = 0, position = position_dodge(width = 0.5))+
   geom_point(position = position_dodge(width = 0.5))+
-  geom_point(data = mutate(reps,median = median), aes(fill = FG), size = 8, col="black", shape = 21 ) +
-  geom_text(data = reps, aes(label = n), size = 3, col = 'white') +
+  geom_point(data = mutate(reps,median = median), aes(fill = FG), size = 8, col="white", shape = 21 ) +
+  geom_text(data = reps, aes(label = paste0('(',n,')')), size = 3, col = 'black') +
   scale_color_manual(values = measure_cols) +
-  scale_fill_manual(values = c("midnightblue","darkgrey","#996633","pink","red","darkred" ), guide = F) +
-  guides( color =  guide_legend(nrow = 2, byrow = F, reverse = F) ) +
+  scale_fill_manual(values = c("whitesmoke","red","darkred","darkgrey","pink","#996633"), guide = F) +
   theme_bw() +
   theme( legend.position="top",
          panel.grid = element_blank(),
          legend.title = element_blank(),
-         legend.text = element_text(size = 7),
+         legend.text = element_text(size=8),
          legend.key.size = unit(0.5, "cm"),
-         legend.key = element_rect(colour = NA, fill = NA),
-         legend.box.margin=margin(-10,-10,-10,-10) ) +
+         legend.key = element_rect(colour = NA, fill = NA)) +
   ylab('Change per year (scaled)')+
   xlab('Functional Group')
-hmsc_FG
-ggsave( "R/Figs/hmsc_scale_change_FG.svg", plot = hmsc_FG, height = 3.5, width = 4.02)
+ggsave( "R/Figs/hmsc_scale_change_FG.svg", height = 3.5, width = 4.02)
 
 
 #####
@@ -1218,222 +1306,63 @@ compare_all %>% arrange(shift.x)
 #
 
 
+# Find the predicted peak for each instance
+# filter out animals
+peaks <- predictions_pab_trait %>%
+  filter( funct != "animals" ) %>% 
+  group_by( year, taxon, funct ) %>%
+  summarize( peak = mean(elev[which(N==max(N))]), peaksd = mean(elev[which(N==max(N))],na.rm=T) )
+peaks$peak
+ggplot( filter(peaks, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
+ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
+  # geom_path(aes(group=taxon), alpha=0.5) + 
+  geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
+summary(lm(peak~1+year,data=peaks))
+
+# get difference between peaks for 2012 and 2019
+peak_shift <- peaks %>% 
+  group_by( taxon, funct ) %>% 
+  filter( year %in% c(2012,2019) ) %>% 
+  summarize( shift = diff(peak))
+
+# merge 2012 peaks with peak shift to compare shift relative to starting point
+peak_initial <- peaks %>% filter( year==2012 )
+peak_compare <- left_join( peak_shift, peak_initial )
+
+cutoff <- 20
+peak_compare %>% filter(shift <= -cutoff)
+peak_compare %>% filter(shift >= cutoff)
+peak_compare %>% filter(shift < cutoff & shift > -cutoff)
+peak_compare %>% filter(shift == 0 )
+peak_compare %>% arrange(shift)
+peak_compare %>% arrange(-shift)
+
+# plot by functional group
+trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100) ) + 
+  geom_hline (yintercept=0, lty=2 ) +
+  geom_boxplot()  + geom_point() +
+  xlab("Functional group") + ylab("Peak shift (meters)") +
+  # scale_fill_manual(values=c("whitesmoke","dodgerblue")) +
+  theme_classic() +
+  theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
+  theme(legend.position = "none")
+
+peak_shift %>% arrange(-shift)
+peak_shift %>% arrange(shift)
+peak_shift %>% filter(shift==0)
+peak_shift %>% filter(shift >-10 & shift < 10)
+shift_increase <- peak_shift %>% arrange(-shift)
+choose <- shift_increase$taxon[1:6]
+ggplot( filter(peaks, taxon %in% choose), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
 
 
-## get peak elevation and "abundance" for each species in YEAR in each run #####
-# elevation peaks for each species in each YEAR in each run
-peaks  <- lapply( predY_pa, 
-                  function(i) lapply( split( i, newDF$year ), 
-                                      function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2, 
-                                                        function(z) mean(unique(newDF$elev)[which(z==max(z))])) ) )
-peaks_bind <- lapply( peaks, function(z) do.call(rbind,z) )
-peaks_array <- abind::abind(peaks_bind, along=3)
-# # abundances of each species in each YEAR in each run
-# abunds  <- lapply( predY_abun, 
-#                    function(i) lapply( split( i, newDF$year ), 
-#                                        function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2,sum) ) )
-# abunds_bind <- lapply( abunds, function(z) do.call(rbind,z) )
-# abunds_array <- abind::abind(abunds_bind, along=3)
-
-## calculate shifts as slope of peaks over time
-Years <- 2012:2019
-dim(peaks_array)
-slopes_peak <- sapply(X = 1:dim(peaks_array)[2], FUN = function(i){
-  sapply(X = 1:dim(peaks_array)[3], FUN = function(x){
-    c(coef(lm(peaks_array[,i,x]~Years))[2])
-  })
-})
-
-
-
-# ## calculate differences between 2012 and 2019 to get shift in end member states
-# # elevation peak
-# elev.shifts.run     <- apply( peaks_array, c(2,3), function(z) z[length(z)]-z[1] )
-slopes.peak.algae     <- slopes_peak[,taxon.key$funct != "animal"]
-slopes.peak     <- slopes_peak
-elev.init           <- apply( peaks_array, c(2,3), function(z) z[1] )
-# elev.init.algae           <- elev.init[taxon.key$funct != "animal",]
-# elev.init.algae           <- elev.init
-elev.init.med       <- apply(elev.init, 1, quantile, prob = 0.5, na.rm = TRUE)
-elev.shifts.med     <- apply(slopes.peak*8, 2, quantile, prob = 0.5, na.rm = TRUE)
-elev.shifts.high    <- apply(slopes.peak*8, 2, quantile, prob = 0.025, na.rm = TRUE)
-elev.shifts.low     <- apply(slopes.peak*8, 2, quantile, prob = 0.975, na.rm = TRUE)
-elev.shifts.25     <- apply(slopes.peak*8, 2, quantile, prob = 0.25, na.rm = TRUE)
-elev.shifts.75     <- apply(slopes.peak*8, 2, quantile, prob = 0.75, na.rm = TRUE)
-elev.shifts.summary <- data.frame(elev.init.med, elev.shifts.med, elev.shifts.low, elev.shifts.high,elev.shifts.25,elev.shifts.75)
-elev.shifts.summary.algae <- elev.shifts.summary[taxon.key$funct != "animal",]
-elev.shift <- data.frame( shift = c(slopes.peak*8) )
-hist(c(slopes.peak*8))
-boxplot(c(slopes.peak*8))
-mean(c(slopes.peak*8))
-quantile(c(slopes.peak*8),probs = 0.5)
-summary( lm(c(slopes.peak*8)~1) )
-
-quantile( c(slopes.peak.algae*8), prob = rev(c(0.025,0.25,0.5,0.75,0.975)) )
-
-library(easystats)
-library(rstanarm)
-stan1 <- stan_glm(shift ~ 1, data = elev.shift)
-posteriors <- describe_posterior(stan1)
-# for a nicer table
-print_md(posteriors, digits = 2)
-plot(stan1)
-
-# abundance
-# cover shifts
-biomass_ln_slopes
-# abun.shifts.run     <- apply( abunds_array, c(2,3), function(z) z[length(z)]/z[1] )
-# abun.shifts.run.algae     <- biomass_ln_slopes[,taxon.key$funct != "animal"]
-abun.shifts.run     <- biomass_ln_slopes
-## use cover slopes for this part
-abun.init <- apply( log_biomass, c(2,3), function(z) exp(z[1]) )
-# abun.init           <- apply( abunds_array, c(2,3), function(z) z[1] )
-# abun.init.algae           <- abun.init[taxon.key$funct != "animal",]
-abun.init.algae           <- abun.init
-abun.init.med       <- apply(abun.init.algae, 1, quantile, prob = 0.5, na.rm = TRUE)
-abun.shifts.run <- exp(t(log(abun.init.algae))+(abun.shifts.run*8)) / t(abun.init.algae)
-abun.shifts.run.algae     <- abun.shifts.run[,taxon.key$funct != "animal"]
-abun.shifts.med     <- apply(abun.shifts.run, 2, quantile, prob = 0.5, na.rm = TRUE)
-abun.shifts.high    <- apply(abun.shifts.run, 2, quantile, prob = 0.025, na.rm = TRUE)
-abun.shifts.low     <- apply(abun.shifts.run, 2, quantile, prob = 0.975, na.rm = TRUE)
-abun.shifts.25     <- apply(abun.shifts.run, 2, quantile, prob = 0.25, na.rm = TRUE)
-abun.shifts.75     <- apply(abun.shifts.run, 2, quantile, prob = 0.75, na.rm = TRUE)
-abun.shifts.summary <- data.frame(abun.init.med,abun.shifts.med, abun.shifts.low, abun.shifts.high,abun.shifts.25,abun.shifts.75)
-abun.shifts.summary.algae <- abun.shifts.summary[taxon.key$funct != "animal",]
-hist( log(c(abun.shifts.run), base=2) )
-hist( log(c(abun.shifts.run.algae), base=2) )
-summary( lm(log(c(abun.shifts.run.algae),base=2)~1) )
-
-2^quantile( log(abun.shifts.run.algae,base=2), prob = (c(0.025,0.25,0.5,0.75,0.975)) )-1
-
-
-## combine these results
-shift.summary <- data.frame( elev.shifts.summary, abun.shifts.summary )
-shift.summary$taxon <- colnames(models[[1]]$Y)#[taxon.key$funct != "animal"]
-shift.summary %>% arrange(-abun.init.med)
-shift.summary$rank <- 1:46
-ggplot( shift.summary, aes(x = abun.shifts.med, y = elev.shifts.med) ) +
-  # geom_hline( yintercept=0, lty=2 ) + geom_vline( xintercept = 0, lty=2 ) +
-  geom_linerange( aes( ymin = elev.shifts.low, ymax= elev.shifts.high), alpha=0.25) +
-  geom_linerange( aes(xmin = abun.shifts.low, 
-                      xmax = abun.shifts.high), alpha=0.25 ) +
-  geom_point() + 
-  scale_x_continuous( breaks=c(4,2,0,-2,-4), 
-                      labels=c('16x','4x','0','1/4x','1/16x')) +
-  ylab( "Elevation shift (cm)" ) + xlab( "Abundance shift" ) +
-  theme_bw() + theme( panel.grid.minor = element_blank() )
-# ggsave( "R/Figs/shifts_error.pdf", width=4, height=4 )
-# correlation of median responses
-with( shift.summary, cor.test( elev.shifts.med, abun.shifts.med, method = 'spearman' ) )
-with( shift.summary, cor.test( elev.shifts.med, abun.shifts.med, method = 'pearson' ) )
-filter( shift.summary, taxon=="Fucus.distichus" )
-
-# "significant" shifts as those that did not include zero
-shift.summary %>% 
-  mutate( peak.sig = elev.shifts.high*elev.shifts.low > 0 ) %>% 
-  mutate( abun.high.one = abun.shifts.high > 1,
-          abun.low.one = abun.shifts.low > 1 ) %>% 
-  mutate( abun.sig = abun.high.one == abun.low.one ) %>% 
-  select( rank, taxon, peak.sig, abun.sig, elev.shifts.med, abun.shifts.med ) %>% 
-  filter( peak.sig == TRUE | abun.sig == TRUE )
-
-# individual shifts
-shift.summary <- left_join(shift.summary, taxon.key)
-shift.summary <- shift.summary %>% 
-  mutate(order_FG = factor(funct, levels = occur_trends$FG[order(occur_trends$median)], ordered = TRUE)) %>% 
-  mutate(order_taxa = factor(taxon, levels = occur_trends_taxa$species[order(occur_trends_taxa$median)], ordered = TRUE)) %>% 
-  mutate(rank = 1:nrow(shift.summary)) %>% 
-  arrange(order_FG, order_taxa) %>% 
-  mutate(newrank = 1:nrow(shift.summary) )
-shift.summary$funct <- factor( shift.summary$funct, levels =  )
-  
-elev.shift.plot <- ggplot( shift.summary, aes(x=newrank,
-                                                    y=elev.shifts.med, col = order_FG)) + 
-  geom_hline( yintercept=0 ) +
-  geom_errorbar( aes(ymin=elev.shifts.low,ymax=elev.shifts.high), width = 0 ) +
-  geom_errorbar( aes(ymin=elev.shifts.25,ymax=elev.shifts.75), width = 0, lwd = 1 ) +
-  geom_point() +
-  ylab( "Peak elevation shift (cm)" ) + xlab("") +
-  scale_x_continuous(breaks = c(1,10,20,30,40,46)) +
-  scale_color_manual(values = c("#996633","red","darkgrey","darkred","pink","midnightblue") ) +
-  theme( panel.grid.minor.x = element_blank(),
-         legend.position = "none",
-         panel.background = element_rect(fill = "whitesmoke",
-                                         colour = "whitesmoke",
-                                         size = 0.5, linetype = "solid")  )
-abun.shift.plot <- ggplot( shift.summary, aes(x=newrank,
-                                                    y=log(abun.shifts.med,base=2), col = order_FG) ) + 
-  geom_hline( yintercept=0 ) +
-  geom_errorbar( aes(ymin=log(abun.shifts.low,base=2),ymax=log(abun.shifts.high,base=2)), width = 0 ) +
-  geom_errorbar( aes(ymin=log(abun.shifts.25,base=2),ymax=log(abun.shifts.75,base=2)), width = 0, lwd = 1 ) +
-  geom_point() +
-  ylab( "Percent cover shift" ) + xlab("Occurrence change rank") +
-  scale_y_continuous( breaks=c(log(64,base=2),log(16,base=2),log(4,base=2),0,
-                               log(1/4,base=2),log(1/16,base=2),log(1/64,base=2)),
-                      labels=c('64x','16x','4x','0','1/4x','1/16x','1/64x') ) +
-  scale_x_continuous( breaks = c(1,10,20,30,40,46)) +
-  scale_color_manual(values = c("#996633","red","darkgrey","darkred","pink","midnightblue") ) +
-  theme( panel.grid.minor.x = element_blank(),
-         legend.position = "none",
-         panel.background = element_rect(fill = "whitesmoke",
-                                         colour = "whitesmoke",
-                                         size = 0.5, linetype = "solid")  )
-plot_grid( elev.shift.plot, abun.shift.plot, ncol=1 )
-ggsave( "R/Figs/shifts_2panel.svg", width=5, height=5 )
-
-# # Find the predicted peak for each instance
-# # filter out animals
-# peaks <- predictions_pab_trait %>%
-#   filter( funct != "animals" ) %>% 
-#   group_by( year, taxon, funct ) %>%
-#   summarize( peak = mean(elev[which(N==max(N))]), peaksd = mean(elev[which(N==max(N))],na.rm=T) )
-# peaks$peak
-# ggplot( filter(peaks, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
-#   geom_point()
-# ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
-#   # geom_path(aes(group=taxon), alpha=0.5) + 
-#   geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
-# summary(lm(peak~1+year,data=peaks))
-# 
-# # get difference between peaks for 2012 and 2019
-# peak_shift <- peaks %>% 
-#   group_by( taxon, funct ) %>% 
-#   filter( year %in% c(2012,2019) ) %>% 
-#   summarize( shift = diff(peak))
-# 
-# # merge 2012 peaks with peak shift to compare shift relative to starting point
-# peak_initial <- peaks %>% filter( year==2012 )
-# peak_compare <- left_join( peak_shift, peak_initial )
-# 
-# cutoff <- 20
-# peak_compare %>% filter(shift <= -cutoff)
-# peak_compare %>% filter(shift >= cutoff)
-# peak_compare %>% filter(shift < cutoff & shift > -cutoff)
-# peak_compare %>% filter(shift == 0 )
-# peak_compare %>% arrange(shift)
-# peak_compare %>% arrange(-shift)
-# 
-# # plot by functional group
-# trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100) ) + 
-#   geom_hline (yintercept=0, lty=2 ) +
-#   geom_boxplot()  + geom_point() +
-#   xlab("Functional group") + ylab("Peak shift (meters)") +
-#   # scale_fill_manual(values=c("whitesmoke","dodgerblue")) +
-#   theme_classic() +
-#   theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
-#   theme(legend.position = "none")
-# 
-# peak_shift %>% arrange(-shift)
-# peak_shift %>% arrange(shift)
-# peak_shift %>% filter(shift==0)
-# peak_shift %>% filter(shift >-10 & shift < 10)
-# shift_increase <- peak_shift %>% arrange(-shift)
-# choose <- shift_increase$taxon[1:6]
-# ggplot( filter(peaks, taxon %in% choose), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
-#   geom_point()
-
-
-
+summary(lm( shift~1, peak_shift))
+peak_compare <- peak_compare %>% 
+  ungroup() %>% 
+  mutate(peak2=peak-min(peak))
+summary(lm( shift~peak2, peak_compare))
 
 
 
@@ -1455,7 +1384,7 @@ df.poly <- data.frame( x=rep(xs,each=2), y=c(0,diff(xs),0,-diff(xs)) )
 #   theme_classic() )
 summary(lm( elev.shifts.med ~ elev.init.med, data=shift.summary ))
 cor.test( x=shift.summary$elev.shifts.med, y = shift.summary$elev.init.med )
-(a <- ggplot( shift.summary, aes(x=elev.init.med,y=elev.shifts.med)) +
+(a <- ggplot( shift.summary, aes(x=elev.init.med,y=elev.shifts.med*8)) +
     geom_polygon( data=df.poly, aes(x=x,y=y), fill='whitesmoke', col='slategray', lty=2) +
     geom_hline( yintercept = 0, lty=2 ) +
     geom_smooth(method='lm', se=T, col='black') +
@@ -1472,7 +1401,7 @@ cor.test( x=shift.summary$elev.shifts.med, y = shift.summary$elev.init.med )
 #   scale_y_continuous( breaks=c(sqrt(10),1,0,-1,-sqrt(10)), 
 #                       labels=c('10x','2x','0','1/2x','1/10x')) +
 #   theme_classic() )
-(b <- ggplot( shift.summary, aes(x=elev.init.med,y=abun.shifts.med)) + 
+(b <- ggplot( shift.summary, aes(x=elev.init.med,y=log(abun.shifts.med,base=2))) + 
     geom_hline( yintercept=0, lty=2 ) +
     # geom_smooth(method='lm', se=T, col='black') +
     geom_point(size=3, pch=1, col='slateblue') + 
@@ -1510,9 +1439,9 @@ cor.test( x=shift.summary$elev.shifts.med, y = shift.summary$elev.init.med )
 #                         labels=c('10x','2x','0','1/2x','1/10x')) +
 #     scale_x_continuous(trans = "log2") +
 #     theme_classic() )
-summary(lm( abun.shifts.med~log(abun.init.med,base=2), shift.summary ))
-cor.test( x=shift.summary$abun.shifts.med, y = log(shift.summary$abun.init.med,base=2) )
-(d <- ggplot( shift.summary, aes(x=abun.init.med/30,y=abun.shifts.med)) + 
+summary(lm( log(abun.shifts.med,base=2)~log(abun.init.med,base=2), shift.summary ))
+cor.test( x=log(shift.summary$abun.shifts.med,base=2), y = log(shift.summary$abun.init.med,base=2) )
+(d <- ggplot( shift.summary, aes(x=abun.init.med/30,y=log(abun.shifts.med,base=2))) + 
     geom_hline( yintercept=0, lty=2 ) +
     geom_smooth(method = 'lm', se = T, col='black' ) +
     geom_point(size=3, pch=1, col='slateblue') + 
@@ -1577,7 +1506,7 @@ ylimits2 <- c(-6,6) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^ma
 # add nice scatteplot
 # taxa to plot
 compare_all_plot <- shift.summary
-compare_all_plot$labels <- factor( compare_all_plot$taxon, labels=1:46 )
+compare_all_plot$labels <- factor( compare_all_plot$taxon, labels=1:47 )
 # taxalabel <- top6
 # taxalabel <- customXY
 # # color points by kingdom (red, green, brown)
@@ -1605,39 +1534,29 @@ compare_all_plot_fun <- compare_all_plot_fun %>%
 # functional group colors
 c("darkred", "red","pink", "darkgrey", "#996633","whitesmoke")
 
-cor( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2) )
-plot( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2) )
-cor( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2), method='spearman' )
-cor( elev.shifts.med, log(abun.shifts.med, base = 2) )
-plot( elev.shifts.med, log(abun.shifts.med, base = 2) )
-cor( elev.shifts.med, log(abun.shifts.med, base = 2), method = 'spearman' )
+cor.test( compare_all_plot_fun$elev.shifts.med, log(compare_all_plot_fun$abun.shifts.med,base =2 ), method = "pearson")
+cor.test( compare_all_plot_fun$elev.shifts.med, log(compare_all_plot_fun$abun.shifts.med,base =2 ), method = "spearman")
+cor( c(abun.shifts.run.algae), c(elev.shifts.run.algae) )
+cor( c(abun.shifts.run.algae), c(elev.shifts.run.algae), method='spearman' )
+compare_all_plot_fun$group <- factor(as.character(compare_all_plot_fun$group), levels = c('turf','thin_turf','crust','blade','canopy'))
 compare_all_plot_fun %>%  arrange(elev.shifts.med)
-compare_all_plot_algae <- filter( compare_all_plot_fun, funct != "animal" )
-compare_all_plot_algae$group <- factor(as.character(compare_all_plot_algae$funct), levels = c('turf','thin_turf','crust','blade','canopy'))
-
-
-(xy <- ggplot( compare_all_plot_algae, aes(x=log(abun.shifts.med,base = 2),y=elev.shifts.med)) + 
-    geom_hline(yintercept = 0)+geom_vline(xintercept = 0)+
-    geom_hline(yintercept = quantile( c(slopes.peak.algae*8), prob = 0.5 ), lty = 1, col = "lightgray", lwd = 0.33)+
-    geom_vline(xintercept = quantile( log(abun.shifts.run.algae,base=2), prob = 0.5 ), lty = 1, col = "seagreen", lwd = 0.33)+
-    # data = abun.shift.all.df.summary, aes(y = ybar, x = median )
-    geom_point( aes(fill=group), pch = 21, size = 2.5) +
+(xy <- ggplot( compare_all_plot_fun, aes(x=log(abun.shifts.med,base=2),y=elev.shifts.med)) + 
+    geom_hline(yintercept=0)+geom_vline(xintercept=0)+
+    geom_point( aes(fill=group), pch=21,size=3) +
+    # geom_text_repel(aes(label=labels),
+                    # box.padding = 0, point.padding = 0, size=2) +
+    # geom_text(aes(label=labels),size=3, nudge_y = 10) +
     theme_classic() +
-    scale_x_continuous(breaks=c(log(50,base=2),log(10,base=2),log(4,base=2),log(2,base=2),0,log(0.5,base=2),
-                                log(1/4,base=2),log(1/8,base=2),log(1/16,base=2),log(1/50,base=2)),
-                       labels=c('50x','10x','4x','2x','0','1/2x','1/4x','1/8x','1/16x','0.05x'),
-                       # labels=c('50x','10x','4x','2x','0','0.5x','0.25x','0.0125x','0.0625x','0.05x'),
+    scale_x_continuous(breaks=c(log(50,base=2),log(10,base=2),log(5,base=2),log(2,base=2),0,log(0.5,base=2),
+                                log(1/5,base=2),log(1/10,base=2),log(1/50,base=2)),
+                       labels=c('50x','10x','5x','2x','0','0.5x','0.2x','0.1x','0.02x'),
                        position="bottom") +
-    # scale_x_continuous(breaks=c(log(50,base=2),log(10,base=2),log(5,base=2),log(2,base=2),0,log(0.5,base=2),
-    #                             log(1/5,base=2),log(1/10,base=2),log(1/50,base=2)),
-    #                    labels=c('50x','10x','5x','2x','0','0.5x','0.2x','0.1x','0.02x'),
-    #                    position="bottom") +
-    ylim( c(-300,55) ) +
+    # ylim(c(-225,55)) + 
     scale_fill_manual( values=(c("darkred", "red","pink", "darkgrey", "#996633")), guide='none' ) +
     xlab("Cover shift") + ylab("Elevation shift (cm)"))
 
 # densities of all shifts
-elev.shift.all.df <- data.frame( elev.shift = c(slopes_peak[,taxon.key$funct != "animal"]*8) )
+elev.shift.all.df <- data.frame( elev.shift = c(elev.shifts.run.algae) )
 hist(elev.shift.all.df$elev.shift, freq = F, las = 1)
 summary(elev.shift.all.df$elev.shift)
 elev.shift.all.df.summary <- elev.shift.all.df %>% 
@@ -1646,26 +1565,28 @@ elev.shift.all.df.summary <- elev.shift.all.df %>%
              lower = quantile(elev.shift,prob = 0.025),
              lower25 = quantile(elev.shift,prob = 0.25),
              upper75 = quantile(elev.shift,prob = 0.75))
-ybar = 0
-error_color = 'cornflowerblue'
-dens_height = 1.1
-dens_min = -0.1
-dens_alpha = 0.8
+ybar <- 0
+error_color <- 'slateblue'
 ydens <- axis_canvas(xy, axis = "y", coord_flip = TRUE)+
   # geom_vline(xintercept=mean(compare_all_plot$elev.shifts.med), col='red' ) +
   geom_vline(xintercept=0) +
-  geom_density(data = elev.shift.all.df, aes(x = elev.shift, ..scaled..),
-               alpha = dens_alpha, size = 0.5, outline.type = "full", fill = "lightgrey") +
+    # geom_density(data = compare_all_plot, aes(x = elev.shifts.med),
+  #              alpha = 0.7, size = 0.5, outline.type = "full") +
+  # geom_errorbarh(data = elev.shift.all.df.summary, aes(y = ybar, xmin = lower, xmax = upper),
+  #                height = 0, size = 1, col = error_color)+
   geom_errorbarh(data = elev.shift.all.df.summary, aes(y = ybar, xmin = lower25, xmax = upper75),
                 height = 0, size = 2, col = error_color) +
-  geom_point(data = elev.shift.all.df.summary, aes(y = ybar, x = median ), size = 1.5, shape = 3, col = "lightgrey") +
-  coord_flip(ylim = c(dens_min,dens_height)) 
+  geom_point(data = elev.shift.all.df.summary, aes(y = ybar, x = median ), size = 2, shape = 3) +
+  geom_density(data = elev.shift.all.df, aes(x = elev.shift, ..scaled..),
+               alpha = 0.7, size = 0.5, outline.type = "full") +
+  coord_flip(ylim = c(0,1.01)) 
 ydens
 # Marginal densities along y axis
 # Need to set coord_flip = TRUE, if you plan to use coord_flip()
-abun.shift.all.df <- data.frame( abun.shift = c(abun.shifts.run.algae) )
-hist( log(abun.shift.all.df$abun.shift,base=2), freq = F, las = 1)
-abun.shift.all.df.summary <- log(abun.shift.all.df,base=2) %>% 
+abun.shift.all.df <- data.frame( abun.shift = log(c(abun.shifts.run.algae), base = 2) )
+hist(abun.shift.all.df$abun.shift, freq = F, las = 1)
+summary(abun.shift.all.df$abun.shift)
+abun.shift.all.df.summary <- abun.shift.all.df %>% 
   summarize( median = quantile(abun.shift,prob = 0.5),
              upper = quantile(abun.shift,prob = 0.975),
              lower = quantile(abun.shift,prob = 0.025),
@@ -1674,12 +1595,14 @@ abun.shift.all.df.summary <- log(abun.shift.all.df,base=2) %>%
 xdens <- axis_canvas(xy, axis = "x")+
   # geom_vline(xintercept=mean(log(compare_all_plot$abun.shifts.med,base=2)), col='red' ) +
   geom_vline(xintercept=0) +
-  geom_density(data = log(abun.shift.all.df,base = 2), aes(x =  abun.shift, ..scaled.. ),
-               alpha = dens_alpha, size = 0.5, outline.type = "full", fill = "seagreen") +
+  # geom_errorbarh(data = abun.shift.all.df.summary, aes(y = ybar, xmin = lower, xmax = upper),
+  #                height = 0, size = 1, col = error_color)+
   geom_errorbarh(data = abun.shift.all.df.summary, aes(y = ybar, xmin = lower25, xmax = upper75),
                  height = 0, size = 2, col = error_color)+
-  geom_point(data = abun.shift.all.df.summary, aes(y = ybar, x = median ), size = 1.5, shape = 3, col = "seagreen") +
-  coord_cartesian(ylim = c(dens_min,dens_height))
+  geom_point(data = abun.shift.all.df.summary, aes(y = ybar, x = median ), size = 2, shape = 3) +
+  geom_density(data = abun.shift.all.df, aes(x =  abun.shift, ..scaled.. ),
+               alpha = 0.7, size = 0.5, outline.type = "full") +
+  coord_cartesian(ylim = c(0,1.01))
 xdens
 # an empty plot for the upper corner
 empty <- ggplot()+geom_point(aes(1,1), colour="white")+
@@ -1696,42 +1619,9 @@ ggsave(file="R/Figs/abundance~peak.svg",width = 3.5, height = 3.5)
 write_csv( compare_all_plot_fun, "R/output/shifts_predicted.csv")
 #
 
-
-# add plot for functional groups through time (fun1 using raw data means and predictions)
-dplot2 <- read_csv( "R/output/funtional_groups_annual_mean.csv")
-bareraw <- read_csv( "R/output/bare.csv")
-dplot2$FunGroup <- factor( dplot2$FunGroup, levels = c("canopy","blade","crust","thin turf","turf","animal") )
-dplot2$FunGroup
-dplot2$`Functional Group` <-   factor( dplot2$`Functional Group`, levels = c("canopy (13)","blade (14)","crust (13)","thin turf (31)","turf (47)","animal (10)")) 
-qpred_median$`Functional Group` <- factor( qpred_median$FG, levels = c("canopy","blade","crust","thin_turf","turf","animal"),
-                                           labels = c("canopy (13)","blade (14)","crust (13)","thin turf (31)","turf (47)","animal (10)") )
-qpred_median$Year <- as.numeric(as.character(qpred_median$year))
-fun1 <- ggplot(dplot2, aes(x = Year, y = mean)) +
-  geom_area(data = qpred_median, aes(x = Year, y = value, group = `Functional Group`, fill = `Functional Group`), 
-            col="black", alpha = 0.75) +
-  geom_bar(aes(fill = `Functional Group`), position="stack", 
-           stat="identity", col='black', lwd=0.25, width = 0.5)+
-  geom_smooth( data=bareraw, aes(x=Year,y=Abundance, group=1), 
-               fill="black",col="yellow" ) +
-  theme_classic()+
-  scale_fill_manual(values = c("midnightblue", "darkred", "red","pink", "darkgrey", "#996633") %>% rev())+  #"darkgreen",
-  theme( legend.position = 'top',
-         legend.title = element_blank(),
-         legend.key.size = unit(0.25, "cm"),
-         legend.box.margin=margin(-8,-10,-3,-10) ) +
-  guides( fill =  guide_legend(nrow=2,byrow=T) ) +
-  theme( panel.border = element_rect(colour = "black", fill=NA, size=0.5),
-         legend.text=element_text(size = 6.5)) +
-  ylab("Mean cover (%)")
-fun1
-
-# add plot for functional group trends
-hmsc_FG
-
-
-cowplot::plot_grid( fun1, hmsc_FG, p2, ncol = 3, 
+cowplot::plot_grid( fun1, hmsc_box, p2, ncol = 3, 
                     align='hv', axis="b",
-                    rel_widths = c(1.125,1.5,1.25), labels="AUTO" )
+                    rel_widths = c(1,1.5,1.25), labels="AUTO" )
 ggsave(file="R/Figs/fun_hmsc_shift.svg",width = 10, height = 10/3)
 
  

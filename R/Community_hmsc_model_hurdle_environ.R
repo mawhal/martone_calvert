@@ -21,7 +21,7 @@ load( mselect )
 ## Run MCMC and save the model
 thin = 100
 samples = 250
-nChains = 4
+nChains = 8
 transient = ceiling(thin*samples*0.5)
 set.seed(1)
 nm = length(models)
@@ -36,7 +36,7 @@ for( model in 1:nm ){
   models[[model]] = m
 }
 warnings()# computational.time <- toc()
-model = "elevxyearxenviron_hurdle"
+model = "environ_hurdle"
 filename = file.path(getwd(), paste("model_",as.character(model),
                                      "_chains_",as.character(nChains),
                                      "_thin_", ... = as.character(thin),

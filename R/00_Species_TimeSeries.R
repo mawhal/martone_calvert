@@ -70,7 +70,8 @@ d$Abundance[ is.na( d$Abundance) ] <- 0
 # # chose an observer/recorder
 # sort(unique( am$Sampler ))
 # sort(unique( am$Recorder ))
-# data.frame( Sampler=sort(unique( c(am$Sampler,am$Recorder))), fullName="_________"  )
+# allpeeps <- data.frame( Person = sort(unique( c(am$Sampler,am$Recorder))), fullName=""  )
+# write_csv(allpeeps, "R/output/all_samplers_recorders.csv")
 # # Sandra C Lindstrom
 # sandra     <- c( "Sandra", "SCL", "SL" )
 # # select the plots we want from the metadata

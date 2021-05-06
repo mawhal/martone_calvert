@@ -30,7 +30,7 @@ MixingDir = paste0( here::here(), "/R/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = "model_elevxyearxenviron_hurdle_chains_4_thin_100_samples_250.Rdata"
+model = "model_elevxyearxenviron_hurdle_chains_8_thin_100_samples_250.Rdata"
 # model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250.Rdata"
 # model = "model_elevxyear_hurdle_test_chains_1_thin_1_samples_5.Rdata"
 mload <- load( paste(ModelDir,model, sep="/") )
@@ -46,23 +46,23 @@ mpost_pa   = convertToCodaObject(models[[1]])
 mpost_abun = convertToCodaObject(models[[2]])
 
 # trace plots #####
-# # plot traces for particular species 
-# taxa <- rep(colnames(models[[1]]$Y), each=7)
-# toplot <- which(taxa %in% "Hedophyllum.sessile")
-# # toplot <- which(taxa %in% "Mazzaella.parvula")
-# betaplot <- lapply(mpost_pa$Beta,function(z) z[,toplot])
-# betaplot2 <- lapply(mpost_abun$Beta,function(z) z[,toplot])
-# lapply(betaplot, colnames)
-# # betaplot <- lapply( betaplot, function(z) {
-# #   colnames(z) <- c('int','elev','elev2','year','elev:year','elev2:year')
-# # })
-# params <- c('int','elev','elev2','year','elev:year','elev2:year')
-# betaplot <- as.mcmc.list(betaplot)
-# betaplot2 <- as.mcmc.list(betaplot2)
-# par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
-# plot(betaplot, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
-# par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
-# plot(betaplot2, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
+# plot traces for particular species
+taxa <- rep(colnames(models[[1]]$Y), each=11)
+toplot <- which(taxa %in% "Hedophyllum.sessile")
+# toplot <- which(taxa %in% "Mazzaella.parvula")
+betaplot <- lapply(mpost_pa$Beta,function(z) z[,toplot])
+betaplot2 <- lapply(mpost_abun$Beta,function(z) z[,toplot])
+lapply(betaplot, colnames)
+# betaplot <- lapply( betaplot, function(z) {
+#   colnames(z) <- c('int','elev','elev2','year','elev:year','elev2:year')
+# })
+params <- c('int','year1','elev1','elev2','pca1','pca2','year1:elev1','elev1:pca1','elev1:pca2','pca1:year1','pca2:year1')
+betaplot <- as.mcmc.list(betaplot)
+betaplot2 <- as.mcmc.list(betaplot2)
+par( mfrow=c(11,2),mar=c(2,3,0,0)+0.1)
+plot(betaplot, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
+par( mfrow=c(11,2),mar=c(2,3,0,0)+0.1)
+plot(betaplot2, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
 
 
 # Gelman statistic for Beta values (slopes)
@@ -131,12 +131,10 @@ for(i in 1:length(models)){
   } else {
     pos.negs = cbind(pos.negs,pos.neg)#[,1])
   }
-  pos.negs$parameter <- factor(c("intercept", "year1", "elev1", "pca1", "pca2",
-                                 "elev1:year1","elev1:pca1","elev:pca2","year:pca1","year:pca2" ),
-                              levels = c("intercept", "year1", "elev1", "pca1", "pca2",
-                                         "elev1:year1","elev1:pca1","elev:pca2","year:pca1","year:pca2" ),
+  pos.negs$parameter <- factor( params,
+                              levels = params ,
                               ordered = TRUE)
-  pos.negs$species <- factor(rep(colnames(postBeta[[i]]$mean), each = 10),
+  pos.negs$species <- factor(rep(colnames(postBeta[[i]]$mean), each = 11),
                             levels = colnames(models[[i]]$Y)[order(colSums(models[[i]]$Y),decreasing = TRUE)],
                             ordered = TRUE)
 }
@@ -197,26 +195,24 @@ ggplot( coef_plot, aes(y=value, x=factor(1), col=alga)) +
 # # plotVariancePartitioning(m, VP = VP)
 # VP.dfs <- NULL
 # for( i in 1:length(models) ){
-#   VP.df <- as.data.frame(VP[[i]]$vals) %>% 
-#     mutate(effect = factor(c("year1","year2","elev1","elev2",
-#                              "elev:year","elev2:year",
-#                              "site","transect"), 
-#                            levels = rev(c("year1","year2","elev1","elev2",
-#                                           "elev:year","elev2:year",
-#                                           "site","transect")), 
-#                            ordered = TRUE)) %>% 
+#   VP.df <- as.data.frame(VP[[i]]$vals) %>%
+#     mutate(effect = factor(c(params[-1],
+#                              "site","transect","quadrat"),
+#                            levels = rev(c(params[-1],
+#                                           "site","transect","quadrat")),
+#                            ordered = TRUE)) %>%
 #     # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
 #     #                          "elev:year","elev2:year",
-#     #                          "site","transect","ty"), 
+#     #                          "site","transect","ty"),
 #     #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
 #     #                                       "elev:year","elev2:year",
-#     #                                       "site","transect","ty")), 
-#     #                        ordered = TRUE)) %>% 
-#     # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site"), 
-#     #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site")), 
-#     #                        ordered = TRUE)) %>% 
-#     gather(key = species, value = variance, -effect) %>% 
-#     group_by(species) %>% 
+#     #                                       "site","transect","ty")),
+#     #                        ordered = TRUE)) %>%
+#     # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site"),
+#     #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site")),
+#     #                        ordered = TRUE)) %>%
+#     gather(key = species, value = variance, -effect) %>%
+#     group_by(species) %>%
 #     mutate(tempR2 = variance[effect == "year1"])
 #   if(is.null(VP.dfs)){
 #     VP.dfs=VP.df#[,1]
@@ -244,7 +240,7 @@ ggplot( coef_plot, aes(y=value, x=factor(1), col=alga)) +
 #   geom_bar(stat = "identity", color = 1)+
 #   theme_classic()+
 #   theme(axis.text.x = element_text(angle = 90))+
-#   scale_fill_manual(values = c("darkred", "maroon", viridis(7)), name = "")+
+#   scale_fill_manual(values = c('black',"darkred", "maroon", viridis(10)), name = "")+
 #   # geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
 #   # geom_point(data = R2.df, aes(y = -0.07, fill = NULL, size = R2))+
 #   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
@@ -254,24 +250,26 @@ ggplot( coef_plot, aes(y=value, x=factor(1), col=alga)) +
 
 
 
-# ## associations ####
-# OmegaCor = lapply( models, computeAssociations )
-# supportLevel = 0.95
-# # choose the random variable to plot
-# rlevel = 2
-# pick <- 1
-# toPlot = ((OmegaCor[[pick]][[rlevel]]$support>supportLevel)
-#           + (OmegaCor[[pick]][[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[pick]][[rlevel]]$mean
-# # reorder species matrix
-# plotorder <- order( postBeta[[pick]]$mean[2,], decreasing = TRUE )
-# toPlot <- toPlot[ plotorder, plotorder]
-# # reorder automatically
-# library(lessR)
-# mynewcor <- corReorder( toPlot, order="hclust", nclusters=4 )
-# # windows(12,12)
-# corrplot( mynewcor, method = "color",
-#          col = colorRampPalette(c("blue","white","red"))(200),
-#            title = paste("random effect level:", models[[1]]$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
+## associations ####
+OmegaCor = lapply( models, computeAssociations )
+supportLevel = 0.95
+# choose the random variable to plot
+rlevel = 2
+pick <- 1
+toPlot = ((OmegaCor[[pick]][[rlevel]]$support>supportLevel)
+          + (OmegaCor[[pick]][[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[pick]][[rlevel]]$mean
+# reorder species matrix
+plotorder <- order( postBeta[[pick]]$mean[2,], decreasing = TRUE )
+toPlot <- toPlot[ plotorder, plotorder]
+# reorder automatically
+library(lessR)
+mynewcor <- corReorder( toPlot, order="hclust", nclusters=4 )
+# windows(12,12)
+corrplot( mynewcor, method = "color",
+         col = colorRampPalette(c("blue","white","red"))(200),
+           title = paste("random effect level:", models[[1]]$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
+
+
 
 
 ##### merge community data and traits #####

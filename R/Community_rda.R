@@ -146,11 +146,11 @@ temp_wide <- anoms %>%
   select( site, year, month, temp.anom ) %>% 
   pivot_wider( names_from = site, values_from = temp.anom, names_prefix = "temp_" ) 
 sal_wide <- anoms %>% 
-  filter( site != "addenbrooke" ) %>% 
+  filter( site != "addenbroke" ) %>% 
   select( site, year, month, sal.anom ) %>% 
   pivot_wider( names_from = site, values_from = sal.anom, names_prefix = "sal_" ) 
 precip <- anoms %>% 
-  filter( site == "addenbrooke" ) %>% 
+  filter( site == "addenbroke" ) %>% 
   select( year, month, precip.anom ) %>% 
   mutate( precip.anom = -precip.anom )
 
@@ -180,13 +180,18 @@ imp <- res.comp$completeObs
 library(FactoMineR)
 png(file="R/Figs/BC_Lightstation_PCA.png", res = 600, width = 4.5, height = 4.5, units = "in")
 # windows(4.5,6)
-par(mfrow=c(2,1),las=1, mar=c(3,4,3,1)+0.1)
+par(mfrow = c(2,1),las = 3, mar = c(3,4,3,1)+0.1 )
 res.pca <- PCA(imp, ncp = nb$ncp, graph = TRUE)
 dev.off()
 res.pca$var
 summary(res.pca)
-plot(res.pca, choix = "var", cex = 0.8)
+# windows(2,2)
+par( mar = c(2.25,2.25,1,1)+0.1, las = 0, cex=0.8, pty = "s" )
+plot( res.pca, choix = "var", cex = 0.8, title = "", 
+     col.var = c("darkslateblue","darkslateblue", "darkslateblue","firebrick4","firebrick4"),
+     label = "none", graph.type = "classic" )
 plot(res.pca, choix = "var", axes = 2:3, cex = 0.8)
+plot(res.pca, choix = "var", axes = 3:4, cex = 0.8)
 dimdesc( res.pca )
 pcscores <- data.frame( res.pca$ind$coord )
 names(pcscores) <- paste0("pca",1:ncol(pcscores))
@@ -194,11 +199,26 @@ names(pcscores) <- paste0("pca",1:ncol(pcscores))
 # biplot(pca1,scale = 0, choice = c(3,4))
 # ccf(pcscores$pca1, pcscores$pca2 )
 ccf(pcscores$pca1, pcscores$pca2 )
-par( mar=c(1,1,1,1)+0.1, mfrow=c(4,1) )
-plot(x = filtd$date, y = pcscores$pca1, type = 'l', col = 'slateblue' ); abline(h = 0)
-plot(x = filtd$date, y = pcscores$pca2, type = 'l', col = 'firebrick' ); abline(h = 0)
-plot(x = filtd$date, y = pcscores$pca3, type = 'l', col = 'darkorange' ); abline(h = 0)
-plot(x = filtd$date, y = pcscores$pca4, type = 'l', col = 'pink' ); abline(h = 0)
+
+# dates for events
+# 1997-1998 El Nino
+warm_times <- lubridate::ymd(c("1997-06-01","1998-06-01","2013-12-01","2016-01-01"))
+lubridate::ymd(c("2013-12-01","2016-01-01"))
+png(file="R/Figs/BC_Lightstation_PCA_timeseries.png", res = 600, width = 5, height = 5, units = "in")
+par( mar=c(2,4,0,1)+0.1, mfrow=c(3,1), las = 1 )
+plot(x = filtd$date, y = pcscores$pca1, type = 'l', col = 'slateblue', ylab = "PCA1" ); abline(h = 0)
+lines( lowess(x = filtd$date, y = pcscores$pca1, f = 1/20, iter = 10), col = "darkslateblue", lwd=2)
+abline( v = warm_times, lty = 4, col = "slategrey" )
+axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
+plot(x = filtd$date, y = pcscores$pca2, type = 'l', col = 'firebrick', ylab = "PCA2" ); abline(h = 0)
+lines( lowess(x = filtd$date, y = pcscores$pca2, f = 1/20, iter = 10), col = "firebrick4", lwd=2)
+abline( v = warm_times, lty = 4, col = "slategrey" )
+axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
+plot(x = filtd$date, y = pcscores$pca3, type = 'l', col = 'darkorange', ylab = "PCA3" ); abline(h = 0)
+lines( lowess(x = filtd$date, y = pcscores$pca3, f = 1/20, iter = 10), col = "darkorange4", lwd=2)
+abline( v = warm_times, lty = 4, col = "slategrey" )
+axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
+dev.off()
 dna <- bind_cols( filtd, pcscores )
 
 # calculate winter and summer temperature anomalies

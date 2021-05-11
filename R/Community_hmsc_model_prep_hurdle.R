@@ -206,11 +206,13 @@ TrData$FG <- factor( TrData$FG, levels = c('canopy','blade','crust','thin_turf',
 # make sure to use spatial data
 # STUDY DESIGN
 studyDesign <- data.frame( year = factor(M$Year),
-                           quadrat = factor(M$UID),
+                           observation = factor(M$UID),
                            transect = factor(M$transect),
                            site = factor(M$Site) )
 # transect year
 studyDesign$ty <- factor(with(studyDesign, paste( transect, year, sep = "_" )))
+# quadrat
+studyDesign$quadrat <- factor(with(studyDesign, paste( transect, M$Meter.point, sep = "_" )))
 
 
 # Random effects for unit
@@ -224,7 +226,7 @@ rL_year = HmscRandomLevel( sData = td )
 rL_site <-  HmscRandomLevel( unit = unique(studyDesign$site) )
 # transect year
 rL_ty <- HmscRandomLevel( unit = unique(studyDesign$ty) )
-# qudarat level (based on combination of site, transect, and quad)
+# qudarat level (based on combination of transect and meter point)
 rL_quad <- HmscRandomLevel( unit = unique(studyDesign$quadrat) )
 
 
@@ -250,7 +252,7 @@ mprobit <- Hmsc( Y = Ypa,
            TrData = TrData, TrFormula = TrFormula,
            distr = "probit",
            studyDesign = studyDesign, 
-           ranLevels = list(site=rL_site, transect=rL) ) #, quadrat=rL_quad ) )#,
+           ranLevels = list(site=rL_site, transect=rL, quadrat=rL_quad) )
                             # year=rL_year, 
                              # ty=rL_ty ) ) 
 # second, Gaussian model with log-abundances given presence
@@ -259,7 +261,7 @@ mnormal <- Hmsc( Y = Ylap, YScale = TRUE,
                  TrData = TrData, TrFormula = TrFormula,
                  distr = "normal",
                  studyDesign = studyDesign, 
-                 ranLevels = list(site=rL_site, transect=rL) )
+                 ranLevels = list(site=rL_site, transect=rL, quadrat=rL_quad) )
 
 # combine these models into a list
 models = list( mprobit, mnormal )

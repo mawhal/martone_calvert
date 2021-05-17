@@ -4,7 +4,7 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Fauchea"
+taxon <- "Kornmannia"
 
 # # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
 # 

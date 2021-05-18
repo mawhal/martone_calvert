@@ -44,7 +44,7 @@ d$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
 # restrict this to sessile taxa
 d.simple <- d %>%
   # filter( motile_sessile=="sessile" ) %>%
-  group_by( UID, transect, taxon_lumped ) %>%
+  group_by( UID, transect, taxon_lumped3 ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T)) %>% 
   arrange(UID)
 # # calculate average abundance by transect
@@ -54,7 +54,7 @@ d.simple <- d %>%
 
 # spread Taxon column out into many columns filled with abundance/cover data
 d.comm <- d.simple %>%
-  spread( taxon_lumped, Abundance, fill=0 )
+  spread( taxon_lumped3, Abundance, fill=0 )
 
 
 # merge meta data so we can chop things up and summarize across sites, zones, etc.
@@ -145,7 +145,7 @@ ggplot( mclean, aes(y=hillshan,x=Shore_height_cm,col=Zone)) + facet_wrap(~Year) 
   scale_fill_viridis_d( begin = 0.9,end = 0) +
   # scale_y_continuous(trans='log2') +
   theme_bw()
-ggsave( "R Code and Analysis/Figs/diversity_height.pdf",width=6,height=5)
+# ggsave( "R Code and Analysis/Figs/diversity_height.pdf",width=6,height=5)
 # ggplot( filter(mclean,Year%in%c(2012,2019)), aes(y=enspie,x=Shore_height_cm,group=Year,col=Year)) +
 #   geom_point( alpha=0.75 ) +
 #   geom_smooth(method='loess',se=T,method.args = list(family = "symmetric")) +
@@ -172,17 +172,18 @@ mlong$Measure2 <- mlong$Measure
 mlong$Measure2[mlong$Measure2=="Total"] <- "Richness"
 mlong$Measure2 <- factor(mlong$Measure2, levels = c("Richness","Hill-Shannon","Hill-Simpson") )
 
-ggplot(mlong, aes(x=Year, y=species, col=Measure2, shape=Measure2) ) + 
-  geom_point(aes(alpha=Measure2)) + facet_grid(Site~Zone) +
+ggplot(mlong, aes(x=Year, y=species, fill=Measure2, shape=Measure2) ) + 
+  geom_point(aes(alpha=Measure2), position = position_jitter(width=0.25)) + 
+  # facet_grid(Site~Zone) +
   # geom_smooth( method='gam', formula = y ~ s(x, bs = "cs",k=7) ) +
   geom_smooth( se=T, lty=1, lwd=0.5 )+
-  scale_color_manual( values=c("whitesmoke","gray50","black"), name="Measure") +
-  scale_shape_manual( values=c(19,19,19), name="Measure" ) +
+  scale_fill_manual( values=c("whitesmoke","gray50","black"), name="Measure") +
+  scale_shape_manual( values=c(21,21,21), name="Measure" ) +
   scale_alpha_manual( values=c(1,1,1), name="Measure" ) +
-  scale_x_continuous(guide = guide_axis(n.dodge = 2)) +
+  # scale_x_continuous(guide = guide_axis(n.dodge = 2)) +
   ylab( "Number of species" ) +
   scale_y_continuous(trans='log2') 
-ggsave( "R/Figs/diversity_time.svg", width=5, height=5 )
+ggsave( "R/Figs/diversity_time.svg", width=4, height=3 )
 
 ggplot( filter(mlong,Measure=="Total"), aes(x=Year, y=species) ) + 
   geom_point(alpha=0.5) + facet_grid(Site~Zone) +
@@ -205,6 +206,73 @@ ggplot( msum, aes(x=Zone, y=sp.cv) ) + geom_point()
 
 
 
+### calculate transect-level richness, diversity ####
+d.comm.trans <- d.comm %>% 
+  ungroup() %>% 
+  select(-UID) %>% 
+  group_by( transect ) %>% 
+  summarise_all( mean )
+comm.trans <- d.comm.trans[,-1]
+mtrans
+
+mtrans$total.cover <- rowSums( comm.trans )
+## shannon
+mtrans$shannon <- diversity( comm.trans, "shannon" )
+## simpson
+mtrans$simpson <- diversity( comm.trans, "simpson" )
+## ENSPIE
+# the function
+ENSPIE <- function(prop){
+  ifelse( sum(prop,na.rm=T)>0, 1 / sum(prop^2, na.rm=T), NA ) 
+} 
+Hill_Shannon <- function(prop){
+  exp( -sum(prop*log(prop),na.rm=T) )
+}
+prop <- comm.trans/mtrans$total.cover
+mtrans$enspie <- apply( prop, 1, ENSPIE )
+mtrans$hillshan <- apply( prop, 1, Hill_Shannon )
+# richness
+pa <- ifelse( comm.trans>0, 1, 0)
+mtrans$richness <- rowSums( pa )
+
+# make mtrans longer and include both richness and ENSPIE in the same figure
+mlong <- mtrans %>%
+  select( transect, Site, Zone, Year, Shore_height_cm, enspie, richness, hillshan ) %>%
+  group_by( transect, Site, Zone, Year, Shore_height_cm ) %>%
+  gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm )
+
+mlong$Measure[mlong$Measure=="enspie"] <- "Hill-Simpson"
+mlong$Measure[mlong$Measure=="hillshan"] <- "Hill-Shannon"
+mlong$Measure[mlong$Measure=="richness"] <- "Total"
+mlong$Measure2 <- mlong$Measure
+# mlong$Measure2[mlong$Measure2=="Effective"] <- "ENSPIE"
+mlong$Measure2[mlong$Measure2=="Total"] <- "Richness"
+mlong$Measure2 <- factor(mlong$Measure2, levels = c("Richness","Hill-Shannon","Hill-Simpson") )
+
+ggplot(mlong, aes(x=Year, y=species, fill=Measure2, shape=Measure2) ) + 
+  geom_point(aes(alpha=Measure2), position = position_dodge(width=0.25)) + 
+  # facet_grid(Site~Zone) +
+  # geom_smooth( method='gam', formula = y ~ s(x, bs = "cs",k=7) ) +
+  geom_smooth( se=T, lty=1, lwd=0.5, col = 'black' )+
+  scale_fill_manual( values=c("whitesmoke","gray50","black"), name="Measure") +
+  scale_shape_manual( values=c(21,21,21), name="Measure" ) +
+  scale_alpha_manual( values=c(1,1,1), name="Measure" ) +
+  # scale_x_continuous(guide = guide_axis(n.dodge = 2)) +
+  ylab( "Number of species" ) +
+  scale_y_continuous(trans='log2') 
+
+ggsave( "R/Figs/diversity_time_transect.svg", width=4, height=2.75 )
+#
+
+
+
+
+
+
+
+
+
+
 # model time to test for years for significant deviations
 library( lme4 )
 library( lmerTest)
@@ -213,40 +281,56 @@ mlong$Yearcent <- scale(mlong$Year)
 mlong$Yearfact <- factor(mlong$Year, ordered=F)
 mlong$Zonefact <- factor(mlong$Zone, ordered=F)
 # categorical effect of year
-m1 <- lmer( sqrt(species)~Yearfact + (1|transect), 
+m1 <- lmer( sqrt(species)~Yearfact + (1|Site), 
             data=filter(mlong,Measure=="Total") )
 summary(m1)
 anova(m1)
 plot(m1)
-# year and zone
-m1a <- lmer( sqrt(species)~Zonefact*Yearfact + (1|transect), 
-            data=filter(mlong,Measure=="Total") )
-summary(m1a)
-anova(m1a)
-plot(m1a)
+# # year and zone
+# m1a <- lmer( sqrt(species)~Zonefact*Yearfact + (1|Site), 
+#             data=filter(mlong,Measure=="Total") )
+# summary(m1a)
+# anova(m1a)
+# plot(m1a)
 # linear effect of time
-m1b <- lmer( sqrt(species)~Yearcent + (1|transect), 
+m1b <- lmer( (species)~Yearcent + (1|Site), 
             data=filter(mlong,Measure=="Total") )
 summary(m1b)
 anova(m1b)
 plot(m1b)
 ## effective number of species
-m2 <- lmer( log(species)~Yearfact + (1|transect), 
-            data=filter(mlong,Measure=="Effective") )
+m2 <- lmer( log(species)~Yearfact + (1|Site), 
+            data=filter(mlong,Measure=="Hill-Shannon") )
 summary(m2)
 anova(m2)
 plot(m2)
 lattice::dotplot( ranef(m2), main = F )
-# year and zone
-m2a <- lmer( log(species)~Zonefact+Yearcent + (1|transect), 
-            data=filter(mlong,Measure=="Effective") )
-summary(m2a)
-anova(m2a)
-plot(m2a)
+# # year and zone
+# m2a <- lmer( log(species)~Zonefact+Yearcent + (1|transect), 
+#             data=filter(mlong,Measure=="Effective") )
+# summary(m2a)
+# anova(m2a)
+# plot(m2a)
 # linear effect of time
-m2b <- lmer( log(species)~Yearcent + (1|transect), 
-             data=filter(mlong,Measure=="Effective") )
+m2b <- lmer( log(species)~Yearcent + (1|Site), 
+             data=filter(mlong,Measure=="Hill-Shannon") )
 summary(m2b)
 anova(m2b)
 plot(m2b)
 lattice::dotplot( ranef(m2b), main = F )
+
+
+## effective number of species
+m3 <- lmer( log(species)~Yearfact + (1|Site), 
+            data=filter(mlong,Measure=="Hill-Simpson") )
+summary(m3)
+anova(m3)
+plot(m3)
+lattice::dotplot( ranef(m3), main = F )
+# linear effect of time
+m3b <- lmer( log(species)~Yearcent + (1|Site), 
+             data=filter(mlong,Measure=="Hill-Simpson") )
+summary(m3b)
+anova(m3b)
+plot(m3b)
+lattice::dotplot( ranef(m3b), main = F )

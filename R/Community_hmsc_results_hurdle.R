@@ -267,11 +267,16 @@ toPlot = ((OmegaCor[[pick]][[rlevel]]$support>supportLevel)
 # reorder species matrix
 plotorder <- order( postBeta[[pick]]$mean[2,], decreasing = TRUE )
 toPlot <- toPlot[ plotorder, plotorder]
+# rename rows for easier plotting
+# newnames <- vegan::make.cepnames( rownames( toPlot) )
+# newnames[[11]] <- "Boss_art"
+# rownames( toPlot ) <- newnames
+# colnames( toPlot ) <- newnames
 # reorder automatically
 library(lessR)
-mynewcor <- corReorder( toPlot, order="hclust", nclusters=4 )
-# windows(12,12)
-corrplot( mynewcor, method = "color",
+mynewcor <- corReorder( toPlot, order="hclust", nclusters = 3, plot = F )
+# windows(5.75,5.75)
+corrplot( mynewcor, method = "color", type = "upper", tl.col="black",  
          col = colorRampPalette(c("blue","white","red"))(200),
            title = paste("random effect level:", models[[1]]$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
 
@@ -484,9 +489,9 @@ cols.two <- c( rgb( 211,230,240, maxColorValue=255), rgb( 232,139,110, maxColorV
 
 hist( comm$Fucus.distichus )
 taxon <- "Hedophyllum.sessile"
-# taxon <- "Alaria.marginata"
-# taxon <- "Fucus.distichus"
-# taxon <- "Mytilus.sp."
+taxon <- "Alaria.marginata"
+taxon <- "Fucus.distichus"
+taxon <- "Mytilus.sp."
 
 a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
             aes_string(x = 'elev', y = taxon, col='year'))+
@@ -654,12 +659,14 @@ plotGradient(hM, Gradient, pred=predY, measure="T", index=6, showData = TRUE,  q
 # 
 quantile(models[[1]]$XData$elev, probs = c(0.01,0.25, 0.5, 0.75, 0.99))
 hist(models[[1]]$XData$elev)
-elev_length = 16
+elev_length = 8
 elev_grad <- round((seq((69), (379), length = elev_length)))
-elev_grad_bins <- elev_grad[seq(1,elev_length, by = 2)]
+# elev_grad_bins <- elev_grad[seq(1,elev_length, by = 2)]
+elev_grad_bins <- elev_grad
 elev_bin_prop <- table(cut(models[[1]]$XData$elev, elev_grad_bins, right = FALSE))
 elev_bin_prop <- elev_bin_prop/sum(elev_bin_prop)
-elev_grad <-  elev_grad[seq(2,elev_length, by = 2)]
+round(elev_bin_prop,2)
+# elev_grad <-  elev_grad[seq(2,elev_length, by = 2)]
 abline(v = elev_grad, col='slateblue', lty=2)
 elev_grad2 <- data.frame( elev = elev_grad,
                           elev1 = predict( lm_linear, newdata = data.frame(elev = elev_grad)),
@@ -730,6 +737,7 @@ species_temporal.df <- left_join( mutate(species_temporal.df,year=round(year,7))
 species_temporal.df$Species <- gsub("_",".", species_temporal.df$Species)
 species_temporal.df$metric  <- factor(species_temporal.df$metric, levels = c("occurrence","conditional cover","cover"))
 # arrange by change in cover or occurrence
+species_temporal.df$Species <-factor( species_temporal.df$Species, levels = gsub("_",".",occur_trends$species[order(occur_trends$median)]), ordered = TRUE )
 # adjust color scheme so that cover is darker than conditional cover
 sp.trends <- ggplot(species_temporal.df, aes(x = year, y = median, color = metric,  fill = metric, group = metric))+ #fill = metric,
   geom_ribbon(aes(ymin = quant_0.25, ymax= quant_0.75), alpha = 0.2, col = NA)+
@@ -1195,9 +1203,6 @@ ggplot( filter(predictions_copp,taxon %in% fuc ),
   ylab("Percent cover") + xlab("Shore height (cm)") +
   coord_cartesian(ylim = c(-0, 100)) 
 #
-compare_all %>% arrange(shift.y)
-compare_all %>% arrange(shift.x)
-#
 
 
 
@@ -1441,7 +1446,7 @@ elev.shift.plot <- ggplot( shift.summary, aes(x=newrank,
   ylab( "Peak elevation shift (cm)" ) + xlab("") +
   scale_x_continuous(breaks = seq(1,46,1), labels = shift.summary$taxon ) + #c(1,10,20,30,40,46)) +
   scale_y_continuous(breaks = seq(-800,400,100) ) + #c(1,10,20,30,40,46)) +
-  scale_color_manual(values = c("#996633","red","darkgrey","darkred","pink","midnightblue") ) +
+  scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
   theme( panel.grid.minor.x = element_blank(),
          legend.position = "none",
          panel.background = element_rect(fill = "whitesmoke",
@@ -1461,7 +1466,7 @@ abun.shift.plot <- ggplot( shift.summary, aes(x=newrank,
                                log(1/4,base=2),log(1/16,base=2),log(1/64,base=2)),
                       labels=c('64x','16x','4x','0','1/4x','1/16x','1/64x') ) +
   scale_x_continuous( breaks = seq(1,46,1), labels = NULL ) +
-  scale_color_manual(values = c("#996633","red","darkgrey","darkred","pink","midnightblue") ) +
+  scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
   theme( panel.grid.minor.x = element_blank(),
          legend.position = "none",
          panel.background = element_rect(fill = "whitesmoke",
@@ -1548,7 +1553,7 @@ cor.test( x=shift.summary.algae$elev.shifts.med, y = shift.summary.algae$elev.in
     geom_point( size=3, pch=1, col='slateblue' ) +
     ylab("Peak elevationshift (cm)") + xlab("Initial peak elevation (cm)") +
     theme_classic() +
-    coord_cartesian(ylim = c(-125,20)))
+    coord_cartesian(ylim = c(-125,20),xlim = c(60,380)))
 
 
 # shift in abundance ~ initial peak elevation
@@ -1559,7 +1564,8 @@ cor.test( x=shift.summary.algae$elev.shifts.med, y = shift.summary.algae$elev.in
     ylab("Cover shift") + xlab("Initial peak elevation (cm)") +
     scale_y_continuous( breaks=c(log(4,base = 2),log(2,base=2),0,log(1/2,base=2),log(1/4, base = 2),log(1/8, base = 2),log(1/16, base = 2)),
                         labels=c('4x','2x','0','1/2x','1/4x','1/8x','1/16x')) +
-    theme_classic() )
+    theme_classic()  +
+  coord_cartesian(xlim = c(60,380)) )
 
 # peak shift ~ initial abundance
 (c <- ggplot( shift.summary.algae, aes(x=abun.init.med,y=elev.shifts.med)) + 
@@ -1715,12 +1721,15 @@ elev.dens <- data.frame( x = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          xend = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          y = 0,
                          yend = elev.dens.max )
-abun.dens.max = density(log(abun.shift.all.df$abun.shift,base = 2))$y[ floor(density(log(abun.shift.all.df$abun.shift,base = 2))$x*100) == floor(quantile( log(abun.shifts.run.algae,base=2), prob = 0.5 )*100) ] / max(density(log(abun.shift.all.df$abun.shift,base = 2))$y)
+
+minabundiff <- abs(density(log(abun.shift.all.df$abun.shift,base = 2))$x*100 - quantile( log(abun.shifts.run.algae,base=2), prob = 0.5 )*100)
+density(log(abun.shift.all.df$abun.shift,base = 2))$y[ which( minabundiff == min(minabundiff) ) ]
+abun.dens.max = density(log(abun.shift.all.df$abun.shift,base = 2))$y[ which( minabundiff == min(minabundiff) ) ]  / max(density(log(abun.shift.all.df$abun.shift,base = 2))$y)
 abun.dens <- data.frame( x = quantile( log(abun.shifts.run.algae,base=2), prob = 0.5 ), 
                          xend = quantile( log(abun.shifts.run.algae,base=2), prob = 0.5 ),
                          y = 0,
                          yend = abun.dens.max )
-
+abun.shift.all.df <- data.frame( abun.shift = c(abun.shifts.run.algae) )
 #
 ybar = 0
 error_color = 'black'
@@ -1740,7 +1749,6 @@ ydens <- axis_canvas(xy, axis = "y", coord_flip = TRUE)+
 ydens
 # Marginal densities along y axis
 # Need to set coord_flip = TRUE, if you plan to use coord_flip()
-abun.shift.all.df <- data.frame( abun.shift = c(abun.shifts.run.algae) )
 hist( log(abun.shift.all.df$abun.shift,base=2), freq = F, las = 1)
 abun.shift.all.df.summary <- log(abun.shift.all.df,base=2) %>% 
   summarize( median = quantile(abun.shift,prob = 0.5),

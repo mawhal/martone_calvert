@@ -31,6 +31,8 @@ node_modules
 
 # ignore cluster folder, which is a temporary folder
 cluster/**
+# ignore photos folder, which does not contain all project photos
+photos/**
 # ignore figures, which are bulky and can be produced by code
 R/Figs/**
 # ignore archived scripts

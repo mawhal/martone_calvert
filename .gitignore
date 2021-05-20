@@ -33,3 +33,5 @@ node_modules
 cluster/**
 # ignore figures, which are bulky and can be produced by code
 R/Figs/**
+# ignore archived scripts
+R/archive/**

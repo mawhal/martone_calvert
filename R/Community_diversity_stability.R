@@ -286,7 +286,7 @@ divvar2_algae <- filter(divvar2,source=="algae")
 divvar2_algae$Zone3
 mzone3 <- lm( log(stability,base=2) ~ Zone3, data = divvar2_algae )
 summary(mzone3)
-divvar2$div <- divvar2$gmeane
+divvar2$div <- divvar2$gmeanr
 mstab <- lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "algae"))
 summary(mstab)
 stab <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
@@ -452,7 +452,7 @@ dsynch <- left_join( divvar2, synchrony )
 dsynch$source <- factor( dsynch$source, levels=c("all","algae"))
 dsynch$Site <- factor( dsynch$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 
-dsynch$div <- dsynch$gmeanh
+dsynch$div <- dsynch$gmeanr
 mrich <- lm(logV ~ div, data = filter(dsynch,source == "algae"))
 synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x = div, y = logV, shape = Site, fill = Zone)) + 
   # facet_wrap(~source) +
@@ -522,7 +522,7 @@ ps  <- plotSlopes(fitMod, plotx="logV", modx="div", xlab = "Synchrony", ylab = "
 
 cowplot::plot_grid( stabsynch, synchrich, stab, 
                     nrow = 1, align = "hv", 
-                    labels = "AUTO", vjust = 1.01 )
+                    labels = "auto", vjust = 1.01 )
 ggsave( "R/Figs/stability_synchrony_richness.svg", width = 9, height = 3 )
 
 ggplot( dsynch, aes(x=logV,y=(stability),shape=Zone, fill=Site)) + facet_wrap(~source) +

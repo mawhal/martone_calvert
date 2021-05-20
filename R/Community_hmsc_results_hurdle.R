@@ -63,7 +63,7 @@ par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
 plot(betaplot, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
 par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
 plot(betaplot2, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
-
+dev.off()
 
 # Gelman statistic for Beta values (slopes)
 psrf.beta.pa = gelman.diag(mpost_pa$Beta, multivariate=FALSE)$psrf
@@ -281,6 +281,10 @@ corrplot( mynewcor, method = "color", type = "upper", tl.col="black",
            title = paste("random effect level:", models[[1]]$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
 
 
+
+
+
+
 ##### merge community data and traits #####
 comm_select <- metacomm %>% 
   gather(key = taxon, value = N, Acrosiphonia:Unknown.red.blade) %>%
@@ -414,10 +418,11 @@ newDesign  <- newDFsel[,(ncol(newDFsel)-2):ncol(newDFsel)]
 ## predictions of individual models
 predY_pa <- predict(models[[1]], XData = newXData,
                  studyDesign = newDesign,
-                 ranLevels = list(site = rL_site, transect = rL, quadrat = rL_quad), expected = TRUE) 
+                 ranLevels = list(site = models[[1]]$rL$site, transect = models[[1]]$rL$transect, quadrat = models[[1]]$rL$quadrat), expected = TRUE) 
+                 # ranLevels = list(site = rL_site, transect = rL, quadrat = rL_quad), expected = TRUE) 
 predY_cop <- predict(models[[2]], XData = newXData,
                  studyDesign= newDesign,
-                 ranLevels = list(site = rL_site, transect = rL, quadrat = rL_quad), expected = TRUE) 
+                 ranLevels = list(site = models[[1]]$rL$site, transect = models[[1]]$rL$transect, quadrat = models[[1]]$rL$quadrat), expected = TRUE) 
 ## predictions of both models multiplied together
 predY_abun <- Map('*', predY_pa, lapply(predY_cop,exp) )
 # predY_pa[[1]][1,1] * predY_cop[[1]][1,1]
@@ -1735,12 +1740,13 @@ ybar = 0
 error_color = 'black'
 dens_height = 1.1
 dens_min = -0.1
-dens_alpha = 0.8
+dens_alpha = 0.5
+dens_fill = NA
 ydens <- axis_canvas(xy, axis = "y", coord_flip = TRUE)+
   # geom_vline(xintercept=mean(compare_all_plot$elev.shifts.med), col='red' ) +
   geom_vline(xintercept=0) +
   geom_density(data = elev.shift.all.df, aes(x = elev.shift, ..scaled..),
-               alpha = dens_alpha, size = 0.5, outline.type = "full", fill = "lightgrey") +
+               alpha = dens_alpha, size = 0.5, outline.type = "full", fill = dens_fill) +
   geom_errorbarh(data = elev.shift.all.df.summary, aes(y = ybar, xmin = lower25, xmax = upper75),
                 height = 0, size = 2, col = error_color) +
   geom_segment( data = elev.dens, aes(x = x, y = y, xend = xend, yend = yend ), col = error_color, size = 1, lineend = "round") +
@@ -1760,7 +1766,7 @@ xdens <- axis_canvas(xy, axis = "x")+
   # geom_vline(xintercept=mean(log(compare_all_plot$abun.shifts.med,base=2)), col='red' ) +
   geom_vline(xintercept=0) +
   geom_density(data = log(abun.shift.all.df,base = 2), aes(x =  abun.shift, ..scaled.. ),
-               alpha = dens_alpha, size = 0.5, outline.type = "full", fill = "seagreen") +
+               alpha = dens_alpha, size = 0.5, outline.type = "full", fill = dens_fill) +
   geom_errorbarh(data = abun.shift.all.df.summary, aes(y = ybar, xmin = lower25, xmax = upper75),
                  height = 0, size = 2, col = error_color)+
   # geom_point(data = abun.shift.all.df.summary, aes(y = ybar, x = median ), size = 1.5, shape = 3, col = "seagreen") +
@@ -1821,7 +1827,7 @@ hmsc_FG
 
 cowplot::plot_grid( fun1, hmsc_FG, p2, ncol = 3, 
                     align='hv', axis="b",
-                    rel_widths = c(1.125,1.5,1.25), labels="AUTO" )
+                    rel_widths = c(1.125,1.5,1.25), labels="auto" )
 ggsave(file="R/Figs/fun_hmsc_shift.svg",width = 10, height = 10/3)
 
  

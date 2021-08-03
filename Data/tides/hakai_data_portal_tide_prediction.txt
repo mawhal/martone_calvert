@@ -1,0 +1,3 @@
+ADAMS_HARBOUR
+
+https://hecate.hakai.org/api/modelling/tide_prediction.csv?station=ADAMS_HARBOUR&date=2011-06-05T00:00:00.000Z&duration=30

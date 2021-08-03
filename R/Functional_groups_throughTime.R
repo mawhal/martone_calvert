@@ -71,7 +71,7 @@ d <- comm.tidy %>%
 # d<-rbind(blade, crust, thin_turf, canopy, turf) %>% as_tibble()
 d$Zone<-factor(d$Zone, levels = c("LOW", "MID", "HIGH"))
 d$zone_num <- as.numeric(d$Zone)
-d$Site <- factor(d$Site, levels=c("North Beach","Fifth Beach","Foggy Cove"))
+d$Site <- factor(d$Site, levels=c("Fifth Beach","North Beach","Foggy Cove"))
 d$site_num <- as.numeric(d$Site)
 # combine Site and Zone
 # d_sitezone <- d %>% 
@@ -92,13 +92,17 @@ dplot <- d %>%
   mutate( `Functional Group` = factor(paste0(FunGroup, " (",S,")")) )
 dplot$`Functional Group` <-   forcats::fct_relevel( dplot$`Functional Group`, 
                                                     "canopy (13)","blade (14)","crust (13)","thin turf (31)","turf (47)","animal (10)")
+dplot$Zone <- factor( dplot$Zone, ordered = T )
+dplot$site <- as.character(dplot$Site)
 
 # add bare rock data
 bareraw <- read_csv( "R/output/bare.csv")
-bare2020 <- read_csv( "Data/Excel Files/2020_short_survey/bare_rock.csv" )
-bare <- bind_rows( bareraw, bare2020 )
+# bare2020 <- read_csv( "Data/Excel Files/2020_short_survey/bare_rock.csv" )
+# bare <- bind_rows( bareraw, bare2020 )
+bare <- bareraw
 bare$Zone<-factor(bare$Zone, levels = c("LOW", "MID", "HIGH"))
-bare$Site <- factor(bare$Site, levels=c("North Beach","Fifth Beach","Foggy Cove"))
+bare$Site <- factor(bare$Site, levels=c("Fifth Beach","North Beach","Foggy Cove"))
+bare$site <- as.character(bare$Site)
 
 
 dplot2 <- dplot %>% 
@@ -124,13 +128,13 @@ fun1 <- ggplot(dplot2, aes(x = Year, y = mean)) +
 ggsave( "R/Figs/FunGroups_time.svg", fun1, width=3,height=3.5)
 
 ggplot(dplot, aes(x = Year, y = mean)) +
+  facet_wrap(Site~Zone,dir = "h")+
   geom_bar(aes(fill = `Functional Group`), position="stack", 
            stat="identity", col='black', lwd=0.25)+
-  geom_smooth( data=bareraw, aes(x=Year,y=Abundance, group=1), 
+  geom_smooth( data=bare, aes(x=Year,y=Abundance, group=1), 
                fill="black",col="yellow" ) +
   theme(plot.title = element_text(size = 5))+
   theme_cowplot()+
-  facet_wrap(Site~Zone,dir = "h")+
   # facet_grid(Site~Zone)+
   scale_fill_manual(values = c("white", "darkred", "red","pink", "darkgrey", "#996633") %>% rev())+  #"darkgreen",
   # scale_fill_manual(values = c("pink", "darkgrey", "darkred", "red", "#996633") %>% rev())+  #"darkgreen", 
@@ -138,7 +142,7 @@ ggplot(dplot, aes(x = Year, y = mean)) +
   theme( axis.text.x = element_text(size=10) ) +
   # theme(legend.justification=c(1,1), legend.position=c(1,1)) +
   ylab("Mean cover (%)")
-ggsave( "R/Figs/FunGroups_time_zone_site.svg",width=8,height=7)
+ggsave( "R/Figs/FunGroups_time_zone_site.svg",width=7,height=6.5)
 
 
 # what is the temporal coeffient of variation for each functional group? Which group varied the most?

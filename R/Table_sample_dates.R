@@ -19,11 +19,18 @@ am <- read_csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.
 am <- am[ am$Site != "Meay Channel", ]
 
 # sampling dates in different years
-View( am %>% 
+# View( 
+am %>% 
   # mutate( month=)
   group_by( Date ) %>% 
-  summarize(  samples=length(unique(UID)) ) )
-
+  summarize(  samples=length(unique(UID)) 
+) 
+  # )
+  
+# median/mean date in each year
+am %>% 
+  group_by( Year ) %>% 
+  summarize( date = median(Date) )
 
 range_table <- am %>% 
   group_by( Year ) %>% 

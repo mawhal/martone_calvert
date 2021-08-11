@@ -117,9 +117,27 @@ pa <- ifelse( comm>0, 1, 0)
 mclean$richness <- rowSums( pa )
 
 # splom for all quadrat summaries
-psych::pairs.panels( mclean %>% ungroup() %>% select(total.cover,richness,enspie,hillshan), 
-              scale=F, ellipses = FALSE )
-# for each quadrat, calculate total cover of algae -- then use this to calculate Coefficient of Variation
+windows(7,7)
+# use l values (sensu Roswell et al. 2021) for diversity calculation (l = 1-q)
+psych::pairs.panels( mclean %>% ungroup() %>% 
+                       select(`Richness\nl = 1` = richness,`Hill-Shannon\nl = 0` = hillshan ,
+                              `Hill-Simpson\nl = -1` = enspie,`Total plot cover` = total.cover), 
+              scale=F, ellipses = FALSE, rug = TRUE, breaks = "scott", las = 1,
+              pch = 1, lwd = 0.25, hist.col = "whitesmoke" )
+
+# how much cover attained by low diversity communities?
+mclean %>% ungroup() %>% 
+  filter( richness <=3 ) %>% 
+  select( transect, total.cover, richness, hillshan, enspie )
+# how many species and effective species needed to reach 100%, to surpass 100%
+mclean %>% ungroup() %>% 
+  filter( richness == 4 ) %>% 
+  select( transect, total.cover, richness, hillshan, enspie )
+# how much diversity before cover is 200%
+mclean %>% ungroup() %>% 
+  filter( total.cover >= 200 ) %>% 
+  select( transect, total.cover, richness, hillshan, enspie ) %>% 
+  arrange( enspie )
 
 
 # look at patterns over time

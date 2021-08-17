@@ -46,6 +46,9 @@ ggplot( data = d, aes( x = date, y = temp)) +
   facet_wrap(~ site, ncol =1, scales = "free_y" ) +
   geom_line() + geom_smooth() 
 
+# write the raw data to disk as well
+write_csv( d, "Data/R code for Data Prep/output from R/Lightstation_raw.csv" )
+
 
 ## average by month and decompose the signal
 dm <- d %>%
@@ -70,6 +73,7 @@ dm <- dm %>%
   mutate( temp.anom = temp-month.mean.temp, sal.anom = sal - month.mean.sal,
           temp.max.anom = temp_max - month.mean.temp.max, precip.anom = precip - month.mean.precip )
 ## write tempeartures and anomalies to disk
+
 
 write_csv( dm, "Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv" )
 

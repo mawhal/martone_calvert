@@ -487,6 +487,38 @@ stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),
   theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
          legend.background = element_blank() )
 stabsynch
+melev <- lm(gmeanr ~ gmeanelev, data = filter(dsynch,source == "algae"))
+elevrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanelev,y=gmeanr,shape = Site, fill = Zone)) + 
+  geom_smooth( aes(group=1), method="lm", se=T, col='black', lwd=0.5, show.legend = FALSE) + 
+  geom_point(size=3, show.legend = FALSE) +
+  scale_shape_manual( values=c(21,22,24), guide=F ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  xlab( expression(paste("Mean transect elevation (cm)")) ) + 
+  ylab( expression(paste("Mean species richness"))  ) +
+  annotate(geom = 'text', label = bquote( R^2 == .(round(summary(melev)$adj.r.squared,2))), 
+           x = min(dsynch$gmeanelev), y = 3, hjust = 0, vjust = 0, size = 5) +
+  # scale_y_continuous(trans="log2") +
+  # coord_cartesian( ylim = c(1,16)) +
+  theme_classic() 
+elevrich
+
+# cowplot::plot_grid( stabsynch, synchrich, stab, 
+#                     nrow = 1, align = "hv", 
+#                     labels = "auto", vjust = 1.01 )
+# ggsave( "R/Figs/stability_synchrony_richness.svg", width = 9, height = 3 )
+cowplot::plot_grid( elevrich, stab, stabsynch, 
+                    nrow = 1, align = "hv", 
+                    labels = "auto", vjust = 1.01 )
+ggsave( "R/Figs/stability_synchrony_richness_elevation.svg", width = 9, height = 3 )
+# cowplot::plot_grid( elevrich,synchrich, stab, stabsynch, 
+#                     nrow = 2, align = "hv", 
+#                     labels = "auto", vjust = 1.01 )
+# 
+
+
+
 
 allstab <- left_join( filter(divvar2,source=="algae") %>% select(div=gmeanr), filter(dsynch,source=="algae") %>% select(logV,stability) )
 pairs.panels( allstab[3:5] )
@@ -520,16 +552,12 @@ ps  <- plotSlopes(fitMod, plotx="logV", modx="div", xlab = "Synchrony", ylab = "
 
 
 
-cowplot::plot_grid( stabsynch, synchrich, stab, 
-                    nrow = 1, align = "hv", 
-                    labels = "auto", vjust = 1.01 )
-ggsave( "R/Figs/stability_synchrony_richness.svg", width = 9, height = 3 )
 
 ggplot( dsynch, aes(x=logV,y=(stability),shape=Zone, fill=Site)) + facet_wrap(~source) +
   # geom_smooth( aes(group=1), method="glm",method.args=list(family=quasipoisson),se=F) + 
   geom_smooth( aes(group=1), method="lm", se=F) + 
   geom_point() +
-  scale_shape_manual( values=values=c(21,22,24) ) +
+  scale_shape_manual( values=c(21,22,24) ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=F ) +
   guides( fill=guide_legend("Site") ) +  #,override.aes = list(shape = 21)
   xlab( expression(paste("Species synchrony (",logV,")")) ) + ylab( expression(paste("Algal cover stability (",mu,"/",sigma,")"))  ) +
@@ -537,6 +565,18 @@ ggplot( dsynch, aes(x=logV,y=(stability),shape=Zone, fill=Site)) + facet_wrap(~s
   theme_classic() #+ theme( legend.position = c(0.99,0.99), legend.justification = c(1,1) ) 
 ggsave( "R Code and Analysis/Figs/stability~synchrony.svg", width=6, height=3 )
 
+#
+
+
+# pairs
+windows(4,4)
+dsynch %>% ungroup() %>% 
+  filter(source == "algae") %>% 
+  mutate( logstab = log(stability,base = 2)) %>% 
+  select( elevation=gmeanelev, richness=gmeanr, 
+          `synchrony\n(logV)` = logV, `log2(stability)`=logstab ) %>% 
+  psych::pairs.panels(smooth = TRUE, lm = FALSE, density = FALSE, breaks = 'pretty')
+dev.off()
 #
 
 
@@ -582,6 +622,8 @@ responses %>%
 
 
 
+
+#
 
 
 
@@ -723,6 +765,13 @@ cowplot::plot_grid( stab, resil, resist, synchplot, ncol=1 )
 cowplot::plot_grid( stabresil, resistsynch, ncol=1 )
 ggsave( "R Code and Analysis/Figs/stability+resist_resil_synch.svg", width=6, height=6 )
 
+
+
+
+
+
+
+##
 
 
 

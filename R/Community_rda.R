@@ -170,7 +170,7 @@ biplot(pca1,scale = 0, choice = c(2,3))
 # missing and imputation ---- see http://juliejosse.com/wp-content/uploads/2018/05/DataAnalysisMissingR.html -----
 library(missMDA)
 # ignore the earlier years of the dataset
-filtd <- filter( alld,year > 1977 )
+filtd <- filter( alld,year > 1977 & year < 2020 )
 nb <- estim_ncpPCA( select(filtd,temp_pine:sal_mccinnis ), method.cv = "Kfold", verbose = FALSE) # estimate the number of components from incomplete data
 #(available methods include GCV to approximate CV)
 nb$ncp
@@ -246,11 +246,11 @@ anoms.annual <- anoms.season %>%  # or dna if just using annual means
   group_by( survey.year ) %>% 
   summarise_if(is.numeric, mean, na.rm = TRUE)
 ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca1)) + geom_path() + geom_point()
-ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca2)) + geom_path() + geom_point()
-ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca3)) + geom_path() + geom_point()
-ggplot(filter(anoms.annual), aes(x=survey.year,y=sal_mccinnis)) + geom_hline(yintercept = 0) +  geom_path(col = 'slateblue') + geom_point(col = 'slateblue') + ylim(c(-1.75,1.75))
-ggplot(filter(anoms.annual), aes(x=survey.year,y=sal_pine)) + geom_hline(yintercept = 0) +  geom_path(col = 'slateblue') + geom_point(col = 'slateblue') + ylim(c(-1.75,1.75))
-ggplot(filter(anoms.annual, year>=2010), aes(x=year,y=temp_pine)) + geom_path() + geom_point()
+# ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca2)) + geom_path() + geom_point()
+# ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca3)) + geom_path() + geom_point()
+# ggplot(filter(anoms.annual), aes(x=survey.year,y=sal_mccinnis)) + geom_hline(yintercept = 0) +  geom_path(col = 'slateblue') + geom_point(col = 'slateblue') + ylim(c(-1.75,1.75))
+# ggplot(filter(anoms.annual), aes(x=survey.year,y=sal_pine)) + geom_hline(yintercept = 0) +  geom_path(col = 'slateblue') + geom_point(col = 'slateblue') + ylim(c(-1.75,1.75))
+# ggplot(filter(anoms.annual, year>=2010), aes(x=year,y=temp_pine)) + geom_path() + geom_point()
 
 # # figure out how to make an anomaly plot with vertical lines from zero
 # # pairwise correlations among seasonal anomalies
@@ -275,6 +275,11 @@ as.survey <- anoms.annual %>%
 # as.survey <- anoms.season %>% 
   # filter( year>=2010 ) # %>% spread(season, Comp.2)
 
+# read in PCA data using raw and then imputed values
+as2 <- read_csv( "Data/R code for Data Prep/Output from R/Lightstation_raw_PCA_impute.csv" )
+
+# pick
+as.use <- as2 # as2 or as.survey
 
 # add lag into pca axes (this is already done above)
 # # as.survey$summer1 <- c(NA, as.survey$summer[1:length(as.survey$summer)-1])
@@ -282,7 +287,7 @@ as.survey <- anoms.annual %>%
 # as.survey$pca21 <- c(NA, as.survey$pca2[1:length(as.survey$pca2)-1])
 # as.survey$pca31 <- c(NA, as.survey$pca3[1:length(as.survey$pca3)-1])
 meta$year <- meta$Year
-M <- left_join( meta, as.survey, by = c("year" = "survey.year") )
+M <- left_join( meta, as.use, by = c("year" = "survey.year") )
 
 # # show summer versus winter temperature anomaly
 # as.survey.all <- anoms.season %>% 
@@ -408,7 +413,7 @@ b <- ggplot( gath.pa, aes(x=comp,y=value,col=key,shape=key)) +
   scale_x_continuous( breaks=1:7,labels=tbi.sums.abun$second ) +
   theme_bw()
 
-cowplot::plot_grid( a,b, ncol=1, rel_heights = c(1,1) )
+cowplot::plot_grid( a,b, ncol=1, rel_heights = c(1,1), labels = "auto", vjust = 0.8 )
 ggsave( "R/Figs/beta_temporal_pairs.svg", width =4, height=3 )
 
 
@@ -425,12 +430,44 @@ with(M, ccf(pca1,Year) )
 meta$year <- factor(meta$Year, ordered=F)
 M$year <- factor(meta$Year, ordered=F)
 meta$site <- factor(meta$Site, ordered=F)
-db1 <- dbrda( comm~pca1+Year+Elevation, distance="bray", data=M )
-db1 <- dbrda( sqrt(comm)~Elevation+pca1+pca2, distance="bray", data=M )
+# compare transformations
+source("box.cox.chord.R")
+Y <- comm
+dbraw      <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+Y <- ifelse(comm>0,1,0)
+dbpa <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+Y <- sqrt(comm)
+hist(Y[Y>0])
+dbroot     <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+Y <- sqrt(sqrt(comm))
+dbrootroot <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+# find a box-cox transform
+picks <- seq(0,1,by=0.01)
+shap <- NA
+for(i in 1:length(picks)){
+  tempY <- box.cox.chord( comm, bc.exp = picks[i] )
+  tempdb <- dbrda( tempY~Elevation+pca1+pca2, distance="bray", data=M )
+  shap[i] <- shapiro.test(resid(tempdb))$p.value
+}
+plot(shap)
+picks[which(shap==max(shap))]
+# pretty clear winner is 0.77
+Y <- box.cox.chord( comm, bc.exp = 0.77 )
+hist(Y[Y>0])
+dbbox <- dbrda( Y~Elevation+pca1+pca2, distance="bray", data=M )
+
+###
+###
+#
+Y <- sqrt(sqrt(comm))
+Y <- box.cox.chord( comm, bc.exp = 0.77 ) #0.77
+db0 <- dbrda( Y~Elevation, distance="bray", data=M )
+db1 <- dbrda( Y~Elevation+pca1+pca2, distance="bray", data=M )
+db12 <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+db13 <- dbrda( Y~Elevation+pca1+pca2+pca3+pca4, distance="bray", data=M )
 db2 <- dbrda( ifelse(comm>0,1,0)~Elevation+pca1+pca2, distance="jaccard", data=M )
-# summary(db1)
-anova( db1, by = "terms", permutations = 9999 )
-anova( db2, by = "terms", permutations = 9999 )
+anova(db0,db1)
+anova(db1,db12)
 # db1 <- dbrda( comm~anom.pine.sum.1+Elevation+year, distance="bray", data=M )
 # db2 <- dbrda( ifelse(comm>0,1,0)~year+Elevation, distance="jaccard", data=meta )
 db <- db1
@@ -468,8 +505,20 @@ nax <- 1:2
 sites     <- data.frame(scores(db,choices = nax, scaling = 0)$sites)
 sites$zone <- factor( meta$Zone, levels=c("LOW","MID","HIGH") )
 sites$year <- meta$Year
+sites$transect <-  factor(unite( select(meta,Site,Zone), "transect", Site, Zone )$transect)
 centroids <- data.frame(scores(db,choices = nax, scaling=0)$centroids)
 centroids$year <- 2012:2019
+
+# make the values of dbRDA2 go from smallest to largest over time
+is.increasing <- sites %>% 
+  filter(year %in% c(2012,2019)) %>% 
+  select(year,dbRDA2) %>% 
+  group_by(year) %>% 
+  summarize( dbRDA2 = mean(dbRDA2) ) %>% 
+  summarize( diff = diff(dbRDA2) ) 
+if(is.increasing$diff < 0) {
+  sites$dbRDA2 <- -sites$dbRDA2
+}
 
 ordi.grid <- os1$grid #extracts the ordisurf object
 str(ordi.grid) #it's a list though - cannot be plotted as is
@@ -482,8 +531,8 @@ ordi.na #looks ready for plotting!
 ### compare centroids to temperature anomaly data
 centroids
 # as.survey$summer1 <- c(NA, as.survey$summer[1:length(as.survey$summer)-1])
-write_csv( as.survey, "R/output/sst_anoms_survey.csv" )
-surv.cent <- left_join( as.survey, centroids )
+write_csv( as.use, "R/output/sst_anoms_survey.csv" )
+surv.cent <- left_join( as.use, centroids )
 centroid2 <- centroids
 centroid2$year <- centroid2$year-1
 names(centroid2) <- c("shift1","shift2","year")
@@ -520,26 +569,6 @@ zone.reg <- unnest.predict %>%
   filter(term == "dbRDA2") %>% 
   select(zone, dbRDA2, dbRDA1 = .fitted )
 
-# model difference in slopes for elevation trajectory with year
-lmm1 <- lme4::lmer( dbRDA2~dbRDA1 + (dbRDA1|year), data=sites )
-lmm1 <- lm( dbRDA2~dbRDA1, data=sites )
-summary(lmm1)
-coef(lmm1)
-# windows(3.5,3.5)
-par(mar=c(4,6,0,2)+0.1,pty='s',las=1)
-plot( y = coef(lmm1)$year$dbRDA1, x= 2012:2019, axes=F,
-      ylab="slope of\ndbRDA2~dbRDA1\n(BLUPs)", xlab="year" )
-abline( h=0, lty=2 )
-axis(1, at = 2012:2019, labels=F )
-text(x=2012:2019, par("usr")[3] - 0.12, labels = 2012:2019, srt=-45, xpd=T, pos=3 ) #paste0("'",12:19)
-axis(2)
-box()
-plot( dbRDA2~dbRDA1, data=sites)
-predict(lmm1)
-preds <- merTools::predictInterval(lmm1, newdata=sites, n.sims=999)
-preds <- predict(lmm1, newdata=sites, n.sims=999)
-preds.df <- bind_cols( sites, data.frame(fit=preds) )
-preds.env <- left_join( preds.df, select(surv.cent, year, summer1) )
 #
 
 a <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
@@ -568,29 +597,79 @@ a
 # flip axes
 sites$zone <-  factor( sites$zone, levels = c("HIGH","MID","LOW"))
 library(ggnewscale)
-ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
-  geom_point( aes(fill = zone), size=1, shape = 21, alpha=1,col = 'slategrey' )  +
-  scale_fill_manual(values = c("white","grey","black")) +
+summary(sites)
+
+# adjust pca scores for paths so that we show environment "leading up to" each survey
+as.zone$pca11 <- c(as.zone$pca1[2:length(as.zone$pca1)],NA)
+xrange <- range(sites$dbRDA1)*1.01
+yrange <- range(sites$dbRDA2)*1.01
+zone_y <- 0.35
+as.zone %>% filter(year %in% c(2012,2019), zone == "MID") %>% 
+  select(year, dbRDA1, dbRDA2)
+rda1 <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
+  # geom_point( aes(fill = zone), size=1, shape = 21, alpha=1,col = 'slategrey' )  +
+  # scale_fill_manual(values = c("white","grey","black")) +
   labs(fill = "Zone", col = "Temperature\nanomaly", lty = "Zone" ) +
-  stat_ellipse( aes(lty=zone), level = 0.6, col='slategrey', lwd = 0.33 ) +
-  geom_path( data=as.zone, aes(col=pca1_scale,group=zone),size = 1 ) +
+  # stat_ellipse( aes(lty=zone), level = 0.6, col='slategrey', lwd = 0.33 ) +
+  geom_path( data=as.zone, aes(col=pca11,group=zone),size = 1 ) +
   ggnewscale::new_scale_fill() +
-  geom_point( data=as.zone, aes(fill=pca2_scale, group=zone), size=3, shape=21 ) +
-  annotate("text", label = "2012", y = -0.255, x = 0.02 ) +
-  annotate("text", label = "2019", y = 0.26, x = 0.03 ) +
+  geom_point( data=as.zone, aes(fill=pca1, group=zone), size=3, shape=21 ) +
+  annotate("text", label = "2012", y = -0.16, x = 0.023, hjust = 1 ) +
+  annotate("text", label = "2019", y = 0.19, x = 0.05, hjust = 0 ) +
+  annotate("text", label = "HIGH", y = zone_y, x = 0.2, hjust = 1 ) +
+  annotate("text", label = "MID", y = zone_y, x = 0, hjust = 1  ) +
+  annotate("text", label = "LOW", y = zone_y, x = -0.2, hjust = 1 ) +
   xlab(paste0(names(sites)[1],' (',round(R2[1],3)*100, '%)')) +
   ylab(paste0(names(sites)[2],' (',round(R2[2],3)*100, '%)')) +
-  scale_fill_gradientn(colours=pal2(100),limits=c(-2.1,2.1)) +
-  scale_color_gradientn(colours=pal2(100),limits=c(-2.1,2.1)) +
+  scale_fill_gradientn(colours=pal2(100),limits=c(-2.84,2.84)) +
+  scale_color_gradientn(colours=pal2(100),limits=c(-2.84,2.84)) +
   scale_shape_manual(values = c(2,0,1)) +
   theme_bw() + theme( panel.grid.major = element_blank(), 
                       panel.grid.minor = element_blank()) +
   theme( legend.title = element_text(size=8),
          legend.text = element_text(size=8),
          legend.key.size = unit(0.59, "cm")) +
-  labs(fill = "Scaled\nanomaly", col = "Scaled\nanomaly", shape = "Zone", lty = "Zone" ) +
-  coord_flip()
+  guides(lty = FALSE) +
+  labs(fill = "Principal\nComponent 1", col = "Principal\nComponent 1", shape = "Zone", lty = "Zone" ) +
+  coord_flip(xlim = xrange, ylim = yrange, clip = "off")
+rda1
 ggsave("R/Figs/rda_bwr_pal2_temp_flip.svg", width=4, height=3 )
+
+# show trajectories
+sites$end1 <- sites$dbRDA1
+sites$end1[!(sites$year %in% c(2012,2019))] <- NA
+sites$end2 <- sites$dbRDA2
+sites$end2[!(sites$year %in% c(2012,2019))] <- NA
+# point size for beginning and end
+sites$endsize <- sites$end1
+sites$endsize[sites$year == 2012] <- 1
+sites$endsize[sites$year == 2019] <- 2
+
+sites <- sites %>% 
+  separate(transect, c("Site", "Zone"), sep = "_", remove = FALSE) %>% 
+  mutate( Site = factor(Site, levels = c("Foggy Cove","Fifth Beach","North Beach")))
+rda2 <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) + 
+  geom_path( aes(group = transect, lty=Site), lwd=0.33, alpha=0.5,col = 'slategrey') +
+  geom_point( aes(fill = zone, x = end1, y = end2,size = endsize), shape = 21, alpha=1,col = 'black' )  +
+  scale_fill_manual(values = c("white","grey","black")) +
+  scale_size(range = c(1.5,3)) +
+  annotate("text", label = "HIGH", y = zone_y, x = 0.2, hjust = 1 ) +
+  annotate("text", label = "MID", y = zone_y, x = 0, hjust = 1  ) +
+  annotate("text", label = "LOW", y = zone_y, x = -0.2, hjust = 1 ) +
+  labs(fill = "Zone", col = "Temperature\nanomaly", lty = "Site" ) +
+  xlab(paste0(names(sites)[1],' (',round(R2[1],3)*100, '%)')) +
+  ylab(paste0(names(sites)[2],' (',round(R2[2],3)*100, '%)')) +
+  theme_bw() + theme( panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank()) +
+  theme( legend.title = element_text(size=8),
+         legend.text = element_text(size=8),
+         legend.key.size = unit(0.59, "cm")) +
+  guides(size = FALSE) +
+  coord_flip(xlim = xrange, ylim = yrange)
+rda2
+ggsave("R/Figs/rda_bwr_pal2_temp_flip_transect.svg", width=4, height=3 )
+cowplot::plot_grid(rda1,rda2,labels = "auto", axis="rlbt", align="hv")
+ggsave("R/Figs/rda_bwr_pal2_temp_flip_2panel.svg", width=8, height=2.8 )
 #
 
 
@@ -602,7 +681,29 @@ ggsave("R/Figs/rda_bwr_pal2_temp_flip.svg", width=4, height=3 )
 
 
 
-windows(2,2)
+
+
+
+
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ggplot( surv.cent, aes(y=dbRDA2,x=winter) ) + geom_point()
 ggplot( surv.cent, aes(y=shift2,x=winter) ) + geom_point()
 ggplot( surv.cent, aes(y=shift2,x=summer) ) + 

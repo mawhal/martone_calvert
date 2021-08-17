@@ -125,7 +125,15 @@ which( colSums(comm.all) <=10 )
 # filter by occurence
 occurrence <- apply(comm.all, 2, function(z) length(z[z>0])) 
 comm <- comm.all %>% 
-  select( names(occurrence)[ which(occurrence >= length(unique(d.comm$Year))*6) ] ) 
+  select( names(occurrence)[ which(occurrence >= length(unique(d.comm$Year))*6) ] )
+# how much cover removed?
+comm.remove <- comm.all %>% 
+  select( names(occurrence)[ which(occurrence < length(unique(d.comm$Year))*6) ] )
+boxplot(rowSums(comm.remove))
+summary(rowSums(comm.remove))
+sort(apply(comm.remove,2,quantile,0.90))
+sd(rowSums(comm.remove))
+sort(apply(comm.remove,2,max))
 # filter by abundance
 abundance <- colSums(comm)
 which( colSums(comm) <=10 )

@@ -13,9 +13,10 @@ library( viridis )
 library( cowplot )
 library( ggrepel )
 library( colorspace )
-library( vioplot )
+# library( vioplot )
 library( rstan )
-library(scales)
+library( scales )
+library( lessR )
 source( "R/mcmc.list2array.R")
 
 ## useful references for this code
@@ -273,7 +274,6 @@ toPlot <- toPlot[ plotorder, plotorder]
 # rownames( toPlot ) <- newnames
 # colnames( toPlot ) <- newnames
 # reorder automatically
-library(lessR)
 mynewcor <- corReorder( toPlot, order="hclust", nclusters = 3, plot = F )
 # windows(5.75,5.75)
 corrplot( mynewcor, method = "color", type = "upper", tl.col="black",  
@@ -411,27 +411,20 @@ newDF <- data.frame( merge(XData_choose, elev_grad2),
 #                      site="new unit",
 #                      transect="new unit" )
 
-newDFsel <- newDF %>% select(year1,year2,elev1,elev2,site,transect,quadrat)
-newXData   <- newDFsel[,1:(ncol(newDFsel)-3)]
-newDesign  <- newDFsel[,(ncol(newDFsel)-2):ncol(newDFsel)]
+# newDFsel <- newDF %>% select(year1,year2,elev1,elev2,site,transect,quadrat)
+newXData   <- newDF[,1:(ncol(newDF)-3)]
+newDesign  <- data.frame( site = as.factor(newDF$site), transect = as.factor(newDF$transect),
+                          quadrat = as.factor(newDF$quadrat))
+names(models[[1]]$XData)
+names(newXData)
+newXData <- newXData %>% 
+  select(year,elev,year1,year2,elev1,elev2)
+
 
 ## predictions of individual models
 predY_pa <- predict(models[[1]], XData = newXData,
                  studyDesign = newDesign,
-                 ranLevels = list(site = models[[1]]$rL$site, transect = models[[1]]$rL$transect, quadrat = models[[1]]$rL$quadrat), expected = TRUE) 
-                 # ranLevels = list(site = rL_site, transect = rL, quadrat = rL_quad), expected = TRUE) 
-predY_cop <- predict(models[[2]], XData = newXData,
-                 studyDesign= newDesign,
-                 ranLevels = list(site = models[[1]]$rL$site, transect = models[[1]]$rL$transect, quadrat = models[[1]]$rL$quadrat), expected = TRUE) 
-## predictions of both models multiplied together
-predY_abun <- Map('*', predY_pa, lapply(predY_cop,exp) )
-# predY_pa[[1]][1,1] * predY_cop[[1]][1,1]
-# predY_abun[[1]][1,1]
-
-
-
-
-
+                 ranLevels = list(site = models[[1]]$rL$site, transect = models[[1]]$rL$transect, quadrat = models[[1]]$rL$quadrat), expected = TRUE)
 
 
 # ###
@@ -468,18 +461,10 @@ predictions_abun_high <- bind_cols(data.frame(qpred), newXData)
 
 
 
-# plot responses
-predictions_pa$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_cop$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_abun$year <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_pa$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-predictions_cop$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-
 
 # color scheme
 as.survey <- read_csv(  "R/output/sst_anoms_survey.csv" )
-as.survey$year <-  as.character(as.survey$year)
+as.survey$year <-  as.survey$survey.year
 library( RColorBrewer )
 anom.range <- c(-2,2)
 n=9
@@ -498,8 +483,17 @@ taxon <- "Alaria.marginata"
 taxon <- "Fucus.distichus"
 taxon <- "Mytilus.sp."
 
+# plot responses
+predictions_pa$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+predictions_cop$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+# predictions_pa$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# predictions_cop$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+
+
 a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='year'))+
+            aes_string(x = 'elev', y = taxon, col='yearplot'))+
   # geom_smooth(aes(group=year1),se=F,lwd=1.5) +
   geom_line(lwd=1.5) +
   scale_color_manual(values=cols.two) +
@@ -509,7 +503,7 @@ a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank()) 
 b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='year'))+
+            aes_string(x = 'elev', y = taxon, col='yearplot'))+
   geom_line(lwd=1.5) +
   scale_color_manual(values=cols.two) +
   ylab("") +
@@ -519,7 +513,7 @@ b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='year'))+
+            aes_string(x = 'elev', y = taxon, col='yearplot'))+
   geom_line(lwd=1.5) +
   scale_color_manual(values=cols.two) +
   # ylab("percent cover") +
@@ -529,6 +523,7 @@ c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(model
   theme_classic() + 
   theme(legend.position = "none") +
   # theme(legend.position = c(1,0.25), legend.justification = c(1,0) ) +
+  # guides(col=guide_legend("year"))+
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank()) 
 plot_grid(c,a,b,ncol=1, align='hv')
@@ -572,7 +567,7 @@ predictions_pab_low <- predictions_pa_low %>%
 predictions_pab_high <- predictions_pa_high %>%
   gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
 predictions_pab <- left_join(left_join(predictions_pab, predictions_pab_low), predictions_pab_high)
-predictions_pab$taxon <- factor(predictions_pab$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
+predictions_pab$taxon <- factor(predictions_pab$taxon, levels = colnames(models[[1]]$Y)[order(colSums(models[[1]]$Y),decreasing = T)], ordered = FALSE)
 
 ###
 
@@ -972,14 +967,28 @@ all_trends %>%
   select(FG, measure, median, sign) %>% 
   arrange(FG)
 
+# all_trends <- left_join(all_trends, select(reps,FG,n) )
+# all_trends <- all_trends %>% 
+#   mutate( FG = paste0(FG," (",n,")") ) %>% 
+#   mutate( FG = factor(FG, 
+#                       levels = c("thin turf (11)","blade (6)",
+#                       "turf (14)","canopy (5)","crust (7)","animal (3)"),
+#                       labels = c("thin turf (11)","blade (6)",
+#                                  "turf (14)","canopy (5)","crust (7)","animal (3)")
+#                       ))
+# reps <- all_trends %>% 
+#   select( FG, n ) %>% 
+#   mutate( median = -0.35, measure = "Conditional cover (log)") %>% 
+#   distinct()
+
 hmsc_FG <- all_trends %>%
   ggplot(aes(x = FG, y = median, group = measure, col = measure))+
   geom_hline(yintercept = 0, linetype = 2)+
   geom_errorbar(aes(ymin = lower_0.25, ymax = upper_0.75), width = 0, size = 1, position = position_dodge(width = 0.5))+
   geom_errorbar(aes(ymin = lower, ymax = upper), width = 0, position = position_dodge(width = 0.5))+
   geom_point(position = position_dodge(width = 0.5))+
-  geom_point(data = mutate(reps,median = median), aes(fill = FG), size = 8, col="black", shape = 21 ) +
-  geom_text(data = reps, aes(label = n), size = 3, col = 'white') +
+  # geom_point(data = mutate(reps,median = median), aes(fill = FG), size = 8, col="black", shape = 21 ) +
+  geom_text(data = reps, aes(label = paste0("(",n,")")), size = 2.5, col = 'black') +
   scale_color_manual(values = measure_cols) +
   scale_fill_manual(values = c("midnightblue","darkgrey","#996633","pink","red","darkred" ), guide = F) +
   guides( color =  guide_legend(nrow = 2, byrow = F, reverse = F) ) +
@@ -1195,6 +1204,7 @@ ggsave("R/Figs/hmsc_response_curves_hurdle_total.svg", width = 7, height = 5)
 
 # just show Fucus
 fuc <- "Fucus.distichus"
+fuc <- "Mytilus.sp."
 # windows(5,4)
 ggplot( filter(predictions_copp,taxon %in% fuc ), 
         aes(x = elev, y = N ))+
@@ -1206,7 +1216,8 @@ ggplot( filter(predictions_copp,taxon %in% fuc ),
   geom_point( data = filter( comm_final, taxon %in% fuc), pch=21 ) +
   scale_y_sqrt(breaks=c(1,10,50,100,200)) +
   ylab("Percent cover") + xlab("Shore height (cm)") +
-  coord_cartesian(ylim = c(-0, 100)) 
+  coord_cartesian(ylim = c(-0, 100))
+ggsave(paste0("R/Figs/model+data_",fuc,".svg"),width=5,height=5 )
 #
 
 
@@ -1540,7 +1551,7 @@ ggsave( "R/Figs/shifts_2panel.svg", width=7, height=6 )
 
 
 # need to add lines showing the realm of possible shifts
-xs <- range( XData$elev )
+xs <- range( models[[1]]$XData$elev )
 y1 <- c(0,diff(xs))
 y2 <- c(-diff(xs),0)
 df.bound <- data.frame( x1=xs[1],x2=xs[2],y1,y2 )
@@ -1687,17 +1698,23 @@ compare_all_plot_fun %>%  arrange(elev.shifts.med)
 compare_all_plot_algae <- filter( compare_all_plot_fun, funct != "animal" )
 compare_all_plot_algae$group <- factor(as.character(compare_all_plot_algae$funct), levels = c('turf','thin_turf','crust','blade','canopy'))
 
-
-(xy <- ggplot( compare_all_plot_algae, aes(x=log(abun.shifts.med,base = 2),y=elev.shifts.med)) + 
+windows(3,3)
+# use full set here
+psych::pairs.panels( data.frame(elevation = elev.shift.all.df$elev.shift, 
+                                cover = log(abun.shift.all.df$abun.shift,base = 2)),
+                     method = "pearson", smoother = TRUE,
+                     hist.col = "whitesmoke", density = FALSE, rug = FALSE )
+dev.off()
+xy <- ggplot( compare_all_plot_algae, aes(x=log(abun.shifts.med,base = 2),y=elev.shifts.med)) + 
     geom_hline(yintercept = 0)+geom_vline(xintercept = 0)+
     # geom_hline(yintercept = quantile( c(slopes.peak.algae*8), prob = 0.5 ), lty = 1, col = "lightgray", lwd = 0.33)+
     # geom_vline(xintercept = quantile( log(abun.shifts.run.algae,base=2), prob = 0.5 ), lty = 1, col = "seagreen", lwd = 0.33)+
     # data = abun.shift.all.df.summary, aes(y = ybar, x = median )
-    geom_point( aes(fill=group), pch = 21, size = 2.5) +
+    geom_point( pch = 21, size = 1.5, fill = "whitesmoke" ) + #aes(fill=group)
     theme_classic() +
-    scale_x_continuous(breaks=c(log(50,base=2),log(10,base=2),log(4,base=2),log(2,base=2),0,log(0.5,base=2),
-                                log(1/4,base=2),log(1/8,base=2),log(1/16,base=2),log(1/50,base=2)),
-                       labels=c('50x','10x','4x','2x','0','1/2x','1/4x','1/8x','1/16x','0.05x'),
+    scale_x_continuous(breaks=c(log(16,base=2),log(4,base=2),log(2,base=2),0,log(0.5,base=2),
+                                log(1/8,base=2),log(1/32,base=2)),
+                       labels=c('16x','4x','2x','0','1/2x','1/8x','1/32x'),
                        # labels=c('50x','10x','4x','2x','0','0.5x','0.25x','0.0125x','0.0625x','0.05x'),
                        position="bottom") +
     # scale_x_continuous(breaks=c(log(50,base=2),log(10,base=2),log(5,base=2),log(2,base=2),0,log(0.5,base=2),
@@ -1706,7 +1723,10 @@ compare_all_plot_algae$group <- factor(as.character(compare_all_plot_algae$funct
     #                    position="bottom") +
     # ylim( c(-150,30) ) +
     scale_fill_manual( values=(c("darkred", "red","pink", "darkgrey", "#996633")), guide='none' ) +
-    xlab("Cover shift") + ylab("Elevation shift (cm)"))
+    annotate("text", label = expression(paste(italic("r "),"= -0.05")), x = log(4,base=2), y = 100, hjust = 0) +
+    xlab("Cover shift") + ylab("Elevation shift (cm)") +
+    coord_cartesian( xlim = c(log(1/32,base=2), log(32,base=2)),ylim = c(-125,125))
+xy
 
 # densities of all shifts
 elev.shift.all.df <- data.frame( elev.shift = c(slopes_peak[,taxon.key$funct != "animal"]*8) )
@@ -1727,6 +1747,7 @@ elev.dens <- data.frame( x = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          y = 0,
                          yend = elev.dens.max )
 
+abun.shift.all.df <- data.frame( abun.shift = c(abun.shifts.run.algae) )
 minabundiff <- abs(density(log(abun.shift.all.df$abun.shift,base = 2))$x*100 - quantile( log(abun.shifts.run.algae,base=2), prob = 0.5 )*100)
 density(log(abun.shift.all.df$abun.shift,base = 2))$y[ which( minabundiff == min(minabundiff) ) ]
 abun.dens.max = density(log(abun.shift.all.df$abun.shift,base = 2))$y[ which( minabundiff == min(minabundiff) ) ]  / max(density(log(abun.shift.all.df$abun.shift,base = 2))$y)
@@ -1734,7 +1755,7 @@ abun.dens <- data.frame( x = quantile( log(abun.shifts.run.algae,base=2), prob =
                          xend = quantile( log(abun.shifts.run.algae,base=2), prob = 0.5 ),
                          y = 0,
                          yend = abun.dens.max )
-abun.shift.all.df <- data.frame( abun.shift = c(abun.shifts.run.algae) )
+
 #
 ybar = 0
 error_color = 'black'
@@ -1742,16 +1763,16 @@ dens_height = 1.1
 dens_min = -0.1
 dens_alpha = 0.5
 dens_fill = NA
-ydens <- axis_canvas(xy, axis = "y", coord_flip = TRUE)+
+ydens <- axis_canvas(xy, axis = "y", coord_flip = FALSE)+
   # geom_vline(xintercept=mean(compare_all_plot$elev.shifts.med), col='red' ) +
   geom_vline(xintercept=0) +
   geom_density(data = elev.shift.all.df, aes(x = elev.shift, ..scaled..),
-               alpha = dens_alpha, size = 0.5, outline.type = "full", fill = dens_fill) +
+               alpha = dens_alpha, size = 0.5, outline.type = "full", fill = dens_fill, inherit.aes = FALSE) +
   geom_errorbarh(data = elev.shift.all.df.summary, aes(y = ybar, xmin = lower25, xmax = upper75),
                 height = 0, size = 2, col = error_color) +
   geom_segment( data = elev.dens, aes(x = x, y = y, xend = xend, yend = yend ), col = error_color, size = 1, lineend = "round") +
   # geom_point(data = elev.shift.all.df.summary, aes(y = ybar, x = median ), size = 1.5, shape = 3, col = "lightgrey") +
-  coord_flip(ylim = c(dens_min,dens_height)) 
+  coord_flip(ylim = c(dens_min,dens_height), xlim = c(-125,125) ) 
 ydens
 # Marginal densities along y axis
 # Need to set coord_flip = TRUE, if you plan to use coord_flip()
@@ -1762,7 +1783,7 @@ abun.shift.all.df.summary <- log(abun.shift.all.df,base=2) %>%
              lower = quantile(abun.shift,prob = 0.025),
              lower25 = quantile(abun.shift,prob = 0.25),
              upper75 = quantile(abun.shift,prob = 0.75))
-xdens <- axis_canvas(xy, axis = "x")+
+xdens <- axis_canvas(xy, axis = "x", coord_flip = TRUE)+
   # geom_vline(xintercept=mean(log(compare_all_plot$abun.shifts.med,base=2)), col='red' ) +
   geom_vline(xintercept=0) +
   geom_density(data = log(abun.shift.all.df,base = 2), aes(x =  abun.shift, ..scaled.. ),
@@ -1771,7 +1792,7 @@ xdens <- axis_canvas(xy, axis = "x")+
                  height = 0, size = 2, col = error_color)+
   # geom_point(data = abun.shift.all.df.summary, aes(y = ybar, x = median ), size = 1.5, shape = 3, col = "seagreen") +
   geom_segment( data = abun.dens, aes(x = x, y = y, xend = xend, yend = yend ), col = error_color, size = 1, lineend = "round") +
-  coord_cartesian(ylim = c(dens_min,dens_height))
+  coord_cartesian(ylim = c(dens_min,dens_height), xlim = c(log(1/32,base=2), log(32,base=2)) )
 xdens
 # an empty plot for the upper corner
 empty <- ggplot()+geom_point(aes(1,1), colour="white")+

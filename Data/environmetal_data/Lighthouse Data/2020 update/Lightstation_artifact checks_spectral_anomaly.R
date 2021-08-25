@@ -78,6 +78,24 @@ dm <- dm %>%
 write_csv( dm, "Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv" )
 
 
+# lollipop plots
+dm$temp.anom.sign <- ifelse( dm$temp.anom < 0, "-1","1" )
+dm$temp.anom.sign[ is.na(dm$temp.anom.sign)] <- "0"
+dm$site2 <- dm$site
+dm$site2[dm$site2 == "addenbroke"] <- "Addenbroke air temperature"
+dm$site2[dm$site2 == "mccinnis"] <- "McInnes water temperature"
+dm$site2[dm$site2 == "pine"] <- "Pine water temperature"
+dm$ym <- ym( paste(dm$year, dm$month) )
+ggplot( data = dm, aes( x = ym, y = temp.anom, col = temp.anom.sign)) +
+  facet_wrap(~ site2, ncol =1, scales = "free_y" ) +
+  geom_segment( aes(xend = ym, yend = 0) ) +
+  geom_point(size=0.75) + 
+  scale_color_manual(values = c("blue","black","red")) +
+  theme_bw() +
+  theme( legend.position = "none") + 
+  ylab("Temperature anomaly (°C)") + xlab("Date")
+ggsave("R/Figs/lightstation_temp_anomalies_allyears.svg", width = 6, height = 5)
+
 # PCA #####
 ## temperature anomaly data from Pine Island
 anoms <-  read_csv("Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv")

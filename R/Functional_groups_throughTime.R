@@ -144,6 +144,68 @@ ggplot(dplot, aes(x = Year, y = mean)) +
   ylab("Mean cover (%)")
 ggsave( "R/Figs/FunGroups_time_zone_site.svg",width=7,height=6.5)
 
+# make a smaller plot showing total producer cover over time for each transect
+# first get total producer cover in each quadrat then average within transect
+names(comm)
+taxon.key$taxon[ taxon.key$FG == "animal"]
+comm3 <- comm2 %>% 
+  select( !(taxon.key$taxon[ taxon.key$FG == "animal"]) )
+quad.prod.total <- rowSums(comm3)  
+comm4 <- data.frame( comm[c(2:4,134)], quad.prod.total )
+comm5 <- comm4 %>% 
+  unite( "Transect", Site, Zone, sep=" ", remove = FALSE) %>% 
+  group_by(Year, Site, Zone, Transect ) %>% 
+  summarize( value = mean(quad.prod.total) )
+comm5$Site <- factor( comm5$Site, levels = c("Foggy Cove","Fifth Beach","North Beach"))
+comm5$Zone <- factor( comm5$Zone, levels = c("LOW","MID","HIGH"))
+prod_empir_trend_transect <- ggplot( comm5, aes(x = Year, y = (value), group = Transect,
+                                                col = Zone)) +
+  # geom_path() +
+  # geom_smooth( aes(group=1), method = 'lm', se = F, lwd = 1.5, col = 'slateblue', alpha=0.5 ) +
+  geom_smooth( method = 'lm', se = F,   alpha=0.5, lwd = 1.5) +
+  # scale_y_continuous(trans = 'log', breaks = c(20,50,100,150)) +
+  theme_classic() +
+  theme( panel.border = element_rect(colour = "black", fill=NA, size=0.5),
+         legend.position = "top",
+         legend.title = element_blank(),
+         legend.text = element_text(size = 7),
+         legend.key.size = unit(0.5, "cm"),
+         legend.key = element_rect(colour = NA, fill = NA),
+         legend.box.margin=margin(-10,-10,-10,-10)) +
+  coord_cartesian( ylim = c(0,180) ) +
+  scale_color_manual(values = c("black","grey","grey90")) +
+  guides( lty = guide_legend(ncol=2), lwd = guide_legend(ncol=3,byrow = FALSE) ) +
+  ylab("Mean seaweed cover (%)") + xlab("Year")
+prod_empir_trend_transect
+ggsave("R/Figs/producer_cover_time_transect.svg", width = 3, height = 3)
+
+
+library(broom)
+initial <- comm5 %>% filter(Year==2012)
+total_change <- comm5 %>% 
+  nest(data = -Transect) %>% 
+  mutate(
+    test = map(data, ~ lm((value)~Year, data=.x)), # S3 list-col
+    tidied = map(test, tidy)
+  ) %>% 
+  unnest(tidied) %>% 
+  filter( term == "Year")  %>%  mutate( total_change = estimate*8 )
+total_change$Site <- unlist(lapply(strsplit( total_change$Transect, split = " " ),function(z) paste(z[1],z[2])))
+total_change$Zone <- unlist(lapply(strsplit( total_change$Transect, split = " " ),function(z) z[3]))
+
+windows(4,4)
+plot(x=total_change$total_change,y=rep(1,9), axes=F, xlab="", ylab="", pch=1, cex=1.5)
+axis(1,line = -5 )
+mtext( "change in seaweed % cover", side=1, line=-3)
+
+library(lme4)
+library(lmerTest)
+lmm1 <- lmer( log(value) ~ Year*Zone + (1|Transect), data = comm5 )
+summary(lmm1)
+anova(lmm1)
+lm1 <- lm( log(value) ~ Year*Transect, data = comm5 )
+summary(lm1)
+anova(lm1)
 
 # what is the temporal coeffient of variation for each functional group? Which group varied the most?
 dcv <- d %>% 

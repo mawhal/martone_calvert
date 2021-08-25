@@ -195,64 +195,64 @@ dev.off()
 
 
 
-# ## variance partitioning ####
-# VP = lapply( models, computeVariancePartitioning ) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
-# # plotVariancePartitioning(m, VP = VP)
-# VP.dfs <- NULL
-# for( i in 1:length(models) ){
-#   VP.df <- as.data.frame(VP[[i]]$vals) %>%
-#     mutate(effect = factor(c("year1","year2","elev1","elev2",
-#                              "elev:year","elev2:year",
-#                              "site","transect","quadrat"),
-#                            levels = rev(c("year1","year2","elev1","elev2",
-#                                           "elev:year","elev2:year",
-#                                           "site","transect","quadrat")),
-#                            ordered = TRUE)) %>%
-#     # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
-#     #                          "elev:year","elev2:year",
-#     #                          "site","transect","ty"),
-#     #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
-#     #                                       "elev:year","elev2:year",
-#     #                                       "site","transect","ty")),
-#     #                        ordered = TRUE)) %>%
-#     # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site"),
-#     #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site")),
-#     #                        ordered = TRUE)) %>%
-#     gather(key = species, value = variance, -effect) %>%
-#     group_by(species) %>%
-#     mutate(tempR2 = variance[effect == "year1"])
-#   if(is.null(VP.dfs)){
-#     VP.dfs=VP.df#[,1]
-#   } else {
-#     VP.dfs = list(VP.dfs,VP.df)#[,1])
-#   }
-#   # mutate(tempR2 = variance[effect == "temp.anom.sum"])
-# }
-# VP.df <- do.call(rbind, VP.dfs)
-# VP.df$model <- gl( n = 2,k = nrow(VP.df)/2,labels = c("presence-absence","abunance_cop") )
-# 
-# hold <- VP.df %>% filter(effect == "year1") %>% arrange(desc(tempR2))
-# 
-# VP.df$species <- factor(VP.df$species,
-#                         levels = colnames(models[[i]]$Y)[order(colSums(models[[i]]$Y),decreasing = TRUE)],
-#                         ordered = TRUE)
-# 
-# 
-# R2.df2 <- data.frame(R2 = round(MF[[2]]$R2,1), species = colnames(models[[1]]$Y))
-# R2.df1 <- data.frame(R2 = round(MF[[1]]$TjurR2,1), species = colnames(models[[1]]$Y))
-# 
-# # windows(8,5)
-# ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
-#   facet_wrap(~model,ncol=1) +
-#   geom_bar(stat = "identity", color = 1)+
-#   theme_classic()+
-#   theme(axis.text.x = element_text(angle = 90))+
-#   scale_fill_manual(values = c("darkred", "maroon", viridis(7)), name = "")+
-#   # geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
-#   # geom_point(data = R2.df, aes(y = -0.07, fill = NULL, size = R2))+
-#   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
-#   xlab(label = "")
-# ggsave("R/Figs/hmsc_varpart.svg", width = 8, height = 5)
+## variance partitioning ####
+VP = lapply( models, computeVariancePartitioning ) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
+# plotVariancePartitioning(m, VP = VP)
+VP.dfs <- NULL
+for( i in 1:length(models) ){
+  VP.df <- as.data.frame(VP[[i]]$vals) %>%
+    mutate(effect = factor(c("year1","year2","elev1","elev2",
+                             "elev:year","elev2:year",
+                             "site","transect","quadrat"),
+                           levels = rev(c("year1","year2","elev1","elev2",
+                                          "elev:year","elev2:year",
+                                          "site","transect","quadrat")),
+                           ordered = TRUE)) %>%
+    # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
+    #                          "elev:year","elev2:year",
+    #                          "site","transect","ty"),
+    #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
+    #                                       "elev:year","elev2:year",
+    #                                       "site","transect","ty")),
+    #                        ordered = TRUE)) %>%
+    # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site"),
+    #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site")),
+    #                        ordered = TRUE)) %>%
+    gather(key = species, value = variance, -effect) %>%
+    group_by(species) %>%
+    mutate(tempR2 = variance[effect == "year1"])
+  if(is.null(VP.dfs)){
+    VP.dfs=VP.df#[,1]
+  } else {
+    VP.dfs = list(VP.dfs,VP.df)#[,1])
+  }
+  # mutate(tempR2 = variance[effect == "temp.anom.sum"])
+}
+VP.df <- do.call(rbind, VP.dfs)
+VP.df$model <- gl( n = 2,k = nrow(VP.df)/2,labels = c("presence-absence","abunance_cop") )
+
+hold <- VP.df %>% filter(effect == "year1") %>% arrange(desc(tempR2))
+
+VP.df$species <- factor(VP.df$species,
+                        levels = colnames(models[[i]]$Y)[order(colSums(models[[i]]$Y),decreasing = TRUE)],
+                        ordered = TRUE)
+
+
+R2.df2 <- data.frame(R2 = round(MF[[2]]$R2,1), species = colnames(models[[1]]$Y))
+R2.df1 <- data.frame(R2 = round(MF[[1]]$TjurR2,1), species = colnames(models[[1]]$Y))
+
+# windows(8,5)
+ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
+  facet_wrap(~model,ncol=1) +
+  geom_bar(stat = "identity", color = 1)+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 90))+
+  scale_fill_manual(values = c("darkred", "maroon","pink", viridis(6)), name = "")+
+  # geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
+  # geom_point(data = R2.df, aes(y = -0.07, fill = NULL, size = R2))+
+  scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
+  xlab(label = "")
+ggsave("R/Figs/hmsc_varpart.svg", width = 8, height = 6)
 
 
 
@@ -279,6 +279,24 @@ mynewcor <- corReorder( toPlot, order="hclust", nclusters = 3, plot = F )
 corrplot( mynewcor, method = "color", type = "upper", tl.col="black",  
          col = colorRampPalette(c("blue","white","red"))(200),
            title = paste("random effect level:", models[[1]]$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
+
+
+
+
+
+
+
+#
+
+
+
+
+
+
+
+#
+
+
 
 
 
@@ -730,28 +748,7 @@ species_bmass_scale <- species_bmass %>%
 
 species_temporal.df <- rbind(species_occur_scale, species_con_bmass_scale, species_bmass)
 species_temporal.df <- left_join( mutate(species_temporal.df,year=round(year,7)), years )
-
-## plot trends for all species
-# species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, ordered = TRUE)
-# species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, labels = gsub("[.]","\n",order_occur$Species), ordered = TRUE)
-species_temporal.df$Species <- gsub("_",".", species_temporal.df$Species)
-species_temporal.df$metric  <- factor(species_temporal.df$metric, levels = c("occurrence","conditional cover","cover"))
-# arrange by change in cover or occurrence
-species_temporal.df$Species <-factor( species_temporal.df$Species, levels = gsub("_",".",occur_trends$species[order(occur_trends$median)]), ordered = TRUE )
-# adjust color scheme so that cover is darker than conditional cover
-sp.trends <- ggplot(species_temporal.df, aes(x = year, y = median, color = metric,  fill = metric, group = metric))+ #fill = metric,
-  geom_ribbon(aes(ymin = quant_0.25, ymax= quant_0.75), alpha = 0.2, col = NA)+
-  geom_line(size = 1)+
-  facet_wrap(~Species, scales = "free", ncol = 6)+
-  # scale_color_brewer(type = "qual", palette = "Dark2", name = "")+
-  # scale_fill_brewer(type = "qual", palette = "Dark2", name = "", guide = FALSE)+
-  scale_color_manual( values = c('gray25','seagreen','springgreen') ) +
-  scale_fill_manual( values = c('gray50','seagreen','springgreen3') ) +
-  xlab("Year")+
-  ylab("Scaled estimate")+
-  theme_classic() + theme(legend.position = "top")
-ggsave("R/Figs/hmsc_sp_trends.svg", height = 11*1.5, width = 8.5*1.5)
-#
+species_temporal.df$Species <- gsub(pattern = "_", replacement = ".", x = species_temporal.df$Species )
 
 
 Years <- 2012:2019
@@ -817,6 +814,107 @@ all_trends %>%
   ylab('Change per year')+
   xlab('')
 ggsave("R/Figs/hmsc_species_trends_summary.svg",width = 6, height = 7)
+
+
+
+## plot trends for all species
+# species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, ordered = TRUE)
+# species_temporal.df$Species <- factor(species_temporal.df$Species, levels = order_occur$Species, labels = gsub("[.]","\n",order_occur$Species), ordered = TRUE)
+occur_trends$species <- gsub("_",".", occur_trends$species)
+species_temporal.df$metric  <- factor(species_temporal.df$metric, levels = c("occurrence","conditional cover","cover"))
+# arrange by change in cover or occurrence
+species_temporal.df$Species2 <- factor( species_temporal.df$Species, 
+                                        # levels = gsub("_",".",occur_trends$species[order(occur_trends$median)]),
+                                        levels = occur_trends$species[order(occur_trends$median)],
+                                        labels = gsub( pattern = "[.]", replacement = "\n", x = occur_trends$species[order(occur_trends$median)] ),
+                                        ordered = TRUE )
+# adjust color scheme so that cover is darker than conditional cover
+sp.trends <- ggplot(species_temporal.df, aes(x = year, y = median, color = metric,  fill = metric, group = metric))+ #fill = metric,
+  geom_ribbon(aes(ymin = quant_0.25, ymax= quant_0.75), alpha = 0.2, col = NA)+
+  geom_line(size = 1)+
+  facet_wrap(~Species2, scales = "free", ncol = 9)+
+  # scale_color_brewer(type = "qual", palette = "Dark2", name = "")+
+  # scale_fill_brewer(type = "qual", palette = "Dark2", name = "", guide = FALSE)+
+  scale_color_manual( values = c('gray25','seagreen','springgreen') ) +
+  scale_fill_manual( values = c('gray50','seagreen','springgreen3') ) +
+  xlab("Year")+
+  ylab("Scaled estimate")+
+  theme_classic() + 
+  theme(legend.justification=c(1,0), legend.position=c(1,0),
+        legend.direction="horizontal",
+        legend.title=element_blank(), 
+        legend.text=element_text(size=22) )
+ggsave("R/Figs/hmsc_sp_trends.svg", height = 5.75*1.5, width = 9*1.5)
+#
+
+
+# predict total cover of producers
+# remove invert columns, then total them up
+colnames(models[[1]]$Y)[-c(3,15,22)]
+slopes_biomass_ln_prod <- colSums(exp(log_biomass[,-c(3,15,22)]))
+log_biomass_producer <- log_biomass[,-c(3,15,22),]
+producer_bmass <- left_join(apply(log_biomass, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = median, -year, -metric),
+                           apply(log_biomass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
+  left_join(apply(log_biomass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = quant_0.75, -year, -metric))
+producer_bmass_total <- producer_bmass %>% 
+  group_by( year ) %>% 
+  summarize( median = sum(exp(median)),
+             quant_0.25 = sum(exp(quant_0.25)),
+             quant_0.75 = sum(exp(quant_0.75)) )
+
+
+
+
+# # now predict what each transect did in each year
+# Gradient_transect <- Gradient
+# studyDesignNew_transect <- models[[1]]$studyDesign %>% 
+#   select( site, transect ) %>% 
+#   distinct() %>% 
+#   mutate( quadrat = "new unit" )
+# 
+# bmass_list <- list()
+# bmass_list_tmp <- list()
+# for(i in 1:length(elev_grad)){
+#   for(j in 1:length( unique(models[[1]]$studyDesign$transect) ) ){
+#     Gradient_transect <- constructGradient(models[[1]], focalVariable = 'year1', non.focalVariables = list('elev1' = list(1)),
+#                                   ngrid = 8 )
+#     Gradient_transect$XDataNew$year2 <- XData_choose$year2
+#     Gradient_transect$XDataNew$elev1 <- elev_grad2$elev1[i]
+#     Gradient_transect$XDataNew$elev2 <- elev_grad2$elev2[i]
+#     Gradient_transect$studyDesignNew$site <- studyDesignNew_transect$site[j]
+#     Gradient_transect$studyDesignNew$transect <- studyDesignNew_transect$transect[j]
+#     Time_predY1 <- predict(models[[1]], XData = Gradient_transect$XDataNew, studyDesign = Gradient_transect$studyDesignNew, ranLevels = Gradient_transect$rLNew, expected = TRUE)
+#     Time_predY2 <- predict(models[[2]], XData = Gradient_transect$XDataNew, studyDesign = Gradient_transect$studyDesignNew, ranLevels = Gradient_transect$rLNew, expected = TRUE)
+#     Time_predY1 <- abind::abind(Time_predY1, along = 3)
+#     Time_predY2 <- exp(abind::abind(Time_predY2, along = 3))
+#     Time_predY3 <- Time_predY1*Time_predY2
+#     log_biomass_producer <- Time_predY3[,-c(3,15,22),]
+#     producer_bmass <- apply(log_biomass_producer, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = median, -year, -metric)
+#     producer_bmass_total_tmp <- producer_bmass %>% 
+#       group_by( year ) %>% 
+#       summarize( median = sum((median)) )
+#     producer_bmass_total_tmp$transect <- unique(models[[1]]$studyDesign$transect)[j]
+#     bmass_list_tmp[[j]] <- producer_bmass_total_tmp
+#   }
+#   bmass_list[[i]] <- do.call(rbind,bmass_list_tmp)
+# }
+# # bmass_list <- lapply(bmass_list, function(z) do.call(rbind,z) )
+# bmass_mean <- bmass_list[[1]]
+# for(i in 2:length(elev_grad)){
+#   bmass_mean$median <- bmass_mean$median + bmass_list[[i]]$median * elev_bin_prop[i-1]
+# }
+# #
+# 
+# ggplot( bmass_mean, aes(x = year, y = median, group = transect)) +
+#   # geom_path() +
+#   geom_smooth( method = 'lm', se = F) +
+#   geom_ribbon( data = producer_bmass_total, aes(ymin = quant_0.25, ymax = quant_0.75,group=1), 
+#                col = "slategrey", alpha = 0.5) +
+#   geom_path( data = producer_bmass_total, aes(ymin = quant_0.25, ymax = quant_0.75,group=1),
+#              lwd=2) +
+#   # scale_y_continuous(trans = 'log') +
+#   theme_classic()
+
 
 
 
@@ -991,6 +1089,7 @@ hmsc_FG <- all_trends %>%
   geom_text(data = reps, aes(label = paste0("(",n,")")), size = 2.5, col = 'black') +
   scale_color_manual(values = measure_cols) +
   scale_fill_manual(values = c("midnightblue","darkgrey","#996633","pink","red","darkred" ), guide = F) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   guides( color =  guide_legend(nrow = 2, byrow = F, reverse = F) ) +
   theme_bw() +
   theme( legend.position="top",
@@ -1723,7 +1822,7 @@ xy <- ggplot( compare_all_plot_algae, aes(x=log(abun.shifts.med,base = 2),y=elev
     #                    position="bottom") +
     # ylim( c(-150,30) ) +
     scale_fill_manual( values=(c("darkred", "red","pink", "darkgrey", "#996633")), guide='none' ) +
-    annotate("text", label = expression(paste(italic("r "),"= -0.05")), x = log(4,base=2), y = 100, hjust = 0) +
+    annotate("text", label = expression(paste(italic("r "),"= -0.05")), x = log(3,base=2), y = 100, hjust = 0) +
     xlab("Cover shift") + ylab("Elevation shift (cm)") +
     coord_cartesian( xlim = c(log(1/32,base=2), log(32,base=2)),ylim = c(-125,125))
 xy
@@ -1741,7 +1840,7 @@ elev.shift.all.df.summary <- elev.shift.all.df %>%
 # calculate density of median shifts to median bar goes to height of density plot
 # remove the extra lines
 # make median lines same color and interquartile range
-elev.dens.max = density(elev.shift.all.df$elev.shift)$y[ floor(density(elev.shift.all.df$elev.shift)$x) == floor(quantile( c(slopes.peak.algae*8), prob = 0.5 )) ] / max(density(elev.shift.all.df$elev.shift)$y)
+elev.dens.max = density(elev.shift.all.df$elev.shift)$y[ floor(density(elev.shift.all.df$elev.shift)$x) == ceiling(quantile( c(slopes.peak.algae*8), prob = 0.5 )) ] / max(density(elev.shift.all.df$elev.shift)$y)
 elev.dens <- data.frame( x = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          xend = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          y = 0,
@@ -1839,7 +1938,8 @@ fun1 <- ggplot(dplot2, aes(x = Year, y = mean)) +
   guides( fill =  guide_legend(nrow=2,byrow=T) ) +
   theme( panel.border = element_rect(colour = "black", fill=NA, size=0.5),
          legend.text=element_text(size = 6.5)) +
-  ylab("Mean cover (%)")
+  ylab("Mean cover (%)") +
+  coord_cartesian( ylim = c(0,180) ) 
 fun1
 
 # add plot for functional group trends
@@ -1851,6 +1951,23 @@ cowplot::plot_grid( fun1, hmsc_FG, p2, ncol = 3,
                     rel_widths = c(1.125,1.5,1.25), labels="auto" )
 ggsave(file="R/Figs/fun_hmsc_shift.svg",width = 10, height = 10/3)
 
- 
+
+
+# see file Functional_groups_throughTime.R for prod_empir_trend_transect
+a <- cowplot::plot_grid( fun1, prod_empir_trend_transect,
+                    ncol = 2, 
+                    align='hv', axis="tblr",
+                    rel_widths = c(1, 1), labels="auto" )
+a
+b <- cowplot::plot_grid( hmsc_FG, p2, ncol = 2, 
+                    align='hv', axis="b",
+                    rel_widths = c(1,1), labels=c("c","d") )
+b
+c <- cowplot::plot_grid( a, b, ncol = 1, 
+                    align='hv', axis="b", labels = NULL,
+                    rel_heights = c(1,1))
+
+ggsave(file="R/Figs/fun_hmsc_shift_revision.svg",width = 5.5, height = 5.5 )
+
 
 #

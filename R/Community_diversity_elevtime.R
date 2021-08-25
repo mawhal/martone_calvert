@@ -119,11 +119,17 @@ mclean$richness <- rowSums( pa )
 # splom for all quadrat summaries
 windows(7,7)
 # use l values (sensu Roswell et al. 2021) for diversity calculation (l = 1-q)
-psych::pairs.panels( mclean %>% ungroup() %>% 
-                       select(`Richness\nl = 1` = richness,`Hill-Shannon\nl = 0` = hillshan ,
-                              `Hill-Simpson\nl = -1` = enspie,`Total plot cover` = total.cover), 
+mdiv <- mclean %>% ungroup() %>% 
+  select(`Richness\nl = 1` = richness,`Hill-Shannon\nl = 0` = hillshan ,
+         `Hill-Simpson\nl = -1` = enspie,`Total plot cover` = total.cover)
+names(mdiv)[1] <- c( expression(paste("Richness\n", italic("l")," = 1")) )
+psych::pairs.panels( mdiv, 
               scale=F, ellipses = FALSE, rug = TRUE, breaks = "scott", las = 1,
-              pch = 1, lwd = 0.25, hist.col = "whitesmoke" )
+              pch = 1, lwd = 0.25, hist.col = "whitesmoke",
+              labels = c( expression(paste("Richness (", italic("l")," = 1)")),
+                          expression(paste("Hill-Shannon (", italic("l")," = 0)")),
+                          expression(paste("Hill-Simpson (", italic("l")," = -1)")),
+                          "Total plot cover")  )
 
 # how much cover attained by low diversity communities?
 mclean %>% ungroup() %>% 
@@ -299,7 +305,7 @@ mlong$Yearcent <- scale(mlong$Year)
 mlong$Yearfact <- factor(mlong$Year, ordered=F)
 mlong$Zonefact <- factor(mlong$Zone, ordered=F)
 # categorical effect of year
-m1 <- lmer( sqrt(species)~Yearfact + (1|Site), 
+m1 <- lmer( log(species)~Yearfact + (1|transect), 
             data=filter(mlong,Measure=="Total") )
 summary(m1)
 anova(m1)
@@ -311,26 +317,21 @@ plot(m1)
 # anova(m1a)
 # plot(m1a)
 # linear effect of time
-m1b <- lmer( (species)~Yearcent + (1|Site), 
+m1b <- lmer( log(species)~Yearcent + (1|transect), 
             data=filter(mlong,Measure=="Total") )
 summary(m1b)
 anova(m1b)
 plot(m1b)
 ## effective number of species
-m2 <- lmer( log(species)~Yearfact + (1|Site), 
+m2 <- lmer( log(species)~Yearfact + (1|transect), 
             data=filter(mlong,Measure=="Hill-Shannon") )
 summary(m2)
 anova(m2)
 plot(m2)
 lattice::dotplot( ranef(m2), main = F )
-# # year and zone
-# m2a <- lmer( log(species)~Zonefact+Yearcent + (1|transect), 
-#             data=filter(mlong,Measure=="Effective") )
-# summary(m2a)
-# anova(m2a)
-# plot(m2a)
+
 # linear effect of time
-m2b <- lmer( log(species)~Yearcent + (1|Site), 
+m2b <- lmer( log(species)~Yearcent + (1|transect), 
              data=filter(mlong,Measure=="Hill-Shannon") )
 summary(m2b)
 anova(m2b)
@@ -339,16 +340,26 @@ lattice::dotplot( ranef(m2b), main = F )
 
 
 ## effective number of species
-m3 <- lmer( log(species)~Yearfact + (1|Site), 
+m3 <- lmer( log(species)~Yearfact + (1|transect), 
             data=filter(mlong,Measure=="Hill-Simpson") )
 summary(m3)
 anova(m3)
 plot(m3)
 lattice::dotplot( ranef(m3), main = F )
 # linear effect of time
-m3b <- lmer( log(species)~Yearcent + (1|Site), 
+m3b <- lmer( log(species)~Yearcent + (1|transect), 
              data=filter(mlong,Measure=="Hill-Simpson") )
 summary(m3b)
 anova(m3b)
 plot(m3b)
 lattice::dotplot( ranef(m3b), main = F )
+
+
+# repeat without random effect of site
+summary( lm(log(species)~Yearcent, 
+         data=filter(mlong,Measure=="Hill-Simpson")) )
+
+div_trends <- as.data.frame( rbind(summary(m1b)$coeff,
+      summary(m2b)$coeff,
+      summary(m3b)$coeff))
+write_csv(div_trends, "R/output/diversity_linear_trends_lmer.csv")

@@ -289,6 +289,11 @@ as.use <- as2 # as2 or as.survey
 meta$year <- meta$Year
 M <- left_join( meta, as.use, by = c("year" = "survey.year") )
 
+# add PDO data
+pdo <- read_csv("Data/environmetal_data/PDO/pdo_survey_years.csv")
+names(pdo) <- c("year","pdo")
+M <- left_join(M, pdo)
+
 # # show summer versus winter temperature anomaly
 # as.survey.all <- anoms.season %>% 
 #   # filter( year>=2010 ) %>% 
@@ -420,9 +425,16 @@ ggsave( "R/Figs/beta_temporal_pairs.svg", width =4, height=3 )
 
 
 
+
+
+###########   distance-based redundancy discrimanant analysis
+
+
+
 ### consider dbRDA with factor for year and site (and transect?)
 with( distinct(select(M,pca1,pca2)), ccf(pca1,pca2) )
 with( distinct(select(M,pca1,Year)), ccf(pca1,Year) )
+with( distinct(select(M,pca1,pdo)), ccf(pca1,pdo) )
 with( distinct(select(M,Elevation,Year)), ccf(Elevation,Year) )
 with( distinct(select(M,Elevation,pca2)), ccf(Elevation,pca2) )
 with(M, ccf(pca1,Year) )
@@ -459,17 +471,23 @@ dbbox <- dbrda( Y~Elevation+pca1+pca2, distance="bray", data=M )
 ###
 ###
 #
-Y <- sqrt(sqrt(comm))
+Y <- sqrt(comm)
 Y <- box.cox.chord( comm, bc.exp = 0.77 ) #0.77
 db0 <- dbrda( Y~Elevation, distance="bray", data=M )
+dbpca <- dbrda( Y~Elevation+pca1+pca2+pca3+pca4, distance="bray", data=M )
+anova( db0, dbpca )
 db1 <- dbrda( Y~Elevation+pca1+pca2, distance="bray", data=M )
-db12 <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
-db13 <- dbrda( Y~Elevation+pca1+pca2+pca3+pca4, distance="bray", data=M )
+anova( db1, dbpca)
+db2 <- dbrda(Y~Elevation+pdo, distance="bray", data=M )
+anova(db0, db2)
+db3 <- dbrda(Y~Elevation+pca1+pca2+pdo, distance="bray", data=M )
+anova(db2, db3)
+
+# presence-absence
 db2 <- dbrda( ifelse(comm>0,1,0)~Elevation+pca1+pca2, distance="jaccard", data=M )
-anova(db0,db1)
-anova(db1,db12)
-# db1 <- dbrda( comm~anom.pine.sum.1+Elevation+year, distance="bray", data=M )
-# db2 <- dbrda( ifelse(comm>0,1,0)~year+Elevation, distance="jaccard", data=meta )
+
+#
+#
 db <- db1
 plot(db)
 os1 <- ordisurf( db, meta$Elevation )

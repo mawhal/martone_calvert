@@ -86,12 +86,15 @@ d$FunGroup<-factor(d$FunGroup, levels = rev(c("animal","turf", "thin_turf", "bla
 group_richness <- group_richness %>% 
   select( FunGroup=FG, S) %>% 
   filter( !is.na(FunGroup) )
+# manually edit based on revised numbers
+group_richness$S <- c(10,12,12,13,28,41)
+group_richness
 d <- left_join( d, group_richness )
 dplot <- d %>% 
   mutate( FunGroup = gsub("_"," ",FunGroup) ) %>% 
   mutate( `Functional Group` = factor(paste0(FunGroup, " (",S,")")) )
 dplot$`Functional Group` <-   forcats::fct_relevel( dplot$`Functional Group`, 
-                                                    "canopy (13)","blade (14)","crust (13)","thin turf (31)","turf (47)","animal (10)")
+                                                    "canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","animal (10)")
 dplot$Zone <- factor( dplot$Zone, ordered = T )
 dplot$site <- as.character(dplot$Site)
 

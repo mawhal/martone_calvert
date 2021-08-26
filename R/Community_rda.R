@@ -63,7 +63,6 @@ d %>%
 # remove a few taxa that are unidentified or extremely low abundance
 d %>% 
   filter( (taxon_lumped %in% c("articulated coralline","Unknown red blade","")) )
-  
 # Haliclona to sponge - fix these below using taxon_lumped, but likely need to update in data prep
 # Mytilus trossolus combine with others - using taxon_lumped2 fixes this, but changes many other things, too. changes total taxa from 165 to 141
 
@@ -83,8 +82,34 @@ d <- d %>%
                                 "Colonial Diatoms", "Pleonosporium vancouverianum",
                                 "Acrochaetium sp.", "Fauchea") ) )
 
-dwide <-  d %>%
-  group_by( Year, Site, Zone, Quadrat, taxon = taxon_lumped3 ) %>%
+
+
+## taxa not in final list
+# remove "Chiharaea bodegensis", "Desmarestia herbacea", "Ectocarpus siliculosus"
+# remove "Gloiocladia sp.", "Kornmannia leptoderma", "Petalonia fascia", "Tiffaniella snyderae", "Rhodymenia sp."
+# "Phycodrys sp." = Polyneura latissima
+d <- d %>% 
+  filter( !(taxon_lumped3 %in% c("Chiharaea bodegensis", "Desmarestia herbacea", "Ectocarpus siliculosus",
+                                 "Ulothrix-Urospora sp.") ) )
+d <- d %>% 
+  filter( !(taxon_lumped3 %in% c("Gloiocladia sp.", "Kornmannia leptoderma", "Petalonia fascia", "Tiffaniella snyderae", "Rhodymenia sp.") ) )
+d$taxon_lumped3[ d$taxon_lumped3 == "Phycodrys sp."] <- "Polyneura latissima"
+sort(unique(d$taxon_lumped3))
+
+# add together taxa that are not unique to each quadrat
+# this uses lumped taxon names, which will reduce the size of the dataset a bit
+# restrict this to seaweeds and sessile invertebrates
+d.simple <- d %>%
+  mutate( taxon = gsub(" ",".",taxon_lumped3) ) %>% 
+  group_by( UID, Year, Site, Zone, Quadrat, taxon, funct_2021 ) %>%
+  summarize( Abundance=sum(Abundance,na.rm=T)) 
+
+# write to disk so we are using the same dataset here and in HMSC
+write_csv(d.simple, "R/output/data_select_rda_HMSC.csv")
+
+# pivot wider
+dwide <-  d.simple %>%
+  group_by( Year, Site, Zone, Quadrat, taxon ) %>%
   summarise( Abundance=mean(Abundance) ) %>% 
   pivot_wider( names_from = taxon, values_from = Abundance, values_fill=0 ) %>% 
   ungroup()
@@ -115,7 +140,7 @@ d.comm.mean <- dmean %>%
 meta <- d.comm.mean[ ,1:3 ]
 meta <- left_join(meta,dmeanelev)
 comm <- as.matrix(d.comm.mean[,-c(1:3)])
-
+dim(comm)
 # interrogate the dataset
 sort( colSums(comm), decreasing = T )
 
@@ -289,11 +314,6 @@ as.use <- as2 # as2 or as.survey
 meta$year <- meta$Year
 M <- left_join( meta, as.use, by = c("year" = "survey.year") )
 
-# add PDO data
-pdo <- read_csv("Data/environmetal_data/PDO/pdo_survey_years.csv")
-names(pdo) <- c("year","pdo")
-M <- left_join(M, pdo)
-
 # # show summer versus winter temperature anomaly
 # as.survey.all <- anoms.season %>% 
 #   # filter( year>=2010 ) %>% 
@@ -442,46 +462,41 @@ with(M, ccf(pca1,Year) )
 meta$year <- factor(meta$Year, ordered=F)
 M$year <- factor(meta$Year, ordered=F)
 meta$site <- factor(meta$Site, ordered=F)
-# compare transformations
-source("box.cox.chord.R")
-Y <- comm
-dbraw      <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
-Y <- ifelse(comm>0,1,0)
-dbpa <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
-Y <- sqrt(comm)
-hist(Y[Y>0])
-dbroot     <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
-Y <- sqrt(sqrt(comm))
-dbrootroot <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
-# find a box-cox transform
-picks <- seq(0,1,by=0.01)
-shap <- NA
-for(i in 1:length(picks)){
-  tempY <- box.cox.chord( comm, bc.exp = picks[i] )
-  tempdb <- dbrda( tempY~Elevation+pca1+pca2, distance="bray", data=M )
-  shap[i] <- shapiro.test(resid(tempdb))$p.value
-}
-plot(shap)
-picks[which(shap==max(shap))]
-# pretty clear winner is 0.77
-Y <- box.cox.chord( comm, bc.exp = 0.77 )
-hist(Y[Y>0])
-dbbox <- dbrda( Y~Elevation+pca1+pca2, distance="bray", data=M )
+# # compare transformations, note sure what to make of this
+# source("box.cox.chord.R")
+# Y <- comm
+# dbraw      <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+# Y <- ifelse(comm>0,1,0)
+# dbpa <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+# Y <- sqrt(comm)
+# hist(Y[Y>0])
+# dbroot     <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+# Y <- sqrt(sqrt(comm))
+# dbrootroot <- dbrda( Y~Elevation+pca1, distance="bray", data=M )
+# # find a box-cox transform
+# picks <- seq(0,1,by=0.01)
+# shap <- NA
+# for(i in 1:length(picks)){
+#   tempY <- box.cox.chord( comm, bc.exp = picks[i] )
+#   tempdb <- dbrda( tempY~Elevation+pca1+pca2, distance="bray", data=M )
+#   shap[i] <- shapiro.test(resid(tempdb))$p.value
+# }
+# plot(shap)
+# picks[which(shap==max(shap))]
+# # pretty clear winner is 0.77, but this seems to depend a lot on model formulation
+# Y <- box.cox.chord( comm, bc.exp = 0.77 )
+# hist(Y[Y>0])
+# dbbox <- dbrda( Y~Elevation+pca1+pca2, distance="bray", data=M )
 
 ###
 ###
 #
-Y <- sqrt(comm)
-Y <- box.cox.chord( comm, bc.exp = 0.77 ) #0.77
+Y <- comm
 db0 <- dbrda( Y~Elevation, distance="bray", data=M )
 dbpca <- dbrda( Y~Elevation+pca1+pca2+pca3+pca4, distance="bray", data=M )
 anova( db0, dbpca )
 db1 <- dbrda( Y~Elevation+pca1+pca2, distance="bray", data=M )
 anova( db1, dbpca)
-db2 <- dbrda(Y~Elevation+pdo, distance="bray", data=M )
-anova(db0, db2)
-db3 <- dbrda(Y~Elevation+pca1+pca2+pdo, distance="bray", data=M )
-anova(db2, db3)
 
 # presence-absence
 db2 <- dbrda( ifelse(comm>0,1,0)~Elevation+pca1+pca2, distance="jaccard", data=M )
@@ -633,7 +648,7 @@ rda1 <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) +
   ggnewscale::new_scale_fill() +
   geom_point( data=as.zone, aes(fill=pca1, group=zone), size=3, shape=21 ) +
   annotate("text", label = "2012", y = -0.16, x = 0.023, hjust = 1 ) +
-  annotate("text", label = "2019", y = 0.19, x = 0.05, hjust = 0 ) +
+  annotate("text", label = "2019", y = 0.19, x = 0.055, hjust = 0 ) +
   annotate("text", label = "HIGH", y = zone_y, x = 0.2, hjust = 1 ) +
   annotate("text", label = "MID", y = zone_y, x = 0, hjust = 1  ) +
   annotate("text", label = "LOW", y = zone_y, x = -0.2, hjust = 1 ) +
@@ -648,7 +663,7 @@ rda1 <- ggplot( sites, aes(x=dbRDA1,y=dbRDA2)) +
          legend.text = element_text(size=8),
          legend.key.size = unit(0.59, "cm")) +
   guides(lty = FALSE) +
-  labs(fill = "Principal\nComponent 1", col = "Principal\nComponent 1", shape = "Zone", lty = "Zone" ) +
+  labs(fill = "Environment\nPC1", col = "Environment\nPC1", shape = "Zone", lty = "Zone" ) +
   coord_flip(xlim = xrange, ylim = yrange, clip = "off")
 rda1
 ggsave("R/Figs/rda_bwr_pal2_temp_flip.svg", width=4, height=3 )
@@ -714,6 +729,7 @@ ggsave("R/Figs/rda_bwr_pal2_temp_flip_2panel.svg", width=8, height=2.8 )
 
 
 
+#
 
 
 
@@ -721,25 +737,25 @@ ggsave("R/Figs/rda_bwr_pal2_temp_flip_2panel.svg", width=8, height=2.8 )
 
 
 
-
-ggplot( surv.cent, aes(y=dbRDA2,x=winter) ) + geom_point()
-ggplot( surv.cent, aes(y=shift2,x=winter) ) + geom_point()
-ggplot( surv.cent, aes(y=shift2,x=summer) ) + 
-  geom_smooth(method="lm",se=T) + 
-  geom_path() +
-  geom_point(size=2) + 
-  geom_text_repel(label=surv.cent$year2, 
-                  point.padding = 0.1,box.padding = 0.3,
-                  direction="both",
-                  nudge_y = c(-0.02, 0.08, -0.02, 0.01,
-                              -0.01, 0.01, -0.01, 0.01)) +
-  ylab("centroids | elevation") +
-  xlab(expression(paste(degree,"C (summer-1)"))) +
-  theme_classic()
-# ggsave( "R Code and Analysis/Figs/rda_summer_centroid.svg", width=2, height=2 )
-ggplot( surv.cent, aes(y=dbRDA2,x=winter) ) + 
-  geom_smooth(method="lm") + geom_point() + 
-  geom_text_repel(label=surv.cent$year) 
-
-
+# take a closer look at trajectories relative to dbRDA model
+library(vegclust)
+library(ecotraj)
+## Trajectory statistics
+D_use <- comm
+# define site as the particular trasect
+Zone <- factor( meta$Zone, levels=c("LOW","MID","HIGH"), labels=c("Low","Mid","High") )
+Site <- factor( meta$Site, labels=c("5","F","N") )
+transect <- paste( Site, Zone, sep="." )
+transect <- factor( site, levels= c("5.Low","5.Mid","5.High","F.Low","F.Mid","F.High","N.Low","N.Mid","N.High"),
+                labels= c("5.L","5.M","5.H","F.L","F.M","F.H","N.L","N.M","N.H"))
+# define year
+year <- meta$Year
+trajectoryLengths(        D_use, transect, year ) 
+trajectoryAngles(         D_use, transect, year )
+trajectoryAngles(         D_use, transect, year, all=TRUE ) # high degree of angle homogeneity
+trajectoryDirectionality( D_use, transect, year ) # despite longer segements in LOW, MID and HIGH often are more directional
+plot( trajectoryDirectionality( D_use, transect, year ), cex=3, pch=21, bg=cols ) # similar directionality among transects
+trajectoryProjection(     D_use, 1,2:6 )
+trajectoryConvergence(    D_use, transect, year, symmetric = FALSE )
+trajectoryPlot( x, transect, year, axes=1:2  )
 

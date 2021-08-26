@@ -254,6 +254,20 @@ ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
   xlab(label = "")
 ggsave("R/Figs/hmsc_varpart.svg", width = 8, height = 6)
 
+# how much variation explained by fixed and random effects on average?
+VP.df$ranfix <- ifelse( VP.df$effect %in% c("quadrat","transect","site"),"random","fixed")
+VP.df %>% 
+  group_by( model, ranfix, species ) %>% 
+  summarize( variance = sum(variance) ) %>% 
+  group_by( model, ranfix ) %>% 
+  summarize( variance = mean(variance))
+
+# how much variation explained by site
+VP.df %>% 
+  filter( effect == "site" ) %>% 
+  group_by( model, ranfix ) %>% 
+  summarize( variance = mean(variance))
+
 
 
 
@@ -1840,7 +1854,7 @@ elev.shift.all.df.summary <- elev.shift.all.df %>%
 # calculate density of median shifts to median bar goes to height of density plot
 # remove the extra lines
 # make median lines same color and interquartile range
-elev.dens.max = density(elev.shift.all.df$elev.shift)$y[ floor(density(elev.shift.all.df$elev.shift)$x) == ceiling(quantile( c(slopes.peak.algae*8), prob = 0.5 )) ] / max(density(elev.shift.all.df$elev.shift)$y)
+elev.dens.max = density(elev.shift.all.df$elev.shift)$y[ floor(density(elev.shift.all.df$elev.shift)$x) == floor(quantile( c(slopes.peak.algae*8), prob = 0.5 )) ] / max(density(elev.shift.all.df$elev.shift)$y)
 elev.dens <- data.frame( x = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          xend = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          y = 0,
@@ -1914,9 +1928,13 @@ dplot2 <- read_csv( "R/output/funtional_groups_annual_mean.csv")
 bareraw <- read_csv( "R/output/bare.csv")
 dplot2$FunGroup <- factor( dplot2$FunGroup, levels = c("canopy","blade","crust","thin turf","turf","animal") )
 dplot2$FunGroup
-dplot2$`Functional Group` <-   factor( dplot2$`Functional Group`, levels = c("canopy (13)","blade (14)","crust (13)","thin turf (31)","turf (47)","animal (10)")) 
+# numbers of taxa in each group
+d.simple %>% 
+  group_by( funct_2021) %>% 
+  summarize( S = length(unique(taxon)))
+dplot2$`Functional Group` <-   factor( dplot2$`Functional Group`, levels = c("canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","animal (10)")) 
 qpred_median$`Functional Group` <- factor( qpred_median$FG, levels = c("canopy","blade","crust","thin_turf","turf","animal"),
-                                           labels = c("canopy (13)","blade (14)","crust (13)","thin turf (31)","turf (47)","animal (10)") )
+                                           labels = c("canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","animal (10)") )
 qpred_median$Year <- as.numeric(as.character(qpred_median$year))
 # add vertical lines for ends of densities
 max_pred_fg <- qpred_median %>% group_by(year) %>% summarize(yend = sum(value)) %>% filter(year %in% c(2012,2019)) %>% select(yend)

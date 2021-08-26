@@ -49,6 +49,12 @@ d.trans <- d.simple %>%
   group_by( transect,Taxon, non.alga.flag  ) %>%
   summarize( Abundance=mean(Abundance, na.rm=T))
 
+# add in functional groups
+fungroups <- read_csv("Data/taxa/Algae_functional_groups.csv")
+d.simple <- left_join( d.simple, fungroups, by = c("Taxon" = "taxon") )
+# which things didn't work?
+unique(d.simple$Taxon[ is.na(d.simple$funct_2021)])
+d.simple$funct_2021[d.simple$Taxon == "Acrochaetium sp."] <- c()
 # spread Taxon column out into many columns filled with abundance/cover data
 d.comm.all  <- d.simple %>%
   select( -non.alga.flag ) %>% 
@@ -57,6 +63,14 @@ d.comm.algae <- d.simple %>%
   filter( non.alga.flag == "Algae" ) %>% 
   select( -non.alga.flag ) %>% 
   spread( Taxon, Abundance, fill=0 )
+d.comm.fun.algae <- d.simple %>%
+  filter( non.alga.flag == "Algae" ) %>% 
+  select( -non.alga.flag ) %>% 
+  group_by( UID, transect, funct_2021 ) %>% 
+  summarize( Abundance = sum(Abundance)) %>% 
+  ungroup() %>% 
+  spread( funct_2021, Abundance, fill=0 )
+
 
 # merge meta data so we can chop things up and summarize across sites, zones, etc.
 # first, remove rows from data that are not in the restricted metadata
@@ -68,6 +82,7 @@ muse <- arrange(muse,UID)
 # restrict to rows selected in metadata
 d.comm.all <- d.comm.all[ d.comm.all$transect %in% unique(muse$transect), ] 
 d.comm.algae <- d.comm.algae[ d.comm.algae$transect %in% unique(muse$transect), ] 
+d.comm.fun.algae <- d.comm.fun.algae[ d.comm.fun.algae$transect %in% unique(muse$transect), ] 
 
 
 # # there is a quadrat without any metadata, remove this from the metadata
@@ -93,13 +108,17 @@ mtrans <- mclean %>%
 # remove UID column from community data
 comm.all <- as.matrix(d.comm.all[,-c(1:2)])
 comm.algae <- as.matrix(d.comm.algae[,-c(1:2)])
+fun.algae <- as.matrix(d.comm.fun.algae[,-c(1:2,8)])
 
 anti_join(d.comm.all[,1:2], mclean[,c("UID", "transect")] )
 anti_join(mclean[,c("UID", "transect")] , d.comm.all[,1:2]  )
 # add a line to d.comm to get missing samples
 
 # combine in a list
-comm <- list(comm.all,comm.algae)
+comm <- list(comm.all,comm.algae,fun.algae)
+
+
+
 
 ## Steps
 ## ENSPIE
@@ -135,8 +154,8 @@ divcalcs <- function( z ){
 }
 divs <- lapply( comm, divcalcs )
 divsdf <- bind_rows(divs, .id = "source")
-divsdf$source <- factor( divsdf$source, levels=c("1","2"), labels=c("all","algae") )
-ddf <- bind_rows( list(d.comm.all[,1:2],d.comm.algae[,1:2]) )
+divsdf$source <- factor( divsdf$source, levels=c("1","2","3"), labels=c("all","algae","functional") )
+ddf <- bind_rows( list(d.comm.all[,1:2],d.comm.algae[,1:2],d.comm.fun.algae[,1:2]) )
 # ddf$source <- factor( ddf$source, levels=c("1","2"), labels=c("all","algae") )
 dd <- bind_cols( ddf, divsdf )
 
@@ -289,7 +308,7 @@ summary(mzone3)
 divvar2$div <- divvar2$gmeanr
 mstab <- lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "algae"))
 summary(mstab)
-stab <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
+stab <- ggplot( data=filter(divvar2,source == "functional"), aes(x=div, y=stability)) + #x=gmeanr
   # facet_wrap(~source) +
   # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
   geom_smooth(method='lm',se=T, col='black', lwd=0.5) +

@@ -54,21 +54,8 @@ muse <- droplevels(muse)
 duse <- ad[ ad$UID %in% muse$UID, ]
 dm <- left_join( duse, muse )
 
-
-# for now, restrict community analysis to sessile organisms (mobile data not very reliable)
-d <- dm %>% 
-  filter( motile_sessile != "motile" )
-  # filter( non.alga.flag =="Algae" )
-
-
-
-# add together taxa that are not unique to each quadrat
-# this uses lumped taxon names, which will reduce the size of the dataset a bit
-# restrict this to seaweeds and sessile invertebrates
-d.simple <- d %>%
-  mutate( taxon = gsub(" ",".",taxon_lumped3) ) %>% 
-  group_by( UID, Year, Site, Zone, taxon, funct_2021 ) %>%
-  summarize( Abundance=sum(Abundance,na.rm=T)) 
+# read dataset generated in script "Community_rda.R"
+d.simple <- read_csv("R/output/data_select_rda_HMSC.csv")
 
 # # average cover per transect
 # dmean <- d.simple %>%
@@ -94,6 +81,7 @@ d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 # isolate the community, site, and sample data
 comm.all <- d.comm[,-c(1:5)]
 comm.all <- ceiling(comm.all)
+as.matrix( comm.all[, order(colSums(comm.all),decreasing = T) ] )
 
 # 
 # windows(12,3)

@@ -23,50 +23,25 @@ am <- am[ am$Year != "2011", ]
 # remove Meay Channel
 am <- am[ am$Site != "Meay Channel", ]
 
-# remove taxa that are not coutned towards subtratum cover (i.e. mobile invertebrates)
-# make it easier by replacing NA values for substratum
-ds <- ad
-ds$motile_sessile[ is.na(ds$motile_sessile) ] <- "Substratum"
-ds <- ds %>% filter( motile_sessile=="sessile", !is.na(non.alga.flag) )  %>%
-  mutate( Taxon=taxon_lumped3)
+# read in data from Community_rda.R
+d.simple <- read_csv("R/output/data_select_rda_HMSC.csv")
 
-
-d <- ds
-# # split UID so we can average by transect
-splits <- strsplit( as.character(d$UID), " " )
-d$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
-
-# add together taxa that are not unique to each quadrat
-# this uses lumped taxon names, which wil reduce the size of the dataset a bit
-# restrict this to sessile taxa
-d.simple <- d %>%
-  # filter( motile_sessile=="sessile" ) %>%
-  group_by( UID, transect, Taxon, non.alga.flag ) %>%
-  summarize( Abundance=sum(Abundance,na.rm=T)) %>% 
-  arrange(UID)
 # calculate average abundance by transect
 d.trans <- d.simple %>%
-  group_by( transect,Taxon, non.alga.flag  ) %>%
+  group_by( Year, Site, Zone,taxon  ) %>%
   summarize( Abundance=mean(Abundance, na.rm=T))
 
-# add in functional groups
-fungroups <- read_csv("Data/taxa/Algae_functional_groups.csv")
-d.simple <- left_join( d.simple, fungroups, by = c("Taxon" = "taxon") )
-# which things didn't work?
-unique(d.simple$Taxon[ is.na(d.simple$funct_2021)])
-d.simple$funct_2021[d.simple$Taxon == "Acrochaetium sp."] <- c()
 # spread Taxon column out into many columns filled with abundance/cover data
 d.comm.all  <- d.simple %>%
-  select( -non.alga.flag ) %>% 
-  spread( Taxon, Abundance, fill=0 )
+  select(-funct_2021) %>% 
+  spread( taxon, Abundance, fill=0 )
 d.comm.algae <- d.simple %>%
-  filter( non.alga.flag == "Algae" ) %>% 
-  select( -non.alga.flag ) %>% 
-  spread( Taxon, Abundance, fill=0 )
+  filter( funct_2021 != "animal" ) %>% 
+  select(-funct_2021) %>% 
+  spread( taxon, Abundance, fill=0 )
 d.comm.fun.algae <- d.simple %>%
-  filter( non.alga.flag == "Algae" ) %>% 
-  select( -non.alga.flag ) %>% 
-  group_by( UID, transect, funct_2021 ) %>% 
+  filter( funct_2021 != "animal" ) %>% 
+  group_by( UID, Year, Site, Zone, Quadrat, funct_2021 ) %>% 
   summarize( Abundance = sum(Abundance)) %>% 
   ungroup() %>% 
   spread( funct_2021, Abundance, fill=0 )
@@ -79,10 +54,6 @@ splits <- strsplit( as.character(muse$UID), " " )
 muse$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
 muse <- arrange(muse,UID)
 
-# restrict to rows selected in metadata
-d.comm.all <- d.comm.all[ d.comm.all$transect %in% unique(muse$transect), ] 
-d.comm.algae <- d.comm.algae[ d.comm.algae$transect %in% unique(muse$transect), ] 
-d.comm.fun.algae <- d.comm.fun.algae[ d.comm.fun.algae$transect %in% unique(muse$transect), ] 
 
 
 # # there is a quadrat without any metadata, remove this from the metadata
@@ -106,12 +77,10 @@ mtrans <- mclean %>%
 # cbind( d.comm.order$transect, mtrans$transect )
 
 # remove UID column from community data
-comm.all <- as.matrix(d.comm.all[,-c(1:2)])
-comm.algae <- as.matrix(d.comm.algae[,-c(1:2)])
-fun.algae <- as.matrix(d.comm.fun.algae[,-c(1:2,8)])
+comm.all <- as.matrix(d.comm.all[,-c(1:6)])
+comm.algae <- as.matrix(d.comm.algae[,-c(1:6)])
+fun.algae <- as.matrix(d.comm.fun.algae[,-c(1:5)])
 
-anti_join(d.comm.all[,1:2], mclean[,c("UID", "transect")] )
-anti_join(mclean[,c("UID", "transect")] , d.comm.all[,1:2]  )
 # add a line to d.comm to get missing samples
 
 # combine in a list
@@ -155,7 +124,7 @@ divcalcs <- function( z ){
 divs <- lapply( comm, divcalcs )
 divsdf <- bind_rows(divs, .id = "source")
 divsdf$source <- factor( divsdf$source, levels=c("1","2","3"), labels=c("all","algae","functional") )
-ddf <- bind_rows( list(d.comm.all[,1:2],d.comm.algae[,1:2],d.comm.fun.algae[,1:2]) )
+ddf <- bind_rows( list(d.comm.all[,1:5],d.comm.algae[,1:5],d.comm.fun.algae[,1:5]) )
 # ddf$source <- factor( ddf$source, levels=c("1","2"), labels=c("all","algae") )
 dd <- bind_cols( ddf, divsdf )
 
@@ -302,13 +271,14 @@ summary(lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae")
 
 summary(mstab)$adj.r.squared
 divvar2_algae <- filter(divvar2,source=="algae")
-divvar2_algae$Zone3
-mzone3 <- lm( log(stability,base=2) ~ Zone3, data = divvar2_algae )
-summary(mzone3)
+# divvar2_algae$Zone3
+# mzone3 <- lm( log(stability,base=2) ~ Zone3, data = divvar2_algae )
+# summary(mzone3)
 divvar2$div <- divvar2$gmeanr
+divvar2$Zone <- factor( divvar2$Zone, levels = c("LOW","MID","HIGH"))
 mstab <- lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "algae"))
 summary(mstab)
-stab <- ggplot( data=filter(divvar2,source == "functional"), aes(x=div, y=stability)) + #x=gmeanr
+stab <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
   # facet_wrap(~source) +
   # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
   geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
@@ -352,7 +322,21 @@ stab2 <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability
   theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
 stab2
 
-
+# stability and fucntional groups
+ggplot( data=filter(divvar2,source == "functional"), aes(x=div, y=stability)) + #x=gmeanr
+  geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
+  geom_point(aes(fill=Zone,shape=Site),size=3) +
+  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
+  xlab("Mean functional group richness") +
+  scale_shape_manual( values=c(21,22,24) ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
+  scale_linetype_discrete(  guide=FALSE ) +
+  scale_y_continuous(trans="log2") +
+  coord_cartesian(ylim = c(1,16)) +
+  theme_classic() + theme( legend.position = c(0.01,.99), 
+                           legend.justification = c(0,1),
+                           legend.background = element_blank())
+summary(lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "functional")))
 
  
 # model stability by zone

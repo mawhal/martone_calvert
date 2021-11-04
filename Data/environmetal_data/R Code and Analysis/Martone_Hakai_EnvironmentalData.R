@@ -87,10 +87,10 @@ lines(n.anom$Anomaly[order(n.anom$Date)]~n.anom$Date[order(n.anom$Date)], lwd=3)
 
 #CTD data is too sparse to say anything meaningful about water temperature
 ## try with data we already have 
-temp.pine <- read_table( "data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt",
-                    skip=3 )
-temp.mc <- read_table( "data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/McInnesDailySalTemp.txt",
-                    skip=3 )
+temp.pine <- read_csv( "Data/environmetal_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/Pine_Island/Pine_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1937-2021.csv",
+                    skip = 1 )
+temp.mc <- read_csv( "Data/environmetal_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/McInnes_Island/McInnes_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1954-2021.csv",
+                     skip = 1 )
 
 # air temperature - Addenbrooke air temperature
 adden <- read_csv( "data/environmetal_data/Addenbroke Air Temperature/EC/1060080.ascii", skip=1 )  # data from https://data.pacificclimate.org/portal/pcds/map/
@@ -101,11 +101,11 @@ adden <- read_csv( "data/environmetal_data/Addenbroke Air Temperature/EC/1060080
 #temp.pine<-read.csv("./Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt", skip=2)
 temp.pine 
 #remove data from before 1985
-temp.pine$`Temperature(C)`<-gsub("999.9","NA", temp.pine$`Temperature(C)`)
+temp.pine$temperature <-gsub("999.9","NA", temp.pine$`TEMPERATURE ( C )`)
 temp.pine2<-temp.pine
 #view temperature data
-temp.pine2$`Temperature(C)`<-as.numeric(temp.pine2$`Temperature(C)`)
-colnames(temp.pine2)<-c("Year","Month","Day","Temperature","Salinity")
+temp.pine2$temperature <- as.numeric(temp.pine2$temperature)
+temp.pine2 <- temp.pine2 %>% select( data = `DATE (YYYY-MM-DD)`, temperature )
 
 ###Average by month
 temp.pine.sum<-temp.pine2[temp.pine2$Temperature!="NA",] %>%

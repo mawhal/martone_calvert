@@ -457,7 +457,13 @@ newXData <- newXData %>%
 predY_pa <- predict(models[[1]], XData = newXData,
                  studyDesign = newDesign,
                  ranLevels = list(site = models[[1]]$rL$site, transect = models[[1]]$rL$transect, quadrat = models[[1]]$rL$quadrat), expected = TRUE)
-
+predY_cop <- predict(models[[2]], XData = newXData,
+                     studyDesign= newDesign,
+                     ranLevels = list(site = models[[1]]$rL$site, transect = models[[1]]$rL$transect, quadrat = models[[1]]$rL$quadrat), expected = TRUE) #, transect=rL, year=rL_year
+## predictions of both models multiplied together
+predY_abun <- Map('*', predY_pa, lapply(predY_cop,exp) )
+# predY_pa[[1]][1,1] * predY_cop[[1]][1,1]
+# predY_abun[[1]][1,1]
 
 # ###
 ### other ways to summarize the model results --------------------------------------------------------------------
@@ -509,11 +515,34 @@ predictions_abun <- left_join(predictions_abun, as.survey)
 # colors
 cols.two <- c( rgb( 211,230,240, maxColorValue=255), rgb( 232,139,110, maxColorValue=255))
 
-hist( comm$Fucus.distichus )
-taxon <- "Hedophyllum.sessile"
-taxon <- "Alaria.marginata"
-taxon <- "Fucus.distichus"
-taxon <- "Mytilus.sp."
+
+
+# add empirical means
+models[[1]]$studyDesign %>% 
+  group_by(year) %>% 
+  summarize(ntrans=length(transect))
+comm <- comm[ !is.na(comm$Shore_height_cm), ]
+ogd <- bind_cols(  models[[1]]$studyDesign, comm )  #data.frame(m$Y)
+ogd$year <- ogd$year
+
+ogd.long <- ogd %>% 
+  pivot_longer( cols="Acrosiphonia":"Unknown.crust", 
+                names_to = "taxon", values_to = "N" ) %>% 
+  select( UID, year, elev = Shore_height_cm, taxon, N )
+ogd.long$N[ ogd.long$N %in% c(0.1,0.25) ] <- 0.5
+ogd.cop <- ogd.long
+ogd.cop$N[ ogd.cop$N == 0 ] <-  NA
+ogd.pa <- ogd.long
+ogd.pa$N <- as.numeric( ogd.pa$N > 0 )
+
+# make wide again t4o matching plotting style below
+ogd.wide <- ogd.long %>% 
+  pivot_wider( names_from = taxon, values_from = N )
+ogd.cop.wide <- ogd.cop %>% 
+  pivot_wider( names_from = taxon, values_from = N )
+ogd.pa.wide <- ogd.pa %>% 
+  pivot_wider( names_from = taxon, values_from = N )
+
 
 # plot responses
 predictions_pa$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
@@ -524,19 +553,32 @@ predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = 
 # predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
 
 
+hist( comm$Fucus.distichus )
+taxon <- "Hedophyllum.sessile"
+taxon <- "Alaria.marginata"
+taxon <- "Fucus.distichus"
+taxon <- "Mytilus.sp."
+
 a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
             aes_string(x = 'elev', y = taxon, col='yearplot'))+
-  # geom_smooth(aes(group=year1),se=F,lwd=1.5) +
+  geom_point( data = filter(ogd.pa.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+              aes_string(x = 'elev', y = taxon, col='year') ) +
   geom_line(lwd=1.5) +
   scale_color_manual(values=cols.two) +
   ylab("") +
   xlab("") +
-  theme_classic() + theme(legend.position = "none") +
+  theme_classic() + 
+  theme(legend.position = "none") +
+  # theme(legend.position = c(1,0.25), legend.justification = c(1,0), legend.title=element_blank() ) +
+  # guides(col=guide_legend("year"))+
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank()) 
 b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
             aes_string(x = 'elev', y = taxon, col='yearplot'))+
+  geom_point( data = filter(ogd.cop.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
+              aes_string(x = 'elev', y = taxon, col='year') ) +
   geom_line(lwd=1.5) +
+  # scale_y_log10() +
   scale_color_manual(values=cols.two) +
   ylab("") +
   xlab("") +
@@ -546,16 +588,15 @@ b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models
         axis.title.y = element_blank())
 c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
             aes_string(x = 'elev', y = taxon, col='yearplot'))+
+  geom_point( data = filter(ogd.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
+              aes_string(x = 'elev', y = taxon, col='year') ) +
   geom_line(lwd=1.5) +
+  # scale_y_log10() +
   scale_color_manual(values=cols.two) +
-  # ylab("percent cover") +
-  # xlab("elevation (cm)") +
   ylab("") +
   xlab("") +
   theme_classic() + 
   theme(legend.position = "none") +
-  # theme(legend.position = c(1,0.25), legend.justification = c(1,0) ) +
-  # guides(col=guide_legend("year"))+
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank()) 
 plot_grid(c,a,b,ncol=1, align='hv')
@@ -1854,7 +1895,7 @@ elev.shift.all.df.summary <- elev.shift.all.df %>%
 # calculate density of median shifts to median bar goes to height of density plot
 # remove the extra lines
 # make median lines same color and interquartile range
-elev.dens.max = density(elev.shift.all.df$elev.shift)$y[ floor(density(elev.shift.all.df$elev.shift)$x) == floor(quantile( c(slopes.peak.algae*8), prob = 0.5 )) ] / max(density(elev.shift.all.df$elev.shift)$y)
+elev.dens.max = density(elev.shift.all.df$elev.shift)$y[ floor(density(elev.shift.all.df$elev.shift)$x) == ceiling(quantile( c(slopes.peak.algae*8), prob = 0.5 )) ] / max(density(elev.shift.all.df$elev.shift)$y)
 elev.dens <- data.frame( x = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          xend = quantile( c(slopes.peak.algae*8), prob = 0.5 ),
                          y = 0,

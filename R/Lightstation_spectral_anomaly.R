@@ -1,0 +1,436 @@
+###### BC Lighthouse Data on Sea Surface Temperature and Salinity
+### NOTE: 14 day artifact as a result of sampling methods
+### https://www.dfo-mpo.gc.ca/science/data-donnees/lightstations-phares/index-eng.html
+
+## The purpose of this script is to identify the 14-day artifact, 
+# to see if it can be removed through averaging or some other strategy
+# AND to save monthly SST anomalies for downstream analyses
+
+# by Matt Whalen
+# created 16 July 2019
+# updated 22 July 2020
+
+library(tidyverse)
+library(lubridate)
+library(fpp)
+library(imputeTS)
+
+##### read data ####
+# SST - daily from lightstation keepers
+pineraw <- read_csv( "Data/environmetal_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/Pine_Island/Pine_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1937-2021.csv",
+                     skip = 1 )[,1:5]
+names(pineraw) <- c( 'date','sal','temp','latitude', 'longitude' )
+pineraw$site <- 'pine'
+mcinnraw <- read_csv( "Data/environmetal_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/McInnes_Island/McInnes_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1954-2021.csv",
+                      skip = 1 )[,1:5]
+names(mcinnraw) <- c( 'date','sal','temp','latitude', 'longitude' )
+mcinnraw$site <- 'mcinnes'
+# merge sst
+sst <- bind_rows( pineraw, mcinnraw ) %>% 
+  filter( !is.na(date) ) %>% 
+  # mutate( date = mdy(date) ) %>% 
+  mutate( temp=replace(temp, temp==999.9, NA)) %>%
+  mutate( sal=replace(sal, sal==999.9, NA)) 
+
+# air temperature - Addenbrooke air temperature - hourly
+addenraw <- read_csv( "Data/environmetal_data/Addenbroke Air Temperature/EC/1060080.ascii", skip=1 )  # data from https://data.pacificclimate.org/portal/pcds/map/
+names(addenraw) <- c( 'precip','rain','temp','snow','time','snow_ground','temp_max' )
+addenraw$site <- 'addenbroke'
+adden <- addenraw %>% 
+  mutate(date = ymd(time) ) %>% 
+  select(-time)
+
+# merge all data
+d <- bind_rows(sst, adden)
+ggplot( data = d, aes( x = date, y = temp)) +
+  facet_wrap(~ site, ncol =1, scales = "free_y" ) +
+  geom_line() + geom_smooth() 
+
+# write the raw data to disk as well
+write_csv( d, "Data/R code for Data Prep/output from R/Lightstation_raw.csv" )
+
+
+## average by month and decompose the signal
+dm <- d %>%
+  mutate( year=year(date), month=month(date) ) %>% 
+  group_by(year,month,site) %>%
+  summarize( temp=mean(temp,na.rm=T),sal=mean(sal,na.rm=T),
+             temp_max = mean(temp_max,na.rm=T),
+             precip = mean(precip, na.rm=T) )
+
+# # impute missing months
+# dm$temp.na <- na_ma(dm$temp,k=12, weighting = "exponential")
+# dm$sal.na <- na_ma(dm$sal,k=12, weighting = "exponential")
+# dm[is.na(dm$temp),]
+# dm[is.na(dm$sal),]
+
+# calculate anomalies as deviations from expected (average) monthly mean tempearture
+dm <- dm %>%
+  group_by(month, site) %>%
+  mutate( month.mean.temp = mean(temp,na.rm=T), month.mean.sal = mean(sal,na.rm=T),
+          month.mean.temp.max = mean(temp_max,na.rm=T), month.mean.precip = mean(precip,na.rm=T)) %>%
+  ungroup() %>%
+  mutate( temp.anom = temp-month.mean.temp, sal.anom = sal - month.mean.sal,
+          temp.max.anom = temp_max - month.mean.temp.max, precip.anom = precip - month.mean.precip )
+## write tempeartures and anomalies to disk
+
+
+write_csv( dm, "Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv" )
+
+
+# lollipop plots
+dm$temp.anom.sign <- ifelse( dm$temp.anom < 0, "-1","1" )
+dm$temp.anom.sign[ is.na(dm$temp.anom.sign)] <- "0"
+dm$site2 <- dm$site
+dm$site2[dm$site2 == "addenbroke"] <- "Addenbroke air temperature"
+dm$site2[dm$site2 == "mccinnis"] <- "McInnes water temperature"
+dm$site2[dm$site2 == "pine"] <- "Pine water temperature"
+dm$ym <- ym( paste(dm$year, dm$month) )
+ggplot( data = dm, aes( x = ym, y = temp.anom, col = temp.anom.sign)) +
+  facet_wrap(~ site2, ncol =1, scales = "free_y" ) +
+  geom_vline( xintercept = ymd(c("2012-07-03","2019-06-01")), col = "slategrey") +
+  geom_segment( aes(xend = ym, yend = 0) ) +
+  # geom_point(size=0.75) + 
+  scale_color_manual(values = c("blue","black","red")) +
+  theme_bw() +
+  theme( legend.position = "none") + 
+  ylab("Temperature anomaly (°C)") + xlab("Date")
+ggsave("R/Figs/lightstation_temp_anomalies_allyears.svg", width = 6, height = 5)
+
+# PCA #####
+## temperature anomaly data from Pine Island
+anoms <-  read_csv("Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv")
+plot(anoms$sal[anoms$site == "mccinnis" & anoms$year >= 2000], type='l')
+filter(anoms, site == "mccinnis") %>%  summarize(mean.sal = mean(sal,na.rm=T))
+# collect temperature, sal, precip and use these in a PCA
+temp_wide <- anoms %>% 
+  select( site, year, month, temp.anom ) %>% 
+  pivot_wider( names_from = site, values_from = temp.anom, names_prefix = "temp_" ) 
+sal_wide <- anoms %>% 
+  filter( site != "addenbrooke" ) %>% 
+  select( site, year, month, sal.anom ) %>% 
+  pivot_wider( names_from = site, values_from = sal.anom, names_prefix = "sal_" ) 
+precip <- anoms %>% 
+  filter( site == "addenbrooke" ) %>% 
+  select( year, month, precip.anom ) %>% 
+  mutate( precip.anom = -precip.anom )
+
+alld <- full_join(full_join(temp_wide, sal_wide),precip)
+# alld <- full_join(temp_wide,precip)
+alld <- alld %>% 
+  unite(date, year,month,remove = F) %>% 
+  mutate( date = lubridate::ym(date) ) %>% 
+  select( -precip.anom )
+# PCA
+dna <- alld[ !(apply( alld, 1, function(z) any(is.na(z)) )), ]
+pca1 <- princomp( select(dna,temp_pine:sal_mccinnis ) )
+summary(pca1)
+plot(pca1)
+biplot(pca1,scale = 0)
+biplot(pca1,scale = 0, choice = c(2,3))
+# missing and imputation ---- see http://juliejosse.com/wp-content/uploads/2018/05/DataAnalysisMissingR.html -----
+library(missMDA)
+# ignore the earlier years of the dataset
+filtd <- filter( alld,year > 1977 )
+nb <- estim_ncpPCA( select(filtd,temp_pine:sal_mccinnis ), method.cv = "Kfold", verbose = FALSE) # estimate the number of components from incomplete data
+#(available methods include GCV to approximate CV)
+nb$ncp
+res.comp <- imputePCA( select(filtd,temp_pine:sal_mccinnis ), ncp = nb$ncp) # iterativePCA algorithm
+res.comp$completeObs[1:3,] # the imputed data set
+imp <- res.comp$completeObs
+library(FactoMineR)
+res.pca <- PCA(imp, ncp = nb$ncp, graph = TRUE)
+res.pca$var
+summary(res.pca)
+plot(res.pca, choix = "var", cex = 0.8)
+plot(res.pca, choix = "var", axes = 2:3, cex = 0.8)
+dimdesc( res.pca )
+pcscores <- data.frame( res.pca$ind$coord )
+names(pcscores) <- paste0("pca",1:ncol(pcscores))
+
+# biplot(pca1,scale = 0, choice = c(3,4))
+# ccf(pcscores$pca1, pcscores$pca2 )
+ccf(pcscores$pca1, pcscores$pca2 )
+par( mar=c(1,1,1,1)+0.1, mfrow=c(4,1) )
+plot(x = filtd$date, y = pcscores$pca1, type = 'l', col = 'slateblue' ); abline(h = 0)
+plot(x = filtd$date, y = pcscores$pca2, type = 'l', col = 'firebrick' ); abline(h = 0)
+plot(x = filtd$date, y = pcscores$pca3, type = 'l', col = 'darkorange' ); abline(h = 0)
+plot(x = filtd$date, y = pcscores$pca4, type = 'l', col = 'pink' ); abline(h = 0)
+dna <- bind_cols( filtd, pcscores )
+
+# calculate winter and summer temperature anomalies
+library(zoo)
+yq <- as.yearqtr( as.yearmon( paste(dna$month,dna$year,sep="/"), "%m/%Y") + 1/12)
+dna$season <- factor(format(yq, "%q"), levels = 1:4,
+                     labels = c("winter", "spring", "summer", "fall"))
+# add year groupings - for instance, seaweeds in summer 2016 would be influenced by conditions over the previous year, 
+#                      so, count previous summer, fall, and current winter and spring towards a give year
+dna$survey.year <- dna$year 
+dna$survey.year[ dna$month %in% 6:12 ] <- dna$survey.year[ dna$month %in% 6:12 ] + 1
+dna %>% select(date, season, survey.year, temp_pine ) %>% filter( survey.year > 2010)
+anoms.season <- dna %>%
+  group_by( survey.year, season ) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE)
+ggplot(anoms.season, aes(x=survey.year,y=pca2,col=season)) + geom_line()
+ggplot(anoms.season, aes(x=survey.year,y=pca1,col=season)) + facet_wrap(~season) + geom_path() + geom_point()
+ggplot(filter(anoms.season, survey.year>=2010), aes(x=survey.year,y=pca1,col=season)) + geom_path() + geom_point()
+
+# include previous year as summer to summer rather than winter to winter
+# anoms.season$yeargroup <-  anoms.season$year + 1
+# anoms.season$yeargroup <-  ifelse(anoms.season$season %in% c("winter","spring"), anoms.season$yeargroup - 1, anoms.season$yeargroup)
+# compare with means across years
+anoms.annual <- anoms.season %>%  # or dna if just using annual means
+  group_by( survey.year ) %>% 
+  summarise_if(is.numeric, mean, na.rm = TRUE)
+ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca1)) + geom_path() + geom_point()
+ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca2)) + geom_path() + geom_point()
+ggplot(filter(anoms.annual, year>=2010), aes(x=survey.year,y=pca3)) + geom_path() + geom_point()
+ggplot(filter(anoms.annual), aes(x=survey.year,y=sal_mccinnis)) + geom_hline(yintercept = 0) +  geom_path(col = 'slateblue') + geom_point(col = 'slateblue') + ylim(c(-1.75,1.75))
+ggplot(filter(anoms.annual), aes(x=survey.year,y=sal_pine)) + geom_hline(yintercept = 0) +  geom_path(col = 'slateblue') + geom_point(col = 'slateblue') + ylim(c(-1.75,1.75))
+ggplot(filter(anoms.annual, year>=2010), aes(x=year,y=temp_pine)) + geom_path() + geom_point()
+
+# # figure out how to make an anomaly plot with vertical lines from zero
+# # pairwise correlations among seasonal anomalies
+# as.all <- anoms.season %>% 
+#   spread( key = season, value=temp.anom )
+# winter = ts(as.all$winter)
+# spring = ts(as.all$spring)
+# summer = ts(as.all$summer)
+# fall   = ts(as.all$fall)
+# ccf(winter, summer)
+# ccf(spring, summer)
+# ccf(summer, fall)
+# ccf(winter, fall)
+# cor(winter, summer) # 0.77
+# cor(spring, summer) # 0.88
+# cor(winter, fall)   # 0.69
+# cor(fall, summer)   # 0.73
+
+# extract data for 2011 to 2019
+as.survey <- anoms.annual %>% 
+  filter( survey.year>=2010 ) 
+# as.survey <- anoms.season %>% 
+# filter( year>=2010 ) # %>% spread(season, Comp.2)
+
+
+
+
+
+
+
+
+## plot all data together  ####
+# plot anomalies
+dm %>% 
+  filter(year > 2009 & year < 2020) %>% 
+  select(year,month,site,temp = temp.anom,sal = sal.anom) %>% 
+  unite( "yearmonth", year, month, sep = "-", remove = F ) %>%
+  mutate( yearmonth = lubridate::ym(yearmonth) ) %>% 
+  pivot_longer( c(temp, sal), names_to = 'measure', values_to = 'anom') %>% 
+  mutate( sign = ifelse(anom>0,"red","blue")) %>%
+  filter( !is.na(anom) ) %>% 
+  ggplot( aes( x = yearmonth, xend = yearmonth, y = 0, yend = anom, col=sign ) ) + 
+  facet_grid(measure~site, scales = "free_y") +
+    geom_hline( yintercept = 0 ) +
+    geom_segment(  ) +
+    # geom_point( ) +
+    scale_color_manual( values = c("blue","red")) +
+    scale_x_date( breaks = ymd(c("2012-01-01","2014-01-01","2016-01-01","2018-01-01")), 
+                  labels = c("2012","2014","2016","2018"),
+                  guide = guide_axis(n.dodge = 2)) +
+  ylab("monthly anomaly") +
+  theme( legend.position = "none" )
+  
+# plot raw data
+dm %>% 
+  filter(year > 2009 & year < 2020) %>% 
+  select(year,month,site,temperature = temp,salinity = sal) %>% 
+  unite( "yearmonth", year, month, sep = "-", remove = F ) %>%
+  mutate( yearmonth = lubridate::ym(yearmonth) ) %>% 
+  pivot_longer( c(temperature, salinity), names_to = 'measure', values_to = 'value') %>% 
+  ggplot( aes( x = yearmonth, xend = yearmonth, y = value ) ) + 
+  facet_grid(measure~site, scales = "free_y") +
+  geom_path( ) +
+  geom_point( ) +
+  scale_x_date( breaks = ymd(c("2012-01-01","2014-01-01","2016-01-01","2018-01-01")), 
+                labels = c("2012","2014","2016","2018"),
+                guide = guide_axis(n.dodge = 2))
+
+
+
+
+  # 
+# 
+# ## spectral decomposition after seasons and trend removed
+# dmts <- ts( dm$temp.na, frequency=12, start=c(1937,1) )
+# stl_temp = stl(dmts, "periodic" )
+# plot( stl_temp, col="dodgerblue" )
+# # remove the seasons and trend
+# dts.rem <- stl_temp$time.series[,3]
+# # create the spectrum
+# x.spec <- spectrum( dts.rem, log="no", plot=T )
+# spx <- x.spec$freq
+# spy <- 2*x.spec$spec
+# plot(spy~spx,xlab="frequency",ylab="spectral density",type="l",xlim=c(0,6))
+# 
+# # add in colors for sign of anomalies
+# dm <- dm %>%
+#   mutate( temp.col=ifelse(temp.anom>0,"red","blue") )
+# 
+# # make a ts object
+# dmts <- ts( dm$temp.anom, frequency=12, start=c(1937,1) )
+# dmts.col <- ts( dm$temp.col, frequency=12, start=c(1937,1) )
+# windows(8,3)
+# par(mar=c(5,4,2,2)+0.1)
+# plot(dmts,type="n")
+# points(dmts,col=dmts.col,pch=20)
+# segments(x0=time(dmts),y0=0,x1=time(dmts),y1=dmts,col=dmts.col)
+# lines(ma(dmts, 12),lwd=2,lty=1, col='lightblue')
+# 
+# 
+# 
+# # time period of Patrick and Sandra's dataset
+# calvert <- time(dmts)>=2010 
+# par(mar=c(5,4,1,2)+0.1)
+# plot( subset(dmts, subset=calvert), type='n', axes=F,
+#       ylab=expression('Sea Surface Temperature ('*~degree*C*')'), xlab="Date",
+#       col='dodgerblue' )
+# abline( h=0,lty=2 )
+# axis( 2, las=1 )
+# xtick <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
+#                   seq.Date(as.Date("2010-01-01"),as.Date("2019-01-01"), by="year" ) )
+# axis( 1,at=xtick,labels=2010:2019, srt=45,las=3 )
+# # get uniuue dates from surveys
+# meta <- read_csv( "../../../Martone_Hakai_metadata.csv")
+# mean.date <- meta %>%
+#   mutate( year=year(Date) ) %>%
+#   group_by( year ) %>%
+#   summarise( date=mean(Date) )
+# surveys <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
+#                     ymd(mean.date$date) )
+# abline( v=surveys, lty=2 )
+# # moving average
+# x.ma <- ma(dts.na,order=410, centre=T)
+# ma.calvert <- subset( x.ma, subset=calvert )
+# lines( ma.calvert, col='red' )
+# 
+
+
+
+
+
+
+# create a time series object
+dts <- lapply( split(d,d$site), function(z)
+  ts(z$temp, frequency = 365, start = c(year(min(z$date)),1) ) )
+dts2 <- lapply( split(d,d$site), function(z)
+  ts(z$sal, frequency = 365, start = c(year(min(z$date)),1) ) )
+# add max air temp, precip, rain?
+dts[[4]] <- ts(adden$temp_max, frequency = 365, start = c(year(min(adden$date)),1) )
+dts[[5]] <- ts(adden$precip, frequency = 365, start = c(year(min(adden$date)),1) )
+dts[[6]] <- dts2[[2]]
+dts[[7]] <- dts2[[3]]
+par( mfrow = c(5,1), mar = c(3,4,0,2)+0.1 )
+plot( dts[[1]], type='l', col="dodgerblue" )
+plot( dts[[2]], type='l', col="royalblue" )
+plot( dts[[3]], type='l', col="midnightblue" )
+plot( dts[[4]], type='l', col="black" )
+plot( dts[[5]], type='l', col="orange" )
+
+
+# impute data
+dts.na <- lapply( dts, function(z) na_ma( z, k=4 ) )
+
+# moving average -- does not work well with missing values
+line_cols <- c("dodgerblue","royalblue","midnightblue","black","orange","pink","magenta")
+trend_temp = lapply( dts.na, function(z) ma( z, order = 1000, centre = T) )
+
+par( mfrow = c(length(dts),1), mar = c(3,4,0,2)+0.1 )
+for(i in 1:length(dts)){
+  plot(dts[[i]], col = line_cols[i])
+  lines(trend_temp[[i]], col="red", lw=2.5)
+}
+# decompose seasons
+decompose_temp = lapply( dts.na, function(z) decompose(z, "additive") )
+plot( decompose_temp[[1]] )
+plot( decompose_temp[[7]] )
+
+# # stl - LOESS version
+# stl_temp = stl(dts.na, "periodic" )
+# plot( stl_temp, col="dodgerblue" )
+
+# examine the stereotypical seasonal pattern
+season <- time(dts.na)>1940 & time(dts.na)<1945
+plot( decompose_temp$seasonal )
+plot( subset(decompose_temp$seasonal, subset=season), type='l' )
+calendar <- time(dts.na)>=1940 & time(dts.na)<1941
+
+windows(6,4)
+par(mar=c(6,4,1,2)+0.1)
+plot( subset(decompose_temp$seasonal, subset=calendar), type='l', axes=F,
+      ylab=expression('SST Deviation ('*~degree*C*')'), xlab="",
+      col='dodgerblue' )
+abline( h=0,lty=2 )
+axis( 2, las=1 )
+xtick <- which( seq.Date(as.Date("1940-01-01"),as.Date("1941-12-31"), by="day" ) %in% 
+  seq.Date(as.Date("1940-01-01"),as.Date("1940-12-31"), by="month" ) )
+axis( 1,at=xtick,labels=month.name, srt=45,las=3 )
+mtext("Date",1,4)
+
+# time period of Patrick and Sandra's dataset
+calvert <- time(dts.na)>=2010 
+par(mar=c(5,4,1,2)+0.1)
+plot( subset(dts, subset=calvert), type='l', axes=F,
+      ylab=expression('Sea Surface Temperature ('*~degree*C*')'), xlab="Date",
+      col='dodgerblue' )
+abline( h=0,lty=2 )
+axis( 2, las=1 )
+xtick <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
+                  seq.Date(as.Date("2010-01-01"),as.Date("2019-01-01"), by="year" ) )
+axis( 1,at=xtick,labels=2010:2019, srt=45,las=3 )
+# get unique dates from surveys
+meta <- read_csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.csv")
+mean.date <- meta %>%
+  mutate( year=year(Date) ) %>%
+  group_by( year ) %>%
+  summarise( date=mean(Date) )
+surveys <- which( seq.Date(as.Date("2010-01-01"),as.Date("2019-05-31"), by="day" ) %in%
+                    ymd(mean.date$date) )
+abline( v=surveys, lty=2 )
+# moving average
+x.ma <- ma(dts.na,order=410, centre=T)
+ma.calvert <- subset( x.ma, subset=calvert )
+lines( ma.calvert, col='red' )
+# mean of entire time series
+abline( h=mean(dts,na.rm=T),col='blue' )
+abline( h=mean(subset(dts, subset=calvert),na.rm=T),col='goldenrod')
+box()
+
+# remove the seasons and trend
+dts.rem <- stl_temp$time.series[,3]
+
+
+# simple Fourier transform
+x.k <- fft(dts.rem)
+
+
+# create the spectrum
+x.spec <- spectrum( dts.rem, log="no", plot=T )
+spx <- x.spec$freq
+spy <- 2*x.spec$spec
+plot(spy~spx,xlab="frequency",ylab="spectral density",type="l",xlim=c(0,100))
+# there should be an ~14 day signal here 
+# frequency here defined per year 
+spectrum(dts.na,log="no",xlim=c(0,10))
+# so, 14 days should be at frequency 26 (365/14)
+plot(spy~spx,xlab="frequency",ylab="spectral density",type="l",xlim=c(20,30))
+plot(spy~spx,xlab="frequency",ylab="spectral density",type="l",xlim=c(25.7,25.75))  # 25.72 == 14.19129 days
+plot(spy~spx,xlab="frequency",ylab="spectral density",type="l",xlim=c(23.7,23.75))  # 23.72 == 15.38786 days
+# yes. we see signal every 14 to 16 days, but this is relatively small (peaks of 0.1 compared to 0.35 for yearly signal)
+plot(spy~spx,xlab="frequency",ylab="spectral density",type="l",xlim=c(13,15))       # 13.25 == 27.5 days, 14.25 == 25.6 days
+# these additional peaks in the spectrum may have to do with spring tides
+# offsets due to leap years?
+plot(spy~spx,xlab="frequency",ylab="spectral density",type="l",xlim=c(0,26))
+plot(spy~spx,xlab="frequency",ylab="spectral density",type="l",xlim=c(0,5))
+
+

@@ -229,7 +229,6 @@ rL_quad <- HmscRandomLevel( unit = unique(studyDesign$quadrat) )
 
 
 ## formula for fixed effects
-XFormula = ~ poly(shore.height, degree = 2, raw = F)*poly(year, degree=5, raw=F)
 XFormula = ~ year1 + year2 + elev1 + elev2 +
   elev1:year1 + elev1:year2 #+ elev2:year1  
   

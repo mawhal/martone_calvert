@@ -162,7 +162,7 @@ sort( colSums(comm), decreasing = T )
 # year2[year2!=2016] <- ""
 # 
 
-## temperature anomaly data from Pine Island
+## temperature anomaly data from BC lightstations
 anoms <-  read_csv("Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv")
 plot(anoms$sal[anoms$site == "mccinnis" & anoms$year >= 2000], type='l')
 filter(anoms, site == "mccinnis") %>%  summarize(mean.sal = mean(sal,na.rm=T))

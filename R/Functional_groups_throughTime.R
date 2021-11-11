@@ -161,12 +161,37 @@ comm5 <- comm4 %>%
   summarize( value = mean(quad.prod.total) )
 comm5$Site <- factor( comm5$Site, levels = c("Foggy Cove","Fifth Beach","North Beach"))
 comm5$Zone <- factor( comm5$Zone, levels = c("LOW","MID","HIGH"))
+
+library(broom)
+reglines <- comm5 %>% 
+  nest(data = -Transect) %>% 
+  mutate(
+    test = map(data, ~ lm((value)~Year, data=.x)), # S3 list-col
+    tidied = map(test, tidy)
+  ) %>% 
+  unnest(tidied)
+
+
+regressions <- comm5 %>%
+  nest(data = -Transect) %>% 
+  mutate(
+    fit = map(data, ~ lm((value)~Year, data = .x)),
+    tidied = map(fit, tidy),
+    glanced = map(fit, glance),
+    augmented = map(fit, augment)
+  )
+pred2019 <- unlist(lapply( regressions$augmented, function(z) z$.fitted[ z$Year==2019] ))
+pred2019 <- data.frame( pred2019, Year = 2019, Transect = regressions$Transect )
+pred2019$code <- c( rep("5B",3), rep("FC",3), rep("NB",3))
+pred2019 <- pred2019 %>% 
+  separate( Transect, c("Beach1", "Beach2", "Zone"), sep = " ", remove = FALSE) %>% 
+  unite( "Site", Beach1, Beach2, sep = " ")
 prod_empir_trend_transect <- ggplot( comm5, aes(x = Year, y = (value), group = Transect,
-                                                col = Zone)) +
-  # geom_path() +
-  # geom_smooth( aes(group=1), method = 'lm', se = F, lwd = 1.5, col = 'slateblue', alpha=0.5 ) +
-  geom_smooth( method = 'lm', se = F,   alpha=0.5, lwd = 1.5) +
-  # scale_y_continuous(trans = 'log', breaks = c(20,50,100,150)) +
+                                                col = Zone, lty = Zone)) +
+  geom_smooth( method = 'lm', se = F,   alpha=0.5, lwd = 1) +
+  geom_text( data=pred2019, aes( x = Year, y = pred2019, label = code),
+             hjust = "outward", vjust = c(0.5,0.5,0, 1,0.5,0, 1,0.5,0.5),
+             size = 2.5,show.legend = FALSE) +
   theme_classic() +
   theme( panel.border = element_rect(colour = "black", fill=NA, size=0.5),
          legend.position = "top",
@@ -175,8 +200,9 @@ prod_empir_trend_transect <- ggplot( comm5, aes(x = Year, y = (value), group = T
          legend.key.size = unit(0.5, "cm"),
          legend.key = element_rect(colour = NA, fill = NA),
          legend.box.margin=margin(-10,-10,-10,-10)) +
-  coord_cartesian( ylim = c(0,180) ) +
-  scale_color_manual(values = c("black","grey","grey90")) +
+  coord_cartesian( ylim = c(0,180), xlim = c(2012,2019.5) ) +
+  scale_color_manual(values = c("black","grey","grey")) +
+  scale_linetype_manual(values = c(1,1,3)) +
   guides( lty = guide_legend(ncol=2), lwd = guide_legend(ncol=3,byrow = FALSE) ) +
   ylab("Mean seaweed cover (%)") + xlab("Year")
 prod_empir_trend_transect

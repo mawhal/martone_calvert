@@ -202,10 +202,10 @@ VP.dfs <- NULL
 for( i in 1:length(models) ){
   VP.df <- as.data.frame(VP[[i]]$vals) %>%
     mutate(effect = factor(c("year1","year2","elev1","elev2",
-                             "elev:year","elev2:year",
+                             "elev1:year1","elev2:year1",
                              "site","transect","quadrat"),
                            levels = rev(c("year1","year2","elev1","elev2",
-                                          "elev:year","elev2:year",
+                                          "elev1:year1","elev2:year1",
                                           "site","transect","quadrat")),
                            ordered = TRUE)) %>%
     # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
@@ -512,10 +512,16 @@ pal <- colorRampPalette(rev(cols))
 predictions_pa <- left_join(predictions_pa, as.survey)
 predictions_cop <- left_join(predictions_cop, as.survey)
 predictions_abun <- left_join(predictions_abun, as.survey)
-# colors
+
+### colors
 cols.two <- c( rgb( 211,230,240, maxColorValue=255), rgb( 232,139,110, maxColorValue=255))
-
-
+cols.two <- c( "#BDCFD8",  "#D07D63" )
+# use info from the pca1 in script "Community_rda.R"
+# 2012 pca1 is -1.21
+# 2019 pca1 is 1.52
+data.frame( pca1 = seq(-2.84,2.84, length=100), hex = pal2(100) )
+cols.two <- c( "#A2CDE2",  "#EF9B7A" )
+cols.two <- c( "#A2CDE2",  "#BF7C61" ) # make the redder one darker
 
 # add empirical means
 models[[1]]$studyDesign %>% 
@@ -554,20 +560,24 @@ predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = 
 
 
 hist( comm$Fucus.distichus )
-taxon <- "Hedophyllum.sessile"
+# taxon <- "Hedophyllum.sessile"
 taxon <- "Alaria.marginata"
-taxon <- "Fucus.distichus"
-taxon <- "Mytilus.sp."
+# taxon <- "Fucus.distichus"
+# taxon <- "Mytilus.sp."
+
+lwds = 0.75
+sizes = 1
 
 a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
             aes_string(x = 'elev', y = taxon, col='yearplot'))+
   geom_point( data = filter(ogd.pa.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-              aes_string(x = 'elev', y = taxon, col='year') ) +
-  geom_line(lwd=1.5) +
+              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
   scale_color_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,1) ) +
   ylab("") +
   xlab("") +
-  theme_classic() + 
+  theme_classic() +
   theme(legend.position = "none") +
   # theme(legend.position = c(1,0.25), legend.justification = c(1,0), legend.title=element_blank() ) +
   # guides(col=guide_legend("year"))+
@@ -576,10 +586,11 @@ a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[
 b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
             aes_string(x = 'elev', y = taxon, col='yearplot'))+
   geom_point( data = filter(ogd.cop.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
-              aes_string(x = 'elev', y = taxon, col='year') ) +
-  geom_line(lwd=1.5) +
+              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
   # scale_y_log10() +
   scale_color_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,100) ) +
   ylab("") +
   xlab("") +
   theme_classic() +
@@ -589,10 +600,11 @@ b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models
 c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
             aes_string(x = 'elev', y = taxon, col='yearplot'))+
   geom_point( data = filter(ogd.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
-              aes_string(x = 'elev', y = taxon, col='year') ) +
-  geom_line(lwd=1.5) +
+              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
   # scale_y_log10() +
   scale_color_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,100) ) +
   ylab("") +
   xlab("") +
   theme_classic() + 
@@ -868,7 +880,7 @@ all_trends %>%
   scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
   ylab('Change per year')+
   xlab('')
-ggsave("R/Figs/hmsc_species_trends_summary.svg",width = 6, height = 7)
+ggsave("R/Figs/hmsc_species_trends_summary.svg",width = 6.5, height = 7)
 
 
 
@@ -1359,12 +1371,13 @@ ggsave("R/Figs/hmsc_response_curves_hurdle_total.svg", width = 7, height = 5)
 # just show Fucus
 fuc <- "Fucus.distichus"
 fuc <- "Mytilus.sp."
+fuc <- "Hedophyllum.sessile"
 # windows(5,4)
 ggplot( filter(predictions_copp,taxon %in% fuc ), 
         aes(x = elev, y = N ))+
   facet_wrap(~year)+
   geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, fill="gray75")+
-  geom_line(size = 0.5)+
+  geom_line(aes(group=year),size = 0.5)+
   theme_classic() +
   ggtitle(fuc) +
   geom_point( data = filter( comm_final, taxon %in% fuc), pch=21 ) +

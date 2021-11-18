@@ -101,7 +101,7 @@ sort(unique(d$taxon_lumped3))
 # restrict this to seaweeds and sessile invertebrates
 d.simple <- d %>%
   mutate( taxon = gsub(" ",".",taxon_lumped3) ) %>% 
-  group_by( UID, Year, Site, Zone, Quadrat, taxon, funct_2021 ) %>%
+  group_by( UID, Year, Site, Zone, Quadrat, Meter.point, taxon, funct_2021 ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T)) 
 
 # write to disk so we are using the same dataset here and in HMSC
@@ -196,10 +196,10 @@ biplot(pca1,scale = 0, choice = c(2,3))
 library(missMDA)
 # ignore the earlier years of the dataset
 filtd <- filter( alld,year > 1977 & year < 2020 )
-nb <- estim_ncpPCA( select(filtd,temp_pine:sal_mccinnis ), method.cv = "Kfold", verbose = FALSE) # estimate the number of components from incomplete data
+nb <- estim_ncpPCA( select(filtd,temp_pine:sal_mcinnes ), method.cv = "Kfold", verbose = FALSE) # estimate the number of components from incomplete data
 #(available methods include GCV to approximate CV)
 nb$ncp
-res.comp <- imputePCA( select(filtd,temp_pine:sal_mccinnis ), ncp = nb$ncp) # iterativePCA algorithm
+res.comp <- imputePCA( select(filtd,temp_pine:sal_mcinnes ), ncp = nb$ncp) # iterativePCA algorithm
 res.comp$completeObs[1:3,] # the imputed data set
 imp <- res.comp$completeObs
 library(FactoMineR)

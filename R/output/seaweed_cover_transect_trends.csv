@@ -1,0 +1,10 @@
+Site,Zone,Yearly trend,Standard Error,df,lower CL,upper CL
+Foggy Cove,MID,-46.05,6.53,54,-59.14,-32.96
+North Beach,MID,-25.26,6.53,54,-38.35,-12.17
+Fifth Beach,HIGH,-24.96,6.53,54,-38.05,-11.87
+North Beach,HIGH,-23.37,6.53,54,-36.46,-10.28
+Fifth Beach,MID,-16.02,6.53,54,-29.11,-2.93
+Fifth Beach,LOW,-14.76,6.53,54,-27.84,-1.67
+Foggy Cove,HIGH,-13.29,6.53,54,-26.38,-0.20
+Foggy Cove,LOW,-1.05,6.53,54,-14.14,12.04
+North Beach,LOW,1.12,6.53,54,-11.97,14.21

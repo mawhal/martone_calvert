@@ -227,14 +227,13 @@ plot(x=total_change$total_change,y=rep(1,9), axes=F, xlab="", ylab="", pch=1, ce
 axis(1,line = -5 )
 mtext( "change in seaweed % cover", side=1, line=-3)
 
-library(lme4)
-library(lmerTest)
-lmm1 <- lmer( log(value) ~ Year*Zone + (1|Transect), data = comm5 )
-summary(lmm1)
-anova(lmm1)
-lm1 <- lm( log(value) ~ Year*Transect, data = comm5 )
+# center year
+comm5$year <- scale(comm5$Year)
+lm1 <- lm( (value) ~ year*Site*Zone, data = comm5 )
 summary(lm1)
 anova(lm1)
+trend.tab <- emmeans::lstrends( lm1, ~ Site + Zone, var = "year" )
+write_csv( print(trend.tab), "R/output/seaweed_cover_transect_trends.csv")
 
 # what is the temporal coeffient of variation for each functional group? Which group varied the most?
 dcv <- d %>% 

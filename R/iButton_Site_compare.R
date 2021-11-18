@@ -31,13 +31,14 @@ WB.high3$`Date/Time`<-as.POSIXct(WB.high3$`Date/Time`,format="%m/%d/%Y %H:%M:%OS
 
 ##FB.low1 and NB.low2 have fewer datapoints than they should. Consider this when combining
 
-FB.LOW<-FB.low1
-FB.LOW$Value2<-FB.low2$Value
-
-lines(FB.high$Value~FB.high$`Date/Time`,cex=0.4, col="blue")
-lines(NB.high1$Value~FB.high$`Date/Time`,cex=0.4, col="red")
-points(WB.high3$Value~FB.high$`Date/Time`,cex=0.4, col="lightgreen")
+# FB.LOW<-FB.low1
+# FB.LOW$Value2 <- FB.low2$Value
+# 
+# lines(FB.high$Value~FB.high$`Date/Time`,cex=0.4, col="blue")
+# lines(NB.high1$Value~FB.high$`Date/Time`,cex=0.4, col="red")
+# points(WB.high3$Value~FB.high$`Date/Time`,cex=0.4, col="lightgreen")
 plot(FB.high$Value~WB.high3$Value)
+plot(NB.high1$Value~WB.high3$Value)
 abline(0,1)
 
 ##For high zone use FB.high, NB.high1, WB.high1 (all 6 am start)
@@ -88,13 +89,14 @@ iBut_gg$temp4<-factor(iBut_gg$temp2,levels=c(30,25,20,5,0))
 
 ggplot(iBut_gg, aes(x = site2, y = count)) +
   geom_col(aes(fill=temp3, group=temp5), position="stack",col='black',lwd=0.25)+
-  ylim(c(-200,200))+
   scale_fill_manual(values = c("darkred", "red","pink", "skyblue", "blue"), name="Temperature") +
   scale_x_discrete(labels=c("Fifth Beach", "North Beach", "Foggy Cove", "Fifth Beach", "North Beach", "Foggy Cove")) +
-  ylab("Number of observations") +
+  scale_y_continuous(breaks = c(-200,-100,0,100,200),
+                   labels = c("200","100","0","100","200"),
+                   limits = c(-200,200) ) +
+  ylab("Number of observations\nabove or below threshold") +
   xlab("|-------LOW-------|   |-------HIGH-------|") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust=1))
 
 ggsave( "R/Figs/iButton_compare.svg", width=4.5, height=4 )
-   

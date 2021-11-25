@@ -24,7 +24,8 @@ am <- am[ am$Year != "2011", ]
 am <- am[ am$Site != "Meay Channel", ]
 
 # read in data from Community_rda.R
-d.simple <- read_csv("R/output/data_select_rda_HMSC.csv")
+d.simple <- read_csv("R/output/data_select_rda_HMSC.csv") %>% 
+  unite( col = transect, Site, Zone, remove = F)
 
 # calculate average abundance by transect
 d.trans <- d.simple %>%
@@ -50,8 +51,8 @@ d.comm.fun.algae <- d.simple %>%
 # merge meta data so we can chop things up and summarize across sites, zones, etc.
 # first, remove rows from data that are not in the restricted metadata
 muse  <- am
-splits <- strsplit( as.character(muse$UID), " " )
-muse$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
+# splits <- strsplit( as.character(muse$UID), " " )
+# muse$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
 muse <- arrange(muse,UID)
 
 
@@ -67,18 +68,18 @@ mclean$Zone <- factor( mclean$Zone, levels = c("LOW","MID","HIGH"), ordered = F 
 mclean$Site <- factor( mclean$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 # define Year factor
 # mclean$Year <- factor( mclean$Year, ordered= TRUE )
-mclean$transect <- with( mclean, paste(Site,Zone,Year,sep = " ") )
-mtrans <- mclean %>%
-  group_by( transect, Site, Zone, Year ) %>%
-  summarize( Shore_height_cm=mean(Shore_height_cm,na.rm=T) )
+# mclean$transect <- with( mclean, paste(Site,Zone,Year,sep = " ") )
+# mtrans <- mclean %>%
+#   group_by( transect, Site, Zone, Year ) %>%
+#   summarize( Shore_height_cm=mean(Shore_height_cm,na.rm=T) )
 
 ##Sort metadata and community matrix to be the same order
 # d.comm.order <- d.comm[ order(match(d.comm$transect, mtrans$transect)),]
 # cbind( d.comm.order$transect, mtrans$transect )
 
 # remove UID column from community data
-comm.all <- as.matrix(d.comm.all[,-c(1:6)])
-comm.algae <- as.matrix(d.comm.algae[,-c(1:6)])
+comm.all <- as.matrix(d.comm.all[,-c(1:7)])
+comm.algae <- as.matrix(d.comm.algae[,-c(1:7)])
 fun.algae <- as.matrix(d.comm.fun.algae[,-c(1:5)])
 
 # add a line to d.comm to get missing samples
@@ -124,7 +125,7 @@ divcalcs <- function( z ){
 divs <- lapply( comm, divcalcs )
 divsdf <- bind_rows(divs, .id = "source")
 divsdf$source <- factor( divsdf$source, levels=c("1","2","3"), labels=c("all","algae","functional") )
-ddf <- bind_rows( list(d.comm.all[,1:5],d.comm.algae[,1:5],d.comm.fun.algae[,1:5]) )
+ddf <- bind_rows( list(d.comm.all[,c("UID","Year","Site","Zone")],d.comm.algae[,c("UID","Year","Site","Zone")],d.comm.fun.algae[,c("UID","Year","Site","Zone")]) )
 # ddf$source <- factor( ddf$source, levels=c("1","2"), labels=c("all","algae") )
 dd <- bind_cols( ddf, divsdf )
 
@@ -148,9 +149,9 @@ mclean <- mclean %>% replace_na(list(total.cover = 0, shannon = 0, simpson = 0, 
 
 # make mclean longer and include both richness and ENSPIE in the same figure
 mlong <- mclean %>%
-  select( transect, Site, Zone, Year, source, Shore_height_cm, enspie, richness, evar ) %>%
-  group_by( transect, Site, Zone, Year, source, Shore_height_cm ) %>%
-  gather( Measure, species, -transect, -Site, -Zone, -Year, -Shore_height_cm, -source )
+  select( Site, Zone, Year, source, Shore_height_cm, enspie, richness, evar ) %>%
+  group_by( Site, Zone, Year, source, Shore_height_cm ) %>%
+  gather( Measure, species, -Site, -Zone, -Year, -Shore_height_cm, -source )
 
 mlong$Measure[mlong$Measure=="enspie"] <- "Effective"
 mlong$Measure[mlong$Measure=="richness"] <- "Total"
@@ -269,7 +270,7 @@ with( divvar2, cor.test(meanr, stability) )
 divvar2 %>% group_by( Site, Zone) %>% summarize(diff=diff(stability))
 summary(lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae")))
 
-summary(mstab)$adj.r.squared
+
 divvar2_algae <- filter(divvar2,source=="algae")
 # divvar2_algae$Zone3
 # mzone3 <- lm( log(stability,base=2) ~ Zone3, data = divvar2_algae )
@@ -278,13 +279,14 @@ divvar2$div <- divvar2$gmeanr
 divvar2$Zone <- factor( divvar2$Zone, levels = c("LOW","MID","HIGH"))
 mstab <- lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "algae"))
 summary(mstab)
+summary(mstab)$adj.r.squared
 stab <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
   # facet_wrap(~source) +
   # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
   geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
   geom_point(aes(fill=Zone,shape=Site),size=3) +
   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
-  xlab("Mean species richness") +
+  xlab("Species richness") +
   annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mstab)$adj.r.squared,2))), 
            x = max(divvar2$div), y = 1.1, hjust = 1, vjust = 0, size = 5) +
   # annotate("text", label = "top", 
@@ -305,8 +307,7 @@ stab <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability))
                            legend.justification = c(0,1),
                            legend.background = element_blank())
 
-stab
-ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
+# ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
 stab2 <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)) + #x=gmeanr
   # facet_wrap(~source) +
   geom_smooth(method='glm',method.args=list(family="poisson"),
@@ -320,23 +321,22 @@ stab2 <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability
   scale_linetype_discrete(  guide=FALSE ) +
   guides(fill = guide_legend(override.aes = list(shape = 21))) +
   theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
-stab2
 
 # stability and fucntional groups
-ggplot( data=filter(divvar2,source == "functional"), aes(x=div, y=stability)) + #x=gmeanr
-  geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
-  geom_point(aes(fill=Zone,shape=Site),size=3) +
-  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
-  xlab("Mean functional group richness") +
-  scale_shape_manual( values=c(21,22,24) ) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
-  scale_linetype_discrete(  guide=FALSE ) +
-  scale_y_continuous(trans="log2") +
-  coord_cartesian(ylim = c(1,16)) +
-  theme_classic() + theme( legend.position = c(0.01,.99), 
-                           legend.justification = c(0,1),
-                           legend.background = element_blank())
-summary(lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "functional")))
+# ggplot( data=filter(divvar2,source == "functional"), aes(x=div, y=stability)) + #x=gmeanr
+#   geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
+#   geom_point(aes(fill=Zone,shape=Site),size=3) +
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
+#   xlab("Mean functional group richness") +
+#   scale_shape_manual( values=c(21,22,24) ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
+#   scale_linetype_discrete(  guide=FALSE ) +
+#   scale_y_continuous(trans="log2") +
+#   coord_cartesian(ylim = c(1,16)) +
+#   theme_classic() + theme( legend.position = c(0.01,.99), 
+#                            legend.justification = c(0,1),
+#                            legend.background = element_blank())
+# summary(lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "functional")))
 
  
 # model stability by zone
@@ -361,7 +361,7 @@ summary(lm( stability ~ meanr, data=filter(divvar2,source=="algae")))
 
 # 
 # a <- ggplot( divvar2, aes(x=gmeanr,y=1/cva) ) + geom_point() + facet_wrap(~source) +
-#   ylab( "stability") + xlab("Mean species richness") + geom_smooth(method='lm') 
+#   ylab( "stability") + xlab("Species richness") + geom_smooth(method='lm') 
 # b <- ggplot( divvar2, aes(x=gmeand,y=1/cva) ) + geom_point() + facet_wrap(~source) +
 #   ylab( "stability") + xlab("Mean Shannon diversity") + geom_smooth(method='lm')
 # c <- ggplot( divvar2, aes(x=gmeans,y=1/cva) ) + geom_point() + facet_wrap(~source) +
@@ -381,14 +381,14 @@ t.test( stability~source, divvar2 )
 # repeat calculations for each taxon
 # we need to know if species abundance was zero, not just non-zero abundance
 d.long.all <- d.comm.all %>% 
-  gather( "taxon","Abundance",-UID,-transect)
+  gather( "taxon","Abundance",-UID,-Year,-transect,-Site,-Zone, -Quadrat, -Meter.point)
 yearly.taxon.all <- d.long.all %>% 
-  group_by(transect, taxon) %>% 
+  group_by(Year, Site, Zone, transect, taxon) %>% 
   summarize(meana = mean(Abundance) )
 d.long.algae <- d.comm.algae %>% 
-  gather( "taxon","Abundance",-UID,-transect)
+  gather( "taxon","Abundance",-UID,-Year,-transect,-Site,-Zone, -Quadrat, -Meter.point)
 yearly.taxon.algae <- d.long.algae %>% 
-  group_by(transect, taxon) %>% 
+  group_by(Year, Site, Zone, transect, taxon) %>% 
   summarize(meana = mean(Abundance) )
 yearly.taxon <- bind_rows( yearly.taxon.all, yearly.taxon.algae, .id="source")
 yearly.taxon$source <- factor( yearly.taxon$source, levels=c("1","2"), labels=c("all","algae") )
@@ -403,8 +403,6 @@ numer <- divvar2 %>%
 
 # denominator of the calculation for synchrony is the sum of the individual taxon variances
 denom <- yearly.taxon  %>% 
-  separate(transect, into=c("Site","blah","Zone","Year")) %>% 
-  unite( col="Site" , Site, blah, sep = " " ) %>% 
   mutate( Zone=factor(Zone,levels=c("LOW","MID","HIGH"))) %>% 
   group_by( Site, Zone, source, taxon ) %>% 
   summarize( eai = sd(meana, na.rm=T)^2 ) %>%  # variance instead of SD
@@ -420,13 +418,13 @@ synch <- synch %>%
 summary( synch$logV )
 summary( synch$eai )
 synch$invert <- factor(synch$source, levels="algae","all")
-tax.invert <- d.simple %>% ungroup() %>% select(taxon=Taxon,non.alga.flag) %>% distinct()
+tax.invert <- d.simple %>% ungroup() %>% select(taxon,funct_2021) %>% distinct()
 synch <- left_join( synch, tax.invert )
 synch$source <- factor( synch$source, levels=c("algae","all") )
-synch$non.alga.flag <- factor( synch$non.alga.flag, levels=c("Algae","Animal"), labels=c("algae","all") )
-synch$non.alga.flag <- factor( synch$non.alga.flag, levels=c("algae","all") )
+synch$non.alga.flag <- ifelse( synch$source == "animal", "all", "algae") # factor( synch$non.alga.flag, levels=c("Algae","Animal"), labels=c("algae","all") )
+# synch$non.alga.flag <- factor( synch$non.alga.flag, levels=c("algae","all") )
 synch$eai2 <-  sqrt(synch$eai)
-synch$eai2[ synch$source=="algae" & synch$non.alga.flag=="algae" ] <- NA
+# synch$eai2[ synch$source=="algae" & synch$non.alga.flag=="algae" ] <- NA
 
 a <- ggplot( synch, aes(x=Zone,y=eai2, col=source, fill=source)) + facet_wrap(~Site) +
   geom_point( aes(y=ea), size=3, shape=21, col='black' ) +
@@ -475,10 +473,11 @@ synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x = div, y = logV, sh
   theme_classic() + theme( legend.position = "none" )
 synchrich
 
+size_transect <- 4
 msynch <- lm(log(stability,base=2) ~ logV, data = filter(dsynch,source == "algae"))
 stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),shape = Site, fill = Zone)) + 
-  geom_smooth( aes(group=1), method="lm", se=T, col='black', lwd=0.5, show.legend = FALSE) + 
-  geom_point(size=3) +
+  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+  geom_point(size=size_transect) +
   scale_shape_manual( values=c(21,22,24), guide=F ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
   # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
@@ -495,18 +494,17 @@ stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),
 stabsynch
 melev <- lm(gmeanr ~ gmeanelev, data = filter(dsynch,source == "algae"))
 elevrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanelev,y=gmeanr,shape = Site, fill = Zone)) + 
-  geom_smooth( aes(group=1), method="lm", se=T, col='black', lwd=0.5, show.legend = FALSE) + 
-  geom_point(size=3, show.legend = FALSE) +
+  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+  geom_point(size=size_transect, show.legend = FALSE) +
   scale_shape_manual( values=c(21,22,24), guide=F ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
   # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
   guides(fill = guide_legend(override.aes = list(shape = 21))) +
   xlab( expression(paste("Mean transect elevation (cm)")) ) + 
-  ylab( expression(paste("Mean species richness"))  ) +
-  annotate(geom = 'text', label = bquote( R^2 == .(round(summary(melev)$adj.r.squared,2))), 
-           x = min(dsynch$gmeanelev), y = 3, hjust = 0, vjust = 0, size = 5) +
-  # scale_y_continuous(trans="log2") +
-  # coord_cartesian( ylim = c(1,16)) +
+  ylab( expression(paste("Species richness"))  ) +
+  # annotate(geom = 'text', label = bquote( R^2 == .(round(summary(melev)$adj.r.squared,2))), 
+           # x = min(dsynch$gmeanelev), y = 3, hjust = 0, vjust = 0, size = 5) +
+  coord_cartesian( ylim = c(4,23), xlim = c(70,375)) +
   theme_classic() 
 elevrich
 
@@ -519,37 +517,118 @@ aictable <- AICctab( msynchdiv, msynchdiv1, msynchdiv2, msynchdiv3,
          nobs = nrow(filter(dsynch,source == "algae")),
          logLik=FALSE, base=TRUE, weights=TRUE)
 write_csv(as.data.frame(aictable), "R/output/stability_diversity_synchrony_aic.csv")
+modEvA::varPart( A = 0.9052, B = 0.7061, AB = 0.9804, A.name = "logV", B.name = "richness")
+
 # cowplot::plot_grid( stabsynch, synchrich, stab, 
 #                     nrow = 1, align = "hv", 
 #                     labels = "auto", vjust = 1.01 )
 # ggsave( "R/Figs/stability_synchrony_richness.svg", width = 9, height = 3 )
-cowplot::plot_grid( elevrich, stab, stabsynch, 
-                    nrow = 1, align = "hv", 
-                    labels = "auto", vjust = 1.01 )
-ggsave( "R/Figs/stability_synchrony_richness_elevation.svg", width = 9, height = 3 )
+# cowplot::plot_grid( elevrich, stab, stabsynch, 
+#                     nrow = 1, align = "hv", 
+#                     labels = "auto", vjust = 1.01 )
+# ggsave( "R/Figs/stability_synchrony_richness_elevation.svg", width = 9, height = 3 )
 # cowplot::plot_grid( elevrich,synchrich, stab, stabsynch, 
 #                     nrow = 2, align = "hv", 
 #                     labels = "auto", vjust = 1.01 )
 # 
+# 
+# 
+# 
+# 
+# 
+stabnew <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
+  # facet_wrap(~source) +
+  # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
+  geom_smooth(method='lm',se=F, col='black', lwd=0.5) +
+  geom_point(aes(fill=Zone,shape=Site),size=size_transect) +
+  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
+  xlab("Species richness") +
+  scale_shape_manual( values=c(21,22,24) ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
+  scale_linetype_discrete(  guide=FALSE ) +
+  scale_y_continuous(trans="log2") +
+  coord_cartesian(ylim = c(1,16), xlim = c(4,23)) +
+  # guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  theme_classic() + theme( legend.position = c(0.01,.99), 
+                           legend.justification = c(0,1),
+                           legend.background = element_blank())
 
 
 
 
-allstab <- left_join( filter(divvar2,source=="algae") %>% select(gmeanelev,gmeanr, gmeanh, gmeane), 
-                      filter(dsynch,source=="algae") %>% select(logV,stability) ) %>% 
-  mutate(logstability = log(stability,base = 2))
-allstab <- allstab %>% ungroup() %>% 
-  select( 
-        `elevation` = gmeanelev,
-        `richness` = gmeanr,
-        `Hill-Shannon` = gmeanh,
-        `Hill-Simpson` = gmeane,
-        `synchrony\n(logV)` = logV,
-        `log(stability)` = logstability    )
-windows(7,7)
-pairs.panels(  allstab, density = FALSE )
-dev.off()
+# allstab <- left_join( filter(divvar2,source=="algae") %>% select(gmeanelev,gmeanr, gmeanh, gmeane), 
+#                       filter(dsynch,source=="algae") %>% select(logV,stability) ) %>% 
+#   mutate(logstability = log(stability,base = 2))
+# allstab <- allstab %>% ungroup() %>% 
+#   select( 
+#         `elevation` = gmeanelev,
+#         `richness` = gmeanr,
+#         `Hill-Shannon` = gmeanh,
+#         `Hill-Simpson` = gmeane,
+#         `synchrony\n(logV)` = logV,
+#         `log(stability)` = logstability    )
+# windows(7,7)
+# pairs.panels(  allstab, density = FALSE )
+# dev.off()
 
 
 
 
+
+
+##### include quad-level data to add 
+quadstability <- read_csv( "R/output/stability_diversity_quadrat.csv")
+
+quadstability$Zone <- factor( quadstability$Zone, levels = c("LOW","MID","HIGH"))
+quadstability$Site <- factor( quadstability$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
+
+# plotting parameters
+pt.size <- 2
+
+# plot richness by elevation
+quad_elevrich <- ggplot( quadstability, aes(x=Shore_height_cm,y=richnesspre,shape = Site, fill = Zone)) + 
+  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+  geom_point(size=pt.size, show.legend = FALSE) +
+  scale_shape_manual( values=c(21,22,24), guide=F ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  xlab( expression(paste("Transect elevation (cm)")) ) + 
+  ylab( expression(paste("Species richness"))  ) +
+  coord_cartesian( ylim = c(4,23), xlim = c(70,375)) +
+  theme_classic() 
+
+quad_richstab <- ggplot( quadstability, aes(x=richnesspre,y=cover.ratio,shape = Site, fill = Zone)) + 
+  geom_hline( yintercept=1, lty=2) +
+  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+  geom_point(size=pt.size, show.legend = FALSE) +
+  scale_shape_manual( values=c(21,22,24), guide=F ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  xlab( expression(paste("Species richness")) ) + 
+  ylab( expression(paste("Change in seaweed cover"))  ) +
+  coord_cartesian( xlim = c(4,23)) +
+  scale_y_log10() +
+  # coord_cartesian( ylim = c(1,16)) +
+  theme_classic() 
+
+quad_elevstab <- ggplot( quadstability, aes(x=Shore_height_cm,y=cover.ratio,shape = Site, fill = Zone)) + 
+  geom_hline( yintercept=1, lty=2) +
+  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+  geom_point(size=pt.size, show.legend = FALSE) +
+  scale_shape_manual( values=c(21,22,24), guide=F ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  xlab( expression(paste("Transect elevation (cm)")) ) + 
+  ylab( expression(paste("Change in seaweed cover"))  ) +
+  scale_y_log10() +
+  # coord_cartesian( ylim = c(1,16)) +
+  theme_classic() 
+
+
+cowplot::plot_grid( elevrich, stabnew, stabsynch, 
+                    quad_elevrich, quad_richstab, quad_elevstab,
+                    nrow = 2, align = "hv", 
+                    labels = "auto", vjust = 1.01 )
+ggsave( "R/Figs/stability_synchrony_richness_elevation_quadrat.svg", width = 9, height = 6 )

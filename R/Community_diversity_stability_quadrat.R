@@ -177,8 +177,6 @@ ddratiolog$posneg <- sign(ddratiolog$cover.ratio)
 ddratiologabs <- ddratiolog
 ddratiologabs[2:5] <- abs(ddratiolog[2:5])
 
-pairs(ddratiolog[-1])
-
 
 ddmeanpre <- ddmean %>% 
   filter( prepost == "pre" ) %>% 
@@ -187,8 +185,12 @@ ddmeanpre <- ddmean %>%
 
 quadstability <- left_join( left_join( ddratio, ddmeanpre), select(muse, quadrat, Site, Zone, Shore_height_cm))
 quadstability <- quadstability %>%
-  unite( transect, Site, Zone, remove = F )
+  unite( transect, Site, Zone, remove = F ) %>% 
+  mutate( log.cover.ratio = log(cover.ratio))
 
+
+psych::pairs.panels( select(quadstability, richnesspre, Shore_height_cm, cover.ratio))
+psych::pairs.panels( select(quadstability, richnesspre, Shore_height_cm, log.cover.ratio))
 
 a <- ggplot( data = quadstability, 
         aes(x = richnesspre, y = cover.ratio, col = Zone, shape = Site)) + 
@@ -236,26 +238,77 @@ library(car)
 
 # scale predictors
 quadstability$richscale <- scale( quadstability$richnesspre )
+quadstability$shanscale <- scale( quadstability$hillshanpre )
+quadstability$divpick   <- quadstability$richscale
 quadstability$elevscale <- scale( quadstability$Shore_height_cm )
 
-lm1 <- lm( log10(cover.ratio) ~ richscale, data = quadstability)
+lm1 <- lm( log10(cover.ratio) ~ divpick, data = quadstability)
 summary(lm1)
 lm2 <- lm( log10(cover.ratio) ~ elevscale, data = quadstability)
 summary(lm2)
-lm3 <- lm( log10(cover.ratio) ~ richscale+elevscale, data = quadstability)
+lm3 <- lm( log10(cover.ratio) ~ divpick+elevscale, data = quadstability)
 summary(lm3)
 vif(lm3)
 anova(lm3)
 modEvA::varPart( A = 0.102, B = 0.2812, AB = 0.2906, A.name = "richness", B.name = "elevation")
 
-lme1 <- lmer( log10(cover.ratio) ~ richnesspre + (1 | transect), data = quadstability)
+lme0 <- lmer( log10(cover.ratio) ~ 1 + (1 | transect), data = quadstability)
+summary(lme0)
+lme1 <- lmer( log10(cover.ratio) ~ divpick + (1 | transect), data = quadstability)
 summary(lme1)
-lme2 <- lmer( log10(cover.ratio) ~ richscale+elevscale + (1 | transect), data = quadstability)
+lme2 <- lmer( log10(cover.ratio) ~ divpick+elevscale + (1 | transect), data = quadstability)
 summary(lme2)
+lme3 <- lmer( log10(cover.ratio) ~ elevscale + (1 | transect), data = quadstability)
+summary(lme3)
 vif(lme2)
+bbmle::AICctab( lme0,lme1, lme2, lme3, nobs = nrow(quadstability) )
 anova(lme2)
-R2_lme2 <- partR2( lme2, partvars = c("richscale","elevscale"), R2_type = "marginal", nboot = 10)
+R2_lme2 <- partR2( lme2, partvars = c("divpick","elevscale"), R2_type = "marginal", nboot = 10)
 summary(R2_lme2)
+## results (takes a while with so many bootstraps -- 1000 used)
+# R2 (marginal) and 95% CI for the full model: 
+#   R2     CI_lower CI_upper ndf
+# 0.3146 0.1447   0.4987   3  
+# 
+# ----------
+#   
+#   Part (semi-partial) R2:
+#   Predictor(s)        R2     CI_lower CI_upper ndf
+# Model               0.3146 0.1447   0.4987   3  
+# richscale           0.0000 0.0000   0.2281   2  
+# elevscale           0.2765 0.0977   0.4673   2  
+# richscale+elevscale 0.3146 0.1447   0.4987   1  
+# 
+# ----------
+#   
+#   Inclusive R2 (SC^2 * R2):
+#   Predictor IR2    CI_lower CI_upper
+# richscale 0.0896 0.0159   0.2195  
+# elevscale 0.3109 0.1288   0.4890  
+# 
+# ----------
+#   
+#   Structure coefficients r(Yhat,x):
+#   Predictor SC      CI_lower CI_upper
+# richscale  0.5336  0.2533   0.7999 
+# elevscale -0.9940 -1.0000  -0.8897 
+# 
+# ----------
+#   
+#   Beta weights (standardised estimates)
+# Predictor BW      CI_lower CI_upper
+# richscale  0.0712 -0.1262   0.2908 
+# elevscale -0.5504 -0.7107  -0.3159 
+# 
+# ----------
+#   
+#   Parametric bootstrapping resulted in warnings or messages:
+#   Check r2obj$boot_warnings and r2obj$boot_messages.
+
+
 # R2_lme2cond <- partR2( lme2, partvars = c("richscale","elevscale"), R2_type = "conditional", nboot = 10)
 # summary(R2_lme2cond)
 
+
+# write the main data.frame to file for use in another script - transect-level stability
+write_csv(quadstability, "R/output/stability_diversity_quadrat.csv")

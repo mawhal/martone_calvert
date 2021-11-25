@@ -15,22 +15,14 @@ library(imputeTS)
 library(cowplot)
 
 # read data
-draw <- read_table( file = "Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/PineDailySalTemp.txt", skip=3 )
+light <- read_csv( "Data/R code for Data Prep/output from R/Lightstation_raw.csv" )
+pine <- filter(light, site == "pine")
 
-# renames columns, make date columns, replace 999.9 with NA
-d <- draw %>%
-  select( year=Year, month=Month, day=Day, temp=`Temperature(C)`, sal=`Salinity(psu)` ) %>%
-  mutate( date=ymd(paste(year,month,day))) %>%
-  mutate( temp=replace(temp, temp==999.9, NA)) %>%
-  mutate( sal=replace(sal, sal==999.9, NA)) 
-
-d[ is.na(d$temp),]
-
-plot(temp~date,d,type='l')
+plot(temp~date,data=pine,type='l')
 
 
 # create a time series object
-dts <- ts( d$temp, frequency=365, start=c(1937,1) )
+dts <- ts( pine$temp, frequency=365, start=c(1937,1) )
 plot( dts, type='l', col="dodgerblue" )
 
 # impute data
@@ -55,7 +47,7 @@ plot( subset(decompose_temp$seasonal, subset=season), type='l' )
 calendar <- time(dts.na)>=1940 & time(dts.na)<1941
 calendar2 <- time(dts.na)>=1980 & time(dts.na)<2000
 
-windows(6,4)
+# windows(6,4)
 par(mar=c(6,4,1,2)+0.1)
 plot( subset(decompose_temp$seasonal, subset=calendar), type='l', axes=F,
       ylab=expression('SST Deviation ('*~degree*C*')'), xlab="",
@@ -116,7 +108,7 @@ ib16$`Date/Time` <- ymd_hms(ib16$`Date/Time`)
 
 # merge all of these
 ib <- full_join( full_join( ib13,ib15),ib16 )
-write_csv( ib, "Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/output from R/FoggyCove_HIGH_iButton.csv")
+write_csv( ib, "R/output/FoggyCove_HIGH_iButton.csv")
 # posix
 ib <- ib %>%
   select( date.time=`Date/Time`, value=Value ) 
@@ -173,9 +165,10 @@ dev.off()
 
 # make date/time for pine island data
 # ad a time each day, say noon
-d$date.time <- ymd_hms(paste( d$date, "12:00:00"))
+pine$date.time <- ymd_hms(paste( pine$date, "12:00:00"))
+pine$year <- year(pine$date.time)
 pt.size <- 0.6
-fcib <- ggplot( data = filter(d,year >= 2010), aes(x=date.time,y=temp)) + 
+fcib <- ggplot( data = filter(pine,year >= 2010 & year <= 2018), aes(x=date.time,y=temp)) + 
   geom_point(data = ib, aes(x=lube.date, y=value), alpha=0.2, size=pt.size) +
   geom_line(col='red') +
   ylim(c(-3,37)) +
@@ -183,6 +176,35 @@ fcib <- ggplot( data = filter(d,year >= 2010), aes(x=date.time,y=temp)) +
   xlab("")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45,hjust=1))
+fcib
+
+# repeat with daily averages
+ibdaily <- ib %>% 
+  group_by(date) %>% 
+  summarize( value = mean(value)) %>% 
+  mutate( year = year(date))
+fcibd <- ggplot( data = filter(pine,year >= 2010 & year <= 2018), aes(x=date,y=temp)) + 
+  # geom_point(data = ibd, aes(x=ymd(date), y=value), alpha=0.2, size=pt.size) +
+  geom_point(data = ibdaily, aes(x=ymd(date), y=value), alpha=0.2, size=pt.size) +
+  geom_line(col='red') +
+  ylim(c(-3,37)) +
+  ylab(expression(paste("Temperature (",degree,"C)"))) +
+  xlab("")+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45,hjust=1))
+fcibd
+
+# plot rock temperatures versus SST 
+pineoverlap <- pine[ pine$date %in% ibdaily$date,]
+png( filename = "R/Figs/iButton_Pine_compare.png", height=3, width=3, units = "in", res=300)
+par( pty = 's', bg = NA)
+plot( pineoverlap$temp, ibdaily$value, 
+      ylab = expression(paste("iButton (",degree,"C)")),
+      xlab = expression(paste("SST (",degree,"C)")),
+      xlim = c(3,21),
+      ylim = c(3,21),
+      cex = 0.25, pch = 16)
+dev.off()
 
 # just look at the second deployment 
 ib2 <- ib %>% 
@@ -214,5 +236,5 @@ c <- ggplot( ib.sum, aes(group=year, x= factor(year), y=value)) +
   theme(axis.text.x = element_text(angle = 45,hjust=1))
 
 
-cowplot::plot_grid( fcib,c,b,ncol=3,rel_widths = c(4,1.25,1.25), labels = "AUTO" )
-ggsave( "Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/Figs/ibutton_2014-2016.svg", width=6,height=3 )
+cowplot::plot_grid( fcibd,c,b,ncol=3,rel_widths = c(4,1.25,1.25), labels = "AUTO" )
+ggsave( "R/Figs/ibutton_2014-2016.svg", width=6,height=3 )

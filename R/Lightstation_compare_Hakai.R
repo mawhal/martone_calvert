@@ -45,7 +45,7 @@ tempcombine <- bind_rows(hmonth,lmonth) %>% arrange( year, month) %>%
 
 # pairs plot
 svg( "R/Figs/lighstation_hakai_pairs.svg", width = 4, height = 4 )
-psych::pairs.panels( tempcombine[,-c(1,2)])
+psych::pairs.panels( tempcombine[,-c(1,2)], density = F, hist.col = "whitesmoke" )
 dev.off()
 
 # pivot longer for time series plots
@@ -54,9 +54,10 @@ temp_long <- temp_long %>% unite( "date", year, month) %>% mutate(date = ym(date
 
 ggplot( temp_long %>% filter(site != "Addenbroke"), aes(x = date, y = temp, col = site)) + 
   # facet_wrap( ~site, ncol = 1) +
-  geom_line(lwd = 0.75) +
+  geom_line(aes(lwd = site)) +
   ylab( expression(paste("Temperature (", degree, "C)")) ) +
   xlab("Date") +
+  scale_size_manual(values = c(2,1,1)) +
   theme_classic() + 
   theme(legend.position="top")
 ggsave( "R/Figs/lightstation_hakai_timeseries.svg", width = 4, height = 4 )

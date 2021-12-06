@@ -17,11 +17,11 @@ library(imputeTS)
 
 ##### read data ####
 # SST - daily from lightstation keepers
-pineraw <- read_csv( "Data/environmetal_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/Pine_Island/Pine_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1937-2021.csv",
+pineraw <- read_csv( "Data/environmental_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/Pine_Island/Pine_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1937-2021.csv",
                      skip = 1 )[,1:5]
 names(pineraw) <- c( 'date','sal','temp','latitude', 'longitude' )
 pineraw$site <- 'pine'
-mcinnraw <- read_csv( "Data/environmetal_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/McInnes_Island/McInnes_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1954-2021.csv",
+mcinnraw <- read_csv( "Data/environmental_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/McInnes_Island/McInnes_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1954-2021.csv",
                       skip = 1 )[,1:5]
 names(mcinnraw) <- c( 'date','sal','temp','latitude', 'longitude' )
 mcinnraw$site <- 'mcinnes'
@@ -33,7 +33,7 @@ sst <- bind_rows( pineraw, mcinnraw ) %>%
   mutate( sal=replace(sal, sal==999.9, NA)) 
 
 # air temperature - Addenbrooke air temperature - hourly
-addenraw <- read_csv( "Data/environmetal_data/Addenbroke Air Temperature/EC/1060080.ascii", skip=1 )  # data from https://data.pacificclimate.org/portal/pcds/map/
+addenraw <- read_csv( "Data/environmental_data/Addenbroke Air Temperature/EC/1060080.ascii", skip=1 )  # data from https://data.pacificclimate.org/portal/pcds/map/
 names(addenraw) <- c( 'precip','rain','temp','snow','time','snow_ground','temp_max' )
 addenraw$site <- 'addenbroke'
 adden <- addenraw %>% 
@@ -74,6 +74,12 @@ dm <- dm %>%
           temp.max.anom = temp_max - month.mean.temp.max, precip.anom = precip - month.mean.precip )
 ## write tempeartures and anomalies to disk
 
+# what is the standard deviation of anomalies and how far away is each one?
+dm <- dm %>% 
+  group_by( site ) %>% 
+  mutate( anom.sd = sd( temp.anom, na.rm=T ))
+
+
 
 write_csv( dm, "Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv" )
 
@@ -83,19 +89,27 @@ dm$temp.anom.sign <- ifelse( dm$temp.anom < 0, "-1","1" )
 dm$temp.anom.sign[ is.na(dm$temp.anom.sign)] <- "0"
 dm$site2 <- dm$site
 dm$site2[dm$site2 == "addenbroke"] <- "Addenbroke air temperature"
-dm$site2[dm$site2 == "mccinnis"] <- "McInnes water temperature"
+dm$site2[dm$site2 == "mcinnes"] <- "McInnes water temperature"
 dm$site2[dm$site2 == "pine"] <- "Pine water temperature"
+dm.sd <- dm %>% 
+  select(site, site2, anom.sd ) %>% distinct
+
 dm$ym <- ym( paste(dm$year, dm$month) )
-ggplot( data = dm, aes( x = ym, y = temp.anom, col = temp.anom.sign)) +
+ggplot( data = dm, aes( x = ym, y = temp.anom/anom.sd, col = temp.anom.sign)) +
   facet_wrap(~ site2, ncol =1, scales = "free_y" ) +
+  # geom_hline( data = dm.sd, aes( yintercept=anom.sd ) ) +
   geom_vline( xintercept = ymd(c("2012-07-03","2019-06-01")), col = "slategrey") +
   geom_segment( aes(xend = ym, yend = 0) ) +
   # geom_point(size=0.75) + 
   scale_color_manual(values = c("blue","black","red")) +
+  coord_cartesian( ylim = c(-6,4)) +
   theme_bw() +
   theme( legend.position = "none") + 
-  ylab("Temperature anomaly (°C)") + xlab("Date")
+  ylab("Temperature anomaly as standard deviations (°C)") + xlab("Date")
 ggsave("R/Figs/lightstation_temp_anomalies_allyears.svg", width = 6, height = 5)
+
+
+
 
 # PCA #####
 ## temperature anomaly data from Pine Island

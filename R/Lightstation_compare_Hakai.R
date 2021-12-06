@@ -11,7 +11,7 @@ library(lubridate)
 # lightstation - from "Lightstation_spectral_anomaly"
 light <- read_csv( "Data/R code for Data Prep/output from R/Lightstation_raw.csv" )
 # Hakai data - Choked inner seagrass and West Beach kelp
-hakai <- read_csv( "Data/environmetal_data/Hakai_nearshore/2021-11-04.1daySamples.csv",
+hakai <- read_csv( "Data/environmental_data/Hakai_nearshore/2021-11-04.1daySamples.csv",
                    skip = 3)
 
 

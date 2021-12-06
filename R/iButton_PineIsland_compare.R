@@ -93,15 +93,15 @@ box()
 ## get data from iButtons all in one place
 # for now, all from West Beach High Shore
 # 2012+2013
-ib13 <- read_csv( "Data/environmetal_data/iButtons/ibuttons/12_WBB_High_BlueFalcon.csv", skip=14 )
+ib13 <- read_csv( "Data/environmental_data/iButtons/ibuttons/12_WBB_High_BlueFalcon.csv", skip=14 )
 ib13$`Date/Time` <- as.POSIXlt(ib13$`Date/Time`, format="%d/%m/%Y %H:%M")
 ib13$`Date/Time` <- ymd_hms(ib13$`Date/Time`)
 # 2015
-ib15 <- read_csv( "Data/environmetal_data/iButtons/ibuttons/2015 ibuttons/WBB_High_1A.csv", skip=14)
+ib15 <- read_csv( "Data/environmental_data/iButtons/ibuttons/2015 ibuttons/WBB_High_1A.csv", skip=14)
 ib15$`Date/Time` <- as.POSIXlt(ib15$`Date/Time`, format="%m/%d/%y %I:%M:%S %p")
 ib15$`Date/Time` <- ymd_hms(ib15$`Date/Time`)
 # 2016
-ib16 <- read_csv( "Data/environmetal_data/iButtons/ibuttons/2016 ibuttons/2016 ibuttons/2016_Hakai_WBB_High_N_BlackPVCCapW.csv",
+ib16 <- read_csv( "Data/environmental_data/iButtons/ibuttons/2016 ibuttons/2016 ibuttons/2016_Hakai_WBB_High_N_BlackPVCCapW.csv",
                   skip=14 )
 ib16$`Date/Time` <- as.POSIXlt(ib16$`Date/Time`, format="%m/%d/%y %I:%M:%S %p")
 ib16$`Date/Time` <- ymd_hms(ib16$`Date/Time`)
@@ -135,7 +135,7 @@ points( x=ibs, y=ib.sum$mean[ib.sum$date<ymd("2014-01-01")],lwd=0.5, col=rgb(0,0
 points( x=ibs2, y=ib.sum$mean[ib.sum$date>ymd("2014-01-01")],lwd=0.5, col=rgb(0,0,0,0.5),pch=20,cex=0.2  )
   
 
-svg(filename="Data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/Figs/Pine_Foggy_compare.svg", 
+svg(filename="Data/environmental_data/Lighthouse Data/through May 2019_Peter Chandler/Figs/Pine_Foggy_compare.svg", 
     width=5, 
     height=3, 
     pointsize=12)
@@ -199,11 +199,12 @@ pineoverlap <- pine[ pine$date %in% ibdaily$date,]
 png( filename = "R/Figs/iButton_Pine_compare.png", height=3, width=3, units = "in", res=300)
 par( pty = 's', bg = NA)
 plot( pineoverlap$temp, ibdaily$value, 
-      ylab = expression(paste("iButton (",degree,"C)")),
+      ylab = expression(paste("Rock temperature (",degree,"C)")),
       xlab = expression(paste("SST (",degree,"C)")),
-      xlim = c(3,21),
-      ylim = c(3,21),
+      # xlim = c(3,21),
+      # ylim = c(3,21),
       cex = 0.25, pch = 16)
+abline( a = 0, b = 1, lty=1, col = "blue")
 dev.off()
 
 # just look at the second deployment 

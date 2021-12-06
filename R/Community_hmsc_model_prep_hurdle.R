@@ -43,6 +43,7 @@ muse <- muse[ muse$Site != "Meay Channel", ]
 
 # no NA values allowed, so we need to remove these from the dataset
 rem <- unique( which(is.na(muse$Shore_height_cm))  )
+remuid <- as.character(muse$UID[ is.na(muse$Shore_height_cm) ])
 # get rid of row 2 in all data structures
 muse   <- muse[-rem,]
 
@@ -56,13 +57,8 @@ dm <- left_join( duse, muse )
 
 # read dataset generated in script "Community_rda.R"
 d.simple <- read_csv("R/output/data_select_rda_HMSC.csv")
-
-# # average cover per transect
-# dmean <- d.simple %>%
-#   spread( taxon_lumped2, Abundance, fill=0 ) %>%
-#   gather( taxon_lumped2, Abundance, -UID, -Year, -Site, -Zone ) %>%
-#   group_by( Year, Site, Zone, taxon_lumped2 ) %>%
-#   summarise( Abundance=mean(Abundance) )
+# remove those UIDs with no Shore height intormation
+d.simple <- d.simple[ !(d.simple$UID %in% remuid), ]
 
 d.comm.prep <- d.simple  %>% filter( !is.na(funct_2021) )
 
@@ -79,13 +75,13 @@ d.comm$Zone <- factor( d.comm$Zone,levels=c("LOW","MID","HIGH") )
 
 
 # isolate the community, site, and sample data
-comm.all <- d.comm[,-c(1:5)]
+comm.all <- d.comm[,-c(1:6)]
 comm.all <- ceiling(comm.all)
 as.matrix( comm.all[, order(colSums(comm.all),decreasing = T) ] )
 
 # 
 # windows(12,3)
-par( mar=c(3,4,0.5,0.5)+0.01, cex=0.7, las=1, cex=1.1 )
+# par( mar=c(3,4,0.5,0.5)+0.01, cex=0.7, las=1, cex=1.1 )
 # boxplot( comm.all[rev(order(colSums(comm.all)))], pch=16, cex=0.3, axes=F )
 # axis(2)
 # axis(1, at=c(1,seq(10,300,by=10)) )
@@ -155,7 +151,7 @@ sort(unlist(lapply( strsplit( colnames(Y), split = "[.]"), function(z) z[1] )))
 # define the variables to test from metadata and data
 # merge community data with metadata
 metacomm <- left_join( d.comm, muse )
-write_csv( metacomm, "R/output/community.csv")
+# write_csv( metacomm, "R/output/community.csv")
 
 # # read temperature data
 # pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )
@@ -197,6 +193,7 @@ trait.all <- d.simple %>%
 trait.hmsc <- left_join( data.frame(taxon = colnames(Y)), trait.all )
 TrData <- trait.hmsc %>% select( FG )
 TrData$FG <- factor( TrData$FG, levels = c('canopy','blade','crust','thin_turf','turf','animal'))
+row.names(TrData) <- colnames(Y)
 
 # set up random effects for hmsc
 # make sure to use spatial data
@@ -210,6 +207,16 @@ studyDesign$ty <- factor(with(studyDesign, paste( transect, year, sep = "_" )))
 # quadrat
 studyDesign$quadrat <- factor(with(studyDesign, paste( transect, M$Meter.point, sep = "_" )))
 
+sdvisits <- studyDesign %>% 
+  group_by(quadrat) %>%  
+  summarize( N = length(year) ) %>% 
+  distinct()
+hist(sdvisits$N)
+ggplot(sdvisits, aes(x=N)) + geom_histogram(bins = 7, col='black', fill = "whitesmoke") + xlab("Number of visits") + ylab("Number of quadrats")
+ggsave( "R/Figs/quadrat_visits.svg", width=3, height=3 )
+
+sdrevisit <- sdvisits %>% filter( N>=3 )
+nrow(sdrevisit)/nrow(sdvisits)
 
 # Random effects for unit
 # rL_obs <- HmscRandomLevel( unit = studyDesign$observation )

@@ -164,14 +164,22 @@ ddratio <- ddmean %>%
   summarize( cover.ratio = total.cover[prepost=="post"]/total.cover[prepost=="pre"],
              richness.ratio = richness[prepost=="post"]/richness[prepost=="pre"],
              enspie.ratio = enspie[prepost=="post"]/enspie[prepost=="pre"],
-             hillshan.ratio = hillshan[prepost=="post"]/hillshan[prepost=="pre"] )
+             hillshan.ratio = hillshan[prepost=="post"]/hillshan[prepost=="pre"],
+             cover.var = var( total.cover),
+             cover.stab = mean(total.cover)/(var(total.cover)+1), # adding one to keep a single quadrat in the analysis that had ZERO change in total seaweed cover, despite variation across taxa
+             cover.prop = (total.cover[prepost=="post"]-total.cover[prepost=="pre"])/ ((total.cover[prepost=="post"]+total.cover[prepost=="pre"])/2)  )
+pairs( select(ddratio, cover.ratio, cover.var, cover.stab) )
 
 
 ddratiolog <- ddratio %>% 
   mutate( cover.ratio = (log(cover.ratio)),
           richness.ratio = (log(richness.ratio)),
           enspie.ratio = (log(enspie.ratio)),
-          hillshan.ratio = (log(hillshan.ratio)))
+          hillshan.ratio = (log(hillshan.ratio)),
+          # cover.var = log(cover.var),
+          cover.stab = log(cover.stab) )
+
+pairs( select(ddratiolog, cover.ratio, cover.var, cover.stab) )
 
 ddratiolog$posneg <- sign(ddratiolog$cover.ratio)
 ddratiologabs <- ddratiolog
@@ -186,11 +194,81 @@ ddmeanpre <- ddmean %>%
 quadstability <- left_join( left_join( ddratio, ddmeanpre), select(muse, quadrat, Site, Zone, Shore_height_cm))
 quadstability <- quadstability %>%
   unite( transect, Site, Zone, remove = F ) %>% 
-  mutate( log.cover.ratio = log(cover.ratio))
+  mutate( log.cover.ratio = log(cover.ratio),
+          log.cover.stab = log(cover.stab))
 
 
-psych::pairs.panels( select(quadstability, richnesspre, Shore_height_cm, cover.ratio))
-psych::pairs.panels( select(quadstability, richnesspre, Shore_height_cm, log.cover.ratio))
+
+
+### analogous measure of synchrony from Leps et al. 2018 Ecology
+# numerator is variance in total cover
+# denominator is the sum variance of each species
+# ratio is log transformed, hence 'logV'
+
+# because we are using two time points in this case, we use the log ratio of cover as a metric for change in total cover or the mean/variance method
+# summarize over time
+d.algae <- d.comm.algae %>% 
+  mutate(prepost = ifelse( d.comm.algae$Year %in% c(2012,2013), "pre", "post") ) %>% 
+  pivot_longer( Acrosiphonia:Unknown.crust, names_to = "taxon", values_to = "cover" ) #, -Site, -Zone, -Quadrat, -Meter.point, -quadrat )
+
+d.algae.mean <- d.algae %>% 
+  select(-UID, -Year, -Site, -Zone, -Quadrat, -Meter.point ) %>% 
+  group_by(quadrat, prepost, taxon) %>% 
+  summarize( meancover = mean(cover) ) 
+
+# need to remove taxa that did not appear in either year
+taxon.years <- d.algae.mean %>% 
+  mutate( presence = ifelse( meancover>0, T, F) ) %>% 
+  group_by(quadrat, taxon) %>% 
+  summarize( years = sum(presence) ) 
+
+
+d.algae.both <- left_join( d.algae.mean, taxon.years ) %>% 
+  filter( years > 0  )
+
+d.algae.both %>% filter( quadrat == "Foggy Cove HIGH 26" ) %>% 
+  group_by(quadrat, prepost) %>% 
+  summarize( meancover = sum(meancover) )
+
+denom <- d.algae.both  %>% 
+  group_by( quadrat, taxon ) %>%
+  summarize( eai = var(meancover, na.rm=T), # variance instead of SD
+             cover.ratio = meancover[prepost=="post"]/meancover[prepost=="pre"]) %>%  
+  mutate( eai = ifelse( eai>0,eai,NA) ) %>%
+  mutate( cover.ratio = ifelse( is.infinite(cover.ratio) | cover.ratio == 0, NA, cover.ratio) ) %>%
+  group_by( quadrat ) %>% 
+  summarize( Evi=sum(eai, na.rm=T),
+             cover.ratio.sum = sum( cover.ratio, na.rm=T ) ) 
+
+
+
+
+
+synch <- left_join( ddratio, denom )
+synch <- synch %>% 
+  mutate( logV = log(cover.var+1/Evi+1),# adding 1 to keep in one quadrat (see cover.stab calculation above) 
+          synch.cover.ratio = log(cover.ratio / cover.ratio.sum) ) %>%  
+  select( quadrat, logV, synch.cover.ratio)
+
+quadstability <- left_join( quadstability, synch )
+
+
+
+quadstability$abs.log.cover.ratio <- abs(quadstability$log.cover.ratio )
+psych::pairs.panels( select(quadstability, richnesspre, Shore_height_cm, log.cover.ratio, log.cover.stab))
+
+windows(5,5)
+par( mar = c(5,4,2,2)+0.1 )
+psych::pairs.panels( select(quadstability, richnesspre, Shore_height_cm, logV, log.cover.stab ),
+                     hist.col = "whitesmoke" )
+
+
+
+
+
+
+
+
 
 a <- ggplot( data = quadstability, 
         aes(x = richnesspre, y = cover.ratio, col = Zone, shape = Site)) + 
@@ -209,7 +287,7 @@ ggplot( data = quadstability,
   geom_point() +
   scale_y_log10() +
   theme_classic()
-ggsave("R/Figs/quadrat_stability_richness_transect.svg", height = 3, width = 4)
+# ggsave("R/Figs/quadrat_stability_richness_transect.svg", height = 3, width = 4)
 
 b <- ggplot( data = quadstability, 
         aes(x = Shore_height_cm, y = richnesspre, col = Zone, shape = Site)) + 
@@ -225,7 +303,15 @@ c <- ggplot( data = quadstability,
   scale_y_log10() +
   theme_classic()
 
-cowplot::plot_grid( b, c, a, ncol=1)
+d <- ggplot( data = quadstability, 
+             aes(x = Shore_height_cm, y = cover.stab, col = Zone, shape = Site)) + 
+  geom_smooth(aes(group=1),method = 'lm', se = T) +  
+  geom_point() +
+  scale_y_log10( ) +
+  # coord_cartesian( ylim = c(0.0001,100) ) +
+  theme_classic()
+
+cowplot::plot_grid( b, c, d, ncol=1)
 ggsave("R/Figs/quadrat_stability_richness_elevation.svg", height = 9, width = 4)
 
 
@@ -242,73 +328,83 @@ quadstability$shanscale <- scale( quadstability$hillshanpre )
 quadstability$divpick   <- quadstability$richscale
 quadstability$elevscale <- scale( quadstability$Shore_height_cm )
 
-lm1 <- lm( log10(cover.ratio) ~ divpick, data = quadstability)
-summary(lm1)
-lm2 <- lm( log10(cover.ratio) ~ elevscale, data = quadstability)
-summary(lm2)
-lm3 <- lm( log10(cover.ratio) ~ divpick+elevscale, data = quadstability)
-summary(lm3)
-vif(lm3)
-anova(lm3)
-modEvA::varPart( A = 0.102, B = 0.2812, AB = 0.2906, A.name = "richness", B.name = "elevation")
 
-lme0 <- lmer( log10(cover.ratio) ~ 1 + (1 | transect), data = quadstability)
+
+lme0 <- lmer( log(cover.stab) ~ 1 + (1 | transect), data = quadstability)
 summary(lme0)
-lme1 <- lmer( log10(cover.ratio) ~ divpick + (1 | transect), data = quadstability)
+lme1 <- lmer( log(cover.stab) ~ divpick + (1 | transect), data = quadstability)
 summary(lme1)
-lme2 <- lmer( log10(cover.ratio) ~ divpick+elevscale + (1 | transect), data = quadstability)
+lme2 <- lmer( log(cover.stab) ~ divpick+elevscale + (1 | transect), data = quadstability)
 summary(lme2)
-lme3 <- lmer( log10(cover.ratio) ~ elevscale + (1 | transect), data = quadstability)
+lme3 <- lmer( log(cover.stab) ~ elevscale + (1 | transect), data = quadstability)
 summary(lme3)
-vif(lme2)
-bbmle::AICctab( lme0,lme1, lme2, lme3, nobs = nrow(quadstability) )
-anova(lme2)
-R2_lme2 <- partR2( lme2, partvars = c("divpick","elevscale"), R2_type = "marginal", nboot = 10)
+lme4 <- lmer( log(cover.stab) ~ divpick+elevscale+logV + (1 | transect), data = quadstability)
+summary(lme4)
+lme5 <- lmer( log(cover.stab) ~ logV + (1 | transect), data = quadstability)
+summary(lme5)
+lme6 <- lmer( log(cover.stab) ~ logV+elevscale + (1 | transect), data = quadstability)
+summary(lme6)
+lme7 <- lmer( log(cover.stab) ~ logV+divpick + (1 | transect), data = quadstability)
+summary(lme7)
+
+vif(lme4)
+aictable <- bbmle::AICctab( lme0,lme1, lme2, lme3, lme4, lme5, lme6, lme7, nobs = nrow(quadstability), weights = T, delta = T, base = T  )
+aictable
+write_csv(as.data.frame(aictable), "R/output/stability_diversity_synchrony_aic_quadrat.csv")
+anova(lme4)
+R2_lme2 <- partR2( lme4, partvars = c("divpick","elevscale","logV"), R2_type = "marginal", nboot = 100)
 summary(R2_lme2)
-## results (takes a while with so many bootstraps -- 1000 used)
+## results (takes a while with so many bootstraps -- 100 used)
 # R2 (marginal) and 95% CI for the full model: 
 #   R2     CI_lower CI_upper ndf
-# 0.3146 0.1447   0.4987   3  
+# 0.9557 0.9204   0.9717   4  
 # 
 # ----------
 #   
 #   Part (semi-partial) R2:
-#   Predictor(s)        R2     CI_lower CI_upper ndf
-# Model               0.3146 0.1447   0.4987   3  
-# richscale           0.0000 0.0000   0.2281   2  
-# elevscale           0.2765 0.0977   0.4673   2  
-# richscale+elevscale 0.3146 0.1447   0.4987   1  
+#   Predictor(s)           R2     CI_lower CI_upper ndf
+# Model                  0.9557 0.9204   0.9717   4  
+# divpick                0.0000 0.0000   0.0740   3  
+# elevscale              0.1100 0.0333   0.1778   3  
+# logV                   0.7320 0.7026   0.7606   3  
+# divpick+elevscale      0.1107 0.0341   0.1784   2  
+# divpick+logV           0.7327 0.7032   0.7612   2  
+# elevscale+logV         0.9455 0.9105   0.9618   2  
+# divpick+elevscale+logV 0.9557 0.9204   0.9717   1  
 # 
 # ----------
 #   
 #   Inclusive R2 (SC^2 * R2):
 #   Predictor IR2    CI_lower CI_upper
-# richscale 0.0896 0.0159   0.2195  
-# elevscale 0.3109 0.1288   0.4890  
+# divpick   0.0188 0.0114   0.0357  
+# elevscale 0.2238 0.1738   0.2810  
+# logV      0.9231 0.8805   0.9540  
 # 
 # ----------
 #   
 #   Structure coefficients r(Yhat,x):
 #   Predictor SC      CI_lower CI_upper
-# richscale  0.5336  0.2533   0.7999 
-# elevscale -0.9940 -1.0000  -0.8897 
+# divpick    0.1403  0.1091   0.1943 
+# elevscale -0.4840 -0.5439  -0.4236 
+# logV      -0.9828 -0.9927  -0.9675 
 # 
 # ----------
 #   
 #   Beta weights (standardised estimates)
 # Predictor BW      CI_lower CI_upper
-# richscale  0.0712 -0.1262   0.2908 
-# elevscale -0.5504 -0.7107  -0.3159 
+# divpick    0.0099 -0.0191   0.0514 
+# elevscale -0.1898 -0.2618  -0.1112 
+# logV      -0.9238 -0.9564  -0.8380 
 # 
 # ----------
-#   
-#   Parametric bootstrapping resulted in warnings or messages:
-#   Check r2obj$boot_warnings and r2obj$boot_messages.
-
-
 # R2_lme2cond <- partR2( lme2, partvars = c("richscale","elevscale"), R2_type = "conditional", nboot = 10)
 # summary(R2_lme2cond)
 
 
+lme_synch <- lmer( logV ~ divpick+elevscale + (1 | transect), data = quadstability)
+summary( lme_synch )
+vif( lme_synch )
+
+
 # write the main data.frame to file for use in another script - transect-level stability
-write_csv(quadstability, "R/output/stability_diversity_quadrat.csv")
+write_csv(quadstability.synch, "R/output/stability_diversity_quadrat.csv")

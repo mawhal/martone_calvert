@@ -8,7 +8,7 @@
 library( tidyverse )
 library( betapart )
 library( vegan )
-library( adespatial )
+# library( adespatial )
 library( ggrepel )
 library( RColorBrewer )
 #

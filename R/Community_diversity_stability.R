@@ -268,59 +268,59 @@ divplot2 %>%
 with( divvar2, cor.test(gmeanr, stability) )
 with( divvar2, cor.test(meanr, stability) )
 divvar2 %>% group_by( Site, Zone) %>% summarize(diff=diff(stability))
-summary(lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae")))
+# summary(lm( log(stability,base=2) ~ gmeanr, data=filter(divvar2,source=="algae")))
 
 
 divvar2_algae <- filter(divvar2,source=="algae")
 # divvar2_algae$Zone3
 # mzone3 <- lm( log(stability,base=2) ~ Zone3, data = divvar2_algae )
 # summary(mzone3)
-divvar2$div <- divvar2$gmeanr
+divvar2$div <- divvar2$meanr
 divvar2$Zone <- factor( divvar2$Zone, levels = c("LOW","MID","HIGH"))
-mstab <- lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "algae"))
-summary(mstab)
-summary(mstab)$adj.r.squared
-stab <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
-  # facet_wrap(~source) +
-  # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
-  geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
-  geom_point(aes(fill=Zone,shape=Site),size=3) +
-  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
-  xlab("Species richness") +
-  annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mstab)$adj.r.squared,2))), 
-           x = max(divvar2$div), y = 1.1, hjust = 1, vjust = 0, size = 5) +
-  # annotate("text", label = "top", 
-  #          x = 0.5*(min(mpg$hwy) + max(mpg$hwy)), y = max(mpg$cty), vjust = 1) +
-  # annotate("text", label = "bottom", 
-  #          x = 0.5*(min(mpg$hwy) + max(mpg$hwy)), y = min(mpg$cty), vjust = 0) +
-  # annotate("text", label = "right", 
-  #          x =  max(mpg$hwy), y = 0.5*(min(mpg$cty) + max(mpg$cty)), hjust = 1) +
-  # annotate("text", label = "left", 
-  #          x =  min(mpg$hwy), y = 0.5*(min(mpg$cty) + max(mpg$cty)), hjust = 0) +
-  scale_shape_manual( values=c(21,22,24) ) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
-  scale_linetype_discrete(  guide=FALSE ) +
-  scale_y_continuous(trans="log2") +
-  coord_cartesian(ylim = c(1,16)) +
-  # guides(fill = guide_legend(override.aes = list(shape = 21))) +
-  theme_classic() + theme( legend.position = c(0.01,.99), 
-                           legend.justification = c(0,1),
-                           legend.background = element_blank())
+# mstab <- lm( log(stability,base=2) ~ div, data=filter(divvar2,source == "algae"))
+# summary(mstab)
+# summary(mstab)$adj.r.squared
+# stab <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
+#   # facet_wrap(~source) +
+#   # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
+#   geom_smooth(method='lm',se=T, col='black', lwd=0.5) +
+#   geom_point(aes(fill=Zone,shape=Site),size=3) +
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
+#   xlab("Species richness") +
+#   annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mstab)$adj.r.squared,2))), 
+#            x = max(divvar2$div), y = 1.1, hjust = 1, vjust = 0, size = 5) +
+#   # annotate("text", label = "top", 
+#   #          x = 0.5*(min(mpg$hwy) + max(mpg$hwy)), y = max(mpg$cty), vjust = 1) +
+#   # annotate("text", label = "bottom", 
+#   #          x = 0.5*(min(mpg$hwy) + max(mpg$hwy)), y = min(mpg$cty), vjust = 0) +
+#   # annotate("text", label = "right", 
+#   #          x =  max(mpg$hwy), y = 0.5*(min(mpg$cty) + max(mpg$cty)), hjust = 1) +
+#   # annotate("text", label = "left", 
+#   #          x =  min(mpg$hwy), y = 0.5*(min(mpg$cty) + max(mpg$cty)), hjust = 0) +
+#   scale_shape_manual( values=c(21,22,24) ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
+#   scale_linetype_discrete(  guide=FALSE ) +
+#   scale_y_continuous(trans="log2") +
+#   coord_cartesian(ylim = c(1,16)) +
+#   # guides(fill = guide_legend(override.aes = list(shape = 21))) +
+#   theme_classic() + theme( legend.position = c(0.01,.99), 
+#                            legend.justification = c(0,1),
+#                            legend.background = element_blank())
 
 # ggsave( "R Code and Analysis/Figs/stability_richness_algae.svg",width = 3, height=4 )
-stab2 <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)) + #x=gmeanr
-  # facet_wrap(~source) +
-  geom_smooth(method='glm',method.args=list(family="poisson"),
-              se=T, col = "black", lwd = 0.5) +
-  # geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
-  geom_point(aes(fill=Site,shape=Zone),size=3) +
-  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
-  xlab("Seaweed species richness") +
-  scale_shape_manual( values=c(21,22,24), guide = F ) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
-  scale_linetype_discrete(  guide=FALSE ) +
-  guides(fill = guide_legend(override.aes = list(shape = 21))) +
-  theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
+# stab2 <- ggplot( data=filter(divvar2,source=="algae"), aes(x=gmeanr, y=stability)) + #x=gmeanr
+#   # facet_wrap(~source) +
+#   geom_smooth(method='glm',method.args=list(family="poisson"),
+#               se=T, col = "black", lwd = 0.5) +
+#   # geom_smooth(aes(group=Zone,lty=Zone),method='lm',se=F, col='black') +
+#   geom_point(aes(fill=Site,shape=Zone),size=3) +
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
+#   xlab("Seaweed species richness") +
+#   scale_shape_manual( values=c(21,22,24), guide = F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   scale_linetype_discrete(  guide=FALSE ) +
+#   guides(fill = guide_legend(override.aes = list(shape = 21))) +
+#   theme_classic() + theme( legend.position = c(0.01,.99), legend.justification = c(0,1))
 
 # stability and fucntional groups
 # ggplot( data=filter(divvar2,source == "functional"), aes(x=div, y=stability)) + #x=gmeanr
@@ -348,16 +348,16 @@ divvar2$Zone3 <- as.character(divvar2$Zone2)
 divvar2$Zone3[ divvar2$Zone3=="MID"] <- "HIGH"
 divvar2$Zone3 <- factor(divvar2$Zone3)
 # contrasts(divvar2$Zone2) <- matrix( c(1,-0.5,-0.5,1,0,-1),ncol=2)
-anova(lm( stability ~ Zone, data=filter(divvar2,source=="all") ))
-anova(lm( stability ~ Zone, data=filter(divvar2,source=="algae") ))
-anova(lm( stability ~ Zone3, data=filter(divvar2,source=="algae") ))
-summary(lm( stability ~ Zone4, data=filter(divvar2,source=="algae") ))
-summary(lm( stability ~ Zone2, data=filter(divvar2,source=="all") ))
-summary(lm( stability ~ Zone2, data=filter(divvar2,source=="algae")))
-summary(lm( stability ~ gmeanr, data=filter(divvar2,source=="all") ))
-summary(lm( stability ~ gmeanr, data=filter(divvar2,source=="algae")))
-summary(lm( stability ~ meanr, data=filter(divvar2,source=="all") ))
-summary(lm( stability ~ meanr, data=filter(divvar2,source=="algae")))
+# anova(lm( stability ~ Zone, data=filter(divvar2,source=="all") ))
+# anova(lm( stability ~ Zone, data=filter(divvar2,source=="algae") ))
+# anova(lm( stability ~ Zone3, data=filter(divvar2,source=="algae") ))
+# summary(lm( stability ~ Zone4, data=filter(divvar2,source=="algae") ))
+# summary(lm( stability ~ Zone2, data=filter(divvar2,source=="all") ))
+# summary(lm( stability ~ Zone2, data=filter(divvar2,source=="algae")))
+# summary(lm( stability ~ gmeanr, data=filter(divvar2,source=="all") ))
+# summary(lm( stability ~ gmeanr, data=filter(divvar2,source=="algae")))
+# summary(lm( stability ~ meanr, data=filter(divvar2,source=="all") ))
+# summary(lm( stability ~ meanr, data=filter(divvar2,source=="algae")))
 
 # 
 # a <- ggplot( divvar2, aes(x=gmeanr,y=1/cva) ) + geom_point() + facet_wrap(~source) +
@@ -425,27 +425,27 @@ synch$non.alga.flag <- ifelse( synch$source == "animal", "all", "algae") # facto
 # synch$non.alga.flag <- factor( synch$non.alga.flag, levels=c("algae","all") )
 synch$eai2 <-  sqrt(synch$eai)
 # synch$eai2[ synch$source=="algae" & synch$non.alga.flag=="algae" ] <- NA
-
-a <- ggplot( synch, aes(x=Zone,y=eai2, col=source, fill=source)) + facet_wrap(~Site) +
-  geom_point( aes(y=ea), size=3, shape=21, col='black' ) +
-  geom_point( aes(shape=non.alga.flag,size=non.alga.flag,alpha=non.alga.flag), col='black', fill="grey")+#, position = position_dodge(width=0.2) ) +
-  ylab("Cover SD") +
-  scale_color_manual( values=c("black","grey"), guide=F ) +
-  scale_fill_manual( values=c("black","grey"), guide=F ) +
-  scale_size_manual( values=(c(2,1)), guide=F ) +
-  scale_shape_manual( values=(c(1,21)), guide=F ) +
-  scale_alpha_manual( values=(c(0.1,1)), guide=F ) +
-  theme( strip.background = element_blank(),
-         strip.text.x = element_blank() )
-b <- ggplot( synch, aes(x=Zone,y=logV,fill=source)) + facet_wrap(~Site) +
-  geom_point( alpha=1, shape=21, size=3 ) +
-  ylab( expression(paste("Synchrony (",logV,")")) ) +
-  scale_fill_manual( values=c("black","grey"), guide=F ) +
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
-cowplot::plot_grid( b,a, ncol=1, rel_heights = c(1,1.5), align = "v" )
-ggsave( "R Code and Analysis/Figs/synchrony_transect.svg", width=6, height=4 )
+# 
+# a <- ggplot( synch, aes(x=Zone,y=eai2, col=source, fill=source)) + facet_wrap(~Site) +
+#   geom_point( aes(y=ea), size=3, shape=21, col='black' ) +
+#   geom_point( aes(shape=non.alga.flag,size=non.alga.flag,alpha=non.alga.flag), col='black', fill="grey")+#, position = position_dodge(width=0.2) ) +
+#   ylab("Cover SD") +
+#   scale_color_manual( values=c("black","grey"), guide=F ) +
+#   scale_fill_manual( values=c("black","grey"), guide=F ) +
+#   scale_size_manual( values=(c(2,1)), guide=F ) +
+#   scale_shape_manual( values=(c(1,21)), guide=F ) +
+#   scale_alpha_manual( values=(c(0.1,1)), guide=F ) +
+#   theme( strip.background = element_blank(),
+#          strip.text.x = element_blank() )
+# b <- ggplot( synch, aes(x=Zone,y=logV,fill=source)) + facet_wrap(~Site) +
+#   geom_point( alpha=1, shape=21, size=3 ) +
+#   ylab( expression(paste("Synchrony (",logV,")")) ) +
+#   scale_fill_manual( values=c("black","grey"), guide=F ) +
+#   theme(axis.title.x=element_blank(),
+#         axis.text.x=element_blank(),
+#         axis.ticks.x=element_blank())
+# cowplot::plot_grid( b,a, ncol=1, rel_heights = c(1,1.5), align = "v" )
+# ggsave( "R Code and Analysis/Figs/synchrony_transect.svg", width=6, height=4 )
 
 # plot synchrony versus stability and richness
 synchrony <- synch %>% 
@@ -456,69 +456,110 @@ dsynch <- left_join( divvar2, synchrony )
 dsynch$source <- factor( dsynch$source, levels=c("all","algae"))
 dsynch$Site <- factor( dsynch$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 
-dsynch$div <- dsynch$gmeanr
-mrich <- lm(logV ~ div, data = filter(dsynch,source == "algae"))
-synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x = div, y = logV, shape = Site, fill = Zone)) + 
-  # facet_wrap(~source) +
-  geom_smooth( aes(group=1), method="lm", se = T, col='black', lwd=0.5, show.legend = FALSE )+ 
-  geom_point(size=3) +
-  # geom_smooth( aes(group=1), method="glm", method.args=list(family=quasibinomial))+ geom_point(size=3) +
-  scale_shape_manual( values=c(21,22,24), guide=F ) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
-  ylab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
-  xlab( "Seaweed species richness" ) +
-  annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mrich)$adj.r.squared,2))), 
-           x = min(dsynch$div), y = -2.3, hjust = 0, vjust = 0, size = 5) +
-  guides(fill=guide_legend("Site",override.aes = list(shape = 21)) ) +
-  theme_classic() + theme( legend.position = "none" )
-synchrich
+dsynch$div <- dsynch$meanr   # gmeanr is mean richness across all years, meanr is just 2012
+# mrich <- lm(logV ~ div, data = filter(dsynch,source == "algae"))
+# synchrich <- ggplot( filter(dsynch,source == "algae"), aes(x = div, y = logV, shape = Site, fill = Zone)) + 
+#   # facet_wrap(~source) +
+#   geom_smooth( aes(group=1), method="lm", se = F, col='black', lwd=0.5, show.legend = FALSE )+ 
+#   geom_point(size=3) +
+#   # geom_smooth( aes(group=1), method="glm", method.args=list(family=quasibinomial))+ geom_point(size=3) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
+#   ylab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
+#   xlab( "Seaweed species richness" ) +
+#   # annotate(geom = 'text', label = bquote( R^2 == .(round(summary(mrich)$adj.r.squared,2))), 
+#            # x = min(dsynch$div), y = -2.3, hjust = 0, vjust = 0, size = 5) 
+#   coord_cartesian(ylim = c(-2,10), xlim = c(4,23)) +
+#   guides(fill=guide_legend("Site",override.aes = list(shape = 21)) ) +
+#   theme_classic() + theme( legend.position = "none" )
+# synchrich
+# 
+# size_transect <- 4
+# msynch <- lm(log(stability,base=2) ~ logV, data = filter(dsynch,source == "algae"))
+# stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),shape = Site, fill = Zone)) + 
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=size_transect) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
+#   guides(fill = guide_legend(override.aes = list(shape = 21))) +
+#   xlab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")"))  ) +
+#   annotate(geom = 'text', label = bquote( R^2 == .(round(summary(msynch)$adj.r.squared,2))), 
+#            x = min(dsynch$logV), y = 1.1, hjust = 0, vjust = 0, size = 5) +
+#   scale_y_log10() +
+#   coord_cartesian(  ylim = c(0.005,50), xlim = c(-2,10)) +
+#   theme_classic() +
+#   theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
+#          legend.background = element_blank() )
+# stabsynch
+# 
+# melev <- lm(gmeanr ~ gmeanelev, data = filter(dsynch,source == "algae"))
+# elevrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanelev,y=gmeanr,shape = Site, fill = Zone)) + 
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=size_transect, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
+#   guides(fill = guide_legend(override.aes = list(shape = 21))) +
+#   xlab( expression(paste("Mean transect elevation (cm)")) ) + 
+#   ylab( expression(paste("Species richness"))  ) +
+#   # annotate(geom = 'text', label = bquote( R^2 == .(round(summary(melev)$adj.r.squared,2))), 
+#            # x = min(dsynch$gmeanelev), y = 3, hjust = 0, vjust = 0, size = 5) +
+#   coord_cartesian( ylim = c(4,23), xlim = c(70,375)) +
+#   theme_classic() 
+# elevrich
+# 
+# elevsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanelev,y=logV,shape = Site, fill = Zone)) + 
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=size_transect, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
+#   guides(fill = guide_legend(override.aes = list(shape = 21))) +
+#   xlab( expression(paste("Mean transect elevation (cm)")) ) + 
+#   ylab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
+#   # annotate(geom = 'text', label = bquote( R^2 == .(round(summary(melev)$adj.r.squared,2))), 
+#   # x = min(dsynch$gmeanelev), y = 3, hjust = 0, vjust = 0, size = 5) +
+#   coord_cartesian( ylim = c(-2,10), xlim = c(70,375)) +
+#   theme_classic() 
+# elevsynch
+# 
+# elevstab <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanelev,y=stability,shape = Site, fill = Zone)) + 
+#   geom_smooth( aes(group=1), method = 'lm', se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=size_transect, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
+#   guides(fill = guide_legend(override.aes = list(shape = 21))) +
+#   xlab( expression(paste("Mean transect elevation (cm)")) ) + 
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")"))  ) +
+#   # annotate(geom = 'text', label = bquote( R^2 == .(round(summary(melev)$adj.r.squared,2))), 
+#   # x = min(dsynch$gmeanelev), y = 3, hjust = 0, vjust = 0, size = 5) +
+#   scale_y_log10() +
+#   coord_cartesian( ylim = c(0.005,50),  xlim = c(70,375)) +
+#   theme_classic() 
+# elevstab
 
-size_transect <- 4
-msynch <- lm(log(stability,base=2) ~ logV, data = filter(dsynch,source == "algae"))
-stabsynch <- ggplot( filter(dsynch,source == "algae"), aes(x=logV,y=(stability),shape = Site, fill = Zone)) + 
-  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
-  geom_point(size=size_transect) +
-  scale_shape_manual( values=c(21,22,24), guide=F ) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
-  # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
-  guides(fill = guide_legend(override.aes = list(shape = 21))) +
-  xlab( expression(paste("Seaweed pop. synchrony (",logV,")")) ) + 
-  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")"))  ) +
-  annotate(geom = 'text', label = bquote( R^2 == .(round(summary(msynch)$adj.r.squared,2))), 
-           x = min(dsynch$logV), y = 1.1, hjust = 0, vjust = 0, size = 5) +
-  scale_y_continuous(trans="log2") +
-  coord_cartesian( ylim = c(1,16)) +
-  theme_classic() +
-  theme( legend.position = c(0.99,0.99),legend.justification = c(1,1),
-         legend.background = element_blank() )
-stabsynch
-melev <- lm(gmeanr ~ gmeanelev, data = filter(dsynch,source == "algae"))
-elevrich <- ggplot( filter(dsynch,source == "algae"), aes(x=gmeanelev,y=gmeanr,shape = Site, fill = Zone)) + 
-  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
-  geom_point(size=size_transect, show.legend = FALSE) +
-  scale_shape_manual( values=c(21,22,24), guide=F ) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
-  # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
-  guides(fill = guide_legend(override.aes = list(shape = 21))) +
-  xlab( expression(paste("Mean transect elevation (cm)")) ) + 
-  ylab( expression(paste("Species richness"))  ) +
-  # annotate(geom = 'text', label = bquote( R^2 == .(round(summary(melev)$adj.r.squared,2))), 
-           # x = min(dsynch$gmeanelev), y = 3, hjust = 0, vjust = 0, size = 5) +
-  coord_cartesian( ylim = c(4,23), xlim = c(70,375)) +
-  theme_classic() 
-elevrich
 
+msynchdiv0 <- lm(log(stability,base=2) ~ 1, data = filter(dsynch,source == "algae"))
 msynchdiv <- lm(log(stability,base=2) ~ logV, data = filter(dsynch,source == "algae"))
 msynchdiv1 <- lm(log(stability,base=2) ~ gmeanr, data = filter(dsynch,source == "algae"))
 msynchdiv2 <- lm(log(stability,base=2) ~ logV+gmeanr, data = filter(dsynch,source == "algae"))
-msynchdiv3 <- lm(log(stability,base=2) ~ logV*gmeanr, data = filter(dsynch,source == "algae"))
+msynchdiv3 <- lm(log(stability,base=2) ~ logV+gmeanr+gmeanelev, data = filter(dsynch,source == "algae"))
+msynchdiv4 <- lm(log(stability,base=2) ~ logV+gmeanelev, data = filter(dsynch,source == "algae"))
+msynchdiv5 <- lm(log(stability,base=2) ~ gmeanelev, data = filter(dsynch,source == "algae"))
+msynchdiv6 <- lm(log(stability,base=2) ~ gmeanr+gmeanelev, data = filter(dsynch,source == "algae"))
 library(bbmle)
-aictable <- AICctab( msynchdiv, msynchdiv1, msynchdiv2, msynchdiv3,
+aictable <- AICctab( msynchdiv0, msynchdiv, msynchdiv1, msynchdiv2, msynchdiv3,  msynchdiv4, msynchdiv5, msynchdiv6,
          nobs = nrow(filter(dsynch,source == "algae")),
          logLik=FALSE, base=TRUE, weights=TRUE)
+aictable
 write_csv(as.data.frame(aictable), "R/output/stability_diversity_synchrony_aic.csv")
+summary(msynchdiv1)
 modEvA::varPart( A = 0.9052, B = 0.7061, AB = 0.9804, A.name = "logV", B.name = "richness")
-
+summary(msynchdiv2)
+anova(msynchdiv2)
 # cowplot::plot_grid( stabsynch, synchrich, stab, 
 #                     nrow = 1, align = "hv", 
 #                     labels = "auto", vjust = 1.01 )
@@ -536,22 +577,24 @@ modEvA::varPart( A = 0.9052, B = 0.7061, AB = 0.9804, A.name = "logV", B.name = 
 # 
 # 
 # 
-stabnew <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
-  # facet_wrap(~source) +
-  # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
-  geom_smooth(method='lm',se=F, col='black', lwd=0.5) +
-  geom_point(aes(fill=Zone,shape=Site),size=size_transect) +
-  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
-  xlab("Species richness") +
-  scale_shape_manual( values=c(21,22,24) ) +
-  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
-  scale_linetype_discrete(  guide=FALSE ) +
-  scale_y_continuous(trans="log2") +
-  coord_cartesian(ylim = c(1,16), xlim = c(4,23)) +
-  # guides(fill = guide_legend(override.aes = list(shape = 21))) +
-  theme_classic() + theme( legend.position = c(0.01,.99), 
-                           legend.justification = c(0,1),
-                           legend.background = element_blank())
+divvar2$Zone
+divvar2$Site <- factor( divvar2$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
+# stabnew <- ggplot( data=filter(divvar2,source == "algae"), aes(x=div, y=stability)) + #x=gmeanr
+#   # facet_wrap(~source) +
+#   # geom_smooth(method='glm',se=T,method.args=list(family="poisson"), col = "black", lwd = 0.5) +
+#   geom_smooth(method='lm',se=F, col='black', lwd=0.5) +
+#   geom_point(aes(fill=Zone,shape=Site),size=size_transect) +
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) + 
+#   xlab("Species richness") +
+#   scale_shape_manual( values=c(21,22,24) ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke"), guide=FALSE ) +
+#   scale_linetype_discrete(  guide=FALSE ) +
+#   scale_y_log10() +
+#   coord_cartesian(ylim = c(0.005,50), xlim = c(4,23)) +
+#   # guides(fill = guide_legend(override.aes = list(shape = 21))) +
+#   theme_classic() + theme( legend.position = c(0.01,0.01), 
+#                            legend.justification = c(0,0),
+#                            legend.background = element_blank())
 
 
 
@@ -582,53 +625,271 @@ quadstability <- read_csv( "R/output/stability_diversity_quadrat.csv")
 quadstability$Zone <- factor( quadstability$Zone, levels = c("LOW","MID","HIGH"))
 quadstability$Site <- factor( quadstability$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 
-# plotting parameters
-pt.size <- 2
+# # plotting parameters
+# pt.size <- 2
+# 
+# # plot richness by elevation
+# quad_elevrich <- ggplot( quadstability, aes(x=Shore_height_cm,y=richnesspre,shape = Site, fill = Zone)) + 
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=pt.size, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   guides(fill = guide_legend(override.aes = list(shape = 21))) +
+#   xlab( expression(paste("Transect elevation (cm)")) ) + 
+#   ylab( expression(paste("Species richness"))  ) +
+#   coord_cartesian( ylim = c(4,23), xlim = c(70,375)) +
+#   theme_classic() 
+# 
+# quad_richstab <- ggplot( quadstability, aes(x=richnesspre,y=cover.stab, shape = Site, fill = Zone)) + 
+#   # geom_hline( yintercept=1, lty=2) +
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=pt.size, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   xlab( expression(paste("Species richness")) ) + 
+#   # ylab( expression(paste("Change in seaweed cover"))  ) +
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) +
+#   coord_cartesian( xlim = c(4,23)) +
+#   scale_y_log10() +
+#   # coord_cartesian( ylim = c(1,16)) +
+#   theme_classic() 
+# 
+# quad_elevstab <- ggplot( quadstability, aes(x=Shore_height_cm,y=cover.stab, shape = Site, fill = Zone)) + 
+#   # geom_hline( yintercept=1, lty=2) +
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=pt.size, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   xlab( expression(paste("Quadrat elevation (cm)")) ) + 
+#   # ylab( expression(paste("Change in seaweed cover"))  ) +
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) +
+#   scale_y_log10() +
+#   coord_cartesian( ylim = c(0.005,50)) +
+#   theme_classic() 
+# quad_elevstab
+# 
+# quad_synchstab <- ggplot( quadstability, aes(x=logV,y=cover.stab,shape = Site, fill = Zone)) + 
+#   # geom_hline( yintercept=1, lty=2) +
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=pt.size, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   xlab( expression(paste("Seaweed pop. synchrony (logV)")) ) + 
+#   # ylab( expression(paste("Change in seaweed cover"))  ) +
+#   ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) +
+#   scale_y_log10() +
+#   coord_cartesian( xlim = c(-2,10), ylim = c(0.005,50)) +
+#   theme_classic() 
+# quad_synchstab
+# 
+# quad_synchelev <- ggplot( quadstability, aes(x=Shore_height_cm,y=logV,shape = Site, fill = Zone)) + 
+#   # geom_hline( yintercept=1, lty=2) +
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=pt.size, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   ylab( expression(paste("Seaweed pop. synchrony (logV)")) ) + 
+#   # ylab( expression(paste("Change in seaweed cover"))  ) +
+#   xlab( expression(paste("Quadrat elevation (cm)")) ) +
+#   # scale_y_log10() +
+#   theme_classic() 
+# quad_synchelev
+# 
+# quad_synchrich <- ggplot( quadstability, aes(x=richnesspre,y=logV,shape = Site, fill = Zone)) + 
+#   # geom_hline( yintercept=1, lty=2) +
+#   geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   # geom_smooth( aes(group=transect), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
+#   geom_point(size=pt.size, show.legend = FALSE) +
+#   scale_shape_manual( values=c(21,22,24), guide=F ) +
+#   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+#   ylab( expression(paste("Seaweed pop. synchrony (logV)")) ) + 
+#   xlab( expression(paste("Species richness")) ) + 
+#   coord_cartesian(ylim = c(-2,10), xlim = c(4,23)) +
+#   # scale_y_log10() +
+#   theme_classic() 
+# quad_synchrich
+# 
+# cowplot::plot_grid( quad_elevrich, quad_richstab, quad_elevstab, quad_synchstab,
+#                     nrow = 1, align = "hv", 
+#                     labels = "auto", vjust = 1.01 )
+# 
+# cowplot::plot_grid( elevrich, stabnew, elevstab, stabsynch, 
+#                     quad_elevrich, quad_richstab, quad_elevstab, quad_synchstab,
+#                     nrow = 2, align = "hv", 
+#                     labels = "auto", vjust = 1.01 )
+# ggsave( "R/Figs/stability_synchrony_richness_elevation_quadrat.svg", width = 12, height = 6 )
+# 
+# 
+# cowplot::plot_grid( elevrich, elevsynch, synchrich, 
+#                     quad_elevrich, quad_synchelev, quad_synchrich, 
+#                     elevstab, stabnew, stabsynch, 
+#                     quad_elevstab, quad_richstab, quad_synchstab,
+#                     nrow = 4, align = "hv", 
+#                     labels = "auto", vjust = 1.01 )
+# ggsave( "R/Figs/stability_synchrony_richness_elevation_quadrat.svg", width = 9, height = 12 )
 
-# plot richness by elevation
-quad_elevrich <- ggplot( quadstability, aes(x=Shore_height_cm,y=richnesspre,shape = Site, fill = Zone)) + 
-  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
-  geom_point(size=pt.size, show.legend = FALSE) +
-  scale_shape_manual( values=c(21,22,24), guide=F ) +
+
+
+
+### combine transect- and quad-levels into a single panel
+dsynch$div <- dsynch$meanr
+transect <- filter(dsynch,source == "algae") %>% 
+  select( Site, Zone, elevation = gmeanelev, richness = div, stability, logV) %>% 
+  mutate( level = "transect" )
+quadrat  <- quadstability %>% 
+  select( Site, Zone, elevation = Shore_height_cm, richness = richnesspre, stability = cover.stab, logV) %>% 
+  mutate( level = "quadrat" )
+
+qt <- bind_rows(transect, quadrat)
+qt$level <- factor( qt$level, levels = c("quadrat","transect") )
+qt$Zone <- factor( qt$Zone, levels = c( "LOW","MID","HIGH") )
+
+alphas = c(1, 0.75)
+elevrichqt <- ggplot( qt, aes(x = elevation,y = richness, shape = Site, fill = Zone, size = level, alpha = level)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE ) +
+  scale_shape_manual( values=c(21,22,24), guide = "none" ) +
+  scale_size_manual( values = c(2,5), guide = "none" ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
-  guides(fill = guide_legend(override.aes = list(shape = 21))) +
-  xlab( expression(paste("Transect elevation (cm)")) ) + 
-  ylab( expression(paste("Species richness"))  ) +
+  scale_alpha_manual( values = alphas, guide="none" ) +
+  xlab( expression(paste("Elevation (cm)")) ) + 
+  ylab( expression(paste("Seaweed species richness"))  ) +
   coord_cartesian( ylim = c(4,23), xlim = c(70,375)) +
+  # coord_cartesian( ylim = c(0,15), xlim = c(70,375)) +
   theme_classic() 
+elevrichqt
 
-quad_richstab <- ggplot( quadstability, aes(x=richnesspre,y=cover.ratio,shape = Site, fill = Zone)) + 
-  geom_hline( yintercept=1, lty=2) +
-  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
-  geom_point(size=pt.size, show.legend = FALSE) +
-  scale_shape_manual( values=c(21,22,24), guide=F ) +
+
+elevsynchqt <- ggplot( qt, aes(x = elevation,y = logV, shape = Site, fill = Zone, size = level, alpha = level)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE ) +
+  scale_shape_manual( values=c(21,22,24), guide = "none" ) +
+  scale_size_manual( values = c(2,5), guide = "none" ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
-  # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
-  guides(fill = guide_legend(override.aes = list(shape = 21))) +
-  xlab( expression(paste("Species richness")) ) + 
-  ylab( expression(paste("Change in seaweed cover"))  ) +
-  coord_cartesian( xlim = c(4,23)) +
-  scale_y_log10() +
-  # coord_cartesian( ylim = c(1,16)) +
+  scale_alpha_manual( values = alphas, guide="none" ) +
+  xlab( expression(paste("Elevation (cm)")) ) + 
+  ylab( expression(paste("Seaweed pop. synchrony (logV)")) ) + 
+  coord_cartesian( ylim = c(-2,10), xlim = c(70,375)) +
   theme_classic() 
+elevsynchqt
 
-quad_elevstab <- ggplot( quadstability, aes(x=Shore_height_cm,y=cover.ratio,shape = Site, fill = Zone)) + 
-  geom_hline( yintercept=1, lty=2) +
-  geom_smooth( aes(group=1), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) + 
-  geom_point(size=pt.size, show.legend = FALSE) +
-  scale_shape_manual( values=c(21,22,24), guide=F ) +
+
+richsynchqt <- ggplot( qt, aes(x = richness,y = logV, shape = Site, fill = Zone, size = level, alpha = level)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE ) +
+  scale_shape_manual( values=c(21,22,24), guide = "none" ) +
+  scale_size_manual( values = c(2,5), guide = "none" ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
-  # guides( fill = guide_legend("Site", override.aes = list(shape = 21)) ) + #,override.aes = list(shape = 21)
-  guides(fill = guide_legend(override.aes = list(shape = 21))) +
-  xlab( expression(paste("Transect elevation (cm)")) ) + 
-  ylab( expression(paste("Change in seaweed cover"))  ) +
-  scale_y_log10() +
-  # coord_cartesian( ylim = c(1,16)) +
+  scale_alpha_manual( values = alphas, guide="none" ) +
+  xlab( expression(paste("Seaweed species richness")) ) + 
+  ylab( expression(paste("Seaweed pop. synchrony (logV)")) ) + 
+  coord_cartesian( ylim = c(-2,10), xlim = c(4,23)) +
+  # coord_cartesian( ylim = c(-2,10), xlim = c(0,15)) +
   theme_classic() 
+richsynchqt
 
 
-cowplot::plot_grid( elevrich, stabnew, stabsynch, 
-                    quad_elevrich, quad_richstab, quad_elevstab,
-                    nrow = 2, align = "hv", 
-                    labels = "auto", vjust = 1.01 )
-ggsave( "R/Figs/stability_synchrony_richness_elevation_quadrat.svg", width = 9, height = 6 )
+elevstabqt <- ggplot( qt, aes(x = elevation,y = stability, shape = Site, fill = Zone, size = level, alpha = level)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE ) +
+  scale_shape_manual( values=c(21,22,24), guide = "none" ) +
+  scale_size_manual( values = c(2,5), guide = "none" ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  scale_alpha_manual( values = alphas, guide="none" ) +
+  xlab( expression(paste("Elevation (cm)")) ) + 
+  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) +
+  coord_cartesian( ylim = c(0.005,50), xlim = c(70,375)) +
+  scale_y_log10() +
+  theme_classic() 
+elevstabqt
+
+
+richstabqt <- ggplot( qt, aes(x = richness,y = stability, shape = Site, fill = Zone, size = level, alpha = level)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE ) +
+  scale_shape_manual( values=c(21,22,24), guide = "none" ) +
+  scale_size_manual( values = c(2,5), guide = "none" ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  scale_alpha_manual( values = alphas, guide="none" ) +
+  xlab( expression(paste("Seaweed species richness")) ) + 
+  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) +
+  coord_cartesian( ylim = c(0.005,50), xlim = c(4,23)) +
+  # coord_cartesian( ylim = c(0.005,50), xlim = c(0,15)) +
+  scale_y_log10() +
+  theme_classic() 
+richstabqt
+
+
+synchstabqt <- ggplot( qt, aes(x = logV,y = stability, shape = Site, fill = Zone, size = level, alpha = level)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE ) +
+  scale_shape_manual( values=c(21,22,24)) +
+  scale_size_manual( values = c(2,5), guide = "none" ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  scale_alpha_manual( values = alphas, guide="none" ) +
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  ylab( expression(paste("Seaweed cover stability (",mu,"/",sigma,")")) ) +
+  xlab( expression(paste("Seaweed pop. synchrony (logV)")) ) + 
+  coord_cartesian( ylim = c(0.005,50), xlim = c(-2,10)) +
+  scale_y_log10() +
+  theme_classic() + theme( legend.position = c(0.01,0.01), 
+                           legend.justification = c(0,0),
+                           legend.background = element_blank()) 
+synchstabqt
+
+
+
+
+
+
+
+library(gridExtra)
+library(gtable)
+library(grid)
+
+# make a plot with the shape legend
+leg_shape <- ggplot( qt, aes(x = logV,y = stability, shape = Site, fill = Zone, size = level)) +
+  geom_point( show.legend = TRUE ) +
+  scale_shape_manual( values=c(21,22,24)) +
+  scale_size_manual( values = c(2,5), guide = "none" ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke"), guide = "none" ) +
+  theme_classic() + theme( legend.position = "top")
+leg1 <- gtable_filter(ggplot_gtable(ggplot_build(leg_shape)), "guide-box")
+
+# make a plot with the fill and size legend
+leg_fill <- ggplot( qt, aes(x = logV,y = stability, shape = Site, fill = Zone, size = level)) +
+  geom_point( show.legend = TRUE ) +
+  scale_shape_manual( values=c(21,22,24), guide = "none") +
+  scale_size_manual( values = c(2,5) ) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  theme_classic()
+leg2 <- gtable_filter(ggplot_gtable(ggplot_build(leg_fill)), "guide-box")
+
+
+main <- cowplot::plot_grid( elevrichqt, elevsynchqt, richsynchqt,
+                            elevstabqt, richstabqt, synchstabqt,
+                            nrow = 2, align = "hv",
+                            labels = "auto", vjust = 0.5 )
+main <- arrangeGrob(main, leg2,
+                         widths = unit.c(unit(1, "npc") - leg2$width, leg2$width), nrow = 1)
+main <- arrangeGrob(leg1, main,
+                    heights = unit.c(leg1$height, unit(1, "npc") - leg1$height), ncol = 1)
+
+svg( "R/Figs/stability_synchrony_richness_elevation_combine.svg", width = 9, height = 6 )
+grid.newpage()
+grid.draw(main)
+dev.off()
+

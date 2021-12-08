@@ -12,10 +12,15 @@
 library(tidyverse)
 library(codyn)
 library(str2str)
-# var.partition function
+## var.partition function
 source( "R/var.partition.R" )
 
-# 
+## Evenness as defined as Evar in Smith & Wilson 1996 Oikos
+Evar <- function( x ){
+  S = length( x[x>0] )
+  1 - 2/pi*atan( sum((log(x[ x>0 ]) - sum(log(x[ x>0 ]))/S)^2)/S ) 
+}
+
 
 ## read data files
 # all data that has been cleaned, taxon names corrected, and with lumping names and functional groups
@@ -61,7 +66,7 @@ d.comm.algae <- d.select %>%
 # merge meta data so we can chop things up and summarize across sites, zones, etc.
 # first, remove rows from data that are not in the restricted metadata
 am.select  <- am %>% 
-  mutate( quadrat = paste( Site, Zone, Meter.point) ) %>% 
+  mutate( quadrat = paste( Site, Zone, Meter.point, sep = " ") ) %>% 
   select( quadrat, Site, Zone, Meter.point, Shore_height_cm )
 muse <- left_join( quadsprepost, distinct(am.select) )
 splits <- strsplit( as.character(muse$UID), " " )
@@ -81,7 +86,7 @@ mclean$Zone <- factor( mclean$Zone, levels = c("LOW","MID","HIGH"), ordered = F 
 mclean$Site <- factor( mclean$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
 # define transects
 mclean <- mclean %>% 
-  unite( "transect", Site, Zone, remove = F)
+  unite( "transect", Site, Zone, remove = F, sep = " ")
 
 ##Sort metadata and community matrix to be the same order
 # d.comm.order <- d.comm[ order(match(d.comm$transect, mtrans$transect)),]
@@ -112,7 +117,7 @@ ddmean <- dd %>%
 colSums(ddmean[,-c(1,2)])
 ddmean.transect <- ddmean %>% 
   separate( quadrat, c('Site', 'blah', 'Zone', 'meter.point'), sep=" " ) %>% 
-  unite( "transect", Site, blah, Zone) %>% 
+  unite( "transect", Site, blah, Zone, sep = " ") %>% 
   mutate( transect = factor(transect) )
 
 
@@ -165,6 +170,7 @@ var.synch.quads.in.transects <- lapply( array.list, function(z) {
   var.partition(z)
 })
 
+
 var.synch.quads.in.transects <- do.call( rbind, var.synch.quads.in.transects )
 
 psych::pairs.panels( var.synch.quads.in.transects, scale = T ) 
@@ -178,15 +184,39 @@ psych::pairs.panels( var.synch.quads.in.transects[, c('CV_S_L', 'phi_S2C_L', 'CV
 # regional richness - total species sampled across quads in each transect
 # beta = alpha/gamma
 ddmean.transect$localrich <- rowSums( ifelse( ddmean.transect[, -c(1:3)] > 0, 1, 0 ) )
+ddmean.transect$evenness <- apply( ddmean.transect[, -c(1:3)], 1, Evar )
+boxplot( ddmean.transect$evenness) # pretty low evenness on average, but every possibility
 # plot changes at quad level, categorized by site and zone
 ddmean.transect <- ddmean.transect %>% 
-  separate( transect, c("Site","Blah","Zone"), remove = F ) %>% 
+  separate( transect, c("Site","Blah","Zone"), remove = F, sep = " " ) %>% 
   unite( 'Site', Site, Blah, sep = " ") %>% 
-  unite( 'quadrat', transect, meter.point, sep = "_", remove = F)
+  unite( 'quadrat', transect, meter.point, sep = " ", remove = F) %>% 
+  mutate( transect = as.character(transect) )
 ddmean.transect$Zone <- factor( ddmean.transect$Zone, levels = c("LOW","MID","HIGH") )
 ddmean.transect$prepost <- factor( ddmean.transect$prepost, levels = c("pre","post") )
 ggplot( ddmean.transect, aes(x = prepost, y = localrich, col = Zone, shape = Site)) +  geom_point() + geom_path( aes(group = quadrat)) +
   geom_smooth( aes( group = 1 ), method = 'lm', lwd = 3 )
+
+# add elevation
+quad.elev <- mclean %>% 
+  select( quadrat, transect, Site, Zone, Shore_height_cm ) %>% 
+  # group_by( transect, Site, Zone ) %>% 
+  # summarize( mean_elev = mean(Shore_height_cm)) %>% 
+  mutate( Site = as.character(Site), Zone = as.character(Zone))
+quad.elev$Zone <- factor( quad.elev$Zone, levels = c("LOW","MID","HIGH") )
+
+ddmean.transect <- left_join( ddmean.transect, quad.elev )
+ggplot( ddmean.transect, aes(x = localrich, y = evenness, col = Zone, shape = Site)) + 
+  geom_point() + geom_path( aes(group = quadrat)) +
+  geom_smooth( aes( group = 1 ), method = 'lm', lwd = 3 )
+ggplot( ddmean.transect, aes(x = Shore_height_cm, y = evenness, col = Zone, shape = Site)) + 
+  facet_wrap(~prepost) +
+  geom_point() + geom_path( aes(group = quadrat)) +
+  geom_smooth( aes( group = prepost ), method = 'lm', lwd = 3 )
+ggplot( ddmean.transect, aes(x = Shore_height_cm, y = localrich, col = Zone, shape = Site)) + 
+  facet_wrap(~prepost) +
+  geom_point() + geom_path( aes(group = quadrat)) +
+  geom_smooth( aes( group = prepost ), method = 'lm', lwd = 3 )
 
 
 regional <- ddmean.transect %>% 
@@ -231,14 +261,6 @@ var.div <- var.div %>%
   mutate( transect = as.character(transect), Zone = as.character(Zone) ) %>% 
   unite( "transect", Site, Zone, remove = F, sep = "_")
 
-# add elevation
-transect.elev <- mclean %>% 
-  select( transect, Site, Zone, Shore_height_cm ) %>% 
-  group_by( transect, Site, Zone ) %>% 
-  summarize( mean_elev = mean(Shore_height_cm)) %>% 
-  mutate( Site = as.character(Site), Zone = as.character(Zone))
-var.div <- left_join( transect.elev, var.div )
-var.div$Zone <- factor( var.div$Zone, levels = c("LOW","MID","HIGH") )
 
 
 # linear models and plots
@@ -317,6 +339,16 @@ f <- ggplot( var.div, aes( x = mean_elev, y = CV_S_R ) ) +
 cowplot::plot_grid( a, d, b, e, c, f,  nrow = 3,
                     labels = "auto")
 ggsave( "R/Figs/meta_stability_synchrony_elevation.svg", width = 6, height = 9 )
+
+# richness and elevation
+summary(lm(meanlocalrich ~ mean_elev, var.div))
+ggplot( var.div, aes( x = mean_elev, y = meanlocalrich ) ) + 
+  geom_smooth( method = 'lm', se = F, lty = 1 ) + 
+  geom_point()
+summary(lm(regionalrich ~ mean_elev, var.div))
+ggplot( var.div, aes( x = mean_elev, y = regionalrich ) ) + 
+  geom_smooth( method = 'lm', se = F, lty = 2 ) + 
+  geom_point()
 
 
 # compare synchrony at the different levels

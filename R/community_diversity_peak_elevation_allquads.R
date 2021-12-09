@@ -41,20 +41,9 @@ d.simple <- read_csv("R/output/data_select_rda_HMSC.csv")
 d.simple <- d.simple %>% 
   mutate( quadrat = paste( Site, Zone, Meter.point) )
 
-# read in quadrat overlap data pre and post heatwave
-quadsprepost <- read_csv("R/output/quadrats_pre_post_heatwave.csv")
-d.select <- d.simple %>% 
-  filter( quadrat %in% quadsprepost$quadrat )
-unique(quadsprepost$quadrat)
-unique(d.simple$quadrat)
-
-# only take data from before and after the heatwaves started
-d.select <- d.select %>% filter( Year %in% c(2012,2013,2018,2019))
-
-
 
 # just get algae
-d.comm.algae <- d.select %>%
+d.comm.algae <- d.simple %>%
   filter( funct_2021 != "animal" ) %>% 
   select(-funct_2021) %>% 
   spread( taxon, Abundance, fill=0 )
@@ -68,10 +57,9 @@ d.comm.algae <- d.select %>%
 am.select  <- am %>% 
   mutate( quadrat = paste( Site, Zone, Meter.point, sep = " ") ) %>% 
   select( quadrat, Site, Zone, Meter.point, Shore_height_cm )
-muse <- left_join( quadsprepost, distinct(am.select) )
+muse <- left_join( d.simple, distinct(am.select) )
 splits <- strsplit( as.character(muse$UID), " " )
 muse$transect <- unlist(lapply(splits, function(z) paste(z[1:4],collapse = " ")))
-muse <- arrange(muse,UID)
 
 
 
@@ -98,25 +86,21 @@ comm.algae <- as.matrix(d.comm.algae[,-c(1:7)])
 
 
 
-# define
-d.comm.algae$prepost <- ifelse( d.comm.algae$Year %in% c(2012,2013), "pre", "post")
 
-dd <- left_join(mclean, d.comm.algae)
 
-# take average of pre and post conditions
-ddmean <- dd %>% 
-  select(-UID, -Year, -Site, -Zone, -Quadrat, -Meter.point, -post, -pre, -both, -Shore_height_cm, -transect) %>% 
-  group_by(quadrat, prepost) %>% 
-  summarize_all( .funs = mean)
-
+melev <-  mclean %>% 
+  select( UID, Year, transect, Site, Zone, quadrat, Shore_height_cm ) %>% 
+  distinct()
+  
+dd <- left_join(melev, d.comm.algae)
 
 
 
 
 # remove taxa that do not appear
-colSums(ddmean[,-c(1,2)])
-ddmean.transect <- ddmean %>% 
-  separate( quadrat, c('Site', 'blah', 'Zone', 'meter.point'), sep=" " ) %>% 
+colSums(dd[,-c(1:9)])
+ddmean.transect <- dd %>% 
+  separate( quadrat, c('Site', 'blah', 'Zone', 'meter.point'), sep=" ", remove = F ) %>% 
   unite( "transect", Site, blah, Zone, sep = " ") %>% 
   mutate( transect = factor(transect) )
 
@@ -125,8 +109,6 @@ ddmean.transect <- ddmean %>%
 
 
 ### var.partition function requires a species x time x community array
-ddcom <- ddmean[,-c(1,2)]
-
 
 
 # how to define the metacommunities?
@@ -137,7 +119,7 @@ ddcom <- ddmean[,-c(1,2)]
 # split into list of transect data
 transect <- ddmean.transect$transect
 # quadrat <- with( ddmean.transect, paste( transect, meter.point ))
-dmt.comm <- ddmean.transect[,-c(1:3)]
+dmt.comm <- ddmean.transect[,-c(1:8)]
 dmt.split <- split( ddmean.transect, f = transect)
 # abind::abind( dmt.split, along = 3 )
 # 
@@ -145,9 +127,10 @@ dmt.split <- split( ddmean.transect, f = transect)
 
 # 
 array.list <- lapply( dmt.split, function(z){
-  tmp <- z %>% 
-    unite( "quadrat", transect, meter.point)
-  test.comm <- tmp[, -c(1,2)]
+  # tmp <- z %>% 
+    # unite( "quadrat", transect, meter.point)
+  tmp <- z
+  test.comm <- tmp[, -c(1:8)]
   test.split <- split( test.comm, f= factor(tmp$quadrat) )
   test.array <- ld2a( test.split )
   return( test.array )

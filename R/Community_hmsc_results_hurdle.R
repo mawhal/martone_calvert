@@ -89,10 +89,10 @@ for(j in 1:nm){
 png(file="R/Figs/MCMC_convergence_hurdle.png", res = 600, width = 4.5, height = 6, units = "in")
 # windows(4.5,6)
 par(mfrow=c(2,1),las=1, mar=c(3,4,2,1)+0.1)
-vioplot(ma,col=rainbow_hcl(nm),names=c("presence-absence","abundance-cop"),
+vioplot::vioplot(ma,col=rainbow_hcl(nm),names=c("presence-absence","abundance-cop"),
         ylim=c(0.99,max(ma)),main="psrf(beta)", ylab="Gelman statistic" )
 abline(a=1.05,b=0)
-vioplot(ma,col=rainbow_hcl(nm),names=c("presence-absence","abundance-cop"),
+vioplot::vioplot(ma,col=rainbow_hcl(nm),names=c("presence-absence","abundance-cop"),
         ylim=c(0.99,1.1),main="psrf(beta)", ylab="Gelman statistic" )
 abline(a=1.05,b=0)
 dev.off()

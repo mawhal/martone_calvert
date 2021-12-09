@@ -498,3 +498,83 @@ ggplot( var.div.elev, aes( x = mean.elev.var, meanlocalrich, col = Zone, shape =
 
 
 psych::pairs.panels( select(var.div.elev, meanelev, meanlocalrich, mean.elev.var ) )
+
+
+
+
+### plots for manuscript
+var.div.elev$Zone <- factor( var.div.elev$Zone, levels = c("LOW","MID","HIGH") )
+var.div.elev$Site <- factor( var.div.elev$Site, levels = c("Foggy Cove", "Fifth Beach", "North Beach" ))
+
+
+localrich_speciesstab <- ggplot( var.div.elev, aes(x = meanlocalrich,y = CV_S_L, shape = Site, fill = Zone)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = 1 ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE, size = 3 ) +
+  scale_shape_manual( values=c(21,22,24)) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  ylab( "Local-scale species variability (CV_S,L)" ) +
+  xlab( "Local species richness" ) + 
+  # coord_cartesian( ylim = c(0.005,50), xlim = c(-2,10)) +
+  # scale_y_log10() +
+  theme_classic() + theme( legend.position = c(0.01,0.01), 
+                           legend.justification = c(0,0),
+                           legend.background = element_blank()) 
+localrich_speciesstab
+
+localrich_commstab <- ggplot( var.div.elev, aes(x = meanlocalrich,y = CV_C_L, shape = Site, fill = Zone)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = 1 ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE, size = 3 ) +
+  scale_shape_manual( values=c(21,22,24)) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  ylab( "Local-scale community variability (CV_C,L)" ) +
+  xlab( "Local species richness" ) + 
+  # coord_cartesian( ylim = c(0.005,50), xlim = c(-2,10)) +
+  # scale_y_log10() +
+  theme_classic() + theme( legend.position = c(0.01,0.01), 
+                           legend.justification = c(0,0),
+                           legend.background = element_blank()) 
+localrich_commstab
+
+elevvar_speciesstab <- ggplot( var.div.elev, aes(x = mean.elev.var,y = CV_S_L, shape = Site, fill = Zone)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = 1 ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE, size = 3 ) +
+  scale_shape_manual( values=c(21,22,24)) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  ylab( "Local-scale species variability (CV_C,L)" ) +
+  xlab( "Variability in elevation optima (CV_elev)" ) + 
+  # coord_cartesian( ylim = c(0.005,50), xlim = c(-2,10)) +
+  # scale_y_log10() +
+  theme_classic() + theme( legend.position = c(0.01,0.01), 
+                           legend.justification = c(0,0),
+                           legend.background = element_blank()) 
+elevvar_speciesstab
+
+elevvar_localrich <- ggplot( var.div.elev, aes(x = meanlocalrich,y = mean.elev.var, shape = Site, fill = Zone)) + 
+  # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  geom_smooth( aes( group = 1 ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
+  # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
+  geom_point( show.legend = FALSE, size = 3 ) +
+  scale_shape_manual( values=c(21,22,24)) +
+  scale_fill_manual( values=c("black","gray50","whitesmoke") ) +
+  guides(fill = guide_legend(override.aes = list(shape = 21))) +
+  xlab( "Local species richness" ) + 
+  ylab( "Variability in elevation optima (CV_elev)" ) + 
+  # coord_cartesian( ylim = c(0.005,50), xlim = c(-2,10)) +
+  # scale_y_log10() +
+  theme_classic() + theme( legend.position = c(0.01,0.01), 
+                           legend.justification = c(0,0),
+                           legend.background = element_blank()) 
+elevvar_localrich
+
+cowplot::plot_grid( localrich_speciesstab, elevvar_localrich, elevvar_speciesstab, 
+                    nrow = 1, labels = "auto" )
+ggsave( "R/Figs/meta_stability_richness_elevvar.svg", width = 10, height = 4)

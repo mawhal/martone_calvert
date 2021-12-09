@@ -834,7 +834,6 @@ synchstabqt <- ggplot( qt, aes(x = logV,y = stability, shape = Site, fill = Zone
   # geom_smooth( data = filter( qt, level == "quadrat"), aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
   geom_smooth( aes( group = level ), method="lm", se=F, col='black', lwd=0.5, show.legend = FALSE) +
   # geom_line( data = filter( qt, level == "transect"), aes(group = Site), size = 0.5, lty = 2) +
-  geom_point( show.legend = FALSE ) +
   scale_shape_manual( values=c(21,22,24)) +
   scale_size_manual( values = c(2,5), guide = "none" ) +
   scale_fill_manual( values=c("black","gray50","whitesmoke") ) +

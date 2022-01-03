@@ -92,9 +92,10 @@ group_richness
 d <- left_join( d, group_richness )
 dplot <- d %>% 
   mutate( FunGroup = gsub("_"," ",FunGroup) ) %>% 
+  mutate( FunGroup = dplyr::recode( FunGroup, animal = "invert")) %>% 
   mutate( `Functional Group` = factor(paste0(FunGroup, " (",S,")")) )
 dplot$`Functional Group` <-   forcats::fct_relevel( dplot$`Functional Group`, 
-                                                    "canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","animal (10)")
+                                                    "canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","invert (10)")
 dplot$Zone <- factor( dplot$Zone, ordered = T )
 dplot$site <- as.character(dplot$Site)
 

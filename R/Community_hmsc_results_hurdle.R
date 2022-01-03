@@ -1146,6 +1146,16 @@ all_trends %>%
 #   mutate( median = -0.35, measure = "Conditional cover (log)") %>% 
 #   distinct()
 
+# change animal to invert
+all_trends <- all_trends %>% 
+  mutate( FG = factor(dplyr::recode(FG, animal = "invert"), 
+                      levels = c("thin turf", "blade", "turf", "canopy","crust","invert")) )
+
+reps <- reps %>% 
+  mutate( FG = factor(dplyr::recode(FG, animal = "invert"), 
+                      levels = c("thin turf", "blade", "turf", "canopy","crust","invert")) )
+
+          
 hmsc_FG <- all_trends %>%
   ggplot(aes(x = FG, y = median, group = measure, col = measure))+
   geom_hline(yintercept = 0, linetype = 2)+
@@ -1741,7 +1751,7 @@ cor.test( x=shift.summary.algae$elev.shifts.med, y = shift.summary.algae$elev.in
 
 # shift in abundance ~ initial peak elevation
 (b <- ggplot( shift.summary.algae, aes(x=elev.init.med,y=log(abun.shifts.med,base = 2))) + 
-    geom_hline( yintercept=1, lty=2 ) +
+    geom_hline( yintercept=0, lty=2 ) +
     # geom_smooth(method='lm', se=T, col='black') +
     geom_point(size=3, pch=1, col='slateblue') + 
     ylab("Cover shift") + xlab("Initial peak elevation (cm)") +
@@ -1772,7 +1782,7 @@ cor.test( x=log(shift.summary.algae$abun.shifts.med, base = 2), y = log(shift.su
     scale_x_continuous(trans = "log2") +
     theme_classic() )
 
-cowplot::plot_grid( a, c, b, d, ncol=2, align = 'hv', labels = "AUTO" )
+cowplot::plot_grid( a, c, b, d, ncol=2, align = 'hv', labels = "auto" )
 ggsave(file="R/Figs/abundance+peak_shift_intial.svg",width = 6, height = 6)
 
 head(shift.summary %>% arrange(-elev.init.med))
@@ -1980,15 +1990,21 @@ write_csv( compare_all_plot_fun, "R/output/shifts_predicted.csv")
 # add plot for functional groups through time (fun1 using raw data means and predictions)
 dplot2 <- read_csv( "R/output/funtional_groups_annual_mean.csv")
 bareraw <- read_csv( "R/output/bare.csv")
-dplot2$FunGroup <- factor( dplot2$FunGroup, levels = c("canopy","blade","crust","thin turf","turf","animal") )
+# change animal to invert
+dplot2$FunGroup[dplot2$FunGroup == "animal"] <- "invert"
+dplot2$FunGroup <- factor( dplot2$FunGroup, levels = c("canopy","blade","crust","thin turf","turf","invert") )
 dplot2$FunGroup
 # numbers of taxa in each group
 d.simple %>% 
   group_by( funct_2021) %>% 
   summarize( S = length(unique(taxon)))
-dplot2$`Functional Group` <-   factor( dplot2$`Functional Group`, levels = c("canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","animal (10)")) 
-qpred_median$`Functional Group` <- factor( qpred_median$FG, levels = c("canopy","blade","crust","thin_turf","turf","animal"),
-                                           labels = c("canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","animal (10)") )
+dplot2$`Functional Group` <-   factor( dplot2$FunGroup, levels = c("canopy","blade","crust","thin turf","turf","invert"),
+                                       labels = c("canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","invert (10)") )
+# dplot2$`Functional Group` <-   factor( dplot2$`Functional Group`, levels = c("canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","invert (10)")) 
+qpred_median <- qpred_median %>% 
+  mutate( FG = dplyr::recode( FG, animal = "invert") )
+qpred_median$`Functional Group` <- factor( qpred_median$FG, levels = c("canopy","blade","crust","thin_turf","turf","invert"),
+                                           labels = c("canopy (12)","blade (12)","crust (13)","thin turf (28)","turf (41)","invert (10)") )
 qpred_median$Year <- as.numeric(as.character(qpred_median$year))
 # add vertical lines for ends of densities
 max_pred_fg <- qpred_median %>% group_by(year) %>% summarize(yend = sum(value)) %>% filter(year %in% c(2012,2019)) %>% select(yend)
@@ -2038,7 +2054,7 @@ b
 c <- cowplot::plot_grid( a, b, ncol = 1, 
                     align='hv', axis="b", labels = NULL,
                     rel_heights = c(1,1))
-
+c
 ggsave(file="R/Figs/fun_hmsc_shift_revision.svg",width = 5.5, height = 5.5 )
 
 

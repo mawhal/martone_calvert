@@ -232,13 +232,14 @@ d.algae.both %>% filter( quadrat == "Foggy Cove HIGH 26" ) %>%
 
 denom <- d.algae.both  %>% 
   group_by( quadrat, taxon ) %>%
-  summarize( eai = var(meancover, na.rm=T), # variance instead of SD
+  summarize( eai = var(meancover, na.rm=T), meancover = mean(meancover, na.rm=T),# variance instead of SD
              cover.ratio = meancover[prepost=="post"]/meancover[prepost=="pre"]) %>%  
   mutate( eai = ifelse( eai>0,eai,NA) ) %>%
   mutate( cover.ratio = ifelse( is.infinite(cover.ratio) | cover.ratio == 0, NA, cover.ratio) ) %>%
   group_by( quadrat ) %>% 
   summarize( Evi=sum(eai, na.rm=T),
-             cover.ratio.sum = sum( cover.ratio, na.rm=T ) ) 
+             cover.ratio.sum = sum( cover.ratio, na.rm=T ),
+             meancover = mean(meancover, na.rm = T)) 
 
 
 
@@ -248,10 +249,12 @@ synch <- left_join( ddratio, denom )
 synch <- synch %>% 
   mutate( logV = log(cover.var+1/Evi+1),# adding 1 to keep in one quadrat (see cover.stab calculation above) 
           synch.cover.ratio = log(cover.ratio / cover.ratio.sum) ) %>%  
-  select( quadrat, logV, synch.cover.ratio)
+  select( quadrat, logV, synch.cover.ratio, meancover)
 
 quadstability <- left_join( quadstability, synch )
 
+
+plot( cover.stab ~ meancover, quadstability)
 
 
 quadstability$abs.log.cover.ratio <- abs(quadstability$log.cover.ratio )
@@ -330,6 +333,10 @@ quadstability$elevscale <- scale( quadstability$Shore_height_cm )
 
 
 
+
+quadstability
+
+
 lme0 <- lmer( log(cover.stab) ~ 1 + (1 | transect), data = quadstability)
 summary(lme0)
 lme1 <- lmer( log(cover.stab) ~ divpick + (1 | transect), data = quadstability)
@@ -346,6 +353,9 @@ lme6 <- lmer( log(cover.stab) ~ logV+elevscale + (1 | transect), data = quadstab
 summary(lme6)
 lme7 <- lmer( log(cover.stab) ~ logV+divpick + (1 | transect), data = quadstability)
 summary(lme7)
+
+
+
 
 vif(lme4)
 aictable <- bbmle::AICctab( lme0,lme1, lme2, lme3, lme4, lme5, lme6, lme7, nobs = nrow(quadstability), weights = T, delta = T, base = T  )

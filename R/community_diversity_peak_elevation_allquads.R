@@ -3,8 +3,8 @@
 # by Matt Whalen 
 # created 2 Dec 2021
 
-# Using Wang et al. 2019 framework for stability and synchrony
-# https://onlinelibrary.wiley.com/doi/abs/10.1111/ecog.04290
+# calculate variability in elevation optima for each quadrat before (init) and after (final) the heatwaves
+
 
 # 
 
@@ -15,11 +15,6 @@ library(str2str)
 ## var.partition function
 # source( "R/var.partition.R" )
 
-## Evenness as defined as Evar in Smith & Wilson 1996 Oikos
-Evar <- function( x ){
-  S = length( x[x>0] )
-  1 - 2/pi*atan( sum((log(x[ x>0 ]) - sum(log(x[ x>0 ]))/S)^2)/S ) 
-}
 
 
 ## read data files
@@ -110,7 +105,7 @@ ddmean.transect <- dd %>%
 
 
 
-
+## ---------------
 
 # Now come back to HMSC analysis. Let's consider the peak elevation of a species at the start of the survey (first two years?)
 elev_abun_shifts <- read_csv( "R/output/shifts_predicted.csv" )
@@ -119,12 +114,32 @@ elev_abun_shifts <- read_csv( "R/output/shifts_predicted.csv" )
 # replace occurrences with initial elevation peaks
 # variability as a mean-variance relationship?
 initial_peaks_taxon <- elev_abun_shifts %>% 
-  select( taxon, elev.init.med ) 
+  mutate( elev.final.med = elev.init.med + elev.shifts.med ) %>% 
+  select( taxon, elev.init.med, elev.final.med ) 
 
+initial_peaks_taxon %>% 
+  summarize( sd_init = sd(elev.init.med),
+             sd_final = sd(elev.final.med),
+             mean_init = mean(elev.init.med),
+             mean_final = mean(elev.final.med),
+             cv_init = sd_init/mean_init,
+             cv_final = sd_final/mean_final )
 
+# # A tibble: 1 x 6
+# sd_init sd_final mean_init mean_final cv_init cv_final
+# <dbl>    <dbl>     <dbl>      <dbl>   <dbl>    <dbl>
+#   1    66.4     64.3      184.       157.   0.360    0.411
+
+# total variability actually increased because the mean elevation decreased after the heatwaves
+ggplot( initial_peaks_taxon, aes(x = elev.init.med, y = elev.final.med) ) + 
+  geom_point() +
+  geom_abline( slope = 1, intercept = 0)
 
 # compare variability using composition data from first two years
-cover_quads_all <- ddmean.transect 
+cover_quads_all <- ddmean.transect %>% filter( Year %in% c(2012,2019))
+cover_quads_all$prepost <- ifelse( cover_quads_all$Year == 2012, 'pre', 'post' )
+cover_quads_all <- cover_quads_all %>% 
+  arrange( quadrat, prepost )
 
 cover_quads_all_comm <- select( cover_quads_all, Acrosiphonia:Unknown.crust )
 cover_quads_all_pa <- ifelse( cover_quads_all_comm > 0, 1, 0)
@@ -142,8 +157,14 @@ initial_peaks_taxon <- initial_peaks_taxon %>%
 # for loop
 all( initial_peaks_taxon$taxon == colnames(pa_hmsc) )
 for(i in 1:ncol(pa_hmsc) ){
-  pa_hmsc[,i] <-  ifelse( pa_hmsc[,i] == 1, initial_peaks_taxon$elev.init.med[i], NA )
-}
+  for( j in 1:nrow(pa_hmsc) ){
+    pa_hmsc[j,i] <-  if( cover_quads_all$prepost[j]  == 'pre' ) {
+      ifelse( pa_hmsc[j,i] == 1, initial_peaks_taxon$elev.init.med[i], NA )
+    } else {
+      ifelse( pa_hmsc[j,i] == 1, initial_peaks_taxon$elev.final.med[i], NA )
+    }
+  }}
+
 
 # calculate mean and sd of peak elevation for each quadrat
 peaks.mean <- apply( pa_hmsc, 1, mean, na.rm = T)
@@ -156,9 +177,24 @@ boxplot(peaks.sd/peaks.mean)
 cover_quads_all$elev.var <- peaks.sd/peaks.mean
 cover_quads_all$localrich <- rowSums(cover_quads_all_pa)
 
+
+write_csv( cover_quads_all, "R/output/cover_quads_all_elevvar.csv")
+
 # windows( 5,5 )
 cover_quads_pre <- filter( cover_quads_all, Year %in% c(2012,2013))
+cover_quads_post <- filter( cover_quads_all, Year %in% c(2018,2019))
+
 psych::pairs.panels( select(cover_quads_pre, Shore_height_cm, localrich, elev.var), hist.col = "whitesmoke"                )
+psych::pairs.panels( select(cover_quads_pre, Shore_height_cm, elev.var, localrich), hist.col = "whitesmoke"                )
+psych::pairs.panels( select(cover_quads_post, Shore_height_cm, localrich, elev.var), hist.col = "whitesmoke"                )
+psych::pairs.panels( select(cover_quads_post, Shore_height_cm, elev.var, localrich), hist.col = "whitesmoke"                )
+
+
+
+
+summary( lm( elev.var ~ Shore_height_cm, data = cover_quads_pre ) )
+summary( lm( localrich ~ elev.var + Shore_height_cm, data = cover_quads_pre ) )
+
 
 
 

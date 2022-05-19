@@ -10,6 +10,7 @@
 library( tidyverse )
 library( lubridate )
 library( heatwaveR )
+library( imputeTS )
 # # The two packages we will need
 # # NB: The packages only need to be installed from GitHub once
 # devtools::install_github("tidyverse/tidyverse")
@@ -17,34 +18,28 @@ library( heatwaveR )
 
 
 ## try with data we already have 
-pine <- read_csv( "Data/environmetal_data/Lighthouse Data/2020 update/DATA_-_Active_Sites/Pine_Island/Pine_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1937-2019.csv",
+pine <- read_csv( "Data/environmental_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/Pine_Island/Pine_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1937-2021.csv",
 skip=1 )
-names(pine) <- c( 'date','sal','temp','latitude', 'longitude' )
-mcin <- read_table( "data/environmetal_data/Lighthouse Data/through May 2019_Peter Chandler/McInnesDailySalTemp.txt",
-                            skip=3 )
-
+names(pine)[1:5] <- c( 'date','sal','temp','latitude', 'longitude' )
+mcin <- read_csv( "Data/environmental_data/Lighthouse Data/2021_update/DATA_-_Active_Sites/McInnes_Island/McInnes_Island_-_Daily_Sea_Surface_Temperature_and_Salinity_1954-2021.csv",
+                  skip=1 )
+names(mcin)[1:5] <- c( 'date','sal','temp','latitude', 'longitude' )
 # air temperature - Addenbrooke air temperature
-adden <- read_csv( "data/environmetal_data/Addenbroke Air Temperature/EC/1060080.ascii", skip=1 )  # data from https://data.pacificclimate.org/portal/pcds/map/
+adden <- read_csv( "data/environmental_data/Addenbroke Air Temperature/EC/1060080.ascii", skip=1 )  # data from https://data.pacificclimate.org/portal/pcds/map/
 
 # clean up the data
 # renames columns, make date columns, replace 999.9 with NA
 d <- pine %>%
   filter( !is.na(date) ) %>% 
-  mutate( date = mdy(date) ) %>% 
-  # select( year=Year, month=Month, day=Day, temp=`Temperature(C)`, sal=`Salinity(psu)` ) %>%
-  # mutate( date=ymd(paste(year,month,day))) %>%
-  # unite( date, year,month,day, sep="-" ) %>%
-  # mutate( date= ymd(date) ) %>%
-  mutate( temp=replace(temp, temp==99.9, NA)) %>%
-  mutate( sal=replace(sal, sal==99.9, NA))
+  mutate( date = ymd(date) ) %>% 
+  mutate( temp=replace(temp, temp==999.9, NA)) %>%
+  mutate( sal=replace(sal, sal==999.9, NA))
 #
 d2 <- mcin %>%
-  select( year=Year, month=Month, day=Day, temp=`Temperature(C)`, sal=`Salinity(psu)` ) %>%
-  # mutate( date=ymd(paste(year,month,day))) %>%
-  unite( date, year,month,day, sep="-" ) %>%
-  mutate( date= ymd(date) ) %>%
+  filter( !is.na(date) ) %>% 
+  mutate( date = ymd(date) ) %>% 
   mutate( temp=replace(temp, temp==999.9, NA)) %>%
-  mutate( sal=replace(sal, sal==999.9, NA)) 
+  mutate( sal=replace(sal, sal==999.9, NA))
 #
 d3_all <- adden %>%
   select( date=time, temp_min=MIN_TEMP, temp_max=MAX_TEMP,precip=ONE_DAY_PRECIPITATION ) %>%
@@ -71,27 +66,29 @@ lines(d2, type='l',col="blue")
 ## heatwaveR
 start.date <- "1937-01-01"
 end.date   <- "2019-10-31"
+maxGapchoice = 2
+
 # Detect the events in a time series
 ts <- ts2clm(d, climatologyPeriod = c(start.date, end.date))
 ts10 <- ts2clm(d, climatologyPeriod = c(start.date, end.date), pctile=10)
-mhw <- detect_event(ts)
-mcw <- detect_event(ts10,coldSpells = TRUE)
+mhw <- detect_event(ts, maxGap = maxGapchoice)
+mcw <- detect_event(ts10,coldSpells = TRUE, maxGap = maxGapchoice)
 ts2 <- ts2clm(d2, climatologyPeriod = c("1954-01-01", "2019-05-01"))
 ts210 <- ts2clm(d2, climatologyPeriod = c("1954-01-01", "2019-05-01"), pctile=10)
-mhw2 <- detect_event(ts2)
-mcw2 <- detect_event(ts210,coldSpells = TRUE)
+mhw2 <- detect_event(ts2, maxGap = maxGapchoice)
+mcw2 <- detect_event(ts210,coldSpells = TRUE, maxGap = maxGapchoice)
 ts3 <- ts2clm(d3, climatologyPeriod = c("1978-01-01", "2019-05-01"))
-ts310 <- ts2clm(d3, climatologyPeriod = c("1978-01-01", "2019-05-01"), pctile=10)
-mhw3 <- detect_event(ts3, minDuration = 1)
-mcw3 <- detect_event(ts310,coldSpells = TRUE, minDuration = 1)
+ts310 <- ts2clm(d3, climatologyPeriod = c("1978-01-01", "2019-05-01"))
+mhw3 <- detect_event(ts3, minDuration = 1, maxGap = maxGapchoice)
+mcw3 <- detect_event(ts310,coldSpells = TRUE, minDuration = 1, maxGap = maxGapchoice)
 ts4 <- ts2clm(d4, climatologyPeriod = c("1978-01-01", "2019-05-01"))
 ts410 <- ts2clm(d4, climatologyPeriod = c("1978-01-01", "2019-05-01"), pctile=10)
-mhw4 <- detect_event(ts4)
-mcw4 <- detect_event(ts410,coldSpells = TRUE)
+mhw4 <- detect_event(ts4, maxGap = maxGapchoice)
+mcw4 <- detect_event(ts410,coldSpells = TRUE, maxGap = maxGapchoice)
 ts5 <- ts2clm(d5, climatologyPeriod = c("1978-01-01", "2019-05-01"))
 ts510 <- ts2clm(d5, climatologyPeriod = c("1978-01-01", "2019-05-01"), pctile=10)
-mhw5 <- detect_event(ts5)
-mcw5 <- detect_event(ts510,coldSpells = TRUE)
+mhw5 <- detect_event(ts5, maxGap = maxGapchoice)
+mcw5 <- detect_event(ts510,coldSpells = TRUE, maxGap = maxGapchoice)
 
 # View just a few metrics
 mhw$event %>% 
@@ -113,6 +110,7 @@ mhw3$event %>%
   head(6)
 
 event_line(mhw, start_date = "2012-01-01", end_date = "2019-05-01") #, min_duration = 30, spread = 180, start_date = "1937-01-01", end_date = "2019-05-01")
+event_line(mhw2, start_date = "2012-01-01", end_date = "2019-05-01") #, min_duration = 30, spread = 180, start_date = "1937-01-01", end_date = "2019-05-01")
 
 
 event_line(mhw, min_duration = 30, spread = 180, metric = "intensity_max", # big El Nino of 1997
@@ -124,13 +122,13 @@ event_line(mhw, min_duration = 10, spread = 180, metric = "intensity_max", # acu
 event_line(mhw, min_duration = 30, spread = 180, metric = "intensity_cumulative", 
            start_date = "2000-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
 event_line(mhw2, min_duration = 30, spread = 180, metric = "intensity_cumulative", 
-           start_date = "2000-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
+           start_date = "2000-01-01", end_date = "2019-05-01") # 
 event_line(mcw2, spread = 180, metric = "intensity_max", 
-           start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
+           start_date = "2011-01-01", end_date = "2019-05-01") # 
 event_line(mcw3, spread = 180, metric = "intensity_max", 
-           start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
+           start_date = "2011-01-01", end_date = "2019-05-01") # 
 event_line(mhw3, spread = 180, metric = "intensity_cumulative", 
-           start_date = "2011-01-01", end_date = "2019-05-01") # most of 2015 that we have a record for
+           start_date = "2011-01-01", end_date = "2019-05-01") # 
 
 
 lolli_plot(mhw, metric = "intensity_max")
@@ -185,7 +183,9 @@ mcw5_clim <- mcw5$climatology %>%
   filter( t >= "2011-05-01") %>%
   mutate( site="Addenbrooke Island PRECIP")
 mhw_clim_join <- full_join(full_join(full_join(full_join( mhw_clim, mhw2_clim ),mhw3_clim),mhw4_clim),mhw5_clim)#, by=c("site","doy", "t") )
+mhw_clim_join <- full_join(full_join( mhw_clim, mhw2_clim ),mhw3_clim)#, by=c("site","doy", "t") )
 mcw_clim_join <- full_join(full_join(full_join(full_join( mcw_clim, mcw2_clim ),mcw3_clim),mcw4_clim),mcw5_clim)#, by=c("site","doy", "t") )
+mcw_clim_join <- full_join(full_join( mcw_clim, mcw2_clim ),mcw3_clim)#, by=c("site","doy", "t") )
 
 ggplot(mhw_clim_join, aes(x = t, y = temp, y2 = thresh, col=site, fill=site)) +
   geom_flame(n=5,n_gap = 2, alpha=0.5) 
@@ -219,7 +219,7 @@ ggplot(mhw_clim_join, aes(x = t), group=site) +
   theme_minimal()
 
 
-ggsave( "R Code and Analysis/Figs/heatwaveR_lighthouse_2011.png",
+ggsave( "R/Figs/heatwaveR_lighthouse_2011.svg",
         dpi=300, width=11, height=8 )
 
 
@@ -276,8 +276,11 @@ ggplot(mhw_clim, aes(x = t), group=site) +
   
 ###Pine Island
 year<-c("2011","2012","2013","2014","2015","2016","2017","2018","2019") %>% as.numeric()
+# numbers of heatwave days...will the R package produce this?
 heatwave_days<-c(0,0,26,92,249,191,28,48,24)
 pine<-tibble(year, heatwave_days)
+
+# Percent of days with data that are over 95% threshold
 
 
 ggplot(pine, aes(x=year, y=heatwave_days))+
@@ -320,3 +323,37 @@ ggplot(ad, aes(x=year, y=heatwave_days))+
   ggtitle("Addenbroke Island (Air temperature)")
 
 
+
+
+
+## interpolate data from Pine Island
+# remove the first few rows
+d <- d[-c(1:13),]
+dinterp <- na_interpolation(d)
+dinterp <- dinterp %>% 
+  filter( t < "2019-10-31")
+# Detect the events in a time series
+start.date <- "1937-01-14"
+end.date <- "2019-10-30"
+ts <- ts2clm(dinterp, climatologyPeriod = c(start.date, end.date))
+ts10 <- ts2clm(dinterp, climatologyPeriod = c(start.date, end.date), pctile=10)
+mhw <- detect_event(ts, maxGap = maxGapchoice)
+mcw <- detect_event(ts10,coldSpells = TRUE, maxGap = maxGapchoice)
+
+
+# Have a table to show heatwave summary for Pine Island at least
+mhw_summary <- mhw$event %>% 
+  dplyr::ungroup() %>%
+  dplyr::select(event_no, duration, date_start, date_peak, intensity_max, intensity_cumulative) %>% 
+  dplyr::arrange(-intensity_max)
+
+mhw_summary_year <- mhw_summary %>% 
+  mutate( year = year(date_start) ) %>% 
+  group_by( year ) %>% 
+  summarize( duration = sum(duration), intensity_max = max(intensity_max)) %>% 
+  arrange(-duration) 
+ggplot( mhw_summary_year, aes(x=year, y=duration)) + geom_segment( aes(yend=duration,y=0,xend=year),col='firebrick') + geom_point( aes(size=intensity_max), alpha = 0.7, col='firebrick')
+lolli_plot(mhw, metric = "intensity_cumulative")
+lolli_plot(mhw, metric = "intensity_max")
+# write to disk
+write_csv( mhw_summary_year, "R/output/heatwaveR_summary_year.csv" )

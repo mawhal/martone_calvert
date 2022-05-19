@@ -49,6 +49,11 @@ muse <- droplevels(muse)
 duse <- ad[ ad$UID %in% muse$UID, ]
 dm <- left_join( duse, muse )
 
+dm %>% 
+  select(Site,Year,Quadrat) %>% 
+  distinct() %>% 
+  table()
+
 
 # choose which to include
 d <- dm %>% 
@@ -103,7 +108,11 @@ d.simple <- d %>%
   mutate( taxon = gsub(" ",".",taxon_lumped3) ) %>% 
   group_by( UID, Year, Site, Zone, Quadrat, Meter.point, taxon, funct_2021 ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T)) 
-
+d.simple %>%
+  ungroup() %>% 
+  select(Site,Year,Quadrat) %>% 
+  distinct() %>% 
+  table()
 # write to disk so we are using the same dataset here and in HMSC
 write_csv(d.simple, "R/output/data_select_rda_HMSC.csv")
 

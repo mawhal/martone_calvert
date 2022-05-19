@@ -2,8 +2,10 @@
 # This script reads and exports data into a community dataset (rows
 # are samples and columns are taxa) for each survey year 
 # 
-# started by Matt Whalen on 8 sep 2021
+# a general script but the purpose is to supply all data from each year separately for case study of Tekwa richness estimator
 #
+# started by Matt Whalen on 8 sep 2021
+# 
 
 library(tidyverse)
 
@@ -31,10 +33,20 @@ d.simple <- read_csv("R/output/data_select_rda_HMSC.csv")
 # Note that some taxa have already been removed. Please ask Whalen about these
 # if you are interested
 
+
 # spread Taxon column out into many columns filled with abundance/cover data
-d.comm <- d.comm.prep %>%
+d.comm <- d.simple %>%
   select( -funct_2021 ) %>%
   spread( taxon, Abundance, fill=0 )
+
+
+# remove animals after making wide to deal with cases with zero cover for all taxa
+animals <- d.simple %>% 
+  filter( funct_2021 == "animal" ) %>% 
+  select( taxon ) %>% 
+  unlist() %>%  unique()
+d.comm <- d.comm[, !(names(d.comm) %in% animals)]
+
 
 # order community data by site and zone
 d.comm <- d.comm %>%
@@ -53,17 +65,19 @@ metacomm <- left_join( d.comm, muse )
 write_csv( metacomm, "R/output/community.csv")
 
 # get rid of extra columns
-commselect <- d.comm[, -c(2,3,4,5)]
+commselect <- d.comm[, -c(2,3,4,5,6)]
 
 # isolate a data set for each year
 commsplit <- split( commselect, f = metacomm$Year )
 
 # write these to disk
+# # example
+# x = "2012"
+# write_csv( as.data.frame(commsplit[[x]]), file = paste0("output/community_", x, ".csv") )
+
 sapply( names(commsplit), 
        function (x) write_csv( commsplit[[x]], file = paste0("R/output/community_", x, ".csv") )   )
 
-x = "2012"
-write_csv( as.data.frame(commsplit[[x]]), file = paste0("output/community_", x, ".csv") )
 
 
 

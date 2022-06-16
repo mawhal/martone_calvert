@@ -48,86 +48,12 @@ d.select <- d.simple %>%
 # unique(d.simple$quadrat)
 
 # only take data from before and after the heatwaves started
-d.select.all.years <- d.select
 d.select <- d.select %>% filter( Year %in% c(2012,2013,2018,2019))
 
 
 
-# just get algae
-d.comm.algae <- d.select %>%
-  filter( funct_2021 != "animal" ) %>% 
-  select(-funct_2021) %>% 
-  spread( taxon, Abundance, fill=0 )
 
-# just get algae, and calculate richness across sites
-d.comm.algae.transect <- d.select.all.years %>%
-  filter( funct_2021 != "animal" ) %>% 
-  select(-funct_2021) %>% 
-  group_by( Year, Site,  taxon ) %>% 
-  summarize( Abundance = sum(Abundance) ) %>% 
-  ungroup() %>% 
-  spread( taxon, Abundance, fill=0 ) 
-d.comm.richness <- d.comm.algae.transect %>% 
-  select( - Year, -Site ) 
-d.richness <- rowSums( d.comm.richness>0 )  
-transect.richness <- bind_cols( select(d.comm.algae.transect, Year, Site), richness=d.richness ) 
-transect.richness$Site <- factor(transect.richness$Site, levels = c("Foggy Cove","Fifth Beach","North Beach") )
-ggplot( transect.richness, aes(x=Year, y=richness, group=Site )) + 
-  geom_line( ) +   geom_point( aes(shape=Site), bg="white", size=3 ) +
-  scale_shape_manual( values = c(21,22,24) ) +
-  theme_classic() + theme( legend.position = "none")
 
-# just get algae, and calculate richness along transects
-d.comm.algae.transect <- d.select.all.years %>%
-  filter( funct_2021 != "animal" ) %>% 
-  select(-funct_2021) %>% 
-  group_by( Year, Site, Zone, taxon ) %>% 
-  summarize( Abundance = sum(Abundance) ) %>% 
-  ungroup() %>% 
-  spread( taxon, Abundance, fill=0 ) 
-d.comm.richness <- d.comm.algae.transect %>% 
-  select( - Year, -Site, -Zone )
-d.richness <- rowSums( d.comm.richness>0 )  
-transect.richness <- bind_cols( select(d.comm.algae.transect, Year, Site, Zone), richness=d.richness ) %>%
-  unite( "transect", Site, Zone, remove = F)
-transect.richness$Zone <- factor(transect.richness$Zone, levels = c("LOW","MID","HIGH") )
-transect.richness$Site <- factor(transect.richness$Site, levels = c("Foggy Cove","Fifth Beach","North Beach") )
-ggplot( transect.richness, aes(x=Year, y=richness, group=Zone )) + 
-  facet_wrap(~Site, ncol=1 ) +
-  geom_line( aes(lty=Zone, col=Zone)) +   geom_point( aes(col=Zone)) +
-  scale_color_manual( values = c("black","gray","gray") ) +
-  scale_linetype_manual( values = c(1,1,2) ) +
-  # scale_shape_manual( values = c(21,22,24) ) +
-  ylab("Total transect species richness") +
-  theme_classic() + theme( legend.position = "none")
-ggplot( transect.richness, aes(x=Year, y=richness,  pch=Site, group=transect )) + 
-  geom_line( aes(lty=Zone, col=Zone)) +   geom_point( aes(col=Zone, fill=Zone), size=2) +
-  scale_color_manual( values = c("black","gray","gray") ) +
-  scale_fill_manual( values = c("black","gray","white") ) +
-  scale_linetype_manual( values = c(1,1,2) ) +
-  scale_shape_manual( values = c(21,22,24) ) +
-  ylab("Total transect species richness") +
-  theme_classic() + theme( legend.position = "none")
-
-ggplot( transect.richness, aes(x=Year, y=richness,   group=transect )) + 
-  # geom_line( aes(lty=Zone, col=Zone)) +   geom_point( aes(col=Zone, fill=Zone), size=2) +
-  geom_smooth( aes(lty=Zone, col=Zone), method = 'lm', se=F) +
-  scale_color_manual( values = c("black","gray","gray") ) +
-  scale_fill_manual( values = c("black","gray","white") ) +
-  scale_linetype_manual( values = c(1,1,2) ) +
-  scale_shape_manual( values = c(21,22,24) ) +
-  ylab("Total transect species richness") +
-  coord_cartesian(ylim=c(0,40)) +
-  theme_classic() + theme( legend.position = "none")
-
-library(broom)
-reglines <- transect.richness %>% 
-  nest(data = -transect) %>% 
-  mutate(
-    test = map(data, ~ lm((richness)~Year, data=.x)), # S3 list-col
-    tidied = map(test, tidy)
-  ) %>% 
-  unnest(tidied)
 
 # merge meta data so we can chop things up and summarize across sites, zones, etc.
 # first, remove rows from data that are not in the restricted metadata

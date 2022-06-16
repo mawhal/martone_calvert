@@ -862,7 +862,7 @@ Fifth Beach HIGH 2016 10,Pyropia fucicola,1,Pyropia fucicola,Pyropia fucicola,Py
 Fifth Beach HIGH 2016 10,Savoiea robusta,2,Savoiea robusta,Savoiea robusta,Savoiea robusta,Savoiea robusta,Algae,sessile,added in 2019,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach HIGH 2016 2,bare rock,7,bare rock,Bare rock,Bare rock,Bare rock,Substratum,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach HIGH 2016 2,Barnacle,41,Barnacle,Barnacles,Barnacles,Barnacles,Animal,sessile,NA,animal,animal,animal,animal,animal,animal,animal,animal,NA
-Fifth Beach HIGH 2016 2,Chaetomorpha cannabina,0.5,Chaetomorpha cannabina,Chaetomorpha cannabina,Chaetomorpha cannabina,Chaetomorpha cannabina,Algae,sessile,NA,filament,filament,filament,filament,filament,filament,thin_turf,thin_turf,NA
+Fifth Beach HIGH 2016 2,Chaetomorpha linum,0.5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach HIGH 2016 2,Cladophora columbiana,0.5,Cladophora columbiana,Cladophora columbiana,Cladophora columbiana,Cladophora columbiana,Algae,sessile,NA,filament_turf,filament,green turf,green turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach HIGH 2016 2,Endocladia muricata,12,Endocladia muricata,Endocladia muricata,Endocladia muricata,Endocladia muricata,Algae,sessile,NA,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach HIGH 2016 2,Fucus distichus,2,Fucus distichus,Fucus distichus,Fucus distichus,Fucus distichus,Algae,sessile,NA,Fucoid,thick leathery,Fucus,Fucus,Fucus,Fucus,large_brown,canopy,NA
@@ -889,7 +889,7 @@ Fifth Beach HIGH 2016 3,Savoiea robusta,3,Savoiea robusta,Savoiea robusta,Savoie
 Fifth Beach HIGH 2016 3,Ulva lactuca,0.5,Ulva fenestrata,Ulva fenestrata,Ulva,Ulva,Algae,sessile,changed in 2019,blade,sheet,green blade,blade,green blade,blade,blade,blade,NA
 Fifth Beach HIGH 2016 4,bare rock,6,bare rock,Bare rock,Bare rock,Bare rock,Substratum,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach HIGH 2016 4,Barnacle,32,Barnacle,Barnacles,Barnacles,Barnacles,Animal,sessile,NA,animal,animal,animal,animal,animal,animal,animal,animal,NA
-Fifth Beach HIGH 2016 4,Chaetomorpha cannabina,0.5,Chaetomorpha cannabina,Chaetomorpha cannabina,Chaetomorpha cannabina,Chaetomorpha cannabina,Algae,sessile,NA,filament,filament,filament,filament,filament,filament,thin_turf,thin_turf,NA
+Fifth Beach HIGH 2016 4,Chaetomorpha linum,0.5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach HIGH 2016 4,Cladophora columbiana,5,Cladophora columbiana,Cladophora columbiana,Cladophora columbiana,Cladophora columbiana,Algae,sessile,NA,filament_turf,filament,green turf,green turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach HIGH 2016 4,Endocladia muricata,10,Endocladia muricata,Endocladia muricata,Endocladia muricata,Endocladia muricata,Algae,sessile,NA,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach HIGH 2016 4,Fucus distichus,18,Fucus distichus,Fucus distichus,Fucus distichus,Fucus distichus,Algae,sessile,NA,Fucoid,thick leathery,Fucus,Fucus,Fucus,Fucus,large_brown,canopy,NA
@@ -2733,10 +2733,9 @@ Fifth Beach LOW 2017 4,Mazzaella parvula,1,Mazzaella parvula,Mazzaella parvula,M
 Fifth Beach LOW 2017 4,Mazzaella splendens,6,Mazzaella splendens,Mazzaella splendens,Mazzaella splendens,Mazzaella splendens,Algae,sessile,NA,blade,thick leathery,red blade,blade,red blade,blade,blade,blade,NA
 Fifth Beach LOW 2017 4,Microcladia borealis,7,Microcladia borealis,Microcladia borealis,Microcladia borealis,Microcladia borealis,Algae,sessile,NA,red turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach LOW 2017 4,Neorhodomela larix,14,Neorhodomela larix,Neorhodomela larix,Neorhodomela larix,Neorhodomela larix,Algae,sessile,NA,red turf,finely branching,red turf,red turf,turf,turf,turf,turf,NA
-Fifth Beach LOW 2017 4,Phycodrys sp.,1,Phycodrys sp.,Phycodrys sp.,Phycodrys sp.,Phycodrys sp.,Algae,sessile,NA,red turf,finely branching,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach LOW 2017 4,Phyllospadix scouleri,32,Phyllospadix scouleri,Phyllospadix spp.,Phyllospadix spp.,Phyllospadix spp.,Algae,sessile,NA,seagrass,seagrass,seagrass,seagrass,seagrass,seagrass,seagrass,canopy,NA
 Fifth Beach LOW 2017 4,Plocamium violaceum,0.5,Plocamium violaceum,Plocamium violaceum,Plocamium violaceum,Plocamium violaceum,Algae,sessile,NA,red turf,finely branching,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
-Fifth Beach LOW 2017 4,Polyneura latissima,3,Polyneura latissima,Polyneura latissima,Polyneura latissima,Polyneura latissima,Algae,sessile,NA,red turf,sheet,red turf,red turf,turf,turf,turf,turf,could also be blade
+Fifth Beach LOW 2017 4,Polyneura latissima,4,Polyneura latissima,Polyneura latissima,Polyneura latissima,Polyneura latissima,Algae,sessile,NA,red turf,sheet,red turf,red turf,turf,turf,turf,turf,could also be blade
 Fifth Beach LOW 2017 4,Ptilota filicina,35,Ptilota filicina,Ptilota filicina,Ptilota filicina,Ptilota filicina,Algae,sessile,NA,red turf,finely branching,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach LOW 2017 4,Pyropia abbottiae,6,Pyropia abbottiae,Pyropia abbottiae,Pyropia,Pyropia,Algae,sessile,NA,blade,sheet,red blade,blade,red blade,blade,blade,blade,NA
 Fifth Beach LOW 2017 4,Savoiea robusta,1,Savoiea robusta,Savoiea robusta,Savoiea robusta,Savoiea robusta,Algae,sessile,added in 2019,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
@@ -7943,7 +7942,7 @@ Foggy Cove LOW 2018 8,Alaria marginata,31,Alaria marginata,Alaria marginata,Alar
 Foggy Cove LOW 2018 8,bare rock,28,bare rock,Bare rock,Bare rock,Bare rock,Substratum,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Foggy Cove LOW 2018 8,Bossiella frondescens,5,Bossiella frondescens,Bossiella_articulate,Bossiella_articulate,Bossiella_articulate,Algae,sessile,NA,articulated coralline,Jointed calcareous,articulated coralline,articulated coralline,articulated coralline,articulated coralline,turf,turf,NA
 Foggy Cove LOW 2018 8,Ceramium pacificum,0.5,Ceramium pacificum,Ceramium pacificum,Ceramium pacificum,Ceramium pacificum,Algae,sessile,NA,filament,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
-Foggy Cove LOW 2018 8,Chaetomorpha cannabina,0.5,Chaetomorpha cannabina,Chaetomorpha cannabina,Chaetomorpha cannabina,Chaetomorpha cannabina,Algae,sessile,NA,filament,filament,filament,filament,filament,filament,thin_turf,thin_turf,NA
+Foggy Cove LOW 2018 8,Chaetomorpha linum,0.5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Foggy Cove LOW 2018 8,Chamberlainium tumidum,13,Chamberlainium tumidum,Chamberlainium tumidum,Chamberlainium tumidum,Chamberlainium tumidum,Algae,sessile,changed to Chamberlainium in 2019,crustose coralline,crustose,crustose coralline,crustose coralline,crustose coralline,crustose coralline,crust,crust,NA
 Foggy Cove LOW 2018 8,Codium fragile,2,Codium fragile,Codium fragile,Codium fragile,Codium fragile,Algae,sessile,NA,other,finely branching,Codium,Codium,Codium,Codium,turf,turf,NA
 Foggy Cove LOW 2018 8,Corallina vancouveriensis,25,Corallina vancouveriensis,Corallina,Corallina,Corallina,Algae,sessile,NA,articulated coralline,jointed calcareous,articulated coralline,articulated coralline,articulated coralline,articulated coralline,turf,turf,NA
@@ -8320,8 +8319,8 @@ Foggy Cove MID 2011 6,Mastocarpus rigidus,1,Mastocarpus rigidus,Mastocarpus rigi
 Foggy Cove MID 2011 6,Neorhodomela larix,5,Neorhodomela larix,Neorhodomela larix,Neorhodomela larix,Neorhodomela larix,Algae,sessile,NA,red turf,finely branching,red turf,red turf,turf,turf,turf,turf,NA
 Foggy Cove MID 2011 6,Odonthalia floccosa,2,Odonthalia floccosa,Odonthalia floccosa,Odonthalia floccosa,Odonthalia floccosa,Algae,sessile,These are distinct,red turf,finely branching,red turf,red turf,turf,turf,turf,turf,NA
 Foggy Cove MID 2011 6,Petrocelis,0.5,Petrocelis,Petrocelis,Petrocelis,Petrocelis,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
-Foggy Cove MID 2011 6,Phycodrys sp.,1,Phycodrys sp.,Phycodrys sp.,Phycodrys sp.,Phycodrys sp.,Algae,sessile,NA,red turf,finely branching,red turf,red turf,turf,turf,turf,turf,NA
 Foggy Cove MID 2011 6,Phyllospadix serrulatus,75,Phyllospadix serrulatus,Phyllospadix spp.,Phyllospadix spp.,Phyllospadix spp.,Algae,sessile,NA,seagrass,seagrass,seagrass,seagrass,seagrass,seagrass,seagrass,canopy,NA
+Foggy Cove MID 2011 6,Polyneura latissima,1,Polyneura latissima,Polyneura latissima,Polyneura latissima,Polyneura latissima,Algae,sessile,NA,red turf,sheet,red turf,red turf,turf,turf,turf,turf,could also be blade
 Foggy Cove MID 2011 6,Ulva lactuca,0.5,Ulva fenestrata,Ulva fenestrata,Ulva,Ulva,Algae,sessile,changed in 2019,blade,sheet,green blade,blade,green blade,blade,blade,blade,NA
 Foggy Cove MID 2011 7,bare rock,40,bare rock,Bare rock,Bare rock,Bare rock,Substratum,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Foggy Cove MID 2011 7,Blidingia minima,1,Blidingia minima,Blidingia,Blidingia,Blidingia,Algae,sessile,NA,green turf,sheet,green turf,green turf,turf,turf,turf,turf,NA

@@ -4,7 +4,7 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Mytilus"
+taxon <- "Sargassum"
 
 # # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
 # 
@@ -13,7 +13,8 @@ taxon <- "Mytilus"
 # set options
 options(stringsAsFactors = FALSE)
 
-# load libraries
+# load packages
+require(svglite)
 library(tidyverse)
 library(viridis)
 

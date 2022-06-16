@@ -862,7 +862,7 @@ Fifth Beach HIGH 2016 10,Pyropia fucicola,1
 Fifth Beach HIGH 2016 10,Savoiea robusta,2
 Fifth Beach HIGH 2016 2,bare rock,7
 Fifth Beach HIGH 2016 2,Barnacle,41
-Fifth Beach HIGH 2016 2,Chaetomorpha cannabina,0.5
+Fifth Beach HIGH 2016 2,Chaetomorpha linum,0.5
 Fifth Beach HIGH 2016 2,Cladophora columbiana,0.5
 Fifth Beach HIGH 2016 2,Endocladia muricata,12
 Fifth Beach HIGH 2016 2,Fucus distichus,2
@@ -889,7 +889,7 @@ Fifth Beach HIGH 2016 3,Savoiea robusta,3
 Fifth Beach HIGH 2016 3,Ulva lactuca,0.5
 Fifth Beach HIGH 2016 4,bare rock,6
 Fifth Beach HIGH 2016 4,Barnacle,32
-Fifth Beach HIGH 2016 4,Chaetomorpha cannabina,0.5
+Fifth Beach HIGH 2016 4,Chaetomorpha linum,0.5
 Fifth Beach HIGH 2016 4,Cladophora columbiana,5
 Fifth Beach HIGH 2016 4,Endocladia muricata,10
 Fifth Beach HIGH 2016 4,Fucus distichus,18
@@ -2733,10 +2733,9 @@ Fifth Beach LOW 2017 4,Mazzaella parvula,1
 Fifth Beach LOW 2017 4,Mazzaella splendens,6
 Fifth Beach LOW 2017 4,Microcladia borealis,7
 Fifth Beach LOW 2017 4,Neorhodomela larix,14
-Fifth Beach LOW 2017 4,Phycodrys sp.,1
 Fifth Beach LOW 2017 4,Phyllospadix scouleri,32
 Fifth Beach LOW 2017 4,Plocamium violaceum,0.5
-Fifth Beach LOW 2017 4,Polyneura latissima,3
+Fifth Beach LOW 2017 4,Polyneura latissima,4
 Fifth Beach LOW 2017 4,Ptilota filicina,35
 Fifth Beach LOW 2017 4,Pyropia abbottiae,6
 Fifth Beach LOW 2017 4,Savoiea robusta,1
@@ -7925,7 +7924,7 @@ Foggy Cove LOW 2018 8,Alaria marginata,31
 Foggy Cove LOW 2018 8,bare rock,28
 Foggy Cove LOW 2018 8,Bossiella frondescens,5
 Foggy Cove LOW 2018 8,Ceramium pacificum,0.5
-Foggy Cove LOW 2018 8,Chaetomorpha cannabina,0.5
+Foggy Cove LOW 2018 8,Chaetomorpha linum,0.5
 Foggy Cove LOW 2018 8,Chamberlainium tumidum,13
 Foggy Cove LOW 2018 8,Codium fragile,2
 Foggy Cove LOW 2018 8,Corallina vancouveriensis,25
@@ -8301,8 +8300,8 @@ Foggy Cove MID 2011 6,Mastocarpus rigidus,1
 Foggy Cove MID 2011 6,Neorhodomela larix,5
 Foggy Cove MID 2011 6,Odonthalia floccosa,2
 Foggy Cove MID 2011 6,Petrocelis,0.5
-Foggy Cove MID 2011 6,Phycodrys sp.,1
 Foggy Cove MID 2011 6,Phyllospadix serrulatus,75
+Foggy Cove MID 2011 6,Polyneura latissima,1
 Foggy Cove MID 2011 6,Ulva lactuca,0.5
 Foggy Cove MID 2011 7,bare rock,40
 Foggy Cove MID 2011 7,Blidingia minima,1

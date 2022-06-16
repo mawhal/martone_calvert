@@ -172,9 +172,11 @@ sort( colSums(comm), decreasing = T )
 # 
 
 ## temperature anomaly data from BC lightstations
-anoms <-  read_csv("Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv")
-plot(anoms$sal[anoms$site == "mccinnis" & anoms$year >= 2000], type='l')
-filter(anoms, site == "mccinnis") %>%  summarize(mean.sal = mean(sal,na.rm=T))
+anoms <-  read_csv("Data/R code for Data Prep/output from R/Lightstation_monthly_anomaly.csv") # See Lightstation_spectral_anomaly.R
+plot(anoms$sal[anoms$site == "mcinnes" & anoms$year >= 2000], type='l')
+plot(anoms$precip.anom[anoms$year >= 2000], type='p')
+filter(anoms, site == "mcinnes") %>%  summarize(mean.sal = mean(sal,na.rm=T))
+filter(anoms, site == "pine") %>%  summarize(mean.sal = mean(sal,na.rm=T))
 # collect temperature, sal, precip and use these in a PCA
 temp_wide <- anoms %>% 
   select( site, year, month, temp.anom ) %>% 
@@ -194,6 +196,7 @@ alld <- alld %>%
   unite(date, year,month,remove = F) %>% 
   mutate( date = lubridate::ym(date) ) %>% 
   select( -precip.anom )
+
 # PCA
 dna <- alld[ !(apply( alld, 1, function(z) any(is.na(z)) )), ]
 pca1 <- princomp( select(dna,temp_pine:sal_mccinnis ) )
@@ -309,7 +312,7 @@ as.survey <- anoms.annual %>%
 # as.survey <- anoms.season %>% 
   # filter( year>=2010 ) # %>% spread(season, Comp.2)
 
-# read in PCA data using raw and then imputed values
+# read in PCA data using raw and then imputed values. See Lightstation_raw_to_impute.R
 as2 <- read_csv( "Data/R code for Data Prep/Output from R/Lightstation_raw_PCA_impute.csv" )
 
 # pick

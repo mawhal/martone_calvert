@@ -21,7 +21,7 @@ ylimits <- c(-3.5,3.5)
 ################################################
 
 #Summarize data by date and calculate average nitrogen for sites that have data, remove data that does not equal 5 m depth
-nut<-read.csv("Data/Environmental Data/CTD_nutrients_Hakai.csv")
+nut<-read.csv("Data/environmental_data/CTD_nutrients_Hakai.csv")
 nut.avg<-nut[nut$NO2.NO3..uM.!="NA"&nut$Line.Out.Depth==5,] %>% 
   group_by(Date, Line.Out.Depth) %>%
   summarize(avg.N = mean(NO2.NO3..uM.))
@@ -47,7 +47,7 @@ plot(avg.N~Year, data=nut.avg2[nut.avg2$Month==9,])
 ################################################
 
 #Summarize data by date and calculate average nitrogen for sites that have data, remove data that does not equal 5 m depth
-nut<-read.csv("Data/Environmental Data/PRUTHCTD_2012-2018_HakaiData_nutrients.csv")
+nut<-read.csv("Data/environmental_data/PRUTHCTD_2012-2018_HakaiData_nutrients.csv")
 nut.avg<-nut[nut$NO2.NO3..uM.!="NA"&nut$Line.Out.Depth==5,] %>% 
   group_by(Date, Line.Out.Depth) %>%
   summarize(avg.N = mean(NO2.NO3..uM.))

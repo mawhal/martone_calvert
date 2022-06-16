@@ -1,6 +1,6 @@
 ## investigate raw data from lightstations instead of monthly averages or anomalies
 library(tidyverse)
-d <- read_csv("Data/R code for Data Prep/Output from R/Lightstation_raw.csv")
+d <- read_csv("Data/R code for Data Prep/Output from R/Lightstation_raw.csv") # see Lightstation_spectral_anomaly.R
 
 
 # arrange with columns for each measurement at each site
@@ -14,9 +14,9 @@ dsal <- d %>% select(date,sal,site) %>% group_by(date) %>%
   pivot_wider( names_from = site, values_from = sal, names_prefix = "sal_")
 
 # merge and clean
-dwide <- left_join(dtemp,dsal) %>% select(-sal_addenbroke)
+dwide <- left_join(dtemp,dsal)# %>% select(-sal_addenbroke)
 
-drecent <- dwide %>% filter( date >= "1978-01-01" & date <= "2019-07-4") %>% ungroup()
+drecent <- dwide %>% filter( date >= "1978-01-01" & date <= "2019-10-31") %>% ungroup()
 
 
 # check the data for outliers, etc.
@@ -35,20 +35,31 @@ res.comp$completeObs[1:3,] # the imputed data set
 imp <- res.comp$completeObs
 library(FactoMineR)
 res.pca <- PCA(imp, ncp = nb$ncp, graph = TRUE)
-res.pca$var
 summary(res.pca)
+res.pca$eig
+res.pca$var
 plot(res.pca, choix = "var", cex = 0.8)
 plot(res.pca, choix = "var", axes = 2:3, cex = 0.8)
+png(file="R/Figs/BC_Lightstation_daily_loadings.png", res = 600, width = 3, height = 3, units = "in")
+par(mar = c(5,4,2,2)+0.1, pty="s" )
+plot( res.pca, choix = "var", cex = 0.8, title = "", 
+      col.var = c("darkslateblue","darkslateblue", "darkslateblue","firebrick4","firebrick4"),
+       graph.type = "classic", label="none" ) #label = "none",
+dev.off()
 dimdesc( res.pca )
 pcscores <- data.frame( res.pca$ind$coord )
 names(pcscores) <- paste0("pca",1:ncol(pcscores))
+
+# merge with dates and write to disk
+pca.meta <- bind_cols(drecent,pcscores)
+write_csv( pca.meta, "Data/R code for Data Prep/Output from R/Lightstation_raw_PCA_impute_daily.csv" )
 
 
 ccf(pcscores$pca1, pcscores$pca2 )
 
 # dates for events
 # 1997-1998 El Nino
-warm_times <- lubridate::ymd(c("1997-06-01","1998-06-01","2013-12-01","2016-01-01"))
+warm_times <- lubridate::ymd(c("1997-06-01","1998-06-01","201408-01","2016-12-31"))
 lubridate::ymd(c("2013-12-01","2016-01-01"))
 png(file="R/Figs/BC_Lightstation_PCA_timeseries.png", res = 600, width = 5, height = 5, units = "in")
 par( mar=c(2,4,0,1)+0.1, mfrow=c(3,1), las = 1 )
@@ -65,6 +76,15 @@ lines( lowess(x = drecent$date, y = pcscores$pca3, f = 1/20, iter = 10), col = "
 abline( v = warm_times, lty = 4, col = "slategrey" )
 axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
 dev.off()
+
+png(file="R/Figs/BC_Lightstation_PCA1_daily_timeseries.png", res = 600, width = 6, height = 1.5, units = "in")
+par( mar=c(2,4,0,1)+0.1, mfrow=c(1,1), las = 1 )
+plot(x = drecent$date, y = pcscores$pca1, type = 'l', col = 'slateblue', ylab = "PCA1" ); abline(h = 0)
+lines( lowess(x = drecent$date, y = pcscores$pca1, f = 1/20, iter = 10), col = "darkslateblue", lwd=2)
+abline( v = warm_times, lty = 4, col = "slategrey" )
+axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
+dev.off()
+
 
 dna <- bind_cols( drecent, pcscores )
 dna$month = lubridate::month(dna$date)

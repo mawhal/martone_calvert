@@ -521,11 +521,11 @@ data.frame( pca1 = seq(-2.84,2.84, length=100), hex = pal2(100) )
 cols.two <- c( "#A2CDE2",  "#EF9B7A" )
 cols.two <- c( "#A2CDE2",  "#BF7C61" ) # make the redder one darker
 
-# add empirical means
-models[[1]]$studyDesign %>% 
-  group_by(year) %>% 
-  summarize(ntrans=length(transect))
-comm <- comm[ !is.na(comm$Shore_height_cm), ]
+#### add empirical means
+# models[[1]]$studyDesign %>% 
+#   group_by(year) %>% 
+#   summarize(ntrans=length(transect))
+comm <- metacomm[ !is.na(metacomm$Shore_height_cm), ]
 ogd <- bind_cols(  models[[1]]$studyDesign, comm )  #data.frame(m$Y)
 ogd$year <- ogd$year
 
@@ -547,70 +547,6 @@ ogd.cop.wide <- ogd.cop %>%
 ogd.pa.wide <- ogd.pa %>% 
   pivot_wider( names_from = taxon, values_from = N )
 
-
-# plot responses
-predictions_pa$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_cop$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-# predictions_pa$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-# predictions_cop$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-# predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-
-
-hist( comm$Fucus.distichus )
-# taxon <- "Hedophyllum.sessile"
-taxon <- "Alaria.marginata"
-# taxon <- "Fucus.distichus"
-# taxon <- "Mytilus.sp."
-
-lwds = 0.75
-sizes = 1
-
-a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='yearplot'))+
-  geom_point( data = filter(ogd.pa.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
-  geom_line(lwd = lwds) +
-  scale_color_manual(values=cols.two) +
-  coord_cartesian( ylim = c(0,1) ) +
-  ylab("") +
-  xlab("") +
-  theme_classic() +
-  theme(legend.position = "none") +
-  # theme(legend.position = c(1,0.25), legend.justification = c(1,0), legend.title=element_blank() ) +
-  # guides(col=guide_legend("year"))+
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank()) 
-b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='yearplot'))+
-  geom_point( data = filter(ogd.cop.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
-              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
-  geom_line(lwd = lwds) +
-  # scale_y_log10() +
-  scale_color_manual(values=cols.two) +
-  coord_cartesian( ylim = c(0,100) ) +
-  ylab("") +
-  xlab("") +
-  theme_classic() +
-  theme(legend.position = "none") +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank())
-c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='yearplot'))+
-  geom_point( data = filter(ogd.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
-              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
-  geom_line(lwd = lwds) +
-  # scale_y_log10() +
-  scale_color_manual(values=cols.two) +
-  coord_cartesian( ylim = c(0,100) ) +
-  ylab("") +
-  xlab("") +
-  theme_classic() + 
-  theme(legend.position = "none") +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank()) 
-plot_grid(c,a,b,ncol=1, align='hv')
-ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxon,".svg"), height = 4.5, width = 1.5 ) # width 1.6 for Hedophyllum, 1.5 for others
 
 # a <- ggplot(predictions_pa, aes_string(x = 'factor(year1,labels=2012:2019)',
 #                                 y = taxon))+
@@ -1831,6 +1767,7 @@ errorbar_small <- 0.75
 errorbar_big <- 1.5
 shift.summary.all$taxon <- gsub("Anemone","anemones",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("Barnacles","barnacles",shift.summary.all$taxon)
+shift.summary.all$taxon <- gsub("Elachista.*","Elachista",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("[.]spp[.]","",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("[.]sp[.]","",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("[.]"," ",shift.summary.all$taxon)
@@ -1890,48 +1827,52 @@ ggsave( "R/Figs/shifts_2panel_FG.svg", width=7, height=7 )
 
 
 ###########
-# # Find the predicted peak for each instance
-# # filter out animals
-# peaks <- predictions_pab_trait %>%
-#   filter( funct != "animals" ) %>% 
-#   group_by( year, taxon, funct ) %>%
-#   summarize( peak = mean(elev[which(N==max(N))]), peaksd = mean(elev[which(N==max(N))],na.rm=T) )
-# peaks$peak
-# ggplot( filter(peaks, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
-#   geom_point()
-# ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
-#   # geom_path(aes(group=taxon), alpha=0.5) + 
-#   geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
-# summary(lm(peak~1+year,data=peaks))
-# 
-# # get difference between peaks for 2012 and 2019
-# peak_shift <- peaks %>% 
-#   group_by( taxon, funct ) %>% 
-#   filter( year %in% c(2012,2019) ) %>% 
-#   summarize( shift = diff(peak))
-# 
-# # merge 2012 peaks with peak shift to compare shift relative to starting point
-# peak_initial <- peaks %>% filter( year==2012 )
-# peak_compare <- left_join( peak_shift, peak_initial )
-# 
-# cutoff <- 20
+# Find the predicted peak for each year, add this to figures of change from 2012 to 2019 across elevation
+peaks <- predictions_pab_trait %>%
+  # filter( funct != "animals" ) %>%
+  group_by( year, taxon, funct ) %>%
+  summarize( peak = mean(elev[which(N==max(N))]), peaksd = mean(elev[which(N==max(N))],na.rm=T) )
+peaks_half <- predictions_pab_trait %>%
+  group_by( year, taxon, funct ) %>%
+  summarize( peak = mean( range(unique(newDF$elev)[which(N>=max(N)/2)])) ) 
+
+ggplot( filter(peaks, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
+ggplot( filter(peaks_half, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
+ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
+  # geom_path(aes(group=taxon), alpha=0.5) +
+  geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
+summary(lm(peak~1+year,data=peaks))
+
+# get difference between peaks for 2012 and 2019
+peak_shift <- peaks_half %>%
+  group_by( taxon, funct ) %>%
+  filter( year %in% c(2012,2019) ) %>%
+  summarize( shift = diff(peak))
+
+# merge 2012 peaks with peak shift to compare shift relative to starting point
+peak_initial <- peaks_half %>% filter( year==2012 )
+peak_compare <- left_join( peak_shift, peak_initial )
+
+cutoff <- 20
 # peak_compare %>% filter(shift <= -cutoff)
 # peak_compare %>% filter(shift >= cutoff)
 # peak_compare %>% filter(shift < cutoff & shift > -cutoff)
 # peak_compare %>% filter(shift == 0 )
 # peak_compare %>% arrange(shift)
 # peak_compare %>% arrange(-shift)
-# 
-# # plot by functional group
-# trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100) ) + 
-#   geom_hline (yintercept=0, lty=2 ) +
-#   geom_boxplot()  + geom_point() +
-#   xlab("Functional group") + ylab("Peak shift (meters)") +
-#   # scale_fill_manual(values=c("whitesmoke","dodgerblue")) +
-#   theme_classic() +
-#   theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
-#   theme(legend.position = "none")
-# 
+
+# plot by functional group
+trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100) ) +
+  geom_hline (yintercept=0, lty=2 ) +
+  geom_boxplot()  + geom_point() +
+  xlab("Functional group") + ylab("Peak shift (meters)") +
+  # scale_fill_manual(values=c("whitesmoke","dodgerblue")) +
+  theme_classic() +
+  theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
+  theme(legend.position = "none")
+
 # peak_shift %>% arrange(-shift)
 # peak_shift %>% arrange(shift)
 # peak_shift %>% filter(shift==0)
@@ -1942,8 +1883,99 @@ ggsave( "R/Figs/shifts_2panel_FG.svg", width=7, height=7 )
 #   geom_point()
 
 
+# grab peaks for 2012 and 2019
+peaks1219 <- peaks_half %>% filter(year %in% c(2012,2019))
 
 
+
+# plot responses across elevation
+predictions_pa$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+predictions_cop$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+# predictions_pa$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# predictions_cop$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+
+# pick different taxa
+# taxonpick <- "Hedophyllum.sessile"
+# taxonpick <- "Alaria.marginata"
+# taxonpick <- "Fucus.distichus"
+# taxonpick <- "Mytilus.sp."
+
+# peaks for taxon
+peaks1219taxon <- peaks1219 %>% filter( taxon == taxonpick )
+# coverpick = NULL
+# for(i in 1:2){
+#   coverpick[i] <- predictions_pa[predictions_pa$elev == peaks1219taxon$peak[i] & predictions_pa$year ==  peaks1219taxon$year[i], taxonpick] 
+# }
+# peaks1219taxon$cover <- coverpick
+peaks1219taxon$yearplot <- as.character(peaks1219taxon$year)
+# peaks1219taxon$year <- as.factor(peaks1219taxon$year)
+# peaks1219taxon$elev <- peaks1219taxon$peak
+
+# plotting parameters
+lwds = 0.75
+sizes = 1
+
+a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+            aes_string(x = 'elev', y = taxonpick, col='yearplot'))+
+  geom_vline( xintercept = peaks1219taxon$peak, col= cols.two) +
+  geom_point( data = filter(ogd.pa.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+              aes_string(x = 'elev', y = taxonpick, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
+  # geom_point( data = peaks1219taxon, aes(y = cover, fill = year), col='black', shape=21, size=2 ) +
+  scale_color_manual(values=cols.two) +
+  scale_fill_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,1) ) +
+  ylab("") +
+  xlab("") +
+  theme_classic() +
+  theme(legend.position = "none") +
+  # theme(legend.position = c(1,0.25), legend.justification = c(1,0), legend.title=element_blank() ) +
+  # guides(col=guide_legend("year"))+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank()) 
+b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+            aes_string(x = 'elev', y = taxonpick, col='yearplot'))+
+  geom_point( data = filter(ogd.cop.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
+              aes_string(x = 'elev', y = taxonpick, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
+  # scale_y_log10() +
+  scale_color_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,100) ) +
+  ylab("") +
+  xlab("") +
+  theme_classic() +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+            aes_string(x = 'elev', y = taxonpick, col='yearplot'))+
+  geom_point( data = filter(ogd.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
+              aes_string(x = 'elev', y = taxonpick, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
+  # scale_y_log10() +
+  scale_color_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,100) ) +
+  ylab("") +
+  xlab("") +
+  theme_classic() + 
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank()) 
+plot_grid(c,a,b,ncol=1, align='hv')
+ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxonpick,".svg"), height = 4.5, width = 1.5 ) # width 1.6 for Hedophyllum, 1.5 for others
+
+
+
+
+
+
+
+
+
+######
+## elevation shift vs cover shift relative to initial conditions of elevation and cover
 
 
 # need to add lines showing the realm of possible shifts

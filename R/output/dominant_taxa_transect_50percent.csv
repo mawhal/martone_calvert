@@ -1,0 +1,73 @@
+Year,Site,Zone,Species
+2012,Fifth Beach,HIGH,Barnacles Fucus.distichus
+2012,Fifth Beach,LOW,Alaria.marginata Ptilota.filicina Phyllospadix.spp. Neorhodomela.larix
+2012,Fifth Beach,MID,Hildenbrandia Endocladia.muricata Fucus.distichus Barnacles
+2012,Foggy Cove,HIGH,Barnacles Fucus.distichus Endocladia.muricata
+2012,Foggy Cove,LOW,Alaria.marginata Fucus.distichus Neorhodomela.larix Polyneura.latissima Corallina coralline.crust
+2012,Foggy Cove,MID,Fucus.distichus Hildenbrandia
+2012,North Beach,HIGH,Fucus.distichus Hildenbrandia
+2012,North Beach,LOW,Alaria.marginata Hedophyllum.sessile Hildenbrandia
+2012,North Beach,MID,Hildenbrandia Fucus.distichus Barnacles
+2013,Fifth Beach,HIGH,Barnacles Fucus.distichus Hildenbrandia
+2013,Fifth Beach,LOW,Neorhodomela.larix Polysiphonia Plocamium.violaceum Osmundea.spectabilis Alaria.marginata Analipus.japonicus Hymenena.spp.
+2013,Fifth Beach,MID,Alaria.marginata Fucus.distichus Elachista.fucicola Petrocelis Phyllospadix.spp. Hildenbrandia
+2013,Foggy Cove,HIGH,Fucus.distichus Endocladia.muricata
+2013,Foggy Cove,LOW,Fucus.distichus Alaria.marginata Polyneura.latissima Egregia.menziesii
+2013,Foggy Cove,MID,Fucus.distichus Hildenbrandia
+2013,North Beach,HIGH,Petrocelis Pyropia Fucus.distichus Barnacles
+2013,North Beach,LOW,Alaria.marginata Scytosiphon.dotyi Bossiella_articulate Corallina
+2013,North Beach,MID,Pyropia Hildenbrandia Petrocelis Phyllospadix.spp. Corallina
+2014,Fifth Beach,HIGH,Barnacles Fucus.distichus Hildenbrandia Pyropia
+2014,Fifth Beach,LOW,Alaria.marginata Hildenbrandia Plocamium.violaceum Phyllospadix.spp. Neorhodomela.larix
+2014,Fifth Beach,MID,Pyropia Hildenbrandia Chamberlainium.tumidum Fucus.distichus Corallina
+2014,Foggy Cove,HIGH,Fucus.distichus Barnacles Pyropia
+2014,Foggy Cove,LOW,Alaria.marginata Phyllospadix.spp. Fucus.distichus Chamberlainium.tumidum Egregia.menziesii Polyneura.latissima
+2014,Foggy Cove,MID,Fucus.distichus Hildenbrandia
+2014,North Beach,HIGH,Petrocelis Pyropia Barnacles
+2014,North Beach,LOW,Alaria.marginata Hedophyllum.sessile Bossiella_articulate
+2014,North Beach,MID,Petrocelis Fucus.distichus Hildenbrandia
+2015,Fifth Beach,HIGH,Barnacles Fucus.distichus
+2015,Fifth Beach,LOW,Phyllospadix.spp. Hildenbrandia Plocamium.violaceum Ptilota.filicina
+2015,Fifth Beach,MID,Plocamium.violaceum Pyropia Anemone Phyllospadix.spp. Chamberlainium.tumidum Hildenbrandia
+2015,Foggy Cove,HIGH,Fucus.distichus Endocladia.muricata
+2015,Foggy Cove,LOW,Egregia.menziesii Neogastroclonium.subarticulatum Alaria.marginata Phyllospadix.spp. Fucus.distichus
+2015,Foggy Cove,MID,Fucus.distichus Mastocarpus
+2015,North Beach,HIGH,Barnacles Fucus.distichus
+2015,North Beach,LOW,Hedophyllum.sessile Alaria.marginata
+2015,North Beach,MID,Petrocelis Hildenbrandia Pyropia Fucus.distichus
+2016,Fifth Beach,HIGH,Barnacles Mytilus.sp.
+2016,Fifth Beach,LOW,Plocamium.violaceum Hildenbrandia Ptilota.filicina Neorhodomela.larix Pyropia
+2016,Fifth Beach,MID,Plocamium.violaceum Hildenbrandia Anemone Corallina
+2016,Foggy Cove,HIGH,Barnacles Fucus.distichus
+2016,Foggy Cove,LOW,Egregia.menziesii Phyllospadix.spp. Neogastroclonium.subarticulatum Polyneura.latissima Neorhodomela.larix
+2016,Foggy Cove,MID,Hildenbrandia Fucus.distichus
+2016,North Beach,HIGH,Barnacles
+2016,North Beach,LOW,Hedophyllum.sessile Phyllospadix.spp. Bossiella_articulate Hildenbrandia
+2016,North Beach,MID,Hildenbrandia Barnacles Plocamium.violaceum
+2017,Fifth Beach,HIGH,Barnacles Mytilus.sp.
+2017,Fifth Beach,LOW,Pyropia Hildenbrandia Ptilota.filicina Phyllospadix.spp. Alaria.marginata Mazzaella.splendens
+2017,Fifth Beach,MID,Pyropia Phyllospadix.spp. Hildenbrandia Cryptosiphonia.woodii Neorhodomela.larix
+2017,Foggy Cove,HIGH,Endocladia.muricata Hildenbrandia
+2017,Foggy Cove,LOW,Alaria.marginata Egregia.menziesii Fucus.distichus Bossiella_articulate Neorhodomela.larix
+2017,Foggy Cove,MID,Hildenbrandia Fucus.distichus
+2017,North Beach,HIGH,Barnacles Petrocelis Erythrotrichia.carnea
+2017,North Beach,LOW,Hedophyllum.sessile Corallina Plocamium.violaceum
+2017,North Beach,MID,Mytilus.sp. Hildenbrandia Barnacles Pyropia
+2018,Fifth Beach,HIGH,Barnacles Mytilus.sp.
+2018,Fifth Beach,LOW,Phyllospadix.spp. Plocamium.violaceum Neorhodomela.larix Ptilota.filicina Alaria.marginata
+2018,Fifth Beach,MID,Anemone Pyropia Corallina Hildenbrandia Barnacles
+2018,Foggy Cove,HIGH,Barnacles Fucus.distichus
+2018,Foggy Cove,LOW,Fucus.distichus Alaria.marginata Acrosiphonia Ulva Bossiella_articulate
+2018,Foggy Cove,MID,Fucus.distichus Hildenbrandia
+2018,North Beach,HIGH,Barnacles Hildenbrandia
+2018,North Beach,LOW,Hedophyllum.sessile Alaria.marginata Hildenbrandia
+2018,North Beach,MID,Barnacles Hildenbrandia
+2019,Fifth Beach,HIGH,Barnacles Mytilus.sp.
+2019,Fifth Beach,LOW,Pyropia Alaria.marginata Phyllospadix.spp. Hildenbrandia
+2019,Fifth Beach,MID,Pyropia Phyllospadix.spp. Hildenbrandia Halosaccion.glandiforme Cryptosiphonia.woodii
+2019,Foggy Cove,HIGH,Fucus.distichus Barnacles
+2019,Foggy Cove,LOW,Alaria.marginata Fucus.distichus Acrosiphonia
+2019,Foggy Cove,MID,Hildenbrandia Barnacles
+2019,North Beach,HIGH,Barnacles
+2019,North Beach,LOW,Hedophyllum.sessile Alaria.marginata
+2019,North Beach,MID,Hildenbrandia Pyropia Barnacles

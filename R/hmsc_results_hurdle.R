@@ -112,13 +112,13 @@ dev.off()
 
 
 
-# ## parameter estimates ####
-# postBeta = lapply( models, getPostEstimate, parName = "Beta")
-# # windows(5,8)
-# # plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
+## parameter estimates ####
+postBeta = lapply( models, getPostEstimate, parName = "Beta")
+# windows(5,8)
+# plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
 # postBeta[[1]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
 # postBeta[[2]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
-# 
+
 # cor( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
 # plot( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
 # 
@@ -271,11 +271,11 @@ dev.off()
 
 
 
-# ## associations ####
-# OmegaCor = lapply( models, computeAssociations )
-# supportLevel = 0.95
-# # choose the random variable to plot
-# rlevel = 3
+## associations ####
+OmegaCor = lapply( models, computeAssociations )
+supportLevel = 0.95
+# choose the random variable to plot
+# rlevel = 1
 # pick <- 1
 # toPlot = ((OmegaCor[[pick]][[rlevel]]$support>supportLevel)
 #           + (OmegaCor[[pick]][[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[pick]][[rlevel]]$mean
@@ -290,11 +290,11 @@ dev.off()
 # # reorder automatically
 # mynewcor <- corReorder( toPlot, order="hclust", nclusters = 3, plot = F )
 # # windows(5.75,5.75)
-# corrplot( mynewcor, method = "color", type = "upper", tl.col="black",  
+# corrplot( mynewcor, method = "color", type = "upper", tl.col="black",
 #          col = colorRampPalette(c("blue","white","red"))(200),
 #            title = paste("random effect level:", models[[1]]$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
-
-
+# 
+# 
 
 
 

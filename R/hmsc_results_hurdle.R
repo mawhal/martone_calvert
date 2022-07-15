@@ -2126,13 +2126,16 @@ compare_all_plot_fun %>%  arrange(elev.shifts.med)
 compare_all_plot_algae <- filter( compare_all_plot_fun, funct != "animal" )
 compare_all_plot_algae$group <- factor(as.character(compare_all_plot_algae$funct), levels = c('turf','thin_turf','crust','blade','canopy'))
 
-windows(3,3)
+# range of responses
+range(compare_all_plot_algae$elev.shifts.med)
+range( compare_all_plot_algae$abun.shifts.med )
+
 # use full set here
 psych::pairs.panels( data.frame(elevation = elev.shift.all.df$elev.shift, 
                                 cover = log(abun.shift.all.df$abun.shift,base = 2)),
                      method = "pearson", smoother = TRUE,
                      hist.col = "whitesmoke", density = FALSE, rug = FALSE )
-dev.off()
+
 xy <- ggplot( compare_all_plot_algae, aes(x=log(abun.shifts.med,base = 2),y=elev.shifts.med)) + 
     geom_hline(yintercept = 0)+geom_vline(xintercept = 0)+
     # geom_hline(yintercept = quantile( c(slopes.peak.algae*8), prob = 0.5 ), lty = 1, col = "lightgray", lwd = 0.33)+

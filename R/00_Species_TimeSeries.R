@@ -31,7 +31,7 @@ am <- read.csv("Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.c
 ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 
 # customize sites and years
-years <- 2012:2019
+years <- 2012:2021
 sites <- c("Fifth Beach", "North Beach","Foggy Cove", "Meay Channel")
 metause <- am %>% 
   filter( Year %in% years ) %>% 
@@ -90,12 +90,14 @@ d$Zone <- factor( d$Zone, levels = c("LOW","MID","HIGH"), ordered = T )
 d$Site <- factor( d$Site, levels = sites )
 # define Year factor
 d$Year <- factor( d$Year, ordered= TRUE )
+#Remove taxa that are NA
+d=d[!is.na(d$Taxon),]
 
 
 
 # all sites
 # time trends in different tidal zones
-windows(5,5)
+#quartz(5,5)
 (ggzone <- ggplot( d, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
     facet_grid(Site~Zone, scales="free_y") + 
     # geom_smooth( se=TRUE, col='black' ) +
@@ -103,7 +105,7 @@ windows(5,5)
     stat_summary( fun = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
     geom_point( alpha=0.4,col='slateblue' ) + ggtitle( taxon ) + 
     xlab("Year") + ylab("Cover (%)") +
-    scale_x_continuous(breaks = seq(2010,2018,2) ) )
+    scale_x_continuous(breaks = seq(2010,2022,2) ) )
 
 ggsave( paste0("R/Figs/",taxon,"_zone.svg") )
 
@@ -125,12 +127,12 @@ dall <- d %>%
     geom_point( alpha=0.4,col='slateblue' ) +
     ggtitle( taxon ) + 
     xlab("Year") + ylab("Cover (%)") +
-    scale_x_continuous(breaks = seq(2010,2018,2) ) )
+    scale_x_continuous(breaks = seq(2010,2022,2) ) )
 
 ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 ) 
 
 # just plot abundan over time
-# windows(6,2)
+# quartz(6,2)
 # (ggzall <- ggplot( d, aes(x=lubridate::ymd(Date),y=Abundance)) + 
 #     # facet_grid(Site~Zone, scales="free_y") + 
 #     # geom_smooth( se=TRUE, col='black' ) +
@@ -144,7 +146,7 @@ ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 )
 # 
 # # subset of sites where elevation has been measured
 # delev <- d[ d$Site != "Meay Channel", ]
-# windows(10,4)
+# quartz(10,4)
 # (ggheight <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance)) + 
 #     facet_grid(Site~Year, scales = "free_y") + 
 #     geom_point(alpha=0.2) +  ggtitle( taxon ) + 
@@ -153,7 +155,7 @@ ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 )
 #                 se=FALSE, lwd=0.5) )
 # # ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation_wide.pdf"), ggheight, "pdf" )
 # 
-# windows(4,6)
+# quartz(4,6)
 # (ggheight2 <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance,group=Year,col=Year )) + 
 #     facet_wrap(~Site,ncol=1, scales = "free_y") + 
 #     geom_point(alpha=0.75) +  ggtitle( taxon ) + 

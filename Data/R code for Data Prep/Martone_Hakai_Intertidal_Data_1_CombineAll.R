@@ -47,11 +47,11 @@ read_excel_all <- function( data ){
 
 ptm2012 <- read_excel_all( "2012 Hakai_edited_MAW.xlsx" )
 ptm2019 <- read_excel_all( "2019_Hakai_edited_MAW.xlsx" )
-
+ptm2021 <- read_excel_all( "2021_Hakai_edited_PTM.xlsx" )
 
 
 #### ISOLATE DATA AND METADATA (e.g. location info)
-test <- ptm2012
+test <- ptm2021
 # we now have a list, each element of which is a sheet from the xlsx file
 # str(ptm2012)
 names(test)
@@ -120,8 +120,8 @@ allyears <- list.files( pattern=".xlsx", path="Data/excel files/All years/edited
 # single function to take each file and run the extractYEAR function on every sheet,
 # given a number of header rows
 # number of rows by year: 2011 (10), 2012 (10), 2013 (8), 2014 (12), 2015 (12), 
-# 2016 (12), 2017 (12), 2018 (13), 2019 (13)
-header <- c( 10,8,12,12,12,12,13,13 )
+# 2016 (12), 2017 (12), 2018 (13), 2019 (13), 2021 (12; because clam shell moved to bottom),
+header <- c( 10,8,12,12,12,12,13,13,12 )
 extractALL <- function( files, header=header ){
   # read all of the files
   data = lapply( allyears, read_excel_all )

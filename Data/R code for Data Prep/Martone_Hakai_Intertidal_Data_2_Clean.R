@@ -127,7 +127,7 @@ ad$Taxon <- gsub( "Pterosiphonia dendroidea", "Symphyocladiella dendroidea", ad$
 
 # New taxon names in 2019
 ad$Taxon <- gsub( "Cryptopleura multiloba", "Hymenena", ad$Taxon )
-ad$Taxon <- gsub( "Devaleraea mollis", "Palmaria mollis", ad$Taxon ) 
+ad$Taxon <- gsub( "Palmaria mollis", "Devaleraea mollis", ad$Taxon ) 
 ad$Taxon <- gsub( "Dictyosiphon foeniculaceus", "Dictyosiphon sinicola", ad$Taxon ) 
 ad$Taxon <- gsub( "Hedophyllum recruits", "Hedophyllum sessile", ad$Taxon ) 
 ad$Taxon <- gsub( "Polyostea robusta", "Savoiea robusta", ad$Taxon ) 
@@ -189,3 +189,4 @@ ad[ad$Taxon=="CORALLINE",]
 
 # save the data to disk, overwriting the previous datafile
 write_csv( ad, "data/R code for Data Prep/Output from R/Martone_Hakai_data.csv" )
+

@@ -31,7 +31,7 @@ am <- read.csv("Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.c
 ad <- ad[ ad$Taxon != "Black spots on Fucus", ]
 
 # customize sites and years
-years <- 2012:2021
+years <- 2012:2022
 sites <- c("Fifth Beach", "North Beach","Foggy Cove", "Meay Channel")
 metause <- am %>% 
   filter( Year %in% years ) %>% 
@@ -97,7 +97,7 @@ d=d[!is.na(d$Taxon),]
 
 # all sites
 # time trends in different tidal zones
-#quartz(5,5)
+quartz(5,5)
 (ggzone <- ggplot( d, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
     facet_grid(Site~Zone, scales="free_y") + 
     # geom_smooth( se=TRUE, col='black' ) +

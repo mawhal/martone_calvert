@@ -103,14 +103,29 @@ ad$Taxon <- gsub( "Unknown upright coralline","articulated coralline", ad$Taxon 
 ad$Taxon <- gsub( "Unknown fleshy red upright","Unknown red blade", ad$Taxon )
 ad$Taxon <- gsub( "Snail eggs","Nucella eggs", ad$Taxon )
 ad$Taxon <- gsub( "Snail, Sp.","Snail", ad$Taxon )
+ad$Taxon <- gsub( "Chlorostoma snails", "Chlorostoma", ad$Taxon )
+ad$Taxon <- gsub( "Chthalamus", "Chthamalus", ad$Taxon )
 
-# genus "M." appears to be Mazaella
-ad$Taxon <- gsub( "M[.]", "Mazzaella ", ad$Taxon )
-# Species "M.lat is probably Mazzaella latissimus
-ad$Taxon <- gsub( "Mazzaella lat.*", "Mazzaella latissimus", ad$Taxon )
+ad$Taxon <- gsub( "chiloensis 1","chiloensis sp.1", ad$Taxon )
+ad$Taxon <- gsub( "Bosiella","Bossiella", ad$Taxon )
+ad$Taxon <- gsub( "frondenscens","frondescens", ad$Taxon )
+ad$Taxon <- gsub( "flexulosa","sp.5 chiloensis [flexuosa]", ad$Taxon )
+ad$Taxon <- gsub( "sp.5 chiloensis","sp.5 chiloensis [flexuosa]", ad$Taxon )
+ad$Taxon <- gsub( "sp.2chiloensis","sp.2 chiloensis", ad$Taxon )
+ad$Taxon <- gsub( "reclunatum", "reclinatum", ad$Taxon )
+ad$Taxon <- gsub( "Clathromorphum Neopolyporolithon", "Neopolyporolithon", ad$Taxon )
+
+
+
+
+# genus "M." is Mastocarpus
+ad$Taxon <- gsub( "M[.]", "Mastocarpus ", ad$Taxon )
+# Species "M.lat is probably Mastocarpus latissimus
+ad$Taxon <- gsub( "Mastocarpus lat.*", "Mastocarpus latissimus", ad$Taxon )
 ad$Taxon <- gsub( "Lophopan", "Lophopanopeus bellus", ad$Taxon )
 ad$Taxon <- gsub( "Pagurs", "Pagurus", ad$Taxon )
 ad$Taxon <- gsub( "Holiclona", "Haliclona", ad$Taxon )
+
 # plural to singular
 ad$Taxon <- gsub( "Crabs", "Crab", ad$Taxon )
 ad$Taxon <- gsub( "Snails", "Snail", ad$Taxon )
@@ -119,10 +134,12 @@ ad$Taxon <- gsub( "Limpets", "Limpet", ad$Taxon )
 ad$Taxon <- gsub( "Kelp Crab", "Kelp crab", ad$Taxon )
 ad$Taxon <- gsub( "Isopods", "Isopoda", ad$Taxon )
 ad$Taxon <- gsub( "Hydroids", "Hydroid", ad$Taxon )
+ad$Taxon <- gsub( "Bryozoans", "Bryozoan", ad$Taxon )
+ad$Taxon <- gsub( "Chitons", "Chiton", ad$Taxon )
 
 # other name changes
 ad$Taxon <- gsub( "Pugetia firma", "Salishia firma", ad$Taxon )
-ad$Taxon <- gsub( "Phycodrys sp.", "Polyneura latissima", ad$Taxon )
+ad$Taxon <- gsub( "Phycodrys sp.", "Polyneura latissima", ad$Taxon ) #***This seems wrong (PTM)
 ad$Taxon <- gsub( "Pterosiphonia dendroidea", "Symphyocladiella dendroidea", ad$Taxon )
 
 # New taxon names in 2019

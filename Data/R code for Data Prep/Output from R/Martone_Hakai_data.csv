@@ -1474,8 +1474,8 @@ Fifth Beach HIGH 2021 10,Cryptosiphonia woodii,0.5
 Fifth Beach HIGH 2021 10,Endocladia muricata,12
 Fifth Beach HIGH 2021 10,Fucus distichus,1
 Fifth Beach HIGH 2021 10,Hildenbrandia rubra,0.5
-Fifth Beach HIGH 2021 10,Limpet,NA
-Fifth Beach HIGH 2021 10,Littorina sp.,NA
+Fifth Beach HIGH 2021 10,Limpet,150
+Fifth Beach HIGH 2021 10,Littorina sp.,150
 Fifth Beach HIGH 2021 10,Mastocarpus alaskensis,2
 Fifth Beach HIGH 2021 10,Mazzaella parvula,1
 Fifth Beach HIGH 2021 10,Melanosiphon intestinalis,0.5
@@ -1499,7 +1499,7 @@ Fifth Beach HIGH 2021 2,Fucus distichus,54
 Fifth Beach HIGH 2021 2,Halosaccion glandiforme,2
 Fifth Beach HIGH 2021 2,Hildenbrandia occidentalis,18
 Fifth Beach HIGH 2021 2,Hildenbrandia rubra,1
-Fifth Beach HIGH 2021 2,Limpet,NA
+Fifth Beach HIGH 2021 2,Limpet,150
 Fifth Beach HIGH 2021 2,Mastocarpus agardhii,2
 Fifth Beach HIGH 2021 2,Mastocarpus alaskensis,1
 Fifth Beach HIGH 2021 2,Mazzaella parvula,1
@@ -3864,7 +3864,7 @@ Fifth Beach LOW 2021 5,Fucus distichus,1
 Fifth Beach LOW 2021 5,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2021 5,Hildenbrandia occidentalis,2
 Fifth Beach LOW 2021 5,Leathesia marina,0.5
-Fifth Beach LOW 2021 5,Limpet,NA
+Fifth Beach LOW 2021 5,Limpet,150
 Fifth Beach LOW 2021 5,Mastocarpus agardhii,0.5
 Fifth Beach LOW 2021 5,Mastocarpus latissimus,1
 Fifth Beach LOW 2021 5,Mazzaella parvula,1
@@ -3892,7 +3892,7 @@ Fifth Beach LOW 2021 6,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2021 6,Hildenbrandia occidentalis,6
 Fifth Beach LOW 2021 6,Katharina tunicata,1
 Fifth Beach LOW 2021 6,Leathesia marina,1
-Fifth Beach LOW 2021 6,Limpet,NA
+Fifth Beach LOW 2021 6,Limpet,150
 Fifth Beach LOW 2021 6,Mastocarpus agardhii,0.5
 Fifth Beach LOW 2021 6,Mastocarpus latissimus,0.5
 Fifth Beach LOW 2021 6,Mazzaella splendens,2
@@ -3922,7 +3922,7 @@ Fifth Beach LOW 2021 7,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2021 7,Hildenbrandia occidentalis,2
 Fifth Beach LOW 2021 7,Katharina tunicata,2
 Fifth Beach LOW 2021 7,Leathesia marina,0.5
-Fifth Beach LOW 2021 7,Limpet,NA
+Fifth Beach LOW 2021 7,Limpet,150
 Fifth Beach LOW 2021 7,Lithothamnion phymatodeum,2
 Fifth Beach LOW 2021 7,Mastocarpus latissimus,0.5
 Fifth Beach LOW 2021 7,Mazzaella parvula,1
@@ -6255,7 +6255,7 @@ Fifth Beach MID 2021 1,Gloiopeltis furcata,0.5
 Fifth Beach MID 2021 1,Halosaccion glandiforme,1.5
 Fifth Beach MID 2021 1,Hildenbrandia occidentalis,1
 Fifth Beach MID 2021 1,Leathesia marina,0.5
-Fifth Beach MID 2021 1,Limpet,NA
+Fifth Beach MID 2021 1,Limpet,150
 Fifth Beach MID 2021 1,Mastocarpus alaskensis,0.5
 Fifth Beach MID 2021 1,Microcladia borealis,3
 Fifth Beach MID 2021 1,Mytilus sp.,0.5
@@ -6414,7 +6414,7 @@ Fifth Beach MID 2021 7,Hildenbrandia occidentalis,1
 Fifth Beach MID 2021 7,Hildenbrandia rubra,2
 Fifth Beach MID 2021 7,Katharina tunicata,2
 Fifth Beach MID 2021 7,Leathesia marina,0.5
-Fifth Beach MID 2021 7,Limpet,NA
+Fifth Beach MID 2021 7,Limpet,150
 Fifth Beach MID 2021 7,Mastocarpus alaskensis,0.5
 Fifth Beach MID 2021 7,Melanosiphon intestinalis,0.5
 Fifth Beach MID 2021 7,Microcladia borealis,1
@@ -20332,7 +20332,7 @@ North Beach MID 2021 7,Limpet,20
 North Beach MID 2021 7,Littorina sp.,20
 North Beach MID 2021 7,Mytilus sp.,3
 North Beach MID 2021 7,Neoporphyra perforata,4
-North Beach MID 2021 7,Nucella sp.,NA
+North Beach MID 2021 7,Nucella sp.,10
 North Beach MID 2021 7,Pisaster ochraceus,1
 North Beach MID 2021 7,Polysiphonia hendryi var. hendryi,7
 North Beach MID 2021 7,Pyropia abbottiae,1

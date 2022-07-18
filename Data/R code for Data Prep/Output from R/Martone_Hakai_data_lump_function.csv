@@ -1474,8 +1474,8 @@ Fifth Beach HIGH 2021 10,Cryptosiphonia woodii,0.5,Cryptosiphonia woodii,Cryptos
 Fifth Beach HIGH 2021 10,Endocladia muricata,12,Endocladia muricata,Endocladia muricata,Endocladia muricata,Endocladia muricata,Algae,sessile,NA,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach HIGH 2021 10,Fucus distichus,1,Fucus distichus,Fucus distichus,Fucus distichus,Fucus distichus,Algae,sessile,NA,Fucoid,thick leathery,Fucus,Fucus,Fucus,Fucus,large_brown,canopy,NA
 Fifth Beach HIGH 2021 10,Hildenbrandia rubra,0.5,Hildenbrandia rubra,Hildenbrandia,Hildenbrandia,Hildenbrandia,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
-Fifth Beach HIGH 2021 10,Limpet,NA,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-Fifth Beach HIGH 2021 10,Littorina sp.,NA,Littorina sp.,Littorina sp.,Littorina sp.,Littorina sp.,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Fifth Beach HIGH 2021 10,Limpet,150,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Fifth Beach HIGH 2021 10,Littorina sp.,150,Littorina sp.,Littorina sp.,Littorina sp.,Littorina sp.,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach HIGH 2021 10,Mastocarpus alaskensis,2,Mastocarpus alaskensis,Mastocarpus alaskensis,Mastocarpus,Mastocarpus,Algae,sessile,REVISIT,red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach HIGH 2021 10,Mazzaella parvula,1,Mazzaella parvula,Mazzaella parvula,Mazzaella parvula,Mazzaella parvula,Algae,sessile,NA,blade,thick leathery,red blade,blade,red blade,blade,turf,turf,NA
 Fifth Beach HIGH 2021 10,Melanosiphon intestinalis,0.5,Melanosiphon intestinalis,Melanosiphon intestinalis,Melanosiphon intestinalis,Melanosiphon intestinalis,Algae,sessile,NA,brown turf,sheet,brown turf,brown turf,turf,turf,turf,turf,NA
@@ -1499,7 +1499,7 @@ Fifth Beach HIGH 2021 2,Fucus distichus,54,Fucus distichus,Fucus distichus,Fucus
 Fifth Beach HIGH 2021 2,Halosaccion glandiforme,2,Halosaccion glandiforme,Halosaccion glandiforme,Halosaccion glandiforme,Halosaccion glandiforme,Algae,sessile,NA,red turf,sheet,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach HIGH 2021 2,Hildenbrandia occidentalis,18,Hildenbrandia occidentalis,Hildenbrandia,Hildenbrandia,Hildenbrandia,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
 Fifth Beach HIGH 2021 2,Hildenbrandia rubra,1,Hildenbrandia rubra,Hildenbrandia,Hildenbrandia,Hildenbrandia,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
-Fifth Beach HIGH 2021 2,Limpet,NA,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Fifth Beach HIGH 2021 2,Limpet,150,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach HIGH 2021 2,Mastocarpus agardhii,2,Mastocarpus agardhii,Mastocarpus agardhii,Mastocarpus,Mastocarpus,Algae,sessile,"M. agardhii is distinct from others, but we will have to do something with these!!",red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach HIGH 2021 2,Mastocarpus alaskensis,1,Mastocarpus alaskensis,Mastocarpus alaskensis,Mastocarpus,Mastocarpus,Algae,sessile,REVISIT,red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach HIGH 2021 2,Mazzaella parvula,1,Mazzaella parvula,Mazzaella parvula,Mazzaella parvula,Mazzaella parvula,Algae,sessile,NA,blade,thick leathery,red blade,blade,red blade,blade,turf,turf,NA
@@ -3875,7 +3875,7 @@ Fifth Beach LOW 2021 5,Fucus distichus,1,Fucus distichus,Fucus distichus,Fucus d
 Fifth Beach LOW 2021 5,Halosaccion glandiforme,0.5,Halosaccion glandiforme,Halosaccion glandiforme,Halosaccion glandiforme,Halosaccion glandiforme,Algae,sessile,NA,red turf,sheet,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach LOW 2021 5,Hildenbrandia occidentalis,2,Hildenbrandia occidentalis,Hildenbrandia,Hildenbrandia,Hildenbrandia,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
 Fifth Beach LOW 2021 5,Leathesia marina,0.5,Leathesia marina,Leathesia marina,Leathesia marina,Leathesia marina,Algae,sessile,NA,brown turf,finely branching,brown turf,brown turf,turf,turf,turf,turf,NA
-Fifth Beach LOW 2021 5,Limpet,NA,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Fifth Beach LOW 2021 5,Limpet,150,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach LOW 2021 5,Mastocarpus agardhii,0.5,Mastocarpus agardhii,Mastocarpus agardhii,Mastocarpus,Mastocarpus,Algae,sessile,"M. agardhii is distinct from others, but we will have to do something with these!!",red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach LOW 2021 5,Mastocarpus latissimus,1,Mastocarpus latissimus,Mastocarpus latissimus,Mastocarpus,Mastocarpus,Algae,sessile,REVISIT,red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach LOW 2021 5,Mazzaella parvula,1,Mazzaella parvula,Mazzaella parvula,Mazzaella parvula,Mazzaella parvula,Algae,sessile,NA,blade,thick leathery,red blade,blade,red blade,blade,turf,turf,NA
@@ -3904,7 +3904,7 @@ Fifth Beach LOW 2021 6,Halosaccion glandiforme,0.5,Halosaccion glandiforme,Halos
 Fifth Beach LOW 2021 6,Hildenbrandia occidentalis,6,Hildenbrandia occidentalis,Hildenbrandia,Hildenbrandia,Hildenbrandia,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
 Fifth Beach LOW 2021 6,Katharina tunicata,1,Katharina tunicata,Katharina tunicata,Katharina tunicata,Katharina tunicata,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach LOW 2021 6,Leathesia marina,1,Leathesia marina,Leathesia marina,Leathesia marina,Leathesia marina,Algae,sessile,NA,brown turf,finely branching,brown turf,brown turf,turf,turf,turf,turf,NA
-Fifth Beach LOW 2021 6,Limpet,NA,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Fifth Beach LOW 2021 6,Limpet,150,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach LOW 2021 6,Mastocarpus agardhii,0.5,Mastocarpus agardhii,Mastocarpus agardhii,Mastocarpus,Mastocarpus,Algae,sessile,"M. agardhii is distinct from others, but we will have to do something with these!!",red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach LOW 2021 6,Mastocarpus latissimus,0.5,Mastocarpus latissimus,Mastocarpus latissimus,Mastocarpus,Mastocarpus,Algae,sessile,REVISIT,red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach LOW 2021 6,Mazzaella splendens,2,Mazzaella splendens,Mazzaella splendens,Mazzaella splendens,Mazzaella splendens,Algae,sessile,NA,blade,thick leathery,red blade,blade,red blade,blade,blade,blade,NA
@@ -3934,7 +3934,7 @@ Fifth Beach LOW 2021 7,Halosaccion glandiforme,0.5,Halosaccion glandiforme,Halos
 Fifth Beach LOW 2021 7,Hildenbrandia occidentalis,2,Hildenbrandia occidentalis,Hildenbrandia,Hildenbrandia,Hildenbrandia,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
 Fifth Beach LOW 2021 7,Katharina tunicata,2,Katharina tunicata,Katharina tunicata,Katharina tunicata,Katharina tunicata,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach LOW 2021 7,Leathesia marina,0.5,Leathesia marina,Leathesia marina,Leathesia marina,Leathesia marina,Algae,sessile,NA,brown turf,finely branching,brown turf,brown turf,turf,turf,turf,turf,NA
-Fifth Beach LOW 2021 7,Limpet,NA,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Fifth Beach LOW 2021 7,Limpet,150,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach LOW 2021 7,Lithothamnion phymatodeum,2,Lithothamnion phymatodeum,Lithothamnion phymatodeum,Lithothamnion phymatodeum,Lithothamnion phymatodeum,Algae,sessile,NA,crustose coralline,crustose,crustose coralline,crustose coralline,crustose coralline,crustose coralline,crust,crust,NA
 Fifth Beach LOW 2021 7,Mastocarpus latissimus,0.5,Mastocarpus latissimus,Mastocarpus latissimus,Mastocarpus,Mastocarpus,Algae,sessile,REVISIT,red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach LOW 2021 7,Mazzaella parvula,1,Mazzaella parvula,Mazzaella parvula,Mazzaella parvula,Mazzaella parvula,Algae,sessile,NA,blade,thick leathery,red blade,blade,red blade,blade,turf,turf,NA
@@ -6277,7 +6277,7 @@ Fifth Beach MID 2021 1,Gloiopeltis furcata,0.5,Gloiopeltis furcata,Gloiopeltis f
 Fifth Beach MID 2021 1,Halosaccion glandiforme,1.5,Halosaccion glandiforme,Halosaccion glandiforme,Halosaccion glandiforme,Halosaccion glandiforme,Algae,sessile,NA,red turf,sheet,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach MID 2021 1,Hildenbrandia occidentalis,1,Hildenbrandia occidentalis,Hildenbrandia,Hildenbrandia,Hildenbrandia,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
 Fifth Beach MID 2021 1,Leathesia marina,0.5,Leathesia marina,Leathesia marina,Leathesia marina,Leathesia marina,Algae,sessile,NA,brown turf,finely branching,brown turf,brown turf,turf,turf,turf,turf,NA
-Fifth Beach MID 2021 1,Limpet,NA,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Fifth Beach MID 2021 1,Limpet,150,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach MID 2021 1,Mastocarpus alaskensis,0.5,Mastocarpus alaskensis,Mastocarpus alaskensis,Mastocarpus,Mastocarpus,Algae,sessile,REVISIT,red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach MID 2021 1,Microcladia borealis,3,Microcladia borealis,Microcladia borealis,Microcladia borealis,Microcladia borealis,Algae,sessile,NA,red turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
 Fifth Beach MID 2021 1,Mytilus sp.,0.5,Mytilus sp.,Mytilus sp.,Mytilus sp.,Mytilus sp.,Animal,sessile,NA,animal,animal,animal,animal,animal,animal,animal,animal,NA
@@ -6437,7 +6437,7 @@ Fifth Beach MID 2021 7,Hildenbrandia occidentalis,1,Hildenbrandia occidentalis,H
 Fifth Beach MID 2021 7,Hildenbrandia rubra,2,Hildenbrandia rubra,Hildenbrandia,Hildenbrandia,Hildenbrandia,Algae,sessile,NA,crust,crustose,fleshy crust,fleshy crust,fleshy crust,fleshy crust,crust,crust,NA
 Fifth Beach MID 2021 7,Katharina tunicata,2,Katharina tunicata,Katharina tunicata,Katharina tunicata,Katharina tunicata,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach MID 2021 7,Leathesia marina,0.5,Leathesia marina,Leathesia marina,Leathesia marina,Leathesia marina,Algae,sessile,NA,brown turf,finely branching,brown turf,brown turf,turf,turf,turf,turf,NA
-Fifth Beach MID 2021 7,Limpet,NA,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Fifth Beach MID 2021 7,Limpet,150,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Fifth Beach MID 2021 7,Mastocarpus alaskensis,0.5,Mastocarpus alaskensis,Mastocarpus alaskensis,Mastocarpus,Mastocarpus,Algae,sessile,REVISIT,red turf,thick leathery,red turf,red turf,turf,turf,turf,turf,NA
 Fifth Beach MID 2021 7,Melanosiphon intestinalis,0.5,Melanosiphon intestinalis,Melanosiphon intestinalis,Melanosiphon intestinalis,Melanosiphon intestinalis,Algae,sessile,NA,brown turf,sheet,brown turf,brown turf,turf,turf,turf,turf,NA
 Fifth Beach MID 2021 7,Microcladia borealis,1,Microcladia borealis,Microcladia borealis,Microcladia borealis,Microcladia borealis,Algae,sessile,NA,red turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
@@ -20378,7 +20378,7 @@ North Beach MID 2021 7,Limpet,20,Limpet,Limpet,Limpet,Limpet,Animal,motile,NA,NA
 North Beach MID 2021 7,Littorina sp.,20,Littorina sp.,Littorina sp.,Littorina sp.,Littorina sp.,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 North Beach MID 2021 7,Mytilus sp.,3,Mytilus sp.,Mytilus sp.,Mytilus sp.,Mytilus sp.,Animal,sessile,NA,animal,animal,animal,animal,animal,animal,animal,animal,NA
 North Beach MID 2021 7,Neoporphyra perforata,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-North Beach MID 2021 7,Nucella sp.,NA,Nucella sp.,Nucella,Nucella,Nucella,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+North Beach MID 2021 7,Nucella sp.,10,Nucella sp.,Nucella,Nucella,Nucella,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 North Beach MID 2021 7,Pisaster ochraceus,1,Pisaster ochraceus,Pisaster ochraceus,Pisaster ochraceus,Pisaster ochraceus,Animal,motile,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 North Beach MID 2021 7,Polysiphonia hendryi var. hendryi,7,Polysiphonia hendryi var. hendryi,Polysiphonia,Polysiphonia,Polysiphonia,Algae,sessile,Likely need to lump these,filament_turf,filament,red turf,red turf,turf,turf,thin_turf,thin_turf,NA
 North Beach MID 2021 7,Pyropia abbottiae,1,Pyropia abbottiae,Pyropia abbottiae,Pyropia,Pyropia,Algae,sessile,NA,blade,sheet,red blade,blade,red blade,blade,blade,blade,NA

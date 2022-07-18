@@ -4,7 +4,7 @@
 # library(profvis)
 # profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Bossiella exarticulata / mayae"
+taxon <- "Sargassum"
 
 # # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
 # 
@@ -81,6 +81,9 @@ d$Abundance[ is.na( d$Abundance) ] <- 0
 # d<- dperson
 
 
+
+
+
 # make abundances numeric
 sort(unique(d$Abundance))
 d$Abundance <- as.numeric( d$Abundance )
@@ -93,46 +96,52 @@ d$Year <- factor( d$Year, ordered= TRUE )
 #Remove taxa that are NA
 d=d[!is.na(d$Taxon),]
 
+# completely fill all observations (adding zeros to quadrats where available)
+dplot <- d %>% 
+  select( Year, Site, Zone, Quadrat, Abundance) %>% 
+  complete( Year, Site, Zone, Quadrat, fill = list(Abundance = 0) )
 
+# make a numeric year
+dplot$yearnum <- as.numeric(as.character(dplot$Year))
 
 # all sites
 # time trends in different tidal zones
-quartz(5,5)
-(ggzone <- ggplot( d, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
+# quartz(5,5)
+
+(ggzone <- ggplot( dplot, aes(x=yearnum,y=Abundance)) + 
     facet_grid(Site~Zone, scales="free_y") + 
     # geom_smooth( se=TRUE, col='black' ) +
-    stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
+    stat_summary( fun.data = "mean_cl_boot",  geom = "errorbar", colour = "slateblue4", size = 0.5, width = 0.2 ) +
     stat_summary( fun = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
     geom_point( alpha=0.4,col='slateblue' ) + ggtitle( taxon ) + 
     xlab("Year") + ylab("Cover (%)") +
     scale_x_continuous(breaks = seq(2010,2022,2) ) )
 
-ggsave( paste0("R/Figs/",taxon,"_zone.svg") )
+# ggsave( paste0("R/Figs/",taxon,"_zone.svg") )
 
-# plot means across the dataset, at least those with SOME presence
+# plot means across the dataset for transect in which the taxon of interest appeared at least once
 # pick transects
-d <- d %>% 
+dplot <- dplot %>% 
   unite( transect, Site, Zone, remove=F )
-dtrans <- d  %>% 
-  group_by( transect ) %>% 
+dtrans <- dplot  %>% 
+  group_by( Year, transect ) %>% 
   summarize( Abundance=sum(Abundance) ) %>% 
-  filter( Abundance>0 )
-dall <- d %>% 
+  filter( Abundance > 0 )
+dall <- dplot %>% 
   filter( transect %in% dtrans$transect )
 (ggall <- ggplot( dall, aes(x=as.numeric(as.character(Year)),y=Abundance)) + 
     # facet_grid(Site~Zone, scales="free_y") + 
     geom_smooth( se=TRUE, col='black' ) +
-    # stat_summary( fun.data = "mean_cl_boot", colour = "slateblue4", size = 0.5 ) +
-    # stat_summary( fun = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
+    stat_summary( fun.data = "mean_cl_boot", geom = "errorbar", colour = "slateblue4", size = 0.5, width = 0.2 ) +
+    stat_summary( fun = "mean", geom="line", colour = "slateblue4", size = 0.5 ) +
     geom_point( alpha=0.4,col='slateblue' ) +
     ggtitle( taxon ) + 
     xlab("Year") + ylab("Cover (%)") +
     scale_x_continuous(breaks = seq(2010,2022,2) ) )
 
-ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 ) 
+# ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 ) 
 
 # just plot abundan over time
-# quartz(6,2)
 # (ggzall <- ggplot( d, aes(x=lubridate::ymd(Date),y=Abundance)) + 
 #     # facet_grid(Site~Zone, scales="free_y") + 
 #     # geom_smooth( se=TRUE, col='black' ) +
@@ -146,7 +155,6 @@ ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 )
 # 
 # # subset of sites where elevation has been measured
 # delev <- d[ d$Site != "Meay Channel", ]
-# quartz(10,4)
 # (ggheight <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance)) + 
 #     facet_grid(Site~Year, scales = "free_y") + 
 #     geom_point(alpha=0.2) +  ggtitle( taxon ) + 
@@ -155,7 +163,6 @@ ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 )
 #                 se=FALSE, lwd=0.5) )
 # # ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation_wide.pdf"), ggheight, "pdf" )
 # 
-# quartz(4,6)
 # (ggheight2 <- ggplot( delev, aes(x=Shore_height_cm,y=Abundance,group=Year,col=Year )) + 
 #     facet_wrap(~Site,ncol=1, scales = "free_y") + 
 #     geom_point(alpha=0.75) +  ggtitle( taxon ) + 

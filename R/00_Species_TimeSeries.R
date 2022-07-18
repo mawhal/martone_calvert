@@ -1,8 +1,6 @@
 # Martone Hakai Rocky Shore Seaweed Surveys
 # 
 # by Matt Whalen
-# library(profvis)
-# profvis({
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
 taxon <- "Sargassum"
 
@@ -99,7 +97,10 @@ d=d[!is.na(d$Taxon),]
 # completely fill all observations (adding zeros to quadrats where available)
 dplot <- d %>% 
   select( Year, Site, Zone, Quadrat, Abundance) %>% 
-  complete( Year, Site, Zone, Quadrat, fill = list(Abundance = 0) )
+  complete( Year, Site, Zone, Quadrat, fill = list(Abundance = 0) ) %>% 
+  filter( !(Year %in% 2011:2014) | Site != "Meay Channel" )
+
+
 
 # make a numeric year
 dplot$yearnum <- as.numeric(as.character(dplot$Year))
@@ -174,5 +175,4 @@ dall <- dplot %>%
 #   scale_color_viridis_d( direction=-1 )
 # 
 # ggsave( paste0("R Code and Analysis/Figs/",taxon,"_elevation.pdf"), ggheight2, "pdf" )
-# })
   

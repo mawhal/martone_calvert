@@ -172,28 +172,29 @@ ad$Taxon  <- trimws( ad$Taxon )
 ad <- ad[ !ad$Taxon %in% c( "Animal notes", "Animals" ), ]
 ad <- ad[ ad$Taxon != c( "Habitat notes" ), ]
 
-# consider using tidyverse filter to make some of the above code a little prettier
-
 
 ## Use corrected species names to replace taxon names
+# this file also contains columns to lump taxa 
 corrected_taxa <- read.csv( "data/taxa/CorrectedTaxonList.csv" )
 # trim all the white space
 ad$Taxon  <- trimws( ad$Taxon )
 # corrected_taxa2 <- read.csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )
 # ct <- full_join( corrected_taxa, corrected_taxa2 )
-ad.corrected <- left_join( ad, corrected_taxa, by=c("Taxon"="taxon") )
-dim(ad)
-dim(ad.corrected)
+ad.corrected <- left_join( ad, corrected_taxa, by=c("Taxon"="taxon") ) 
+ad.corrected[ is.na(ad.corrected$Taxon), ]
+
 
 # fix the ones that weren't covered
 unique(ad.corrected$Taxon[ is.na(ad.corrected$taxon_corrected) ])
 
-sort(unique(ad$Taxon))
-sort(unique(ad.corrected$taxon_corrected))[1:50]
+# sort(unique(ad$Taxon))
+# sort(unique(ad.corrected$taxon_corrected))[1:50]
 
 # get rid of category "CORALLINE", which is close to the sum of all coralline species in each quadrat
 ad.corrected$Taxon[ad.corrected$taxon_corrected==""]
 ad.corrected <- ad.corrected[ ad.corrected$Taxon != "CORALLINE",]
+# get rid of (SESSILE INVERTS )
+ad.corrected <- ad.corrected[ ad.corrected$Taxon != "(SESSILE INVERTS )",]
 ad.na <- ad.corrected %>% filter( is.na(taxon_corrected) ) 
 sort(unique(ad.na$Taxon))
 ad %>% filter( Taxon %in% sort(unique(ad.na$Taxon)) )

@@ -28,37 +28,33 @@ library( tidyverse )
 data <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_data.csv" )
 
 #metadata
-meta<-read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
+meta <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
 # Unique species from the Data
-sort( unique( data$Taxon ) )
+# sort( unique( data$Taxon ) )
 # write this list of unique names to file
 write_csv( data.frame(taxon=sort(unique( data$Taxon ))), 
            "data/R Code for Data Prep/Output from R/Martone_Hakai_uniqueTaxa.csv" )
 
-# Load lumping data -- some species are indistinguishable in the field, or were not at the time of the start of the project
-lump <- read_csv("data/taxa/TaxonList_corrected_lumped_unique.csv")
+
 
 # functional group data
 functional <- read_csv("Data/taxa/functional_groups.csv")
 
+# are all taxa representing in both the corrected taxon list and in the functional groups sheet?
+corrected_taxa <- read.csv( "data/taxa/CorrectedTaxonList.csv" )
 
-
-
-## merge data with lumped names
-lumped.data <- left_join( data, lump, by = c("Taxon"="taxon_corrected") )
-# # which lines are messed up?
-# extras <- lumped.data[ duplicated( lumped.data[,c(1:3)] ), ]
-
-
+# merge data with corrected taxa
+data <- left_join( data, corrected_taxa, by = c("Taxon" = 'taxon') )
 ## merge functional traits with lumped species
-data.funct  <- left_join( lumped.data, functional, by = c("taxon_lumped3"="taxon"))
+data.funct  <- left_join( data, functional, by = c("taxon_lumped3"="taxon"))
 # # which lines are messed up?
 # extras <- data.funct[ duplicated( data.funct[,c(1:7)] ), ]
 # sort( unique(extras$Taxon) )
-data.funct %>% filter(motile_sessile=="sessile") %>% filter(is.na(funct_2021)) %>% 
+( no_functional_group <- data.funct %>% filter(motile_sessile=="sessile") %>% filter(is.na(funct_2021)) %>% 
   filter(non.alga.flag == "Algae") %>% 
-  select(taxon_lumped3) %>% distinct()
+  select(taxon_lumped3, flag) %>% distinct() )
+write_csv( no_functional_group, "Data/taxa/taxa_lacking_functional_grouping.csv" )
 
 
 

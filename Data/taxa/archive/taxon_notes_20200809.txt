@@ -1,0 +1,12 @@
+Colpomenia bullosus is not Dactylosiphon bullosus
+
+Southern: Hymenena sp., Mastocarpus agardhii, and Prionitis lanceolata
+
+Northern: Laminaria yezoensis, Mazzaella parvula, Palmaria hecatensis, Tokidadendron bullatum
+
+
+
+I think we should indicate somewhere what species of Mytilus (and barnacles) we observed.  Since so much has been published on M. californianus in the NE Pacific, I think it is important to clarify that our mussels were mostly M. trossulus (do we have any molecular data to support this rather than M. gallo-provincialis?).  Did we record any M. californianus along the transects?  May need to check datasheets as spreadsheet only says “mussels.”
+
+
+I would tread carefully here.  I am not convinced that M. parvula and M. oregona can be reliably distinguished in the field.  I would think it more likely that M. oregona and M. splendens moved up the shore in elevation, and M. parvula moved down.

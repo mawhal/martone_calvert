@@ -3133,7 +3133,7 @@ Fifth Beach LOW 2017 6,Codium fragile,0.5
 Fifth Beach LOW 2017 6,Corallina vancouveriensis,1
 Fifth Beach LOW 2017 6,coralline crust,4
 Fifth Beach LOW 2017 6,Cryptosiphonia woodii,1
-Fifth Beach LOW 2017 6,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2017 6,Dactylosiphon bullosus,1
 Fifth Beach LOW 2017 6,Hildenbrandia rubra,1
 Fifth Beach LOW 2017 6,Hymenena spp.,3
 Fifth Beach LOW 2017 6,Leathesia marina,0.5
@@ -3164,7 +3164,7 @@ Fifth Beach LOW 2017 7,Callithamnion pikeanum,1
 Fifth Beach LOW 2017 7,Chamberlainium tumidum,5
 Fifth Beach LOW 2017 7,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2017 7,coralline crust,7
-Fifth Beach LOW 2017 7,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2017 7,Dactylosiphon bullosus,1
 Fifth Beach LOW 2017 7,Hildenbrandia occidentalis,5
 Fifth Beach LOW 2017 7,Katharina tunicata,3
 Fifth Beach LOW 2017 7,Laminaria yezoensis,0.5
@@ -3416,7 +3416,7 @@ Fifth Beach LOW 2018 8,Bossiella frondescens,0.5
 Fifth Beach LOW 2018 8,Bossiella reptans,1
 Fifth Beach LOW 2018 8,Chamberlainium tumidum,2
 Fifth Beach LOW 2018 8,coralline crust,0.5
-Fifth Beach LOW 2018 8,Dactylosiphon bullosus,2
+Fifth Beach LOW 2018 8,Dactylosiphon bullosus,4
 Fifth Beach LOW 2018 8,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2018 8,Hildenbrandia rubra,2
 Fifth Beach LOW 2018 8,Hymenena spp.,2
@@ -3536,7 +3536,7 @@ Fifth Beach LOW 2019 3,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2019 3,coralline crust,5
 Fifth Beach LOW 2019 3,Cryptosiphonia woodii,16
 Fifth Beach LOW 2019 3,Cumathamnion decipiens,1
-Fifth Beach LOW 2019 3,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2019 3,Dactylosiphon bullosus,1
 Fifth Beach LOW 2019 3,Dilsea californica,7
 Fifth Beach LOW 2019 3,Hildenbrandia occidentalis,2
 Fifth Beach LOW 2019 3,Hildenbrandia rubra,2
@@ -3551,7 +3551,7 @@ Fifth Beach LOW 2019 3,Neoporphyra perforata,1
 Fifth Beach LOW 2019 3,Neorhodomela larix,5
 Fifth Beach LOW 2019 3,Odonthalia floccosa,3
 Fifth Beach LOW 2019 3,Phyllospadix scouleri,16
-Fifth Beach LOW 2019 3,Phyllospadix torreyi,20
+Fifth Beach LOW 2019 3,Phyllospadix torreyi,40
 Fifth Beach LOW 2019 3,Polyneura latissima,5
 Fifth Beach LOW 2019 3,Ptilota filicina,14
 Fifth Beach LOW 2019 3,Tube worm,0.5
@@ -3564,7 +3564,7 @@ Fifth Beach LOW 2019 4,Bossiella frondifera,1
 Fifth Beach LOW 2019 4,Callithamnion pikeanum,3
 Fifth Beach LOW 2019 4,Corallina vancouveriensis,2
 Fifth Beach LOW 2019 4,Cryptosiphonia woodii,5
-Fifth Beach LOW 2019 4,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2019 4,Dactylosiphon bullosus,1
 Fifth Beach LOW 2019 4,Dilsea californica,4
 Fifth Beach LOW 2019 4,Endocladia muricata,13
 Fifth Beach LOW 2019 4,Farlowia mollis,0.5
@@ -3620,7 +3620,7 @@ Fifth Beach LOW 2019 6,Codium fragile,2
 Fifth Beach LOW 2019 6,Corallina vancouveriensis,8
 Fifth Beach LOW 2019 6,coralline crust,4
 Fifth Beach LOW 2019 6,Cryptosiphonia woodii,1
-Fifth Beach LOW 2019 6,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2019 6,Dactylosiphon bullosus,1
 Fifth Beach LOW 2019 6,Hildenbrandia occidentalis,11
 Fifth Beach LOW 2019 6,Hildenbrandia rubra,5
 Fifth Beach LOW 2019 6,Katharina tunicata,1.5
@@ -3711,7 +3711,7 @@ Fifth Beach LOW 2021 1,Chamberlainium tumidum,2
 Fifth Beach LOW 2021 1,Chiton,1
 Fifth Beach LOW 2021 1,Codium setchellii,0.5
 Fifth Beach LOW 2021 1,Cryptosiphonia woodii,2
-Fifth Beach LOW 2021 1,Dactylosiphon bullosus,1
+Fifth Beach LOW 2021 1,Dactylosiphon bullosus,2
 Fifth Beach LOW 2021 1,Dilsea californica,10
 Fifth Beach LOW 2021 1,Endocladia muricata,0.5
 Fifth Beach LOW 2021 1,Farlowia mollis,0.5
@@ -3756,7 +3756,7 @@ Fifth Beach LOW 2021 2,Bossiella sp.2 chiloensis,0.5
 Fifth Beach LOW 2021 2,Chamberlainium tumidum,5
 Fifth Beach LOW 2021 2,Codium fragile,0.5
 Fifth Beach LOW 2021 2,Cryptosiphonia woodii,19
-Fifth Beach LOW 2021 2,Dactylosiphon bullosus,1
+Fifth Beach LOW 2021 2,Dactylosiphon bullosus,2
 Fifth Beach LOW 2021 2,Dilsea californica,0.5
 Fifth Beach LOW 2021 2,Farlowia mollis,0.5
 Fifth Beach LOW 2021 2,Fucus distichus,0.5
@@ -3823,7 +3823,7 @@ Fifth Beach LOW 2021 4,Chamberlainium tumidum,1
 Fifth Beach LOW 2021 4,Chiton,2
 Fifth Beach LOW 2021 4,Corallina vancouveriensis,3
 Fifth Beach LOW 2021 4,Cryptosiphonia woodii,6
-Fifth Beach LOW 2021 4,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2021 4,Dactylosiphon bullosus,1
 Fifth Beach LOW 2021 4,Fucus distichus,2
 Fifth Beach LOW 2021 4,Halosaccion glandiforme,1
 Fifth Beach LOW 2021 4,Hedophyllum sessile,5
@@ -3846,10 +3846,10 @@ Fifth Beach LOW 2021 4,Polyneura latissima,9
 Fifth Beach LOW 2021 4,Ptilota filicina,8
 Fifth Beach LOW 2021 4,Pyropia abbottiae,32
 Fifth Beach LOW 2021 4,Scytosiphon lomentaria,0.5
+Fifth Beach LOW 2021 4,Snail,2
 Fifth Beach LOW 2021 4,Tokidadendron bullatum,5
 Fifth Beach LOW 2021 4,Tunicata,6
 Fifth Beach LOW 2021 4,Ulva fenestrata,0.5
-Fifth Beach LOW 2021 4,NA,2
 Fifth Beach LOW 2021 5,Acrosiphonia coalita,0.5
 Fifth Beach LOW 2021 5,Alaria marginata,2
 Fifth Beach LOW 2021 5,Anemone,0.5
@@ -3858,7 +3858,7 @@ Fifth Beach LOW 2021 5,Bossiella frondescens,2
 Fifth Beach LOW 2021 5,Callithamnion pikeanum,2
 Fifth Beach LOW 2021 5,Chamberlainium tumidum,4
 Fifth Beach LOW 2021 5,Corallina vancouveriensis,1
-Fifth Beach LOW 2021 5,Dactylosiphon bullosus,1
+Fifth Beach LOW 2021 5,Dactylosiphon bullosus,2
 Fifth Beach LOW 2021 5,Farlowia mollis,1.5
 Fifth Beach LOW 2021 5,Fucus distichus,1
 Fifth Beach LOW 2021 5,Halosaccion glandiforme,0.5
@@ -3886,7 +3886,7 @@ Fifth Beach LOW 2021 6,Bossiella frondescens,1
 Fifth Beach LOW 2021 6,Callithamnion pikeanum,1
 Fifth Beach LOW 2021 6,Chamberlainium tumidum,2
 Fifth Beach LOW 2021 6,Corallina vancouveriensis,1
-Fifth Beach LOW 2021 6,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2021 6,Dactylosiphon bullosus,1
 Fifth Beach LOW 2021 6,Farlowia mollis,0.5
 Fifth Beach LOW 2021 6,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2021 6,Hildenbrandia occidentalis,6
@@ -4010,7 +4010,7 @@ Fifth Beach LOW 2022 1,Microcladia borealis,5
 Fifth Beach LOW 2022 1,Neorhodomela larix,34
 Fifth Beach LOW 2022 1,Nucella sp.,1
 Fifth Beach LOW 2022 1,Pagarus sp.,2
-Fifth Beach LOW 2022 1,Phyllospadix torreyi,0.5
+Fifth Beach LOW 2022 1,Phyllospadix torreyi,1
 Fifth Beach LOW 2022 1,Plocamium violaceum,0.5
 Fifth Beach LOW 2022 1,Polysiphonia hendryi var. gardneri,2
 Fifth Beach LOW 2022 1,Ptilota filicina,10
@@ -4065,7 +4065,7 @@ Fifth Beach LOW 2022 2,Mastocarpus latissimus,1
 Fifth Beach LOW 2022 2,Mazzaella oregona,2
 Fifth Beach LOW 2022 2,Mazzaella splendens,6
 Fifth Beach LOW 2022 2,Neorhodomela larix,15
-Fifth Beach LOW 2022 2,Phyllospadix torreyi,8
+Fifth Beach LOW 2022 2,Phyllospadix torreyi,16
 Fifth Beach LOW 2022 2,Plocamium violaceum,1
 Fifth Beach LOW 2022 2,Polysiphonia hendryi var. hendryi,3
 Fifth Beach LOW 2022 2,Ptilota filicina,5
@@ -4110,8 +4110,8 @@ Fifth Beach LOW 2022 4,Mesophyllum vancouveriense,0.5
 Fifth Beach LOW 2022 4,Microcladia borealis,6
 Fifth Beach LOW 2022 4,Plocamium violaceum,77
 Fifth Beach LOW 2022 4,Ptilota filicina,9
+Fifth Beach LOW 2022 4,Snail,3
 Fifth Beach LOW 2022 4,Ulva fenestrata,1
-Fifth Beach LOW 2022 4,NA,3
 Fifth Beach LOW 2022 5,Acrosiphonia arcta,0.5
 Fifth Beach LOW 2022 5,Alaria marginata,4
 Fifth Beach LOW 2022 5,Anemone,0.5
@@ -4126,7 +4126,7 @@ Fifth Beach LOW 2022 5,Chamberlainium tumidum,0.5
 Fifth Beach LOW 2022 5,Corallina vancouveriensis,0.5
 Fifth Beach LOW 2022 5,coralline crust,2
 Fifth Beach LOW 2022 5,Cryptosiphonia woodii,13
-Fifth Beach LOW 2022 5,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2022 5,Dactylosiphon bullosus,1
 Fifth Beach LOW 2022 5,Dilsea californica,3
 Fifth Beach LOW 2022 5,Endocladia muricata,0.5
 Fifth Beach LOW 2022 5,Farlowia mollis,0.5
@@ -4147,16 +4147,16 @@ Fifth Beach LOW 2022 5,Neorhodomela larix,17
 Fifth Beach LOW 2022 5,Nienburgia prolifera,0.5
 Fifth Beach LOW 2022 5,Odonthalia floccosa,4
 Fifth Beach LOW 2022 5,Petrocelis,0.5
-Fifth Beach LOW 2022 5,Phyllospadix torreyi,5
+Fifth Beach LOW 2022 5,Phyllospadix torreyi,10
 Fifth Beach LOW 2022 5,Plocamium violaceum,5
 Fifth Beach LOW 2022 5,Polysiphonia hendryi var. gardneri,0.5
 Fifth Beach LOW 2022 5,Ptilota filicina,8
 Fifth Beach LOW 2022 5,Pyropia abbottiae,7
 Fifth Beach LOW 2022 5,Savoiea robusta,0.5
+Fifth Beach LOW 2022 5,Snail,2
 Fifth Beach LOW 2022 5,Ulva fenestrata,0.5
 Fifth Beach LOW 2022 5,Unknown crust,2
 Fifth Beach LOW 2022 5,Wildemania norrisii,2
-Fifth Beach LOW 2022 5,NA,2
 Fifth Beach LOW 2022 6,Acrosiphonia arcta,0.5
 Fifth Beach LOW 2022 6,Acrosiphonia coalita,0.5
 Fifth Beach LOW 2022 6,Alaria marginata,15
@@ -4171,7 +4171,7 @@ Fifth Beach LOW 2022 6,Corallina vancouveriensis,1
 Fifth Beach LOW 2022 6,coralline crust,4
 Fifth Beach LOW 2022 6,Cryptosiphonia woodii,3
 Fifth Beach LOW 2022 6,Cumathamnion decipiens,0.5
-Fifth Beach LOW 2022 6,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2022 6,Dactylosiphon bullosus,1
 Fifth Beach LOW 2022 6,Egregia menziesii,6
 Fifth Beach LOW 2022 6,Halosaccion glandiforme,0.5
 Fifth Beach LOW 2022 6,Hedophyllum sessile,26
@@ -4192,17 +4192,17 @@ Fifth Beach LOW 2022 6,Nienburgia prolifera,1
 Fifth Beach LOW 2022 6,Odonthalia floccosa,7
 Fifth Beach LOW 2022 6,Pagarus sp.,1
 Fifth Beach LOW 2022 6,Petrocelis,0.5
-Fifth Beach LOW 2022 6,Phyllospadix torreyi,9
+Fifth Beach LOW 2022 6,Phyllospadix torreyi,18
 Fifth Beach LOW 2022 6,Pisaster ochraceus,1
 Fifth Beach LOW 2022 6,Plocamium violaceum,5
 Fifth Beach LOW 2022 6,Polyneura latissima,4
 Fifth Beach LOW 2022 6,Ptilota filicina,2
 Fifth Beach LOW 2022 6,Pyropia abbottiae,8
 Fifth Beach LOW 2022 6,Savoiea robusta,4
+Fifth Beach LOW 2022 6,Snail,1
 Fifth Beach LOW 2022 6,Tonicella sp.,2
 Fifth Beach LOW 2022 6,Ulva fenestrata,1
 Fifth Beach LOW 2022 6,Unknown crust,0.5
-Fifth Beach LOW 2022 6,NA,1
 Fifth Beach LOW 2022 7,Acrochaetium sp.,0.5
 Fifth Beach LOW 2022 7,Alaria marginata,10
 Fifth Beach LOW 2022 7,Anemone,5
@@ -5600,7 +5600,7 @@ Fifth Beach MID 2017 4,Chamberlainium tumidum,0.5
 Fifth Beach MID 2017 4,Cladophora columbiana,0.5
 Fifth Beach MID 2017 4,Corallina vancouveriensis,1
 Fifth Beach MID 2017 4,coralline crust,1
-Fifth Beach MID 2017 4,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2017 4,Dactylosiphon bullosus,1
 Fifth Beach MID 2017 4,Dilsea californica,5
 Fifth Beach MID 2017 4,Endocladia muricata,12
 Fifth Beach MID 2017 4,Farlowia mollis,0.5
@@ -5665,7 +5665,7 @@ Fifth Beach MID 2017 7,Bossiella frondescens,2
 Fifth Beach MID 2017 7,Bossiella frondifera,2
 Fifth Beach MID 2017 7,Chamberlainium tumidum,7
 Fifth Beach MID 2017 7,Corallina vancouveriensis,8
-Fifth Beach MID 2017 7,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2017 7,Dactylosiphon bullosus,1
 Fifth Beach MID 2017 7,Farlowia mollis,1
 Fifth Beach MID 2017 7,Hildenbrandia occidentalis,2
 Fifth Beach MID 2017 7,Hildenbrandia rubra,1
@@ -5779,7 +5779,7 @@ Fifth Beach MID 2018 2,Chamberlainium tumidum,3
 Fifth Beach MID 2018 2,Cladophora columbiana,1
 Fifth Beach MID 2018 2,Corallina vancouveriensis,5
 Fifth Beach MID 2018 2,Cryptosiphonia woodii,5
-Fifth Beach MID 2018 2,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2018 2,Dactylosiphon bullosus,1
 Fifth Beach MID 2018 2,Endocladia muricata,3
 Fifth Beach MID 2018 2,Farlowia mollis,0.5
 Fifth Beach MID 2018 2,Fucus distichus,3
@@ -6228,7 +6228,7 @@ Fifth Beach MID 2019 9,Chamberlainium tumidum,2
 Fifth Beach MID 2019 9,Colonial diatoms,1
 Fifth Beach MID 2019 9,Corallina vancouveriensis,17
 Fifth Beach MID 2019 9,coralline crust,8
-Fifth Beach MID 2019 9,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2019 9,Dactylosiphon bullosus,1
 Fifth Beach MID 2019 9,Dilsea californica,4
 Fifth Beach MID 2019 9,Fish,1
 Fifth Beach MID 2019 9,Halosaccion glandiforme,0.5
@@ -6325,8 +6325,8 @@ Fifth Beach MID 2021 3,Pyropia abbottiae,3
 Fifth Beach MID 2021 3,Ralfsioid,0.5
 Fifth Beach MID 2021 3,Savoiea robusta,0.5
 Fifth Beach MID 2021 3,Scytosiphon lomentaria,0.5
+Fifth Beach MID 2021 3,Snail,2
 Fifth Beach MID 2021 3,Ulva fenestrata,4
-Fifth Beach MID 2021 3,NA,2
 Fifth Beach MID 2021 4,Acrosiphonia coalita,0.5
 Fifth Beach MID 2021 4,Analipus japonicus,0.5
 Fifth Beach MID 2021 4,Anemone,17
@@ -6337,7 +6337,7 @@ Fifth Beach MID 2021 4,Chamberlainium tumidum,9
 Fifth Beach MID 2021 4,Colpomenia peregrina,0.5
 Fifth Beach MID 2021 4,Corallina chilensis,4
 Fifth Beach MID 2021 4,Corallina vancouveriensis,5
-Fifth Beach MID 2021 4,Dactylosiphon bullosus,1
+Fifth Beach MID 2021 4,Dactylosiphon bullosus,2
 Fifth Beach MID 2021 4,Endocladia muricata,0.5
 Fifth Beach MID 2021 4,Fucus distichus,21
 Fifth Beach MID 2021 4,Halosaccion glandiforme,2
@@ -6437,7 +6437,7 @@ Fifth Beach MID 2021 8,Chiton,3
 Fifth Beach MID 2021 8,Colonial diatoms,2
 Fifth Beach MID 2021 8,Corallina vancouveriensis,7
 Fifth Beach MID 2021 8,coralline crust,2
-Fifth Beach MID 2021 8,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2021 8,Dactylosiphon bullosus,1
 Fifth Beach MID 2021 8,Dilsea californica,7
 Fifth Beach MID 2021 8,Ectocarpus siliculosus,2
 Fifth Beach MID 2021 8,Hildenbrandia rubra,3
@@ -6545,7 +6545,7 @@ Fifth Beach MID 2022 3,Microcladia borealis,0.5
 Fifth Beach MID 2022 3,Nemalion helminthoides,0.5
 Fifth Beach MID 2022 3,Neorhodomela larix,29
 Fifth Beach MID 2022 3,Petrocelis,0.5
-Fifth Beach MID 2022 3,Phyllospadix torreyi,5
+Fifth Beach MID 2022 3,Phyllospadix torreyi,10
 Fifth Beach MID 2022 3,Pisaster ochraceus,3
 Fifth Beach MID 2022 3,Ptilota filicina,0.5
 Fifth Beach MID 2022 3,Pyropia abbottiae,2
@@ -6615,7 +6615,7 @@ Fifth Beach MID 2022 7,Bossiella frondescens,0.5
 Fifth Beach MID 2022 7,Bossiella frondifera,4
 Fifth Beach MID 2022 7,Chamberlainium tumidum,9
 Fifth Beach MID 2022 7,Corallina vancouveriensis,3
-Fifth Beach MID 2022 7,Dactylosiphon bullosus,1
+Fifth Beach MID 2022 7,Dactylosiphon bullosus,2
 Fifth Beach MID 2022 7,Halosaccion glandiforme,2
 Fifth Beach MID 2022 7,Hildenbrandia occidentalis,10
 Fifth Beach MID 2022 7,Isopoda,2
@@ -6638,7 +6638,7 @@ Fifth Beach MID 2022 8,bare rock,7
 Fifth Beach MID 2022 8,Barnacle,7
 Fifth Beach MID 2022 8,Callithamnion pikeanum,4
 Fifth Beach MID 2022 8,Ceramium pacificum,2
-Fifth Beach MID 2022 8,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2022 8,Dactylosiphon bullosus,1
 Fifth Beach MID 2022 8,Dilsea californica,3
 Fifth Beach MID 2022 8,Entoprocta,2
 Fifth Beach MID 2022 8,Farlowia mollis,0.5
@@ -6662,7 +6662,7 @@ Fifth Beach MID 2022 9,Callithamnion pikeanum,0.5
 Fifth Beach MID 2022 9,Chamberlainium tumidum,0.5
 Fifth Beach MID 2022 9,Corallina vancouveriensis,3
 Fifth Beach MID 2022 9,Cryptosiphonia woodii,0.5
-Fifth Beach MID 2022 9,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2022 9,Dactylosiphon bullosus,1
 Fifth Beach MID 2022 9,Endocladia muricata,0.5
 Fifth Beach MID 2022 9,Hildenbrandia occidentalis,0.5
 Fifth Beach MID 2022 9,Hildenbrandia rubra,0.5
@@ -6742,7 +6742,6 @@ Foggy Cove HIGH 2011 9,Mastocarpus latissimus,0.5
 Foggy Cove HIGH 2011 9,Petrocelis,0.5
 Foggy Cove HIGH 2012 1,Barnacle,1
 Foggy Cove HIGH 2012 1,Chamberlainium tumidum,2
-Foggy Cove HIGH 2012 1,Chlorostoma sp.,7
 Foggy Cove HIGH 2012 1,Elachista fucicola,3
 Foggy Cove HIGH 2012 1,Endocladia muricata,15
 Foggy Cove HIGH 2012 1,Fucus distichus,12
@@ -6752,17 +6751,17 @@ Foggy Cove HIGH 2012 1,Limpet,15
 Foggy Cove HIGH 2012 1,Littorina sp.,1
 Foggy Cove HIGH 2012 1,Mastocarpus alaskensis,7
 Foggy Cove HIGH 2012 1,Petrocelis,3
+Foggy Cove HIGH 2012 1,Tegula sp.,7
 Foggy Cove HIGH 2012 10,bare rock,97
 Foggy Cove HIGH 2012 10,Barnacle,50
-Foggy Cove HIGH 2012 10,Chlorostoma sp.,7
 Foggy Cove HIGH 2012 10,Fucus distichus,3
 Foggy Cove HIGH 2012 10,Gloiopeltis furcata,5
 Foggy Cove HIGH 2012 10,Limpet,49
 Foggy Cove HIGH 2012 10,Littorina sp.,133
 Foggy Cove HIGH 2012 10,Petrocelis,3
 Foggy Cove HIGH 2012 10,Pisaster ochraceus,1
+Foggy Cove HIGH 2012 10,Tegula sp.,7
 Foggy Cove HIGH 2012 2,Chamberlainium tumidum,8
-Foggy Cove HIGH 2012 2,Chlorostoma sp.,12
 Foggy Cove HIGH 2012 2,Elachista fucicola,7
 Foggy Cove HIGH 2012 2,Endocladia muricata,30
 Foggy Cove HIGH 2012 2,Fucus distichus,50
@@ -6774,9 +6773,9 @@ Foggy Cove HIGH 2012 2,Mastocarpus alaskensis,15
 Foggy Cove HIGH 2012 2,Neoporphyra perforata,1
 Foggy Cove HIGH 2012 2,Pagarus sp.,16
 Foggy Cove HIGH 2012 2,Petrocelis,5
+Foggy Cove HIGH 2012 2,Tegula sp.,12
 Foggy Cove HIGH 2012 3,bare rock,45
 Foggy Cove HIGH 2012 3,Barnacle,1
-Foggy Cove HIGH 2012 3,Chlorostoma sp.,7
 Foggy Cove HIGH 2012 3,Elachista fucicola,2
 Foggy Cove HIGH 2012 3,Endocladia muricata,18
 Foggy Cove HIGH 2012 3,Fucus distichus,10
@@ -6786,20 +6785,20 @@ Foggy Cove HIGH 2012 3,Limpet,9
 Foggy Cove HIGH 2012 3,Littorina sp.,1
 Foggy Cove HIGH 2012 3,Mastocarpus alaskensis,4
 Foggy Cove HIGH 2012 3,Petrocelis,1
-Foggy Cove HIGH 2012 4,Chlorostoma sp.,1
+Foggy Cove HIGH 2012 3,Tegula sp.,7
 Foggy Cove HIGH 2012 4,Elachista fucicola,2
 Foggy Cove HIGH 2012 4,Endocladia muricata,18
 Foggy Cove HIGH 2012 4,Fucus distichus,40
-Foggy Cove HIGH 2012 4,Hemigrapsis sp.,2
+Foggy Cove HIGH 2012 4,Hemigrapsus sp.,2
 Foggy Cove HIGH 2012 4,Limpet,9
 Foggy Cove HIGH 2012 4,Littorina sp.,2
 Foggy Cove HIGH 2012 4,Mastocarpus alaskensis,4
 Foggy Cove HIGH 2012 4,Neoporphyra perforata,0.5
 Foggy Cove HIGH 2012 4,Petrocelis,0.5
+Foggy Cove HIGH 2012 4,Tegula sp.,1
 Foggy Cove HIGH 2012 5,Anthopleura sp.,5
 Foggy Cove HIGH 2012 5,bare rock,50
 Foggy Cove HIGH 2012 5,Chamberlainium tumidum,1
-Foggy Cove HIGH 2012 5,Chlorostoma sp.,6
 Foggy Cove HIGH 2012 5,Elachista fucicola,4
 Foggy Cove HIGH 2012 5,Endocladia muricata,8
 Foggy Cove HIGH 2012 5,Fucus distichus,6
@@ -6809,6 +6808,7 @@ Foggy Cove HIGH 2012 5,Limpet,20
 Foggy Cove HIGH 2012 5,Mastocarpus alaskensis,4
 Foggy Cove HIGH 2012 5,Pagarus sp.,1
 Foggy Cove HIGH 2012 5,Petrocelis,4
+Foggy Cove HIGH 2012 5,Tegula sp.,6
 Foggy Cove HIGH 2012 6,bare rock,90
 Foggy Cove HIGH 2012 6,Chamberlainium tumidum,2
 Foggy Cove HIGH 2012 6,coralline crust,2
@@ -6953,13 +6953,12 @@ Foggy Cove HIGH 2014 10,Neoporphyra perforata,17
 Foggy Cove HIGH 2014 2,Anemone,1
 Foggy Cove HIGH 2014 2,bare rock,45
 Foggy Cove HIGH 2014 2,Barnacle,1
-Foggy Cove HIGH 2014 2,Chlorostoma sp.,20
 Foggy Cove HIGH 2014 2,Limpet,5
 Foggy Cove HIGH 2014 2,Mastocarpus alaskensis,1
 Foggy Cove HIGH 2014 2,Petrocelis,7
+Foggy Cove HIGH 2014 2,Tegula sp.,20
 Foggy Cove HIGH 2014 3,bare rock,90
 Foggy Cove HIGH 2014 3,Barnacle,1
-Foggy Cove HIGH 2014 3,Chlorostoma sp.,4
 Foggy Cove HIGH 2014 3,Elachista fucicola,8
 Foggy Cove HIGH 2014 3,Endocladia muricata,8
 Foggy Cove HIGH 2014 3,Fucus distichus,43
@@ -6969,6 +6968,7 @@ Foggy Cove HIGH 2014 3,Limpet,16
 Foggy Cove HIGH 2014 3,Littorina sp.,2
 Foggy Cove HIGH 2014 3,Mastocarpus alaskensis,0.5
 Foggy Cove HIGH 2014 3,Petrocelis,0.5
+Foggy Cove HIGH 2014 3,Tegula sp.,4
 Foggy Cove HIGH 2014 4,bare rock,67
 Foggy Cove HIGH 2014 4,Endocladia muricata,11
 Foggy Cove HIGH 2014 4,Fucus distichus,12
@@ -7050,15 +7050,14 @@ Foggy Cove HIGH 2015 2,Gloiopeltis furcata,4
 Foggy Cove HIGH 2015 2,Mastocarpus alaskensis,2
 Foggy Cove HIGH 2015 3,Anemone,1
 Foggy Cove HIGH 2015 3,bare rock,97
-Foggy Cove HIGH 2015 3,Chlorostoma sp.,26
 Foggy Cove HIGH 2015 3,Hildenbrandia rubra,0.5
 Foggy Cove HIGH 2015 3,Limpet,8
 Foggy Cove HIGH 2015 3,Mastocarpus alaskensis,0.5
 Foggy Cove HIGH 2015 3,Neorhodomela oregona,3
 Foggy Cove HIGH 2015 3,Petrocelis,1
+Foggy Cove HIGH 2015 3,Tegula sp.,26
 Foggy Cove HIGH 2015 4,bare rock,70
 Foggy Cove HIGH 2015 4,Barnacle,0.5
-Foggy Cove HIGH 2015 4,Chlorostoma sp.,1
 Foggy Cove HIGH 2015 4,Endocladia muricata,45
 Foggy Cove HIGH 2015 4,Fucus distichus,41
 Foggy Cove HIGH 2015 4,Gloiopeltis furcata,0.5
@@ -7067,6 +7066,7 @@ Foggy Cove HIGH 2015 4,Limpet,5
 Foggy Cove HIGH 2015 4,Littorina sp.,8
 Foggy Cove HIGH 2015 4,Mastocarpus agardhii,2
 Foggy Cove HIGH 2015 4,Mastocarpus alaskensis,13
+Foggy Cove HIGH 2015 4,Tegula sp.,1
 Foggy Cove HIGH 2015 5,bare rock,30
 Foggy Cove HIGH 2015 5,Endocladia muricata,39
 Foggy Cove HIGH 2015 5,Fucus distichus,46
@@ -7123,7 +7123,6 @@ Foggy Cove HIGH 2016 2,Petrocelis,5.5
 Foggy Cove HIGH 2016 3,Ahnfeltia fastigiata,0.5
 Foggy Cove HIGH 2016 3,bare rock,65
 Foggy Cove HIGH 2016 3,Chamberlainium tumidum,5
-Foggy Cove HIGH 2016 3,Chlorostoma sp.,12
 Foggy Cove HIGH 2016 3,Crusticorallina muricata,0.5
 Foggy Cove HIGH 2016 3,Fucus distichus,5
 Foggy Cove HIGH 2016 3,Hildenbrandia sp.,10
@@ -7131,6 +7130,7 @@ Foggy Cove HIGH 2016 3,Limpet,17
 Foggy Cove HIGH 2016 3,Mastocarpus agardhii,0.5
 Foggy Cove HIGH 2016 3,Phyllospadix scouleri,10
 Foggy Cove HIGH 2016 3,Prionitis sternbergii,1
+Foggy Cove HIGH 2016 3,Tegula sp.,12
 Foggy Cove HIGH 2016 4,bare rock,99.5
 Foggy Cove HIGH 2016 4,Barnacle,0.5
 Foggy Cove HIGH 2016 5,Ahnfeltia fastigiata,3
@@ -7158,7 +7158,6 @@ Foggy Cove HIGH 2016 6,Neorhodomela larix,0.5
 Foggy Cove HIGH 2016 6,Petrocelis,2
 Foggy Cove HIGH 2016 7,bare rock,82
 Foggy Cove HIGH 2016 7,Barnacle,0.5
-Foggy Cove HIGH 2016 7,Chlorostoma sp.,1
 Foggy Cove HIGH 2016 7,Endocladia muricata,15
 Foggy Cove HIGH 2016 7,Fucus distichus,42
 Foggy Cove HIGH 2016 7,Gloiopeltis furcata,0.5
@@ -7167,6 +7166,7 @@ Foggy Cove HIGH 2016 7,Limpet,4
 Foggy Cove HIGH 2016 7,Littorina sp.,10
 Foggy Cove HIGH 2016 7,Mastocarpus alaskensis,6
 Foggy Cove HIGH 2016 7,Petrocelis,1
+Foggy Cove HIGH 2016 7,Tegula sp.,1
 Foggy Cove HIGH 2016 8,bare rock,98
 Foggy Cove HIGH 2016 8,Barnacle,1
 Foggy Cove HIGH 2016 8,Hildenbrandia sp.,0.5
@@ -7179,13 +7179,13 @@ Foggy Cove HIGH 2016 9,Limpet,6
 Foggy Cove HIGH 2017 1,bare rock,84
 Foggy Cove HIGH 2017 1,Barnacle,1
 Foggy Cove HIGH 2017 1,Chamberlainium tumidum,1
-Foggy Cove HIGH 2017 1,Chlorostoma sp.,6
 Foggy Cove HIGH 2017 1,Endocladia muricata,14
 Foggy Cove HIGH 2017 1,Fucus distichus,2
 Foggy Cove HIGH 2017 1,Hildenbrandia rubra,0.5
 Foggy Cove HIGH 2017 1,Limpet,13
 Foggy Cove HIGH 2017 1,Mastocarpus alaskensis,1
 Foggy Cove HIGH 2017 1,Petrocelis,0.5
+Foggy Cove HIGH 2017 1,Tegula sp.,6
 Foggy Cove HIGH 2017 10,bare rock,98
 Foggy Cove HIGH 2017 10,Endocladia muricata,0.5
 Foggy Cove HIGH 2017 10,Mastocarpus alaskensis,0.5
@@ -7241,7 +7241,6 @@ Foggy Cove HIGH 2017 9,Mytilus sp.,0.5
 Foggy Cove HIGH 2017 9,Petrocelis,0.5
 Foggy Cove HIGH 2018 1,bare rock,73
 Foggy Cove HIGH 2018 1,Barnacle,8
-Foggy Cove HIGH 2018 1,Chlorostoma sp.,30
 Foggy Cove HIGH 2018 1,Erythrotrichia carnea,5
 Foggy Cove HIGH 2018 1,Fucus distichus,14
 Foggy Cove HIGH 2018 1,Gloiopeltis furcata,0.5
@@ -7251,6 +7250,7 @@ Foggy Cove HIGH 2018 1,Littorina sp.,35
 Foggy Cove HIGH 2018 1,Mastocarpus alaskensis,0.5
 Foggy Cove HIGH 2018 1,Neopyropia fucicola,0.5
 Foggy Cove HIGH 2018 1,Petrocelis,1.5
+Foggy Cove HIGH 2018 1,Tegula sp.,30
 Foggy Cove HIGH 2018 10,bare rock,66
 Foggy Cove HIGH 2018 10,Barnacle,16
 Foggy Cove HIGH 2018 10,Endocladia muricata,5
@@ -7291,7 +7291,6 @@ Foggy Cove HIGH 2018 4,Mastocarpus alaskensis,1
 Foggy Cove HIGH 2018 4,Petrocelis,1.5
 Foggy Cove HIGH 2018 5,bare rock,95
 Foggy Cove HIGH 2018 5,Barnacle,6
-Foggy Cove HIGH 2018 5,Chlorostoma sp.,27
 Foggy Cove HIGH 2018 5,Endocladia muricata,2
 Foggy Cove HIGH 2018 5,Fucus distichus,5
 Foggy Cove HIGH 2018 5,Gloiopeltis furcata,0.5
@@ -7299,6 +7298,7 @@ Foggy Cove HIGH 2018 5,Limpet,20
 Foggy Cove HIGH 2018 5,Mastocarpus agardhii,0.5
 Foggy Cove HIGH 2018 5,Mastocarpus alaskensis,1
 Foggy Cove HIGH 2018 5,Petrocelis,4
+Foggy Cove HIGH 2018 5,Tegula sp.,27
 Foggy Cove HIGH 2018 6,bare rock,90
 Foggy Cove HIGH 2018 6,Barnacle,5
 Foggy Cove HIGH 2018 6,Gloiopeltis furcata,1
@@ -7313,13 +7313,13 @@ Foggy Cove HIGH 2018 7,Hildenbrandia occidentalis,1
 Foggy Cove HIGH 2018 7,Limpet,2
 Foggy Cove HIGH 2018 8,bare rock,62.5
 Foggy Cove HIGH 2018 8,Barnacle,5
-Foggy Cove HIGH 2018 8,Chlorostoma sp.,3
 Foggy Cove HIGH 2018 8,Endocladia muricata,13
 Foggy Cove HIGH 2018 8,Fucus distichus,16
 Foggy Cove HIGH 2018 8,Gloiopeltis furcata,3
 Foggy Cove HIGH 2018 8,Hildenbrandia rubra,0.5
 Foggy Cove HIGH 2018 8,Limpet,6
 Foggy Cove HIGH 2018 8,Mastocarpus alaskensis,1.5
+Foggy Cove HIGH 2018 8,Tegula sp.,3
 Foggy Cove HIGH 2018 9,bare rock,32
 Foggy Cove HIGH 2018 9,Barnacle,60
 Foggy Cove HIGH 2018 9,Endocladia muricata,4
@@ -7329,13 +7329,13 @@ Foggy Cove HIGH 2018 9,Limpet,1
 Foggy Cove HIGH 2018 9,Pyropia abbottiae,0.5
 Foggy Cove HIGH 2019 1,bare rock,90
 Foggy Cove HIGH 2019 1,Barnacle,3
-Foggy Cove HIGH 2019 1,Chlorostoma sp.,105
 Foggy Cove HIGH 2019 1,Endocladia muricata,3
 Foggy Cove HIGH 2019 1,Fucus distichus,14
 Foggy Cove HIGH 2019 1,Gloiopeltis furcata,3
 Foggy Cove HIGH 2019 1,Katharina tunicata,1
 Foggy Cove HIGH 2019 1,Limpet,4
 Foggy Cove HIGH 2019 1,Littorina sp.,146
+Foggy Cove HIGH 2019 1,Tegula sp.,105
 Foggy Cove HIGH 2019 10,bare rock,63
 Foggy Cove HIGH 2019 10,Barnacle,11
 Foggy Cove HIGH 2019 10,Endocladia muricata,3
@@ -7376,7 +7376,6 @@ Foggy Cove HIGH 2019 3,Petrocelis,1
 Foggy Cove HIGH 2019 3,Tegula sp.,21
 Foggy Cove HIGH 2019 4,Anemone,0.5
 Foggy Cove HIGH 2019 4,Barnacle,17
-Foggy Cove HIGH 2019 4,Chlorostoma sp.,6
 Foggy Cove HIGH 2019 4,Crab,1
 Foggy Cove HIGH 2019 4,Endocladia muricata,4
 Foggy Cove HIGH 2019 4,Fucus distichus,7
@@ -7386,6 +7385,7 @@ Foggy Cove HIGH 2019 4,Limpet,8
 Foggy Cove HIGH 2019 4,Littorina sp.,70
 Foggy Cove HIGH 2019 4,Mastocarpus agardhii,0.5
 Foggy Cove HIGH 2019 4,Mastocarpus alaskensis,0.5
+Foggy Cove HIGH 2019 4,Tegula sp.,6
 Foggy Cove HIGH 2019 5,bare rock,82.5
 Foggy Cove HIGH 2019 5,Barnacle,1
 Foggy Cove HIGH 2019 5,Endocladia muricata,4
@@ -7410,7 +7410,6 @@ Foggy Cove HIGH 2019 7,Anemone,3
 Foggy Cove HIGH 2019 7,bare rock,86
 Foggy Cove HIGH 2019 7,Barnacle,10
 Foggy Cove HIGH 2019 7,Chamberlainium tumidum,0.5
-Foggy Cove HIGH 2019 7,Chlorostoma sp.,10
 Foggy Cove HIGH 2019 7,Endocladia muricata,7
 Foggy Cove HIGH 2019 7,Fucus distichus,1
 Foggy Cove HIGH 2019 7,Gloiopeltis furcata,0.5
@@ -7419,14 +7418,15 @@ Foggy Cove HIGH 2019 7,Littorina sp.,126
 Foggy Cove HIGH 2019 7,Mastocarpus alaskensis,4
 Foggy Cove HIGH 2019 7,Neopyropia fucicola,1
 Foggy Cove HIGH 2019 7,Nucella sp.,1
+Foggy Cove HIGH 2019 7,Tegula sp.,10
 Foggy Cove HIGH 2019 8,Barnacle,3
-Foggy Cove HIGH 2019 8,Chlorostoma sp.,14
 Foggy Cove HIGH 2019 8,Endocladia muricata,7
 Foggy Cove HIGH 2019 8,Fucus distichus,0.5
 Foggy Cove HIGH 2019 8,Gloiopeltis furcata,1.5
 Foggy Cove HIGH 2019 8,Limpet,5
 Foggy Cove HIGH 2019 8,Littorina sp.,25
 Foggy Cove HIGH 2019 8,Pyropia abbottiae,1
+Foggy Cove HIGH 2019 8,Tegula sp.,14
 Foggy Cove HIGH 2019 9,bare rock,70
 Foggy Cove HIGH 2019 9,Barnacle,2
 Foggy Cove HIGH 2019 9,Endocladia muricata,8
@@ -7452,6 +7452,7 @@ Foggy Cove HIGH 2021 10,Littorina sp.,30
 Foggy Cove HIGH 2021 2,Anemone,0.5
 Foggy Cove HIGH 2021 2,bare rock,91
 Foggy Cove HIGH 2021 2,Barnacle,0.5
+Foggy Cove HIGH 2021 2,Brachyura,1
 Foggy Cove HIGH 2021 2,Endocladia muricata,5
 Foggy Cove HIGH 2021 2,Fucus distichus,29
 Foggy Cove HIGH 2021 2,Gloiopeltis furcata,1
@@ -7461,7 +7462,6 @@ Foggy Cove HIGH 2021 2,Littorina sp.,100
 Foggy Cove HIGH 2021 2,Mastocarpus alaskensis,2
 Foggy Cove HIGH 2021 2,Petrocelis,0.5
 Foggy Cove HIGH 2021 2,Tegula sp.,6
-Foggy Cove HIGH 2021 2,NA,1
 Foggy Cove HIGH 2021 3,bare rock,80
 Foggy Cove HIGH 2021 3,Barnacle,0.5
 Foggy Cove HIGH 2021 3,Endocladia muricata,18
@@ -7531,6 +7531,7 @@ Foggy Cove HIGH 2021 9,Nucella sp.,2
 Foggy Cove HIGH 2021 9,Tegula sp.,1
 Foggy Cove HIGH 2022 1,bare rock,90
 Foggy Cove HIGH 2022 1,Barnacle,0.5
+Foggy Cove HIGH 2022 1,Brachyura,1
 Foggy Cove HIGH 2022 1,Endocladia muricata,9
 Foggy Cove HIGH 2022 1,Fucus distichus,14
 Foggy Cove HIGH 2022 1,Gloiopeltis furcata,1
@@ -7539,7 +7540,6 @@ Foggy Cove HIGH 2022 1,Littorina sp.,30
 Foggy Cove HIGH 2022 1,Mastocarpus alaskensis,6
 Foggy Cove HIGH 2022 1,Nucella sp.,4
 Foggy Cove HIGH 2022 1,Tegula sp.,60
-Foggy Cove HIGH 2022 1,NA,1
 Foggy Cove HIGH 2022 10,bare rock,39
 Foggy Cove HIGH 2022 10,Barnacle,10
 Foggy Cove HIGH 2022 10,Endocladia muricata,17
@@ -8349,7 +8349,6 @@ Foggy Cove LOW 2014 2,Analipus japonicus,0.5
 Foggy Cove LOW 2014 2,bare rock,22
 Foggy Cove LOW 2014 2,Bossiella frondifera,3
 Foggy Cove LOW 2014 2,Chamberlainium tumidum,26
-Foggy Cove LOW 2014 2,Chlorostoma sp.,1
 Foggy Cove LOW 2014 2,Corallina vancouveriensis,1
 Foggy Cove LOW 2014 2,Costaria costata,3
 Foggy Cove LOW 2014 2,Cryptosiphonia woodii,2
@@ -8369,6 +8368,7 @@ Foggy Cove LOW 2014 2,Petrocelis,1
 Foggy Cove LOW 2014 2,Polyneura latissima,18
 Foggy Cove LOW 2014 2,Pterocladiella caloglossoides,0.5
 Foggy Cove LOW 2014 2,Ralfsioid,1
+Foggy Cove LOW 2014 2,Tegula sp.,1
 Foggy Cove LOW 2014 2,Ulva linza,3
 Foggy Cove LOW 2014 3,Acrosiphonia arcta,0.5
 Foggy Cove LOW 2014 3,Analipus japonicus,0.5
@@ -8543,7 +8543,7 @@ Foggy Cove LOW 2015 1,Chamberlainium tumidum,5
 Foggy Cove LOW 2015 1,Corallina vancouveriensis,5
 Foggy Cove LOW 2015 1,coralline crust,2
 Foggy Cove LOW 2015 1,Cryptosiphonia woodii,1
-Foggy Cove LOW 2015 1,Dactylosiphon bullosus,0.5
+Foggy Cove LOW 2015 1,Dactylosiphon bullosus,1
 Foggy Cove LOW 2015 1,Egregia menziesii,50
 Foggy Cove LOW 2015 1,Fucus distichus,40
 Foggy Cove LOW 2015 1,Halosaccion glandiforme,0.5
@@ -8731,7 +8731,7 @@ Foggy Cove LOW 2015 9,Callithamnion pikeanum,0.5
 Foggy Cove LOW 2015 9,Ceramium pacificum,2
 Foggy Cove LOW 2015 9,Chamberlainium tumidum,6
 Foggy Cove LOW 2015 9,Cryptosiphonia woodii,17
-Foggy Cove LOW 2015 9,Dactylosiphon bullosus,0.5
+Foggy Cove LOW 2015 9,Dactylosiphon bullosus,1
 Foggy Cove LOW 2015 9,Endocladia muricata,12
 Foggy Cove LOW 2015 9,Fucus distichus,37
 Foggy Cove LOW 2015 9,Halosaccion glandiforme,0.5
@@ -8982,7 +8982,6 @@ Foggy Cove LOW 2016 9,Bossiella frondescens,2
 Foggy Cove LOW 2016 9,Bossiella frondifera,0.5
 Foggy Cove LOW 2016 9,Ceramium pacificum,1
 Foggy Cove LOW 2016 9,Chamberlainium tumidum,1
-Foggy Cove LOW 2016 9,Chlorostoma sp.,1
 Foggy Cove LOW 2016 9,Corallina vancouveriensis,3
 Foggy Cove LOW 2016 9,coralline crust,2
 Foggy Cove LOW 2016 9,Cryptosiphonia woodii,7
@@ -9003,6 +9002,7 @@ Foggy Cove LOW 2016 9,Plocamium violaceum,4
 Foggy Cove LOW 2016 9,Polyneura latissima,48
 Foggy Cove LOW 2016 9,Ptilota filicina,14
 Foggy Cove LOW 2016 9,Spirorbis,0.5
+Foggy Cove LOW 2016 9,Tegula sp.,1
 Foggy Cove LOW 2017 1,bare rock,1
 Foggy Cove LOW 2017 1,Bossiella frondescens,2
 Foggy Cove LOW 2017 1,Bossiella frondifera,11
@@ -9034,7 +9034,7 @@ Foggy Cove LOW 2017 10,Chamberlainium tumidum,6
 Foggy Cove LOW 2017 10,Corallina pilulifera,3
 Foggy Cove LOW 2017 10,Corallina vancouveriensis,1
 Foggy Cove LOW 2017 10,Cryptosiphonia woodii,2
-Foggy Cove LOW 2017 10,Dactylosiphon bullosus,4
+Foggy Cove LOW 2017 10,Dactylosiphon bullosus,8
 Foggy Cove LOW 2017 10,Fucus distichus,5
 Foggy Cove LOW 2017 10,Halosaccion glandiforme,1
 Foggy Cove LOW 2017 10,Hedophyllum nigripes,0.5
@@ -9111,7 +9111,7 @@ Foggy Cove LOW 2017 4,Corallina vancouveriensis,0.5
 Foggy Cove LOW 2017 4,coralline crust,0.5
 Foggy Cove LOW 2017 4,Costaria costata,2
 Foggy Cove LOW 2017 4,Cryptosiphonia woodii,25
-Foggy Cove LOW 2017 4,Dactylosiphon bullosus,0.5
+Foggy Cove LOW 2017 4,Dactylosiphon bullosus,1
 Foggy Cove LOW 2017 4,Egregia menziesii,60
 Foggy Cove LOW 2017 4,Farlowia mollis,0.5
 Foggy Cove LOW 2017 4,Fucus distichus,3
@@ -9186,7 +9186,7 @@ Foggy Cove LOW 2017 7,Bossiella frondescens,10
 Foggy Cove LOW 2017 7,Bossiella frondifera,8
 Foggy Cove LOW 2017 7,Corallina vancouveriensis,10
 Foggy Cove LOW 2017 7,Crab,1
-Foggy Cove LOW 2017 7,Dactylosiphon bullosus,2
+Foggy Cove LOW 2017 7,Dactylosiphon bullosus,4
 Foggy Cove LOW 2017 7,Dilsea californica,1
 Foggy Cove LOW 2017 7,Egregia menziesii,22
 Foggy Cove LOW 2017 7,Farlowia mollis,1
@@ -9392,7 +9392,7 @@ Foggy Cove LOW 2018 4,Corallina sp.,1
 Foggy Cove LOW 2018 4,Corallina vancouveriensis,4
 Foggy Cove LOW 2018 4,coralline crust,5
 Foggy Cove LOW 2018 4,Cryptosiphonia woodii,4
-Foggy Cove LOW 2018 4,Dactylosiphon bullosus,1
+Foggy Cove LOW 2018 4,Dactylosiphon bullosus,2
 Foggy Cove LOW 2018 4,Devaleraea mollis,2
 Foggy Cove LOW 2018 4,Egregia menziesii,3
 Foggy Cove LOW 2018 4,Farlowia mollis,2
@@ -9424,7 +9424,7 @@ Foggy Cove LOW 2018 5,Callithamnion pikeanum,1
 Foggy Cove LOW 2018 5,Chamberlainium tumidum,4
 Foggy Cove LOW 2018 5,coralline crust,1
 Foggy Cove LOW 2018 5,Cryptosiphonia woodii,1
-Foggy Cove LOW 2018 5,Dactylosiphon bullosus,0.5
+Foggy Cove LOW 2018 5,Dactylosiphon bullosus,1
 Foggy Cove LOW 2018 5,Elachista fucicola,0.5
 Foggy Cove LOW 2018 5,Fucus distichus,13
 Foggy Cove LOW 2018 5,Halosaccion glandiforme,1
@@ -9694,7 +9694,7 @@ Foggy Cove LOW 2019 5,Bossiella frondescens,16
 Foggy Cove LOW 2019 5,Chamberlainium tumidum,4
 Foggy Cove LOW 2019 5,Corallina vancouveriensis,3
 Foggy Cove LOW 2019 5,Cryptosiphonia woodii,7
-Foggy Cove LOW 2019 5,Dactylosiphon bullosus,0.5
+Foggy Cove LOW 2019 5,Dactylosiphon bullosus,1
 Foggy Cove LOW 2019 5,Desmarestia herbacea,11
 Foggy Cove LOW 2019 5,Devaleraea mollis,0.5
 Foggy Cove LOW 2019 5,Egregia menziesii,52
@@ -9806,7 +9806,7 @@ Foggy Cove LOW 2021 1,Ceramium pacificum,0.5
 Foggy Cove LOW 2021 1,Colpomenia peregrina,0.5
 Foggy Cove LOW 2021 1,coralline crust,8
 Foggy Cove LOW 2021 1,Cryptosiphonia woodii,12
-Foggy Cove LOW 2021 1,Dactylosiphon bullosus,0.5
+Foggy Cove LOW 2021 1,Dactylosiphon bullosus,1
 Foggy Cove LOW 2021 1,Egregia menziesii,13
 Foggy Cove LOW 2021 1,Farlowia mollis,3
 Foggy Cove LOW 2021 1,Fucus distichus,17
@@ -9835,7 +9835,7 @@ Foggy Cove LOW 2021 10,Bossiella frondescens,0.5
 Foggy Cove LOW 2021 10,Chamberlainium tumidum,7
 Foggy Cove LOW 2021 10,coralline crust,1
 Foggy Cove LOW 2021 10,Cryptosiphonia woodii,0.5
-Foggy Cove LOW 2021 10,Dactylosiphon bullosus,1
+Foggy Cove LOW 2021 10,Dactylosiphon bullosus,2
 Foggy Cove LOW 2021 10,Egregia menziesii,23
 Foggy Cove LOW 2021 10,Farlowia mollis,0.5
 Foggy Cove LOW 2021 10,Fucus distichus,1
@@ -9862,9 +9862,9 @@ Foggy Cove LOW 2021 10,Ralfsioid,4
 Foggy Cove LOW 2021 10,Savoiea robusta,1
 Foggy Cove LOW 2021 10,Schizymenia pacifica,0.5
 Foggy Cove LOW 2021 10,Scytosiphon lomentaria,1
+Foggy Cove LOW 2021 10,Snail,1
 Foggy Cove LOW 2021 10,Tube worm,2
 Foggy Cove LOW 2021 10,Ulva expansa,0.5
-Foggy Cove LOW 2021 10,NA,1
 Foggy Cove LOW 2021 2,Acrosiphonia coalita,5
 Foggy Cove LOW 2021 2,Anemone,1
 Foggy Cove LOW 2021 2,bare rock,12
@@ -9925,7 +9925,7 @@ Foggy Cove LOW 2021 4,Chamberlainium tumidum,2
 Foggy Cove LOW 2021 4,Corallina vancouveriensis,11
 Foggy Cove LOW 2021 4,coralline crust,1
 Foggy Cove LOW 2021 4,Cryptosiphonia woodii,2
-Foggy Cove LOW 2021 4,Dactylosiphon bullosus,1
+Foggy Cove LOW 2021 4,Dactylosiphon bullosus,2
 Foggy Cove LOW 2021 4,Egregia menziesii,80
 Foggy Cove LOW 2021 4,Halosaccion glandiforme,3
 Foggy Cove LOW 2021 4,Hildenbrandia rubra,0.5
@@ -9953,7 +9953,7 @@ Foggy Cove LOW 2021 5,Chamberlainium tumidum,4
 Foggy Cove LOW 2021 5,Corallina vancouveriensis,3
 Foggy Cove LOW 2021 5,coralline crust,0.5
 Foggy Cove LOW 2021 5,Cryptosiphonia woodii,22
-Foggy Cove LOW 2021 5,Dactylosiphon bullosus,5
+Foggy Cove LOW 2021 5,Dactylosiphon bullosus,10
 Foggy Cove LOW 2021 5,Egregia menziesii,13
 Foggy Cove LOW 2021 5,Fucus distichus,5
 Foggy Cove LOW 2021 5,Halosaccion glandiforme,6
@@ -9980,7 +9980,7 @@ Foggy Cove LOW 2021 6,Bossiella frondescens,0.5
 Foggy Cove LOW 2021 6,Chamberlainium tumidum,2
 Foggy Cove LOW 2021 6,Corallina vancouveriensis,2
 Foggy Cove LOW 2021 6,Cryptosiphonia woodii,17
-Foggy Cove LOW 2021 6,Dactylosiphon bullosus,0.5
+Foggy Cove LOW 2021 6,Dactylosiphon bullosus,1
 Foggy Cove LOW 2021 6,Dermasterias,1
 Foggy Cove LOW 2021 6,Halosaccion glandiforme,1
 Foggy Cove LOW 2021 6,Hildenbrandia occidentalis,6
@@ -10070,8 +10070,8 @@ Foggy Cove LOW 2021 9,Pyropia abbottiae,5
 Foggy Cove LOW 2021 9,Ralfsioid,10
 Foggy Cove LOW 2021 9,Savoiea robusta,2
 Foggy Cove LOW 2021 9,Scytosiphon lomentaria,0.5
+Foggy Cove LOW 2021 9,Snail,4
 Foggy Cove LOW 2021 9,Ulva expansa,1
-Foggy Cove LOW 2021 9,NA,4
 Foggy Cove LOW 2022 1,bare rock,15
 Foggy Cove LOW 2022 1,Bossiella frondescens,0.5
 Foggy Cove LOW 2022 1,Callithamnion pikeanum,0.5
@@ -10097,11 +10097,11 @@ Foggy Cove LOW 2022 1,Polyneura latissima,2
 Foggy Cove LOW 2022 1,Prionitis sp.,2
 Foggy Cove LOW 2022 1,Ptilota filicina,3
 Foggy Cove LOW 2022 1,Schizymenia pacifica,1
+Foggy Cove LOW 2022 1,Snail,4
 Foggy Cove LOW 2022 1,Tegula sp.,6
 Foggy Cove LOW 2022 1,Tube worm,0.5
 Foggy Cove LOW 2022 1,Ulva fenestrata,1
 Foggy Cove LOW 2022 1,Unknown crust,1
-Foggy Cove LOW 2022 1,NA,4
 Foggy Cove LOW 2022 10,bare rock,0.5
 Foggy Cove LOW 2022 10,Bossiella frondescens,2
 Foggy Cove LOW 2022 10,Callithamnion pikeanum,1
@@ -10194,9 +10194,9 @@ Foggy Cove LOW 2022 4,Phyllospadix scouleri,0.5
 Foggy Cove LOW 2022 4,Polyneura latissima,16
 Foggy Cove LOW 2022 4,Prionitis sp.,4
 Foggy Cove LOW 2022 4,Ptilota filicina,2
+Foggy Cove LOW 2022 4,Snail,1
 Foggy Cove LOW 2022 4,Tegula sp.,3
 Foggy Cove LOW 2022 4,Tube worm,4
-Foggy Cove LOW 2022 4,NA,1
 Foggy Cove LOW 2022 5,Alaria marginata,2
 Foggy Cove LOW 2022 5,Analipus japonicus,7
 Foggy Cove LOW 2022 5,bare rock,18
@@ -10224,11 +10224,11 @@ Foggy Cove LOW 2022 5,Prionitis sp.,3
 Foggy Cove LOW 2022 5,Ptilota filicina,2
 Foggy Cove LOW 2022 5,Pyropia abbottiae,4
 Foggy Cove LOW 2022 5,Scytosiphon lomentaria,1
+Foggy Cove LOW 2022 5,Snail,2
 Foggy Cove LOW 2022 5,Tegula sp.,3
 Foggy Cove LOW 2022 5,Tube worm,1
 Foggy Cove LOW 2022 5,Ulva fenestrata,7
 Foggy Cove LOW 2022 5,Unknown crust,3
-Foggy Cove LOW 2022 5,NA,2
 Foggy Cove LOW 2022 6,Acrosiphonia spp.,2
 Foggy Cove LOW 2022 6,Alaria marginata,15
 Foggy Cove LOW 2022 6,bare rock,18
@@ -10260,11 +10260,11 @@ Foggy Cove LOW 2022 6,Pterocladiella caloglossoides,2
 Foggy Cove LOW 2022 6,Ptilota filicina,1
 Foggy Cove LOW 2022 6,Savoiea robusta,0.5
 Foggy Cove LOW 2022 6,Scytosiphon lomentaria,0.5
+Foggy Cove LOW 2022 6,Snail,4
 Foggy Cove LOW 2022 6,Tegula sp.,20
 Foggy Cove LOW 2022 6,Tube worm,0.5
 Foggy Cove LOW 2022 6,Ulva fenestrata,12
 Foggy Cove LOW 2022 6,Unknown crust,5
-Foggy Cove LOW 2022 6,NA,4
 Foggy Cove LOW 2022 7,Alaria marginata,5
 Foggy Cove LOW 2022 7,bare rock,26
 Foggy Cove LOW 2022 7,Barnacle,12
@@ -10577,7 +10577,7 @@ Foggy Cove MID 2012 7,Chamberlainium tumidum,5
 Foggy Cove MID 2012 7,Elachista fucicola,2
 Foggy Cove MID 2012 7,Fucus distichus,20
 Foggy Cove MID 2012 7,Halosaccion glandiforme,3
-Foggy Cove MID 2012 7,Hemigrapsis sp.,1
+Foggy Cove MID 2012 7,Hemigrapsus sp.,1
 Foggy Cove MID 2012 7,Hildenbrandia occidentalis,25
 Foggy Cove MID 2012 7,Limpet,3
 Foggy Cove MID 2012 7,Lithothamnion phymatodeum,0.5
@@ -10819,7 +10819,6 @@ Foggy Cove MID 2014 2,Ulva fenestrata,1
 Foggy Cove MID 2014 3,bare rock,20
 Foggy Cove MID 2014 3,Blidingia minima,3
 Foggy Cove MID 2014 3,Chamberlainium tumidum,8
-Foggy Cove MID 2014 3,Chlorostoma sp.,2
 Foggy Cove MID 2014 3,Elachista fucicola,2
 Foggy Cove MID 2014 3,Endocladia muricata,5
 Foggy Cove MID 2014 3,Fucus distichus,75
@@ -10832,6 +10831,7 @@ Foggy Cove MID 2014 3,Mastocarpus alaskensis,15
 Foggy Cove MID 2014 3,Mazzaella parvula,6
 Foggy Cove MID 2014 3,Petrocelis,1
 Foggy Cove MID 2014 3,Savoiea robusta,0.5
+Foggy Cove MID 2014 3,Tegula sp.,2
 Foggy Cove MID 2014 3,Ulva fenestrata,0.5
 Foggy Cove MID 2014 4,Acrosiphonia arcta,1
 Foggy Cove MID 2014 4,Ceramium pacificum,5
@@ -10892,7 +10892,6 @@ Foggy Cove MID 2014 6,Ulva fenestrata,3
 Foggy Cove MID 2014 7,bare rock,45
 Foggy Cove MID 2014 7,Barnacle,3
 Foggy Cove MID 2014 7,Chamberlainium tumidum,12
-Foggy Cove MID 2014 7,Chlorostoma sp.,2
 Foggy Cove MID 2014 7,Corallina vancouveriensis,3
 Foggy Cove MID 2014 7,Cryptosiphonia woodii,3
 Foggy Cove MID 2014 7,Elachista fucicola,1
@@ -10907,6 +10906,7 @@ Foggy Cove MID 2014 7,Mastocarpus intermedius,3
 Foggy Cove MID 2014 7,Mazzaella parvula,2
 Foggy Cove MID 2014 7,Petrocelis,1
 Foggy Cove MID 2014 7,Rhodochorton purpureum,0.5
+Foggy Cove MID 2014 7,Tegula sp.,2
 Foggy Cove MID 2014 8,Acrosiphonia arcta,0.5
 Foggy Cove MID 2014 8,Anemone,0.5
 Foggy Cove MID 2014 8,bare rock,55
@@ -10995,7 +10995,6 @@ Foggy Cove MID 2015 2,Ulva fenestrata,5
 Foggy Cove MID 2015 2,Ulva linza,2
 Foggy Cove MID 2015 3,bare rock,40
 Foggy Cove MID 2015 3,Barnacle,0.5
-Foggy Cove MID 2015 3,Chlorostoma sp.,7
 Foggy Cove MID 2015 3,Elachista fucicola,0.5
 Foggy Cove MID 2015 3,Fucus distichus,35
 Foggy Cove MID 2015 3,Hildenbrandia occidentalis,44
@@ -11006,6 +11005,7 @@ Foggy Cove MID 2015 3,Mastocarpus latissimus,11
 Foggy Cove MID 2015 3,Neorhodomela oregona,3
 Foggy Cove MID 2015 3,Petrocelis,2
 Foggy Cove MID 2015 3,Ralfsioid,0.5
+Foggy Cove MID 2015 3,Tegula sp.,7
 Foggy Cove MID 2015 4,Analipus japonicus,0.5
 Foggy Cove MID 2015 4,bare rock,7
 Foggy Cove MID 2015 4,Chamberlainium tumidum,1
@@ -11068,7 +11068,6 @@ Foggy Cove MID 2015 9,Anemone,0.5
 Foggy Cove MID 2015 9,bare rock,42
 Foggy Cove MID 2015 9,Barnacle,0.5
 Foggy Cove MID 2015 9,Chamberlainium tumidum,2
-Foggy Cove MID 2015 9,Chlorostoma sp.,1
 Foggy Cove MID 2015 9,Elachista fucicola,1
 Foggy Cove MID 2015 9,Endocladia muricata,2
 Foggy Cove MID 2015 9,Fucus distichus,50
@@ -11081,6 +11080,7 @@ Foggy Cove MID 2015 9,Mastocarpus latissimus,28
 Foggy Cove MID 2015 9,Neopyropia fucicola,0.5
 Foggy Cove MID 2015 9,Petrocelis,1
 Foggy Cove MID 2015 9,Ralfsioid,1
+Foggy Cove MID 2015 9,Tegula sp.,1
 Foggy Cove MID 2015 9,Ulva linza,0.5
 Foggy Cove MID 2016 1,bare rock,54
 Foggy Cove MID 2016 1,Blidingia minima,0.5
@@ -11114,7 +11114,6 @@ Foggy Cove MID 2016 10,Mastocarpus alaskensis,1
 Foggy Cove MID 2016 10,Petrocelis,7
 Foggy Cove MID 2016 2,bare rock,88
 Foggy Cove MID 2016 2,Barnacle,0.5
-Foggy Cove MID 2016 2,Chlorostoma sp.,1
 Foggy Cove MID 2016 2,Endocladia muricata,8
 Foggy Cove MID 2016 2,Fucus distichus,1
 Foggy Cove MID 2016 2,Gloiopeltis furcata,4
@@ -11124,11 +11123,11 @@ Foggy Cove MID 2016 2,Mazzaella parvula,1
 Foggy Cove MID 2016 2,Neoporphyra perforata,0.5
 Foggy Cove MID 2016 2,Petrocelis,0.5
 Foggy Cove MID 2016 2,Ralfsioid,3
+Foggy Cove MID 2016 2,Tegula sp.,1
 Foggy Cove MID 2016 3,Anemone,1
 Foggy Cove MID 2016 3,bare rock,65
 Foggy Cove MID 2016 3,Barnacle,2
 Foggy Cove MID 2016 3,Chamberlainium tumidum,12
-Foggy Cove MID 2016 3,Chlorostoma sp.,12
 Foggy Cove MID 2016 3,Cladophora columbiana,0.5
 Foggy Cove MID 2016 3,Corallina sp.,1
 Foggy Cove MID 2016 3,Endocladia muricata,3
@@ -11140,20 +11139,21 @@ Foggy Cove MID 2016 3,Mastocarpus agardhii,1
 Foggy Cove MID 2016 3,Mastocarpus alaskensis,4
 Foggy Cove MID 2016 3,Neorhodomela larix,1
 Foggy Cove MID 2016 3,Petrocelis,2
+Foggy Cove MID 2016 3,Tegula sp.,12
 Foggy Cove MID 2016 4,bare rock,37
 Foggy Cove MID 2016 4,Barnacle,0.5
 Foggy Cove MID 2016 4,Chamberlainium tumidum,20
-Foggy Cove MID 2016 4,Chlorostoma sp.,1
 Foggy Cove MID 2016 4,Corallina sp.,0.5
 Foggy Cove MID 2016 4,Fucus distichus,28
 Foggy Cove MID 2016 4,Gloiopeltis furcata,0.5
 Foggy Cove MID 2016 4,Halosaccion glandiforme,0.5
-Foggy Cove MID 2016 4,Hemigrapsis sp.,1
+Foggy Cove MID 2016 4,Hemigrapsus sp.,1
 Foggy Cove MID 2016 4,Hildenbrandia sp.,20
 Foggy Cove MID 2016 4,Limpet,5
 Foggy Cove MID 2016 4,Mastocarpus agardhii,2
 Foggy Cove MID 2016 4,Mastocarpus alaskensis,12
 Foggy Cove MID 2016 4,Petrocelis,2
+Foggy Cove MID 2016 4,Tegula sp.,1
 Foggy Cove MID 2016 5,bare rock,36
 Foggy Cove MID 2016 5,Chamberlainium tumidum,16
 Foggy Cove MID 2016 5,Fucus distichus,56
@@ -11189,7 +11189,6 @@ Foggy Cove MID 2016 7,Petrocelis,2.5
 Foggy Cove MID 2016 7,Ralfsioid,1.5
 Foggy Cove MID 2016 8,bare rock,54
 Foggy Cove MID 2016 8,Barnacle,6
-Foggy Cove MID 2016 8,Chlorostoma sp.,1
 Foggy Cove MID 2016 8,Elachista fucicola,1
 Foggy Cove MID 2016 8,Endocladia muricata,2
 Foggy Cove MID 2016 8,Fucus distichus,22
@@ -11200,6 +11199,7 @@ Foggy Cove MID 2016 8,Mastocarpus agardhii,1
 Foggy Cove MID 2016 8,Mastocarpus alaskensis,8
 Foggy Cove MID 2016 8,Pagarus sp.,1
 Foggy Cove MID 2016 8,Petrocelis,1
+Foggy Cove MID 2016 8,Tegula sp.,1
 Foggy Cove MID 2016 9,bare rock,76
 Foggy Cove MID 2016 9,Barnacle,2
 Foggy Cove MID 2016 9,Endocladia muricata,1
@@ -11322,7 +11322,6 @@ Foggy Cove MID 2018 1,bare rock,50
 Foggy Cove MID 2018 1,Barnacle,3
 Foggy Cove MID 2018 1,Bossiella frondescens,2
 Foggy Cove MID 2018 1,Chamberlainium tumidum,24
-Foggy Cove MID 2018 1,Chlorostoma sp.,2
 Foggy Cove MID 2018 1,Corallina vancouveriensis,2
 Foggy Cove MID 2018 1,coralline crust,5
 Foggy Cove MID 2018 1,Elachista fucicola,2
@@ -11338,6 +11337,7 @@ Foggy Cove MID 2018 1,Mazzaella oregona,0.5
 Foggy Cove MID 2018 1,Neopyropia fucicola,2
 Foggy Cove MID 2018 1,Polyneura latissima,1
 Foggy Cove MID 2018 1,Spirorbis,1
+Foggy Cove MID 2018 1,Tegula sp.,2
 Foggy Cove MID 2018 1,Ulva linza,0.5
 Foggy Cove MID 2018 10,bare rock,52
 Foggy Cove MID 2018 10,Barnacle,17
@@ -11354,7 +11354,6 @@ Foggy Cove MID 2018 2,bare rock,25
 Foggy Cove MID 2018 2,Barnacle,3
 Foggy Cove MID 2018 2,Bossiella frondescens,1
 Foggy Cove MID 2018 2,Chamberlainium tumidum,15
-Foggy Cove MID 2018 2,Chlorostoma sp.,3
 Foggy Cove MID 2018 2,coralline crust,1
 Foggy Cove MID 2018 2,Crab,1
 Foggy Cove MID 2018 2,Elachista fucicola,1
@@ -11367,11 +11366,11 @@ Foggy Cove MID 2018 2,Neorhodomela larix,3
 Foggy Cove MID 2018 2,Odonthalia floccosa,5
 Foggy Cove MID 2018 2,Phyllospadix scouleri,15
 Foggy Cove MID 2018 2,Smithora naiadum,1
+Foggy Cove MID 2018 2,Tegula sp.,3
 Foggy Cove MID 2018 3,Anemone,0.5
 Foggy Cove MID 2018 3,bare rock,64
 Foggy Cove MID 2018 3,Barnacle,5
 Foggy Cove MID 2018 3,Chamberlainium tumidum,8
-Foggy Cove MID 2018 3,Chlorostoma sp.,16
 Foggy Cove MID 2018 3,coralline crust,0.5
 Foggy Cove MID 2018 3,Elachista fucicola,3
 Foggy Cove MID 2018 3,Fucus distichus,20
@@ -11381,10 +11380,10 @@ Foggy Cove MID 2018 3,Mastocarpus intermedius,0.5
 Foggy Cove MID 2018 3,Neopyropia fucicola,1
 Foggy Cove MID 2018 3,Odonthalia floccosa,2
 Foggy Cove MID 2018 3,Ralfsioid,6
+Foggy Cove MID 2018 3,Tegula sp.,16
 Foggy Cove MID 2018 4,bare rock,43
 Foggy Cove MID 2018 4,Barnacle,0.5
 Foggy Cove MID 2018 4,Chamberlainium tumidum,20
-Foggy Cove MID 2018 4,Chlorostoma sp.,15
 Foggy Cove MID 2018 4,coralline crust,2
 Foggy Cove MID 2018 4,Crab,2
 Foggy Cove MID 2018 4,Elachista fucicola,0.5
@@ -11400,10 +11399,10 @@ Foggy Cove MID 2018 4,Odonthalia floccosa,1
 Foggy Cove MID 2018 4,Osmundea spectabilis,0.5
 Foggy Cove MID 2018 4,Pagarus sp.,13
 Foggy Cove MID 2018 4,Petrocelis,5
+Foggy Cove MID 2018 4,Tegula sp.,15
 Foggy Cove MID 2018 5,Bangia sp.,0.5
 Foggy Cove MID 2018 5,bare rock,29
 Foggy Cove MID 2018 5,Chamberlainium tumidum,5
-Foggy Cove MID 2018 5,Chlorostoma sp.,21
 Foggy Cove MID 2018 5,Crab,2
 Foggy Cove MID 2018 5,Fucus distichus,82
 Foggy Cove MID 2018 5,Hildenbrandia occidentalis,69
@@ -11411,10 +11410,10 @@ Foggy Cove MID 2018 5,Limpet,3
 Foggy Cove MID 2018 5,Mastocarpus agardhii,3
 Foggy Cove MID 2018 5,Petrocelis,1
 Foggy Cove MID 2018 5,Ralfsioid,0.5
+Foggy Cove MID 2018 5,Tegula sp.,21
 Foggy Cove MID 2018 6,Bangia sp.,0.5
 Foggy Cove MID 2018 6,bare rock,70
 Foggy Cove MID 2018 6,Chamberlainium tumidum,5
-Foggy Cove MID 2018 6,Chlorostoma sp.,22
 Foggy Cove MID 2018 6,Corallina vancouveriensis,1
 Foggy Cove MID 2018 6,Elachista fucicola,0.5
 Foggy Cove MID 2018 6,Endocladia muricata,6
@@ -11425,6 +11424,7 @@ Foggy Cove MID 2018 6,Limpet,15
 Foggy Cove MID 2018 6,Mastocarpus agardhii,1
 Foggy Cove MID 2018 6,Mastocarpus alaskensis,3
 Foggy Cove MID 2018 6,Ralfsioid,1
+Foggy Cove MID 2018 6,Tegula sp.,22
 Foggy Cove MID 2018 6,Tube worm,2
 Foggy Cove MID 2018 6,Ulva linza,0.5
 Foggy Cove MID 2018 7,Bangia sp.,0.5
@@ -11432,7 +11432,6 @@ Foggy Cove MID 2018 7,bare rock,35
 Foggy Cove MID 2018 7,Barnacle,3
 Foggy Cove MID 2018 7,Blidingia minima,0.5
 Foggy Cove MID 2018 7,Chamberlainium tumidum,4
-Foggy Cove MID 2018 7,Chlorostoma sp.,3
 Foggy Cove MID 2018 7,Crab,2
 Foggy Cove MID 2018 7,Elachista fucicola,1
 Foggy Cove MID 2018 7,Endocladia muricata,20
@@ -11448,9 +11447,9 @@ Foggy Cove MID 2018 7,Petrocelis,0.5
 Foggy Cove MID 2018 7,Plocamium violaceum,0.5
 Foggy Cove MID 2018 7,Prionitis sternbergii,1
 Foggy Cove MID 2018 7,Ptilota filicina,0.5
+Foggy Cove MID 2018 7,Tegula sp.,3
 Foggy Cove MID 2018 8,bare rock,27
 Foggy Cove MID 2018 8,Barnacle,35
-Foggy Cove MID 2018 8,Chlorostoma sp.,3
 Foggy Cove MID 2018 8,Elachista fucicola,4
 Foggy Cove MID 2018 8,Endocladia muricata,20
 Foggy Cove MID 2018 8,Fucus distichus,31
@@ -11459,9 +11458,9 @@ Foggy Cove MID 2018 8,Limpet,2
 Foggy Cove MID 2018 8,Mazzaella oregona,3
 Foggy Cove MID 2018 8,Neoporphyra perforata,3
 Foggy Cove MID 2018 8,Petrocelis,1
+Foggy Cove MID 2018 8,Tegula sp.,3
 Foggy Cove MID 2018 9,bare rock,74
 Foggy Cove MID 2018 9,Barnacle,10
-Foggy Cove MID 2018 9,Chlorostoma sp.,2
 Foggy Cove MID 2018 9,Endocladia muricata,12
 Foggy Cove MID 2018 9,Fucus distichus,46
 Foggy Cove MID 2018 9,Limpet,4
@@ -11469,6 +11468,7 @@ Foggy Cove MID 2018 9,Littorina sp.,50
 Foggy Cove MID 2018 9,Mastocarpus agardhii,0.5
 Foggy Cove MID 2018 9,Mastocarpus alaskensis,1
 Foggy Cove MID 2018 9,Mastocarpus intermedius,2
+Foggy Cove MID 2018 9,Tegula sp.,2
 Foggy Cove MID 2018 9,Tube worm,1
 Foggy Cove MID 2019 1,bare rock,70
 Foggy Cove MID 2019 1,Barnacle,13
@@ -11511,7 +11511,6 @@ Foggy Cove MID 2019 3,Tegula sp.,2
 Foggy Cove MID 2019 4,bare rock,68
 Foggy Cove MID 2019 4,Barnacle,1
 Foggy Cove MID 2019 4,Chamberlainium tumidum,3
-Foggy Cove MID 2019 4,Chlorostoma sp.,4
 Foggy Cove MID 2019 4,coralline crust,0.5
 Foggy Cove MID 2019 4,Endocladia muricata,16
 Foggy Cove MID 2019 4,Fucus distichus,0.5
@@ -11526,6 +11525,7 @@ Foggy Cove MID 2019 4,Mazzaella parvula,0.5
 Foggy Cove MID 2019 4,Odonthalia floccosa,0.5
 Foggy Cove MID 2019 4,Phyllospadix serrulatus,2
 Foggy Cove MID 2019 4,Polysiphonia pacifica,0.5
+Foggy Cove MID 2019 4,Tegula sp.,4
 Foggy Cove MID 2019 5,Anemone,0.5
 Foggy Cove MID 2019 5,bare rock,80
 Foggy Cove MID 2019 5,Barnacle,17
@@ -11686,6 +11686,7 @@ Foggy Cove MID 2022 2,Mastocarpus alaskensis,0.5
 Foggy Cove MID 2022 2,Pyropia abbottiae,0.5
 Foggy Cove MID 2022 3,bare rock,73
 Foggy Cove MID 2022 3,Barnacle,7
+Foggy Cove MID 2022 3,Brachyura,2
 Foggy Cove MID 2022 3,Chamberlainium tumidum,3
 Foggy Cove MID 2022 3,Endocladia muricata,6
 Foggy Cove MID 2022 3,Fucus distichus,0.5
@@ -11695,10 +11696,10 @@ Foggy Cove MID 2022 3,Lithothamnion phymatodeum,2
 Foggy Cove MID 2022 3,Littorina sp.,3
 Foggy Cove MID 2022 3,Pyropia abbottiae,1
 Foggy Cove MID 2022 3,Tonicella sp.,2
-Foggy Cove MID 2022 3,NA,2
 Foggy Cove MID 2022 4,Anemone,1
 Foggy Cove MID 2022 4,bare rock,77.5
 Foggy Cove MID 2022 4,Barnacle,10
+Foggy Cove MID 2022 4,Brachyura,1
 Foggy Cove MID 2022 4,Chamberlainium tumidum,3
 Foggy Cove MID 2022 4,Corallina vancouveriensis,1.5
 Foggy Cove MID 2022 4,Endocladia muricata,4
@@ -11711,7 +11712,6 @@ Foggy Cove MID 2022 4,Neogastroclonium subarticulatum,1
 Foggy Cove MID 2022 4,Petrocelis,0.5
 Foggy Cove MID 2022 4,Pyropia abbottiae,0.5
 Foggy Cove MID 2022 4,Tonicella sp.,2
-Foggy Cove MID 2022 4,NA,1
 Foggy Cove MID 2022 5,Anemone,1
 Foggy Cove MID 2022 5,bare rock,61
 Foggy Cove MID 2022 5,Barnacle,23
@@ -11753,8 +11753,8 @@ Foggy Cove MID 2022 9,Limpet,27
 Foggy Cove MID 2022 9,Mastocarpus alaskensis,2
 Foggy Cove MID 2022 9,Nucella sp.,2
 Foggy Cove MID 2022 9,Porifera,2
+Foggy Cove MID 2022 9,Snail,3
 Foggy Cove MID 2022 9,Tegula sp.,5
-Foggy Cove MID 2022 9,NA,3
 Meay Channel HIGH 2015 1,bare rock,5
 Meay Channel HIGH 2015 1,Barnacle,7
 Meay Channel HIGH 2015 1,Clam hole,1
@@ -13152,7 +13152,7 @@ Meay Channel LOW 2018 4,Lomentaria hakodatensis,4
 Meay Channel LOW 2018 4,Mastocarpus latissimus,1
 Meay Channel LOW 2018 4,Mazzaella parvula,1
 Meay Channel LOW 2018 4,Mopalia sp.,1
-Meay Channel LOW 2018 4,Mysid,1
+Meay Channel LOW 2018 4,Mysida,1
 Meay Channel LOW 2018 4,Neorhodomela aculeata,13
 Meay Channel LOW 2018 4,Pagarus sp.,1
 Meay Channel LOW 2018 4,Rhizoclonium tortuosum,0.5
@@ -13342,7 +13342,7 @@ Meay Channel LOW 2019 4,Lomentaria hakodatensis,6
 Meay Channel LOW 2019 4,Macrocystis pyrifera,4
 Meay Channel LOW 2019 4,Mastocarpus agardhii,1
 Meay Channel LOW 2019 4,Mastocarpus intermedius,0.5
-Meay Channel LOW 2019 4,Mysid,2
+Meay Channel LOW 2019 4,Mysida,2
 Meay Channel LOW 2019 4,Neorhodomela aculeata,2
 Meay Channel LOW 2019 4,Punctaria sp.,0.5
 Meay Channel LOW 2019 4,Rhizoclonium tortuosum,0.5
@@ -13442,10 +13442,10 @@ Meay Channel LOW 2021 1,Mastocarpus latissimus,2
 Meay Channel LOW 2021 1,Neorhodomela aculeata,2
 Meay Channel LOW 2021 1,Punctaria sp.,0.5
 Meay Channel LOW 2021 1,Sargassum muticum,41
+Meay Channel LOW 2021 1,Snail,2
 Meay Channel LOW 2021 1,Tube worm,0.5
 Meay Channel LOW 2021 1,Ulva expansa,95
 Meay Channel LOW 2021 1,Wildemania amplissima,7
-Meay Channel LOW 2021 1,NA,2
 Meay Channel LOW 2021 10,bare rock,4
 Meay Channel LOW 2021 10,Barnacle,4
 Meay Channel LOW 2021 10,Clam shell,1
@@ -13726,11 +13726,12 @@ Meay Channel LOW 2022 7,Lomentaria hakodatensis,11
 Meay Channel LOW 2022 7,Punctaria sp.,3
 Meay Channel LOW 2022 7,Saccharina latissima,5
 Meay Channel LOW 2022 7,Sargassum muticum,56
+Meay Channel LOW 2022 7,Snail,3
 Meay Channel LOW 2022 7,Ulva expansa,86
-Meay Channel LOW 2022 7,NA,3
 Meay Channel LOW 2022 8,bare rock,25
 Meay Channel LOW 2022 8,Barnacle,0.5
 Meay Channel LOW 2022 8,Bossiella frondescens,0.5
+Meay Channel LOW 2022 8,Brachyura,2
 Meay Channel LOW 2022 8,Clam shell,5
 Meay Channel LOW 2022 8,coralline crust,0.5
 Meay Channel LOW 2022 8,Green endozoic,0.5
@@ -13753,7 +13754,6 @@ Meay Channel LOW 2022 8,Ulva expansa,66
 Meay Channel LOW 2022 8,Ulva prolifera,0.5
 Meay Channel LOW 2022 8,Unknown crust,2
 Meay Channel LOW 2022 8,Wood,0.5
-Meay Channel LOW 2022 8,NA,2
 Meay Channel LOW 2022 9,bare rock,60
 Meay Channel LOW 2022 9,Barnacle,0.5
 Meay Channel LOW 2022 9,Bossiella frondescens,1
@@ -14706,8 +14706,8 @@ Meay Channel MID 2022 2,Littorina sp.,16
 Meay Channel MID 2022 2,Neorhodomela aculeata,14
 Meay Channel MID 2022 2,Pagarus sp.,1
 Meay Channel MID 2022 2,Savoiea robusta,1
+Meay Channel MID 2022 2,Snail,1
 Meay Channel MID 2022 2,Ulva expansa,2
-Meay Channel MID 2022 2,NA,1
 Meay Channel MID 2022 3,bare rock,37
 Meay Channel MID 2022 3,Barnacle,17
 Meay Channel MID 2022 3,Cladophora sericea,0.5
@@ -14723,6 +14723,7 @@ Meay Channel MID 2022 3,Savoiea robusta,11
 Meay Channel MID 2022 3,Ulva expansa,3
 Meay Channel MID 2022 4,bare rock,85
 Meay Channel MID 2022 4,Barnacle,2
+Meay Channel MID 2022 4,Brachyura,2
 Meay Channel MID 2022 4,Clam shell,12
 Meay Channel MID 2022 4,coralline crust,0.5
 Meay Channel MID 2022 4,Cryptosiphonia woodii,0.5
@@ -14736,7 +14737,6 @@ Meay Channel MID 2022 4,Neorhodomela aculeata,2
 Meay Channel MID 2022 4,Pisaster ochraceus,1
 Meay Channel MID 2022 4,Polysiphonia hendryi var. hendryi,0.5
 Meay Channel MID 2022 4,Ulva expansa,2
-Meay Channel MID 2022 4,NA,2
 Meay Channel MID 2022 5,bare rock,23
 Meay Channel MID 2022 5,Barnacle,13
 Meay Channel MID 2022 5,Ceramium pacificum,1
@@ -15073,7 +15073,7 @@ North Beach HIGH 2012 8,Elachista fucicola,6
 North Beach HIGH 2012 8,Endocladia muricata,2
 North Beach HIGH 2012 8,Fucus distichus,60
 North Beach HIGH 2012 8,Halosaccion glandiforme,8
-North Beach HIGH 2012 8,Hemigrapsis sp.,1
+North Beach HIGH 2012 8,Hemigrapsus sp.,1
 North Beach HIGH 2012 8,Hildenbrandia occidentalis,71
 North Beach HIGH 2012 8,Limpet,44
 North Beach HIGH 2012 8,Mastocarpus alaskensis,4
@@ -16455,7 +16455,7 @@ North Beach LOW 2012 5,Corallina vancouveriensis,5
 North Beach LOW 2012 5,coralline crust,1
 North Beach LOW 2012 5,Hedophyllum nigripes,5
 North Beach LOW 2012 5,Hedophyllum sessile,50
-North Beach LOW 2012 5,Hemigrapsis sp.,1
+North Beach LOW 2012 5,Hemigrapsus sp.,1
 North Beach LOW 2012 5,Hildenbrandia occidentalis,0.5
 North Beach LOW 2012 5,Hymenena spp.,30
 North Beach LOW 2012 5,Mazzaella splendens,20
@@ -17419,7 +17419,7 @@ North Beach LOW 2017 10,Ceramium pacificum,8
 North Beach LOW 2017 10,Chamberlainium tumidum,14
 North Beach LOW 2017 10,Corallina vancouveriensis,4
 North Beach LOW 2017 10,Cryptosiphonia woodii,1.5
-North Beach LOW 2017 10,Dactylosiphon bullosus,18
+North Beach LOW 2017 10,Dactylosiphon bullosus,36
 North Beach LOW 2017 10,Halosaccion glandiforme,1
 North Beach LOW 2017 10,Hedophyllum nigripes,0.5
 North Beach LOW 2017 10,Hildenbrandia occidentalis,1
@@ -17590,7 +17590,7 @@ North Beach LOW 2017 8,Chamberlainium tumidum,3
 North Beach LOW 2017 8,Corallina vancouveriensis,2
 North Beach LOW 2017 8,coralline crust,2
 North Beach LOW 2017 8,Cryptosiphonia woodii,0.5
-North Beach LOW 2017 8,Dactylosiphon bullosus,1
+North Beach LOW 2017 8,Dactylosiphon bullosus,2
 North Beach LOW 2017 8,Endocladia muricata,5
 North Beach LOW 2017 8,Fucus distichus,0.5
 North Beach LOW 2017 8,Halosaccion glandiforme,0.5
@@ -17620,7 +17620,7 @@ North Beach LOW 2017 9,Bossiella frondifera,1
 North Beach LOW 2017 9,Callithamnion pikeanum,1
 North Beach LOW 2017 9,Chamberlainium tumidum,8
 North Beach LOW 2017 9,Corallina vancouveriensis,5
-North Beach LOW 2017 9,Dactylosiphon bullosus,2
+North Beach LOW 2017 9,Dactylosiphon bullosus,4
 North Beach LOW 2017 9,Fucus distichus,0.5
 North Beach LOW 2017 9,Hildenbrandia occidentalis,2
 North Beach LOW 2017 9,Hildenbrandia rubra,22
@@ -18139,11 +18139,11 @@ North Beach LOW 2021 1,Phyllospadix scouleri,13
 North Beach LOW 2021 1,Porphyrella gardneri,0.5
 North Beach LOW 2021 1,Pugettia producta,1
 North Beach LOW 2021 1,Salishia firma,1
+North Beach LOW 2021 1,Snail,2
 North Beach LOW 2021 1,Strongylocentrotus droebachiensis,1
 North Beach LOW 2021 1,Strongylocentrotus purpuratus,6
 North Beach LOW 2021 1,Tonicella sp.,1
 North Beach LOW 2021 1,Tube worm,0.5
-North Beach LOW 2021 1,NA,2
 North Beach LOW 2021 10,Alaria marginata,39
 North Beach LOW 2021 10,bare rock,5
 North Beach LOW 2021 10,Bossiella exarticulata / mayae,0.5
@@ -18245,7 +18245,7 @@ North Beach LOW 2021 6,Bossiella frondescens,6
 North Beach LOW 2021 6,Callithamnion pikeanum,1
 North Beach LOW 2021 6,Chamberlainium tumidum,15
 North Beach LOW 2021 6,Corallina vancouveriensis,18
-North Beach LOW 2021 6,Dactylosiphon bullosus,0.5
+North Beach LOW 2021 6,Dactylosiphon bullosus,1
 North Beach LOW 2021 6,Halosaccion glandiforme,0.5
 North Beach LOW 2021 6,Hildenbrandia occidentalis,15
 North Beach LOW 2021 6,Hildenbrandia rubra,5
@@ -19713,7 +19713,7 @@ North Beach MID 2017 2,Chamberlainium tumidum,6
 North Beach MID 2017 2,Cladophora columbiana,0.5
 North Beach MID 2017 2,Corallina vancouveriensis,15
 North Beach MID 2017 2,coralline crust,0.5
-North Beach MID 2017 2,Dactylosiphon bullosus,0.5
+North Beach MID 2017 2,Dactylosiphon bullosus,1
 North Beach MID 2017 2,Endocladia muricata,0.5
 North Beach MID 2017 2,Gloiopeltis furcata,0.5
 North Beach MID 2017 2,Hildenbrandia occidentalis,7
@@ -20489,7 +20489,6 @@ North Beach MID 2022 5,Neopyropia fucicola,1
 North Beach MID 2022 5,Petrocelis,0.5
 North Beach MID 2022 5,Pyropia abbottiae,8
 North Beach MID 2022 5,Wildemania norrisii,29
-North Beach MID 2022 5,NA,3
 North Beach MID 2022 6,bare rock,10
 North Beach MID 2022 6,Barnacle,72
 North Beach MID 2022 6,Cladophora columbiana,0.5
@@ -20509,7 +20508,6 @@ North Beach MID 2022 6,Petrocelis,0.5
 North Beach MID 2022 6,Polysiphonia hendryi var. hendryi,11
 North Beach MID 2022 6,Ulva fenestrata,1
 North Beach MID 2022 6,Wildemania norrisii,13
-North Beach MID 2022 6,NA,8
 North Beach MID 2022 7,Anemone,10
 North Beach MID 2022 7,bare rock,34
 North Beach MID 2022 7,Barnacle,22
@@ -20569,7 +20567,7 @@ North Beach MID 2022 9,Hildenbrandia rubra,0.5
 North Beach MID 2022 9,Limpet,200
 North Beach MID 2022 9,Littorina sp.,300
 North Beach MID 2022 9,Petrocelis,0.5
-North Beach MID 2022 9,Phyllospadix torreyi,35
+North Beach MID 2022 9,Phyllospadix torreyi,70
 North Beach MID 2022 9,Pisaster ochraceus,6
 North Beach MID 2022 9,Savoiea robusta,2
 North Beach MID 2022 9,Ulva fenestrata,0.5

@@ -39,13 +39,15 @@ ad$Abundance <- unlist( lapply( asplit, function(z) z[1] ))
 ad$Abundance <- gsub( "LOB","100",ad$Abundance )
 # 10s and 100s
 ad$Abundance <- gsub( "10s","20",ad$Abundance )
+ad$Abundance <- gsub( "10-ish","10",ad$Abundance )
 ad$Abundance <- gsub( "100s","200",ad$Abundance )
+ad$Abundance <- gsub( "100[+]","150",ad$Abundance )
 # spaces and parentheses
 ad$Abundance <- gsub( "[ (].*","",ad$Abundance )
 
 # look at uniue entries and their conversions
 uni <- sort(unique(ad$Abundance))
-data.frame(character=uni, number=as.numeric(uni))
+uni[is.na(as.numeric(uni))]
 ad$Abundance <- as.numeric( ad$Abundance )
 
 
@@ -175,7 +177,7 @@ ad.corrected <- ad.corrected[ ad.corrected$Taxon != "CORALLINE",]
 ad.na <- ad.corrected %>% filter( is.na(taxon_corrected) ) 
 sort(unique(ad.na$Taxon))
 ad %>% filter( Taxon %in% sort(unique(ad.na$Taxon)) )
-# recreat ad with corrected names, then sum across corrected taxa
+# recreate ad with corrected names, then sum across corrected taxa
 ad <- ad.corrected %>%
   select( UID, Taxon=taxon_corrected, Abundance ) %>%
   group_by( UID, Taxon ) %>%

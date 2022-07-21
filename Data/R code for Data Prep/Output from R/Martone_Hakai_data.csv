@@ -2558,7 +2558,6 @@ Fifth Beach LOW 2016 5,Ulva lactuca,1
 Fifth Beach LOW 2016 6,Alaria marginata,7
 Fifth Beach LOW 2016 6,Antithamnion defectum,2
 Fifth Beach LOW 2016 6,bare rock,5
-Fifth Beach LOW 2016 6,Bossiella flexulosa,0.5
 Fifth Beach LOW 2016 6,Bossiella frondescens,4
 Fifth Beach LOW 2016 6,Bossiella frondifera,16
 Fifth Beach LOW 2016 6,Bossiella sp. (crust),3
@@ -2580,6 +2579,7 @@ Fifth Beach LOW 2016 6,Neopolyporolithon reclinatum,0.5
 Fifth Beach LOW 2016 6,Odonthalia floccosa,10
 Fifth Beach LOW 2016 6,Pisaster ochraceus,1
 Fifth Beach LOW 2016 6,Plocamium violaceum,4
+Fifth Beach LOW 2016 6,NA,0.5
 Fifth Beach LOW 2016 7,Anemone,5
 Fifth Beach LOW 2016 7,bare rock,50
 Fifth Beach LOW 2016 7,Barnacle,0.5
@@ -2683,7 +2683,6 @@ Fifth Beach LOW 2017 10,Pyropia abbottiae,1
 Fifth Beach LOW 2017 2,Bossiella frondifera,0.5
 Fifth Beach LOW 2017 2,Bossiella hakaiensis,0.5
 Fifth Beach LOW 2017 2,Bossiella reptans,0.5
-Fifth Beach LOW 2017 2,Bossiella sp.5 chiloensis,0.5
 Fifth Beach LOW 2017 2,Callithamnion pikeanum,2.5
 Fifth Beach LOW 2017 2,coralline crust,1
 Fifth Beach LOW 2017 2,Cryptosiphonia woodii,11.5
@@ -2702,6 +2701,7 @@ Fifth Beach LOW 2017 2,Plocamium violaceum,0.5
 Fifth Beach LOW 2017 2,Ptilota filicina,18
 Fifth Beach LOW 2017 2,Pyropia abbottiae,1
 Fifth Beach LOW 2017 2,Tokidadendron bullatum,2
+Fifth Beach LOW 2017 2,NA,0.5
 Fifth Beach LOW 2017 3,Alaria marginata,8
 Fifth Beach LOW 2017 3,Callithamnion pikeanum,6
 Fifth Beach LOW 2017 3,Cryptosiphonia woodii,6
@@ -2745,7 +2745,6 @@ Fifth Beach LOW 2017 5,Antithamnionella spp.,2
 Fifth Beach LOW 2017 5,bare rock,8
 Fifth Beach LOW 2017 5,Bossiella frondescens,2
 Fifth Beach LOW 2017 5,Bossiella hakaiensis,4
-Fifth Beach LOW 2017 5,Bossiella sp.5 chiloensis,2
 Fifth Beach LOW 2017 5,Callithamnion pikeanum,0.5
 Fifth Beach LOW 2017 5,Chamberlainium tumidum,10
 Fifth Beach LOW 2017 5,Cryptosiphonia woodii,0.5
@@ -2769,6 +2768,7 @@ Fifth Beach LOW 2017 5,Pyropia abbottiae,9
 Fifth Beach LOW 2017 5,Snail,1
 Fifth Beach LOW 2017 5,Tokidadendron bullatum,3
 Fifth Beach LOW 2017 5,Ulva lactuca,0.5
+Fifth Beach LOW 2017 5,NA,2
 Fifth Beach LOW 2017 6,Acrosiphonia arcta,0.5
 Fifth Beach LOW 2017 6,Alaria marginata,0.5
 Fifth Beach LOW 2017 6,Antithamnion defectum,8
@@ -2842,7 +2842,6 @@ Fifth Beach LOW 2017 8,Ulva linza,0.5
 Fifth Beach LOW 2017 8,Wildmania norrisii,2
 Fifth Beach LOW 2017 9,Alaria marginata,13
 Fifth Beach LOW 2017 9,Anemone,2.5
-Fifth Beach LOW 2017 9,Bossiella sp.5 chiloensis,6
 Fifth Beach LOW 2017 9,Callithamnion pikeanum,1.5
 Fifth Beach LOW 2017 9,Chamberlainium tumidum,4
 Fifth Beach LOW 2017 9,Endocladia muricata,0.5
@@ -2855,6 +2854,7 @@ Fifth Beach LOW 2017 9,Microcladia borealis,8
 Fifth Beach LOW 2017 9,Plocamium violaceum,5
 Fifth Beach LOW 2017 9,Pyropia abbottiae,57
 Fifth Beach LOW 2017 9,Snail,3
+Fifth Beach LOW 2017 9,NA,6
 Fifth Beach LOW 2018 1,bare rock,2
 Fifth Beach LOW 2018 1,Barnacle,1
 Fifth Beach LOW 2018 1,Callithamnion pikeanum,0.5
@@ -2875,7 +2875,6 @@ Fifth Beach LOW 2018 10,Alaria marginata,20
 Fifth Beach LOW 2018 10,Anemone,2
 Fifth Beach LOW 2018 10,bare rock,28
 Fifth Beach LOW 2018 10,Barnacle,3
-Fifth Beach LOW 2018 10,Bossiella flexulosa,2
 Fifth Beach LOW 2018 10,Bossiella frondifera,0.5
 Fifth Beach LOW 2018 10,Bossiella hakaiensis,0.5
 Fifth Beach LOW 2018 10,Callithamnion pikeanum,2
@@ -2895,6 +2894,7 @@ Fifth Beach LOW 2018 10,Pisaster ochraceus,4
 Fifth Beach LOW 2018 10,Polysiphonia paniculata,0.5
 Fifth Beach LOW 2018 10,Pyropia abbottiae,1
 Fifth Beach LOW 2018 10,Ulva lactuca,0.5
+Fifth Beach LOW 2018 10,NA,2
 Fifth Beach LOW 2018 2,bare rock,2
 Fifth Beach LOW 2018 2,Barnacle,1
 Fifth Beach LOW 2018 2,Callithamnion pikeanum,2
@@ -3346,6 +3346,582 @@ Fifth Beach LOW 2019 9,Porifera,1
 Fifth Beach LOW 2019 9,Pyropia perforata,40
 Fifth Beach LOW 2019 9,Strongylocentrotus purpuratus,2
 Fifth Beach LOW 2019 9,Tube worms,0.5
+<<<<<<< Updated upstream
+=======
+Fifth Beach LOW 2021 1,Acrosiphonia coalita,2
+Fifth Beach LOW 2021 1,Anemone,0.5
+Fifth Beach LOW 2021 1,bare rock,22
+Fifth Beach LOW 2021 1,Barnacle,1
+Fifth Beach LOW 2021 1,Bossiella frondescens,4
+Fifth Beach LOW 2021 1,Bossiella reptans,2
+Fifth Beach LOW 2021 1,Callithamnion pikeanum,7
+Fifth Beach LOW 2021 1,Chamberlainium tumidum,2
+Fifth Beach LOW 2021 1,Chiton,1
+Fifth Beach LOW 2021 1,Codium setchellii,0.5
+Fifth Beach LOW 2021 1,Cryptosiphonia woodii,2
+Fifth Beach LOW 2021 1,Dactylosiphon bullosus,1
+Fifth Beach LOW 2021 1,Dilsea californica,10
+Fifth Beach LOW 2021 1,Endocladia muricata,0.5
+Fifth Beach LOW 2021 1,Farlowia mollis,0.5
+Fifth Beach LOW 2021 1,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2021 1,Hildenbrandia occidentalis,0.5
+Fifth Beach LOW 2021 1,Hildenbrandia rubra,4
+Fifth Beach LOW 2021 1,Leathesia marina,0.5
+Fifth Beach LOW 2021 1,Limpet,7
+Fifth Beach LOW 2021 1,Mazzaella splendens,13
+Fifth Beach LOW 2021 1,Microcladia borealis,4
+Fifth Beach LOW 2021 1,Neorhodomela larix,7
+Fifth Beach LOW 2021 1,Pagarus sp.,1
+Fifth Beach LOW 2021 1,Petalonia fascia,0.5
+Fifth Beach LOW 2021 1,Phyllospadix scouleri,44
+Fifth Beach LOW 2021 1,Polyneura latissima,0.5
+Fifth Beach LOW 2021 1,Ptilota filicina,3
+Fifth Beach LOW 2021 1,Pyropia abbottiae,6
+Fifth Beach LOW 2021 1,Ralfsioid,5
+Fifth Beach LOW 2021 1,Savoiea robusta,0.5
+Fifth Beach LOW 2021 1,Scytosiphon lomentaria,7
+Fifth Beach LOW 2021 1,Ulva fenestrata,0.5
+Fifth Beach LOW 2021 1,NA,10.5
+Fifth Beach LOW 2021 10,Anemone,3
+Fifth Beach LOW 2021 10,bare rock,50
+Fifth Beach LOW 2021 10,Barnacle,5
+Fifth Beach LOW 2021 10,Chamberlainium tumidum,5
+Fifth Beach LOW 2021 10,Corallina vancouveriensis,0.5
+Fifth Beach LOW 2021 10,Hildenbrandia rubra,45
+Fifth Beach LOW 2021 10,Katharina tunicata,2
+Fifth Beach LOW 2021 10,Limpet,9
+Fifth Beach LOW 2021 10,Petalonia fascia,0.5
+Fifth Beach LOW 2021 10,Polysiphonia hendryi var. hendryi,0.5
+Fifth Beach LOW 2021 10,Pyropia abbottiae,35
+Fifth Beach LOW 2021 10,Ulva linza,0.5
+Fifth Beach LOW 2021 10,NA,0.5
+Fifth Beach LOW 2021 2,Alaria marginata,7
+Fifth Beach LOW 2021 2,Anemone,0.5
+Fifth Beach LOW 2021 2,bare rock,22
+Fifth Beach LOW 2021 2,Barnacle,4
+Fifth Beach LOW 2021 2,Bossiella frondescens,3
+Fifth Beach LOW 2021 2,Bossiella pseudodichotoma,0.5
+Fifth Beach LOW 2021 2,Chamberlainium tumidum,5
+Fifth Beach LOW 2021 2,Codium fragile,0.5
+Fifth Beach LOW 2021 2,Cryptosiphonia woodii,19
+Fifth Beach LOW 2021 2,Dactylosiphon bullosus,1
+Fifth Beach LOW 2021 2,Dilsea californica,0.5
+Fifth Beach LOW 2021 2,Farlowia mollis,0.5
+Fifth Beach LOW 2021 2,Fucus distichus,0.5
+Fifth Beach LOW 2021 2,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2021 2,Hildenbrandia rubra,0.5
+Fifth Beach LOW 2021 2,Leathesia marina,1
+Fifth Beach LOW 2021 2,Lithophyllum sp. 1,1
+Fifth Beach LOW 2021 2,Mazzaella parvula,0.5
+Fifth Beach LOW 2021 2,Mazzaella splendens,9
+Fifth Beach LOW 2021 2,Microcladia borealis,4
+Fifth Beach LOW 2021 2,Neorhodomela larix,2
+Fifth Beach LOW 2021 2,Odonthalia floccosa,4
+Fifth Beach LOW 2021 2,Phyllospadix scouleri,4
+Fifth Beach LOW 2021 2,Plocamium violaceum,4
+Fifth Beach LOW 2021 2,Polyneura latissima,6
+Fifth Beach LOW 2021 2,Ptilota filicina,2
+Fifth Beach LOW 2021 2,Pyropia abbottiae,32
+Fifth Beach LOW 2021 2,Ralfsioid,5
+Fifth Beach LOW 2021 2,Scytosiphon lomentaria,3
+Fifth Beach LOW 2021 2,Ulva fenestrata,0.5
+Fifth Beach LOW 2021 3,Acrosiphonia coalita,0.5
+Fifth Beach LOW 2021 3,Alaria marginata,4
+Fifth Beach LOW 2021 3,bare rock,14
+Fifth Beach LOW 2021 3,Barnacle,4
+Fifth Beach LOW 2021 3,Bossiella frondescens,0.5
+Fifth Beach LOW 2021 3,Bossiella frondifera,1
+Fifth Beach LOW 2021 3,Callithamnion pikeanum,5
+Fifth Beach LOW 2021 3,Chamberlainium tumidum,7
+Fifth Beach LOW 2021 3,Colpomenia peregrina,0.5
+Fifth Beach LOW 2021 3,Corallina vancouveriensis,5
+Fifth Beach LOW 2021 3,Crusticorallina muricata,0.5
+Fifth Beach LOW 2021 3,Cryptosiphonia woodii,10
+Fifth Beach LOW 2021 3,Hedophyllum sessile,0.5
+Fifth Beach LOW 2021 3,Hildenbrandia occidentalis,1
+Fifth Beach LOW 2021 3,Hildenbrandia rubra,3
+Fifth Beach LOW 2021 3,Hymenena spp.,2
+Fifth Beach LOW 2021 3,Katharina tunicata,2
+Fifth Beach LOW 2021 3,Limpet,50
+Fifth Beach LOW 2021 3,Lithophyllum sp. 1,1
+Fifth Beach LOW 2021 3,Lithothamnion phymatodeum,1
+Fifth Beach LOW 2021 3,Mastocarpus latissimus,3
+Fifth Beach LOW 2021 3,Mazzaella splendens,10
+Fifth Beach LOW 2021 3,Microcladia borealis,1
+Fifth Beach LOW 2021 3,Nemalion helminthoides,0.5
+Fifth Beach LOW 2021 3,Neorhodomela larix,8
+Fifth Beach LOW 2021 3,Odonthalia floccosa,6
+Fifth Beach LOW 2021 3,Petrocelis,1
+Fifth Beach LOW 2021 3,Phyllospadix scouleri,11
+Fifth Beach LOW 2021 3,Plocamium violaceum,7
+Fifth Beach LOW 2021 3,Polysiphonia hendryi var. gardneri,0.5
+Fifth Beach LOW 2021 3,Pyropia abbottiae,8
+Fifth Beach LOW 2021 3,Scytosiphon lomentaria,0.5
+Fifth Beach LOW 2021 3,Tokidadendron bullatum,1
+Fifth Beach LOW 2021 3,Ulva fenestrata,0.5
+Fifth Beach LOW 2021 4,Acrosiphonia coalita,1
+Fifth Beach LOW 2021 4,Alaria marginata,8
+Fifth Beach LOW 2021 4,Anemone,1
+Fifth Beach LOW 2021 4,bare rock,9
+Fifth Beach LOW 2021 4,Bossiella frondescens,4
+Fifth Beach LOW 2021 4,Bossiella frondifera,4
+Fifth Beach LOW 2021 4,Bossiella reptans,0.5
+Fifth Beach LOW 2021 4,Callithamnion pikeanum,5
+Fifth Beach LOW 2021 4,Chamberlainium tumidum,1
+Fifth Beach LOW 2021 4,Chiton,2
+Fifth Beach LOW 2021 4,Corallina vancouveriensis,3
+Fifth Beach LOW 2021 4,Cryptosiphonia woodii,6
+Fifth Beach LOW 2021 4,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2021 4,Fucus distichus,2
+Fifth Beach LOW 2021 4,Halosaccion glandiforme,1
+Fifth Beach LOW 2021 4,Hedophyllum sessile,5
+Fifth Beach LOW 2021 4,Hildenbrandia occidentalis,4
+Fifth Beach LOW 2021 4,Hildenbrandia rubra,1
+Fifth Beach LOW 2021 4,Hymenena spp.,4
+Fifth Beach LOW 2021 4,Katharina tunicata,2
+Fifth Beach LOW 2021 4,Leathesia marina,1
+Fifth Beach LOW 2021 4,Limpet,80
+Fifth Beach LOW 2021 4,Lithophyllum sp. 1,0.5
+Fifth Beach LOW 2021 4,Lithothamnion phymatodeum,2
+Fifth Beach LOW 2021 4,Littorina sp.,10
+Fifth Beach LOW 2021 4,Mazzaella oregona,3
+Fifth Beach LOW 2021 4,Mazzaella splendens,20
+Fifth Beach LOW 2021 4,Microcladia borealis,4
+Fifth Beach LOW 2021 4,Neorhodomela larix,2
+Fifth Beach LOW 2021 4,Odonthalia floccosa,16
+Fifth Beach LOW 2021 4,Plocamium violaceum,3
+Fifth Beach LOW 2021 4,Polyneura latissima,9
+Fifth Beach LOW 2021 4,Ptilota filicina,8
+Fifth Beach LOW 2021 4,Pyropia abbottiae,32
+Fifth Beach LOW 2021 4,Scytosiphon lomentaria,0.5
+Fifth Beach LOW 2021 4,Tokidadendron bullatum,5
+Fifth Beach LOW 2021 4,Tunicata,6
+Fifth Beach LOW 2021 4,Ulva fenestrata,0.5
+Fifth Beach LOW 2021 4,NA,2
+Fifth Beach LOW 2021 5,Acrosiphonia coalita,0.5
+Fifth Beach LOW 2021 5,Alaria marginata,2
+Fifth Beach LOW 2021 5,Anemone,0.5
+Fifth Beach LOW 2021 5,bare rock,17
+Fifth Beach LOW 2021 5,Bossiella frondescens,2
+Fifth Beach LOW 2021 5,Callithamnion pikeanum,2
+Fifth Beach LOW 2021 5,Chamberlainium tumidum,4
+Fifth Beach LOW 2021 5,Corallina vancouveriensis,1
+Fifth Beach LOW 2021 5,Dactylosiphon bullosus,1
+Fifth Beach LOW 2021 5,Farlowia mollis,1.5
+Fifth Beach LOW 2021 5,Fucus distichus,1
+Fifth Beach LOW 2021 5,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2021 5,Hildenbrandia occidentalis,2
+Fifth Beach LOW 2021 5,Leathesia marina,0.5
+Fifth Beach LOW 2021 5,Limpet,NA
+Fifth Beach LOW 2021 5,Mastocarpus agardhii,0.5
+Fifth Beach LOW 2021 5,Mastocarpus latissimus,1
+Fifth Beach LOW 2021 5,Mazzaella parvula,1
+Fifth Beach LOW 2021 5,Mazzaella splendens,4
+Fifth Beach LOW 2021 5,Microcladia borealis,5
+Fifth Beach LOW 2021 5,Neorhodomela larix,15
+Fifth Beach LOW 2021 5,Plocamium violaceum,3
+Fifth Beach LOW 2021 5,Polysiphonia hendryi var. hendryi,0.5
+Fifth Beach LOW 2021 5,Pyropia abbottiae,31
+Fifth Beach LOW 2021 5,Scytosiphon lomentaria,0.5
+Fifth Beach LOW 2021 5,Ulva fenestrata,0.5
+Fifth Beach LOW 2021 5,NA,1
+Fifth Beach LOW 2021 6,Acrosiphonia coalita,0.5
+Fifth Beach LOW 2021 6,Alaria marginata,4
+Fifth Beach LOW 2021 6,Anemone,9
+Fifth Beach LOW 2021 6,bare rock,11
+Fifth Beach LOW 2021 6,Barnacle,6
+Fifth Beach LOW 2021 6,Bossiella frondescens,1
+Fifth Beach LOW 2021 6,Callithamnion pikeanum,1
+Fifth Beach LOW 2021 6,Chamberlainium tumidum,2
+Fifth Beach LOW 2021 6,Corallina vancouveriensis,1
+Fifth Beach LOW 2021 6,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2021 6,Farlowia mollis,0.5
+Fifth Beach LOW 2021 6,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2021 6,Hildenbrandia occidentalis,6
+Fifth Beach LOW 2021 6,Katharina tunicata,1
+Fifth Beach LOW 2021 6,Leathesia marina,1
+Fifth Beach LOW 2021 6,Limpet,NA
+Fifth Beach LOW 2021 6,Mastocarpus agardhii,0.5
+Fifth Beach LOW 2021 6,Mastocarpus latissimus,0.5
+Fifth Beach LOW 2021 6,Mazzaella splendens,2
+Fifth Beach LOW 2021 6,Microcladia borealis,6
+Fifth Beach LOW 2021 6,Nemalion helminthoides,0.5
+Fifth Beach LOW 2021 6,Petrocelis,0.5
+Fifth Beach LOW 2021 6,Plocamium violaceum,8
+Fifth Beach LOW 2021 6,Polyneura latissima,1
+Fifth Beach LOW 2021 6,Polysiphonia hendryi var. hendryi,0.5
+Fifth Beach LOW 2021 6,Pyropia abbottiae,16
+Fifth Beach LOW 2021 6,Scytosiphon lomentaria,0.5
+Fifth Beach LOW 2021 6,Wildmania norrisii,3
+Fifth Beach LOW 2021 7,Acrosiphonia coalita,0.5
+Fifth Beach LOW 2021 7,Alaria marginata,36
+Fifth Beach LOW 2021 7,Antithamnion defectum,1
+Fifth Beach LOW 2021 7,bare rock,8
+Fifth Beach LOW 2021 7,Barnacle,7
+Fifth Beach LOW 2021 7,Bossiella frondescens,2
+Fifth Beach LOW 2021 7,Bossiella frondifera,2
+Fifth Beach LOW 2021 7,Callithamnion pikeanum,1
+Fifth Beach LOW 2021 7,Chamberlainium tumidum,9
+Fifth Beach LOW 2021 7,Codium setchellii,0.5
+Fifth Beach LOW 2021 7,Corallina vancouveriensis,1
+Fifth Beach LOW 2021 7,Cryptosiphonia woodii,0.5
+Fifth Beach LOW 2021 7,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2021 7,Hildenbrandia occidentalis,2
+Fifth Beach LOW 2021 7,Katharina tunicata,2
+Fifth Beach LOW 2021 7,Leathesia marina,0.5
+Fifth Beach LOW 2021 7,Limpet,NA
+Fifth Beach LOW 2021 7,Lithothamnion phymatodeum,2
+Fifth Beach LOW 2021 7,Mastocarpus latissimus,0.5
+Fifth Beach LOW 2021 7,Mazzaella parvula,1
+Fifth Beach LOW 2021 7,Mopalia sp.,2
+Fifth Beach LOW 2021 7,Petrocelis,0.5
+Fifth Beach LOW 2021 7,Plocamium violaceum,8
+Fifth Beach LOW 2021 7,Polyneura latissima,1
+Fifth Beach LOW 2021 7,Pyropia abbottiae,1
+Fifth Beach LOW 2021 7,Ulva fenestrata,1
+Fifth Beach LOW 2021 7,NA,1
+Fifth Beach LOW 2021 8,Acrosiphonia coalita,2
+Fifth Beach LOW 2021 8,Alaria marginata,2
+Fifth Beach LOW 2021 8,Anemone,4
+Fifth Beach LOW 2021 8,bare rock,38
+Fifth Beach LOW 2021 8,Barnacle,2
+Fifth Beach LOW 2021 8,Bossiella frondescens,2
+Fifth Beach LOW 2021 8,Bossiella frondifera,1.5
+Fifth Beach LOW 2021 8,Callithamnion pikeanum,1
+Fifth Beach LOW 2021 8,Chamberlainium tumidum,5
+Fifth Beach LOW 2021 8,Colpomenia peregrina,0.5
+Fifth Beach LOW 2021 8,Corallina vancouveriensis,0.5
+Fifth Beach LOW 2021 8,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2021 8,Hildenbrandia rubra,6
+Fifth Beach LOW 2021 8,Katharina tunicata,3
+Fifth Beach LOW 2021 8,Limpet,100
+Fifth Beach LOW 2021 8,Mastocarpus latissimus,0.5
+Fifth Beach LOW 2021 8,Microcladia borealis,5
+Fifth Beach LOW 2021 8,Nemalion helminthoides,0.5
+Fifth Beach LOW 2021 8,Scytosiphon lomentaria,0.5
+Fifth Beach LOW 2021 8,NA,1
+Fifth Beach LOW 2021 9,Acrosiphonia coalita,0.5
+Fifth Beach LOW 2021 9,Alaria marginata,14
+Fifth Beach LOW 2021 9,Anemone,3
+Fifth Beach LOW 2021 9,Antithamnion defectum,2
+Fifth Beach LOW 2021 9,bare rock,10
+Fifth Beach LOW 2021 9,Barnacle,30
+Fifth Beach LOW 2021 9,Bossiella frondescens,8
+Fifth Beach LOW 2021 9,Bossiella frondifera,2
+Fifth Beach LOW 2021 9,Callithamnion pikeanum,16
+Fifth Beach LOW 2021 9,Chamberlainium tumidum,14
+Fifth Beach LOW 2021 9,Colonial Diatoms,0.5
+Fifth Beach LOW 2021 9,Corallina vancouveriensis,1
+Fifth Beach LOW 2021 9,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2021 9,Hedophyllum sessile,2
+Fifth Beach LOW 2021 9,Hildenbrandia occidentalis,10
+Fifth Beach LOW 2021 9,Hymenena spp.,4
+Fifth Beach LOW 2021 9,Katharina tunicata,1
+Fifth Beach LOW 2021 9,Leathesia marina,0.5
+Fifth Beach LOW 2021 9,Limpet,100
+Fifth Beach LOW 2021 9,Mazzaella splendens,1
+Fifth Beach LOW 2021 9,Microcladia borealis,11
+Fifth Beach LOW 2021 9,Nemalion helminthoides,1
+Fifth Beach LOW 2021 9,Pisaster ochraceus,2
+Fifth Beach LOW 2021 9,Plocamium violaceum,6
+Fifth Beach LOW 2021 9,Polysiphonia hendryi var. luxuriens,3
+Fifth Beach LOW 2021 9,Porifera,0.5
+Fifth Beach LOW 2021 9,Pyropia abbottiae,19
+Fifth Beach LOW 2021 9,Scytosiphon lomentaria,0.5
+Fifth Beach LOW 2021 9,Tunicata,0.5
+Fifth Beach LOW 2021 9,Ulva fenestrata,0.5
+Fifth Beach LOW 2021 9,Wildmania norrisii,0.5
+Fifth Beach LOW 2021 9,NA,5.5
+Fifth Beach LOW 2022 1,Acrosiphonia arcta,1
+Fifth Beach LOW 2022 1,Alaria marginata,4
+Fifth Beach LOW 2022 1,Anemone,1
+Fifth Beach LOW 2022 1,bare rock,6
+Fifth Beach LOW 2022 1,Bossiella frondescens,0.5
+Fifth Beach LOW 2022 1,Callithamnion pikeanum,2
+Fifth Beach LOW 2022 1,Codium fragile,0.5
+Fifth Beach LOW 2022 1,coralline crust,1
+Fifth Beach LOW 2022 1,Cryptosiphonia woodii,3
+Fifth Beach LOW 2022 1,Dilsea californica,16
+Fifth Beach LOW 2022 1,Egregia menziesii,7
+Fifth Beach LOW 2022 1,Farlowia mollis,0.5
+Fifth Beach LOW 2022 1,Fucus distichus,0.5
+Fifth Beach LOW 2022 1,Halosaccion glandiforme,1
+Fifth Beach LOW 2022 1,Leathesia marina,0.5
+Fifth Beach LOW 2022 1,Limpet,5
+Fifth Beach LOW 2022 1,Mazzaella oregona,2
+Fifth Beach LOW 2022 1,Microcladia borealis,5
+Fifth Beach LOW 2022 1,Neorhodomela larix,34
+Fifth Beach LOW 2022 1,Nucella sp.,1
+Fifth Beach LOW 2022 1,Pagarus sp.,2
+Fifth Beach LOW 2022 1,Phyllospadix torreyi,0.5
+Fifth Beach LOW 2022 1,Plocamium violaceum,0.5
+Fifth Beach LOW 2022 1,Polysiphonia hendryi var. gardneri,2
+Fifth Beach LOW 2022 1,Ptilota filicina,10
+Fifth Beach LOW 2022 1,Savoiea robusta,3
+Fifth Beach LOW 2022 1,Ulva fenestrata,2
+Fifth Beach LOW 2022 1,Unknown crust,3
+Fifth Beach LOW 2022 1,NA,1.5
+Fifth Beach LOW 2022 10,Anemone,12
+Fifth Beach LOW 2022 10,bare rock,31
+Fifth Beach LOW 2022 10,Barnacle,1
+Fifth Beach LOW 2022 10,Bossiella frondescens,0.5
+Fifth Beach LOW 2022 10,Bossiella frondifera,1
+Fifth Beach LOW 2022 10,Corallina vancouveriensis,0.5
+Fifth Beach LOW 2022 10,Farlowia mollis,0.5
+Fifth Beach LOW 2022 10,Fucus distichus,0.5
+Fifth Beach LOW 2022 10,Hildenbrandia occidentalis,9
+Fifth Beach LOW 2022 10,Hildenbrandia rubra,2
+Fifth Beach LOW 2022 10,Hymenena spp.,0.5
+Fifth Beach LOW 2022 10,Katharina tunicata,4
+Fifth Beach LOW 2022 10,Leathesia marina,0.5
+Fifth Beach LOW 2022 10,Limpet,7
+Fifth Beach LOW 2022 10,Petrocelis,0.5
+Fifth Beach LOW 2022 10,Plocamium violaceum,0.5
+Fifth Beach LOW 2022 10,Pyropia abbottiae,63
+Fifth Beach LOW 2022 10,Ulva fenestrata,0.5
+Fifth Beach LOW 2022 10,Wildmania norrisii,10
+Fifth Beach LOW 2022 2,Alaria marginata,8
+Fifth Beach LOW 2022 2,Anemone,1
+Fifth Beach LOW 2022 2,bare rock,2
+Fifth Beach LOW 2022 2,Barnacle,0.5
+Fifth Beach LOW 2022 2,Bossiella frondescens,1
+Fifth Beach LOW 2022 2,Bossiella frondifera,0.5
+Fifth Beach LOW 2022 2,Bossiella pseudodichotoma,1
+Fifth Beach LOW 2022 2,Callithamnion pikeanum,3
+Fifth Beach LOW 2022 2,Chamberlainium tumidum,1
+Fifth Beach LOW 2022 2,Codium fragile,0.5
+Fifth Beach LOW 2022 2,coralline crust,0.5
+Fifth Beach LOW 2022 2,Crusticorallina muricata,0.5
+Fifth Beach LOW 2022 2,Cryptosiphonia woodii,15
+Fifth Beach LOW 2022 2,Dilsea californica,11
+Fifth Beach LOW 2022 2,Egregia menziesii,9
+Fifth Beach LOW 2022 2,Endocladia muricata,0.5
+Fifth Beach LOW 2022 2,Farlowia mollis,1
+Fifth Beach LOW 2022 2,Fucus distichus,1
+Fifth Beach LOW 2022 2,Halosaccion glandiforme,1
+Fifth Beach LOW 2022 2,Hildenbrandia occidentalis,3
+Fifth Beach LOW 2022 2,Hildenbrandia rubra,0.5
+Fifth Beach LOW 2022 2,Limpet,2
+Fifth Beach LOW 2022 2,Lithophyllum sp.,0.5
+Fifth Beach LOW 2022 2,Lithothamnion phymatodeum,0.5
+Fifth Beach LOW 2022 2,Littorina sp.,3
+Fifth Beach LOW 2022 2,Mastocarpus latissimus,1
+Fifth Beach LOW 2022 2,Mazzaella oregona,2
+Fifth Beach LOW 2022 2,Mazzaella splendens,6
+Fifth Beach LOW 2022 2,Neorhodomela larix,15
+Fifth Beach LOW 2022 2,Phyllospadix torreyi,8
+Fifth Beach LOW 2022 2,Plocamium violaceum,1
+Fifth Beach LOW 2022 2,Polysiphonia hendryi var. hendryi,3
+Fifth Beach LOW 2022 2,Ptilota filicina,5
+Fifth Beach LOW 2022 2,Ulva fenestrata,1
+Fifth Beach LOW 2022 3,Acrosiphonia arcta,1
+Fifth Beach LOW 2022 3,Alaria marginata,13
+Fifth Beach LOW 2022 3,bare rock,2
+Fifth Beach LOW 2022 3,Barnacle,0.5
+Fifth Beach LOW 2022 3,Callithamnion pikeanum,7
+Fifth Beach LOW 2022 3,Cryptosiphonia woodii,6
+Fifth Beach LOW 2022 3,Dilsea californica,4
+Fifth Beach LOW 2022 3,Egregia menziesii,6
+Fifth Beach LOW 2022 3,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2022 3,Hildenbrandia occidentalis,1
+Fifth Beach LOW 2022 3,Leathesia marina,0.5
+Fifth Beach LOW 2022 3,Mastocarpus latissimus,0.5
+Fifth Beach LOW 2022 3,Mazzaella oregona,5
+Fifth Beach LOW 2022 3,Mazzaella parksii,27
+Fifth Beach LOW 2022 3,Microcladia borealis,3
+Fifth Beach LOW 2022 3,Neorhodomela aculeata,15
+Fifth Beach LOW 2022 3,Phyllospadix scouleri,33
+Fifth Beach LOW 2022 3,Plocamium violaceum,6
+Fifth Beach LOW 2022 3,Polysiphonia hendryi var. hendryi,3
+Fifth Beach LOW 2022 3,Ptilota filicina,34
+Fifth Beach LOW 2022 3,Pugettia producta,1
+Fifth Beach LOW 2022 3,Pyropia abbottiae,6
+Fifth Beach LOW 2022 3,Tokidadendron bullatum,0.5
+Fifth Beach LOW 2022 3,Ulva fenestrata,0.5
+Fifth Beach LOW 2022 4,Acrosiphonia arcta,0.5
+Fifth Beach LOW 2022 4,Alaria marginata,21
+Fifth Beach LOW 2022 4,Anemone,0.5
+Fifth Beach LOW 2022 4,bare rock,6
+Fifth Beach LOW 2022 4,Callithamnion pikeanum,3
+Fifth Beach LOW 2022 4,Halosaccion glandiforme,2
+Fifth Beach LOW 2022 4,Hildenbrandia occidentalis,1
+Fifth Beach LOW 2022 4,Hildenbrandia rubra,5
+Fifth Beach LOW 2022 4,Lithothamnion phymatodeum,0.5
+Fifth Beach LOW 2022 4,Mazzaella splendens,3
+Fifth Beach LOW 2022 4,Mesophyllum vancouveriense,0.5
+Fifth Beach LOW 2022 4,Microcladia borealis,6
+Fifth Beach LOW 2022 4,Plocamium violaceum,77
+Fifth Beach LOW 2022 4,Ptilota filicina,9
+Fifth Beach LOW 2022 4,Ulva fenestrata,1
+Fifth Beach LOW 2022 4,NA,7.5
+Fifth Beach LOW 2022 5,Acrosiphonia arcta,0.5
+Fifth Beach LOW 2022 5,Alaria marginata,4
+Fifth Beach LOW 2022 5,Anemone,0.5
+Fifth Beach LOW 2022 5,Antithamnion defectum,0.5
+Fifth Beach LOW 2022 5,bare rock,7
+Fifth Beach LOW 2022 5,Barnacle,0.5
+Fifth Beach LOW 2022 5,Bossiella frondescens,1
+Fifth Beach LOW 2022 5,Bossiella frondifera,4
+Fifth Beach LOW 2022 5,Callithamnion pikeanum,1
+Fifth Beach LOW 2022 5,Ceramium pacificum,0.5
+Fifth Beach LOW 2022 5,Chamberlainium tumidum,0.5
+Fifth Beach LOW 2022 5,Corallina vancouveriensis,0.5
+Fifth Beach LOW 2022 5,coralline crust,2
+Fifth Beach LOW 2022 5,Cryptosiphonia woodii,13
+Fifth Beach LOW 2022 5,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2022 5,Dilsea californica,3
+Fifth Beach LOW 2022 5,Endocladia muricata,0.5
+Fifth Beach LOW 2022 5,Farlowia mollis,0.5
+Fifth Beach LOW 2022 5,Fucus distichus,4
+Fifth Beach LOW 2022 5,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2022 5,Hildenbrandia rubra,0.5
+Fifth Beach LOW 2022 5,Hymenena spp.,0.5
+Fifth Beach LOW 2022 5,Isopoda,1
+Fifth Beach LOW 2022 5,Limpet,1
+Fifth Beach LOW 2022 5,Mastocarpus latissimus,1
+Fifth Beach LOW 2022 5,Mazzaella oregona,4
+Fifth Beach LOW 2022 5,Mazzaella splendens,7
+Fifth Beach LOW 2022 5,Microcladia borealis,0.5
+Fifth Beach LOW 2022 5,Nemertea,1
+Fifth Beach LOW 2022 5,Neorhodomela larix,17
+Fifth Beach LOW 2022 5,Odonthalia floccosa,4
+Fifth Beach LOW 2022 5,Petrocelis,0.5
+Fifth Beach LOW 2022 5,Phyllospadix torreyi,5
+Fifth Beach LOW 2022 5,Plocamium violaceum,5
+Fifth Beach LOW 2022 5,Polysiphonia hendryi var. gardneri,0.5
+Fifth Beach LOW 2022 5,Ptilota filicina,8
+Fifth Beach LOW 2022 5,Pyropia abbottiae,7
+Fifth Beach LOW 2022 5,Savoiea robusta,0.5
+Fifth Beach LOW 2022 5,Ulva fenestrata,0.5
+Fifth Beach LOW 2022 5,Unknown crust,2
+Fifth Beach LOW 2022 5,Wildmania norrisii,2
+Fifth Beach LOW 2022 5,NA,4.5
+Fifth Beach LOW 2022 6,Acrosiphonia arcta,0.5
+Fifth Beach LOW 2022 6,Acrosiphonia coalita,0.5
+Fifth Beach LOW 2022 6,Alaria marginata,15
+Fifth Beach LOW 2022 6,Anemone,0.5
+Fifth Beach LOW 2022 6,bare rock,14
+Fifth Beach LOW 2022 6,Barnacle,0.5
+Fifth Beach LOW 2022 6,Bossiella frondescens,2
+Fifth Beach LOW 2022 6,Bossiella frondifera,4
+Fifth Beach LOW 2022 6,Callithamnion pikeanum,2
+Fifth Beach LOW 2022 6,Chamberlainium tumidum,3
+Fifth Beach LOW 2022 6,Corallina vancouveriensis,1
+Fifth Beach LOW 2022 6,coralline crust,4
+Fifth Beach LOW 2022 6,Cryptosiphonia woodii,3
+Fifth Beach LOW 2022 6,Cumathamnion decipiens,0.5
+Fifth Beach LOW 2022 6,Dactylosiphon bullosus,0.5
+Fifth Beach LOW 2022 6,Egregia menziesii,6
+Fifth Beach LOW 2022 6,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2022 6,Hedophyllum sessile,26
+Fifth Beach LOW 2022 6,Hildenbrandia rubra,0.5
+Fifth Beach LOW 2022 6,Hymenena spp.,2
+Fifth Beach LOW 2022 6,Katharina tunicata,1
+Fifth Beach LOW 2022 6,Limpet,4
+Fifth Beach LOW 2022 6,Lithophyllum sp.,0.5
+Fifth Beach LOW 2022 6,Mastocarpus agardhii,0.5
+Fifth Beach LOW 2022 6,Mazzaella oregona,3
+Fifth Beach LOW 2022 6,Mazzaella splendens,17
+Fifth Beach LOW 2022 6,Microcladia borealis,0.5
+Fifth Beach LOW 2022 6,Nemalion helminthoides,0.5
+Fifth Beach LOW 2022 6,Nemertea,1
+Fifth Beach LOW 2022 6,Neorhodomela larix,2
+Fifth Beach LOW 2022 6,Odonthalia floccosa,7
+Fifth Beach LOW 2022 6,Pagarus sp.,1
+Fifth Beach LOW 2022 6,Petrocelis,0.5
+Fifth Beach LOW 2022 6,Phyllospadix torreyi,9
+Fifth Beach LOW 2022 6,Pisaster ochraceus,1
+Fifth Beach LOW 2022 6,Plocamium violaceum,5
+Fifth Beach LOW 2022 6,Polyneura latissima,4
+Fifth Beach LOW 2022 6,Ptilota filicina,2
+Fifth Beach LOW 2022 6,Pyropia abbottiae,8
+Fifth Beach LOW 2022 6,Savoiea robusta,4
+Fifth Beach LOW 2022 6,Tonicella sp.,2
+Fifth Beach LOW 2022 6,Ulva fenestrata,1
+Fifth Beach LOW 2022 6,Unknown crust,0.5
+Fifth Beach LOW 2022 6,NA,2.5
+Fifth Beach LOW 2022 7,Acrochaetium sp.,0.5
+Fifth Beach LOW 2022 7,Alaria marginata,10
+Fifth Beach LOW 2022 7,Anemone,5
+Fifth Beach LOW 2022 7,bare rock,14
+Fifth Beach LOW 2022 7,Barnacle,4
+Fifth Beach LOW 2022 7,Bossiella frondifera,3
+Fifth Beach LOW 2022 7,Callithamnion pikeanum,1
+Fifth Beach LOW 2022 7,Chamberlainium tumidum,12
+Fifth Beach LOW 2022 7,Corallina vancouveriensis,1
+Fifth Beach LOW 2022 7,Crusticorallina muricata,1.5
+Fifth Beach LOW 2022 7,Endocladia muricata,2
+Fifth Beach LOW 2022 7,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2022 7,Hildenbrandia occidentalis,40
+Fifth Beach LOW 2022 7,Hildenbrandia rubra,8
+Fifth Beach LOW 2022 7,Hymenena spp.,5
+Fifth Beach LOW 2022 7,Katharina tunicata,3
+Fifth Beach LOW 2022 7,Leathesia marina,0.5
+Fifth Beach LOW 2022 7,Limpet,18
+Fifth Beach LOW 2022 7,Littorina sp.,6
+Fifth Beach LOW 2022 7,Mazzaella splendens,7
+Fifth Beach LOW 2022 7,Microcladia borealis,5
+Fifth Beach LOW 2022 7,Nemalion helminthoides,0.5
+Fifth Beach LOW 2022 7,Pisaster ochraceus,1
+Fifth Beach LOW 2022 7,Plocamium violaceum,12
+Fifth Beach LOW 2022 7,Porifera,0.5
+Fifth Beach LOW 2022 7,Pyropia abbottiae,16
+Fifth Beach LOW 2022 7,Wildmania norrisii,5
+Fifth Beach LOW 2022 8,Acrosiphonia arcta,0.5
+Fifth Beach LOW 2022 8,Alaria marginata,6
+Fifth Beach LOW 2022 8,Amphipoda,1
+Fifth Beach LOW 2022 8,Anemone,10
+Fifth Beach LOW 2022 8,bare rock,15
+Fifth Beach LOW 2022 8,Barnacle,2
+Fifth Beach LOW 2022 8,Bossiella frondescens,1
+Fifth Beach LOW 2022 8,Bossiella frondifera,5
+Fifth Beach LOW 2022 8,Chamberlainium tumidum,3
+Fifth Beach LOW 2022 8,Chiton,10
+Fifth Beach LOW 2022 8,Codium fragile,0.5
+Fifth Beach LOW 2022 8,Corallina vancouveriensis,0.5
+Fifth Beach LOW 2022 8,coralline crust,1
+Fifth Beach LOW 2022 8,Endocladia muricata,6
+Fifth Beach LOW 2022 8,Hildenbrandia occidentalis,1
+Fifth Beach LOW 2022 8,Hildenbrandia rubra,8
+Fifth Beach LOW 2022 8,Katharina tunicata,4
+Fifth Beach LOW 2022 8,Leathesia marina,0.5
+Fifth Beach LOW 2022 8,Limpet,20
+Fifth Beach LOW 2022 8,Microcladia borealis,3
+Fifth Beach LOW 2022 8,Petrocelis,0.5
+Fifth Beach LOW 2022 8,Pisaster ochraceus,1
+Fifth Beach LOW 2022 8,Plocamium violaceum,17
+Fifth Beach LOW 2022 8,Polyneura latissima,1
+Fifth Beach LOW 2022 8,Pyropia abbottiae,61
+Fifth Beach LOW 2022 8,Schizymenia pacifica,0.5
+Fifth Beach LOW 2022 8,Scytosiphon lomentaria,0.5
+Fifth Beach LOW 2022 8,Tonicella sp.,1
+Fifth Beach LOW 2022 8,Tunicata,0.5
+Fifth Beach LOW 2022 8,Ulva fenestrata,0.5
+Fifth Beach LOW 2022 8,Wildmania norrisii,7
+Fifth Beach LOW 2022 8,NA,1
+Fifth Beach LOW 2022 9,Acrochaetium sp.,0.5
+Fifth Beach LOW 2022 9,Alaria marginata,5
+Fifth Beach LOW 2022 9,Anemone,4
+Fifth Beach LOW 2022 9,bare rock,12
+Fifth Beach LOW 2022 9,Barnacle,0.5
+Fifth Beach LOW 2022 9,Chamberlainium tumidum,7
+Fifth Beach LOW 2022 9,Corallina sp.,0.5
+Fifth Beach LOW 2022 9,Corallina vancouveriensis,0.5
+Fifth Beach LOW 2022 9,Crusticorallina muricata,1
+Fifth Beach LOW 2022 9,Halosaccion glandiforme,0.5
+Fifth Beach LOW 2022 9,Hedophyllum sessile,3
+Fifth Beach LOW 2022 9,Hildenbrandia occidentalis,54
+Fifth Beach LOW 2022 9,Katharina tunicata,2
+Fifth Beach LOW 2022 9,Limpet,12
+Fifth Beach LOW 2022 9,Littorina sp.,2
+Fifth Beach LOW 2022 9,Mazzaella splendens,0.5
+Fifth Beach LOW 2022 9,Petrocelis,0.5
+Fifth Beach LOW 2022 9,Pisaster ochraceus,1
+Fifth Beach LOW 2022 9,Polysiphonia hendryi var. hendryi,1
+Fifth Beach LOW 2022 9,Pyropia abbottiae,46
+Fifth Beach LOW 2022 9,Ulva fenestrata,0.5
+Fifth Beach LOW 2022 9,Wildmania norrisii,8
+>>>>>>> Stashed changes
 Fifth Beach MID 2011 1,Acrosiphonia coalita,0.5
 Fifth Beach MID 2011 1,Acrosiphonia spp.,0.5
 Fifth Beach MID 2011 1,Alaria marginata,40
@@ -3394,9 +3970,8 @@ Fifth Beach MID 2011 2,Fucus distichus,6
 Fifth Beach MID 2011 2,Halosaccion glandiforme,1
 Fifth Beach MID 2011 2,Hildenbrandia sp.,12
 Fifth Beach MID 2011 2,Mastocarpus latissimus,2
-Fifth Beach MID 2011 2,Mastocarpus rigidus,1
+Fifth Beach MID 2011 2,Mastocarpus rigidus,2
 Fifth Beach MID 2011 2,Mazzaella oregona,5
-Fifth Beach MID 2011 2,Mazzaella rigidus,1
 Fifth Beach MID 2011 2,Microcladia borealis,0.5
 Fifth Beach MID 2011 2,Neorhodomela larix,5
 Fifth Beach MID 2011 2,Petrocelis,3
@@ -3414,10 +3989,9 @@ Fifth Beach MID 2011 3,Halosaccion glandiforme,6
 Fifth Beach MID 2011 3,Hildenbrandia sp.,11
 Fifth Beach MID 2011 3,Lithothamnion phymatodeum,2
 Fifth Beach MID 2011 3,Mastocarpus latissimus,23.5
-Fifth Beach MID 2011 3,Mastocarpus rigidus,3
+Fifth Beach MID 2011 3,Mastocarpus rigidus,7.5
 Fifth Beach MID 2011 3,Mastocarpus sp,3
 Fifth Beach MID 2011 3,Mazzaella oregona,3
-Fifth Beach MID 2011 3,Mazzaella rigidus,4.5
 Fifth Beach MID 2011 3,Microcladia borealis,0.5
 Fifth Beach MID 2011 3,Petrocelis,5
 Fifth Beach MID 2011 3,Plocamium violaceum,6
@@ -3435,9 +4009,8 @@ Fifth Beach MID 2011 4,Fucus distichus,10
 Fifth Beach MID 2011 4,Halosaccion glandiforme,5
 Fifth Beach MID 2011 4,Hildenbrandia sp.,8
 Fifth Beach MID 2011 4,Mastocarpus latissimus,6
-Fifth Beach MID 2011 4,Mastocarpus rigidus,0.5
+Fifth Beach MID 2011 4,Mastocarpus rigidus,1
 Fifth Beach MID 2011 4,Mazzaella oregona,9
-Fifth Beach MID 2011 4,Mazzaella rigidus,0.5
 Fifth Beach MID 2011 4,Microcladia borealis,0.5
 Fifth Beach MID 2011 4,Neorhodomela oregona,0.5
 Fifth Beach MID 2011 4,Petrocelis,5
@@ -3457,9 +4030,8 @@ Fifth Beach MID 2011 5,Fucus distichus,4
 Fifth Beach MID 2011 5,Halosaccion glandiforme,8
 Fifth Beach MID 2011 5,Hildenbrandia sp.,8
 Fifth Beach MID 2011 5,Mastocarpus latissimus,12
-Fifth Beach MID 2011 5,Mastocarpus rigidus,5
+Fifth Beach MID 2011 5,Mastocarpus rigidus,10
 Fifth Beach MID 2011 5,Mazzaella oregona,5
-Fifth Beach MID 2011 5,Mazzaella rigidus,5
 Fifth Beach MID 2011 5,Petrocelis,5
 Fifth Beach MID 2011 5,Plocamium violaceum,6
 Fifth Beach MID 2011 5,Ptilota filicina,1
@@ -3475,9 +4047,8 @@ Fifth Beach MID 2011 6,Fucus distichus,17
 Fifth Beach MID 2011 6,Halosaccion glandiforme,7
 Fifth Beach MID 2011 6,Hildenbrandia sp.,39
 Fifth Beach MID 2011 6,Mastocarpus latissimus,3
-Fifth Beach MID 2011 6,Mastocarpus rigidus,3
+Fifth Beach MID 2011 6,Mastocarpus rigidus,6
 Fifth Beach MID 2011 6,Mazzaella oregona,4
-Fifth Beach MID 2011 6,Mazzaella rigidus,3
 Fifth Beach MID 2011 6,Nemalion helminthoides,0.5
 Fifth Beach MID 2011 6,Petrocelis,8
 Fifth Beach MID 2011 6,Plocamium violaceum,3
@@ -3496,9 +4067,8 @@ Fifth Beach MID 2011 7,Halosaccion glandiforme,6
 Fifth Beach MID 2011 7,Hildenbrandia sp.,20
 Fifth Beach MID 2011 7,Leathesia marina,3.5
 Fifth Beach MID 2011 7,Mastocarpus latissimus,3
-Fifth Beach MID 2011 7,Mastocarpus rigidus,4
+Fifth Beach MID 2011 7,Mastocarpus rigidus,8
 Fifth Beach MID 2011 7,Mazzaella oregona,6
-Fifth Beach MID 2011 7,Mazzaella rigidus,4
 Fifth Beach MID 2011 7,Microcladia borealis,0.5
 Fifth Beach MID 2011 7,Petrocelis,2
 Fifth Beach MID 2011 7,Plocamium violaceum,4
@@ -4578,7 +5148,6 @@ Fifth Beach MID 2016 9,Plocamium violaceum,22
 Fifth Beach MID 2017 1,Anemone,3
 Fifth Beach MID 2017 1,bare rock,3
 Fifth Beach MID 2017 1,Barnacle,5
-Fifth Beach MID 2017 1,Bossiella sp.5 chiloensis,1
 Fifth Beach MID 2017 1,Callithamnion pikeanum,1
 Fifth Beach MID 2017 1,Corallina vancouveriensis,14
 Fifth Beach MID 2017 1,Cryptosiphonia woodii,30
@@ -4595,6 +5164,7 @@ Fifth Beach MID 2017 1,Neorhodomela larix,5
 Fifth Beach MID 2017 1,Plocamium violaceum,9
 Fifth Beach MID 2017 1,Ptilota filicina,0.5
 Fifth Beach MID 2017 1,Pyropia abbottiae,2
+Fifth Beach MID 2017 1,NA,1
 Fifth Beach MID 2017 10,Anemone,7
 Fifth Beach MID 2017 10,bare rock,6
 Fifth Beach MID 2017 10,Barnacle,1
@@ -4611,7 +5181,6 @@ Fifth Beach MID 2017 10,Pyropia abbottiae,60
 Fifth Beach MID 2017 2,Anemone,1
 Fifth Beach MID 2017 2,bare rock,10
 Fifth Beach MID 2017 2,Barnacle,6
-Fifth Beach MID 2017 2,Bossiella sp.5 chiloensis,0.5
 Fifth Beach MID 2017 2,Callithamnion pikeanum,0.5
 Fifth Beach MID 2017 2,Chamberlainium tumidum,6
 Fifth Beach MID 2017 2,Cladophora columbiana,1
@@ -4633,6 +5202,7 @@ Fifth Beach MID 2017 2,Polysiphonia hendryi var. gardneri,2
 Fifth Beach MID 2017 2,Ptilota filicina,1
 Fifth Beach MID 2017 2,Pyropia abbottiae,0.5
 Fifth Beach MID 2017 2,Tunicata/Porifera,0.5
+Fifth Beach MID 2017 2,NA,0.5
 Fifth Beach MID 2017 3,Acrosiphonia arcta,0.5
 Fifth Beach MID 2017 3,Anemone,4.5
 Fifth Beach MID 2017 3,bare rock,15
@@ -5110,7 +5680,6 @@ Fifth Beach MID 2019 10,Bossiella frondifera,4
 Fifth Beach MID 2019 10,Bossiella pseudodichotoma,2
 Fifth Beach MID 2019 10,Bossiella reptans,1
 Fifth Beach MID 2019 10,Bossiella sp. (crust),5
-Fifth Beach MID 2019 10,Bossiella sp.5 chiloensis,0.5
 Fifth Beach MID 2019 10,Callithamnion pikeanum,1
 Fifth Beach MID 2019 10,Corallina vancouveriensis,4
 Fifth Beach MID 2019 10,coralline crust,1
@@ -5124,6 +5693,7 @@ Fifth Beach MID 2019 10,Polysiphonia sp.,1
 Fifth Beach MID 2019 10,Prionitis sp.,1
 Fifth Beach MID 2019 10,Pyropia abbottiae,11
 Fifth Beach MID 2019 10,Pyropia perforata,1
+Fifth Beach MID 2019 10,NA,0.5
 Fifth Beach MID 2019 2,Acrosiphonia arcta,0.5
 Fifth Beach MID 2019 2,Acrosiphonia coalita,1
 Fifth Beach MID 2019 2,Alaria marginata,15
@@ -5311,6 +5881,437 @@ Fifth Beach MID 2019 9,Peyssonnelia sp.,0.5
 Fifth Beach MID 2019 9,Plocamium violaceum,1
 Fifth Beach MID 2019 9,Pyropia perforata,20
 Fifth Beach MID 2019 9,Ulva fenestrata,4
+<<<<<<< Updated upstream
+=======
+Fifth Beach MID 2021 1,Acrosiphonia arcta,1
+Fifth Beach MID 2021 1,bare rock,2
+Fifth Beach MID 2021 1,Barnacle,5
+Fifth Beach MID 2021 1,Callithamnion pikeanum,1
+Fifth Beach MID 2021 1,Corallina vancouveriensis,1
+Fifth Beach MID 2021 1,Cryptosiphonia woodii,36
+Fifth Beach MID 2021 1,Dilsea californica,1
+Fifth Beach MID 2021 1,Endocladia muricata,5
+Fifth Beach MID 2021 1,Farlowia mollis,0.5
+Fifth Beach MID 2021 1,Fucus distichus,6
+Fifth Beach MID 2021 1,Gloiopeltis furcata,0.5
+Fifth Beach MID 2021 1,Halosaccion glandiforme,1.5
+Fifth Beach MID 2021 1,Hildenbrandia occidentalis,1
+Fifth Beach MID 2021 1,Leathesia marina,0.5
+Fifth Beach MID 2021 1,Limpet,NA
+Fifth Beach MID 2021 1,Mastocarpus alaskensis,0.5
+Fifth Beach MID 2021 1,Microcladia borealis,3
+Fifth Beach MID 2021 1,Pyropia abbottiae,12
+Fifth Beach MID 2021 1,NA,1.5
+Fifth Beach MID 2021 10,Anemone,8
+Fifth Beach MID 2021 10,bare rock,12
+Fifth Beach MID 2021 10,Barnacle,80
+Fifth Beach MID 2021 10,Endocladia muricata,0.5
+Fifth Beach MID 2021 10,Leathesia marina,0.5
+Fifth Beach MID 2021 10,Limpet,17
+Fifth Beach MID 2021 10,Littorina sp.,100
+Fifth Beach MID 2021 10,Nemalion helminthoides,0.5
+Fifth Beach MID 2021 10,Plocamium violaceum,4
+Fifth Beach MID 2021 10,Polysiphonia hendryi var. hendryi,3
+Fifth Beach MID 2021 10,Pyropia abbottiae,8
+Fifth Beach MID 2021 10,Savoiea robusta,1
+Fifth Beach MID 2021 10,Wildmania norrisii,27
+Fifth Beach MID 2021 10,NA,1
+Fifth Beach MID 2021 2,Acrosiphonia arcta,0.5
+Fifth Beach MID 2021 2,Alaria marginata,0.5
+Fifth Beach MID 2021 2,Analipus japonicus,0.5
+Fifth Beach MID 2021 2,Anemone,0.5
+Fifth Beach MID 2021 2,bare rock,0.5
+Fifth Beach MID 2021 2,Barnacle,0.5
+Fifth Beach MID 2021 2,Callithamnion pikeanum,1
+Fifth Beach MID 2021 2,Corallina vancouveriensis,1
+Fifth Beach MID 2021 2,Cryptosiphonia woodii,31
+Fifth Beach MID 2021 2,Dilsea californica,0.5
+Fifth Beach MID 2021 2,Fucus distichus,15
+Fifth Beach MID 2021 2,Halosaccion glandiforme,2
+Fifth Beach MID 2021 2,Hildenbrandia occidentalis,0.5
+Fifth Beach MID 2021 2,Hildenbrandia rubra,0.5
+Fifth Beach MID 2021 2,Mastocarpus alaskensis,2
+Fifth Beach MID 2021 2,Microcladia borealis,11
+Fifth Beach MID 2021 2,Neorhodomela larix,6
+Fifth Beach MID 2021 2,Plocamium violaceum,3
+Fifth Beach MID 2021 2,Ulva fenestrata,1
+Fifth Beach MID 2021 2,NA,1
+Fifth Beach MID 2021 3,Acrosiphonia coalita,5
+Fifth Beach MID 2021 3,Anemone,4
+Fifth Beach MID 2021 3,bare rock,12
+Fifth Beach MID 2021 3,Barnacle,13
+Fifth Beach MID 2021 3,Bossiella frondescens,2
+Fifth Beach MID 2021 3,Bossiella pseudodichotoma,2
+Fifth Beach MID 2021 3,Chamberlainium tumidum,2
+Fifth Beach MID 2021 3,Cryptosiphonia woodii,37
+Fifth Beach MID 2021 3,Endocladia muricata,1
+Fifth Beach MID 2021 3,Fucus distichus,14
+Fifth Beach MID 2021 3,Halosaccion glandiforme,2
+Fifth Beach MID 2021 3,Hildenbrandia occidentalis,2
+Fifth Beach MID 2021 3,Hildenbrandia rubra,3
+Fifth Beach MID 2021 3,Leathesia marina,2
+Fifth Beach MID 2021 3,Limpet,1
+Fifth Beach MID 2021 3,Lithothamnion phymatodeum,0.5
+Fifth Beach MID 2021 3,Mastocarpus latissimus,2
+Fifth Beach MID 2021 3,Mazzaella oregona,0.5
+Fifth Beach MID 2021 3,Microcladia borealis,2
+Fifth Beach MID 2021 3,Neorhodomela larix,15
+Fifth Beach MID 2021 3,Onchidella sp.,1
+Fifth Beach MID 2021 3,Pagarus sp.,1
+Fifth Beach MID 2021 3,Petrocelis,0.5
+Fifth Beach MID 2021 3,Polysiphonia hendryi var. hendryi,3
+Fifth Beach MID 2021 3,Pyropia abbottiae,3
+Fifth Beach MID 2021 3,Ralfsioid,0.5
+Fifth Beach MID 2021 3,Savoiea robusta,0.5
+Fifth Beach MID 2021 3,Scytosiphon lomentaria,0.5
+Fifth Beach MID 2021 3,Ulva fenestrata,4
+Fifth Beach MID 2021 3,NA,9
+Fifth Beach MID 2021 4,Acrosiphonia coalita,0.5
+Fifth Beach MID 2021 4,Analipus japonicus,0.5
+Fifth Beach MID 2021 4,Anemone,17
+Fifth Beach MID 2021 4,Barnacle,26
+Fifth Beach MID 2021 4,Bossiella dichotoma,2
+Fifth Beach MID 2021 4,Chamberlainium tumidum,9
+Fifth Beach MID 2021 4,Colpomenia peregrina,0.5
+Fifth Beach MID 2021 4,Corallina sp.1 frondescens,4
+Fifth Beach MID 2021 4,Corallina vancouveriensis,5
+Fifth Beach MID 2021 4,Dactylosiphon bullosus,1
+Fifth Beach MID 2021 4,Endocladia muricata,0.5
+Fifth Beach MID 2021 4,Fucus distichus,21
+Fifth Beach MID 2021 4,Halosaccion glandiforme,2
+Fifth Beach MID 2021 4,Hildenbrandia rubra,1
+Fifth Beach MID 2021 4,Mazzaella splendens,0.5
+Fifth Beach MID 2021 4,Nemalion helminthoides,0.5
+Fifth Beach MID 2021 4,Phyllospadix scouleri,9
+Fifth Beach MID 2021 4,Polysiphonia hendryi var. hendryi,4
+Fifth Beach MID 2021 4,Pyropia abbottiae,11
+Fifth Beach MID 2021 4,Ulva fenestrata,2
+Fifth Beach MID 2021 4,NA,8
+Fifth Beach MID 2021 5,Acrosiphonia coalita,1
+Fifth Beach MID 2021 5,Anemone,6
+Fifth Beach MID 2021 5,Barnacle,25
+Fifth Beach MID 2021 5,Chamberlainium tumidum,5
+Fifth Beach MID 2021 5,Colpomenia peregrina,1
+Fifth Beach MID 2021 5,Corallina vancouveriensis,3
+Fifth Beach MID 2021 5,Endocladia muricata,5
+Fifth Beach MID 2021 5,Fucus distichus,5
+Fifth Beach MID 2021 5,Halosaccion glandiforme,10
+Fifth Beach MID 2021 5,Hildenbrandia rubra,7
+Fifth Beach MID 2021 5,Hildenbrandia sp.,1
+Fifth Beach MID 2021 5,Hymenena spp.,1
+Fifth Beach MID 2021 5,Katharina tunicata,4
+Fifth Beach MID 2021 5,Limpet,100
+Fifth Beach MID 2021 5,Mastocarpus latissimus,1
+Fifth Beach MID 2021 5,Microcladia borealis,2
+Fifth Beach MID 2021 5,Nemalion helminthoides,0.5
+Fifth Beach MID 2021 5,Petrocelis,0.5
+Fifth Beach MID 2021 5,Plocamium violaceum,9
+Fifth Beach MID 2021 5,Polysiphonia hendryi var. hendryi,4
+Fifth Beach MID 2021 5,Pyropia abbottiae,13
+Fifth Beach MID 2021 5,Scytosiphon lomentaria,0.5
+Fifth Beach MID 2021 5,Ulva fenestrata,0.5
+Fifth Beach MID 2021 5,Wildmania norrisii,1
+Fifth Beach MID 2021 6,Acrosiphonia coalita,10
+Fifth Beach MID 2021 6,Alaria marginata,1
+Fifth Beach MID 2021 6,Analipus japonicus,0.5
+Fifth Beach MID 2021 6,Anemone,2
+Fifth Beach MID 2021 6,bare rock,2
+Fifth Beach MID 2021 6,Barnacle,3
+Fifth Beach MID 2021 6,Bossiella frondescens,0.5
+Fifth Beach MID 2021 6,Callithamnion pikeanum,1
+Fifth Beach MID 2021 6,Chamberlainium tumidum,9
+Fifth Beach MID 2021 6,Corallina vancouveriensis,1
+Fifth Beach MID 2021 6,Cryptosiphonia woodii,4
+Fifth Beach MID 2021 6,Elachista fucicola,2
+Fifth Beach MID 2021 6,Endocladia muricata,0.5
+Fifth Beach MID 2021 6,Fucus distichus,15
+Fifth Beach MID 2021 6,Halosaccion glandiforme,5
+Fifth Beach MID 2021 6,Hildenbrandia occidentalis,8
+Fifth Beach MID 2021 6,Katharina tunicata,2
+Fifth Beach MID 2021 6,Leathesia marina,1
+Fifth Beach MID 2021 6,Limpet,30
+Fifth Beach MID 2021 6,Mastocarpus agardhii,1
+Fifth Beach MID 2021 6,Mastocarpus alaskensis,1
+Fifth Beach MID 2021 6,Microcladia borealis,6
+Fifth Beach MID 2021 6,Petrocelis,0.5
+Fifth Beach MID 2021 6,Plocamium violaceum,1
+Fifth Beach MID 2021 6,Pyropia abbottiae,13
+Fifth Beach MID 2021 6,Savoiea robusta,2
+Fifth Beach MID 2021 6,Ulva fenestrata,4
+Fifth Beach MID 2021 6,NA,2
+Fifth Beach MID 2021 7,Acrosiphonia coalita,1
+Fifth Beach MID 2021 7,Alaria marginata,4
+Fifth Beach MID 2021 7,Anemone,2
+Fifth Beach MID 2021 7,bare rock,5
+Fifth Beach MID 2021 7,Barnacle,26
+Fifth Beach MID 2021 7,Bossiella frondescens,0.5
+Fifth Beach MID 2021 7,Chamberlainium tumidum,0.5
+Fifth Beach MID 2021 7,Corallina vancouveriensis,0.5
+Fifth Beach MID 2021 7,Endocladia muricata,0.5
+Fifth Beach MID 2021 7,Hildenbrandia occidentalis,1
+Fifth Beach MID 2021 7,Hildenbrandia rubra,2
+Fifth Beach MID 2021 7,Katharina tunicata,2
+Fifth Beach MID 2021 7,Leathesia marina,0.5
+Fifth Beach MID 2021 7,Limpet,NA
+Fifth Beach MID 2021 7,Mastocarpus alaskensis,0.5
+Fifth Beach MID 2021 7,Melanosiphon intestinalis,0.5
+Fifth Beach MID 2021 7,Microcladia borealis,1
+Fifth Beach MID 2021 7,Plocamium violaceum,1
+Fifth Beach MID 2021 7,Polyneura latissima,0.5
+Fifth Beach MID 2021 7,Polysiphonia paniculata,11
+Fifth Beach MID 2021 7,Pyropia abbottiae,61
+Fifth Beach MID 2021 7,Savoiea robusta,1
+Fifth Beach MID 2021 7,NA,4
+Fifth Beach MID 2021 8,Acrosiphonia coalita,1
+Fifth Beach MID 2021 8,Alaria marginata,0.5
+Fifth Beach MID 2021 8,Anemone,1
+Fifth Beach MID 2021 8,bare rock,2
+Fifth Beach MID 2021 8,Barnacle,4
+Fifth Beach MID 2021 8,Bossiella frondescens,1
+Fifth Beach MID 2021 8,Bossiella frondifera,11
+Fifth Beach MID 2021 8,Calliarthron tuberculosum,0.5
+Fifth Beach MID 2021 8,Chiton,3
+Fifth Beach MID 2021 8,Colonial Diatoms,2
+Fifth Beach MID 2021 8,Corallina vancouveriensis,7
+Fifth Beach MID 2021 8,coralline crust,2
+Fifth Beach MID 2021 8,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2021 8,Dilsea californica,7
+Fifth Beach MID 2021 8,Ectocarpus siliculosus,2
+Fifth Beach MID 2021 8,Hildenbrandia rubra,3
+Fifth Beach MID 2021 8,Katharina tunicata,1
+Fifth Beach MID 2021 8,Limpet,40
+Fifth Beach MID 2021 8,Lithothamnion phymatodeum,3
+Fifth Beach MID 2021 8,Mesophyllum vancouveriense,0.5
+Fifth Beach MID 2021 8,Microcladia borealis,0.5
+Fifth Beach MID 2021 8,Petalonia fascia,0.5
+Fifth Beach MID 2021 8,Phyllospadix scouleri,89
+Fifth Beach MID 2021 8,Polysiphonia hendryi var. hendryi,0.5
+Fifth Beach MID 2021 8,Ulva fenestrata,0.5
+Fifth Beach MID 2021 8,NA,1
+Fifth Beach MID 2021 9,Anemone,0.5
+Fifth Beach MID 2021 9,bare rock,55
+Fifth Beach MID 2021 9,Barnacle,26
+Fifth Beach MID 2021 9,Chamberlainium tumidum,1
+Fifth Beach MID 2021 9,Corallina vancouveriensis,1
+Fifth Beach MID 2021 9,Endocladia muricata,1
+Fifth Beach MID 2021 9,Hildenbrandia occidentalis,0.5
+Fifth Beach MID 2021 9,Hildenbrandia rubra,8
+Fifth Beach MID 2021 9,Pyropia abbottiae,10
+Fifth Beach MID 2021 9,Wildmania norrisii,38
+Fifth Beach MID 2021 9,NA,0.5
+Fifth Beach MID 2022 1,Acrosiphonia arcta,1
+Fifth Beach MID 2022 1,Anemone,10
+Fifth Beach MID 2022 1,Barnacle,0.5
+Fifth Beach MID 2022 1,Bossiella frondifera,5
+Fifth Beach MID 2022 1,Chamberlainium tumidum,6
+Fifth Beach MID 2022 1,Corallina sp.,0.5
+Fifth Beach MID 2022 1,Corallina vancouveriensis,17
+Fifth Beach MID 2022 1,Cryptosiphonia woodii,1
+Fifth Beach MID 2022 1,Dilsea californica,2
+Fifth Beach MID 2022 1,Endocladia muricata,11
+Fifth Beach MID 2022 1,Farlowia mollis,0.5
+Fifth Beach MID 2022 1,Fucus distichus,0.5
+Fifth Beach MID 2022 1,Gloiopeltis furcata,7
+Fifth Beach MID 2022 1,Halosaccion glandiforme,11
+Fifth Beach MID 2022 1,Hildenbrandia occidentalis,0.5
+Fifth Beach MID 2022 1,Hildenbrandia rubra,0.5
+Fifth Beach MID 2022 1,Leathesia marina,2
+Fifth Beach MID 2022 1,Limpet,40
+Fifth Beach MID 2022 1,Nemalion helminthoides,0.5
+Fifth Beach MID 2022 1,Neorhodomela larix,5
+Fifth Beach MID 2022 1,Pisaster ochraceus,1
+Fifth Beach MID 2022 1,Plocamium violaceum,0.5
+Fifth Beach MID 2022 1,Pyropia abbottiae,2
+Fifth Beach MID 2022 1,Ulva fenestrata,0.5
+Fifth Beach MID 2022 10,Anemone,3
+Fifth Beach MID 2022 10,bare rock,85
+Fifth Beach MID 2022 10,Barnacle,5
+Fifth Beach MID 2022 10,Chamberlainium tumidum,1
+Fifth Beach MID 2022 10,Corallina vancouveriensis,1
+Fifth Beach MID 2022 10,Endocladia muricata,2
+Fifth Beach MID 2022 10,Hildenbrandia occidentalis,0.5
+Fifth Beach MID 2022 10,Hildenbrandia rubra,1
+Fifth Beach MID 2022 10,Katharina tunicata,4
+Fifth Beach MID 2022 10,Limpet,18
+Fifth Beach MID 2022 10,Microcladia borealis,0.5
+Fifth Beach MID 2022 10,Petrocelis,0.5
+Fifth Beach MID 2022 10,Plocamium violaceum,1
+Fifth Beach MID 2022 10,Pyropia abbottiae,35
+Fifth Beach MID 2022 10,Wildmania norrisii,40
+Fifth Beach MID 2022 10,NA,5
+Fifth Beach MID 2022 2,Acrosiphonia coalita,5
+Fifth Beach MID 2022 2,Anemone,3
+Fifth Beach MID 2022 2,bare rock,18
+Fifth Beach MID 2022 2,Barnacle,6
+Fifth Beach MID 2022 2,Bossiella frondifera,0.5
+Fifth Beach MID 2022 2,Chamberlainium tumidum,5
+Fifth Beach MID 2022 2,Corallina vancouveriensis,5
+Fifth Beach MID 2022 2,Endocladia muricata,0.5
+Fifth Beach MID 2022 2,Halosaccion glandiforme,2
+Fifth Beach MID 2022 2,Hildenbrandia occidentalis,14
+Fifth Beach MID 2022 2,Leathesia marina,0.5
+Fifth Beach MID 2022 2,Limpet,28
+Fifth Beach MID 2022 2,Littorina sp.,8
+Fifth Beach MID 2022 2,Microcladia borealis,1
+Fifth Beach MID 2022 2,Petrocelis,0.5
+Fifth Beach MID 2022 2,Phyllospadix scouleri,13
+Fifth Beach MID 2022 2,Pisaster ochraceus,1
+Fifth Beach MID 2022 2,Plocamium violaceum,0.5
+Fifth Beach MID 2022 2,Pyropia abbottiae,18
+Fifth Beach MID 2022 2,Savoiea robusta,0.5
+Fifth Beach MID 2022 2,Scytosiphon lomentaria,0.5
+Fifth Beach MID 2022 2,Ulva fenestrata,1
+Fifth Beach MID 2022 2,Wildmania norrisii,11
+Fifth Beach MID 2022 3,Acrosiphonia arcta,1
+Fifth Beach MID 2022 3,Anemone,13
+Fifth Beach MID 2022 3,Barnacle,3
+Fifth Beach MID 2022 3,Callithamnion pikeanum,2
+Fifth Beach MID 2022 3,Chamberlainium tumidum,8
+Fifth Beach MID 2022 3,Corallina sp.,0.5
+Fifth Beach MID 2022 3,Cryptosiphonia woodii,23
+Fifth Beach MID 2022 3,Dilsea californica,2
+Fifth Beach MID 2022 3,Farlowia mollis,0.5
+Fifth Beach MID 2022 3,Fucus distichus,2
+Fifth Beach MID 2022 3,Halosaccion glandiforme,1
+Fifth Beach MID 2022 3,Hildenbrandia occidentalis,13
+Fifth Beach MID 2022 3,Hildenbrandia rubra,0.5
+Fifth Beach MID 2022 3,Leathesia marina,0.5
+Fifth Beach MID 2022 3,Limpet,17
+Fifth Beach MID 2022 3,Microcladia borealis,0.5
+Fifth Beach MID 2022 3,Nemalion helminthoides,0.5
+Fifth Beach MID 2022 3,Neorhodomela larix,29
+Fifth Beach MID 2022 3,Petrocelis,0.5
+Fifth Beach MID 2022 3,Phyllospadix torreyi,5
+Fifth Beach MID 2022 3,Pisaster ochraceus,3
+Fifth Beach MID 2022 3,Ptilota filicina,0.5
+Fifth Beach MID 2022 3,Pyropia abbottiae,2
+Fifth Beach MID 2022 3,Ulva fenestrata,5
+Fifth Beach MID 2022 4,Anemone,9
+Fifth Beach MID 2022 4,bare rock,7
+Fifth Beach MID 2022 4,Cryptosiphonia woodii,0.5
+Fifth Beach MID 2022 4,Endocladia muricata,3
+Fifth Beach MID 2022 4,Farlowia mollis,0.5
+Fifth Beach MID 2022 4,Fucus distichus,5
+Fifth Beach MID 2022 4,Halosaccion glandiforme,19
+Fifth Beach MID 2022 4,Hildenbrandia occidentalis,6
+Fifth Beach MID 2022 4,Hildenbrandia rubra,2
+Fifth Beach MID 2022 4,Isopoda,1
+Fifth Beach MID 2022 4,Katharina tunicata,1
+Fifth Beach MID 2022 4,Leathesia marina,0.5
+Fifth Beach MID 2022 4,Mastocarpus agardhii,0.5
+Fifth Beach MID 2022 4,Mastocarpus intermedius,3
+Fifth Beach MID 2022 4,Microcladia borealis,3
+Fifth Beach MID 2022 4,Nemertea,2
+Fifth Beach MID 2022 4,Neorhodomela larix,1
+Fifth Beach MID 2022 4,Pisaster ochraceus,1
+Fifth Beach MID 2022 4,Plocamium violaceum,19
+Fifth Beach MID 2022 4,Pyropia abbottiae,21
+Fifth Beach MID 2022 4,Savoiea robusta,3
+Fifth Beach MID 2022 4,Ulva fenestrata,0.5
+Fifth Beach MID 2022 4,NA,0.5
+Fifth Beach MID 2022 5,Acrosiphonia arcta,0.5
+Fifth Beach MID 2022 5,Anemone,8
+Fifth Beach MID 2022 5,Barnacle,10
+Fifth Beach MID 2022 5,Bossiella frondifera,1
+Fifth Beach MID 2022 5,Corallina vancouveriensis,3
+Fifth Beach MID 2022 5,Endocladia muricata,9
+Fifth Beach MID 2022 5,Fucus distichus,2
+Fifth Beach MID 2022 5,Halosaccion glandiforme,2
+Fifth Beach MID 2022 5,Hildenbrandia occidentalis,10
+Fifth Beach MID 2022 5,Hildenbrandia rubra,0.5
+Fifth Beach MID 2022 5,Limpet,17
+Fifth Beach MID 2022 5,Mazzaella splendens,0.5
+Fifth Beach MID 2022 5,Petrocelis,0.5
+Fifth Beach MID 2022 5,Pyropia abbottiae,20
+Fifth Beach MID 2022 5,Savoiea robusta,2
+Fifth Beach MID 2022 5,Ulva fenestrata,0.5
+Fifth Beach MID 2022 5,Wildmania norrisii,16
+Fifth Beach MID 2022 6,Acrosiphonia arcta,1
+Fifth Beach MID 2022 6,Anemone,23
+Fifth Beach MID 2022 6,Barnacle,23
+Fifth Beach MID 2022 6,Bossiella frondifera,0.5
+Fifth Beach MID 2022 6,Bossiella pseudodichotoma,1
+Fifth Beach MID 2022 6,Corallina vancouveriensis,5
+Fifth Beach MID 2022 6,Endocladia muricata,0.5
+Fifth Beach MID 2022 6,Fucus distichus,3
+Fifth Beach MID 2022 6,Halosaccion glandiforme,8
+Fifth Beach MID 2022 6,Hildenbrandia occidentalis,6
+Fifth Beach MID 2022 6,Hildenbrandia rubra,0.5
+Fifth Beach MID 2022 6,Limpet,15
+Fifth Beach MID 2022 6,Pisaster ochraceus,3
+Fifth Beach MID 2022 6,Pyropia abbottiae,18
+Fifth Beach MID 2022 6,Savoiea robusta,12
+Fifth Beach MID 2022 6,Ulva fenestrata,1
+Fifth Beach MID 2022 6,Wildmania norrisii,5
+Fifth Beach MID 2022 7,Alaria marginata,7
+Fifth Beach MID 2022 7,Anemone,10
+Fifth Beach MID 2022 7,bare rock,13
+Fifth Beach MID 2022 7,Barnacle,1
+Fifth Beach MID 2022 7,Bossiella frondescens,0.5
+Fifth Beach MID 2022 7,Bossiella frondifera,4
+Fifth Beach MID 2022 7,Chamberlainium tumidum,9
+Fifth Beach MID 2022 7,Corallina vancouveriensis,3
+Fifth Beach MID 2022 7,Dactylosiphon bullosus,1
+Fifth Beach MID 2022 7,Halosaccion glandiforme,2
+Fifth Beach MID 2022 7,Hildenbrandia occidentalis,10
+Fifth Beach MID 2022 7,Isopoda,2
+Fifth Beach MID 2022 7,Katharina tunicata,4
+Fifth Beach MID 2022 7,Leathesia marina,0.5
+Fifth Beach MID 2022 7,Limpet,14
+Fifth Beach MID 2022 7,Mazzaella oregona,2
+Fifth Beach MID 2022 7,Petrocelis,0.5
+Fifth Beach MID 2022 7,Pisaster ochraceus,1
+Fifth Beach MID 2022 7,Plocamium violaceum,15
+Fifth Beach MID 2022 7,Pyropia abbottiae,18
+Fifth Beach MID 2022 7,Savoiea robusta,7
+Fifth Beach MID 2022 7,Scytosiphon lomentaria,0.5
+Fifth Beach MID 2022 7,Ulva fenestrata,2
+Fifth Beach MID 2022 7,Wildmania norrisii,4
+Fifth Beach MID 2022 7,NA,2
+Fifth Beach MID 2022 8,Acrosiphonia arcta,1
+Fifth Beach MID 2022 8,Anemone,10
+Fifth Beach MID 2022 8,bare rock,7
+Fifth Beach MID 2022 8,Barnacle,7
+Fifth Beach MID 2022 8,Callithamnion pikeanum,4
+Fifth Beach MID 2022 8,Ceramium pacificum,2
+Fifth Beach MID 2022 8,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2022 8,Dilsea californica,3
+Fifth Beach MID 2022 8,Farlowia mollis,0.5
+Fifth Beach MID 2022 8,Hildenbrandia rubra,0.5
+Fifth Beach MID 2022 8,Leathesia marina,2
+Fifth Beach MID 2022 8,Leptasterias sp.,1
+Fifth Beach MID 2022 8,Limpet,100
+Fifth Beach MID 2022 8,Microcladia borealis,2
+Fifth Beach MID 2022 8,Nemalion helminthoides,0.5
+Fifth Beach MID 2022 8,Plocamium violaceum,8
+Fifth Beach MID 2022 8,Polysiphonia hendryi var. hendryi,0.5
+Fifth Beach MID 2022 8,Pyropia abbottiae,9
+Fifth Beach MID 2022 8,Savoiea robusta,4
+Fifth Beach MID 2022 8,Schizymenia pacifica,2
+Fifth Beach MID 2022 8,NA,5
+Fifth Beach MID 2022 9,Anemone,30
+Fifth Beach MID 2022 9,bare rock,50
+Fifth Beach MID 2022 9,Barnacle,8
+Fifth Beach MID 2022 9,Bossiella frondifera,0.5
+Fifth Beach MID 2022 9,Callithamnion pikeanum,0.5
+Fifth Beach MID 2022 9,Chamberlainium tumidum,0.5
+Fifth Beach MID 2022 9,Corallina vancouveriensis,3
+Fifth Beach MID 2022 9,Cryptosiphonia woodii,0.5
+Fifth Beach MID 2022 9,Dactylosiphon bullosus,0.5
+Fifth Beach MID 2022 9,Endocladia muricata,0.5
+Fifth Beach MID 2022 9,Hildenbrandia occidentalis,0.5
+Fifth Beach MID 2022 9,Hildenbrandia rubra,0.5
+Fifth Beach MID 2022 9,Isopoda,3
+Fifth Beach MID 2022 9,Limpet,178
+Fifth Beach MID 2022 9,Littorina sp.,3
+Fifth Beach MID 2022 9,Mastocarpus alaskensis,0.5
+Fifth Beach MID 2022 9,Microcladia borealis,3
+Fifth Beach MID 2022 9,Pisaster ochraceus,1
+Fifth Beach MID 2022 9,Plocamium violaceum,6
+Fifth Beach MID 2022 9,Pyropia abbottiae,20
+Fifth Beach MID 2022 9,Wildmania norrisii,30
+Fifth Beach MID 2022 9,NA,1
+>>>>>>> Stashed changes
 Foggy Cove HIGH 2011 1,bare rock,50
 Foggy Cove HIGH 2011 1,Chamberlainium tumidum,1
 Foggy Cove HIGH 2011 1,Endocladia muricata,8
@@ -11701,8 +12702,7 @@ North Beach HIGH 2011 6,Endocladia muricata,0.5
 North Beach HIGH 2011 6,Fucus distichus,90
 North Beach HIGH 2011 6,Hildenbrandia sp.,30
 North Beach HIGH 2011 6,Mastocarpus latissimus,4
-North Beach HIGH 2011 6,Mastocarpus rigidus,4
-North Beach HIGH 2011 6,Mazzaella rigidus,4
+North Beach HIGH 2011 6,Mastocarpus rigidus,8
 North Beach HIGH 2011 6,Petrocelis,14
 North Beach HIGH 2011 6,Pyropia perforata,6
 North Beach HIGH 2011 6,Ulva lactuca,0.5
@@ -11711,9 +12711,8 @@ North Beach HIGH 2011 7,Elachista fucicola,2
 North Beach HIGH 2011 7,Fucus distichus,42
 North Beach HIGH 2011 7,Hildenbrandia sp.,13
 North Beach HIGH 2011 7,Mastocarpus latissimus,2
-North Beach HIGH 2011 7,Mastocarpus rigidus,3
+North Beach HIGH 2011 7,Mastocarpus rigidus,6
 North Beach HIGH 2011 7,Mazzaella oregona,1
-North Beach HIGH 2011 7,Mazzaella rigidus,3
 North Beach HIGH 2011 7,Petrocelis,78
 North Beach HIGH 2011 7,Pyropia perforata,2
 North Beach HIGH 2011 7,Ulva lactuca,2
@@ -11732,9 +12731,8 @@ North Beach HIGH 2011 9,Fucus distichus,23
 North Beach HIGH 2011 9,Halosaccion glandiforme,0.5
 North Beach HIGH 2011 9,Hildenbrandia sp.,2
 North Beach HIGH 2011 9,Mastocarpus latissimus,5
-North Beach HIGH 2011 9,Mastocarpus rigidus,1
+North Beach HIGH 2011 9,Mastocarpus rigidus,3
 North Beach HIGH 2011 9,Mastocarpus sp,2
-North Beach HIGH 2011 9,Mazzaella rigidus,2
 North Beach HIGH 2011 9,Petrocelis,90
 North Beach HIGH 2011 9,Ulva lactuca,2
 North Beach HIGH 2011 9,Ulva linza,1
@@ -13786,7 +14784,6 @@ North Beach LOW 2016 3,Pterygophora californica,8
 North Beach LOW 2016 3,Salishia firma,1
 North Beach LOW 2016 3,Snail,5
 North Beach LOW 2016 4,bare rock,3
-North Beach LOW 2016 4,Bossiella flexulosa,15
 North Beach LOW 2016 4,Bossiella frondescens,5
 North Beach LOW 2016 4,Bossiella frondifera,21
 North Beach LOW 2016 4,Callithamnion pikeanum,1
@@ -13804,6 +14801,7 @@ North Beach LOW 2016 4,Microcladia borealis,0.5
 North Beach LOW 2016 4,Neopolyporolithon reclinatum,2
 North Beach LOW 2016 4,Polyneura latissima,2
 North Beach LOW 2016 4,Salishia firma,1
+North Beach LOW 2016 4,NA,15
 North Beach LOW 2016 5,Alaria marginata,10
 North Beach LOW 2016 5,bare rock,6
 North Beach LOW 2016 5,Bossiella frondifera,14
@@ -13953,7 +14951,6 @@ North Beach LOW 2017 2,Bossiella californica,1
 North Beach LOW 2017 2,Bossiella frondifera,6
 North Beach LOW 2017 2,Bossiella hakaiensis,0.5
 North Beach LOW 2017 2,Bossiella reptans,8
-North Beach LOW 2017 2,Bossiella sp.5 chiloensis,0.5
 North Beach LOW 2017 2,Chamberlainium tumidum,1
 North Beach LOW 2017 2,Chiharaea rhododactyla,1
 North Beach LOW 2017 2,Chiharaea silvae,3
@@ -13981,6 +14978,7 @@ North Beach LOW 2017 2,Tonicella sp.,3
 North Beach LOW 2017 2,Tube worms,1
 North Beach LOW 2017 2,Ulva lactuca,0.5
 North Beach LOW 2017 2,Unknown crust,6
+North Beach LOW 2017 2,NA,0.5
 North Beach LOW 2017 3,Alaria marginata,4
 North Beach LOW 2017 3,Antithamnionella spp.,0.5
 North Beach LOW 2017 3,bare rock,4
@@ -13988,7 +14986,6 @@ North Beach LOW 2017 3,Bossiella frondifera,7
 North Beach LOW 2017 3,Bossiella hakaiensis,3
 North Beach LOW 2017 3,Bossiella reptans,2
 North Beach LOW 2017 3,Bossiella sp. (crust),6
-North Beach LOW 2017 3,Bossiella sp.5 chiloensis,2
 North Beach LOW 2017 3,Callithamnion pikeanum,0.5
 North Beach LOW 2017 3,Chiharaea rhododactyla,0.5
 North Beach LOW 2017 3,Chiharaea silvae,1
@@ -14007,6 +15004,7 @@ North Beach LOW 2017 3,Peyssonnelia sp.,0.5
 North Beach LOW 2017 3,Polyneura latissima,1
 North Beach LOW 2017 3,Prionitis sternbergii,0.5
 North Beach LOW 2017 3,Ralfsioid,0.5
+North Beach LOW 2017 3,NA,2
 North Beach LOW 2017 4,bare rock,6
 North Beach LOW 2017 4,Bossiella frondifera,6
 North Beach LOW 2017 4,Bossiella hakaiensis,2
@@ -14030,7 +15028,6 @@ North Beach LOW 2017 5,Bossiella dichotoma,1
 North Beach LOW 2017 5,Bossiella frondifera,2
 North Beach LOW 2017 5,Bossiella hakaiensis,4
 North Beach LOW 2017 5,Bossiella reptans,13
-North Beach LOW 2017 5,Bossiella sp.5 chiloensis,1
 North Beach LOW 2017 5,Callithamnion pikeanum,0.5
 North Beach LOW 2017 5,Chiharaea silvae,6
 North Beach LOW 2017 5,Codium setchellii,1
@@ -14057,6 +15054,7 @@ North Beach LOW 2017 5,Smithora naiadum,1
 North Beach LOW 2017 5,Tonicella sp.,1
 North Beach LOW 2017 5,Tube worms,0.5
 North Beach LOW 2017 5,Unknown crust,2
+North Beach LOW 2017 5,NA,1
 North Beach LOW 2017 6,bare rock,1
 North Beach LOW 2017 6,Bossiella californica,0.5
 North Beach LOW 2017 6,Bossiella frondescens,5
@@ -14625,6 +15623,435 @@ North Beach LOW 2019 9,Schizymenia pacifica,0.5
 North Beach LOW 2019 9,Scytosiphon dotyi,0.5
 North Beach LOW 2019 9,Snail,3
 North Beach LOW 2019 9,Ulva lactuca,0.5
+<<<<<<< Updated upstream
+=======
+North Beach LOW 2021 1,Alaria marginata,13
+North Beach LOW 2021 1,bare rock,10
+North Beach LOW 2021 1,Barnacle,0.5
+North Beach LOW 2021 1,Bossiella frondescens,16
+North Beach LOW 2021 1,Bossiella frondifera,6
+North Beach LOW 2021 1,Bossiella hakaiensis,1
+North Beach LOW 2021 1,Bossiella manzae,1
+North Beach LOW 2021 1,Bossiella reptans,12
+North Beach LOW 2021 1,Chiharaea silvae,4
+North Beach LOW 2021 1,Codium setchellii,1
+North Beach LOW 2021 1,Corallina vancouveriensis,10
+North Beach LOW 2021 1,coralline crust,10
+North Beach LOW 2021 1,Ectocarpus commensalis,2
+North Beach LOW 2021 1,Hedophyllum sessile,85
+North Beach LOW 2021 1,Hildenbrandia rubra,1
+North Beach LOW 2021 1,Hymenena spp.,1
+North Beach LOW 2021 1,Katharina tunicata,4
+North Beach LOW 2021 1,Lithophyllum impressum,2
+North Beach LOW 2021 1,Lithophyllum sp. 1,2
+North Beach LOW 2021 1,Lithothamnion phymatodeum,4
+North Beach LOW 2021 1,Mopalia sp.,1
+North Beach LOW 2021 1,Pagarus sp.,1
+North Beach LOW 2021 1,Peyssonnelia sp.,5
+North Beach LOW 2021 1,Phyllospadix scouleri,13
+North Beach LOW 2021 1,Pugettia producta,1
+North Beach LOW 2021 1,Salishia firma,1
+North Beach LOW 2021 1,Strongylocentrotus purpuratus,6
+North Beach LOW 2021 1,Tonicella sp.,1
+North Beach LOW 2021 1,Tube worms,0.5
+North Beach LOW 2021 1,NA,9.5
+North Beach LOW 2021 10,Alaria marginata,39
+North Beach LOW 2021 10,bare rock,5
+North Beach LOW 2021 10,Bossiella pseudodichotoma,1
+North Beach LOW 2021 10,Chiharaea silvae,0.5
+North Beach LOW 2021 10,Codium setchellii,2
+North Beach LOW 2021 10,Corallina vancouveriensis,0.5
+North Beach LOW 2021 10,Ectocarpus commensalis,0.5
+North Beach LOW 2021 10,Hedophyllum sessile,100
+North Beach LOW 2021 10,Hildenbrandia rubra,4
+North Beach LOW 2021 10,Hymenena spp.,8
+North Beach LOW 2021 10,Katharina tunicata,1
+North Beach LOW 2021 10,Lithophyllum sp. 1,0.5
+North Beach LOW 2021 10,Mazzaella splendens,33
+North Beach LOW 2021 10,Odonthalia floccosa,9
+North Beach LOW 2021 10,Phyllospadix scouleri,4
+North Beach LOW 2021 10,Polyneura latissima,3
+North Beach LOW 2021 10,NA,0.5
+North Beach LOW 2021 2,bare rock,0.5
+North Beach LOW 2021 2,Bossiella frondifera,1
+North Beach LOW 2021 2,Bossiella hakaiensis,0.5
+North Beach LOW 2021 2,Bryozoan,21
+North Beach LOW 2021 2,Ectocarpus commensalis,6
+North Beach LOW 2021 2,Hedophyllum sessile,36
+North Beach LOW 2021 2,Hildenbrandia occidentalis,2
+North Beach LOW 2021 2,Hildenbrandia rubra,4
+North Beach LOW 2021 2,Melobesia sp.,0.5
+North Beach LOW 2021 2,Mesophyllum vancouveriense,1
+North Beach LOW 2021 2,Peyssonnelia sp.,5
+North Beach LOW 2021 2,Phyllospadix scouleri,98
+North Beach LOW 2021 2,Smithora naiadum,5
+North Beach LOW 2021 3,Alaria marginata,20
+North Beach LOW 2021 3,bare rock,4
+North Beach LOW 2021 3,Bossiella frondifera,3
+North Beach LOW 2021 3,Bossiella reptans,1
+North Beach LOW 2021 3,Bryozoan,0.5
+North Beach LOW 2021 3,Corallina sp.1 frondescens,1
+North Beach LOW 2021 3,Corallina vancouveriensis,2
+North Beach LOW 2021 3,Crusticorallina muricata,3
+North Beach LOW 2021 3,Dermasterias,1
+North Beach LOW 2021 3,Ectocarpus commensalis,4
+North Beach LOW 2021 3,Hedophyllum sessile,100
+North Beach LOW 2021 3,Hildenbrandia occidentalis,4
+North Beach LOW 2021 3,Hildenbrandia rubra,0.5
+North Beach LOW 2021 3,Katharina tunicata,5
+North Beach LOW 2021 3,Lithophyllum sp. 1,3
+North Beach LOW 2021 3,Mesophyllum vancouveriense,1
+North Beach LOW 2021 3,Phyllospadix scouleri,1
+North Beach LOW 2021 3,NA,15
+North Beach LOW 2021 4,Bossiella frondescens,4
+North Beach LOW 2021 4,Bossiella frondifera,5
+North Beach LOW 2021 4,Bossiella hakaiensis,2
+North Beach LOW 2021 4,Bossiella reptans,4
+North Beach LOW 2021 4,Codium setchellii,0.5
+North Beach LOW 2021 4,Corallina sp.,1
+North Beach LOW 2021 4,Corallina vancouveriensis,12
+North Beach LOW 2021 4,coralline crust,0.5
+North Beach LOW 2021 4,Ectocarpus commensalis,0.5
+North Beach LOW 2021 4,Hedophyllum sessile,100
+North Beach LOW 2021 4,Hildenbrandia occidentalis,1
+North Beach LOW 2021 4,Hildenbrandia rubra,4
+North Beach LOW 2021 4,Hymenena spp.,1
+North Beach LOW 2021 4,Leptasterias sp.,1
+North Beach LOW 2021 4,Limpet,5
+North Beach LOW 2021 4,Lithophyllum sp. 1,1
+North Beach LOW 2021 4,Lithothamnion phymatodeum,2
+North Beach LOW 2021 4,Mazzaella splendens,3
+North Beach LOW 2021 4,Neopolyporolithon reclinatum,0.5
+North Beach LOW 2021 4,Nudipleura,2
+North Beach LOW 2021 4,Pagarus sp.,1
+North Beach LOW 2021 4,Palmaria hecatensis,4
+North Beach LOW 2021 4,NA,0.5
+North Beach LOW 2021 5,Alaria marginata,96
+North Beach LOW 2021 5,Antithamnion defectum,1
+North Beach LOW 2021 5,Bossiella frondescens,5
+North Beach LOW 2021 5,Bossiella frondifera,4
+North Beach LOW 2021 5,Bossiella hakaiensis,2
+North Beach LOW 2021 5,Bossiella reptans,3
+North Beach LOW 2021 5,Chiharaea silvae,2
+North Beach LOW 2021 5,Codium setchellii,1
+North Beach LOW 2021 5,Corallina vancouveriensis,17
+North Beach LOW 2021 5,Hedophyllum sessile,55
+North Beach LOW 2021 5,Hildenbrandia occidentalis,1
+North Beach LOW 2021 5,Hymenena spp.,2
+North Beach LOW 2021 5,Katharina tunicata,9
+North Beach LOW 2021 5,Lithophyllum sp. 1,0.5
+North Beach LOW 2021 5,Mazzaella splendens,2
+North Beach LOW 2021 5,Neopolyporolithon reclinatum,0.5
+North Beach LOW 2021 5,Odonthalia floccosa,1
+North Beach LOW 2021 5,Pododesmus sp.,1
+North Beach LOW 2021 5,Schizymenia pacifica,0.5
+North Beach LOW 2021 5,Strongylocentrotus purpuratus,2
+North Beach LOW 2021 5,NA,0.5
+North Beach LOW 2021 6,Alaria marginata,38
+North Beach LOW 2021 6,bare rock,28
+North Beach LOW 2021 6,Barnacle,0.5
+North Beach LOW 2021 6,Bossiella frondescens,6
+North Beach LOW 2021 6,Callithamnion pikeanum,1
+North Beach LOW 2021 6,Chamberlainium tumidum,15
+North Beach LOW 2021 6,Corallina vancouveriensis,18
+North Beach LOW 2021 6,Dactylosiphon bullosus,0.5
+North Beach LOW 2021 6,Halosaccion glandiforme,0.5
+North Beach LOW 2021 6,Hildenbrandia occidentalis,15
+North Beach LOW 2021 6,Hildenbrandia rubra,5
+North Beach LOW 2021 6,Hymenena spp.,2
+North Beach LOW 2021 6,Katharina tunicata,3
+North Beach LOW 2021 6,Leptasterias sp.,1
+North Beach LOW 2021 6,Limpet,3
+North Beach LOW 2021 6,Lithophyllum sp. 1,1
+North Beach LOW 2021 6,Mastocarpus agardhii,0.5
+North Beach LOW 2021 6,Mazzaella splendens,8
+North Beach LOW 2021 6,Microcladia borealis,0.5
+North Beach LOW 2021 6,Onchidella sp.,1
+North Beach LOW 2021 6,Petrocelis,5
+North Beach LOW 2021 6,Pisaster ochraceus,1
+North Beach LOW 2021 6,Plocamium violaceum,7
+North Beach LOW 2021 6,Pyropia abbottiae,34
+North Beach LOW 2021 6,Schizymenia pacifica,1
+North Beach LOW 2021 6,Scytosiphon lomentaria,0.5
+North Beach LOW 2021 6,Ulva fenestrata,0.5
+North Beach LOW 2021 6,NA,1
+North Beach LOW 2021 7,Acrosiphonia arcta,0.5
+North Beach LOW 2021 7,Alaria marginata,84
+North Beach LOW 2021 7,Anemone,1
+North Beach LOW 2021 7,Antithamnion defectum,3
+North Beach LOW 2021 7,bare rock,2
+North Beach LOW 2021 7,Bossiella californica,2
+North Beach LOW 2021 7,Bossiella frondescens,9
+North Beach LOW 2021 7,Bossiella frondifera,6
+North Beach LOW 2021 7,Bossiella reptans,5
+North Beach LOW 2021 7,Chiharaea silvae,2
+North Beach LOW 2021 7,Chiton,8
+North Beach LOW 2021 7,Codium setchellii,0.5
+North Beach LOW 2021 7,Corallina sp.1 frondescens,1
+North Beach LOW 2021 7,Corallina vancouveriensis,2
+North Beach LOW 2021 7,Costaria costata,3
+North Beach LOW 2021 7,Egregia menziesii,2
+North Beach LOW 2021 7,Hildenbrandia occidentalis,1
+North Beach LOW 2021 7,Hymenena spp.,11
+North Beach LOW 2021 7,Lithophyllum sp. 1,1
+North Beach LOW 2021 7,Lithothamnion phymatodeum,3
+North Beach LOW 2021 7,Mazzaella splendens,15
+North Beach LOW 2021 7,Microcladia borealis,0.5
+North Beach LOW 2021 7,Mopalia sp.,1
+North Beach LOW 2021 7,Neopolyporolithon reclinatum,0.5
+North Beach LOW 2021 7,Palmaria hecatensis,6
+North Beach LOW 2021 7,Schizymenia pacifica,2
+North Beach LOW 2021 7,Strongylocentrotus purpuratus,1
+North Beach LOW 2021 7,Ulva fenestrata,0.5
+North Beach LOW 2021 8,Acrosiphonia coalita,1
+North Beach LOW 2021 8,Alaria marginata,95
+North Beach LOW 2021 8,Anemone,1
+North Beach LOW 2021 8,bare rock,4
+North Beach LOW 2021 8,Bossiella frondescens,14
+North Beach LOW 2021 8,Bossiella frondifera,20
+North Beach LOW 2021 8,Bossiella hakaiensis,2
+North Beach LOW 2021 8,Bossiella reptans,7
+North Beach LOW 2021 8,Callithamnion pikeanum,1
+North Beach LOW 2021 8,Corallina vancouveriensis,6
+North Beach LOW 2021 8,Cryptochiton,1
+North Beach LOW 2021 8,Hedophyllum sessile,12
+North Beach LOW 2021 8,Hildenbrandia occidentalis,5
+North Beach LOW 2021 8,Hymenena spp.,0.5
+North Beach LOW 2021 8,Lithophyllum sp. 1,4
+North Beach LOW 2021 8,Lithothamnion phymatodeum,5
+North Beach LOW 2021 8,Mazzaella splendens,18
+North Beach LOW 2021 8,Pagarus sp.,1
+North Beach LOW 2021 8,Salishia firma,0.5
+North Beach LOW 2021 8,Strongylocentrotus purpuratus,9
+North Beach LOW 2021 8,Tonicella sp.,2
+North Beach LOW 2021 8,NA,25
+North Beach LOW 2021 9,Alaria marginata,16
+North Beach LOW 2021 9,Analipus japonicus,1
+North Beach LOW 2021 9,bare rock,11
+North Beach LOW 2021 9,Callithamnion pikeanum,1
+North Beach LOW 2021 9,Chamberlainium tumidum,2
+North Beach LOW 2021 9,Corallina vancouveriensis,4
+North Beach LOW 2021 9,Egregia menziesii,1
+North Beach LOW 2021 9,Fucus distichus,2
+North Beach LOW 2021 9,Halosaccion glandiforme,0.5
+North Beach LOW 2021 9,Hildenbrandia occidentalis,27
+North Beach LOW 2021 9,Mastocarpus agardhii,2
+North Beach LOW 2021 9,Mastocarpus intermedius,1
+North Beach LOW 2021 9,Mastocarpus latissimus,1
+North Beach LOW 2021 9,Mazzaella splendens,1
+North Beach LOW 2021 9,Microcladia borealis,4
+North Beach LOW 2021 9,Petrocelis,3
+North Beach LOW 2021 9,Plocamium pacificum,20
+North Beach LOW 2021 9,Polyneura latissima,1
+North Beach LOW 2021 9,Pyropia abbottiae,2
+North Beach LOW 2021 9,Pyropia fallax,1
+North Beach LOW 2021 9,Scytosiphon dotyi,2
+North Beach LOW 2021 9,Ulothrix-Urospora sp.,0.5
+North Beach LOW 2021 9,NA,2
+North Beach LOW 2022 1,Alaria marginata,63
+North Beach LOW 2022 1,bare rock,17
+North Beach LOW 2022 1,Bossiella frondifera,7
+North Beach LOW 2022 1,Bossiella plumosa,0.5
+North Beach LOW 2022 1,Bossiella reptans,2
+North Beach LOW 2022 1,Corallina vancouveriensis,15
+North Beach LOW 2022 1,Crusticorallina muricata,11
+North Beach LOW 2022 1,Ectocarpus commensalis,0.5
+North Beach LOW 2022 1,Hedophyllum sessile,100
+North Beach LOW 2022 1,Isopoda,1
+North Beach LOW 2022 1,Katharina tunicata,5
+North Beach LOW 2022 1,Lithophyllum sp. 1,7
+North Beach LOW 2022 1,Lithothamnion phymatodeum,0.5
+North Beach LOW 2022 1,Mopalia sp.,1
+North Beach LOW 2022 1,Pagarus sp.,1
+North Beach LOW 2022 1,Peyssonnelia sp.,2
+North Beach LOW 2022 1,Tonicella sp.,2
+North Beach LOW 2022 1,Unknown crust,3
+North Beach LOW 2022 1,NA,11
+North Beach LOW 2022 10,Acrosiphonia arcta,3
+North Beach LOW 2022 10,Alaria marginata,59
+North Beach LOW 2022 10,Antithamnion defectum,0.5
+North Beach LOW 2022 10,bare rock,7
+North Beach LOW 2022 10,Bossiella frondifera,2
+North Beach LOW 2022 10,Bossiella reptans,4
+North Beach LOW 2022 10,Callithamnion pikeanum,0.5
+North Beach LOW 2022 10,Chamberlainium tumidum,25
+North Beach LOW 2022 10,Corallina vancouveriensis,8
+North Beach LOW 2022 10,Halosaccion glandiforme,1
+North Beach LOW 2022 10,Hildenbrandia occidentalis,40
+North Beach LOW 2022 10,Hildenbrandia rubra,2
+North Beach LOW 2022 10,Hymenena spp.,1
+North Beach LOW 2022 10,Katharina tunicata,2
+North Beach LOW 2022 10,Limpet,2
+North Beach LOW 2022 10,Lithophyllum impressum,0.5
+North Beach LOW 2022 10,Mastocarpus agardhii,7
+North Beach LOW 2022 10,Mazzaella oregona,3
+North Beach LOW 2022 10,Microcladia borealis,0.5
+North Beach LOW 2022 10,Odonthalia floccosa,1
+North Beach LOW 2022 10,Pisaster ochraceus,4
+North Beach LOW 2022 10,Polyneura latissima,2
+North Beach LOW 2022 10,Porifera,1
+North Beach LOW 2022 10,Strongylocentrotus purpuratus,2
+North Beach LOW 2022 10,Tonicella sp.,3
+North Beach LOW 2022 10,Ulva fenestrata,0.5
+North Beach LOW 2022 2,Alaria marginata,23
+North Beach LOW 2022 2,bare rock,3
+North Beach LOW 2022 2,Bossiella frondescens,6
+North Beach LOW 2022 2,Bossiella frondifera,17
+North Beach LOW 2022 2,Bossiella reptans,2
+North Beach LOW 2022 2,Callithamnion pikeanum,1
+North Beach LOW 2022 2,Corallina vancouveriensis,25
+North Beach LOW 2022 2,Ectocarpus commensalis,1
+North Beach LOW 2022 2,Hedophyllum sessile,100
+North Beach LOW 2022 2,Hildenbrandia occidentalis,2
+North Beach LOW 2022 2,Hildenbrandia rubra,1
+North Beach LOW 2022 2,Hymenena spp.,3
+North Beach LOW 2022 2,Katharina tunicata,5
+North Beach LOW 2022 2,Lithophyllum sp. 1,1
+North Beach LOW 2022 2,NA,18
+North Beach LOW 2022 3,Alaria marginata,16
+North Beach LOW 2022 3,bare rock,3
+North Beach LOW 2022 3,Bossiella frondescens,2
+North Beach LOW 2022 3,Bossiella frondifera,5
+North Beach LOW 2022 3,Bossiella reptans,10
+North Beach LOW 2022 3,Chiharaea rhododactyla,1
+North Beach LOW 2022 3,Chiharaea silvae,1
+North Beach LOW 2022 3,Corallina vancouveriensis,6
+North Beach LOW 2022 3,Crusticorallina muricata,1
+North Beach LOW 2022 3,Ectocarpus commensalis,2
+North Beach LOW 2022 3,Hedophyllum sessile,100
+North Beach LOW 2022 3,Hildenbrandia occidentalis,1
+North Beach LOW 2022 3,Hildenbrandia rubra,1
+North Beach LOW 2022 3,Hymenena spp.,1
+North Beach LOW 2022 3,Katharina tunicata,2
+North Beach LOW 2022 3,Lithophyllum sp. 1,1
+North Beach LOW 2022 3,NA,35
+North Beach LOW 2022 4,Alaria marginata,13
+North Beach LOW 2022 4,bare rock,1
+North Beach LOW 2022 4,Bossiella frondifera,13
+North Beach LOW 2022 4,Bossiella reptans,0.5
+North Beach LOW 2022 4,Corallina sp.1 frondescens,0.5
+North Beach LOW 2022 4,Corallina vancouveriensis,8
+North Beach LOW 2022 4,Hedophyllum sessile,98
+North Beach LOW 2022 4,Hildenbrandia occidentalis,16
+North Beach LOW 2022 4,Hildenbrandia rubra,1
+North Beach LOW 2022 4,Hymenena spp.,20
+North Beach LOW 2022 4,Katharina tunicata,1
+North Beach LOW 2022 4,Lithophyllum impressum,7
+North Beach LOW 2022 4,Lithothamnion phymatodeum,2.5
+North Beach LOW 2022 4,Nereocystis luetkeana,1
+North Beach LOW 2022 4,Pagarus sp.,1
+North Beach LOW 2022 4,Phyllospadix scouleri,8
+North Beach LOW 2022 4,Strongylocentrotus purpuratus,10
+North Beach LOW 2022 4,Tonicella sp.,3
+North Beach LOW 2022 4,NA,10
+North Beach LOW 2022 5,Alaria marginata,5
+North Beach LOW 2022 5,bare rock,1
+North Beach LOW 2022 5,Bossiella frondifera,2
+North Beach LOW 2022 5,Bossiella reptans,0.5
+North Beach LOW 2022 5,Calliarthron tuberculosum,3
+North Beach LOW 2022 5,Calliostoma,3
+North Beach LOW 2022 5,Corallina sp.1 frondescens,1
+North Beach LOW 2022 5,Corallina vancouveriensis,0.5
+North Beach LOW 2022 5,Hedophyllum sessile,100
+North Beach LOW 2022 5,Hildenbrandia occidentalis,15
+North Beach LOW 2022 5,Hildenbrandia rubra,3
+North Beach LOW 2022 5,Hymenena spp.,0.5
+North Beach LOW 2022 5,Katharina tunicata,3
+North Beach LOW 2022 5,Lithothamnion phymatodeum,21
+North Beach LOW 2022 5,Phyllospadix scouleri,10
+North Beach LOW 2022 5,Smithora naiadum,6
+North Beach LOW 2022 5,Strongylocentrotus purpuratus,3
+North Beach LOW 2022 5,Tonicella sp.,2
+North Beach LOW 2022 5,NA,20
+North Beach LOW 2022 6,Alaria marginata,35
+North Beach LOW 2022 6,bare rock,6
+North Beach LOW 2022 6,Bossiella frondifera,14
+North Beach LOW 2022 6,Bossiella hakaiensis,5
+North Beach LOW 2022 6,Ceratostoma,1
+North Beach LOW 2022 6,Corallina sp.1 frondescens,9
+North Beach LOW 2022 6,Corallina vancouveriensis,15
+North Beach LOW 2022 6,Crusticorallina muricata,6
+North Beach LOW 2022 6,Hedophyllum sessile,100
+North Beach LOW 2022 6,Hildenbrandia occidentalis,4
+North Beach LOW 2022 6,Hildenbrandia rubra,2
+North Beach LOW 2022 6,Hymenena spp.,0.5
+North Beach LOW 2022 6,Katharina tunicata,4
+North Beach LOW 2022 6,Lithophyllum impressum,1
+North Beach LOW 2022 6,Lithothamnion phymatodeum,6
+North Beach LOW 2022 6,Strongylocentrotus purpuratus,1
+North Beach LOW 2022 6,Tonicella sp.,3
+North Beach LOW 2022 6,NA,6
+North Beach LOW 2022 7,Alaria marginata,59
+North Beach LOW 2022 7,bare rock,25
+North Beach LOW 2022 7,Barnacle,1
+North Beach LOW 2022 7,Bossiella frondescens,5
+North Beach LOW 2022 7,Bossiella reptans,0.5
+North Beach LOW 2022 7,Callithamnion pikeanum,2
+North Beach LOW 2022 7,Chamberlainium tumidum,8
+North Beach LOW 2022 7,Corallina vancouveriensis,5
+North Beach LOW 2022 7,Fucus distichus,2
+North Beach LOW 2022 7,Halosaccion glandiforme,0.5
+North Beach LOW 2022 7,Hildenbrandia occidentalis,7
+North Beach LOW 2022 7,Hildenbrandia rubra,6
+North Beach LOW 2022 7,Hymenena spp.,1
+North Beach LOW 2022 7,Katharina tunicata,1
+North Beach LOW 2022 7,Limpet,8
+North Beach LOW 2022 7,Mastocarpus agardhii,3
+North Beach LOW 2022 7,Mastocarpus intermedius,0.5
+North Beach LOW 2022 7,Mazzaella splendens,12
+North Beach LOW 2022 7,Odonthalia floccosa,0.5
+North Beach LOW 2022 7,Petrocelis,2
+North Beach LOW 2022 7,Plocamium violaceum,22
+North Beach LOW 2022 7,Polyneura latissima,7
+North Beach LOW 2022 7,Pyropia abbottiae,2
+North Beach LOW 2022 7,Scytosiphon lomentaria,0.5
+North Beach LOW 2022 7,Ulva fenestrata,0.5
+North Beach LOW 2022 7,Ulva linza,0.5
+North Beach LOW 2022 8,Acrosiphonia arcta,0.5
+North Beach LOW 2022 8,Alaria marginata,94
+North Beach LOW 2022 8,Antithamnion defectum,6
+North Beach LOW 2022 8,Bossiella frondescens,2
+North Beach LOW 2022 8,Bossiella frondifera,11
+North Beach LOW 2022 8,Calliarthron tuberculosum,1
+North Beach LOW 2022 8,Callithamnion pikeanum,0.5
+North Beach LOW 2022 8,Chiharaea bodegensis,1
+North Beach LOW 2022 8,Chiharaea silvae,1
+North Beach LOW 2022 8,Codium setchellii,4
+North Beach LOW 2022 8,Corallina vancouveriensis,6
+North Beach LOW 2022 8,coralline crust,1
+North Beach LOW 2022 8,Hildenbrandia occidentalis,2
+North Beach LOW 2022 8,Hildenbrandia rubra,1
+North Beach LOW 2022 8,Hymenena spp.,22
+North Beach LOW 2022 8,Katharina tunicata,1
+North Beach LOW 2022 8,Lithophyllum sp. 1,0.5
+North Beach LOW 2022 8,Mazzaella splendens,53
+North Beach LOW 2022 8,Odonthalia floccosa,1
+North Beach LOW 2022 8,Schizymenia pacifica,2
+North Beach LOW 2022 8,Tunicata,0.5
+North Beach LOW 2022 9,Alaria marginata,100
+North Beach LOW 2022 9,Antithamnion defectum,6
+North Beach LOW 2022 9,bare rock,12
+North Beach LOW 2022 9,Bossiella frondifera,10
+North Beach LOW 2022 9,Bossiella reptans,15
+North Beach LOW 2022 9,Calliarthron tuberculosum,0.5
+North Beach LOW 2022 9,Callithamnion pikeanum,6
+North Beach LOW 2022 9,Chiharaea bodegensis,1
+North Beach LOW 2022 9,Corallina vancouveriensis,13
+North Beach LOW 2022 9,Crusticorallina muricata,16
+North Beach LOW 2022 9,Hildenbrandia occidentalis,10
+North Beach LOW 2022 9,Hildenbrandia rubra,2
+North Beach LOW 2022 9,Hymenena spp.,5
+North Beach LOW 2022 9,Katharina tunicata,2
+North Beach LOW 2022 9,Lithophyllum impressum,2
+North Beach LOW 2022 9,Mazzaella splendens,5
+North Beach LOW 2022 9,Pisaster ochraceus,1
+North Beach LOW 2022 9,Plocamium violaceum,13
+North Beach LOW 2022 9,Polyneura latissima,0.5
+North Beach LOW 2022 9,Savoiea robusta,2
+North Beach LOW 2022 9,Strongylocentrotus purpuratus,2
+North Beach LOW 2022 9,Tonicella sp.,6
+North Beach LOW 2022 9,NA,8
+>>>>>>> Stashed changes
 North Beach MID 2011 1,Acrosiphonia spp.,1
 North Beach MID 2011 1,Alaria marginata,25
 North Beach MID 2011 1,bare rock,10
@@ -14639,9 +16066,8 @@ North Beach MID 2011 1,Halosaccion glandiforme,2
 North Beach MID 2011 1,Hildenbrandia sp.,25
 North Beach MID 2011 1,Leathesia marina,0.5
 North Beach MID 2011 1,Lithothamnion phymatodeum,1
-North Beach MID 2011 1,Mastocarpus rigidus,3
+North Beach MID 2011 1,Mastocarpus rigidus,6
 North Beach MID 2011 1,Mazzaella oregona,5
-North Beach MID 2011 1,Mazzaella rigidus,3
 North Beach MID 2011 1,Microcladia borealis,4
 North Beach MID 2011 1,Nemalion helminthoides,2
 North Beach MID 2011 1,Petrocelis,10
@@ -14669,9 +16095,8 @@ North Beach MID 2011 2,Endocladia muricata,1
 North Beach MID 2011 2,Halosaccion glandiforme,0.5
 North Beach MID 2011 2,Hildenbrandia sp.,40
 North Beach MID 2011 2,Mastocarpus latissimus,2
-North Beach MID 2011 2,Mastocarpus rigidus,1
+North Beach MID 2011 2,Mastocarpus rigidus,2
 North Beach MID 2011 2,Mazzaella oregona,3
-North Beach MID 2011 2,Mazzaella rigidus,1
 North Beach MID 2011 2,Microcladia borealis,0.5
 North Beach MID 2011 2,Neopolyporolithon reclinatum,0.5
 North Beach MID 2011 2,Petrocelis,15
@@ -14695,10 +16120,9 @@ North Beach MID 2011 3,Hedophyllum sessile,2
 North Beach MID 2011 3,Hildenbrandia sp.,38
 North Beach MID 2011 3,Leathesia marina,0.5
 North Beach MID 2011 3,Mastocarpus latissimus,5.5
-North Beach MID 2011 3,Mastocarpus rigidus,2
+North Beach MID 2011 3,Mastocarpus rigidus,7.5
 North Beach MID 2011 3,Mastocarpus sp,7
 North Beach MID 2011 3,Mazzaella oregona,3
-North Beach MID 2011 3,Mazzaella rigidus,5.5
 North Beach MID 2011 3,Nemalion helminthoides,0.5
 North Beach MID 2011 3,Petalonia fascia,0.5
 North Beach MID 2011 3,Petrocelis,19
@@ -14718,9 +16142,8 @@ North Beach MID 2011 4,Fucus distichus,6
 North Beach MID 2011 4,Halosaccion glandiforme,3
 North Beach MID 2011 4,Hildenbrandia sp.,40
 North Beach MID 2011 4,Mastocarpus latissimus,4
-North Beach MID 2011 4,Mastocarpus rigidus,4
+North Beach MID 2011 4,Mastocarpus rigidus,8
 North Beach MID 2011 4,Mazzaella oregona,3
-North Beach MID 2011 4,Mazzaella rigidus,4
 North Beach MID 2011 4,Petrocelis,8
 North Beach MID 2011 4,Plocamium violaceum,2
 North Beach MID 2011 4,Ulva lactuca,0.5
@@ -14731,9 +16154,8 @@ North Beach MID 2011 5,Fucus distichus,28
 North Beach MID 2011 5,Halosaccion glandiforme,0.5
 North Beach MID 2011 5,Hildenbrandia sp.,12
 North Beach MID 2011 5,Mastocarpus latissimus,4
-North Beach MID 2011 5,Mastocarpus rigidus,1
+North Beach MID 2011 5,Mastocarpus rigidus,2
 North Beach MID 2011 5,Mazzaella oregona,1.5
-North Beach MID 2011 5,Mazzaella rigidus,1
 North Beach MID 2011 5,Petrocelis,82
 North Beach MID 2011 5,Pyropia perforata,1
 North Beach MID 2011 5,Ulva linza,1
@@ -14747,8 +16169,7 @@ North Beach MID 2011 6,Fucus distichus,15
 North Beach MID 2011 6,Halosaccion glandiforme,27
 North Beach MID 2011 6,Hildenbrandia sp.,15
 North Beach MID 2011 6,Leathesia marina,0.5
-North Beach MID 2011 6,Mastocarpus rigidus,0.5
-North Beach MID 2011 6,Mazzaella rigidus,0.5
+North Beach MID 2011 6,Mastocarpus rigidus,1
 North Beach MID 2011 6,Petrocelis,34
 North Beach MID 2011 6,Pyropia perforata,0.5
 North Beach MID 2011 6,Ulva lactuca,0.5
@@ -14762,9 +16183,8 @@ North Beach MID 2011 7,Halosaccion glandiforme,8
 North Beach MID 2011 7,Hildenbrandia sp.,15
 North Beach MID 2011 7,Leathesia marina,1
 North Beach MID 2011 7,Mastocarpus latissimus,4
-North Beach MID 2011 7,Mastocarpus rigidus,2
+North Beach MID 2011 7,Mastocarpus rigidus,4
 North Beach MID 2011 7,Mazzaella oregona,1
-North Beach MID 2011 7,Mazzaella rigidus,2
 North Beach MID 2011 7,Nemalion helminthoides,0.5
 North Beach MID 2011 7,Petrocelis,45
 North Beach MID 2011 7,Polysiphonia hendryi,0.5

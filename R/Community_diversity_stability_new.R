@@ -181,7 +181,7 @@ transect.cover.richness$Zone <- factor( transect.cover.richness$Zone, levels = c
 transect.cover.richness.points <- transect.cover.richness[ transect.cover.richness$Year %in% c(2012,2019), ]
 
 
-# add heatwave duration
+# add heatwave duration from script 
 heatwave_duration_pca <- read_csv("R/output/heatwaveR_duration_surveyyear_pca.csv")
 cover.richness.heatwave <- left_join( transect.cover.richness, heatwave_duration_pca ) %>% ungroup()
 cover.richness.heatwave$cover.invert[ is.na(cover.richness.heatwave$cover.invert) ] <- 0

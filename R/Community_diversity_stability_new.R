@@ -123,7 +123,7 @@ ggplot( transect.richness, aes(x=Year, y=richness,   group=transect )) +
 
 # make a smaller plot showing total seaweed cover over time for each transect
 # first get total seaweed cover in each quadrat then average within transect
-names(comm)
+# names(comm)
 d.comm.algae.quad <- d.select.all.years %>%
   filter( funct_2021 != "animal" ) %>% 
   select(-funct_2021) %>% 

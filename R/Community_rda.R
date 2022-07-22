@@ -199,7 +199,7 @@ alld <- alld %>%
 
 # PCA
 dna <- alld[ !(apply( alld, 1, function(z) any(is.na(z)) )), ]
-pca1 <- princomp( select(dna,temp_pine:sal_mccinnis ) )
+pca1 <- princomp( select(dna,temp_pine:sal_mcinnes ) )
 summary(pca1)
 plot(pca1)
 biplot(pca1,scale = 0)

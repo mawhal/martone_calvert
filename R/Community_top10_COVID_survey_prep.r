@@ -2,7 +2,7 @@
 # 
 # by Matt Whalen
 
-# This script uses HMSC to model communities change over time and space
+# This script looks for the dominant taxa in 2019 to inform an abbreviated survey design for 2020 (pandemic year)
 
 
 # load libraries

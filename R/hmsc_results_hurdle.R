@@ -46,25 +46,25 @@ comm <- read_csv("R/output/community.csv")
 mpost_pa   = convertToCodaObject(models[[1]])
 mpost_abun = convertToCodaObject(models[[2]])
 
-# trace plots #####
-# plot traces for particular species
-taxa <- rep(colnames(models[[1]]$Y), each=7)
-toplot <- which(taxa %in% "Hedophyllum.sessile")
-# toplot <- which(taxa %in% "Mazzaella.parvula")
-betaplot <- lapply(mpost_pa$Beta,function(z) z[,toplot])
-betaplot2 <- lapply(mpost_abun$Beta,function(z) z[,toplot])
-lapply(betaplot, colnames)
+# # trace plots #####
+# # plot traces for particular species
+# taxa <- rep(colnames(models[[1]]$Y), each=7)
+# toplot <- which(taxa %in% "Hedophyllum.sessile")
+# # toplot <- which(taxa %in% "Mazzaella.parvula")
+# betaplot <- lapply(mpost_pa$Beta,function(z) z[,toplot])
+# betaplot2 <- lapply(mpost_abun$Beta,function(z) z[,toplot])
+# lapply(betaplot, colnames)
 # betaplot <- lapply( betaplot, function(z) {
 #   colnames(z) <- c('int','elev','elev2','year','elev:year','elev2:year')
 # })
-params <- c('int','elev','elev2','year','elev:year','elev2:year')
-betaplot <- as.mcmc.list(betaplot)
-betaplot2 <- as.mcmc.list(betaplot2)
-par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
-plot(betaplot, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
-par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
-plot(betaplot2, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
-dev.off()
+# params <- c('int','elev','elev2','year','elev:year','elev2:year')
+# betaplot <- as.mcmc.list(betaplot)
+# betaplot2 <- as.mcmc.list(betaplot2)
+# par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
+# plot(betaplot, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
+# par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
+# plot(betaplot2, auto.layout = FALSE, cex.main=0.8, cex.sub=0.8)
+# dev.off()
 
 # Gelman statistic for Beta values (slopes)
 psrf.beta.pa = gelman.diag(mpost_pa$Beta, multivariate=FALSE)$psrf
@@ -112,13 +112,13 @@ dev.off()
 
 
 
-# ## parameter estimates ####
-# postBeta = lapply( models, getPostEstimate, parName = "Beta")
-# # windows(5,8)
-# # plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
+## parameter estimates ####
+postBeta = lapply( models, getPostEstimate, parName = "Beta")
+# windows(5,8)
+# plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
 # postBeta[[1]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
 # postBeta[[2]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
-# 
+
 # cor( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
 # plot( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
 # 
@@ -195,78 +195,78 @@ dev.off()
 
 
 
-## variance partitioning ####
-VP = lapply( models, computeVariancePartitioning ) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
-# plotVariancePartitioning(m, VP = VP)
-VP.dfs <- NULL
-for( i in 1:length(models) ){
-  VP.df <- as.data.frame(VP[[i]]$vals) %>%
-    mutate(effect = factor(c("year1","year2","elev1","elev2",
-                             "elev1:year1","elev2:year1",
-                             "site","transect","quadrat"),
-                           levels = rev(c("year1","year2","elev1","elev2",
-                                          "elev1:year1","elev2:year1",
-                                          "site","transect","quadrat")),
-                           ordered = TRUE)) %>%
-    # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
-    #                          "elev:year","elev2:year",
-    #                          "site","transect","ty"),
-    #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
-    #                                       "elev:year","elev2:year",
-    #                                       "site","transect","ty")),
-    #                        ordered = TRUE)) %>%
-    # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site"),
-    #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site")),
-    #                        ordered = TRUE)) %>%
-    gather(key = species, value = variance, -effect) %>%
-    group_by(species) %>%
-    mutate(tempR2 = variance[effect == "year1"])
-  if(is.null(VP.dfs)){
-    VP.dfs=VP.df#[,1]
-  } else {
-    VP.dfs = list(VP.dfs,VP.df)#[,1])
-  }
-  # mutate(tempR2 = variance[effect == "temp.anom.sum"])
-}
-VP.df <- do.call(rbind, VP.dfs)
-VP.df$model <- gl( n = 2,k = nrow(VP.df)/2,labels = c("presence-absence","abunance_cop") )
-
-hold <- VP.df %>% filter(effect == "year1") %>% arrange(desc(tempR2))
-
-VP.df$species <- factor(VP.df$species,
-                        levels = colnames(models[[i]]$Y)[order(colSums(models[[i]]$Y),decreasing = TRUE)],
-                        ordered = TRUE)
-
-
-R2.df2 <- data.frame(R2 = round(MF[[2]]$R2,1), species = colnames(models[[1]]$Y))
-R2.df1 <- data.frame(R2 = round(MF[[1]]$TjurR2,1), species = colnames(models[[1]]$Y))
-
-# windows(8,5)
-ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
-  facet_wrap(~model,ncol=1) +
-  geom_bar(stat = "identity", color = 1)+
-  theme_classic()+
-  theme(axis.text.x = element_text(angle = 90))+
-  scale_fill_manual(values = c("darkred", "maroon","pink", viridis(6)), name = "")+
-  # geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
-  # geom_point(data = R2.df, aes(y = -0.07, fill = NULL, size = R2))+
-  scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
-  xlab(label = "")
-ggsave("R/Figs/hmsc_varpart.svg", width = 8, height = 6)
-
-# how much variation explained by fixed and random effects on average?
-VP.df$ranfix <- ifelse( VP.df$effect %in% c("quadrat","transect","site"),"random","fixed")
-VP.df %>% 
-  group_by( model, ranfix, species ) %>% 
-  summarize( variance = sum(variance) ) %>% 
-  group_by( model, ranfix ) %>% 
-  summarize( variance = mean(variance))
-
-# how much variation explained by site
-VP.df %>% 
-  filter( effect == "site" ) %>% 
-  group_by( model, ranfix ) %>% 
-  summarize( variance = mean(variance))
+# ## variance partitioning ####
+# VP = lapply( models, computeVariancePartitioning ) #, group = c(1,1,1,2,2,3,4,4),groupnames=c("temperature","dispersal","week", "dispersal * week"))
+# # plotVariancePartitioning(m, VP = VP)
+# VP.dfs <- NULL
+# for( i in 1:length(models) ){
+#   VP.df <- as.data.frame(VP[[i]]$vals) %>%
+#     mutate(effect = factor(c("year1","year2","elev1","elev2",
+#                              "elev1:year1","elev2:year1",
+#                              "site","transect","quadrat"),
+#                            levels = rev(c("year1","year2","elev1","elev2",
+#                                           "elev1:year1","elev2:year1",
+#                                           "site","transect","quadrat")),
+#                            ordered = TRUE)) %>%
+#     # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
+#     #                          "elev:year","elev2:year",
+#     #                          "site","transect","ty"),
+#     #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win",
+#     #                                       "elev:year","elev2:year",
+#     #                                       "site","transect","ty")),
+#     #                        ordered = TRUE)) %>%
+#     # mutate(effect = factor(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site"),
+#     #                        levels = rev(c("elevation","elev.square","temp.anom.sum", "temp.anom.win","transect","year","site")),
+#     #                        ordered = TRUE)) %>%
+#     gather(key = species, value = variance, -effect) %>%
+#     group_by(species) %>%
+#     mutate(tempR2 = variance[effect == "year1"])
+#   if(is.null(VP.dfs)){
+#     VP.dfs=VP.df#[,1]
+#   } else {
+#     VP.dfs = list(VP.dfs,VP.df)#[,1])
+#   }
+#   # mutate(tempR2 = variance[effect == "temp.anom.sum"])
+# }
+# VP.df <- do.call(rbind, VP.dfs)
+# VP.df$model <- gl( n = 2,k = nrow(VP.df)/2,labels = c("presence-absence","abunance_cop") )
+# 
+# hold <- VP.df %>% filter(effect == "year1") %>% arrange(desc(tempR2))
+# 
+# VP.df$species <- factor(VP.df$species,
+#                         levels = colnames(models[[i]]$Y)[order(colSums(models[[i]]$Y),decreasing = TRUE)],
+#                         ordered = TRUE)
+# 
+# 
+# R2.df2 <- data.frame(R2 = round(MF[[2]]$R2,1), species = colnames(models[[1]]$Y))
+# R2.df1 <- data.frame(R2 = round(MF[[1]]$TjurR2,1), species = colnames(models[[1]]$Y))
+# 
+# # windows(8,5)
+# ggplot(VP.df,aes(y = variance, x = species, fill = effect))+
+#   facet_wrap(~model,ncol=1) +
+#   geom_bar(stat = "identity", color = 1)+
+#   theme_classic()+
+#   theme(axis.text.x = element_text(angle = 90))+
+#   scale_fill_manual(values = c("darkred", "maroon","pink", viridis(6)), name = "")+
+#   # geom_text(data = R2.df, aes(y = -0.02, fill = NULL, label = R2), size = 2)+
+#   # geom_point(data = R2.df, aes(y = -0.07, fill = NULL, size = R2))+
+#   scale_size_continuous(breaks = seq(0.15,0.60,by = 0.15))+
+#   xlab(label = "")
+# ggsave("R/Figs/hmsc_varpart.svg", width = 8, height = 6)
+# 
+# # how much variation explained by fixed and random effects on average?
+# VP.df$ranfix <- ifelse( VP.df$effect %in% c("quadrat","transect","site"),"random","fixed")
+# VP.df %>% 
+#   group_by( model, ranfix, species ) %>% 
+#   summarize( variance = sum(variance) ) %>% 
+#   group_by( model, ranfix ) %>% 
+#   summarize( variance = mean(variance))
+# 
+# # how much variation explained by site
+# VP.df %>% 
+#   filter( effect == "site" ) %>% 
+#   group_by( model, ranfix ) %>% 
+#   summarize( variance = mean(variance))
 
 
 
@@ -275,26 +275,26 @@ VP.df %>%
 OmegaCor = lapply( models, computeAssociations )
 supportLevel = 0.95
 # choose the random variable to plot
-rlevel = 3
-pick <- 1
-toPlot = ((OmegaCor[[pick]][[rlevel]]$support>supportLevel)
-          + (OmegaCor[[pick]][[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[pick]][[rlevel]]$mean
-# reorder species matrix
-plotorder <- order( postBeta[[pick]]$mean[2,], decreasing = TRUE )
-toPlot <- toPlot[ plotorder, plotorder]
-# rename rows for easier plotting
-# newnames <- vegan::make.cepnames( rownames( toPlot) )
-# newnames[[11]] <- "Boss_art"
-# rownames( toPlot ) <- newnames
-# colnames( toPlot ) <- newnames
-# reorder automatically
-mynewcor <- corReorder( toPlot, order="hclust", nclusters = 3, plot = F )
-# windows(5.75,5.75)
-corrplot( mynewcor, method = "color", type = "upper", tl.col="black",  
-         col = colorRampPalette(c("blue","white","red"))(200),
-           title = paste("random effect level:", models[[1]]$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
-
-
+# rlevel = 1
+# pick <- 1
+# toPlot = ((OmegaCor[[pick]][[rlevel]]$support>supportLevel)
+#           + (OmegaCor[[pick]][[rlevel]]$support<(1-supportLevel))>0)*OmegaCor[[pick]][[rlevel]]$mean
+# # reorder species matrix
+# plotorder <- order( postBeta[[pick]]$mean[2,], decreasing = TRUE )
+# toPlot <- toPlot[ plotorder, plotorder]
+# # rename rows for easier plotting
+# # newnames <- vegan::make.cepnames( rownames( toPlot) )
+# # newnames[[11]] <- "Boss_art"
+# # rownames( toPlot ) <- newnames
+# # colnames( toPlot ) <- newnames
+# # reorder automatically
+# mynewcor <- corReorder( toPlot, order="hclust", nclusters = 3, plot = F )
+# # windows(5.75,5.75)
+# corrplot( mynewcor, method = "color", type = "upper", tl.col="black",
+#          col = colorRampPalette(c("blue","white","red"))(200),
+#            title = paste("random effect level:", models[[1]]$rLNames[rlevel]), mar=c(0,0,0.5,0), tl.cex=0.6 )
+# 
+# 
 
 
 
@@ -393,7 +393,7 @@ XData_choose <- models[[1]]$XData %>%
 XData_choose_elev <- models[[1]]$XData %>%
   select(elev,elev1,elev2) %>% mutate_all(round,7) %>%  distinct() %>% arrange(elev)
 # get a model for elev2 as functions of elev and elev1 so we can predict any elevation
-plot(XData_choose_elev)
+# plot(XData_choose_elev)
 lm_raw <- lm( elev2 ~ poly(elev, 2, raw = T), data = XData_choose_elev )
 lm_scale <- lm( elev2 ~ poly(elev1, 2, raw = T), data = XData_choose_elev )
 lm_linear <- lm( elev1 ~ elev, data = XData_choose_elev )
@@ -447,8 +447,6 @@ newDF <- data.frame( merge(XData_choose, elev_grad2),
 newXData   <- newDF[,1:(ncol(newDF)-3)]
 newDesign  <- data.frame( site = as.factor(newDF$site), transect = as.factor(newDF$transect),
                           quadrat = as.factor(newDF$quadrat))
-names(models[[1]]$XData)
-names(newXData)
 newXData <- newXData %>% 
   select(year,elev,year1,year2,elev1,elev2)
 
@@ -523,11 +521,11 @@ data.frame( pca1 = seq(-2.84,2.84, length=100), hex = pal2(100) )
 cols.two <- c( "#A2CDE2",  "#EF9B7A" )
 cols.two <- c( "#A2CDE2",  "#BF7C61" ) # make the redder one darker
 
-# add empirical means
-models[[1]]$studyDesign %>% 
-  group_by(year) %>% 
-  summarize(ntrans=length(transect))
-comm <- comm[ !is.na(comm$Shore_height_cm), ]
+#### add empirical means
+# models[[1]]$studyDesign %>% 
+#   group_by(year) %>% 
+#   summarize(ntrans=length(transect))
+comm <- metacomm[ !is.na(metacomm$Shore_height_cm), ]
 ogd <- bind_cols(  models[[1]]$studyDesign, comm )  #data.frame(m$Y)
 ogd$year <- ogd$year
 
@@ -549,70 +547,6 @@ ogd.cop.wide <- ogd.cop %>%
 ogd.pa.wide <- ogd.pa %>% 
   pivot_wider( names_from = taxon, values_from = N )
 
-
-# plot responses
-predictions_pa$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_cop$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
-# predictions_pa$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-# predictions_cop$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-# predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
-
-
-hist( comm$Fucus.distichus )
-# taxon <- "Hedophyllum.sessile"
-taxon <- "Alaria.marginata"
-# taxon <- "Fucus.distichus"
-# taxon <- "Mytilus.sp."
-
-lwds = 0.75
-sizes = 1
-
-a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='yearplot'))+
-  geom_point( data = filter(ogd.pa.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
-  geom_line(lwd = lwds) +
-  scale_color_manual(values=cols.two) +
-  coord_cartesian( ylim = c(0,1) ) +
-  ylab("") +
-  xlab("") +
-  theme_classic() +
-  theme(legend.position = "none") +
-  # theme(legend.position = c(1,0.25), legend.justification = c(1,0), legend.title=element_blank() ) +
-  # guides(col=guide_legend("year"))+
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank()) 
-b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='yearplot'))+
-  geom_point( data = filter(ogd.cop.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
-              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
-  geom_line(lwd = lwds) +
-  # scale_y_log10() +
-  scale_color_manual(values=cols.two) +
-  coord_cartesian( ylim = c(0,100) ) +
-  ylab("") +
-  xlab("") +
-  theme_classic() +
-  theme(legend.position = "none") +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank())
-c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
-            aes_string(x = 'elev', y = taxon, col='yearplot'))+
-  geom_point( data = filter(ogd.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
-              aes_string(x = 'elev', y = taxon, col='year'), alpha = 0.5, size = sizes ) +
-  geom_line(lwd = lwds) +
-  # scale_y_log10() +
-  scale_color_manual(values=cols.two) +
-  coord_cartesian( ylim = c(0,100) ) +
-  ylab("") +
-  xlab("") +
-  theme_classic() + 
-  theme(legend.position = "none") +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank()) 
-plot_grid(c,a,b,ncol=1, align='hv')
-ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxon,".svg"), height = 4.5, width = 1.5 ) # width 1.6 for Hedophyllum, 1.5 for others
 
 # a <- ggplot(predictions_pa, aes_string(x = 'factor(year1,labels=2012:2019)',
 #                                 y = taxon))+
@@ -725,7 +659,6 @@ plotGradient(hM, Gradient, pred=predY, measure="S", index=1, showData = TRUE, q 
 axis(1, at = years$year1, labels = years$year )
 axis(2, las = 1)
 plotGradient(hM, Gradient, pred=predY, measure="Y", index=1, showData = TRUE, q = prob) # prob should be q
-plotGradient(hM, Gradient, pred=predY, measure="T", index=1, showData = TRUE,  q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="T", index=2, showData = TRUE,  q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="T", index=3, showData = TRUE,  q = prob) # prob should be q
 plotGradient(hM, Gradient, pred=predY, measure="T", index=4, showData = TRUE,  q = prob) # prob should be q
@@ -867,7 +800,7 @@ all_trends <- bind_rows(occur_trends, biomass_cond_ln_trends, biomass_ln_trends)
   mutate(species = gsub("_",".",species)) %>%
   mutate(species = factor(species, levels = gsub("_",".",occur_trends$species[order(occur_trends$median)]), ordered = TRUE)) %>%
   mutate(measure = factor(measure, levels = c('Occurrence prob.', 'Conditional cover (log)', 'Cover (log)')))
-all_trends %>%
+trend_plot_all <- all_trends %>%
   ggplot(aes(x = species, y = median, color = sign))+
   geom_vline(xintercept = c(levels(all_trends$species)[seq(3, models[[1]]$ns, by = 3)]), col = 'grey', size = 0.1, linetype = 2)+
   geom_hline(yintercept = 0, linetype = 2)+
@@ -880,7 +813,7 @@ all_trends %>%
   scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
   ylab('Change per year')+
   xlab('')
-ggsave("R/Figs/hmsc_species_trends_summary.svg",width = 6.5, height = 7)
+ggsave(plot = trend_plot_all,"R/Figs/hmsc_species_trends_summary.svg",width = 7, height = 7)
 
 
 
@@ -911,11 +844,11 @@ sp.trends <- ggplot(species_temporal.df, aes(x = year, y = median, color = metri
         legend.direction="horizontal",
         legend.title=element_blank(), 
         legend.text=element_text(size=22) )
-ggsave("R/Figs/hmsc_sp_trends.svg", height = 5.75*1.5, width = 9*1.5)
+ggsave(plot = sp.trends, "R/Figs/hmsc_sp_trends.svg", height = 5.75*1.5, width = 9*1.5)
 #
 
 
-# predict total cover of producers
+# predict total cover of seaweeds
 # remove invert columns, then total them up
 colnames(models[[1]]$Y)[-c(3,15,22)]
 slopes_biomass_ln_prod <- colSums(exp(log_biomass[,-c(3,15,22)]))
@@ -985,7 +918,7 @@ producer_bmass_total <- producer_bmass %>%
 
 
 
-## now predict traits ####
+## now predict traits (functional groups) ####
 ##### code modified from function plotGradient() 
 hM = models[[1]]
 all(hM$distr[, 1] == 1)
@@ -1005,10 +938,15 @@ predYO <- split.along.dim(scaled_occur, n=3)
 predYC <- split.along.dim(log_con_bmass, n=3)
 predYT <- split.along.dim(log_biomass, n=3)
 
+# for elevation shifts, cannot use the time prediction, need the elevation prediction
+predYO_elev <- predY_pa
+
 # presence-absence
 predTO = lapply(predYO, function(a) (a %*% new_traits)/matrix(rep(rowSums(a),
                                                                   hM$nt), ncol = hM$nt))
 predTO_scale <- lapply( predTO, function(z) data.frame(matrix(scale(c(z)), ncol=6) )) 
+predTO_elev <- lapply(predYO_elev, function(a) (a %*% new_traits)/matrix(rep(rowSums(a),
+                                                                        hM$nt), ncol = hM$nt))
 # conditional cover/biomass/abundance 
 predTC = lapply(predYC, function(a) (exp(a) %*% new_traits)/matrix(rep(rowSums(exp(a)), 
                                                                      hM$nt), ncol = hM$nt))
@@ -1057,9 +995,9 @@ qpred_long$quantile <- gl(3,1, labels = c("25%","50%","75%"))
 qpred_median <- qpred_long %>% 
   filter( quantile == "50%" )
 FGcolor <- c("midnightblue","darkred","red","pink","darkgrey","#996633")
-ggplot( data = qpred_median, aes(x = year, y = value, group = FG, fill = FG)) +
-  geom_area(col="black") +
-  scale_fill_manual( values = rev(FGcolor) )
+# ggplot( data = qpred_median, aes(x = year, y = value, group = FG, fill = FG)) +
+#   geom_area(col="black") +
+#   scale_fill_manual( values = rev(FGcolor) )
   
 # make slopes for traits like with species predictions
 Years <- 2012:2019
@@ -1128,9 +1066,9 @@ reps <- models[[1]]$TrData %>%
   summarize(n=length(FG)) %>% 
   mutate(median = -0.35, measure = 'Conditional cover (log)')
 
-all_trends %>% 
-  select(FG, measure, median, sign) %>% 
-  arrange(FG)
+# all_trends %>% 
+#   select(FG, measure, median, sign) %>% 
+#   arrange(FG)
 
 # all_trends <- left_join(all_trends, select(reps,FG,n) )
 # all_trends <- all_trends %>% 
@@ -1190,7 +1128,7 @@ ggsave( "R/Figs/hmsc_scale_change_FG.svg", plot = hmsc_FG, height = 3.5, width =
 
 
 
-# add empirical means
+# add empirical means - need to run model prep script first
 models[[1]]$studyDesign %>% 
   group_by(year) %>% 
   summarize(ntrans=length(transect))
@@ -1398,10 +1336,11 @@ ggsave(paste0("R/Figs/model+data_",fuc,".svg"),width=5,height=5 )
 #
 
 
+###################################
 
-
-## get peak elevation and "abundance" for each species in YEAR in each run #####
-# elevation peaks for each species in each YEAR in each run
+#### ELEVATION PEAK SHIFTS AND ABUNDANCE (PERCENT COVER) SHIFTS
+## get peak elevation and "abundance" for each species in YEAR in each model run #####
+# elevation peaks for each species in each YEAR in each model run
 peaks  <- lapply( predY_pa, 
                   function(i) lapply( split( i, newDF$year ), 
                                       function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2, 
@@ -1422,19 +1361,19 @@ peak_half_prob <- lapply( predY_pa,
                                                            function(z) mean(range(unique(newDF$elev)[which(z>=max(z)/2)]))) ) )
 halfp_bind <- lapply( peak_half_prob, function(z) do.call(rbind,z) )
 halfp_array <- abind::abind(halfp_bind, along=3)
-# ALSO THINK ABOUT CHANGES IN UPPER VERSUS LOWER DIST. (max or min at 50% of max occurrence prob)
-min_half_prob <- lapply( predY_pa, 
-                          function(i) lapply( split( i, newDF$year ), 
-                                              function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2, 
-                                                                function(z) min(unique(newDF$elev)[which(z>=max(z)/2)])) ) )
-minp_bind <- lapply( min_half_prob, function(z) do.call(rbind,z) )
-minp_array <- abind::abind(minp_bind, along=3)
-max_half_prob <- lapply( predY_pa, 
-                          function(i) lapply( split( i, newDF$year ), 
-                                              function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2, 
-                                                                function(z) max(unique(newDF$elev)[which(z>=max(z)/2)])) ) )
-maxp_bind <- lapply( max_half_prob, function(z) do.call(rbind,z) )
-maxp_array <- abind::abind(maxp_bind, along=3)
+# # ALSO THINK ABOUT CHANGES IN UPPER VERSUS LOWER DIST. (max or min at 50% of max occurrence prob)
+# min_half_prob <- lapply( predY_pa, 
+#                           function(i) lapply( split( i, newDF$year ), 
+#                                               function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2, 
+#                                                                 function(z) min(unique(newDF$elev)[which(z>=max(z)/2)])) ) )
+# minp_bind <- lapply( min_half_prob, function(z) do.call(rbind,z) )
+# minp_array <- abind::abind(minp_bind, along=3)
+# max_half_prob <- lapply( predY_pa, 
+#                           function(i) lapply( split( i, newDF$year ), 
+#                                               function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2, 
+#                                                                 function(z) max(unique(newDF$elev)[which(z>=max(z)/2)])) ) )
+# maxp_bind <- lapply( max_half_prob, function(z) do.call(rbind,z) )
+# maxp_array <- abind::abind(maxp_bind, along=3)
 
 array_use <- halfp_array
 
@@ -1625,7 +1564,6 @@ shift.summary <- shift.summary %>%
   arrange(order_FG, order_taxa) %>% 
   mutate(newrank = 1:nrow(shift.summary) )
 shift.summary$funct <- factor( shift.summary$funct, levels =  )
-data.frame( x = seq(3,46,3))
 
 shift.summary.algae <- shift.summary %>% filter(funct != "animal")
   
@@ -1671,48 +1609,270 @@ abun.shift.plot <- ggplot( shift.summary, aes(x=newrank,
 plot_grid( elev.shift.plot, abun.shift.plot, ncol=2, rel_widths = c(1.75,1) )
 ggsave( "R/Figs/shifts_2panel.svg", width=7, height=6 )
 
-# # Find the predicted peak for each instance
-# # filter out animals
-# peaks <- predictions_pab_trait %>%
-#   filter( funct != "animals" ) %>% 
-#   group_by( year, taxon, funct ) %>%
-#   summarize( peak = mean(elev[which(N==max(N))]), peaksd = mean(elev[which(N==max(N))],na.rm=T) )
-# peaks$peak
-# ggplot( filter(peaks, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
-#   geom_point()
-# ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
-#   # geom_path(aes(group=taxon), alpha=0.5) + 
-#   geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
-# summary(lm(peak~1+year,data=peaks))
+
+###########
+##### add functional groups to this figure
+# elevation peak shift calculations
+# percent cover shift calculations
+peak_half_prob_FG <- lapply( predTO_elev, 
+                          function(i) lapply( split( i, newDF$year ), 
+                                              function(l) apply(matrix(l,byrow = F,ncol = hM$nt), 2, 
+                                                                function(z) mean(range(unique(newDF$elev)[which(z>=max(z)/2)]))) ) )
+halfp_FG_bind <- lapply( peak_half_prob_FG, function(z) do.call(rbind,z) )
+halfp_FG_array <- abind::abind(halfp_FG_bind, along=3)
+
+## calculate shifts as slope of peaks over time
+Years <- 2012:2019
+slopes_peak_FG <- sapply(X = 1:dim(halfp_FG_array)[2], FUN = function(i){
+  sapply(X = 1:dim(halfp_FG_array)[3], FUN = function(x){
+    c(coef(lm(halfp_FG_array[,i,x]~Years))[2])
+  })
+})
+
+slopes.peak     <- slopes_peak_FG
+elev.init           <- apply( halfp_FG_array, c(2,3), function(z) z[1] )
+# elev.init.algae           <- elev.init[taxon.key$funct != "animal",]
+# elev.init.algae           <- elev.init
+elev.init.med       <- apply(elev.init, 1, quantile, prob = 0.5, na.rm = TRUE)
+elev.shifts.med     <- apply(slopes.peak*8, 2, quantile, prob = 0.5, na.rm = TRUE)
+elev.shifts.high    <- apply(slopes.peak*8, 2, quantile, prob = 0.025, na.rm = TRUE)
+elev.shifts.low     <- apply(slopes.peak*8, 2, quantile, prob = 0.975, na.rm = TRUE)
+elev.shifts.25     <- apply(slopes.peak*8, 2, quantile, prob = 0.25, na.rm = TRUE)
+elev.shifts.75     <- apply(slopes.peak*8, 2, quantile, prob = 0.75, na.rm = TRUE)
+elev.shifts.summary <- data.frame(elev.init.med, elev.shifts.med, elev.shifts.low, elev.shifts.high,elev.shifts.25,elev.shifts.75)
+# elev.shifts.summary.algae.FG <- elev.shifts.summary[taxon.key$funct != "animal",]
+elev.shift.FG <- data.frame( shift = c(slopes.peak*8) )
+hist(c(slopes.peak*8))
+boxplot(c(slopes.peak*8), notch = T); abline(h = 0, col = 'red' )
+mean(c(slopes.peak*8))
+quantile(c(slopes.peak*8),probs = 0.5)
+summary( lm(c(slopes.peak*8)~1) )
+summary(slopes.peak)
+
+# cover shifts
+# slopes_biomass_ln
+abun.shifts.run     <- slopes_biomass_ln
+## use cover slopes for this part
+abun.init <- apply( predTT, c(2,3), function(z) z[1] )
+# abun.init           <- apply( abunds_array, c(2,3), function(z) z[1] )
+# abun.init.algae           <- abun.init[taxon.key$funct != "animal",]
+abun.init.algae           <- abun.init
+abun.init.med       <- apply(abun.init.algae, 1, quantile, prob = 0.5, na.rm = TRUE)
+abun.shifts.run <- exp(t(log(abun.init.algae))+(abun.shifts.run*8)) / t(abun.init.algae)
+# abun.shifts.run.algae     <- abun.shifts.run[,taxon.key$funct != "animal"]
+abun.shifts.med     <- apply(abun.shifts.run, 2, quantile, prob = 0.5, na.rm = TRUE)
+abun.shifts.high    <- apply(abun.shifts.run, 2, quantile, prob = 0.025, na.rm = TRUE)
+abun.shifts.low     <- apply(abun.shifts.run, 2, quantile, prob = 0.975, na.rm = TRUE)
+abun.shifts.25     <- apply(abun.shifts.run, 2, quantile, prob = 0.25, na.rm = TRUE)
+abun.shifts.75     <- apply(abun.shifts.run, 2, quantile, prob = 0.75, na.rm = TRUE)
+abun.shifts.summary <- data.frame(abun.init.med,abun.shifts.med, abun.shifts.low, abun.shifts.high,abun.shifts.25,abun.shifts.75)
+# abun.shifts.summary.algae <- abun.shifts.summary[taxon.key$funct != "animal",]
+hist( log(c(abun.shifts.run), base=2) )
+summary( lm(log(c(abun.shifts.run.algae),base=2)~1) )
+
+
+## combine these results
+shift.summary.FG <- data.frame( elev.shifts.summary, abun.shifts.summary) #, range.shifts.summary, min.shifts.summary, max.shifts.summary )
+shift.summary.FG$taxon_og <- levels(models[[1]]$TrData$FG)
+shift.summary.FG$taxon <- c("CANOPY-FORMERS","BLADES","CRUSTS","THIN TURFS","TURFS","INVERTEBRATES")
+shift.summary.FG$funct <- shift.summary.FG$taxon_og
+shift.summary.FG$funct[ shift.summary.FG$funct == "animal" ] <- "invert"
+shift.summary.FG %>% arrange(-abun.init.med)
+shift.summary.FG$rank <- 1:6
+
+# individual shifts
+shift.summary.FG <- shift.summary.FG %>% 
+  mutate(order_FG = factor(funct, levels = biomass_ln_trends$FG[order(biomass_ln_trends$median)], ordered = TRUE)) %>%
+  # mutate(order_taxa = factor(taxon, levels = cover_trends_taxa$species[order(cover_trends_taxa$median)], ordered = TRUE)) %>% 
+  mutate(rank = 1:nrow(shift.summary.FG)) %>% 
+  arrange(order_FG) %>%  #, order_taxa
+  mutate(newrank = 1:nrow(shift.summary.FG) )
+# shift.summary$funct <- factor( shift.summary$funct, levels =  )
+
+# elev.shift.plot <- ggplot( shift.summary.FG, aes(x=newrank,
+#                                               y=elev.shifts.med, col = order_FG)) + #
+#   # geom_vline( xintercept = seq(4,46,5), lty = 2, col = "gray" ) +
+#   geom_hline( yintercept=0 ) +
+#   geom_errorbar( aes(ymin=elev.shifts.low,ymax=elev.shifts.high), width = 0 ) +
+#   geom_errorbar( aes(ymin=elev.shifts.25,ymax=elev.shifts.75), width = 0, lwd = 1 ) +
+#   geom_point() +
+#   ylab( "Peak elevation shift (cm)" ) + xlab("") +
+#   scale_x_continuous(breaks = seq(1,6,1), labels = shift.summary.FG$taxon ) + #c(1,10,20,30,40,46)) +
+#   scale_y_continuous(breaks = seq(-800,400,100) ) + #c(1,10,20,30,40,46)) +
+#   scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
+#   theme( panel.grid.minor.x = element_blank(),
+#          legend.position = "none",
+#          panel.background = element_rect(fill = "whitesmoke",
+#                                          colour = "whitesmoke",
+#                                          size = 0.5, linetype = "solid")  ) +
+#   coord_cartesian( xlim = c(1,47)) +
+#   coord_flip()
+# elev.shift.plot
 # 
-# # get difference between peaks for 2012 and 2019
-# peak_shift <- peaks %>% 
-#   group_by( taxon, funct ) %>% 
-#   filter( year %in% c(2012,2019) ) %>% 
-#   summarize( shift = diff(peak))
-# 
-# # merge 2012 peaks with peak shift to compare shift relative to starting point
-# peak_initial <- peaks %>% filter( year==2012 )
-# peak_compare <- left_join( peak_shift, peak_initial )
-# 
-# cutoff <- 20
+# abun.shift.plot <- ggplot( shift.summary.FG, aes(x=newrank,
+#                                               y=log(abun.shifts.med,base=2), col = order_FG) ) + 
+#   # geom_vline( xintercept = seq(4,46,5), lty = 2, col = "gray" ) +
+#   geom_hline( yintercept=0 ) +
+#   geom_errorbar( aes(ymin=log(abun.shifts.low,base=2),ymax=log(abun.shifts.high,base=2)), width = 0 ) +
+#   geom_errorbar( aes(ymin=log(abun.shifts.25,base=2),ymax=log(abun.shifts.75,base=2)), width = 0, lwd = 1 ) +
+#   geom_point() +
+#   ylab( "Percent cover shift" ) + xlab("") +
+#   scale_y_continuous( breaks=c(log(64,base=2),log(16,base=2),log(4,base=2),0,
+#                                log(1/4,base=2),log(1/16,base=2),log(1/64,base=2)),
+#                       labels=c('64x','16x','4x','0','1/4x','1/16x','1/64x') ) +
+#   scale_x_continuous( breaks = seq(1,6,1), labels = NULL ) +
+#   scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
+#   theme( panel.grid.minor.x = element_blank(),
+#          legend.position = "none",
+#          panel.background = element_rect(fill = "whitesmoke",
+#                                          colour = "whitesmoke",
+#                                          size = 0.5, linetype = "solid")  ) +
+#   theme( axis.text.y = element_blank(),
+#          axis.ticks.y  = element_blank()) +
+#   coord_flip()
+# plot_grid( elev.shift.plot, abun.shift.plot, ncol=2, rel_widths = c(1.75,1) )
+
+## merge functional group predictions with indiviudla taxon predictions
+shift.summary$level <- "taxon"
+shift.summary.FG$level <- "functional_group"
+shift.summary.all <- bind_rows(shift.summary.FG, shift.summary)
+shift.summary.all$funct[is.na(shift.summary.all$funct)] <- "animal"
+shift.summary.all$funct[shift.summary.all$funct=="animal"] <- "invert"
+# order by functional group
+shift.summary.all <- shift.summary.all %>% 
+  mutate(order_FG = factor(funct, levels = shift.summary.FG$funct[order(shift.summary.FG$abun.shifts.med)], ordered = TRUE)) %>%
+  mutate(order_taxa = factor(taxon, levels = shift.summary.all$taxon[order(shift.summary.all$abun.shifts.med)] )) %>% 
+  mutate(order_level = factor(level, levels = c("taxon","functional_group"))) %>% 
+  mutate(rank = 1:nrow(shift.summary.all)) %>% 
+  arrange(order_FG, order_level, order_taxa) %>%  #, order_taxa
+  mutate(newrank = 1:nrow(shift.summary.all) )
+
+# lines to separate functional groups
+shift.xintercept <- shift.summary.all %>% 
+  select( funct, newrank) %>% 
+  group_by( funct ) %>% 
+  summarize( intercept = max(newrank) + 0.5   ) %>% 
+  arrange(-intercept)
+
+shift.polygons <- data.frame( 
+  funct = rep( shift.xintercept$funct, each = 4 ),
+  x = rep( shift.xintercept$intercept, each = 4 ) + c(0,-1,-1,0),
+  y_cover = log(c( 1/100, 1/100, 100, 100 ), base=2) ,
+  y_elev = c( -300, -300, 300, 300 )  )
+  
+
+# plotting parameters and tweaks
+pt.size <- c(1.5,1)+1.5
+errorbar_small <- 0.75
+errorbar_big <- 1.5
+shift.summary.all$taxon <- gsub("Anemone","anemones",shift.summary.all$taxon)
+shift.summary.all$taxon <- gsub("Barnacles","barnacles",shift.summary.all$taxon)
+shift.summary.all$taxon <- gsub("Elachista.*","Elachista",shift.summary.all$taxon)
+shift.summary.all$taxon <- gsub("[.]spp[.]","",shift.summary.all$taxon)
+shift.summary.all$taxon <- gsub("[.]sp[.]","",shift.summary.all$taxon)
+shift.summary.all$taxon <- gsub("[.]"," ",shift.summary.all$taxon)
+shift.summary.all$taxon2 <- shift.summary.all$taxon
+shift.summary.all$taxon2[shift.summary.all$taxon %in% shift.summary.FG$taxon] <- c( expression(bold("THIN TURFS")),expression(bold("BLADES")),expression(bold("TURFS")),
+                                                                                    expression(bold("CANOPY-FORMERS")),expression(bold("CRUSTS")),expression(bold("INVERTEBRATES")) )
+
+# plots
+elev.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
+                                                 y=elev.shifts.med)) + #
+  geom_polygon( data = shift.polygons, aes(x=x, y=y_elev, group = funct), fill='gray90') +
+  geom_hline( yintercept=0 ) +
+  # geom_vline( xintercept = shift.xintercept$intercept[-1], col = "gray" ) +
+  geom_errorbar( aes(ymin=elev.shifts.low,ymax=elev.shifts.high, col = order_FG), width = 0, lwd = errorbar_small ) +
+  geom_errorbar( aes(ymin=elev.shifts.25,ymax=elev.shifts.75, col = order_FG), width = 0, lwd = errorbar_big ) +
+  geom_point(aes(size = level, shape = level, col = order_FG)) +
+  ylab( "Peak elevation shift (cm)" ) + xlab("") +
+  scale_x_continuous(breaks = seq(1,46+6,1), labels = NULL ) +
+  scale_y_continuous(breaks = seq(-800,400,100) ) + #c(1,10,20,30,40,46)) +
+  scale_color_manual(values = brewer.pal(n = 8, name = "Dark2") ) +
+  scale_size_manual(values = pt.size ) +
+  scale_shape_manual(values = c(16,20) ) +
+  theme_bw() +
+  theme( panel.grid.minor.x = element_blank(), panel.grid.minor.y = element_blank(),
+         legend.position = "none"  ) +
+  coord_flip( ylim = c(-175,75), xlim = c(0,46+6+1), expand = FALSE ) 
+
+abun.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
+                                                 y=log(abun.shifts.med,base=2)) ) + 
+  geom_polygon( data = shift.polygons, aes(x=x, y=y_cover, group = funct), fill='gray90') +
+  geom_hline( yintercept=0 ) +
+  # geom_vline( xintercept = shift.xintercept$intercept[-1], col = "gray" ) +
+  geom_errorbar( aes(ymin=log(abun.shifts.low,base=2),ymax=log(abun.shifts.high,base=2), col = order_FG), width = 0, lwd = errorbar_small ) +
+  geom_errorbar( aes(ymin=log(abun.shifts.25,base=2),ymax=log(abun.shifts.75,base=2), col = order_FG), width = 0, lwd = errorbar_big ) +
+  geom_point(aes(size = level, shape = level, col = order_FG)) +
+  ylab( "Percent cover shift" ) + xlab("") +
+  scale_y_continuous( breaks=c(log(64,base=2),log(16,base=2),log(4,base=2),0,
+                               log(1/4,base=2),log(1/16,base=2),log(1/64,base=2)),
+                      labels=c('64x','16x','4x','0','1/4x','1/16x','1/64x') ) +
+  scale_x_continuous(breaks = seq(1,46+6,1), labels = shift.summary.all$taxon2 ) + #c(1,10,20,30,40,46)) +
+  # scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
+  # scale_color_manual(values = c("red","#90ee90","darkred","#79906c","deeppink1","midnightblue") ) +
+  scale_color_manual(values = brewer.pal(n = 8, name = "Dark2") ) +
+  scale_size_manual(values = pt.size ) +
+  scale_shape_manual(values = c(16,20) ) +
+  theme_bw() +
+  theme( panel.grid.minor.x = element_blank(), panel.grid.minor.y = element_blank(),
+         legend.position = "none",) +
+  coord_flip(  ylim = log(c(1/64,50), base=2), xlim = c(0,46+6+1), expand = FALSE ) 
+plot_grid( abun.shift.plot, elev.shift.plot, ncol=2, rel_widths = c(1.75,1),axis = 'tb', labels="AUTO" )
+ggsave( "R/Figs/shifts_2panel_FG.svg", width=7, height=7 )
+
+##
+
+
+
+
+
+###########
+# Find the predicted peak for each year, add this to figures of change from 2012 to 2019 across elevation
+peaks <- predictions_pab_trait %>%
+  # filter( funct != "animals" ) %>%
+  group_by( year, taxon, funct ) %>%
+  summarize( peak = mean(elev[which(N==max(N))]), peaksd = mean(elev[which(N==max(N))],na.rm=T) )
+peaks_half <- predictions_pab_trait %>%
+  group_by( year, taxon, funct ) %>%
+  summarize( peak = mean( range(unique(newDF$elev)[which(N>=max(N)/2)])) ) 
+
+ggplot( filter(peaks, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
+ggplot( filter(peaks_half, taxon %in% custom_occur), aes(x=year,y=peak) ) + facet_wrap(~taxon) +
+  geom_point()
+ggplot( peaks, aes(x=year,y=peak) ) + #facet_wrap(~taxon) +
+  # geom_path(aes(group=taxon), alpha=0.5) +
+  geom_smooth(method="lm") + geom_smooth(aes(group=taxon),col='black',se=F,lwd=0.5,alpha=0.5)
+summary(lm(peak~1+year,data=peaks))
+
+# get difference between peaks for 2012 and 2019
+peak_shift <- peaks_half %>%
+  group_by( taxon, funct ) %>%
+  filter( year %in% c(2012,2019) ) %>%
+  summarize( shift = diff(peak))
+
+# merge 2012 peaks with peak shift to compare shift relative to starting point
+peak_initial <- peaks_half %>% filter( year==2012 )
+peak_compare <- left_join( peak_shift, peak_initial )
+
+cutoff <- 20
 # peak_compare %>% filter(shift <= -cutoff)
 # peak_compare %>% filter(shift >= cutoff)
 # peak_compare %>% filter(shift < cutoff & shift > -cutoff)
 # peak_compare %>% filter(shift == 0 )
 # peak_compare %>% arrange(shift)
 # peak_compare %>% arrange(-shift)
-# 
-# # plot by functional group
-# trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100) ) + 
-#   geom_hline (yintercept=0, lty=2 ) +
-#   geom_boxplot()  + geom_point() +
-#   xlab("Functional group") + ylab("Peak shift (meters)") +
-#   # scale_fill_manual(values=c("whitesmoke","dodgerblue")) +
-#   theme_classic() +
-#   theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
-#   theme(legend.position = "none")
-# 
+
+# plot by functional group
+trait.p <- ggplot( peak_shift, aes(x=reorder(funct, shift, FUN = median), y=shift/100) ) +
+  geom_hline (yintercept=0, lty=2 ) +
+  geom_boxplot()  + geom_point() +
+  xlab("Functional group") + ylab("Peak shift (meters)") +
+  # scale_fill_manual(values=c("whitesmoke","dodgerblue")) +
+  theme_classic() +
+  theme( axis.text.x = element_text(angle=45,hjust=1,vjust=1) ) +
+  theme(legend.position = "none")
+
 # peak_shift %>% arrange(-shift)
 # peak_shift %>% arrange(shift)
 # peak_shift %>% filter(shift==0)
@@ -1723,8 +1883,99 @@ ggsave( "R/Figs/shifts_2panel.svg", width=7, height=6 )
 #   geom_point()
 
 
+# grab peaks for 2012 and 2019
+peaks1219 <- peaks_half %>% filter(year %in% c(2012,2019))
 
 
+
+# plot responses across elevation
+predictions_pa$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+predictions_cop$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = unique(predictions_pa$year1), labels = unique(newDF$year)))
+# predictions_pa$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# predictions_cop$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+# predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
+
+# pick different taxa
+# taxonpick <- "Hedophyllum.sessile"
+# taxonpick <- "Alaria.marginata"
+# taxonpick <- "Fucus.distichus"
+# taxonpick <- "Mytilus.sp."
+
+# peaks for taxon
+peaks1219taxon <- peaks1219 %>% filter( taxon == taxonpick )
+# coverpick = NULL
+# for(i in 1:2){
+#   coverpick[i] <- predictions_pa[predictions_pa$elev == peaks1219taxon$peak[i] & predictions_pa$year ==  peaks1219taxon$year[i], taxonpick] 
+# }
+# peaks1219taxon$cover <- coverpick
+peaks1219taxon$yearplot <- as.character(peaks1219taxon$year)
+# peaks1219taxon$year <- as.factor(peaks1219taxon$year)
+# peaks1219taxon$elev <- peaks1219taxon$peak
+
+# plotting parameters
+lwds = 0.75
+sizes = 1
+
+a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+            aes_string(x = 'elev', y = taxonpick, col='yearplot'))+
+  geom_vline( xintercept = peaks1219taxon$peak, col= cols.two) +
+  geom_point( data = filter(ogd.pa.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+              aes_string(x = 'elev', y = taxonpick, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
+  # geom_point( data = peaks1219taxon, aes(y = cover, fill = year), col='black', shape=21, size=2 ) +
+  scale_color_manual(values=cols.two) +
+  scale_fill_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,1) ) +
+  ylab("") +
+  xlab("") +
+  theme_classic() +
+  theme(legend.position = "none") +
+  # theme(legend.position = c(1,0.25), legend.justification = c(1,0), legend.title=element_blank() ) +
+  # guides(col=guide_legend("year"))+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank()) 
+b <- ggplot(filter(predictions_cop, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+            aes_string(x = 'elev', y = taxonpick, col='yearplot'))+
+  geom_point( data = filter(ogd.cop.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
+              aes_string(x = 'elev', y = taxonpick, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
+  # scale_y_log10() +
+  scale_color_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,100) ) +
+  ylab("") +
+  xlab("") +
+  theme_classic() +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+c <- ggplot(filter(predictions_abun, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
+            aes_string(x = 'elev', y = taxonpick, col='yearplot'))+
+  geom_point( data = filter(ogd.wide, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ),
+              aes_string(x = 'elev', y = taxonpick, col='year'), alpha = 0.5, size = sizes ) +
+  geom_line(lwd = lwds) +
+  # scale_y_log10() +
+  scale_color_manual(values=cols.two) +
+  coord_cartesian( ylim = c(0,100) ) +
+  ylab("") +
+  xlab("") +
+  theme_classic() + 
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank()) 
+plot_grid(c,a,b,ncol=1, align='hv')
+ggsave( paste0("R/Figs/hmsc_elev_metrics_",taxonpick,".svg"), height = 4.5, width = 1.5 ) # width 1.6 for Hedophyllum, 1.5 for others
+
+
+
+
+
+
+
+
+
+######
+## elevation shift vs cover shift relative to initial conditions of elevation and cover
 
 
 # need to add lines showing the realm of possible shifts
@@ -1875,13 +2126,16 @@ compare_all_plot_fun %>%  arrange(elev.shifts.med)
 compare_all_plot_algae <- filter( compare_all_plot_fun, funct != "animal" )
 compare_all_plot_algae$group <- factor(as.character(compare_all_plot_algae$funct), levels = c('turf','thin_turf','crust','blade','canopy'))
 
-windows(3,3)
+# range of responses
+range(compare_all_plot_algae$elev.shifts.med)
+range( compare_all_plot_algae$abun.shifts.med )
+
 # use full set here
 psych::pairs.panels( data.frame(elevation = elev.shift.all.df$elev.shift, 
                                 cover = log(abun.shift.all.df$abun.shift,base = 2)),
                      method = "pearson", smoother = TRUE,
                      hist.col = "whitesmoke", density = FALSE, rug = FALSE )
-dev.off()
+
 xy <- ggplot( compare_all_plot_algae, aes(x=log(abun.shifts.med,base = 2),y=elev.shifts.med)) + 
     geom_hline(yintercept = 0)+geom_vline(xintercept = 0)+
     # geom_hline(yintercept = quantile( c(slopes.peak.algae*8), prob = 0.5 ), lty = 1, col = "lightgray", lwd = 0.33)+

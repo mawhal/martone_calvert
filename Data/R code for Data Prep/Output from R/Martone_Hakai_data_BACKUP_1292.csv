@@ -6253,12 +6253,12 @@ Fifth Beach MID 2019 10,Bossiella dichotoma,1
 Fifth Beach MID 2019 10,Bossiella exarticulata / mayae,5
 Fifth Beach MID 2019 10,Bossiella frondifera,4
 Fifth Beach MID 2019 10,Bossiella reptans,1
-
+<<<<<<< HEAD
 Fifth Beach MID 2019 10,Bossiella sp.2 chiloensis,2
 Fifth Beach MID 2019 10,Bossiella sp.5 chiloensis,0.5
 =======
 Fifth Beach MID 2019 10,Bossiella sp. (crust),5
-
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2019 10,Callithamnion pikeanum,1
 Fifth Beach MID 2019 10,Corallina vancouveriensis,4
 Fifth Beach MID 2019 10,coralline crust,1
@@ -6272,11 +6272,11 @@ Fifth Beach MID 2019 10,Pisaster ochraceus,2
 Fifth Beach MID 2019 10,Polysiphonia sp.,1
 Fifth Beach MID 2019 10,Prionitis sp.,1
 Fifth Beach MID 2019 10,Pyropia abbottiae,11
-
+<<<<<<< HEAD
 =======
 Fifth Beach MID 2019 10,Pyropia perforata,1
 Fifth Beach MID 2019 10,NA,0.5
-
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2019 2,Acrosiphonia arcta,0.5
 Fifth Beach MID 2019 2,Acrosiphonia coalita,1
 Fifth Beach MID 2019 2,Alaria marginata,15
@@ -6464,11 +6464,11 @@ Fifth Beach MID 2019 9,Neoporphyra perforata,20
 Fifth Beach MID 2019 9,Peyssonnelia sp.,0.5
 Fifth Beach MID 2019 9,Plocamium violaceum,1
 Fifth Beach MID 2019 9,Ulva fenestrata,4
-
-
-
-
-
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 1,Acrosiphonia arcta,1
 Fifth Beach MID 2021 1,bare rock,2
 Fifth Beach MID 2021 1,Barnacle,5
@@ -6483,20 +6483,20 @@ Fifth Beach MID 2021 1,Gloiopeltis furcata,0.5
 Fifth Beach MID 2021 1,Halosaccion glandiforme,1.5
 Fifth Beach MID 2021 1,Hildenbrandia occidentalis,1
 Fifth Beach MID 2021 1,Leathesia marina,0.5
-
+<<<<<<< HEAD
 Fifth Beach MID 2021 1,Limpet,150
 Fifth Beach MID 2021 1,Mastocarpus alaskensis,0.5
 Fifth Beach MID 2021 1,Microcladia borealis,3
 Fifth Beach MID 2021 1,Mytilus sp.,0.5
 Fifth Beach MID 2021 1,Neoporphyra perforata,1
 Fifth Beach MID 2021 1,Pyropia abbottiae,12
-
+=======
 Fifth Beach MID 2021 1,Limpet,NA
 Fifth Beach MID 2021 1,Mastocarpus alaskensis,0.5
 Fifth Beach MID 2021 1,Microcladia borealis,3
 Fifth Beach MID 2021 1,Pyropia abbottiae,12
 Fifth Beach MID 2021 1,NA,1.5
-
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 10,Anemone,8
 Fifth Beach MID 2021 10,bare rock,12
 Fifth Beach MID 2021 10,Barnacle,80
@@ -6504,23 +6504,23 @@ Fifth Beach MID 2021 10,Endocladia muricata,0.5
 Fifth Beach MID 2021 10,Leathesia marina,0.5
 Fifth Beach MID 2021 10,Limpet,17
 Fifth Beach MID 2021 10,Littorina sp.,100
-
+<<<<<<< HEAD
 Fifth Beach MID 2021 10,Mytilus sp.,0.5
 Fifth Beach MID 2021 10,Nemalion helminthoides,0.5
 Fifth Beach MID 2021 10,Neopyropia fucicola,0.5
-
+=======
 Fifth Beach MID 2021 10,Nemalion helminthoides,0.5
-
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 10,Plocamium violaceum,4
 Fifth Beach MID 2021 10,Polysiphonia hendryi var. hendryi,3
 Fifth Beach MID 2021 10,Pyropia abbottiae,8
 Fifth Beach MID 2021 10,Savoiea robusta,1
-
+<<<<<<< HEAD
 Fifth Beach MID 2021 10,Wildemania norrisii,27
-
+=======
 Fifth Beach MID 2021 10,Wildmania norrisii,27
 Fifth Beach MID 2021 10,NA,1
-
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 2,Acrosiphonia arcta,0.5
 Fifth Beach MID 2021 2,Alaria marginata,0.5
 Fifth Beach MID 2021 2,Analipus japonicus,0.5
@@ -6537,27 +6537,27 @@ Fifth Beach MID 2021 2,Hildenbrandia occidentalis,0.5
 Fifth Beach MID 2021 2,Hildenbrandia rubra,0.5
 Fifth Beach MID 2021 2,Mastocarpus alaskensis,2
 Fifth Beach MID 2021 2,Microcladia borealis,11
-
+<<<<<<< HEAD
 Fifth Beach MID 2021 2,Neoporphyra perforata,1
 Fifth Beach MID 2021 2,Neorhodomela larix,6
 Fifth Beach MID 2021 2,Plocamium violaceum,3
 Fifth Beach MID 2021 2,Ulva fenestrata,1
-
+=======
 Fifth Beach MID 2021 2,Neorhodomela larix,6
 Fifth Beach MID 2021 2,Plocamium violaceum,3
 Fifth Beach MID 2021 2,Ulva fenestrata,1
 Fifth Beach MID 2021 2,NA,1
-
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 3,Acrosiphonia coalita,5
 Fifth Beach MID 2021 3,Anemone,4
 Fifth Beach MID 2021 3,bare rock,12
 Fifth Beach MID 2021 3,Barnacle,13
 Fifth Beach MID 2021 3,Bossiella frondescens,2
-
+<<<<<<< HEAD
 Fifth Beach MID 2021 3,Bossiella sp.2 chiloensis,2
-
+=======
 Fifth Beach MID 2021 3,Bossiella pseudodichotoma,2
-
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 3,Chamberlainium tumidum,2
 Fifth Beach MID 2021 3,Cryptosiphonia woodii,37
 Fifth Beach MID 2021 3,Endocladia muricata,1
@@ -6571,10 +6571,10 @@ Fifth Beach MID 2021 3,Lithothamnion phymatodeum,0.5
 Fifth Beach MID 2021 3,Mastocarpus latissimus,2
 Fifth Beach MID 2021 3,Mazzaella oregona,0.5
 Fifth Beach MID 2021 3,Microcladia borealis,2
-
+<<<<<<< HEAD
 Fifth Beach MID 2021 3,Neoporphyra perforata,7
-
-
+=======
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 3,Neorhodomela larix,15
 Fifth Beach MID 2021 3,Onchidella sp.,1
 Fifth Beach MID 2021 3,Pagarus sp.,1
@@ -6584,32 +6584,32 @@ Fifth Beach MID 2021 3,Pyropia abbottiae,3
 Fifth Beach MID 2021 3,Ralfsioid,0.5
 Fifth Beach MID 2021 3,Savoiea robusta,0.5
 Fifth Beach MID 2021 3,Scytosiphon lomentaria,0.5
-
+<<<<<<< HEAD
 Fifth Beach MID 2021 3,Snail,2
 Fifth Beach MID 2021 3,Ulva fenestrata,4
-
+=======
 Fifth Beach MID 2021 3,Ulva fenestrata,4
 Fifth Beach MID 2021 3,NA,9
-
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 4,Acrosiphonia coalita,0.5
 Fifth Beach MID 2021 4,Analipus japonicus,0.5
 Fifth Beach MID 2021 4,Anemone,17
 Fifth Beach MID 2021 4,Barnacle,26
 Fifth Beach MID 2021 4,Bossiella dichotoma,2
-
+<<<<<<< HEAD
 Fifth Beach MID 2021 4,Bossiella sp.5 chiloensis,6
 Fifth Beach MID 2021 4,Chamberlainium tumidum,9
 Fifth Beach MID 2021 4,Colpomenia peregrina,0.5
 Fifth Beach MID 2021 4,Corallina chilensis,4
 Fifth Beach MID 2021 4,Corallina vancouveriensis,5
 Fifth Beach MID 2021 4,Dactylosiphon bullosus,2
-
+=======
 Fifth Beach MID 2021 4,Chamberlainium tumidum,9
 Fifth Beach MID 2021 4,Colpomenia peregrina,0.5
 Fifth Beach MID 2021 4,Corallina sp.1 frondescens,4
 Fifth Beach MID 2021 4,Corallina vancouveriensis,5
 Fifth Beach MID 2021 4,Dactylosiphon bullosus,1
-gures
+>>>>>>> new_hmsc_figures
 Fifth Beach MID 2021 4,Endocladia muricata,0.5
 Fifth Beach MID 2021 4,Fucus distichus,21
 Fifth Beach MID 2021 4,Halosaccion glandiforme,2

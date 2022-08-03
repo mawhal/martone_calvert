@@ -959,11 +959,6 @@
 2019-06-03,"8",20,"SCL","SCL",NA,NA,"3",NA,NA,"Meay Channel HIGH 2019",NA,"68","100","3",NA,"26","Meay Channel","HIGH","2019","Meay Channel HIGH 2019 8",NA,51.6631547807033,-128.097499730974
 2019-06-03,"9",21,"SCL","SCL",NA,NA,"12",NA,NA,"Meay Channel HIGH 2019",NA,"62","98","8",NA,"18","Meay Channel","HIGH","2019","Meay Channel HIGH 2019 9",NA,51.663145964703,-128.097496856804
 2019-06-03,"10",30,"SS","Jungsoo",NA,NA,NA,NA,NA,"Meay Channel HIGH 2019",NA,"92","95","1",NA,"7","Meay Channel","HIGH","2019","Meay Channel HIGH 2019 10",NA,51.6630666656488,-128.097470988426
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> new_hmsc_figures
 2021-05-25,"1",5,"SCL","SCL","0","90","6",NA,NA,"Foggy Cove LOW 2021",NA,"0.5","3","4",NA,NA,"Foggy Cove","LOW","2021","Foggy Cove LOW 2021 1",71,51.6512631729315,-128.143543846916
 2021-05-25,"2",6,"SCL","SCL","0","32","48",NA,NA,"Foggy Cove LOW 2021",NA,"0.5","47","20",NA,NA,"Foggy Cove","LOW","2021","Foggy Cove LOW 2021 2",107,51.6512578810354,-128.143555523537
 2021-05-25,"3",9,"SS","LL","0","100","0",NA,NA,"Foggy Cove LOW 2021",NA,NA,NA,"0",NA,NA,"Foggy Cove","LOW","2021","Foggy Cove LOW 2021 3",61,51.6512419783582,-128.143590552449
@@ -1204,7 +1199,3 @@ NA,"10",22,"BT","RMW","100",NA,NA,NA,NA,"Fifth Beach LOW 2022",NA,NA,NA,NA,NA,NA
 2022-06-15,"8",30,"RMW","BT",NA,NA,NA,NA,NA,"Meay Channel HIGH 2022",NA,"100",NA,"tr",NA,NA,"Meay Channel","HIGH","2022","Meay Channel HIGH 2022 8",NA,51.6630666656488,-128.097470988426
 2022-06-15,"9",33,"PTM","PTM","77","0","0",NA,NA,"Meay Channel HIGH 2022",NA,"28","10","0",NA,NA,"Meay Channel","HIGH","2022","Meay Channel HIGH 2022 9",NA,51.6630402266358,-128.097462365773
 2022-06-15,"10",35,"SCL","SCL",NA,"70",NA,NA,NA,"Meay Channel HIGH 2022",NA,"3","24",NA,NA,NA,"Meay Channel","HIGH","2022","Meay Channel HIGH 2022 10",NA,51.6630226036235,-128.097456617283
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> new_hmsc_figures

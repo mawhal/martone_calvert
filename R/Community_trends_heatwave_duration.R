@@ -25,7 +25,7 @@ am <- read_csv( "Data/R code for Data Prep/Output from R/Martone_Hakai_metadata.
 
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
-am <- am[ am$Year != "2011", ]
+am <- am[ am$Year != "2011" & am$Year <= 2019, ]
 # remove Meay Channel
 am <- am[ am$Site != "Meay Channel", ]
 
@@ -281,6 +281,12 @@ psych::pairs.panels( select( cover.richness.heatwave,
                     ellipses = F, lm = T, ci=T )
 cor.test( log(cover.richness.heatwave$cover), log(cover.richness.heatwave$cover.bare+1))
 
+psych::pairs.panels( select( cover.richness.heatwave, 
+                             duration5, 
+                             cover, cover.invert, cover.bare) %>% 
+                       mutate(seaweed.cover=log(cover),invert.cover=log(cover.invert+1),bare.rock.cover=log(cover.bare+1)) %>% 
+                       select( duration5, seaweed.cover, invert.cover, bare.rock.cover),
+                     ellipses = F, lm = T, ci=T )
 
 
 
@@ -416,7 +422,7 @@ b <- ggplot( cover.richness.heatwave, aes(x=Year,y=cover, col=Zone, lty=Zone, gr
   ylab("Seaweed % cover") +
   scale_color_manual( values = c('black','grey','grey85')) +
   scale_fill_manual( values = c('black','grey','white')) +
-  scale_y_log10( limits = c(13,210),breaks = c(13,25,50,100,150,200)) +
+  scale_y_log10( limits = c(5,210),breaks = c(5,25,50,100,150,200)) +
   theme_classic( ) +
   theme( legend.position = "right") +
   guides( color = "none", lty = "none", fill = "none", size = guide_legend(title="Heatwave\ndays in\nprevious\nyear")  ) 
@@ -453,33 +459,3 @@ ggsave( "R/Figs/cover.richness.heatwave_trends.svg", width=6, height=8)
 
 
 
-
-# stability of cover AND richness
-# consider the range of variation in estimates over time
-divvar <- transect.cover.richness %>%
-  group_by( Site, Zone ) %>%
-  summarise( mean.cover=mean(cover), ea=sd(cover),
-             mean.richness=mean(richness), er=sd(richness)  ) %>%
-  mutate( cv.cover = ea/mean.cover, cv.richness = er/mean.richness ) %>% 
-  unite( transect, Site, Zone, sep=" ", remove = F) %>% 
-    ungroup()
-
-ggplot( divvar, aes(x=mean.richness,y=cv.cover) ) + geom_point() +
-  ylab( "CV( % cover )") + xlab("Mean transect species richness")
-ggplot( divvar, aes(x=cv.richness,y=cv.cover) ) + geom_point(aes(size=mean.richness)) +
-  ylab( "CV( % cover )") + xlab("CV(Mean transect species richness)")
-psych::pairs.panels( divvar[,c('mean.richness','cv.richness','mean.cover','cv.cover')], scale = T)
-
-ggplot( divvar, aes(x=cv.richness,y=cv.cover, col=Site) ) + 
-  ylab( "CV( % cover )") + xlab("CV( transect species richness )") + 
-  geom_path(aes(group=Site)) +
-  ylim(c(0,0.6)) + xlim(c(0,0.6)) +
-  geom_abline(slope = 1, intercept = 0) +
-  geom_point(aes(size=mean.richness), alpha=0.5)
-
-ggplot( divvar, aes(x=elev,y=cv.cover,size=mean.richness,col=Site) ) + geom_point() +
-  ylab( "CV( total algal % cover )") + xlab("Mean transect elevation (cm)")
-summary( lm( cv.cover~cv.richness, data=divvar ) )
-
-
-# addd heatwaves days?

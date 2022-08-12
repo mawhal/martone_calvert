@@ -36,10 +36,15 @@ am <- read.csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
 muse <- am[ am$Year != "2011", ]
+# only use data from 2012-2019
+muse <- am[ am$Year %in% 2012:2019, ]
+
 # remove Meay Channel
 ## NOTE THAT THIS ANALYSIS DOES NOT REQUIRE EQUAL SAMPLING OVER TIME OR SPACE
 ## a mjor exception to this is for convergence analysis, see trajectoryConvergence()
 muse <- muse[ muse$Site != "Meay Channel", ]
+
+
 
 # no NA values allowed, so we need to remove these from the dataset
 rem <- unique( which(is.na(muse$Shore_height_cm))  )
@@ -151,7 +156,7 @@ sort(unlist(lapply( strsplit( colnames(Y), split = "[.]"), function(z) z[1] )))
 # define the variables to test from metadata and data
 # merge community data with metadata
 metacomm <- left_join( d.comm, muse )
-# write_csv( metacomm, "R/output/community.csv")
+write_csv( metacomm, "R/output/community_all.csv")
 
 # # read temperature data
 # pine <- read_csv( "R Code and Analysis/output from r/PineIsland_summary.csv" )

@@ -36,6 +36,9 @@ am <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.
 ## Data cleaning for Analysis -- consider moving part of this to another script
 # remove 2011 data
 muse <- am[ am$Year != "2011", ]
+# only use data from 2012-2019
+muse <- am[ am$Year %in% 2012:2019, ]
+
 # remove Meay Channel
 ## NOTE THAT THIS ANALYSIS DOES NOT REQUIRE EQUAL SAMPLING OVER TIME OR SPACE
 ## a mjor exception to this is for convergence analysis, see trajectoryConvergence()
@@ -98,7 +101,6 @@ d <- d %>%
                                  "Ulothrix-Urospora sp.") ) )
 d <- d %>% 
   filter( !(taxon_lumped3 %in% c("Gloiocladia sp.", "Kornmannia leptoderma", "Petalonia fascia", "Tiffaniella snyderae", "Rhodymenia sp.") ) )
-d$taxon_lumped3[ d$taxon_lumped3 == "Phycodrys sp."] <- "Polyneura latissima"
 sort(unique(d$taxon_lumped3))
 
 # add together taxa that are not unique to each quadrat

@@ -23,6 +23,9 @@ source( "R/mcmc.list2array.R")
 # citation( "Hmsc" )
 # https://github.com/hmsc-r/HMSC
 
+# run the model prep script again here to grab the data, etc.
+source("R/hmsc_model_prep_hurdle.R")
+
 ## directories
 ModelDir = paste0( here::here(), "/R/models" )
 MixingDir = paste0( here::here(), "/R/mixing")
@@ -35,13 +38,21 @@ model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250_quad.Rdata"
 # model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250.Rdata"
 # model = "model_elevxyear_hurdle_test_chains_1_thin_1_samples_5.Rdata"
 mload <- load( paste(ModelDir,model, sep="/") )
+colnames(models[[1]]$Y)[colnames(models[[1]]$Y) == "Elachista.fucicola"] <- "Elachista.sp"
+colnames(models[[2]]$Y)[colnames(models[[2]]$Y) == "Elachista.fucicola"] <- "Elachista.sp"
+colnames(models[[1]]$Y)[colnames(models[[1]]$Y) == "Bossiella_articulate"] <- "Bossiella.articulate"
+colnames(models[[2]]$Y)[colnames(models[[2]]$Y) == "Bossiella_articulate"] <- "Bossiella.articulate"
 
-# load the data
+# load the data, produced by script used to prepare the models `hmsc_model_prep_hurdle.R`
 metacomm <- read_csv("R/output/community_all.csv" )
-comm <- read_csv("R/output/community.csv")
-##
-## MCMC convergence
+# comm <- read_csv("R/output/community.csv")
 
+# name changes
+names(metacomm)[names(metacomm) == "Elachista.fucicola"] <- "Elachista.sp"
+##
+
+
+## MCMC convergence
 # We evaluate MCMC convergence in terms of four kinds of parameters that we are especially interested in: the species niches `Beta`, the influence of traits on species niches `Gamma`, residual species associations `Omega`, and the strength of phylogenetic signal `rho`. As there are `r ns` species, the matrix `Omega` is a `r ns` x `r ns` matrix with `r ns*ns` elements. To avoid excessive computational times, we evaluate MCMC convergence for `Omega` only for a subsample of 100 randomly selected species pairs.
 mpost_pa   = convertToCodaObject(models[[1]])
 mpost_abun = convertToCodaObject(models[[2]])
@@ -319,26 +330,22 @@ supportLevel = 0.95
 
 ##### merge community data and traits #####
 comm_select <- metacomm %>% 
-  gather(key = taxon, value = N, Acrosiphonia:Unknown.red.blade) %>%
+  gather(key = taxon, value = N, Acrosiphonia:Wildemania) %>%
   select( UID, shore.height=Shore_height_cm, taxon, N ) %>% 
   separate( UID,c("beach","b","zone","year","quad") ) %>% 
   unite( site, beach, b )
 comm_select_cond <- metacomm %>% 
-  gather(key = taxon, value = N, Acrosiphonia:Unknown.red.blade) %>%
+  gather(key = taxon, value = N, Acrosiphonia:Wildemania) %>%
   select( UID, shore.height=Shore_height_cm, taxon, N ) %>%
   filter( N>0 ) %>% 
   separate( UID,c("beach","b","zone","year","quad") ) %>% 
   unite( site, beach, b )
-# remove rare taxa
-comm_rare <- comm_select %>% 
-  group_by( taxon ) %>% 
-  summarize( N=sum(N) ) %>% 
-  filter( N<=10 )
-# merge
-comm_final <- comm_select %>% 
-  filter( !(taxon %in% comm_rare$taxon) )
+# filter only taxa modeled with HMSC
+comm_hmsc <- comm_select %>%
+  filter( taxon %in% colnames(models[[1]]$Y) )
 
 # reorder levels of taxon
+comm_final <- comm_hmsc
 comm_final$taxon <- factor(comm_final$taxon, 
                            levels = colnames(models[[1]]$Y)[order(colSums(models[[2]]$Y),decreasing = T)], ordered = TRUE)
 
@@ -366,24 +373,24 @@ commtab_wide <-commtabdf %>%
 # write.table( commtab, "R/output/occurrence_table.txt")
 
 ## add trait information
-taxa  <- read_csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )
-FunGroups <- read_csv( "Data/taxa/Algae_functional_groups.csv" )
-FunGroups$taxon<-gsub(" ",".",FunGroups$taxon)
+FunGroups <- read_csv( "Data/taxa/functional_groups.csv" )
+FunGroups$taxon <- gsub(" ",".",FunGroups$taxon)
+which(duplicated(FunGroups$taxon))
 # group seagrass with large browns
 # FunGroups$funct_Sep2020 <- gsub("large_brown","canopy",FunGroups$funct_Sep2020)
 # FunGroups$funct_Sep2020 <- gsub("seagrass","canopy",FunGroups$funct_Sep2020)
 # FunGroups$taxon[ FunGroups$taxon == "Bossiella.articulate" ] <- "Bossiella_articulate"
 # fix naming discrepancies
-# names(comm)[colnames(comm)=="Bossiella_articulate"] <- "Bossiella.articulate"
+FunGroups$taxon[FunGroups$taxon == "Elachista.fucicola"] <- "Elachista.sp"
 
 # Creat2 matrix of functional groups summed
-taxon<-data.frame(taxon = colnames(comm))
-taxon.key<-left_join(taxon, FunGroups, by = "taxon") # animals should be missing
+taxon <- data.frame(taxon = colnames(select(comm,"Acrosiphonia":"Wildemania")))
+taxon.key <- left_join(taxon, FunGroups, by = "taxon") # animals should be missing
 taxon.key$funct <- taxon.key$funct_2021
 taxon.key$funct [ is.na(taxon.key$funct )] <- "animal"
 taxon.key <- left_join( data.frame(taxon = colnames(models[[1]]$Y)), taxon.key )
-
-
+# temporary fix for names changes of Pyropia
+taxon.key$funct[ taxon.key$taxon == "Pyropia" ] <- "blade"
 
 #####
 # Model  predictions across elevations
@@ -517,7 +524,7 @@ cols.two <- c( "#BDCFD8",  "#D07D63" )
 # use info from the pca1 in script "Community_rda.R"
 # 2012 pca1 is -1.21
 # 2019 pca1 is 1.52
-data.frame( pca1 = seq(-2.84,2.84, length=100), hex = pal2(100) )
+# data.frame( pca1 = seq(-2.84,2.84, length=100), hex = pal(100) )
 cols.two <- c( "#A2CDE2",  "#EF9B7A" )
 cols.two <- c( "#A2CDE2",  "#BF7C61" ) # make the redder one darker
 
@@ -530,7 +537,7 @@ ogd <- bind_cols(  models[[1]]$studyDesign, comm )  #data.frame(m$Y)
 ogd$year <- ogd$year
 
 ogd.long <- ogd %>% 
-  pivot_longer( cols="Acrosiphonia":"Unknown.crust", 
+  pivot_longer( cols="Acrosiphonia":"Wildemania", 
                 names_to = "taxon", values_to = "N" ) %>% 
   select( UID, year, elev = Shore_height_cm, taxon, N )
 ogd.long$N[ ogd.long$N %in% c(0.1,0.25) ] <- 0.5
@@ -602,7 +609,7 @@ predictions_pab$taxon <- factor(predictions_pab$taxon, levels = colnames(models[
 ## predictions over on factor only
 # get predictions over time
 Gradient <- constructGradient(models[[1]], focalVariable = "year1", non.focalVariables = list("elev1" = list(1)),
-                              ngrid = 8) #length(unique(models[[1]]$XData$year1)))
+                              ngrid = length(XData_choose$year) ) #length(unique(models[[1]]$XData$year1)))
 
 Gradient$XDataNew$year1
 
@@ -619,7 +626,7 @@ Gradient$XDataNew$elev2 <- 0.02619
 Gradient$XDataNew$elev1 <- 0.00011
 Gradient$XDataNew$elev2 <- -0.03570
 
-years <- data.frame( year1 = round(Gradient$XDataNew$year1,7), year = 2012:2019 )
+years <- data.frame( year1 = round(Gradient$XDataNew$year1,7), year = XData_choose$year )
 
 # Gradient$studyDesignNew$Time <- unique(mod_list[[1]]$studyDesign$Time)
 # Gradient$rLNew$Time <- mod_list[[1]]$rL$Time
@@ -675,6 +682,8 @@ plotGradient(hM, Gradient, pred=predY, measure="T", index=6, showData = TRUE,  q
 #####
 # code from Patrick Thompson
 # 
+colnames(models[[1]]$YScaled)[colnames(models[[1]]$YScaled) == 'Elachista.fucicola'] <- 'Elachista.sp'
+colnames(models[[2]]$YScaled)[colnames(models[[2]]$YScaled) == 'Elachista.fucicola'] <- 'Elachista.sp'
 quantile(models[[1]]$XData$elev, probs = c(0.01,0.25, 0.5, 0.75, 0.99))
 hist(models[[1]]$XData$elev)
 elev_length = 8
@@ -694,7 +703,7 @@ cond_bmass_list <- list()
 bmass_list <- list()
 for(i in 1:length(elev_grad)){
   Gradient <- constructGradient(models[[1]], focalVariable = 'year1', non.focalVariables = list('elev1' = list(1)),
-                                ngrid = 8 )
+                                ngrid = length(XData_choose$year) )
   Gradient$XDataNew$year2 <- XData_choose$year2
   Gradient$XDataNew$elev1 <- elev_grad2$elev1[i]
   Gradient$XDataNew$elev2 <- elev_grad2$elev2[i]
@@ -719,27 +728,27 @@ scaled_occur <- occur_mean
 log_con_bmass <- log(cond_bmass_mean)
 log_biomass <- log(bmass_mean)
 
-species_occur <- left_join(apply(scaled_occur, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "occurrence") %>% gather(key = Species, value = median, -year, -metric),
-                           apply(scaled_occur, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "occurrence") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
-  left_join(apply(scaled_occur, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "occurrence") %>% gather(key = Species, value = quant_0.75, -year, -metric))
+species_occur <- left_join(apply(scaled_occur, c(1,2), median) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "occurrence") %>% gather(key = Species, value = median, -year, -metric),
+                           apply(scaled_occur, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "occurrence") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
+  left_join(apply(scaled_occur, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "occurrence") %>% gather(key = Species, value = quant_0.75, -year, -metric))
 
 species_occur_scale <- species_occur %>%
   gather(key = quant, value = value, median:quant_0.75) %>%
   mutate(value = scale(value)) %>%
   spread(key = quant, value = value)
 
-species_con_bmass <- left_join(apply(log_con_bmass, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "conditional cover") %>% gather(key = Species, value = median, -year, -metric),
-                               apply(log_con_bmass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "conditional cover") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
-  left_join(apply(log_con_bmass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "conditional cover") %>% gather(key = Species, value = quant_0.75, -year, -metric))
+species_con_bmass <- left_join(apply(log_con_bmass, c(1,2), median) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "conditional cover") %>% gather(key = Species, value = median, -year, -metric),
+                               apply(log_con_bmass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "conditional cover") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
+  left_join(apply(log_con_bmass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "conditional cover") %>% gather(key = Species, value = quant_0.75, -year, -metric))
 
 species_con_bmass_scale <- species_con_bmass %>%
   gather(key = quant, value = value, median:quant_0.75) %>%
   mutate(value = scale(value)) %>%
   spread(key = quant, value = value)
 
-species_bmass <- left_join(apply(log_biomass, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = median, -year, -metric),
-                           apply(log_biomass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
-  left_join(apply(log_biomass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = quant_0.75, -year, -metric))
+species_bmass <- left_join(apply(log_biomass, c(1,2), median) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "cover") %>% gather(key = Species, value = median, -year, -metric),
+                           apply(log_biomass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "cover") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
+  left_join(apply(log_biomass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = XData_choose$year, metric = "cover") %>% gather(key = Species, value = quant_0.75, -year, -metric))
 
 species_bmass_scale <- species_bmass %>%
   gather(key = quant, value = value, median:quant_0.75) %>%
@@ -749,9 +758,10 @@ species_bmass_scale <- species_bmass %>%
 species_temporal.df <- rbind(species_occur_scale, species_con_bmass_scale, species_bmass)
 species_temporal.df <- left_join( mutate(species_temporal.df,year=round(year,7)), years )
 species_temporal.df$Species <- gsub(pattern = "_", replacement = ".", x = species_temporal.df$Species )
+species_temporal.df$Species[species_temporal.df$Species == 'Elachista.fucicola'] <- "Elachista.sp"
 
 
-Years <- 2012:2019
+Years <- XData_choose$year
 slopes <- sapply(X = 1:dim(scaled_occur)[2], FUN = function(i){
   sapply(X = 1:dim(scaled_occur)[3], FUN = function(x){
     c(coef(lm(scaled_occur[,i,x]~Years))[2])
@@ -848,19 +858,6 @@ ggsave(plot = sp.trends, "R/Figs/hmsc_sp_trends.svg", height = 5.75*1.5, width =
 #
 
 
-# predict total cover of seaweeds
-# remove invert columns, then total them up
-colnames(models[[1]]$Y)[-c(3,15,22)]
-slopes_biomass_ln_prod <- colSums(exp(log_biomass[,-c(3,15,22)]))
-log_biomass_producer <- log_biomass[,-c(3,15,22),]
-producer_bmass <- left_join(apply(log_biomass, c(1,2), median) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = median, -year, -metric),
-                           apply(log_biomass, c(1,2), quantile, prob = 0.25) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = quant_0.25, -year, -metric)) %>%
-  left_join(apply(log_biomass, c(1,2), quantile, prob = 0.75) %>%  as.data.frame() %>% mutate(year = 2012:2019, metric = "cover") %>% gather(key = Species, value = quant_0.75, -year, -metric))
-producer_bmass_total <- producer_bmass %>% 
-  group_by( year ) %>% 
-  summarize( median = sum(exp(median)),
-             quant_0.25 = sum(exp(quant_0.25)),
-             quant_0.75 = sum(exp(quant_0.75)) )
 
 
 
@@ -989,7 +986,7 @@ qpred_bind <- do.call(rbind, qpred_list)
 qpred_long <- qpred_bind %>% c() %>% 
   data.frame() 
 names(qpred_long) = "value"
-qpred_long$year <- gl(8,3*6, labels = 2012:2019)
+qpred_long$year <- gl( length(XData_choose$year),3*6, labels = XData_choose$year)
 qpred_long$FG <- gl(6,3, labels = levels(models[[1]]$TrData$FG) )
 qpred_long$quantile <- gl(3,1, labels = c("25%","50%","75%"))
 qpred_median <- qpred_long %>% 
@@ -1000,7 +997,7 @@ FGcolor <- c("midnightblue","darkred","red","pink","darkgrey","#996633")
 #   scale_fill_manual( values = rev(FGcolor) )
   
 # make slopes for traits like with species predictions
-Years <- 2012:2019
+Years <- XData_choose$year
 
 slopes <- sapply(X = 1:dim(predTO_scale)[2], FUN = function(i){
   sapply(X = 1:dim(predTO_scale)[3], FUN = function(x){
@@ -1132,6 +1129,7 @@ ggsave( "R/Figs/hmsc_scale_change_FG.svg", plot = hmsc_FG, height = 3.5, width =
 models[[1]]$studyDesign %>% 
   group_by(year) %>% 
   summarize(ntrans=length(transect))
+names(comm.all)[names(comm.all) == "Elachista.fucicola"] <- "Elachista.sp"
 ogd <- bind_cols(  models[[1]]$studyDesign, comm.all )  #data.frame(m$Y)
 ogd$year <- as.numeric(as.character(ogd$year))
 ogd.long <- ogd.mean <- ogd %>% 
@@ -1170,7 +1168,7 @@ ogd.mean.pa.mean <- ogd.mean.pa %>%
   summarize(N=mean(N))
 
 
-species <- c("Fucus.distichus","Elachista.fucicola")
+species <- c("Fucus.distichus","Elachista.sp")
 species <- c("Palmaria.hecatensis","Palmaria.mollis") 
 species <- c("Polysiphonia","Lithothamnion.phymatodeum") 
 species <- "Pyropia"
@@ -1181,26 +1179,47 @@ species <- "Cladophora.columbiana"
 species <- "Corallina"
 species <- c("Colpomenia.bullosa","Colpomenia.peregrina")
 species <- c("Mastocarpus","Petrocelis")
-species <- c("Phyllospadix.sp.")
+species <- c("Phyllospadix.spp.")
 species <- c("Gloiopeltis.furcata")
 species <- c("Barnacles","Mytilus.sp.")
 species <- c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides")
 species <- c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma")
 species <- c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola")
-species <- list( c("Fucus.distichus","Elachista.fucicola"),c("Palmaria.hecatensis","Palmaria.mollis"),
-                 c("Polysiphonia","Lithothamnion.phymatodeum"),"Pyropia",c("Alaria.marginata","Hedophyllum.sessile"),
+species <- list( c("Fucus.distichus","Elachista"),
+                 c("Palmaria.hecatensis","Osmundea.spectabilis","Salishia.firma"), #c("Palmaria.hecatensis","Palmaria.mollis"),
+                 # c("Colpomenia.peregrina","Salishia.firma"), 
+                 # c("Polysiphonia","Lithothamnion.phymatodeum"),
+                 "Pyropia",c("Alaria.marginata","Hedophyllum.sessile"),
                  c( "Mazzaella.parvula", "Mazzaella.oregona", "Mazzaella.splendens" ),"Cladophora.columbiana",
                  "Corallina",c("Dactylosiphon.bullosus","Colpomenia.peregrina"),c("Mastocarpus","Petrocelis"),
-                 c("Phyllospadix.sp."),c("Gloiopeltis.furcata"),c("Barnacles","Mytilus.sp."),
-                 c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides"),
-                 c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma"),
-                 c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola"))
+                 c("Phyllospadix"),c("Gloiopeltis.furcata"),c("Barnacles","Mytilus"),
+                 # c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides"),
+                 # c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma"),
+                 c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista"))
+species <- lapply(species, function(z) gsub("[.]"," ", z) )
+species <- lapply(species, trimws )
 
 # species_temporal.df$taxon <- gsub("\n", ".", species_temporal.df$Species)
 # predictions_abund_mean <- predictions_abund %>% 
 #   group_by( year,  taxon) %>%  #site, transect,
 #   summarize( N = mean(N) )
-
+# hit-fixes for names
+species_bmass$Species[species_bmass$Species=="Elachista.fucicola"] <- "Elachista"
+ogd.mean$taxon[ogd.mean$taxon == "Elachista.fucicola"] <- "Elachista"
+ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Elachista.fucicola"] <- "Elachista"
+species_bmass$Species[species_bmass$Species=="Elachista.sp"] <- "Elachista"
+ogd.mean$taxon[ogd.mean$taxon == "Elachista.sp"] <- "Elachista"
+ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Elachista.sp"] <- "Elachista"
+species_bmass$Species[species_bmass$Species=="Mytilus.sp."] <- "Mytilus"
+ogd.mean$taxon[ogd.mean$taxon == "Mytilus.sp."] <- "Mytilus"
+ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Mytilus.sp."] <- "Mytilus"
+species_bmass$Species[species_bmass$Species=="Pyropia/Neoporphyra/Porphyrella"] <- "Pyropia"
+ogd.mean$taxon[ogd.mean$taxon == "Pyropia/Neoporphyra/Porphyrella"] <- "Pyropia"
+ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Pyropia/Neoporphyra/Porphyrella"] <- "Pyropia"
+ogd.mean$taxon2 <- gsub("[.]"," ",ogd.mean$taxon)
+ogd.mean$taxon2 <- trimws(ogd.mean$taxon2)
+ogd.mean.pa.mean$taxon2 <- gsub("[.]"," ",ogd.mean.pa.mean$taxon)
+ogd.mean.pa.mean$taxon2 <- trimws(ogd.mean.pa.mean$taxon2)
 alpha_choose = 0.25
 alpha_choose2 = 0.75
 size_choose = 2.5
@@ -1208,16 +1227,17 @@ size_choose2 = 3
 point_colors <- c("slateblue","firebrick", "goldenrod" )
 for(i in 1:length(species)){
   abun.time.plot <- species_bmass %>% 
-  filter(Species %in% species[[i]] ) %>% ungroup() #%>% 
+    mutate( Species2 = trimws(gsub("[.]"," ",Species))) %>% 
+  filter(Species2 %in% species[[i]] ) %>% ungroup() #%>% 
   
-  ggplot( abun.time.plot, aes( x=year, y=exp(median), group=Species, col=Species ) ) + 
+  ggplot( abun.time.plot, aes( x=year, y=exp(median), group=Species2, col=Species2 ) ) + 
   # geom_ribbon( aes(x=year, ymin=N_high/90, ymax=N_low/90), fill="grey70", alpha=0.5 ) +
   # facet_wrap(~taxon, scales="free_y",ncol=1) +
   geom_path(size=size_choose, alpha=alpha_choose2) +
   # geom_point( data=filter(ogd.mean.pa, taxon %in% species ), aes(y=N+0.01111111), size=5, alpha = 0.1 ) +
-  geom_point( data=filter(ogd.mean, taxon %in% species[[i]] ), aes(y=N+0.01111111, group=taxon, col=taxon), size=size_choose2, 
+  geom_point( data=filter(ogd.mean, taxon2 %in% species[[i]] ), aes(y=N+0.01111111, group=taxon, col=taxon2), size=size_choose2, 
               alpha = alpha_choose, position = position_dodge(width = 0.25) ) +
-  geom_path( data=filter(ogd.mean.pa.mean, taxon %in% species[[i]] ), aes(y=N+0.01111111, group=taxon, col=taxon), lwd=0.75, alpha = 1 ) +
+  geom_path( data=filter(ogd.mean.pa.mean, taxon2 %in% species[[i]] ), aes(y=N+0.01111111, group=taxon2, col=taxon2), lwd=0.75, alpha = 1 ) +
   # stat_summary( data=filter(ogd.mean.pa, taxon %in% species ), aes(y=N), fun = "median", geom="line", size = 0.5 ) +
   scale_color_manual(values=point_colors[1:length(species[[i]])]) +
   ylab("Percent Cover") +
@@ -1227,7 +1247,7 @@ for(i in 1:length(species)){
   # scale_y_sqrt(labels = comma, breaks = c(0, 1.01111111, 10, 25, 50, 75, 100)) +
   scale_y_log10(labels = comma) +
   # scale_y_continuous(labels = comma) +
-  guides(color=guide_legend(nrow=3,ncol=1,byrow=F))  
+  guides(color=guide_legend(nrow=3,ncol=1, byrow=F))  
   
   ggsave( paste0("R/Figs/temporal_trends_select_taxa/",paste0(species[[i]],collapse="_"),"_model+data.svg"), 
         width=3,height=3.5)
@@ -1265,7 +1285,7 @@ custom_abun  <- taxa[c(33,4,29,18,25,14,36,30,7,1,13,27,45,22,15,38)]
 # 10 rarest taxa
 bot10 <- taxa[(length(taxa)-8):length(taxa)]
 
-taxa2plot <- customXY
+taxa2plot <- bot10
 
 # windows(6,4)
 ggplot( filter(predictions_pab,taxon %in% custom_occur & year %in% c(2012,2019)), 
@@ -1378,7 +1398,7 @@ halfp_array <- abind::abind(halfp_bind, along=3)
 array_use <- halfp_array
 
 ## calculate shifts as slope of peaks over time
-Years <- 2012:2019
+Years <- XData_choose$year
 dim(array_use)
 slopes_peak <- sapply(X = 1:dim(array_use)[2], FUN = function(i){
   sapply(X = 1:dim(array_use)[3], FUN = function(x){
@@ -1515,17 +1535,17 @@ shift.summary <- data.frame( elev.shifts.summary, abun.shifts.summary) #, range.
 shift.summary$taxon <- colnames(models[[1]]$Y)#[taxon.key$funct != "animal"]
 shift.summary %>% arrange(-abun.init.med)
 shift.summary$rank <- 1:46
-ggplot( shift.summary, aes(x = abun.shifts.med, y = elev.shifts.med) ) +
-  # geom_hline( yintercept=0, lty=2 ) + geom_vline( xintercept = 0, lty=2 ) +
-  geom_linerange( aes( ymin = elev.shifts.low, ymax= elev.shifts.high), alpha=0.25) +
-  geom_linerange( aes(xmin = abun.shifts.low, 
-                      xmax = abun.shifts.high), alpha=0.25 ) +
-  geom_point() + 
-  scale_x_continuous( trans = "log2" ) +
-  # scale_x_continuous( breaks=c(4,2,0,-2,-4), 
-                      # labels=c('16x','4x','0','1/4x','1/16x')) +
-  ylab( "Elevation shift (cm)" ) + xlab( "Abundance shift" ) +
-  theme_bw() + theme( panel.grid.minor = element_blank() )
+# ggplot( shift.summary, aes(x = abun.shifts.med, y = elev.shifts.med) ) +
+#   # geom_hline( yintercept=0, lty=2 ) + geom_vline( xintercept = 0, lty=2 ) +
+#   geom_linerange( aes( ymin = elev.shifts.low, ymax= elev.shifts.high), alpha=0.25) +
+#   geom_linerange( aes(xmin = abun.shifts.low, 
+#                       xmax = abun.shifts.high), alpha=0.25 ) +
+#   geom_point() + 
+#   scale_x_continuous( trans = "log2" ) +
+#   # scale_x_continuous( breaks=c(4,2,0,-2,-4), 
+#                       # labels=c('16x','4x','0','1/4x','1/16x')) +
+#   ylab( "Elevation shift (cm)" ) + xlab( "Abundance shift" ) +
+#   theme_bw() + theme( panel.grid.minor = element_blank() )
 # ggsave( "R/Figs/shifts_error.pdf", width=4, height=4 )
 # ggplot( shift.summary, aes(x = range.shifts.med, y = elev.shifts.med) ) + 
 #   geom_hline(yintercept = 0) + geom_vline( xintercept = 0 ) +
@@ -1567,47 +1587,47 @@ shift.summary$funct <- factor( shift.summary$funct, levels =  )
 
 shift.summary.algae <- shift.summary %>% filter(funct != "animal")
   
-elev.shift.plot <- ggplot( shift.summary, aes(x=newrank,
-                                                    y=elev.shifts.med, col = order_FG)) + 
-  # geom_vline( xintercept = seq(4,46,5), lty = 2, col = "gray" ) +
-  geom_hline( yintercept=0 ) +
-  geom_errorbar( aes(ymin=elev.shifts.low,ymax=elev.shifts.high), width = 0 ) +
-  geom_errorbar( aes(ymin=elev.shifts.25,ymax=elev.shifts.75), width = 0, lwd = 1 ) +
-  geom_point() +
-  ylab( "Peak elevation shift (cm)" ) + xlab("") +
-  scale_x_continuous(breaks = seq(1,46,1), labels = shift.summary$taxon ) + #c(1,10,20,30,40,46)) +
-  scale_y_continuous(breaks = seq(-800,400,100) ) + #c(1,10,20,30,40,46)) +
-  scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
-  theme( panel.grid.minor.x = element_blank(),
-         legend.position = "none",
-         panel.background = element_rect(fill = "whitesmoke",
-                                         colour = "whitesmoke",
-                                         size = 0.5, linetype = "solid")  ) +
-  coord_cartesian( xlim = c(1,47)) +
-  coord_flip()
-abun.shift.plot <- ggplot( shift.summary, aes(x=newrank,
-                                                    y=log(abun.shifts.med,base=2), col = order_FG) ) + 
-  # geom_vline( xintercept = seq(4,46,5), lty = 2, col = "gray" ) +
-  geom_hline( yintercept=0 ) +
-  geom_errorbar( aes(ymin=log(abun.shifts.low,base=2),ymax=log(abun.shifts.high,base=2)), width = 0 ) +
-  geom_errorbar( aes(ymin=log(abun.shifts.25,base=2),ymax=log(abun.shifts.75,base=2)), width = 0, lwd = 1 ) +
-  geom_point() +
-  ylab( "Percent cover shift" ) + xlab("") +
-  scale_y_continuous( breaks=c(log(64,base=2),log(16,base=2),log(4,base=2),0,
-                               log(1/4,base=2),log(1/16,base=2),log(1/64,base=2)),
-                      labels=c('64x','16x','4x','0','1/4x','1/16x','1/64x') ) +
-  scale_x_continuous( breaks = seq(1,46,1), labels = NULL ) +
-  scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
-  theme( panel.grid.minor.x = element_blank(),
-         legend.position = "none",
-         panel.background = element_rect(fill = "whitesmoke",
-                                         colour = "whitesmoke",
-                                         size = 0.5, linetype = "solid")  ) +
-  theme( axis.text.y = element_blank(),
-    axis.ticks.y  = element_blank()) +
-  coord_flip()
-plot_grid( elev.shift.plot, abun.shift.plot, ncol=2, rel_widths = c(1.75,1) )
-ggsave( "R/Figs/shifts_2panel.svg", width=7, height=6 )
+# elev.shift.plot <- ggplot( shift.summary, aes(x=newrank,
+#                                                     y=elev.shifts.med, col = order_FG)) + 
+#   # geom_vline( xintercept = seq(4,46,5), lty = 2, col = "gray" ) +
+#   geom_hline( yintercept=0 ) +
+#   geom_errorbar( aes(ymin=elev.shifts.low,ymax=elev.shifts.high), width = 0 ) +
+#   geom_errorbar( aes(ymin=elev.shifts.25,ymax=elev.shifts.75), width = 0, lwd = 1 ) +
+#   geom_point() +
+#   ylab( "Peak elevation shift (cm)" ) + xlab("") +
+#   scale_x_continuous(breaks = seq(1,46,1), labels = shift.summary$taxon ) + #c(1,10,20,30,40,46)) +
+#   scale_y_continuous(breaks = seq(-800,400,100) ) + #c(1,10,20,30,40,46)) +
+#   scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
+#   theme( panel.grid.minor.x = element_blank(),
+#          legend.position = "none",
+#          panel.background = element_rect(fill = "whitesmoke",
+#                                          colour = "whitesmoke",
+#                                          size = 0.5, linetype = "solid")  ) +
+#   coord_cartesian( xlim = c(1,47)) +
+#   coord_flip()
+# abun.shift.plot <- ggplot( shift.summary, aes(x=newrank,
+#                                                     y=log(abun.shifts.med,base=2), col = order_FG) ) + 
+#   # geom_vline( xintercept = seq(4,46,5), lty = 2, col = "gray" ) +
+#   geom_hline( yintercept=0 ) +
+#   geom_errorbar( aes(ymin=log(abun.shifts.low,base=2),ymax=log(abun.shifts.high,base=2)), width = 0 ) +
+#   geom_errorbar( aes(ymin=log(abun.shifts.25,base=2),ymax=log(abun.shifts.75,base=2)), width = 0, lwd = 1 ) +
+#   geom_point() +
+#   ylab( "Percent cover shift" ) + xlab("") +
+#   scale_y_continuous( breaks=c(log(64,base=2),log(16,base=2),log(4,base=2),0,
+#                                log(1/4,base=2),log(1/16,base=2),log(1/64,base=2)),
+#                       labels=c('64x','16x','4x','0','1/4x','1/16x','1/64x') ) +
+#   scale_x_continuous( breaks = seq(1,46,1), labels = NULL ) +
+#   scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
+#   theme( panel.grid.minor.x = element_blank(),
+#          legend.position = "none",
+#          panel.background = element_rect(fill = "whitesmoke",
+#                                          colour = "whitesmoke",
+#                                          size = 0.5, linetype = "solid")  ) +
+#   theme( axis.text.y = element_blank(),
+#     axis.ticks.y  = element_blank()) +
+#   coord_flip()
+# plot_grid( elev.shift.plot, abun.shift.plot, ncol=2, rel_widths = c(1.75,1) )
+# ggsave( "R/Figs/shifts_2panel.svg", width=7, height=6 )
 
 
 ###########
@@ -1747,6 +1767,10 @@ shift.summary.all <- shift.summary.all %>%
   arrange(order_FG, order_level, order_taxa) %>%  #, order_taxa
   mutate(newrank = 1:nrow(shift.summary.all) )
 
+# shift.summary$taxon2 <- ape::mixedFontLabel( shift.summary$taxon,  italic = 1 )
+# shift.summary.FG$taxon2 <- ape::mixedFontLabel( shift.summary.FG$taxon,  bold = 1 )
+
+
 # lines to separate functional groups
 shift.xintercept <- shift.summary.all %>% 
   select( funct, newrank) %>% 
@@ -1771,10 +1795,30 @@ shift.summary.all$taxon <- gsub("Elachista.*","Elachista",shift.summary.all$taxo
 shift.summary.all$taxon <- gsub("[.]spp[.]","",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("[.]sp[.]","",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("[.]"," ",shift.summary.all$taxon)
-shift.summary.all$taxon2 <- shift.summary.all$taxon
-shift.summary.all$taxon2[shift.summary.all$taxon %in% shift.summary.FG$taxon] <- c( expression(bold("THIN TURFS")),expression(bold("BLADES")),expression(bold("TURFS")),
-                                                                                    expression(bold("CANOPY-FORMERS")),expression(bold("CRUSTS")),expression(bold("INVERTEBRATES")) )
 
+# brute force expressions for plotting
+shift.summary.all$taxon2 <- shift.summary.all$taxon
+# shift.summary.all$taxon2[shift.summary.all$taxon %in% shift.summary.FG$taxon] <- c( expression(bold("THIN TURFS")),expression(bold("BLADES")),expression(bold("TURFS")),
+#                                                                                     expression(bold("CANOPY-FORMERS")),expression(bold("CRUSTS")),expression(bold("INVERTEBRATES")) )
+shift.summary.all$taxon2 <- c( expression(italic("Elachista")),expression(italic("Ptilota filicina")),expression(italic("Plocamium violaceum")),
+                               expression(italic("Gloiopeltis furcata")),expression(italic("Endocladia muricata")),expression(italic("Callithamnion pikeanum")),
+                               expression(italic("Cladophora columbiana")),expression(italic("Ceramium pacificum")),expression(italic("Polysiphonia")),
+                               expression(italic("Microcladia borealis")),expression(italic("Savoiea robusta")),expression(bold("THIN TURFS")),
+                               expression(italic("Palmaria hecatensis")),expression(italic("Mazzaella oregona")),expression(italic("Mazzaella splendens")),
+                               expression(italic("Ulva")),expression(italic("Pyropia")),expression(italic("Dilsea californica")),
+                               expression(bold("BLADES")),expression(italic("Polyneura latissima")),expression(italic("Mastocarpus")),
+                               expression(italic("Hymenena")),expression(italic("Neorhodomela larix")),expression(italic("Prionitis")),
+                               expression(italic("Farlowia mollis")),expression(italic("Corallina")),expression(italic("Mazzaella parvula")),
+                               expression(italic("Halosaccion glandiforme")),expression(italic("Leathesia marina")),expression(italic("Odonthalia floccosa")),
+                               ape::mixedFontLabel( "Bossiella", "articulate",  italic = 1 ),expression(italic("Neogastroclonium subarticulatum")),expression(italic("Cryptosiphonia woodii")),
+                               expression(bold("TURFS")),expression(italic("Fucus distichus")),expression(italic("Alaria marginata")),
+                               expression(italic("Egregia menziesii")),expression(italic("Phyllospadix")),expression(italic("Hedophyllum sessile")),
+                               expression(bold("CANOPY-FORMERS")),expression(italic("Petrocelis")),expression(italic("Hildenbrandia")),
+                               expression(plain("coralline crust")),expression(italic("Chamberlainium tumidum")),expression(plain("ralfsioid")),
+                               expression(italic("Lithothamnion phymatodeum")),expression(italic("Neopolyporolithon reclinatum")),expression(bold("CRUSTS")),
+                               expression(plain("barnacles")),expression(plain("anemones")),expression(italic("Mytilus")),
+                               expression(bold("INVERTEBRATES")) )
+  
 # plots
 elev.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
                                                  y=elev.shifts.med)) + #
@@ -1900,7 +1944,7 @@ predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = 
 # taxonpick <- "Hedophyllum.sessile"
 # taxonpick <- "Alaria.marginata"
 # taxonpick <- "Fucus.distichus"
-# taxonpick <- "Mytilus.sp."
+taxonpick <- "Mytilus.sp."
 
 # peaks for taxon
 peaks1219taxon <- peaks1219 %>% filter( taxon == taxonpick )
@@ -2115,13 +2159,13 @@ compare_all_plot_fun <- compare_all_plot_fun %>%
   
 # functional group colors
 c("darkred", "red","pink", "darkgrey", "#996633","whitesmoke")
-
-cor( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2) )
-plot( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2) )
-cor( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2), method='spearman' )
-cor( elev.shifts.med, log(abun.shifts.med, base = 2) )
-plot( elev.shifts.med, log(abun.shifts.med, base = 2) )
-cor( elev.shifts.med, log(abun.shifts.med, base = 2), method = 'spearman' )
+# 
+# cor( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2) )
+# plot( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2) )
+# cor( elev.shift.all.df$elev.shift, log(abun.shift.all.df$abun.shift,base = 2), method='spearman' )
+# cor( elev.shifts.med, log(abun.shifts.med, base = 2) )
+# plot( elev.shifts.med, log(abun.shifts.med, base = 2) )
+# cor( elev.shifts.med, log(abun.shifts.med, base = 2), method = 'spearman' )
 compare_all_plot_fun %>%  arrange(elev.shifts.med)
 compare_all_plot_algae <- filter( compare_all_plot_fun, funct != "animal" )
 compare_all_plot_algae$group <- factor(as.character(compare_all_plot_algae$funct), levels = c('turf','thin_turf','crust','blade','canopy'))
@@ -2131,10 +2175,10 @@ range(compare_all_plot_algae$elev.shifts.med)
 range( compare_all_plot_algae$abun.shifts.med )
 
 # use full set here
-psych::pairs.panels( data.frame(elevation = elev.shift.all.df$elev.shift, 
-                                cover = log(abun.shift.all.df$abun.shift,base = 2)),
-                     method = "pearson", smoother = TRUE,
-                     hist.col = "whitesmoke", density = FALSE, rug = FALSE )
+# psych::pairs.panels( data.frame(elevation = elev.shift.all.df$elev.shift, 
+#                                 cover = log(abun.shift.all.df$abun.shift,base = 2)),
+#                      method = "pearson", smoother = TRUE,
+#                      hist.col = "whitesmoke", density = FALSE, rug = FALSE )
 
 xy <- ggplot( compare_all_plot_algae, aes(x=log(abun.shifts.med,base = 2),y=elev.shifts.med)) + 
     geom_hline(yintercept = 0)+geom_vline(xintercept = 0)+
@@ -2158,6 +2202,7 @@ xy <- ggplot( compare_all_plot_algae, aes(x=log(abun.shifts.med,base = 2),y=elev
     xlab("Cover shift") + ylab("Elevation shift (cm)") +
     coord_cartesian( xlim = c(log(1/32,base=2), log(32,base=2)),ylim = c(-125,125))
 xy
+ggsave("R/Figs/peak_shift_vs_cover_shift_correlation.svg", width = 3, height = 3 )
 
 # densities of all shifts
 elev.shift.all.df <- data.frame( elev.shift = c(slopes_peak[,taxon.key$funct != "animal"]*8) )

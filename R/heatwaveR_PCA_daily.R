@@ -25,7 +25,7 @@ pca.meta <-  read_csv("Data/R code for Data Prep/output from R/Lightstation_raw_
 # all metadata
 am <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 survey.dates <- am %>% 
-  filter( Year != "2011" ) %>% filter( Site != "Meay Channel") %>% 
+  filter( Year != "2011" & Year <= 2019 ) %>% filter( Site != "Meay Channel") %>% 
   select( Date, Year) %>% distinct()
 
 
@@ -153,7 +153,7 @@ mhw2_clim <- mhw2$climatology %>%
 mcw2_clim <- mcw2$climatology %>% 
   filter( t >= "2011-07-01") %>%
   mutate( source="PCA")
-ggplot(mhw2_clim, aes(x = t)) +
+PCA1 <- ggplot(mhw2_clim, aes(x = t)) +
   geom_vline(xintercept = survey.dates$Date, lty=2, size=0.5) +
   geom_flame(aes(y = temp, y2 = thresh), 
              n=5,n_gap=2,
@@ -183,7 +183,7 @@ ggplot(mhw2_clim, aes(x = t)) +
                           panel.border = element_rect(colour = "black", fill=NA),
                           text = element_text(size = 20))
 
-ggsave("R/Figs/lighthouse_heatwaveR_PCA.svg", width=10, height = 2)
+ggsave("R/Figs/lighthouse_heatwaveR_PCA.svg", width=8, height = 2)
   
   
 
@@ -207,12 +207,12 @@ mhw_summary_year <- mhw_summary_all %>%
   group_by( year, source ) %>% 
   summarize( duration = sum(duration), intensity_max = max(intensity_max)) %>% 
   arrange(-duration) 
-ggplot( mhw_summary_year, aes(x=year, y=duration)) +
-  facet_wrap(~source)+
-  geom_segment( aes(yend=duration,y=0,xend=year),col='firebrick') + geom_point( aes(size=intensity_max), alpha = 0.7, col='firebrick')
-ggplot( filter(mhw_summary_year,year>=2011), aes(x=year, y=duration)) +
-  facet_wrap(~source)+
-  geom_segment( aes(yend=duration,y=0,xend=year),col='firebrick') + geom_point( aes(size=intensity_max), alpha = 0.7, col='firebrick')
+# ggplot( mhw_summary_year, aes(x=year, y=duration)) +
+#   facet_wrap(~source)+
+#   geom_segment( aes(yend=duration,y=0,xend=year),col='firebrick') + geom_point( aes(size=intensity_max), alpha = 0.7, col='firebrick')
+# ggplot( filter(mhw_summary_year,year>=2011), aes(x=year, y=duration)) +
+#   facet_wrap(~source)+
+#   geom_segment( aes(yend=duration,y=0,xend=year),col='firebrick') + geom_point( aes(size=intensity_max), alpha = 0.7, col='firebrick')
   
 
 lolli_plot(mhw, metric = "intensity_cumulative")
@@ -227,7 +227,7 @@ write_csv( mhw_summary_year, "R/output/heatwaveR_summary_year_pine_pca.csv" )
 # all metadata
 am <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 survey.dates <- am %>% 
-  filter( Year != "2011" ) %>% filter( Site != "Meay Channel") %>% 
+  filter( Year != "2011" & Year <= 2019 ) %>% filter( Site != "Meay Channel") %>% 
   select( Date, Year) %>% distinct() %>% 
   group_by(Year) %>% 
   summarize( Date = min(Date) ) %>% 
@@ -291,25 +291,27 @@ text( x=seq(2012,2018,by=2),
 
 
 
-survey.dates %>% 
+heatwave_days <- survey.dates %>% 
   select( Date, duration, duration5 ) %>% 
   pivot_longer(cols = duration:duration5) %>% 
-  mutate(name=factor(name,levels=c("duration5","duration"), labels=c("previous 5 years","previous year"))) %>% 
+  mutate(name=factor(name,levels=c("duration","duration5"), labels=c("previous year","previous 5 years"))) %>% 
   ggplot( aes( x = Date, y = value, col=name, shape=name, fill=name)) + geom_line() + geom_point(size=8) +
   ylab("Heatwave\ndays") +
-  scale_color_manual(values=c("firebrick","black")) +
-  scale_fill_manual(values=c("firebrick","white")) +
-  scale_shape_manual(values=c(20,1)) +
+  scale_color_manual(values=c("black","firebrick")) +
+  scale_fill_manual(values=c("white","firebrick")) +
+  scale_shape_manual(values=c(1,20)) +
   coord_cartesian( xlim = c(ymd("2011-10-31"),ymd("2019-10-31"))) +
   theme_minimal() + theme(legend.justification=c(0,1), legend.position=c(0,1),legend.direction="horizontal",legend.title=element_blank(),
                           legend.background = element_rect(fill="white"),
                           legend.box.background = element_rect(colour = "black"),
                           panel.border = element_rect(colour = "black", fill=NA),
                           text = element_text(size = 20))
-ggsave("R/Figs/lighthouse_heatwave_days.svg",width=10,height=1.75)
+ggsave("R/Figs/lighthouse_heatwave_days.svg",width=8,height=2)
 
-
-
+# must run script "Lighstation_montly_anomaly.R" first
+source("Lighstation_montly_anomaly.R")
+cowplot::plot_grid( monthly, PCA1, heatwave_days, align = "h", axis = "b", ncol = 1, rel_heights = c(3,2,2) )
+ggsave("R/Figs/Fig1.svg", width = 8, height = 9 )
 
 ### ----------------------------------
 # calculate climatology for each time series, plus pca, and make a single table to show heatwave stats

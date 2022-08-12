@@ -2,11 +2,7 @@
 # 
 # by Matt Whalen
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-<<<<<<< HEAD
-taxon <- "Hedophyllum"
-=======
 taxon <- "Phyllospadix"
->>>>>>> new_hmsc_figures
 
 # # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
 # 

@@ -51,7 +51,7 @@ a <- ggplot( data = d, aes( x=date, y=temp.anom,col=sign)) +
   theme_bw() + theme( legend.position = "none") +
   xlab("Date") + ylab(expression(paste("Monthly temperature anomaly (",degree,"C)"))) +
   coord_cartesian( ylim=c(-3.5,3.5))
-ggsave(a, "R/Figs/lighthouse_anomaly_monthly_temperature.svg",width=6, height=4)
+ggsave(plot = a, "R/Figs/lighthouse_anomaly_monthly_temperature.svg",width=6, height=4)
 
 dsal <- d %>% mutate( signsal = as.character(as.numeric(sal.anom>0)) ) %>% filter( site != "addenbroke")
 b <- ggplot( data = dsal, aes( x=date, y=sal.anom,col=signsal)) +
@@ -79,7 +79,7 @@ drecent <- drecent %>% mutate( sign = as.character(as.numeric(temp.anom>0)) )
 alldates <- data.frame( date = seq( ymd("2011-07-01"),ymd("2019-10-31"), by = "months"), total = 1 )
 drecentall <-left_join(alldates,drecent)
 drecentNA <- drecentall %>% filter( is.na(temp.anom))
-ggplot( data = drecent, aes( x=date, y=temp.anom,col=sign)) +
+monthly <- ggplot( data = drecent, aes( x=date, y=temp.anom,col=sign)) +
   facet_wrap(~Site, ncol=1) +
   # geom_vline(xintercept = survey.dates$date, lty=2, size=0.1) +
   geom_hline(yintercept = 0, size=0.33) +
@@ -94,7 +94,7 @@ ggplot( data = drecent, aes( x=date, y=temp.anom,col=sign)) +
                           panel.border = element_rect(colour = "black", fill=NA),
                           text = element_text(size = 20),strip.background = element_blank(),
                           strip.text.x = element_blank())
-ggsave("R/Figs/lighthouse_anomaly_monthly_temperature_survey.svg",width=10, height=2*2)
+ggsave("R/Figs/lighthouse_anomaly_monthly_temperature_survey.svg",width=8, height=2*2)
   
   
   

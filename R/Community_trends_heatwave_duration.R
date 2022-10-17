@@ -281,12 +281,22 @@ psych::pairs.panels( select( cover.richness.heatwave,
                     ellipses = F, lm = T, ci=T )
 cor.test( log(cover.richness.heatwave$cover), log(cover.richness.heatwave$cover.bare+1))
 
+# for presenation use width = 4, height = 4
+windows(5,5)
 psych::pairs.panels( select( cover.richness.heatwave, 
                              duration5, 
                              cover, cover.invert, cover.bare) %>% 
-                       mutate(seaweed.cover=log(cover),invert.cover=log(cover.invert+1),bare.rock.cover=log(cover.bare+1)) %>% 
+                       mutate(seaweed.cover=(cover+1),invert.cover=(cover.invert+1),bare.rock.cover=(cover.bare+1)) %>% 
                        select( duration5, seaweed.cover, invert.cover, bare.rock.cover),
-                     ellipses = F, lm = T, ci=T )
+                     ellipses = F, lm = T, ci=T, log = "xy" )
+
+windows(5,5)
+psych::pairs.panels( select( cover.richness.heatwave, 
+                             duration5, 
+                             cover, cover.invert, cover.bare) %>% 
+                       mutate(seaweed.cover=log10(cover),invert.cover=log10(cover.invert+1),bare.rock.cover=log10(cover.bare+1)) %>% 
+                       select( duration5, seaweed.cover, invert.cover, bare.rock.cover),
+                     ellipses = F, lm = F, ci = T, smooth = T, stars = T, cex = 1.5, cex.cor = 1 )
 
 
 
@@ -422,7 +432,7 @@ b <- ggplot( cover.richness.heatwave, aes(x=Year,y=cover, col=Zone, lty=Zone, gr
   ylab("Seaweed % cover") +
   scale_color_manual( values = c('black','grey','grey85')) +
   scale_fill_manual( values = c('black','grey','white')) +
-  scale_y_log10( limits = c(5,210),breaks = c(5,25,50,100,150,200)) +
+  scale_y_log10( limits = c(13,210),breaks = c(13,25,50,100,150,200)) +
   theme_classic( ) +
   theme( legend.position = "right") +
   guides( color = "none", lty = "none", fill = "none", size = guide_legend(title="Heatwave\ndays in\nprevious\nyear")  ) 
@@ -451,7 +461,7 @@ d <- ggplot( cover.richness.heatwave, aes(x=Year,y=cover.bare, col=Zone, lty=Zon
   scale_y_log10( limits = c(0.5,100),breaks = c(0.5,1,5,10,25,50,100)) +
   theme_classic( ) +
   theme( legend.position = "none")
-cowplot::plot_grid( a,b,c,d, ncol=1, labels = "AUTO", hjust = -2.5, align = 'hv', axis='tblr' )
+cowplot::plot_grid( a,b,c,d, ncol=1, labels = "auto", hjust = -4, align = 'hv', axis='tblr' )
 ggsave( "R/Figs/cover.richness.heatwave_trends.svg", width=6, height=8)
 
 

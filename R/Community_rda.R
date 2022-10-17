@@ -108,7 +108,7 @@ sort(unique(d$taxon_lumped3))
 # restrict this to seaweeds and sessile invertebrates
 d.simple <- d %>%
   mutate( taxon = gsub(" ",".",taxon_lumped3) ) %>% 
-  group_by( UID, Year, Site, Zone, Quadrat, Meter.point, taxon, funct_2021 ) %>%
+  group_by( UID, Year, Site, Zone, Quadrat, Meter.point, taxon=taxon_lumped3, funct_2021 ) %>%
   summarize( Abundance=sum(Abundance,na.rm=T)) 
 d.simple %>%
   ungroup() %>% 

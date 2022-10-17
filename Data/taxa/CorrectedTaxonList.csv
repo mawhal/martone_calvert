@@ -176,7 +176,7 @@ Ectocarpus commensalis,Ectocarpus commensalis,Algae,sessile,Ectocarpus commensal
 Ectocarpus siliculosus,Ectocarpus siliculosus,Algae,sessile,Ectocarpus siliculosus,Ectocarpus siliculosus,Ectocarpus siliculosus,Ectocarpus siliculosus,Algae,sessile,NA
 Ectocarpus,Ectocarpus sp.,Algae,sessile,Ectocarpus sp.,Ectocarpus sp.,Ectocarpus sp.,Ectocarpus sp.,Algae,sessile,NA
 Egregia menziesii,Egregia menziesii,Algae,sessile,Egregia menziesii,Egregia menziesii,Egregia menziesii,Egregia menziesii,Algae,sessile,NA
-Elachista fucicola,Elachista fucicola,Algae,sessile,Elachista fucicola,Elachista fucicola,Elachista fucicola,Elachista fucicola,Algae,sessile,NA
+Elachista fucicola,Elachista fucicola,Algae,sessile,Elachista fucicola,Elachista fucicola,Elachista fucicola,Elachista sp.,Algae,sessile,NA
 Endocladia muricata,Endocladia muricata,Algae,sessile,Endocladia muricata,Endocladia muricata,Endocladia muricata,Endocladia muricata,Algae,sessile,NA
 Entoprocta,Entoprocta,Animal,sessile,Entoprocta,Entoprocta,Entoprocta,Entoprocta,Animal,sessile,NA
 Erythrotrichia carnea,Erythrotrichia carnea,Algae,sessile,Erythrotrichia carnea,Erythrotrichia carnea,Erythrotrichia carnea,Erythrotrichia carnea,Algae,sessile,NA
@@ -309,7 +309,6 @@ Monostroma grevillei,Monostroma grevillei,Algae,sessile,Monostroma grevillei,Mon
 Monostroma sp.,Monostroma sp.,Algae,sessile,Monostroma sp.,Monostroma sp.,Monostroma,Monostroma,Algae,sessile,NA
 Mopalia,Mopalia sp.,Animal,motile,Mopalia sp.,Mopalia sp.,Mopalia sp.,Mopalia sp.,Animal,motile,NA
 Mysid,Mysida,Animal,motile,Mysida,Mysida,Mysida,Mysida,Animal,motile,NA
-Mytilus sp.,Mytilus sp.,Algae,sessile,Mytilus sp.,Mytilus sp.,Mytilus sp.,Mytilus sp.,Animal,sessile,NA
 Mussel,Mytilus sp.,Animal,sessile,Mytilus sp.,Mytilus sp.,Mytilus sp.,Mytilus sp.,Animal,sessile,NA
 Mytillus sp.,Mytilus sp.,Animal,sessile,Mytilus sp.,Mytilus sp.,Mytilus sp.,Mytilus sp.,Animal,sessile,NA
 Mytilus,Mytilus sp.,Animal,sessile,Mytilus sp.,Mytilus sp.,Mytilus sp.,Mytilus sp.,Animal,sessile,NA
@@ -379,8 +378,8 @@ Plocamium violaceum,Plocamium violaceum,Algae,sessile,Plocamium violaceum,Plocam
 Pododesmus,Pododesmus sp.,Animal,sessile,Pododesmus sp.,Pododesmus sp.,Pododesmus sp.,Pododesmus sp.,Animal,sessile,NA
 "Barnacles, goose-necked",Pollicipes polymerus,Animal,sessile,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Animal,sessile,NA
 Gooseneck barnacles,Pollicipes polymerus,Animal,sessile,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Animal,sessile,NA
-Pollicipes polymerus,Pollicipes polymerus,Animal,motile,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Animal,sessile,NA
-Pollicipes,Pollicipes polymerus,Animal,motile,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Animal,sessile,NA
+Pollicipes polymerus,Pollicipes polymerus,Animal,sessile,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Animal,sessile,NA
+Pollicipes,Pollicipes polymerus,Animal,sessile,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Pollicipes polymerus,Animal,sessile,NA
 Polychaete,Polychaete,Animal,motile,Polychaete,Polychaete,Polychaete,Polychaete,Animal,motile,NA
 Phycodrys fimbriata ?,Polyneura latissima,Algae,sessile,Polyneura latissima,Polyneura latissima,Polyneura latissima,Polyneura latissima,Algae,sessile,NA
 Phycodrys?,Polyneura latissima,Algae,sessile,Polyneura latissima,Polyneura latissima,Polyneura latissima,Polyneura latissima,Algae,sessile,NA
@@ -482,7 +481,7 @@ Sphacelaria rigidula,Sphacelaria rigidula,Algae,sessile,Sphacelaria rigidula,Sph
 Spirorbidae,Spirorbidae,Animal,sessile,Spirorbidae,Spirorbidae,Tube worms,Tube worms,Animal,sessile,NA
 Spirorbis,Spirorbis,Animal,sessile,Spirorbis,Spirorbis,Tube worms,Tube worms,Animal,sessile,NA
 Green urchin,Strongylocentrotus droebachiensis,Animal,motile,Strongylocentrotus droebachiensis,Strongylocentrotus droebachiensis,Strongylocentrotus droebachiensis,Strongylocentrotus droebachiensis,Animal,motile,NA
-Purple urchin,Strongylocentrotus purpuratus,Animal,sessile,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Animal,motile,NA
+Purple urchin,Strongylocentrotus purpuratus,Animal,motile,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Animal,motile,NA
 Purple Urchin,Strongylocentrotus purpuratus,Animal,motile,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Animal,motile,NA
 Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Animal,motile,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Strongylocentrotus purpuratus,Animal,motile,NA
 Styela,Styela sp.,Animal,sessile,Styela sp.,Styela sp.,Styela sp.,Styela sp.,Animal,sessile,NA

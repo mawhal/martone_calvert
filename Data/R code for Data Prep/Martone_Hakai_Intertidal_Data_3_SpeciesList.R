@@ -42,10 +42,12 @@ write_csv( data.frame(taxon=sort(unique( data$Taxon ))),
 functional <- read_csv("Data/taxa/functional_groups.csv")
 
 # are all taxa representing in both the corrected taxon list and in the functional groups sheet?
-corrected_taxa <- read.csv( "data/taxa/CorrectedTaxonList.csv" )
+corrected_taxa <- read.csv( "data/taxa/CorrectedTaxonList_2019.csv" ) %>% 
+  select( -taxon ) %>% distinct()
+which( duplicated(corrected_taxa$taxon_corrected))
 
 # merge data with corrected taxa
-data <- left_join( data, corrected_taxa, by = c("Taxon" = 'taxon') )
+data <- left_join( data, corrected_taxa, by = c("Taxon" = 'taxon_corrected') )
 ## merge functional traits with lumped species
 data.funct  <- left_join( data, functional, by = c("taxon_lumped3"="taxon"))
 # # which lines are messed up?

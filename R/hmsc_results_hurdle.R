@@ -34,7 +34,8 @@ MixingDir = paste0( here::here(), "/R/mixing")
 
 ## load the model
 list.files( ModelDir )
-model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250_quad.Rdata"
+# model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250_quad.Rdata"
+model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250_2019.Rdata"
 # model = "model_elevxyear_hurdle_chains_4_thin_100_samples_250.Rdata"
 # model = "model_elevxyear_hurdle_test_chains_1_thin_1_samples_5.Rdata"
 mload <- load( paste(ModelDir,model, sep="/") )
@@ -60,15 +61,17 @@ mpost_abun = convertToCodaObject(models[[2]])
 # # trace plots #####
 # # plot traces for particular species
 # taxa <- rep(colnames(models[[1]]$Y), each=7)
-# toplot <- which(taxa %in% "Hedophyllum.sessile")
+# toplot <- which(taxa %in% "Hedophyllum sessile")
 # # toplot <- which(taxa %in% "Mazzaella.parvula")
 # betaplot <- lapply(mpost_pa$Beta,function(z) z[,toplot])
 # betaplot2 <- lapply(mpost_abun$Beta,function(z) z[,toplot])
 # lapply(betaplot, colnames)
-# betaplot <- lapply( betaplot, function(z) {
-#   colnames(z) <- c('int','elev','elev2','year','elev:year','elev2:year')
-# })
-# params <- c('int','elev','elev2','year','elev:year','elev2:year')
+# # betaplot <- lapply( betaplot, function(z) {
+# #   # colnames(z) <- c('int','elev','elev2','year','elev:year','elev2:year')
+# #   colnames(z) <- c('int','year','year2','elev','elev2','year:elev','year2:elev')
+# # })
+# # # params <- c('int','elev','elev2','year','elev:year','elev2:year')
+# # params <- c('int','year','year2','elev','elev2','year:elev','year2:elev')
 # betaplot <- as.mcmc.list(betaplot)
 # betaplot2 <- as.mcmc.list(betaplot2)
 # par( mfrow=c(7,2),mar=c(2,3,0,0)+0.1)
@@ -330,12 +333,12 @@ supportLevel = 0.95
 
 ##### merge community data and traits #####
 comm_select <- metacomm %>% 
-  gather(key = taxon, value = N, Acrosiphonia:Wildemania) %>%
+  gather(key = taxon, value = N, "Acrosiphonia":"Unknown crust") %>%
   select( UID, shore.height=Shore_height_cm, taxon, N ) %>% 
   separate( UID,c("beach","b","zone","year","quad") ) %>% 
   unite( site, beach, b )
 comm_select_cond <- metacomm %>% 
-  gather(key = taxon, value = N, Acrosiphonia:Wildemania) %>%
+  gather(key = taxon, value = N, "Acrosiphonia":"Unknown crust") %>%
   select( UID, shore.height=Shore_height_cm, taxon, N ) %>%
   filter( N>0 ) %>% 
   separate( UID,c("beach","b","zone","year","quad") ) %>% 
@@ -374,23 +377,22 @@ commtab_wide <-commtabdf %>%
 
 ## add trait information
 FunGroups <- read_csv( "Data/taxa/functional_groups.csv" )
-FunGroups$taxon <- gsub(" ",".",FunGroups$taxon)
+# FunGroups$taxon <- gsub(" ",".",FunGroups$taxon)
 which(duplicated(FunGroups$taxon))
 # group seagrass with large browns
 # FunGroups$funct_Sep2020 <- gsub("large_brown","canopy",FunGroups$funct_Sep2020)
 # FunGroups$funct_Sep2020 <- gsub("seagrass","canopy",FunGroups$funct_Sep2020)
 # FunGroups$taxon[ FunGroups$taxon == "Bossiella.articulate" ] <- "Bossiella_articulate"
 # fix naming discrepancies
-FunGroups$taxon[FunGroups$taxon == "Elachista.fucicola"] <- "Elachista.sp"
 
 # Creat2 matrix of functional groups summed
-taxon <- data.frame(taxon = colnames(select(comm,"Acrosiphonia":"Wildemania")))
+taxon <- data.frame(taxon = colnames(select(comm,"Acrosiphonia":"Ulva")))
 taxon.key <- left_join(taxon, FunGroups, by = "taxon") # animals should be missing
 taxon.key$funct <- taxon.key$funct_2021
 taxon.key$funct [ is.na(taxon.key$funct )] <- "animal"
 taxon.key <- left_join( data.frame(taxon = colnames(models[[1]]$Y)), taxon.key )
-# temporary fix for names changes of Pyropia
-taxon.key$funct[ taxon.key$taxon == "Pyropia" ] <- "blade"
+# # temporary fix for names changes of Pyropia
+# taxon.key$funct[ taxon.key$taxon == "Pyropia" ] <- "blade"
 
 #####
 # Model  predictions across elevations
@@ -537,7 +539,7 @@ ogd <- bind_cols(  models[[1]]$studyDesign, comm )  #data.frame(m$Y)
 ogd$year <- ogd$year
 
 ogd.long <- ogd %>% 
-  pivot_longer( cols="Acrosiphonia":"Wildemania", 
+  pivot_longer( cols="Acrosiphonia":"Unknown crust", 
                 names_to = "taxon", values_to = "N" ) %>% 
   select( UID, year, elev = Shore_height_cm, taxon, N )
 ogd.long$N[ ogd.long$N %in% c(0.1,0.25) ] <- 0.5
@@ -569,31 +571,31 @@ ogd.pa.wide <- ogd.pa %>%
 
 ## tidy the data and combine
 predictions_abund <- predictions_abun %>%
-  gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N, Barnacles:Mazzaella.parvula)
 predictions_abund_low <- predictions_abun_low %>%
-  gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N_low, Barnacles:Mazzaella.parvula)
 predictions_abund_high <- predictions_abun_high %>%
-  gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N_high, Barnacles:Mazzaella.parvula)
 predictions_abund <- left_join(left_join(predictions_abund, predictions_abund_low), predictions_abund_high)
-predictions_abund$taxon <- factor(predictions_abund$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
+predictions_abund$taxon <- factor(predictions_abund$taxon, levels = gsub(" ",".",colnames(Y)[order(colSums(Y),decreasing = T)]), ordered = FALSE)
 # abundance conditional on presence
 predictions_copp <- predictions_cop %>%
-  gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N, Barnacles:Mazzaella.parvula)
 predictions_copp_low <- predictions_cop_low %>%
-  gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N_low, Barnacles:Mazzaella.parvula)
 predictions_copp_high <- predictions_cop_high %>%
-  gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N_high, Barnacles:Mazzaella.parvula)
 predictions_copp <- left_join(left_join(predictions_copp, predictions_copp_low), predictions_copp_high)
-predictions_copp$taxon <- factor(predictions_copp$taxon, levels = colnames(Y)[order(colSums(Y),decreasing = T)], ordered = FALSE)
+predictions_copp$taxon <- factor(predictions_copp$taxon, levels = gsub(" ",".",colnames(Y)[order(colSums(Y),decreasing = T)]), ordered = FALSE)
 # presence-absence
 predictions_pab <- predictions_pa %>%
-  gather(key = taxon, value = N, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N, Barnacles:Mazzaella.parvula)
 predictions_pab_low <- predictions_pa_low %>%
-  gather(key = taxon, value = N_low, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N_low, Barnacles:Mazzaella.parvula)
 predictions_pab_high <- predictions_pa_high %>%
-  gather(key = taxon, value = N_high, Fucus.distichus:Mazzaella.parvula)
+  gather(key = taxon, value = N_high, Barnacles:Mazzaella.parvula)
 predictions_pab <- left_join(left_join(predictions_pab, predictions_pab_low), predictions_pab_high)
-predictions_pab$taxon <- factor(predictions_pab$taxon, levels = colnames(models[[1]]$Y)[order(colSums(models[[1]]$Y),decreasing = T)], ordered = FALSE)
+predictions_pab$taxon <- factor(predictions_pab$taxon, levels = gsub(" ",".",colnames(models[[1]]$Y)[order(colSums(models[[1]]$Y),decreasing = T)]), ordered = FALSE)
 
 ###
 
@@ -682,8 +684,6 @@ plotGradient(hM, Gradient, pred=predY, measure="T", index=6, showData = TRUE,  q
 #####
 # code from Patrick Thompson
 # 
-colnames(models[[1]]$YScaled)[colnames(models[[1]]$YScaled) == 'Elachista.fucicola'] <- 'Elachista.sp'
-colnames(models[[2]]$YScaled)[colnames(models[[2]]$YScaled) == 'Elachista.fucicola'] <- 'Elachista.sp'
 quantile(models[[1]]$XData$elev, probs = c(0.01,0.25, 0.5, 0.75, 0.99))
 hist(models[[1]]$XData$elev)
 elev_length = 8
@@ -758,7 +758,6 @@ species_bmass_scale <- species_bmass %>%
 species_temporal.df <- rbind(species_occur_scale, species_con_bmass_scale, species_bmass)
 species_temporal.df <- left_join( mutate(species_temporal.df,year=round(year,7)), years )
 species_temporal.df$Species <- gsub(pattern = "_", replacement = ".", x = species_temporal.df$Species )
-species_temporal.df$Species[species_temporal.df$Species == 'Elachista.fucicola'] <- "Elachista.sp"
 
 
 Years <- XData_choose$year
@@ -836,7 +835,7 @@ species_temporal.df$metric  <- factor(species_temporal.df$metric, levels = c("oc
 species_temporal.df$Species2 <- factor( species_temporal.df$Species, 
                                         # levels = gsub("_",".",occur_trends$species[order(occur_trends$median)]),
                                         levels = occur_trends$species[order(occur_trends$median)],
-                                        labels = gsub( pattern = "[.]", replacement = "\n", x = occur_trends$species[order(occur_trends$median)] ),
+                                        labels = gsub( pattern = " ", replacement = "\n", x = occur_trends$species[order(occur_trends$median)] ),
                                         ordered = TRUE )
 # adjust color scheme so that cover is darker than conditional cover
 sp.trends <- ggplot(species_temporal.df, aes(x = year, y = median, color = metric,  fill = metric, group = metric))+ #fill = metric,
@@ -1185,17 +1184,14 @@ species <- c("Barnacles","Mytilus.sp.")
 species <- c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides")
 species <- c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma")
 species <- c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.fucicola")
-species <- list( c("Fucus.distichus","Elachista"),
-                 c("Palmaria.hecatensis","Osmundea.spectabilis","Salishia.firma"), #c("Palmaria.hecatensis","Palmaria.mollis"),
-                 # c("Colpomenia.peregrina","Salishia.firma"), 
-                 # c("Polysiphonia","Lithothamnion.phymatodeum"),
+species <- list( c("Acrosiphonia","Cladophora.columbiana"),
+                 c("Fucus.distichus","Elachista.sp"),
+                 c("Palmaria.hecatensis","Osmundea.spectabilis","Salishia.firma"), 
                  "Pyropia",c("Alaria.marginata","Hedophyllum.sessile"),
-                 c( "Mazzaella.parvula", "Mazzaella.oregona", "Mazzaella.splendens" ),"Cladophora.columbiana",
+                 c( "Mazzaella.parvula", "Mazzaella.oregona", "Mazzaella.splendens" ),
                  "Corallina",c("Dactylosiphon.bullosus","Colpomenia.peregrina"),c("Mastocarpus","Petrocelis"),
-                 c("Phyllospadix"),c("Gloiopeltis.furcata"),c("Barnacles","Mytilus"),
-                 # c("Costaria.costata","Osmundea.spectabilis","Nemalion.helminthoides"),
-                 # c("Scytosiphon.lomentaria","Lomentaria.hakodatensis","Salishia.firma"),
-                 c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista"))
+                 c("Phyllospadix.spp."),c("Gloiopeltis.furcata"),c("Barnacles","Mytilus.sp."),
+                 c("Erythrotrichia.carnea","Ectocarpus.commensalis","Elachista.sp"))
 species <- lapply(species, function(z) gsub("[.]"," ", z) )
 species <- lapply(species, trimws )
 
@@ -1204,12 +1200,12 @@ species <- lapply(species, trimws )
 #   group_by( year,  taxon) %>%  #site, transect,
 #   summarize( N = mean(N) )
 # hit-fixes for names
-species_bmass$Species[species_bmass$Species=="Elachista.fucicola"] <- "Elachista"
-ogd.mean$taxon[ogd.mean$taxon == "Elachista.fucicola"] <- "Elachista"
-ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Elachista.fucicola"] <- "Elachista"
-species_bmass$Species[species_bmass$Species=="Elachista.sp"] <- "Elachista"
-ogd.mean$taxon[ogd.mean$taxon == "Elachista.sp"] <- "Elachista"
-ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Elachista.sp"] <- "Elachista"
+# species_bmass$Species[species_bmass$Species=="Elachista.fucicola"] <- "Elachista"
+# ogd.mean$taxon[ogd.mean$taxon == "Elachista.fucicola"] <- "Elachista"
+# ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Elachista.fucicola"] <- "Elachista"
+species_bmass$Species[species_bmass$Species=="Elachista.sp."] <- "Elachista sp"
+ogd.mean$taxon[ogd.mean$taxon == "Elachista.sp."] <- "Elachista sp"
+# ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Elachista.sp"] <- "Elachista"
 species_bmass$Species[species_bmass$Species=="Mytilus.sp."] <- "Mytilus"
 ogd.mean$taxon[ogd.mean$taxon == "Mytilus.sp."] <- "Mytilus"
 ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Mytilus.sp."] <- "Mytilus"
@@ -1231,22 +1227,15 @@ for(i in 1:length(species)){
   filter(Species2 %in% species[[i]] ) %>% ungroup() #%>% 
   
   ggplot( abun.time.plot, aes( x=year, y=exp(median), group=Species2, col=Species2 ) ) + 
-  # geom_ribbon( aes(x=year, ymin=N_high/90, ymax=N_low/90), fill="grey70", alpha=0.5 ) +
-  # facet_wrap(~taxon, scales="free_y",ncol=1) +
   geom_path(size=size_choose, alpha=alpha_choose2) +
-  # geom_point( data=filter(ogd.mean.pa, taxon %in% species ), aes(y=N+0.01111111), size=5, alpha = 0.1 ) +
   geom_point( data=filter(ogd.mean, taxon2 %in% species[[i]] ), aes(y=N+0.01111111, group=taxon, col=taxon2), size=size_choose2, 
               alpha = alpha_choose, position = position_dodge(width = 0.25) ) +
   geom_path( data=filter(ogd.mean.pa.mean, taxon2 %in% species[[i]] ), aes(y=N+0.01111111, group=taxon2, col=taxon2), lwd=0.75, alpha = 1 ) +
-  # stat_summary( data=filter(ogd.mean.pa, taxon %in% species ), aes(y=N), fun = "median", geom="line", size = 0.5 ) +
   scale_color_manual(values=point_colors[1:length(species[[i]])]) +
   ylab("Percent Cover") +
   theme_classic() +
   theme(legend.position = "top", legend.title = element_blank()) +
-  # ylim( c(0,18) ) +
-  # scale_y_sqrt(labels = comma, breaks = c(0, 1.01111111, 10, 25, 50, 75, 100)) +
   scale_y_log10(labels = comma) +
-  # scale_y_continuous(labels = comma) +
   guides(color=guide_legend(nrow=3,ncol=1, byrow=F))  
   
   ggsave( paste0("R/Figs/temporal_trends_select_taxa/",paste0(species[[i]],collapse="_"),"_model+data.svg"), 
@@ -1255,6 +1244,59 @@ for(i in 1:length(species)){
 #
 
 
+# ## remake above figures for special purpose (e.g., presentation)
+# species <- list( c("Fucus.distichus","Elachista"),
+#                  c("Alaria.marginata","Hedophyllum.sessile"))
+# species <- lapply(species, function(z) gsub("[.]"," ", z) )
+# species <- lapply(species, trimws )
+# 
+# # species_temporal.df$taxon <- gsub("\n", ".", species_temporal.df$Species)
+# # predictions_abund_mean <- predictions_abund %>% 
+# #   group_by( year,  taxon) %>%  #site, transect,
+# #   summarize( N = mean(N) )
+# # hit-fixes for names
+# species_bmass$Species[species_bmass$Species=="Elachista.fucicola"] <- "Elachista"
+# ogd.mean$taxon[ogd.mean$taxon == "Elachista.fucicola"] <- "Elachista"
+# ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Elachista.fucicola"] <- "Elachista"
+# species_bmass$Species[species_bmass$Species=="Elachista.sp"] <- "Elachista"
+# ogd.mean$taxon[ogd.mean$taxon == "Elachista.sp"] <- "Elachista"
+# ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Elachista.sp"] <- "Elachista"
+# species_bmass$Species[species_bmass$Species=="Mytilus.sp."] <- "Mytilus"
+# ogd.mean$taxon[ogd.mean$taxon == "Mytilus.sp."] <- "Mytilus"
+# ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Mytilus.sp."] <- "Mytilus"
+# species_bmass$Species[species_bmass$Species=="Pyropia/Neoporphyra/Porphyrella"] <- "Pyropia"
+# ogd.mean$taxon[ogd.mean$taxon == "Pyropia/Neoporphyra/Porphyrella"] <- "Pyropia"
+# ogd.mean.pa.mean$taxon[ogd.mean.pa.mean$taxon == "Pyropia/Neoporphyra/Porphyrella"] <- "Pyropia"
+# ogd.mean$taxon2 <- gsub("[.]"," ",ogd.mean$taxon)
+# ogd.mean$taxon2 <- trimws(ogd.mean$taxon2)
+# ogd.mean.pa.mean$taxon2 <- gsub("[.]"," ",ogd.mean.pa.mean$taxon)
+# ogd.mean.pa.mean$taxon2 <- trimws(ogd.mean.pa.mean$taxon2)
+# alpha_choose = 0.25
+# alpha_choose2 = 0.75
+# size_choose = 2.5
+# size_choose2 = 3
+# point_colors <- c("slateblue","firebrick", "goldenrod" )
+# for(i in 1:length(species)){
+#   abun.time.plot <- species_bmass %>% 
+#     mutate( Species2 = trimws(gsub("[.]"," ",Species))) %>% 
+#     filter(Species2 %in% species[[i]] ) %>% ungroup() #%>% 
+#   
+#   ggplot( abun.time.plot, aes( x=year, y=exp(median), group=Species2, col=Species2 ) ) + 
+#     geom_path(size=size_choose, alpha=alpha_choose2) +
+#     geom_point( data=filter(ogd.mean, taxon2 %in% species[[i]] ), aes(y=N, group=taxon, col=taxon2), size=size_choose2, 
+#                 alpha = alpha_choose, position = position_dodge(width = 0.25) ) +
+#     # geom_path( data=filter(ogd.mean.pa.mean, taxon2 %in% species[[i]] ), aes(y=N, group=taxon2, col=taxon2), lwd=0.75, alpha = 1 ) +
+#     scale_color_manual(values=point_colors[1:length(species[[i]])]) +
+#     ylab("Percent Cover") +
+#     theme_classic() +
+#     theme(legend.position = "top", legend.title = element_blank()) +
+#     # scale_y_log10(labels = comma) +
+#     guides(color=guide_legend(nrow=3,ncol=1, byrow=F))  
+#   
+#   ggsave( paste0("R/Figs/temporal_trends_select_taxa/special/",paste0(species[[i]],collapse="_"),"_model+data.svg"), 
+#           width=3,height=3.5)
+# }
+# #
 
 
 
@@ -1268,92 +1310,6 @@ for(i in 1:length(species)){
 
 
 
-
-
-predictions_pab_trait <- left_join( predictions_pab, taxon.key )
-predictions_copp_trait <- left_join( predictions_copp, taxon.key )
-predictions_abund_trait <- left_join( predictions_abund, taxon.key )
-
-
-# only pull the 10 most common taxa
-taxa <- colnames(models[[1]]$Y)
-top6 <- taxa[c(1:6,9,14,15)]
-
-custom_occur <- taxa[c(4,33,29,18,22,30,34,3,34,40,15,11,5,38)]
-custom_cop   <- taxa[c(33,25,14,36,7,1,13,8,39,27,42,2,37,15)]
-custom_abun  <- taxa[c(33,4,29,18,25,14,36,30,7,1,13,27,45,22,15,38)]
-# 10 rarest taxa
-bot10 <- taxa[(length(taxa)-8):length(taxa)]
-
-taxa2plot <- bot10
-
-# windows(6,4)
-ggplot( filter(predictions_pab,taxon %in% custom_occur & year %in% c(2012,2019)), 
-        aes(x = elev, y = N,
-            fill=factor(year), col=factor(year) ))+
-  geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
-  facet_wrap(~taxon, scales = "free_y", ncol=4)+
-  theme_classic() +
-  scale_fill_manual(values=c("gold1", "darkslategray4"), name = "Year")+
-  geom_point( data = filter( comm_final_pa, taxon %in% custom_occur, year %in% c(2012,2019)), 
-              pch=21, alpha = 0.75 ) +
-  geom_line(size = 0.5 ) +
-  scale_color_manual(values = c("darkslategray","black"), name = "Year") +
-  ylab("Probability of occurrence") + xlab("Shore height (cm)") +
-  theme( strip.text.x = element_text(size = 7)) +
-  coord_cartesian(ylim=c(0,1))
-ggsave("R/Figs/hmsc_response_curves_hurdle_occur.svg", width = 7, height = 5)
-ggplot( filter(predictions_copp,taxon %in% custom_cop & year %in% c(2012,2019)), 
-        aes(x = elev, y = N,
-            fill=factor(year), col=factor(year) ))+
-  geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
-  facet_wrap(~taxon, scales = "free_y", ncol=4)+
-  theme_classic() +
-  scale_fill_manual(values=c("gold1", "darkslategray4"), name = "Year")+
-  geom_point( data = filter( comm_final_cond, taxon %in% custom_cop, year %in% c(2012,2019)), 
-              pch=21, alpha = 0.75 ) +
-  geom_line(size = 0.5 ) +
-  scale_color_manual(values = c("darkslategray","black"), name = "Year") +
-  scale_y_sqrt(breaks=c(0,1,10,25,50,100)) +
-  ylab("Cover conditional on presence (%)") + xlab("Shore height (cm)") +
-  theme( strip.text.x = element_text(size = 7)) +
-  coord_cartesian(ylim=c(0,100))
-ggsave("R/Figs/hmsc_response_curves_hurdle_cop.svg", width = 7, height = 5)
-ggplot( filter(predictions_abund,taxon %in% custom_abun & year %in% c(2012,2019)), 
-        aes(x = elev, y = N,
-            fill=factor(year), col=factor(year) ))+
-  geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, col="gray75")+
-  facet_wrap(~taxon, scales = "free_y", ncol=4)+
-  theme_classic() +
-  scale_fill_manual(values=c("gold1", "darkslategray4"), name = "Year")+
-  geom_point( data = filter( comm_final, taxon %in% custom_abun, year %in% c(2012,2019)), 
-              pch=21, alpha = 0.75 ) +
-  geom_line(size = 0.5 ) +
-  scale_color_manual(values = c("darkslategray","black"), name = "Year") +
-  scale_y_sqrt(breaks=c(0,1,10,25,50,100)) +
-  ylab("Cover (%)") + xlab("Shore height (cm)") +
-  theme( strip.text.x = element_text(size = 7)) +
-  coord_cartesian(ylim=c(0,100))
-ggsave("R/Figs/hmsc_response_curves_hurdle_total.svg", width = 7, height = 5)
-
-# just show Fucus
-fuc <- "Fucus.distichus"
-fuc <- "Mytilus.sp."
-fuc <- "Hedophyllum.sessile"
-# windows(5,4)
-ggplot( filter(predictions_copp,taxon %in% fuc ), 
-        aes(x = elev, y = N ))+
-  facet_wrap(~year)+
-  geom_ribbon(aes(ymin = N_low, ymax = N_high), alpha = 0.5, fill="gray75")+
-  geom_line(aes(group=year),size = 0.5)+
-  theme_classic() +
-  ggtitle(fuc) +
-  geom_point( data = filter( comm_final, taxon %in% fuc), pch=21 ) +
-  scale_y_sqrt(breaks=c(1,10,50,100,200)) +
-  ylab("Percent cover") + xlab("Shore height (cm)") +
-  coord_cartesian(ylim = c(-0, 100))
-ggsave(paste0("R/Figs/model+data_",fuc,".svg"),width=5,height=5 )
-#
 
 
 ###################################
@@ -1493,7 +1449,7 @@ mean(c(slopes.peak*8))
 quantile(c(slopes.peak*8),probs = 0.5)
 summary( lm(c(slopes.peak*8)~1) )
 
-quantile( c(slopes.peak.algae*8), prob = rev(c(0.025,0.25,0.5,0.75,0.975)) )
+# quantile( c(slopes.peak.algae*8), prob = rev(c(0.025,0.25,0.5,0.75,0.975)) )
 # library(easystats)
 # library(rstanarm)
 # stan1 <- stan_glm(shift ~ 1, data = elev.shift)
@@ -1527,14 +1483,14 @@ hist( log(c(abun.shifts.run), base=2) )
 hist( log(c(abun.shifts.run.algae), base=2) )
 summary( lm(log(c(abun.shifts.run.algae),base=2)~1) )
 
-2^quantile( log(abun.shifts.run.algae,base=2), prob = (c(0.025,0.25,0.5,0.75,0.975)) )-1
+# 2^quantile( log(abun.shifts.run.algae,base=2), prob = (c(0.025,0.25,0.5,0.75,0.975)) )-1
 
 
 ## combine these results
 shift.summary <- data.frame( elev.shifts.summary, abun.shifts.summary) #, range.shifts.summary, min.shifts.summary, max.shifts.summary )
 shift.summary$taxon <- colnames(models[[1]]$Y)#[taxon.key$funct != "animal"]
 shift.summary %>% arrange(-abun.init.med)
-shift.summary$rank <- 1:46
+shift.summary$rank <- 1:ncol(models[[1]]$Y)
 # ggplot( shift.summary, aes(x = abun.shifts.med, y = elev.shifts.med) ) +
 #   # geom_hline( yintercept=0, lty=2 ) + geom_vline( xintercept = 0, lty=2 ) +
 #   geom_linerange( aes( ymin = elev.shifts.low, ymax= elev.shifts.high), alpha=0.25) +
@@ -1576,6 +1532,7 @@ shift.summary %>%
   filter( peak.sig == TRUE | abun.sig == TRUE )
 
 # individual shifts
+shift.summary$taxon <- gsub(" ",".", shift.summary$taxon)
 shift.summary <- left_join(shift.summary, taxon.key)
 shift.summary <- shift.summary %>% 
   mutate(order_FG = factor(funct, levels = biomass_ln_trends$FG[order(biomass_ln_trends$median)], ordered = TRUE)) %>% 
@@ -1758,6 +1715,7 @@ shift.summary.FG$level <- "functional_group"
 shift.summary.all <- bind_rows(shift.summary.FG, shift.summary)
 shift.summary.all$funct[is.na(shift.summary.all$funct)] <- "animal"
 shift.summary.all$funct[shift.summary.all$funct=="animal"] <- "invert"
+# shift.summary.all$funct[shift.summary.all$taxon=="Elachista sp."] <- "thin_turf"
 # order by functional group
 shift.summary.all <- shift.summary.all %>% 
   mutate(order_FG = factor(funct, levels = shift.summary.FG$funct[order(shift.summary.FG$abun.shifts.med)], ordered = TRUE)) %>%
@@ -1791,7 +1749,7 @@ errorbar_small <- 0.75
 errorbar_big <- 1.5
 shift.summary.all$taxon <- gsub("Anemone","anemones",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("Barnacles","barnacles",shift.summary.all$taxon)
-shift.summary.all$taxon <- gsub("Elachista.*","Elachista",shift.summary.all$taxon)
+shift.summary.all$taxon <- gsub("Elachista*","Elachista",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("[.]spp[.]","",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("[.]sp[.]","",shift.summary.all$taxon)
 shift.summary.all$taxon <- gsub("[.]"," ",shift.summary.all$taxon)
@@ -1801,24 +1759,62 @@ shift.summary.all$taxon2 <- shift.summary.all$taxon
 # shift.summary.all$taxon2[shift.summary.all$taxon %in% shift.summary.FG$taxon] <- c( expression(bold("THIN TURFS")),expression(bold("BLADES")),expression(bold("TURFS")),
 #                                                                                     expression(bold("CANOPY-FORMERS")),expression(bold("CRUSTS")),expression(bold("INVERTEBRATES")) )
 shift.summary.all$taxon2 <- c( expression(italic("Elachista")),expression(italic("Ptilota filicina")),expression(italic("Plocamium violaceum")),
-                               expression(italic("Gloiopeltis furcata")),expression(italic("Endocladia muricata")),expression(italic("Callithamnion pikeanum")),
-                               expression(italic("Cladophora columbiana")),expression(italic("Ceramium pacificum")),expression(italic("Polysiphonia")),
-                               expression(italic("Microcladia borealis")),expression(italic("Savoiea robusta")),expression(bold("THIN TURFS")),
+                               expression(italic("Gloiopeltis furcata")),expression(italic("Endocladia muricata")),
+                               expression(italic("Callithamnion pikeanum")),expression(italic("Savoiea robusta")),
+                               expression(italic("Microcladia borealis")), expression(italic("Polysiphonia")), expression(italic("Acrosiphonia")),
+                               expression(italic("Cladophora columbiana")),expression(italic("Ceramium pacificum")),
+                               expression(bold("THIN TURFS")),
+                               
                                expression(italic("Palmaria hecatensis")),expression(italic("Mazzaella oregona")),expression(italic("Mazzaella splendens")),
-                               expression(italic("Ulva")),expression(italic("Pyropia")),expression(italic("Dilsea californica")),
-                               expression(bold("BLADES")),expression(italic("Polyneura latissima")),expression(italic("Mastocarpus")),
-                               expression(italic("Hymenena")),expression(italic("Neorhodomela larix")),expression(italic("Prionitis")),
-                               expression(italic("Farlowia mollis")),expression(italic("Corallina")),expression(italic("Mazzaella parvula")),
-                               expression(italic("Halosaccion glandiforme")),expression(italic("Leathesia marina")),expression(italic("Odonthalia floccosa")),
-                               ape::mixedFontLabel( "Bossiella", "articulate",  italic = 1 ),expression(italic("Neogastroclonium subarticulatum")),expression(italic("Cryptosiphonia woodii")),
-                               expression(bold("TURFS")),expression(italic("Fucus distichus")),expression(italic("Alaria marginata")),
+                               expression(italic("Ulva")), expression(italic("Pyropia")),
+                               expression(italic("Dilsea californica")),
+                               expression(bold("BLADES")),
+                               
+                               expression(italic("Mastocarpus")),expression(italic("Polyneura latissima")),expression(italic("Hymenena")),
+                               expression(italic("Neorhodomela larix")),expression(italic("Prionitis")),expression(italic("Mazzaella parvula")),
+                               expression(italic("Farlowia mollis")), 
+                               ape::mixedFontLabel( "Bossiella", "articulate",  italic = 1 ),
+                               expression(italic("Halosaccion glandiforme")),
+                               expression(italic("Leathesia marina")),expression(italic("Corallina")), expression(italic("Odonthalia floccosa")),
+                               expression(italic("Neogastroclonium subarticulatum")),expression(italic("Cryptosiphonia woodii")),
+                               expression(bold("TURFS")),
+                               
+                               expression(italic("Fucus distichus")),expression(italic("Alaria marginata")),
                                expression(italic("Egregia menziesii")),expression(italic("Phyllospadix")),expression(italic("Hedophyllum sessile")),
-                               expression(bold("CANOPY-FORMERS")),expression(italic("Petrocelis")),expression(italic("Hildenbrandia")),
-                               expression(plain("coralline crust")),expression(italic("Chamberlainium tumidum")),expression(plain("ralfsioid")),
-                               expression(italic("Lithothamnion phymatodeum")),expression(italic("Neopolyporolithon reclinatum")),expression(bold("CRUSTS")),
+                               expression(bold("CANOPY-FORMERS")),
+                               
+                               expression(italic("Petrocelis")),expression(italic("Hildenbrandia")),expression(plain("coralline crust")),
+                               expression(italic("Chamberlainium tumidum")),expression(plain("ralfsioid")), 
+                               expression(italic("Lithothamnion phymatodeum")),expression(italic("Neopolyporolithon reclinatum")),
+                               expression(bold("CRUSTS")),
+                               
                                expression(plain("barnacles")),expression(plain("anemones")),expression(italic("Mytilus")),
                                expression(bold("INVERTEBRATES")) )
   
+# shift.summary.all$taxon2 <- c( expression(italic("Elachista")),expression(italic("Ptilota filicina")),expression(italic("Plocamium violaceum")),
+#                                expression(italic("Gloiopeltis furcata")),expression(italic("Endocladia muricata")),expression(italic("Callithamnion pikeanum")),
+#                                expression(italic("Cladophora columbiana")),expression(italic("Ceramium pacificum")),expression(italic("Polysiphonia")),
+#                                expression(italic("Microcladia borealis")),expression(italic("Savoiea robusta")),
+#                                expression(bold("THIN TURFS")),
+#                                expression(italic("Palmaria hecatensis")),expression(italic("Mazzaella oregona")),expression(italic("Mazzaella splendens")),
+#                                expression(italic("Ulva")),expression(italic("Pyropia")),expression(italic("Dilsea californica")),
+#                                expression(bold("BLADES")),
+#                                expression(italic("Polyneura latissima")),expression(italic("Mastocarpus")),
+#                                expression(italic("Hymenena")),expression(italic("Neorhodomela larix")),expression(italic("Prionitis")),
+#                                expression(italic("Farlowia mollis")),expression(italic("Corallina")),expression(italic("Mazzaella parvula")),
+#                                expression(italic("Halosaccion glandiforme")),expression(italic("Leathesia marina")),expression(italic("Odonthalia floccosa")),
+#                                ape::mixedFontLabel( "Bossiella", "articulate",  italic = 1 ),expression(italic("Neogastroclonium subarticulatum")),expression(italic("Cryptosiphonia woodii")),
+#                                expression(bold("TURFS")),
+#                                expression(italic("Fucus distichus")),expression(italic("Alaria marginata")),
+#                                expression(italic("Egregia menziesii")),expression(italic("Phyllospadix")),expression(italic("Hedophyllum sessile")),
+#                                expression(bold("CANOPY-FORMERS")),
+#                                expression(italic("Petrocelis")),expression(italic("Hildenbrandia")),
+#                                expression(plain("coralline crust")),expression(italic("Chamberlainium tumidum")),expression(plain("ralfsioid")),
+#                                expression(italic("Lithothamnion phymatodeum")),expression(italic("Neopolyporolithon reclinatum")),
+#                                expression(bold("CRUSTS")),
+#                                expression(plain("barnacles")),expression(plain("anemones")),expression(italic("Mytilus")),
+#                                expression(bold("INVERTEBRATES")) )
+#   
 # plots
 elev.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
                                                  y=elev.shifts.med)) + #
@@ -1829,7 +1825,7 @@ elev.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
   geom_errorbar( aes(ymin=elev.shifts.25,ymax=elev.shifts.75, col = order_FG), width = 0, lwd = errorbar_big ) +
   geom_point(aes(size = level, shape = level, col = order_FG)) +
   ylab( "Peak elevation shift (cm)" ) + xlab("") +
-  scale_x_continuous(breaks = seq(1,46+6,1), labels = NULL ) +
+  scale_x_continuous(breaks = seq(1,47+6,1), labels = NULL ) +
   scale_y_continuous(breaks = seq(-800,400,100) ) + #c(1,10,20,30,40,46)) +
   scale_color_manual(values = brewer.pal(n = 8, name = "Dark2") ) +
   scale_size_manual(values = pt.size ) +
@@ -1837,7 +1833,7 @@ elev.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
   theme_bw() +
   theme( panel.grid.minor.x = element_blank(), panel.grid.minor.y = element_blank(),
          legend.position = "none"  ) +
-  coord_flip( ylim = c(-175,75), xlim = c(0,46+6+1), expand = FALSE ) 
+  coord_flip( ylim = c(-175,75), xlim = c(0,47+6+1), expand = FALSE ) 
 
 abun.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
                                                  y=log(abun.shifts.med,base=2)) ) + 
@@ -1851,7 +1847,7 @@ abun.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
   scale_y_continuous( breaks=c(log(64,base=2),log(16,base=2),log(4,base=2),0,
                                log(1/4,base=2),log(1/16,base=2),log(1/64,base=2)),
                       labels=c('64x','16x','4x','0','1/4x','1/16x','1/64x') ) +
-  scale_x_continuous(breaks = seq(1,46+6,1), labels = shift.summary.all$taxon2 ) + #c(1,10,20,30,40,46)) +
+  scale_x_continuous(breaks = seq(1,47+6,1), labels = shift.summary.all$taxon2 ) + #c(1,10,20,30,40,46)) +
   # scale_color_manual(values = c("red","darkgrey","darkred","#996633","pink","midnightblue") ) +
   # scale_color_manual(values = c("red","#90ee90","darkred","#79906c","deeppink1","midnightblue") ) +
   scale_color_manual(values = brewer.pal(n = 8, name = "Dark2") ) +
@@ -1860,9 +1856,9 @@ abun.shift.plot <- ggplot( shift.summary.all, aes(x=newrank,
   theme_bw() +
   theme( panel.grid.minor.x = element_blank(), panel.grid.minor.y = element_blank(),
          legend.position = "none",) +
-  coord_flip(  ylim = log(c(1/64,50), base=2), xlim = c(0,46+6+1), expand = FALSE ) 
-plot_grid( abun.shift.plot, elev.shift.plot, ncol=2, rel_widths = c(1.75,1),axis = 'tb', labels="AUTO" )
-ggsave( "R/Figs/shifts_2panel_FG.svg", width=7, height=7 )
+  coord_flip(  ylim = log(c(1/64,50), base=2), xlim = c(0,47+6+1), expand = FALSE ) 
+plot_grid( abun.shift.plot, elev.shift.plot, ncol=2, rel_widths = c(1.75,1),axis = 'tb', labels="auto" )
+ggsave( "R/Figs/shifts_2panel_FG.svg", width=7, height=7.25 )
 
 ##
 
@@ -1941,9 +1937,9 @@ predictions_abun$yearplot <- as.character(factor(predictions_pa$year1, levels = 
 # predictions_abun$elev <- as.numeric(as.character(factor(predictions_pa$elev1, levels = unique(predictions_pa$elev1), labels = unique(newDF$elev))))
 
 # pick different taxa
-# taxonpick <- "Hedophyllum.sessile"
-# taxonpick <- "Alaria.marginata"
-# taxonpick <- "Fucus.distichus"
+# taxonpick <- "Hedophyllum sessile"
+# taxonpick <- "Alaria marginata"
+# taxonpick <- "Fucus distichus"
 taxonpick <- "Mytilus.sp."
 
 # peaks for taxon
@@ -1960,6 +1956,10 @@ peaks1219taxon$yearplot <- as.character(peaks1219taxon$year)
 # plotting parameters
 lwds = 0.75
 sizes = 1
+
+colnames(ogd.pa.wide) <- gsub(" ",".", colnames(ogd.pa.wide) )
+colnames(ogd.cop.wide) <- gsub(" ",".", colnames(ogd.cop.wide) )
+colnames(ogd.wide) <- gsub(" ",".", colnames(ogd.wide) )
 
 a <- ggplot(filter(predictions_pa, year %in% c(2012,2019), elev >= range(models[[1]]$XData$elev)[1], elev <= range(models[[1]]$XData$elev)[2] ), 
             aes_string(x = 'elev', y = taxonpick, col='yearplot'))+
@@ -2132,7 +2132,7 @@ ylimits2 <- c(-6,6) #c(2^-max(abs(log(range(compare_all$shift.y),base=2))), 2^ma
 # add nice scatteplot
 # taxa to plot
 compare_all_plot <- shift.summary
-compare_all_plot$labels <- factor( compare_all_plot$taxon, labels=1:46 )
+compare_all_plot$labels <- factor( compare_all_plot$taxon, labels=1:47 )
 # taxalabel <- top6
 # taxalabel <- customXY
 # # color points by kingdom (red, green, brown)

@@ -175,7 +175,7 @@ ad <- ad[ ad$Taxon != c( "Habitat notes" ), ]
 
 ## Use corrected species names to replace taxon names
 # this file also contains columns to lump taxa 
-corrected_taxa <- read.csv( "data/taxa/CorrectedTaxonList.csv" )
+corrected_taxa <- read.csv( "data/taxa/CorrectedTaxonList_2019.csv" )
 # trim all the white space
 ad$Taxon  <- trimws( ad$Taxon )
 # corrected_taxa2 <- read.csv( "Data/taxa/TaxonList_corrected_lumped_unique.csv" )

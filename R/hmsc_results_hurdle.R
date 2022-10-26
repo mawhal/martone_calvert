@@ -128,11 +128,11 @@ dev.off()
 
 ## parameter estimates ####
 postBeta = lapply( models, getPostEstimate, parName = "Beta")
-# windows(5,8)
-# plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
-# postBeta[[1]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
-# postBeta[[2]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
-
+# # windows(5,8)
+# # plotBeta(m, post = postBeta, param = "Sign", supportLevel = 0.95, mar=c(7,11,0,6))
+# # postBeta[[1]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
+# # postBeta[[2]]$mean[, c("Alaria.marginata","Hedophyllum.sessile","Polysiphonia")]
+# 
 # cor( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
 # plot( as.vector(postBeta[[1]]$mean), as.vector(postBeta[[2]]$mean) )
 # 

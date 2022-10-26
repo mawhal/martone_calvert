@@ -37,7 +37,7 @@ d <- pine %>%
   mutate( temp=replace(temp, temp==999.9, NA)) %>%
   mutate( sal=replace(sal, sal==999.9, NA))
 #
-# select tempearture only for now
+# select temperature only for now
 d <- d %>%
   select( t=date, temp ) 
 
@@ -63,7 +63,7 @@ mcw <- detect_event(ts10,coldSpells = TRUE, maxGap = maxGapchoice)
 # using PC scores on a daily timescale, includes salinity as well as temperature
 # select PCA1 only for now
 d <- pca.meta %>%
-  select( t=date, temp=pca1 ) 
+  select( t=date, temp=pca2 ) 
 
 plot(d, type='l')
 
@@ -141,7 +141,7 @@ ggplot(mhw_clim_join, aes(x = t), group=source) +
   theme_minimal()
 
 
-ggsave( "R/Figs/heatwaveR_pine_pca1.svg",
+ggsave( "R/Figs/heatwaveR_pine_pca2.svg",
         dpi=300, width=11, height=8 )
 
 
@@ -153,11 +153,8 @@ mhw2_clim <- mhw2$climatology %>%
 mcw2_clim <- mcw2$climatology %>% 
   filter( t >= "2011-07-01") %>%
   mutate( source="PCA")
-PCA1 <- ggplot(mhw2_clim, aes(x = t)) +
+PCA2 <- ggplot(mhw2_clim, aes(x = t)) +
   geom_vline(xintercept = survey.dates$Date, lty=2, size=0.5) +
-  geom_line(aes(y = thresh, colour = "90th percentile"), size = 1 ) +
-  geom_line(data=mcw2_clim,aes(y = thresh, colour = "10th percentile"), size = 1) +
-  geom_line(aes(y = seas, colour = "climatology"), size = 0.5) +
   geom_flame(aes(y = temp, y2 = thresh), 
              n=5,n_gap=2,
              show.legend = T, col="gray25", fill='red', size=0.5 ) +
@@ -166,7 +163,9 @@ PCA1 <- ggplot(mhw2_clim, aes(x = t)) +
              show.legend = T, col="gray25", fill='blue', size=0.5 ) +
   # geom_flame(data = mhw_top, aes(y = temp, y2 = thresh, fill = "top"),  show.legend = T) +
   geom_line(aes(y = temp, colour = "PCA1"), size=0.125) +
-
+  geom_line(aes(y = thresh, colour = "90th percentile"), size = 0.5) +
+  geom_line(data=mcw2_clim,aes(y = thresh, colour = "10th percentile"), size = 0.5) +
+  geom_line(aes(y = seas, colour = "climatology"), size = 0.5) +
   scale_colour_manual(name = "Line Colour",
                       values = c("PCA1" = "black",
                                  "90th percentile" =  "red",
@@ -178,15 +177,13 @@ PCA1 <- ggplot(mhw2_clim, aes(x = t)) +
   scale_x_date(date_labels = "%Y") +
   guides(colour = guide_legend(override.aes = list(fill = NA))) +
   labs(y = "PCA1", x = NULL) +
-  theme_minimal()  + theme( legend.position = 'none', panel.border = element_rect(colour = "black", fill=NA),
-                                                     text = element_text(size = 20) ) 
-  # theme(legend.justification=c(1,0), legend.position=c(1,0),legend.direction="horizontal",legend.title=element_blank(),
-  #                         legend.background = element_rect(fill="white"),
-  #                         legend.box.background = element_rect(colour = "black"),
-  #                         panel.border = element_rect(colour = "black", fill=NA),
-  #                         text = element_text(size = 20))
+  theme_minimal() + theme(legend.justification=c(1,0), legend.position=c(1,0),legend.direction="horizontal",legend.title=element_blank(),
+                          legend.background = element_rect(fill="white"),
+                          legend.box.background = element_rect(colour = "black"),
+                          panel.border = element_rect(colour = "black", fill=NA),
+                          text = element_text(size = 20))
 
-ggsave("R/Figs/lighthouse_heatwaveR_PCA1.svg", width=8, height = 2)
+# ggsave("R/Figs/lighthouse_heatwaveR_PCA2.svg", width=8, height = 2)
   
   
 
@@ -221,7 +218,7 @@ mhw_summary_year <- mhw_summary_all %>%
 lolli_plot(mhw, metric = "intensity_cumulative")
 lolli_plot(mhw, metric = "intensity_max")
 # write to disk
-write_csv( mhw_summary_year, "R/output/heatwaveR_summary_year_pine_pca1.csv" )
+write_csv( mhw_summary_year, "R/output/heatwaveR_summary_year_pine_pca2.csv" )
 
 
 
@@ -270,7 +267,7 @@ for(i in 1:nrow(survey.dates)){
 }
 psych::pairs.panels( select(survey.dates,Date,duration,intensity_max,duration5) )
 
-write_csv( survey.dates, "R/output/heatwaveR_duration_surveyyear_pca1.csv" )
+write_csv( survey.dates, "R/output/heatwaveR_duration_surveyyear_pca2.csv" )
 
 
 
@@ -309,11 +306,13 @@ heatwave_days <- survey.dates %>%
                           legend.box.background = element_rect(colour = "black"),
                           panel.border = element_rect(colour = "black", fill=NA),
                           text = element_text(size = 20))
-ggsave("R/Figs/lighthouse_heatwave_days_pca1.svg",width=8,height=2)
+ggsave("R/Figs/lighthouse_heatwave_days_pca2.svg",width=8,height=2)
 
-# must run script "Lighstation_monthly_anomaly.R" first
-source("R/Lightstation_monthly_anomaly.R")
+# must run script "Lighstation_montly_anomaly.R" first
+source("Lighstation_montly_anomaly.R")
 cowplot::plot_grid( monthly, PCA1, heatwave_days, align = "h", axis = "b", ncol = 1, rel_heights = c(3,2,2) )
 ggsave("R/Figs/Fig1.svg", width = 8, height = 9 )
 
-
+### ----------------------------------
+# calculate climatology for each time series, plus pca, and make a single table to show heatwave stats
+# what we want: June 1 to May 31 temperatures

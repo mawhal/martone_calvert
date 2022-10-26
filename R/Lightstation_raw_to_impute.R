@@ -26,11 +26,14 @@ summary(drecent)
 # use missing data algorithms
 # missing and imputation ---- see http://juliejosse.com/wp-content/uploads/2018/05/DataAnalysisMissingR.html -----
 library(missMDA)
-# ignore the earlier years of the dataset
-nb <- estim_ncpPCA( select(drecent,-date), method.cv = "Kfold", verbose = FALSE) # estimate the number of components from incomplete data
+# # ignore the earlier years of the dataset
+# nb <- estim_ncpPCA( select(drecent,-date), method.cv = "Kfold", verbose = FALSE) # estimate the number of components from incomplete data
+# remove salinity
+nb <- estim_ncpPCA( select(drecent,temp_pine, temp_mcinnes, temp_addenbroke), method.cv = "Kfold", verbose = FALSE) # estimate the number of components from incomplete data
 #(available methods include GCV to approximate CV)
 nb$ncp
-res.comp <- imputePCA( select(drecent,-date), ncp = nb$ncp) # iterativePCA algorithm
+# res.comp <- imputePCA( select(drecent,-date), ncp = nb$ncp) # iterativePCA algorithm
+res.comp <- imputePCA( select(drecent,temp_pine, temp_mcinnes, temp_addenbroke), ncp = nb$ncp) # iterativePCA algorithm
 res.comp$completeObs[1:3,] # the imputed data set
 imp <- res.comp$completeObs
 library(FactoMineR)
@@ -46,7 +49,7 @@ plot( res.pca, choix = "var", cex = 0.8, title = "",
       col.var = c("darkslateblue","darkslateblue", "darkslateblue","firebrick4","firebrick4"),
        graph.type = "classic", label="none" ) #label = "none",
 dev.off()
-dimdesc( res.pca )
+# dimdesc( res.pca )
 pcscores <- data.frame( res.pca$ind$coord )
 names(pcscores) <- paste0("pca",1:ncol(pcscores))
 
@@ -61,8 +64,8 @@ ccf(pcscores$pca1, pcscores$pca2 )
 # 1997-1998 El Nino
 warm_times <- lubridate::ymd(c("1997-06-01","1998-06-01","201408-01","2016-12-31"))
 lubridate::ymd(c("2013-12-01","2016-01-01"))
-png(file="R/Figs/BC_Lightstation_PCA_timeseries.png", res = 600, width = 5, height = 5, units = "in")
-par( mar=c(2,4,0,1)+0.1, mfrow=c(3,1), las = 1 )
+png(file="R/Figs/BC_Lightstation_PCA_timeseries.png", res = 600, width = 7, height = 5, units = "in")
+par( mar=c(2,4,0,1)+0.1, mfrow=c(ncol(pcscores),1), las = 1 )
 plot(x = drecent$date, y = pcscores$pca1, type = 'l', col = 'slateblue', ylab = "PCA1" ); abline(h = 0)
 lines( lowess(x = drecent$date, y = pcscores$pca1, f = 1/20, iter = 10), col = "darkslateblue", lwd=2)
 abline( v = warm_times, lty = 4, col = "slategrey" )
@@ -71,10 +74,10 @@ plot(x = drecent$date, y = pcscores$pca2, type = 'l', col = 'firebrick', ylab = 
 lines( lowess(x = drecent$date, y = pcscores$pca2, f = 1/20, iter = 10), col = "firebrick4", lwd=2)
 abline( v = warm_times, lty = 4, col = "slategrey" )
 axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
-plot(x = drecent$date, y = pcscores$pca3, type = 'l', col = 'darkorange', ylab = "PCA3" ); abline(h = 0)
-lines( lowess(x = drecent$date, y = pcscores$pca3, f = 1/20, iter = 10), col = "darkorange4", lwd=2)
-abline( v = warm_times, lty = 4, col = "slategrey" )
-axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
+# plot(x = drecent$date, y = pcscores$pca3, type = 'l', col = 'darkorange', ylab = "PCA3" ); abline(h = 0)
+# lines( lowess(x = drecent$date, y = pcscores$pca3, f = 1/20, iter = 10), col = "darkorange4", lwd=2)
+# abline( v = warm_times, lty = 4, col = "slategrey" )
+# axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
 dev.off()
 
 png(file="R/Figs/BC_Lightstation_PCA1_daily_timeseries.png", res = 600, width = 6, height = 1.5, units = "in")
@@ -84,6 +87,89 @@ lines( lowess(x = drecent$date, y = pcscores$pca1, f = 1/20, iter = 10), col = "
 abline( v = warm_times, lty = 4, col = "slategrey" )
 axis(1, at = lubridate::ymd(paste0(2012:2019,"-01-01")), labels = FALSE, col='magenta' )
 dev.off()
+
+par( mar=c(2,4,0,1)+0.1, mfrow=c(1,1), las = 1 )
+plot(x = drecent$date, y = pcscores$pca1, type = 'n', col = 'slateblue', ylab = "PCA1" ); abline(h = 0)
+lines( lowess(x = drecent$date, y = pcscores$pca1, f = 1/20, iter = 10), col = "darkslateblue", lwd=2)
+lines( lowess(x = drecent$date, y = pcscores$pca2, f = 1/20, iter = 10), col = "darkslateblue", lwd=2)
+x <- lowess(x = drecent$date, y = pcscores$pca1, f = 1/20, iter = 10)
+x <- do.call(cbind,x)
+x <- as.data.frame(as.matrix(x))
+names(x) <- c("x","pca1")
+y <- lowess(x = drecent$date, y = pcscores$pca2, f = 1/20, iter = 10)
+y <- do.call(cbind,y)
+y <- as.data.frame(as.matrix(y))
+names(y) <- c("x","pca2")
+xy <- left_join(x, y)
+
+#####
+# PCA2 with temperature only:
+# does this represent a more de-trended analysis that 
+# represents anomalies within years (anomalous anomalies?)
+library(viridis)
+library(lubridate)
+library(pals)
+xy$date <- drecent$date
+xy$doy <- yday(xy$date)
+xy$year <- year(xy$date)
+# ad survey dates
+am <- read_csv("Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
+surveys <- am %>% 
+  filter(Site != "Meay Channel") %>% 
+  filter(Year %in% 2012:2019) %>% 
+  mutate(Date = ymd(Date)) %>% 
+  select(Year,Date) %>% 
+  distinct()
+surveys <- xy[xy$date %in% surveys$Date,]
+surveys <- surveys %>% 
+  group_by(year) %>% 
+  summarize(date=date[1], pca1=pca1[1], pca2 = pca2[2]) %>% 
+  mutate(doy=yday(date))
+
+ggplot( xy, aes(x = pca1, y = pca2, col=doy)) +
+  geom_point(size = 0.5) +
+  geom_point(data = surveys, aes(col=doy),size = 3, shape = 19 ) +
+  geom_point(data = surveys, size = 3, shape = 21, col = 'black' ) +
+  scale_color_gradientn(colours = pals::kovesi.cyclic_mygbm_30_95_c78_s25(365)) 
+
+# PCA2 alone
+dsurvey <- drecent
+dsurvey$date <- ymd( dsurvey$date )
+dsurvey$year <- year( dsurvey$date )
+dsurvey$doy <- yday( dsurvey$date )
+dsurvey <- data.frame(dsurvey, pcscores)
+dsurvey <- dsurvey %>% 
+  filter(year %in% 2011:2020)
+ggplot(data = dsurvey, aes(x = date, y = pca2, col = doy) ) + 
+  geom_hline(yintercept = 0 ) +
+  geom_line() +
+  geom_smooth() +
+  geom_point(data = surveys,size = 3, shape = 19, col = "black" ) +
+  scale_color_gradientn(colours = pals::kovesi.cyclic_mygbm_30_95_c78_s25(365)) 
+
+#####
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 dna <- bind_cols( drecent, pcscores )

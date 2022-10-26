@@ -2,7 +2,8 @@
 # 
 # by Matt Whalen
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Ralfsioid"
+taxon <- "Barnacles"
+
 
 # # sampler <- "Sandra" #--- figure out how to add a switch here that we can add to filenames
 # 
@@ -19,6 +20,7 @@ library(viridis)
 ## read data files
 # all data
 ad <- read.csv( "Data/R Code for Data Prep/Output from R/Martone_Hakai_data_lump_function.csv")
+sort(unique( ad$taxon_lumped3[ grep( paste0(taxon,"*"), ad$taxon_lumped3 ) ]  ))
 # all metadata
 am <- read.csv("Data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
 
@@ -38,12 +40,9 @@ metause <- am %>%
 ## Customizations to carry through to figures
 
 # Choose a taxon 
-# sort( unique( ad$taxon_lumped ))
-# sort( unique( ad$taxon_revised ))
 # use general exp to pull several groups if needed
-sort(unique( ad$taxon_revised[ grep( paste0(taxon,"*"), ad$taxon_revised ) ]  ))
-dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_revised ), ]
-#dtax  <-  dtax[ -grep( "Ectocarpus*",dtax$Taxon), ]
+# dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_revised ), ]
+dtax   <- ad[ grep( paste0(taxon,"*"), ad$taxon_lumped3 ), ]
 
 
 # merge data and metadata

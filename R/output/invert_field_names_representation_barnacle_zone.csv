@@ -1,0 +1,30 @@
+"","Site","Zone","Taxon","occurrences","mean_cover_when_present"
+"1","Fifth","HIGH","Balanus glandula",9,30
+"2","Fifth","HIGH","Balanus sp.",1,1
+"3","Fifth","HIGH","Barnacle",59,41.9745762711864
+"4","Fifth","HIGH","Chthamalus dalli",10,24.2
+"5","Fifth","HIGH","Pollicipes polymerus",12,6.16666666666667
+"6","Fifth","HIGH","Semibalanus cariosus",7,16
+"7","Fifth","MID","Balanus glandula",9,12.4166666666667
+"8","Fifth","MID","Barnacle",39,6.01282051282051
+"9","Fifth","MID","Chthamalus dalli",8,1
+"10","Fifth","MID","Semibalanus cariosus",2,2
+"11","Fifth","LOW","Balanus glandula",1,3
+"12","Fifth","LOW","Balanus sp.",2,0.5
+"13","Fifth","LOW","Barnacle",17,0.852941176470588
+"14","Fifth","LOW","Chthamalus dalli",2,1.5
+"15","Fifth","LOW","Semibalanus cariosus",3,0.5
+"16","Foggy","HIGH","Barnacle",50,18.06
+"17","Foggy","MID","Barnacle",38,6.71052631578947
+"18","Foggy","LOW","Barnacle",3,1
+"19","North","HIGH","Balanus glandula",8,26.375
+"20","North","HIGH","Barnacle",55,47.8454545454545
+"21","North","HIGH","Chthamalus dalli",14,18.6071428571429
+"22","North","HIGH","Semibalanus cariosus",1,1
+"23","North","MID","Balanus glandula",10,7.65
+"24","North","MID","Barnacle",39,20.1794871794872
+"25","North","MID","Chthamalus dalli",13,13.1538461538462
+"26","North","MID","Semibalanus cariosus",2,1.25
+"27","North","LOW","Balanus glandula",1,0.5
+"28","North","LOW","Barnacle",5,0.6
+"29","North","LOW","Chthamalus dalli",1,1

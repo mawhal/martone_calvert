@@ -65,9 +65,11 @@ dss <- d %>%
   filter( season %in% c("spring","summer") ) 
 # boxplot
 ggplot(dss, aes(x = as.factor(year), y = chl, group = year)) + 
-  facet_wrap(~season) + 
+  # facet_wrap(~season) + 
   geom_boxplot() +
-  scale_y_log10()
+  scale_y_log10() +
+  ylab("MODIS chlorophyll-a concentration [units?]") +
+  xlab("Year")
 
 ggplot(dss, aes(x = chl)) + 
   facet_grid(season~year ) +
@@ -77,5 +79,8 @@ ggplot(dss, aes(x = chl)) +
 
 
 aov1 <- aov( log(chl) ~ year.factor, data = dss)
-glht(aov1,linfct = mcp(species = "Tukey"))
+anova(aov1)
+summary(aov1)
+multcomp::glht(aov1,linfct = multcomp::mcp(year.factor = "Tukey"))
 
+TukeyHSD(aov1)

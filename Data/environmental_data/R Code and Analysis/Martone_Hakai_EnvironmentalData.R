@@ -31,7 +31,7 @@ nut.avg<-nut.avg[complete.cases(nut.avg$Date),]
 nut.avg$Date<-as.Date(nut.avg$Date)
 nut.avg$Month<-month(as.POSIXlt(nut.avg$Date, format="%Y/%m/%d"))
 nut.avg$Year<-year(as.POSIXlt(nut.avg$Date, format="%Y/%m/%d"))
-plot(avg.N~Date, data=nut.avg, pch=19, cex=0.8, col="#296BA8", ylab="Total Nitrogen", las=1)
+plot(avg.N~Date, data=nut.avg, pch=19, cex=2, col="#296BA8", ylab="Total Nitrogen", las=1, main = "QCS01 Nutrients")
 lines(nut.avg$Date,nut.avg$avg.N, lwd=3)
 
 ####Summarize by month and year
@@ -57,7 +57,7 @@ nut.avg<-nut.avg[complete.cases(nut.avg$Date),]
 nut.avg$Date<-as.Date(nut.avg$Date)
 nut.avg$Month<-month(as.POSIXlt(nut.avg$Date, format="%Y/%m/%d"))
 nut.avg$Year<-year(as.POSIXlt(nut.avg$Date, format="%Y/%m/%d"))
-plot(avg.N~Date, data=nut.avg, pch=19, cex=0.8, col="#296BA8", ylab="Total Nitrogen", las=1)
+plot(avg.N~Date, data=nut.avg, pch=19, cex=2, col="#296BA8", ylab="Total Nitrogen", las=1, main = "Pruth Nutrients")
 lines(nut.avg$Date,nut.avg$avg.N, lwd=3)
 
 ####Summarize by month and year

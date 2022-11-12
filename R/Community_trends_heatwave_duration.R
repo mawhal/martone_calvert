@@ -182,7 +182,7 @@ transect.cover.richness.points <- transect.cover.richness[ transect.cover.richne
 
 
 # add heatwave duration from script 
-heatwave_duration_pca <- read_csv("R/output/heatwaveR_duration_surveyyear_pca.csv")
+heatwave_duration_pca <- read_csv("R/output/heatwaveR_duration_surveyyear_pca1.csv")
 cover.richness.heatwave <- left_join( transect.cover.richness, heatwave_duration_pca ) %>% ungroup()
 cover.richness.heatwave$cover.invert[ is.na(cover.richness.heatwave$cover.invert) ] <- 0
 
@@ -245,67 +245,66 @@ psych::pairs.panels( select(cover.richness.heatwave, richness, cover, duration, 
 
 
 
-psych::pairs.panels( select(cover.richness.heatwave, richness, cover, cover.invert) )
-psych::pairs.panels( select(cover.richness.heatwave, Year, duration, duration5) )
-
-summary( lm( log(cover)~duration, data=cover.richness.heatwave ) )
-library(lme4)
-library(lmerTest)
-library(bbmle)
-m11 <- ( lmer( log(cover)~duration + (1|transect), data=cover.richness.heatwave ) )
-m12 <- ( lmer( log(cover)~duration5 + (1|transect), data=cover.richness.heatwave ) )
-m13 <- ( lmer( log(cover)~Year + (1|transect), data=cover.richness.heatwave ) )
-m14 <- ( lmer( log(cover)~scale(duration5)*scale(duration) + (1|transect), data=cover.richness.heatwave ) )
-summary(m14)
-AICctab( m11, m12, nobs = nrow(cover.richness.heatwave))
-m21 <- ( lmer( log(cover.invert+1)~duration + (1|transect), data=cover.richness.heatwave ) )
-m22 <- ( lmer( log(cover.invert+1)~duration5 + (1|transect), data=cover.richness.heatwave ) )
-m23 <- ( lmer( log(cover.invert+1)~Year + (1|transect), data=cover.richness.heatwave ) )
-m24 <- ( lmer( log(cover.invert+1)~scale(duration5)*scale(duration) + (1|transect), data=cover.richness.heatwave ) )
-AICctab( m21, m22,  nobs = nrow(cover.richness.heatwave))
-m31 <- ( lmer( log(cover.bare+1)~duration + (1|transect), data=cover.richness.heatwave ) )
-m32 <- ( lmer( log(cover.bare+1)~duration5 + (1|transect), data=cover.richness.heatwave ) )
-m33 <- ( lmer( log(cover.bare+1)~Year + (1|transect), data=cover.richness.heatwave ) )
-m34 <- ( lmer( log(cover.bare+1)~scale(duration5)*scale(duration) + (1|transect), data=cover.richness.heatwave ) )
-AICctab( m31, m32,  nobs = nrow(cover.richness.heatwave))
-m41 <- ( lmer( log(richness)~duration + (1|transect), data=cover.richness.heatwave ) )
-m42 <- ( lmer( log(richness)~duration5 + (1|transect), data=cover.richness.heatwave ) )
-m43 <- ( lmer( log(richness)~Year + (1|transect), data=cover.richness.heatwave ) )
-m44 <- ( lmer( log(richness)~scale(duration5)*scale(duration) + (1|transect), data=cover.richness.heatwave ) )
-AICctab( m41, m42,  nobs = nrow(cover.richness.heatwave))
-
-psych::pairs.panels( select( cover.richness.heatwave, 
-                             duration5, duration,
-                             cover, cover.bare) %>% 
-                       mutate(cover=log(cover),cover.bare=log(cover.bare+1)),
-                    ellipses = F, lm = T, ci=T )
-cor.test( log(cover.richness.heatwave$cover), log(cover.richness.heatwave$cover.bare+1))
-
-# for presenation use width = 4, height = 4
-windows(5,5)
-psych::pairs.panels( select( cover.richness.heatwave, 
-                             duration5, 
-                             cover, cover.invert, cover.bare) %>% 
-                       mutate(seaweed.cover=(cover+1),invert.cover=(cover.invert+1),bare.rock.cover=(cover.bare+1)) %>% 
-                       select( duration5, seaweed.cover, invert.cover, bare.rock.cover),
-                     ellipses = F, lm = T, ci=T, log = "xy" )
-
-windows(5,5)
-psych::pairs.panels( select( cover.richness.heatwave, 
-                             duration5, 
-                             cover, cover.invert, cover.bare) %>% 
-                       mutate(seaweed.cover=log10(cover),invert.cover=log10(cover.invert+1),bare.rock.cover=log10(cover.bare+1)) %>% 
-                       select( duration5, seaweed.cover, invert.cover, bare.rock.cover),
-                     ellipses = F, lm = F, ci = T, smooth = T, stars = T, cex = 1.5, cex.cor = 1 )
-
-
+# 
+# # log linear models
+# summary( lm( log(cover)~duration, data=cover.richness.heatwave ) )
+# library(lme4)
+# library(lmerTest)
+# library(bbmle)
+# m11 <- ( lmer( log(cover)~duration + (1|transect), data=cover.richness.heatwave ) )
+# m12 <- ( lmer( log(cover)~duration5 + (1|transect), data=cover.richness.heatwave ) )
+# m13 <- ( lmer( log(cover)~Year + (1|transect), data=cover.richness.heatwave ) )
+# m14 <- ( lmer( log(cover)~scale(duration5)*scale(duration) + (1|transect), data=cover.richness.heatwave ) )
+# summary(m14)
+# AICctab( m11, m12, nobs = nrow(cover.richness.heatwave))
+# m21 <- ( lmer( log(cover.invert+1)~duration + (1|transect), data=cover.richness.heatwave ) )
+# m22 <- ( lmer( log(cover.invert+1)~duration5 + (1|transect), data=cover.richness.heatwave ) )
+# m23 <- ( lmer( log(cover.invert+1)~Year + (1|transect), data=cover.richness.heatwave ) )
+# m24 <- ( lmer( log(cover.invert+1)~scale(duration5)*scale(duration) + (1|transect), data=cover.richness.heatwave ) )
+# AICctab( m21, m22,  nobs = nrow(cover.richness.heatwave))
+# m31 <- ( lmer( log(cover.bare+1)~duration + (1|transect), data=cover.richness.heatwave ) )
+# m32 <- ( lmer( log(cover.bare+1)~duration5 + (1|transect), data=cover.richness.heatwave ) )
+# m33 <- ( lmer( log(cover.bare+1)~Year + (1|transect), data=cover.richness.heatwave ) )
+# m34 <- ( lmer( log(cover.bare+1)~scale(duration5)*scale(duration) + (1|transect), data=cover.richness.heatwave ) )
+# AICctab( m31, m32,  nobs = nrow(cover.richness.heatwave))
+# m41 <- ( lmer( log(richness)~duration + (1|transect), data=cover.richness.heatwave ) )
+# m42 <- ( lmer( log(richness)~duration5 + (1|transect), data=cover.richness.heatwave ) )
+# m43 <- ( lmer( log(richness)~Year + (1|transect), data=cover.richness.heatwave ) )
+# m44 <- ( lmer( log(richness)~scale(duration5)*scale(duration) + (1|transect), data=cover.richness.heatwave ) )
+# AICctab( m41, m42,  nobs = nrow(cover.richness.heatwave))
+# 
+# psych::pairs.panels( select( cover.richness.heatwave, 
+#                              duration5, duration,
+#                              cover, cover.bare) %>% 
+#                        mutate(cover=log(cover),cover.bare=log(cover.bare+1)),
+#                     ellipses = F, lm = T, ci=T )
+# cor.test( log(cover.richness.heatwave$cover), log(cover.richness.heatwave$cover.bare+1))
+# 
+# # for presenation use width = 4, height = 4
+# windows(5,5)
+# psych::pairs.panels( select( cover.richness.heatwave, 
+#                              duration5, 
+#                              cover, cover.invert, cover.bare) %>% 
+#                        mutate(seaweed.cover=(cover+1),invert.cover=(cover.invert+1),bare.rock.cover=(cover.bare+1)) %>% 
+#                        select( duration5, seaweed.cover, invert.cover, bare.rock.cover),
+#                      ellipses = F, lm = T, ci=T, log = "xy" )
+# 
+# windows(5,5)
+# psych::pairs.panels( select( cover.richness.heatwave, 
+#                              duration5, 
+#                              cover, cover.invert, cover.bare) %>% 
+#                        mutate(seaweed.cover=log10(cover),invert.cover=log10(cover.invert+1),bare.rock.cover=log10(cover.bare+1)) %>% 
+#                        select( duration5, seaweed.cover, invert.cover, bare.rock.cover),
+#                      ellipses = F, lm = F, ci = T, smooth = T, stars = T, cex = 1.5, cex.cor = 1 )
+# 
 
 
+# Poisson mixed models (GLMM)
 m11 <- ( glmer( ceiling(cover)~duration + (1|transect), family="poisson", data=cover.richness.heatwave ) )
 m12 <- ( glmer( ceiling(cover)~duration5 + (1|transect), family="poisson", data=cover.richness.heatwave ) )
 m13 <- ( glmer( ceiling(cover)~Year + (1|transect),  family="poisson", data=cover.richness.heatwave ) )
 AICctab( m11, m12, m13, nobs = nrow(cover.richness.heatwave))
-m21 <- ( glmer( ceiling(cover.invert)~duration + (1|transect), family="poisson", data=cover.richness.heatwave ) )
+m21 <- ( glmer( ceiling(cover.invert)~(duration) + (1|transect), family="poisson", data=cover.richness.heatwave ) )
 m22 <- ( glmer( ceiling(cover.invert)~duration5 + (1|transect), family="poisson", data=cover.richness.heatwave ) )
 m23 <- ( glmer( ceiling(cover.invert)~Year + (1|transect),  family="poisson", data=cover.richness.heatwave ) )
 AICctab( m21, m22, m23, nobs = nrow(cover.richness.heatwave))
@@ -313,15 +312,15 @@ m31 <- ( glmer( ceiling(cover.bare)~duration + (1|transect), family="poisson", d
 m32 <- ( glmer( ceiling(cover.bare)~duration5 + (1|transect), family="poisson", data=cover.richness.heatwave ) )
 m33 <- ( glmer( ceiling(cover.bare)~Year + (1|transect),  family="poisson", data=cover.richness.heatwave ) )
 AICctab( m31, m32, m33, nobs = nrow(cover.richness.heatwave))
-m41 <- ( glmer( ceiling(richness)~duration + (1|transect), family="poisson", data=cover.richness.heatwave ) )
-m42 <- ( glmer( ceiling(richness)~duration5 + (1|transect), family="poisson", data=cover.richness.heatwave ) )
-m43 <- ( glmer( ceiling(richness)~Year + (1|transect),  family="poisson", data=cover.richness.heatwave ) )
+m41 <- ( glmer( ceiling(richness)~(duration) + (1|transect), family="poisson", data=cover.richness.heatwave ) )
+m42 <- ( glmer( ceiling(richness)~(duration5) + (1|transect), family="poisson", data=cover.richness.heatwave ) )
+m43 <- ( glmer( ceiling(richness)~(Year) + (1|transect),  family="poisson", data=cover.richness.heatwave ) )
 AICctab( m41, m42, m43, nobs = nrow(cover.richness.heatwave))
 
-mduration <- list(m11,m21,m31,m41)
-mduration5 <- list(m12,m22,m32,m42)
-do.call( rbind, lapply(mduration, function(z) fixef(z) ) )
-do.call( rbind, lapply(mduration5, function(z) fixef(z) ) )
+mduration <- list(m41,m11,m21,m31)
+mduration5 <- list(m42,m12,m22,m32)
+
+
 summary(m11)
 summary(m21)
 summary(m31)
@@ -335,15 +334,19 @@ summary(m42)
 ### model predictions
 ### cover
 ## model 1 - duration
-exp( 3.4319467 + (200*-0.0002996) ) - exp( 3.4319467 + (0*-0.0002996) ) # richness
-exp( 4.681079 + (200*-0.0019957079) ) - exp( 4.681079 + (0*-0.0019957079) ) # seaweed cover
-exp( 2.4793016  + (200*0.0002680) ) - exp( 2.4793016  + (0*0.0002680) ) # invert cover
-exp( 2.4059740 + (200*0.0023670) ) - exp( 2.4059740 + (0*0.0023670) ) # bare rock
+max(heatwave_duration_pca$duration)
+do.call( rbind, lapply(mduration, function(z) fixef(z) ) )
+exp( 3.433809 + (207*-0.0003503853) ) - exp( 3.433809 + (0*-0.0003503853) ) # richness
+exp( 4.634856  + (207*-0.0013269961) ) - exp( 4.634856  + (0*-0.0013269961) ) # seaweed cover
+exp( 2.503017  + (207*-0.0001233305) ) - exp( 2.503017  + (0*-0.0001233305) ) # invert cover
+exp( 2.469330 + (207*0.0016367259) ) - exp( 2.469330 + (0*0.0016367259) ) # bare rock
 ## model 2 - five-year duration
-exp( 3.425e+00 + (500*-4.906e-05) ) - exp( 3.425e+00 + (0*-4.906e-05) ) # richness
-exp( 4.759e+00 + (500*-8.891099e-04) ) - exp( 4.759e+00 + (0*-8.891099e-04) ) # seaweed cover
-exp( 2.3836987 + (500*0.0004574) ) - exp( 2.3836987 + (0*0.0004574) ) # invert cover
-exp( 2.2190207 + (500*0.0013231) ) - exp( 2.2190207 + (0*0.0013231) ) # bare rock
+max(heatwave_duration_pca$duration5)
+do.call( rbind, lapply(mduration5, function(z) fixef(z) ) )
+exp( 3.430899 + (434*-7.118694e-05) ) - exp( 3.430899 + (0*-7.118694e-05) ) # richness
+exp( 4.773940 + (434*-9.859365e-04) ) - exp( 4.773940 + (0*-9.859365e-04) ) # seaweed cover
+exp( 2.381275 + (434*4.831486e-04) ) - exp( 2.381275 + (0*4.831486e-04) ) # invert cover
+exp( 2.181419 + (434*1.511784e-03) ) - exp( 2.181419 + (0*1.511784e-03) ) # bare rock
 
 
 

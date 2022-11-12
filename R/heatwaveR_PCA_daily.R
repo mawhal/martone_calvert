@@ -304,6 +304,7 @@ heatwave_days <- survey.dates %>%
   scale_fill_manual(values=c("white","firebrick")) +
   scale_shape_manual(values=c(1,20)) +
   coord_cartesian( xlim = c(ymd("2011-10-31"),ymd("2019-10-31"))) +
+  guides(col = guide_legend(ncol = 1)) +
   theme_minimal() + theme(legend.justification=c(0,1), legend.position=c(0,1),legend.direction="horizontal",legend.title=element_blank(),
                           legend.background = element_rect(fill="white"),
                           legend.box.background = element_rect(colour = "black"),

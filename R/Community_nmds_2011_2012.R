@@ -7,6 +7,7 @@
 # load libraries
 library( tidyverse )
 library( vegan )
+library( ggrepel )
 #
 
 
@@ -150,34 +151,45 @@ ordihull(
 
 # Simper analysis
 simp <- simper( comm, group = meta$Zone )
-# grab top 5 taxa in each category
+# grab top X taxa for each zone
 top <- lapply(simp, function(z) sort(z$average,decreasing = T)[1:10])
 names(top) <- c("","","")
 
 # names of the species of interest
 topnames <- unique(names(do.call(c, top )))
 
-Y <- scores(mds, display="species")
-Y <- Y[rownames(Y) %in% topnames,]
 
 
 # plot
-par(mar=c(5,4,2,2)+0.1 )
-plot(mds, type="n", ylim = c(-1,1),xlim = c(-1.5,1.5))
-points( scores(mds)$sites[meta$Site=="Foggy Cove",1:2], display = "sites", 
-        pch=21, bg="black" )
-points( scores(mds)$sites[meta$Site=="Fifth Beach",1:2], display = "sites", 
-        pch=21, bg="red" )
-points( scores(mds)$sites[meta$Site=="North Beach",1:2], display = "sites", 
-        pch=21, bg="blue" )
-text( x = Y[,1], y = Y[,2], rownames(Y), cex = 0.5 )
-ordihull(
-  mds,
-  meta$Zone,
-  display = "sites",
-  draw = c("polygon"),
-  col = NULL,
-  border = c("black", "black", "gray48" ),
-  lty = c(1, 2, 1),
-  lwd = 2.5
-)
+
+# extract results from NMDS
+sites <- as.data.frame(scores(mds)$sites)
+sites$Site <- meta$Site
+sites$Zone <- meta$Zone
+# species
+species <- scores(mds, display="species")
+species <- as.data.frame( Y[rownames(Y) %in% topnames,] )
+rownames(species)[rownames(species) == "Mytilus sp."] <- "Mytlius"
+rownames(species)[rownames(species) == "Phyllospadix spp."] <- "Phyllospadix"
+
+
+# Find the convex hulls by zone
+hull_zone <- sites %>%
+  group_by(Zone) %>%
+  slice(chull(NMDS1, NMDS2))
+
+ggplot( data = sites, aes( x = NMDS1, y = NMDS2 )) + 
+  geom_polygon(data = hull_zone, aes(group = Zone, linetype = Zone), fill = NA, col = "slategrey") +
+  geom_point( aes(col = Site), size = 1 ) +
+  scale_color_manual(values = c("red", "black", "blue") ) +
+  geom_point( data = species, aes(x = NMDS1, y = NMDS2), col = "slateblue", pch = 3 ) +
+  ggrepel::geom_text_repel( data = species, aes(x = NMDS1, y = NMDS2, label = rownames(species)), 
+                            col = "slateblue", size = 2.75, box.padding = 0.5, max.overlaps = Inf ) +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ggsave("R/Figs/nmds_2011_2012.svg", width = 5, height = 3.5 )
+
+## notes about NMDS
+# Square root transformation
+# Wisconsin double standardization
+mds$stress
+

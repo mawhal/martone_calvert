@@ -62,9 +62,6 @@ ib <- left_join( ib, dateseq )
 
 
 
-# Plotting the time series
-ggplot( ib, aes( x = lube.date, y = value)) + geom_point() +
-  ylab("tempeture C") + xlab("time")
 
 
 
@@ -85,6 +82,21 @@ ib$season[ ib$season == "autumm" ] <- "autumn"
 ib %>% 
   group_by(year, season) %>% 
   summarize( min.date = min(lube.date), max.date = max(lube.date) )
+
+
+
+
+# Plotting the time series
+ib$season <- factor( ib$season, levels = c("winter","spring","summer","autumn") )
+season.colors <- c( rgb(0,89,159, maxColorValue = 255), rgb(0,160,70, maxColorValue = 255), 
+                    rgb(214,180,91, maxColorValue = 255), rgb(218,38,41, maxColorValue = 255))
+ggplot( ib, aes( x = lube.date, y = value)) + 
+  geom_point( aes(col=season), size = 1, alpha = 0.5 ) +
+  ylab("Temperature (°C)") + xlab("Time") +
+  scale_color_manual( values = c(season.colors) ) +
+  theme_bw()  + theme( legend.position = "none" )
+ggsave( "R/Figs/ibutton_FoggyCove_time_series.svg", height = 3, width =4 )
+
 
 #### WINTERS
 ### can isolate full winter data for 2012/2013, 2014/2015, and 2015/2016
@@ -200,7 +212,7 @@ thresholds.long <- pivot_longer(thresholds, over10:under10)
 # separate (start of season) year from year.season
 thresholds.long <- thresholds.long %>% 
   separate( year.season, c("year", "season"), sep = "-", remove = F) %>% 
-  mutate( season = factor(season, levels = c("spring", "summer", "autumn", "winter")))
+  mutate( season = factor(season, levels = c( "winter", "spring", "summer", "autumn")))
 
 # note exactly correct, but can covert to hours if we assume that each reading represents a certain the value over all four hours
 thresholds.long$hours <- thresholds.long$value*4
@@ -209,24 +221,24 @@ thresholds.long$hours <- thresholds.long$value*4
 thresholds.long <- thresholds.long %>% 
   mutate( threshold = factor(name, levels = c("under0", "under5", "under10",
                                          "over10", "over20", "over30", "over35"),
-                        labels =  c("under 0", "under 5", "under 10",
-                            "over 10", "over 20", "over 30", "over 35") ) )
+                        labels =  c("below\n0°C", "below\n5°C", "below\n10°C",
+                            "above\n10°C", "above\n20°C", "above\n30°C", "above\n35°C") ) )
 
 # label based on heatwave status
 thresholds.long$status <- "during"
-thresholds.long$status[ thresholds.long$year %in% c(2012,2013)  ] <- "pre"
-
+thresholds.long$status[ thresholds.long$year %in% c(2012,2013)  ] <- "before"
+thresholds.long$status <- factor( thresholds.long$status, levels = c("before","during"))
+thresholds.long$`heatwave\nstatus` <- thresholds.long$status
+cols.two <- c( "#A2CDE2",  "#BF7C61" )
 # plot summaries
-ggplot( thresholds.long, aes(x = year, y = value, col = status ) ) + 
+ggplot( thresholds.long, aes(x = year, y = value, col = season, shape = `heatwave\nstatus` ) ) +  # y = hours
   facet_grid(threshold~season, scales = "free_y") + 
-  geom_point( size = 3) + geom_line( aes(group = 1) ) +
+  geom_point( size = 2.5) + geom_line( aes(group = 1) ) +
   scale_y_continuous( breaks= scales::pretty_breaks()) + 
-  ylab("number of observations (per 4 hours)")+
+  scale_colour_manual( values = season.colors ) +
+  scale_shape_manual( values = c(21, 19) ) +
+  ylab("Number of measurements (per 4 hours)") + xlab("Year") +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) 
-# ggplot( thresholds.long, aes(x = year, y = hours, col = name ) ) + 
-#   facet_grid(name~season, scales = "free_y") + 
-#   geom_point( size = 3) + geom_line( aes(group = 1) ) +
-#   scale_y_continuous( breaks= scales::pretty_breaks()) + 
-#   ylab("number of hours")+
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) 
-  
+
+ggsave( "R/Figs/iButton_FogyCove_threshold_season.svg", height = 6, width = 6 )
+

@@ -24,7 +24,7 @@ pca.meta <-  read_csv("Data/R code for Data Prep/output from R/Lightstation_raw_
 # read study sites info
 # all metadata
 am <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
-survey.dates <- am %>% 
+survey.days <- am %>% 
   filter( Year != "2011" & Year <= 2019 ) %>% filter( Site != "Meay Channel") %>% 
   select( Date, Year) %>% distinct()
 
@@ -154,17 +154,17 @@ mcw2_clim <- mcw2$climatology %>%
   filter( t >= "2011-07-01") %>%
   mutate( source="PCA")
 PCA1 <- ggplot(mhw2_clim, aes(x = t)) +
-  geom_vline(xintercept = survey.dates$Date, lty=2, size=0.33) +
-  geom_line(aes(y = thresh, colour = "90th percentile"), size = 0.67 ) +
-  geom_line(data=mcw2_clim,aes(y = thresh, colour = "10th percentile"), size = 0.67) +
+  geom_vline(xintercept = survey.days$Date, lty=1, size=0.33) +
+  geom_line(aes(y = thresh, colour = "90th percentile"), size = 0.67, lty = 1 ) +
+  geom_line(data=mcw2_clim,aes(y = thresh, colour = "10th percentile"), size = 0.67, lty = 1) +
   geom_line(aes(y = seas, colour = "climatology"), size = 0.67) +
   geom_line(aes(y = temp, colour = "PCA1"), size=0.33) +
   geom_flame(aes(y = temp, y2 = thresh), 
              n=5,n_gap=2,
-             show.legend = T, col="red", fill='red', size=0.1 ) +
+             show.legend = T, col="red", fill='red', size=0.2 ) +
   geom_flame(data=mcw2_clim,aes(y2 = temp, y = thresh), 
              n=5,n_gap=2,
-             show.legend = T, col="blue", fill='blue', size=0.1 ) +
+             show.legend = T, col="blue", fill='blue', size=0.2 ) +
   # geom_flame(data = mhw_top, aes(y = temp, y2 = thresh, fill = "top"),  show.legend = T) +
 
   # scale_colour_manual(name = "Line Colour",
@@ -174,9 +174,9 @@ PCA1 <- ggplot(mhw2_clim, aes(x = t)) +
   #                                "climatology" = "gray25")) +
   scale_colour_manual(name = "Line Colour",
                       values = c("PCA1" = "black",
-                                 "90th percentile" =  "gray75",
-                                 "10th percentile" =  "gray75",
-                                 "climatology" = "gray25")) +
+                                 "90th percentile" =  "gray",
+                                 "10th percentile" =  "gray",
+                                 "climatology" = "gray")) +
   # # scale_fill_manual(name = "Event Colour", 
   #                   values = c("all" = "salmon", 
   #                              "top" = "red")) +
@@ -234,7 +234,7 @@ write_csv( mhw_summary_year, "R/output/heatwaveR_summary_year_pine_pca1.csv" )
 # read survey dates
 # all metadata
 am <- read_csv( "data/R Code for Data Prep/Output from R/Martone_Hakai_metadata.csv" )
-survey.dates <- am %>% 
+survey.dates2 <- am %>% 
   filter( Year != "2011" & Year <= 2019 ) %>% filter( Site != "Meay Channel") %>% 
   select( Date, Year) %>% distinct() %>% 
   group_by(Year) %>% 
@@ -252,30 +252,30 @@ mhw_summary_all_survey <- mhw_summary_all %>%
 
 
 # use climatology to get cumulative intensity, duration, and max intensity for PCA data
-survey.dates$duration <- NA
-survey.dates$intensity_cummulative <- NA
-survey.dates$intensity_max <- NA
-survey.dates$duration5 <- NA
-survey.dates$intensity_cummulative5 <- NA
-survey.dates$intensity_max5 <- NA
+survey.dates2$duration <- NA
+survey.dates2$intensity_cummulative <- NA
+survey.dates2$intensity_max <- NA
+survey.dates2$duration5 <- NA
+survey.dates2$intensity_cummulative5 <- NA
+survey.dates2$intensity_max5 <- NA
 
-for(i in 1:nrow(survey.dates)){
-  tmp <- mhw2$climatology[ mhw2$climatology$t %in% seq(survey.dates$Date_prev_year[i],survey.dates$Date[i],by="days"), ] %>% 
+for(i in 1:nrow(survey.dates2)){
+  tmp <- mhw2$climatology[ mhw2$climatology$t %in% seq(survey.dates2$Date_prev_year[i],survey.dates2$Date[i],by="days"), ] %>% 
     filter(durationCriterion == T) %>% 
     mutate(anomaly = temp-seas)
-  survey.dates$duration[i] <- nrow(tmp) 
-  survey.dates$intensity_cummulative[i] <- sum(tmp$anomaly) 
-  survey.dates$intensity_max[i] <- ifelse( nrow(tmp)>0, max(tmp$anomaly),0 )
-  tmp <- mhw2$climatology[ mhw2$climatology$t %in% seq(survey.dates$Date_prev_year5[i],survey.dates$Date[i],by="days"), ] %>% 
+  survey.dates2$duration[i] <- nrow(tmp) 
+  survey.dates2$intensity_cummulative[i] <- sum(tmp$anomaly) 
+  survey.dates2$intensity_max[i] <- ifelse( nrow(tmp)>0, max(tmp$anomaly),0 )
+  tmp <- mhw2$climatology[ mhw2$climatology$t %in% seq(survey.dates2$Date_prev_year5[i],survey.dates2$Date[i],by="days"), ] %>% 
     filter(durationCriterion == T) %>% 
     mutate(anomaly = temp-seas)
-  survey.dates$duration5[i] <- nrow(tmp) 
-  survey.dates$intensity_cummulative5[i] <- sum(tmp$anomaly) 
-  survey.dates$intensity_max5[i] <- ifelse( nrow(tmp)>0, max(tmp$anomaly),0 )
+  survey.dates2$duration5[i] <- nrow(tmp) 
+  survey.dates2$intensity_cummulative5[i] <- sum(tmp$anomaly) 
+  survey.dates2$intensity_max5[i] <- ifelse( nrow(tmp)>0, max(tmp$anomaly),0 )
 }
-psych::pairs.panels( select(survey.dates,Date,duration,intensity_max,duration5) )
+psych::pairs.panels( select(survey.dates2,Date,duration,intensity_max,duration5) )
 
-write_csv( survey.dates, "R/output/heatwaveR_duration_surveyyear_pca1.csv" )
+write_csv( survey.dates2, "R/output/heatwaveR_duration_surveyyear_pca1.csv" )
 
 
 
@@ -284,10 +284,10 @@ write_csv( survey.dates, "R/output/heatwaveR_duration_surveyyear_pca1.csv" )
 # a few simple plots
 # svg("R/Figs/heatwave_pca_duration_cumm_time.svg", width=2.5, height=2)
 par(mar = c(3,4,1,1)+0.1, las=1, pty='s')
-plot( duration5~Year, survey.dates, type='o', col="firebrick", pch=19, xaxt="n",
+plot( duration5~Year, survey.dates2, type='o', col="firebrick", pch=19, xaxt="n",
       ylab = "Heatwave days", xlab = "" )
-lines( duration~Year, survey.dates, col='black' )
-points( duration~Year, survey.dates,col='black' )
+lines( duration~Year, survey.dates2, col='black' )
+points( duration~Year, survey.dates2,col='black' )
 # axis(1, at = seq(2012,2018,by=2))
 # axis(1, at = c(2014,2018))
 axis(1, at = 2012:2019, labels=FALSE)
@@ -299,7 +299,7 @@ text( x=seq(2012,2018,by=2),
 
 
 
-heatwave_days <- survey.dates %>% 
+heatwave_days <- survey.dates2 %>% 
   select( Date, duration, duration5 ) %>% 
   pivot_longer(cols = duration:duration5) %>% 
   mutate(name=factor(name,levels=c("duration","duration5"), labels=c("previous year","previous 5 years"))) %>% 

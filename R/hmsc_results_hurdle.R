@@ -1090,14 +1090,14 @@ biomass_ln_trends <- data.frame(FG = levels(models[[1]]$TrData$FG),
                                 lower = apply(slopes_biomass_ln, 2, quantile, prob = 0.025),
                                 upper = apply(slopes_biomass_ln, 2, quantile, prob = 0.975),
                                 measure = 'Cover (log)')
-all_trends <- bind_rows(occur_trends, biomass_cond_ln_trends, biomass_ln_trends) %>%
+all_trends_FG <- bind_rows(occur_trends, biomass_cond_ln_trends, biomass_ln_trends) %>%
   mutate(sig = sign(upper) == sign(lower)) %>%
   mutate(sign = ifelse(median > 0 & sig == TRUE, 'increasing', ifelse(median < 0 & sig == TRUE, 'decreasing', 'no trend'))) %>%
   mutate(sign = factor(sign, levels = c('decreasing', 'no trend', 'increasing'), ordered = TRUE)) %>%
   mutate(FG = gsub("_"," ",FG)) %>%
   mutate(FG = factor(FG, levels = gsub("_"," ",biomass_ln_trends$FG[order(biomass_ln_trends$median)]), ordered = TRUE)) %>%
   mutate(measure = factor(measure, levels = c('Occurrence prob.', 'Conditional cover (log)', 'Cover (log)')))
-all_trends %>%
+all_trends_FG %>%
   ggplot(aes(x = FG, y = median, color = sign))+
   geom_vline(xintercept = c(levels(all_trends$species)[seq(3, models[[1]]$ns, by = 3)]), col = 'grey', size = 0.1, linetype = 2)+
   geom_hline(yintercept = 0, linetype = 2)+
@@ -1137,7 +1137,7 @@ reps <- models[[1]]$TrData %>%
 #   distinct()
 
 # change animal to invert
-all_trends <- all_trends %>% 
+all_trends_FG <- all_trends_FG %>% 
   mutate( FG = factor(dplyr::recode(FG, animal = "invert"), 
                       levels = c("thin turf", "blade", "turf", "canopy","crust","invert")) )
 
@@ -1146,7 +1146,7 @@ reps <- reps %>%
                       levels = c("thin turf", "blade", "turf", "canopy","crust","invert")) )
 
           
-hmsc_FG <- all_trends %>%
+hmsc_FG <- all_trends_FG %>%
   ggplot(aes(x = FG, y = median, group = measure, col = measure))+
   geom_hline(yintercept = 0, linetype = 2)+
   geom_errorbar(aes(ymin = lower_0.25, ymax = upper_0.75), width = 0, size = 1, position = position_dodge(width = 0.5))+
@@ -1194,16 +1194,16 @@ colnames(ogd)[colnames(ogd) == "Mytilus sp."] <- "Mytilus"
 colnames(ogd)[colnames(ogd) == "Phyllospadix spp."] <- "Phyllospadix"
 colnames(ogd)[colnames(ogd) == "Hymenena spp."] <- "Hymenena"
 colnames(ogd)[colnames(ogd) == "Elachista sp."] <- "Elachista"
-ogd.long <- ogd.mean <- ogd %>% 
-  pivot_longer( cols=names(comm.all)[1]:names(comm.all)[length(names(comm.all))], 
+ogd.long <-  ogd %>% 
+  pivot_longer( cols="Fucus distichus":"Mazzaella parvula", 
                 names_to = "taxon", values_to = "N" )
 ogd.mean <- ogd %>% 
-  pivot_longer( cols=names(comm.all)[1]:names(comm.all)[length(names(comm.all))], 
+  pivot_longer( cols="Fucus distichus":"Mazzaella parvula", 
                 names_to = "taxon", values_to = "N" ) %>% 
   group_by( year, transect , taxon) %>% 
   summarize( N = mean(N) )
 ogd.pa <- ogd %>% 
-  pivot_longer( cols=names(comm.all)[1]:names(comm.all)[length(names(comm.all))], 
+  pivot_longer( cols="Fucus distichus":"Mazzaella parvula", 
                 names_to = "taxon", values_to = "N" ) %>% 
   group_by( transect , taxon ) %>% 
   summarize( pa = sum(N) ) %>% 
@@ -1211,7 +1211,7 @@ ogd.pa <- ogd %>%
 
 # zero presence in entire survey
 ogd.zeros <- ogd %>% 
-  pivot_longer( cols=names(comm.all)[1]:names(comm.all)[length(names(comm.all))], 
+  pivot_longer( cols="Fucus distichus":"Mazzaella parvula", 
                 names_to = "taxon", values_to = "N" ) %>% 
   group_by( taxon ) %>% 
   mutate( Nmean=mean(N) ) %>% 
@@ -1533,8 +1533,21 @@ abun.shifts.summary.algae <- abun.shifts.summary[taxon.key$funct != "animal",]
 hist( log(c(abun.shifts.run), base=2) )
 hist( log(c(abun.shifts.run.algae), base=2) )
 summary( lm(log(c(abun.shifts.run.algae),base=2)~1) )
-
 # 2^quantile( log(abun.shifts.run.algae,base=2), prob = (c(0.025,0.25,0.5,0.75,0.975)) )-1
+
+# initial occurrence estimates, to capture rank abundance from models rather than from raw data
+# cover shifts
+# initially tried with occur_mean, but going back to PredY_pa
+# split by year, then acerage across all sampled elevation
+mean_occur  <- lapply( predY_pa, 
+                  function(i) lapply( split( i, newDF$year ), 
+                                      function(l) apply(matrix(l,byrow = F,ncol = ncol(models[[1]]$Y)), 2, 
+                                                        function(z) mean(z) ) ) )
+mean_occur_bind <- lapply( mean_occur, function(z) do.call(rbind,z) )
+mean_occur_array <- abind::abind(mean_occur_bind, along=3)
+median_occur <- apply( mean_occur_array, c(1,2), function(z) quantile(z, probs = 0.5) )
+colnames(median_occur) <- colnames(models[[1]]$Y)
+rank(-median_occur[1,])
 
 
 ## combine these results
@@ -1542,6 +1555,7 @@ shift.summary <- data.frame( elev.shifts.summary, abun.shifts.summary) #, range.
 shift.summary$taxon <- colnames(models[[1]]$Y)#[taxon.key$funct != "animal"]
 shift.summary %>% arrange(-abun.init.med)
 shift.summary$rank <- 1:ncol(models[[1]]$Y)
+shift.summary$rank.occur.2012 <- rank(-median_occur[1,])
 # ggplot( shift.summary, aes(x = abun.shifts.med, y = elev.shifts.med) ) +
 #   # geom_hline( yintercept=0, lty=2 ) + geom_vline( xintercept = 0, lty=2 ) +
 #   geom_linerange( aes( ymin = elev.shifts.low, ymax= elev.shifts.high), alpha=0.25) +
@@ -2091,7 +2105,7 @@ cor.test( x=shift.summary.algae$elev.shifts.med, y = shift.summary.algae$elev.in
     geom_hline( yintercept = 0, lty=2 ) +
     geom_smooth(method='lm', se=T, col='black') +
     geom_point( size=3, pch=1, col='slateblue' ) +
-    ylab("Peak elevationshift (cm)") + xlab("Initial peak elevation (cm)") +
+    ylab("Peak elevationshift (cm)") + xlab("2012 peak elevation (cm)") +
     theme_classic() +
     coord_cartesian(ylim = c(-125,30),xlim = c(60,380)))
 
@@ -2101,7 +2115,7 @@ cor.test( x=shift.summary.algae$elev.shifts.med, y = shift.summary.algae$elev.in
     geom_hline( yintercept=0, lty=2 ) +
     # geom_smooth(method='lm', se=T, col='black') +
     geom_point(size=3, pch=1, col='slateblue') + 
-    ylab("Cover shift") + xlab("Initial peak elevation (cm)") +
+    ylab("Cover shift") + xlab("2012 peak elevation (cm)") +
     scale_y_continuous( breaks=c(log(4,base = 2),log(2,base=2),0,log(1/2,base=2),log(1/4, base = 2),log(1/8, base = 2),log(1/16, base = 2)),
                         labels=c('4x','2x','0','1/2x','1/4x','1/8x','1/16x')) +
     theme_classic()  +
@@ -2111,7 +2125,7 @@ cor.test( x=shift.summary.algae$elev.shifts.med, y = shift.summary.algae$elev.in
 (c <- ggplot( shift.summary.algae, aes(x=abun.init.med,y=elev.shifts.med)) + 
     geom_hline( yintercept=0, lty=2 ) +
     geom_point(size=3, pch=1, col='slateblue') + 
-    ylab("Peak elevation shift (cm)") + xlab("Initial cover (%)") +
+    ylab("Peak elevation shift (cm)") + xlab("2012 cover (%)") +
     scale_x_continuous(trans = "log2") +
     theme_classic() + 
     coord_cartesian(ylim = c(-125,30)) )
@@ -2123,7 +2137,7 @@ cor.test( x=log(shift.summary.algae$abun.shifts.med, base = 2), y = log(shift.su
     geom_hline( yintercept=0, lty=2 ) +
     geom_smooth(method = 'lm', se = T, col='black' ) +
     geom_point(size=3, pch=1, col='slateblue') + 
-    ylab("Cover shift") + xlab("Initial cover (%)") +
+    ylab("Cover shift") + xlab("2012 cover (%)") +
     scale_y_continuous( breaks=c(log(4,base = 2),log(2,base=2),0,log(1/2,base=2),log(1/4, base = 2),log(1/8, base = 2),log(1/16, base = 2)),
                         labels=c('4x','2x','0','1/2x','1/4x','1/8x','1/16x')) +
     scale_x_continuous(trans = "log2") +
@@ -2136,8 +2150,9 @@ ggsave(file="R/Figs/abundance+peak_shift_intial.svg",width = 6, height = 6)
 
 
 # compare shift to overall occurrence
-shift.summary.algae
-d.occ$rankocc <- d.occ$rank
+d.occ <- shift.summary.algae %>% 
+  select( taxon, rank=rank.occur.2012 )
+d.occ$rankocc <- d.occ$rank # can also run "R/hmsc_model_prep_hurdle.R" for empirical rank occurrence
 d.occ$taxon[d.occ$taxon == "Barnacles"] <- "acorn barnacles"
 d.occ$taxon[d.occ$taxon == "Anemone"] <- "Anthopleura"
 d.occ$taxon[d.occ$taxon == "Mytilus sp."] <- "Mytilus"
@@ -2146,17 +2161,18 @@ d.occ$taxon[d.occ$taxon == "Hymenena spp."] <- "Hymenena"
 d.occ$taxon[d.occ$taxon == "Elachista sp."] <- "Elachista"
 
 shift.summary.algae.rank <- left_join( shift.summary.algae,d.occ, by = "taxon")
-shift.summary.algae.rank$rankocc <- rank(shift.summary.algae.rank$rankocc )
+# shift.summary.algae.rank$rankocc <- rank(shift.summary.algae.rank$rankocc )
 lm.rank.abun <- lm( log(abun.shifts.med, base = 2)~rankocc, shift.summary.algae.rank )
+summary(lm.rank.abun)
 plot( y= resid(lm.rank.abun), x = shift.summary.algae.rank$rankocc )
 cor.test( x=log(shift.summary.algae.rank$abun.shifts.med, base = 2), y = shift.summary.algae.rank$rankocc )
 e <- ggplot( shift.summary.algae.rank, aes(x=rankocc,y=log(abun.shifts.med, base = 2))) + 
   geom_hline( yintercept=0, lty=2 ) +
+  geom_smooth(method = 'lm', se = T, col='black' ) +
   geom_point(size=3, pch=1, col='slateblue') + 
-  ylab("Cover shift") + xlab("Rank occurrence") +
+  ylab("Cover shift") + xlab("2012 rank occurrence") +
   scale_y_continuous( breaks=c(log(4,base = 2),log(2,base=2),0,log(1/2,base=2),log(1/4, base = 2),log(1/8, base = 2),log(1/16, base = 2)),
                       labels=c('4x','2x','0','1/2x','1/4x','1/8x','1/16x')) +
-  # scale_x_continuous(trans = "log2") +
   theme_classic()
 lm.rank.elev <- lm( elev.shifts.med ~ rankocc, data=shift.summary.algae.rank )
 plot( y= resid(lm.rank.elev), x = shift.summary.algae.rank$rankocc )
@@ -2164,12 +2180,93 @@ cor.test( x=shift.summary.algae.rank$elev.shifts.med, y = shift.summary.algae.ra
 f <- ggplot( shift.summary.algae.rank, aes(x=rankocc,y=elev.shifts.med)) + 
   geom_hline( yintercept=0, lty=2 ) +
   geom_point(size=3, pch=1, col='slateblue') + 
-  ylab("Peak elevation shift (cm)") + xlab("Rank occurence") +
-  # scale_x_continuous(trans = "log2") +
+  ylab("Peak elevation shift (cm)") + xlab("2012 rank occurence") +
   theme_classic() + 
   coord_cartesian(ylim = c(-125,30))
 plot_grid(a,c,f,b,d,e, ncol = 3, align = 'hv', labels = "auto", hjust = -2.5)
 ggsave("R/Figs/shifts_initial_rank.svg",width = 7, height = 4.5)
+
+
+ggplot( shift.summary.algae.rank, aes(x=rankocc,y=log(abun.init.med,base = 2)) ) + 
+  geom_hline( yintercept=0, lty=2 ) +
+  geom_point(size=3, pch=1, col='slateblue') 
+
+# compare rank occurrence to changes in occupancy and cover conditional on presence
+
+occ_trend <- all_trends %>% filter( measure == "Occurrence prob.")
+occ_trend$taxon = occ_trend$species
+occ.trend.rank <- left_join( shift.summary.algae.rank , occ_trend )
+occ.trend.rank$rankocc
+names(occ.trend.rank)
+dim(occ.trend.rank)
+dim(shift.summary.algae.rank)
+
+k <-  ggplot( occ.trend.rank, aes(x=rankocc,y=median)) + 
+  geom_hline( yintercept=0, lty=2 ) +
+  geom_point(size=3, pch=1, col='slateblue') + 
+  ylab("Change in occurrence\nprobability per year") + xlab("Rank occurence") +
+  # scale_x_continuous(trans = "log2") +
+  theme_classic() 
+
+# see hmsc_species_trends_summary.svg
+
+condcover_trend <- all_trends %>% filter( measure == "Conditional cover (log)")
+condcover_trend$taxon = condcover_trend$species
+condcover.trend.rank <- left_join( shift.summary.algae.rank , condcover_trend )
+dim(condcover.trend.rank)
+dim(shift.summary.algae.rank)
+
+l <- ggplot( condcover.trend.rank, aes(x=rankocc,y=median)) + 
+  geom_hline( yintercept=0, lty=2 ) +
+  geom_point(size=3, pch=1, col='slateblue') + 
+  ylab("log change in conditional\ncover per year") + xlab("Rank occurence") +
+  # scale_x_continuous(trans = "log2") +
+  theme_classic() 
+
+plot_grid(k,l, ncol = 1, align = "hv")
+#
+
+cover_trend <- all_trends %>% filter( measure == "Cover (log)")
+cover_trend$taxon = cover_trend$species
+cover.trend.rank <- left_join( shift.summary.algae.rank , cover_trend )
+dim(cover.trend.rank)
+dim(shift.summary.algae.rank)
+
+m <- ggplot( cover.trend.rank, aes(x=rankocc,y=median)) + 
+  geom_hline( yintercept=0, lty=2 ) +
+  geom_point(size=3, pch=1, col='slateblue') + 
+  ylab("log change in cover per year") + xlab("Rank occurence") +
+  # scale_x_continuous(trans = "log2") +
+  theme_classic() 
+
+plot_grid( k,l,m, ncol = 1, align = 'hv' )
+
+
+# against initial cover
+n <-  ggplot( occ.trend.rank, aes(x=log(abun.init.med,base = 2),y=median)) + 
+  geom_hline( yintercept=0, lty=2 ) +
+  geom_point(size=3, pch=1, col='slateblue') + 
+  ylab("Change in occurrence\nprobability per year") + xlab("Initial cover (%)") +
+  # scale_x_continuous(trans = "log2") +
+  theme_classic() 
+
+o <- ggplot( condcover.trend.rank, aes(x=log(abun.init.med,base = 2),y=median)) + 
+  geom_hline( yintercept=0, lty=2 ) +
+  geom_point(size=3, pch=1, col='slateblue') + 
+  ylab("log change in conditional\ncover per year") + xlab("Initial cover (%)") +
+  # scale_x_continuous(trans = "log2") +
+  theme_classic() 
+p <- ggplot( cover.trend.rank, aes(x=log(abun.init.med,base = 2),y=median)) + 
+  geom_hline( yintercept=0, lty=2 ) +
+  geom_point(size=3, pch=1, col='slateblue') + 
+  ylab("log change in cover per year") + xlab("Initial cover (%)") +
+  # scale_x_continuous(trans = "log2") +
+  theme_classic() 
+
+plot_grid( n,o,p, ncol = 1, align = 'hv' )
+plot_grid( n,k,o,l,p,m, ncol = 2, byrow = T, align = 'hv' )
+ggsave("R/Figs/hurdle_change_init_rank.svg", width = 6, height =9)
+
 
 # boxplots
 ylimits1 <- c(-max(abs(range(shift.summary$elev.shifts.med))),max(abs(range(shift.summary$elev.shifts.med))))

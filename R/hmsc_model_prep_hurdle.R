@@ -96,6 +96,11 @@ d.occ <- d.simple %>% ungroup() %>%
   group_by(taxon) %>% 
   summarize( occupied = length(Abundance) ) 
 d.occ$rank <- rank(-d.occ$occupied, ties.method = "first")
+d.occ.2012 <- d.simple %>% ungroup() %>% filter(Year == 2012) %>% 
+  group_by(taxon) %>% 
+  summarize( occupied = length(Abundance) ) 
+d.occ.2012$rank <- rank(-d.occ.2012$occupied, ties.method = "first")
+
 comm.plot <- left_join( d.simple, d.occ ) %>% ungroup()
 # ggplot( comm.plot, aes(group = rank, y = Abundance) ) + geom_boxplot()
 ggplot( comm.plot, aes(x = rank, y = Abundance) ) +

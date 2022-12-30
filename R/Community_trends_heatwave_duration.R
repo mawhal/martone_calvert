@@ -191,8 +191,17 @@ psych::pairs.panels( select(cover.richness.heatwave, richness, cover, duration, 
 
 
 
+# ranges of seaweed cover
+pchange <- function(z) (max(z)-min(z))/max(z)
+mchange <- function(z) (max(z)-min(z))
+cover.richness.heatwave %>% 
+  group_by(Site, Zone) %>% 
+  summarize( pchange = pchange(cover) )
+cover.richness.heatwave %>% 
+  group_by(Site, Zone) %>% 
+  summarize( diff = mchange(cover) )
 
-# correlations and linear models
+  # correlations and linear models
 
 # library(broom)
 # reglines_cover <- cover.richness.heatwave %>% 

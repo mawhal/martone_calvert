@@ -154,23 +154,28 @@ mcw2_clim <- mcw2$climatology %>%
   filter( t >= "2011-07-01") %>%
   mutate( source="PCA")
 PCA1 <- ggplot(mhw2_clim, aes(x = t)) +
-  geom_vline(xintercept = survey.dates$Date, lty=2, size=0.5) +
-  geom_line(aes(y = thresh, colour = "90th percentile"), size = 1 ) +
-  geom_line(data=mcw2_clim,aes(y = thresh, colour = "10th percentile"), size = 1) +
-  geom_line(aes(y = seas, colour = "climatology"), size = 0.5) +
+  geom_vline(xintercept = survey.dates$Date, lty=2, size=0.33) +
+  geom_line(aes(y = thresh, colour = "90th percentile"), size = 0.67 ) +
+  geom_line(data=mcw2_clim,aes(y = thresh, colour = "10th percentile"), size = 0.67) +
+  geom_line(aes(y = seas, colour = "climatology"), size = 0.67) +
+  geom_line(aes(y = temp, colour = "PCA1"), size=0.33) +
   geom_flame(aes(y = temp, y2 = thresh), 
              n=5,n_gap=2,
-             show.legend = T, col="gray25", fill='red', size=0.5 ) +
+             show.legend = T, col="red", fill='red', size=0.1 ) +
   geom_flame(data=mcw2_clim,aes(y2 = temp, y = thresh), 
              n=5,n_gap=2,
-             show.legend = T, col="gray25", fill='blue', size=0.5 ) +
+             show.legend = T, col="blue", fill='blue', size=0.1 ) +
   # geom_flame(data = mhw_top, aes(y = temp, y2 = thresh, fill = "top"),  show.legend = T) +
-  geom_line(aes(y = temp, colour = "PCA1"), size=0.125) +
 
+  # scale_colour_manual(name = "Line Colour",
+  #                     values = c("PCA1" = "black",
+  #                                "90th percentile" =  "red",
+  #                                "10th percentile" =  "blue",
+  #                                "climatology" = "gray25")) +
   scale_colour_manual(name = "Line Colour",
                       values = c("PCA1" = "black",
-                                 "90th percentile" =  "red",
-                                 "10th percentile" =  "blue",
+                                 "90th percentile" =  "gray75",
+                                 "10th percentile" =  "gray75",
                                  "climatology" = "gray25")) +
   # # scale_fill_manual(name = "Event Colour", 
   #                   values = c("all" = "salmon", 
@@ -314,7 +319,7 @@ ggsave("R/Figs/lighthouse_heatwave_days_pca1.svg",width=8,height=2)
 
 # must run script "Lighstation_monthly_anomaly.R" first
 source("R/Lightstation_monthly_anomaly.R")
-cowplot::plot_grid( monthly, PCA1, heatwave_days, align = "h", axis = "b", ncol = 1, rel_heights = c(3,2,2) )
+cowplot::plot_grid( monthly, PCA1, heatwave_days, align = "h", axis = "b", ncol = 1, rel_heights = c(3,2,1.5) )
 ggsave("R/Figs/Fig1.svg", width = 8, height = 9 )
 
 

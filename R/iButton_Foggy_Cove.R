@@ -141,9 +141,9 @@ seasonal <- seasonal %>%
   mutate(season = factor(season, levels = c("spring", "summer","autumn","winter")) ) %>% 
   unite( year.season, year, season, sep = "-", remove = F)
 
-seasonal$year.season[seasonal$year == 2013 & seasonal$season == "winter"] <- "2012-winter"
-seasonal$year.season[seasonal$year == 2015 & seasonal$lube.date < ymd("2015-03-01") ] <- "2014-winter"
-seasonal$year.season[seasonal$year == 2016 & seasonal$lube.date < ymd("2016-03-01") ] <- "2015-winter"
+seasonal$year.season[seasonal$year == 2012 & seasonal$season == "winter"] <- "2013-winter"
+seasonal$year.season[seasonal$year == 2014 & seasonal$lube.date >= ymd("2014-12-01") ] <- "2015-winter"
+seasonal$year.season[seasonal$year == 2015 & seasonal$lube.date >= ymd("2015-12-01") ] <- "2016-winter"
 
 seasonal %>% 
   group_by(year.season) %>% 
@@ -212,7 +212,7 @@ thresholds.long <- pivot_longer(thresholds, over10:under10)
 # separate (start of season) year from year.season
 thresholds.long <- thresholds.long %>% 
   separate( year.season, c("year", "season"), sep = "-", remove = F) %>% 
-  mutate( season = factor(season, levels = c( "winter", "spring", "summer", "autumn")))
+  mutate( season = factor(season, levels = c( "summer", "autumn", "winter", "spring")))
 
 # note exactly correct, but can covert to hours if we assume that each reading represents a certain the value over all four hours
 thresholds.long$hours <- thresholds.long$value*4
@@ -235,7 +235,7 @@ ggplot( thresholds.long, aes(x = year, y = value, col = season, shape = `heatwav
   facet_grid(threshold~season, scales = "free_y") + 
   geom_point( size = 2.5) + geom_line( aes(group = 1) ) +
   scale_y_continuous( breaks= scales::pretty_breaks()) + 
-  scale_colour_manual( values = season.colors ) +
+  scale_colour_manual( values = season.colors[c(3,4,1,2)] ) +
   scale_shape_manual( values = c(21, 19) ) +
   ylab("Number of measurements (per 4 hours)") + xlab("Year") +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) 

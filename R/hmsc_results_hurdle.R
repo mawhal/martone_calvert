@@ -1138,12 +1138,12 @@ reps <- models[[1]]$TrData %>%
 
 # change animal to invert
 all_trends_FG <- all_trends_FG %>% 
-  mutate( FG = factor(dplyr::recode(FG, animal = "invert"), 
-                      levels = c("thin turf", "blade", "turf", "canopy","crust","invert")) )
+  mutate( FG = factor(dplyr::recode(FG, animal = "invert", turf = "thick turf"), 
+                      levels = c("thin turf", "blade", "thick turf", "canopy","crust","invert")) )
 
 reps <- reps %>% 
-  mutate( FG = factor(dplyr::recode(FG, animal = "invert"), 
-                      levels = c("thin turf", "blade", "turf", "canopy","crust","invert")) )
+  mutate( FG = factor(dplyr::recode(FG, animal = "invert", turf = "thick turf"), 
+                      levels = c("thin turf", "blade", "thick turf", "canopy","crust","invert")) )
 
           
 hmsc_FG <- all_trends_FG %>%

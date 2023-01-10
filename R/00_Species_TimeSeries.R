@@ -2,7 +2,7 @@
 # 
 # by Matt Whalen
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Mytilus"
+taxon <- "Mazzaella oregona"
 
 
 # set options

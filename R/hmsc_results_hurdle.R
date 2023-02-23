@@ -1790,6 +1790,10 @@ shift.summary.all <- shift.summary.all %>%
   arrange(order_FG, order_level, order_taxa) %>%  #, order_taxa
   mutate(newrank = 1:nrow(shift.summary.all) )
 
+shift.summary.all %>% #filter(funct_2021 != "invert" ) %>% 
+  select(taxon, abun.shifts.med ) %>% 
+  arrange( abun.shifts.med )
+
 # shift.summary$taxon2 <- ape::mixedFontLabel( shift.summary$taxon,  italic = 1 )
 # shift.summary.FG$taxon2 <- ape::mixedFontLabel( shift.summary.FG$taxon,  bold = 1 )
 
@@ -1853,7 +1857,7 @@ shift.summary.all$taxon2 <- c( expression(italic("Elachista")),expression(italic
                                expression(italic("Lithothamnion phymatodeum")),expression(italic("Neopolyporolithon reclinatum")),
                                expression(bold("CRUSTS")),
                                
-                               expression(plain("acorn barnacles")),expression(plain("Anthopleura")),expression(italic("Mytilus")),
+                               expression(plain("acorn barnacles")),expression(italic("Anthopleura")),expression(italic("Mytilus")),
                                expression(bold("INVERTEBRATES")) )
   
 # shift.summary.all$taxon2 <- c( expression(italic("Elachista")),expression(italic("Ptilota filicina")),expression(italic("Plocamium violaceum")),

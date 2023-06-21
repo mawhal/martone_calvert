@@ -2,7 +2,7 @@
 # 
 # by Matt Whalen
 # This script produces figures of the density of a chosen taxa, saving figures as pdf
-taxon <- "Mazzaella oregona"
+taxon <- "Nereocystis"
 
 
 # set options
@@ -92,8 +92,8 @@ d=d[!is.na(d$Taxon),]
 # completely fill all observations (adding zeros to quadrats where available)
 dplot <- d %>% 
   select( Year, Site, Zone, Quadrat, Abundance) %>% 
-  complete( Year, Site, Zone, Quadrat, fill = list(Abundance = 0) ) %>% 
-  filter( !(Year %in% 2011:2014) | Site != "Meay Channel" )
+  complete( Year, Site, Zone, Quadrat, fill = list(Abundance = 0) ) #%>% 
+  # filter( !(Year %in% 2011:2014) | Site != "Meay Channel" )#
 
 
 
@@ -137,7 +137,7 @@ dall <- dplot %>%
 
 # ggsave( paste0("R/Figs/",taxon,"_all.svg"), width=3, height=3 ) 
 
-(ggzone <- ggplot( filter(dplot, Site != "Meay Channel"), aes(x=yearnum,y=Abundance)) + 
+(ggzone <- ggplot( dplot, aes(x=yearnum,y=Abundance)) + 
     facet_grid(Site~Zone, scales="free_y") + 
     # geom_smooth( se=TRUE, col='black' ) +
     stat_summary( fun.data = "mean_cl_boot",  geom = "errorbar", colour = "slateblue4", size = 0.5, width = 0.2 ) +

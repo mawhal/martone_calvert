@@ -7,7 +7,8 @@
 
 
 library(tidyverse)
-
+library(lme4)
+library(bbmle)
 
 
 ## read data files
